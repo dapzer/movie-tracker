@@ -12,10 +12,10 @@ const Header: FC = () => {
 
         <nav className={styles.linksList}>
           <Link href="/">
-            <a>Search</a>
+            <a>Поиск</a>
           </Link>
           <Link href="/myList">
-            <a>My List</a>
+            <a>Мой список</a>
           </Link>
         </nav>
       </div>

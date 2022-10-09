@@ -92,6 +92,17 @@ a {
   }
 }
 
+input {
+  text-decoration: none;
+  outline: none;
+  background: none;
+  border: 1px solid #fff;
+  padding: 10px 15px;
+  color: $secondary;
+  font-size: $p;
+  border-radius: 5px;
+}
+
 .container {
   width: 100%;
   max-width: $container;
