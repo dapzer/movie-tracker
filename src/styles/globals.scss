@@ -23,6 +23,29 @@ body > div:first-of-type {
 body {
   background: $background;
   background-size: cover;
+
+  // Scroll
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 12px;
+    cursor: pointer;
+    position: unset;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 2px;
+    background: $primary
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background-color: $highlight
+  }
+}
+
+main {
+  padding-top: 72px;
 }
 
 // Default styles

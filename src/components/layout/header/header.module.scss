@@ -1,0 +1,26 @@
+@import "src/styles/variables";
+
+.header {
+  width: 100%;
+  position: fixed;
+  background: $accent;
+  z-index: 100;
+  top: 0;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.headerContent {
+  padding: 10px $indent;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.linksList {
+  display: flex;
+  gap: 20px;
+}
