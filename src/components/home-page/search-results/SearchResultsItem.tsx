@@ -19,16 +19,17 @@ const SearchResultsItem: FC<Props> = ({ item }) => {
               ? `https://image.tmdb.org/t/p/original${item.poster_path}`
               : '/defaultPoster.svg'
           }
-          width="100vw"
-          height="100vw"
-          sizes="100vw"
-          layout="responsive"
+          width="100%"
+          height="100%"
+          objectFit="cover"
+          sizes="100"
+          alt="Brand logo"
         />
       </div>
 
       <div>
         <span className={styles['result__item-card__release']}>Дата выхода: {release}</span>
-        <p className={styles['result__itemCard__title']}>{item.title || item.name}</p>
+        <p className={styles['result__item-card__title']}>{item.title || item.name}</p>
       </div>
     </div>
   );

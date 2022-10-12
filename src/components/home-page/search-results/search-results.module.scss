@@ -9,6 +9,7 @@
 
   &__item-card {
     width: 100%;
+    height: fit-content;
     max-width: 300px;
     display: flex;
     flex-direction: column;
@@ -18,9 +19,9 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
     &__image {
-      height: 100%;
       width: 100%;
-      display: block;
+      height: 100%;
+      position: relative;
     }
 
     &__title {
