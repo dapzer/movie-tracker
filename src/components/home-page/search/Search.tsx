@@ -12,7 +12,7 @@ const Search: FC<Props> = ({ setSearchTerm }) => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setSearchTerm(localSearchValue);
-    }, 1500);
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [localSearchValue]);

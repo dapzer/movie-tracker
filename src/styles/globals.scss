@@ -45,7 +45,7 @@ body {
 }
 
 main {
-  padding-top: 72px;
+  padding: 72px 0;
 }
 
 // Default styles
@@ -108,4 +108,21 @@ input {
   max-width: $container;
   padding: 0 $indent;
   margin: 0 auto;
+}
+
+
+// Masonry
+
+
+.searching-results-masonry__row {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  gap: 20px;
+  width: auto;
+
+  &-column {
+    background-clip: padding-box;
+  }
+
 }

@@ -1,0 +1,36 @@
+@import "src/styles/variables";
+
+.result {
+  padding-top: 20px;
+
+  &Items {
+    padding: 20px 0;
+  }
+}
+
+.itemCard {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 20px auto;
+  padding: 20px;
+  gap: 15px;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  &Info {
+
+  }
+
+  &Image {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+
+  &Title {
+    color: #fff ;
+    //font-size: $span;
+  }
+}
