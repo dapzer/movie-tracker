@@ -17,10 +17,10 @@ const breakpointColumnsObj = {
 
 const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
   return (
-    <div className={styles.result}>
+    <div className={styles['result']}>
       {searchResponse && <h3>Найдено результатов: {searchResponse?.total_results}</h3>}
 
-      <div className={styles.resultItems}>
+      <div className={styles['result__items']}>
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="searching-results-masonry__row"

@@ -18,7 +18,7 @@ const Search: FC<Props> = ({ setSearchTerm }) => {
   }, [localSearchValue]);
 
   return (
-    <div className={styles.search}>
+    <div className={styles['search']}>
       <h3>Найти фильм, сериал, персону...</h3>
       <input
         type="text"

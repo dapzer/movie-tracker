@@ -11,8 +11,8 @@ const SearchResultsItem: FC<Props> = ({ item }) => {
   const release = new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString();
 
   return (
-    <div className={styles.itemCard}>
-      <div className={styles.itemCardImage}>
+    <div className={styles['result__item-card']}>
+      <div className={styles['result__item-card__image']}>
         <Image
           src={
             item.poster_path
@@ -26,9 +26,9 @@ const SearchResultsItem: FC<Props> = ({ item }) => {
         />
       </div>
 
-      <div className={styles.itemCardInfo}>
-        <span className={styles.itemCardRelease}>Дата выхода: {release}</span>
-        <p className={styles.itemCardTitle}>{item.title || item.name}</p>
+      <div>
+        <span className={styles['result__item-card__release']}>Дата выхода: {release}</span>
+        <p className={styles['result__itemCard__title']}>{item.title || item.name}</p>
       </div>
     </div>
   );

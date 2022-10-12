@@ -6,25 +6,26 @@
   background: $accent;
   z-index: 100;
   top: 0;
-}
 
-.logo {
-  cursor: pointer;
-}
+  &__content {
+    padding: 10px $indent;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+  }
 
-.headerContent {
-  padding: 10px $indent;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  align-items: center;
-}
+  &__logo {
+    cursor: pointer;
+  }
 
-.linksList {
-  display: flex;
-  gap: 20px;
-}
+  &__link-list {
+    display: flex;
+    gap: 20px;
 
-.activePage {
-  color: $highlight;
+    &__active-page {
+      color: $highlight;
+
+    }
+  }
 }
