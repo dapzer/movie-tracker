@@ -3,14 +3,16 @@ import styles from './search.module.scss';
 
 interface Props {
   setSearchTerm: (value: string) => void;
+  handlePage: (arg0: number) => void;
 }
 
-const Search: FC<Props> = ({ setSearchTerm }) => {
+const Search: FC<Props> = ({ setSearchTerm, handlePage }) => {
   const [localSearchValue, serLocalSearchValue] = useState('');
 
   // Спустя n-секунд обновляем значение для поиска
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
+      handlePage(1);
       setSearchTerm(localSearchValue);
     }, 500);
 

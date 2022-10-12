@@ -6,6 +6,7 @@ export const searchApi = async (queries: any) => {
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
       query: queries.queryKey[1].searchValue,
+      page: queries.queryKey[1].page,
       // language: 'en-US',
     },
   });

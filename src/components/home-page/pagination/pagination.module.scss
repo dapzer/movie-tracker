@@ -1,0 +1,25 @@
+@import "src/styles/variables";
+
+.pagination {
+  &__pages {
+    width: fit-content;
+    display: flex;
+    gap: 15px;
+    margin: 0 auto;
+  }
+
+  &__page {
+    padding: 10px;
+    background: $primary;
+    color: $secondary;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: $p;
+
+    &_active,
+    &:hover {
+      background: $highlight;
+    }
+  }
+}
