@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { usePagination } from '../../../hooks/usePagination';
-import styles from './pagination.module.scss';
+import styles from './ui-pagination.module.scss';
 import { PaginationOptions } from '../../../types/PaginationOptions';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   };
 }
 
-const Pagination: FC<Props> = ({ paginationInfo }) => {
+const UiPagination: FC<Props> = ({ paginationInfo }) => {
   // * Получение массива страниц для отрисовки
   const { pages } = usePagination({
     currentPage: paginationInfo.currentPage,
@@ -63,4 +63,4 @@ const Pagination: FC<Props> = ({ paginationInfo }) => {
   );
 };
 
-export default Pagination;
+export default UiPagination;

@@ -23,26 +23,27 @@ body > div:first-of-type {
 body {
   background: $background;
   background-size: cover;
-
-  // Scroll
-
-  &::-webkit-scrollbar {
-    display: block;
-    width: 12px;
-    cursor: pointer;
-    position: unset;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 2px;
-    background: $primary
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 12px;
-    background-color: $highlight
-  }
 }
+
+// Scroll
+
+*::-webkit-scrollbar {
+  display: block;
+  width: 12px;
+  cursor: pointer;
+  position: unset;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 2px;
+  background: $primary
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+  background-color: $highlight
+}
+
 
 main {
   padding: 72px 0;
@@ -110,6 +111,12 @@ input {
   margin: 0 auto;
 }
 
+li {
+  list-style: none;
+  color: $text;
+  font-size: $p;
+}
+
 
 // Masonry
 
@@ -125,4 +132,15 @@ input {
     background-clip: padding-box;
   }
 
+}
+
+// React Query Devtools
+
+.ReactQueryDevtools {
+  button {
+    top: 0px;
+    right: 0px !important;
+    left: unset !important;
+    bottom: unset !important;
+  }
 }

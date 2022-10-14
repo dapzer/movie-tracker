@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { searchApi } from '../../../api/searchApi';
 import { SearchResponse } from '../../../types/SearchResponse';
 import SearchResultsRow from '../../home-page/search-results/SearchResultsRow';
-import Pagination from '../../home-page/pagination/Pagination';
+import UiPagination from '../../ui/pagination/UiPagination';
 
 const HomePageContainer: FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,7 +28,7 @@ const HomePageContainer: FC = () => {
       <SearchResultsRow searchResponse={data} />
 
       {data?.total_pages && (
-        <Pagination
+        <UiPagination
           paginationInfo={{
             currentPage,
             handlePage: setCurrentPage,

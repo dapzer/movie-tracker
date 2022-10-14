@@ -1,0 +1,50 @@
+@import "src/styles/variables";
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, .6);
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  &__full-width {
+    width: 100% !important;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+
+    button {
+      background: none;
+      border:none;
+      cursor: pointer;
+    }
+  }
+
+  &__body {
+    margin: 0 auto;
+    width: fit-content;
+    background: $background;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+  }
+
+  &__content {
+  }
+
+}
