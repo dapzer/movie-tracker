@@ -26,6 +26,11 @@
     align-items: center;
     gap: 20px;
     padding-bottom: 20px;
+    position: sticky;
+    top: 0px;
+    background: $background;
+    z-index: 1000;
+    padding-top: 20px;
 
     button {
       background: none;
@@ -39,6 +44,7 @@
     width: fit-content;
     background: $background;
     padding: 20px;
+    padding-top: 0;
     max-height: 90vh;
     overflow-y: auto;
 
