@@ -4,6 +4,7 @@ import DetailsModal from '../../core/details-modal/DetailsModal';
 import UiCard from '../../ui/card/UiCard';
 import styles from './search-results.module.scss';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
+import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 
 interface Props {
   item: SearchItem;
@@ -21,6 +22,11 @@ const SearchResultMovie: FC<Props> = ({ item }) => {
       <div className={styles['result__movie-card__score']}>
         <ScoreCircle value={item.vote_average} />
       </div>
+
+      <div className={styles['result__movie-card__favorite']}>
+        <FavoriteBtn id={item.id} className={'favorite-btn__movie-card-btn'} />
+      </div>
+
       <DetailsModal showId={item.id} showType={item.media_type} />
     </UiCard>
   );

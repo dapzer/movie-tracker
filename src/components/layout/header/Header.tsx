@@ -10,8 +10,8 @@ const links = [
     url: '/',
   },
   {
-    title: 'Мой список',
-    url: '/myList',
+    title: 'Избранное',
+    url: '/favorite',
   },
 ];
 

@@ -117,6 +117,13 @@ li {
   font-size: $p;
 }
 
+button {
+  border: none;
+  background: unset;
+  font-size: $p;
+  cursor: pointer;
+  color: $secondary;
+}
 
 // Masonry
 

@@ -6,6 +6,7 @@ import { getMovieDirectors } from '../../../utils/getMovieDirectors.helper';
 import { toCurrency } from '../../../utils/toCurrency.helper';
 import { Details } from '../../../types/Details';
 import { Credits } from '../../../types/Credits';
+import FavoriteBtn from '../favorite-btn/FavoriteBtn';
 
 interface Props {
   details: Details.RootObject;
@@ -23,19 +24,22 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
 
   return (
     <div className={styles['details__header']}>
-      <div className={styles['details__header__image']}>
-        <Image
-          src={
-            details.poster_path
-              ? `https://image.tmdb.org/t/p/original${details.poster_path}`
-              : '/defaultPoster.svg'
-          }
-          width="100"
-          height="150"
-          objectFit="contain"
-          sizes="320"
-          alt="Brand logo"
-        />
+      <div className={styles['details__header__logo']}>
+        <div className={styles['details__header__image']}>
+          <Image
+            src={
+              details.poster_path
+                ? `https://image.tmdb.org/t/p/original${details.poster_path}`
+                : '/defaultPoster.svg'
+            }
+            width="100"
+            height="150"
+            objectFit="contain"
+            sizes="320"
+            alt="Brand logo"
+          />
+        </div>
+        <FavoriteBtn id={details.id} className={'favorite-btn__details'} />
       </div>
 
       <div className={styles['details__header__info']}>

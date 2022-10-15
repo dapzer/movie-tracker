@@ -1,0 +1,55 @@
+@import "src/styles/variables";
+
+.favorite-btn {
+  button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__movie-card-btn {
+    font-size: $span;
+    padding: 5px 10px;
+    background: $accent;
+    border-radius: 10px 0 0 10px;
+
+    svg {
+      width: $span;
+      height: $span;
+      fill: $secondary;
+    }
+  }
+
+  &__details {
+    font-size: $p;
+    padding: 10px 13px;
+    max-width: 270px;
+    width: 100%;
+    margin-top: 20px;
+    background: $accent;
+    border-radius: 10px;
+
+    svg {
+      width: $p;
+      height: $p;
+      fill: $secondary;
+    }
+  }
+
+  &__add:hover {
+    color: $highlight;
+
+    svg {
+      fill: $highlight;
+    }
+  }
+
+  &__remove:hover {
+    color: red;
+
+    svg {
+      fill: red;
+    }
+  }
+
+}

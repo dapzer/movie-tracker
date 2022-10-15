@@ -9,6 +9,12 @@
       top: -10px;
       left: -10px;
     }
+
+    &__favorite {
+      position: absolute;
+      right: 0;
+      top: 30px;
+    }
   }
 
   &__items {
