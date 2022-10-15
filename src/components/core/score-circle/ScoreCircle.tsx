@@ -1,0 +1,57 @@
+import React, { FC } from 'react';
+import styles from './score-circle.module.scss';
+
+interface Props {
+  value: number;
+}
+
+const scoreRanges = [
+  {
+    color: '#ff4545',
+    min: 0,
+    max: 3,
+  },
+  {
+    color: '#ffa534',
+    min: 3,
+    max: 6,
+  },
+  {
+    color: '#b7dd29',
+    min: 6,
+    max: 9,
+  },
+  {
+    color: '#57e32c',
+    min: 9,
+    max: 10,
+  },
+];
+
+const ScoreCircle: FC<Props> = ({ value }) => {
+  const indicatorColor = (score: number) => {
+    for (let range of scoreRanges) {
+      if (range.min <= score && score <= range.max) {
+        return range.color;
+      }
+    }
+  };
+
+  return (
+    <div className={styles['score-circle']}>
+      <div
+        className={styles['score-circle__indicator']}
+        style={
+          {
+            '--progress': `${3.6 * (value * 10)}deg`,
+            '--progressColor': indicatorColor(value),
+          } as React.CSSProperties
+        }
+      >
+        <span>{value}</span>
+      </div>
+    </div>
+  );
+};
+
+export default ScoreCircle;

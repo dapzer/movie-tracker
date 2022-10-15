@@ -3,6 +3,14 @@
 .result {
   padding-top: 20px;
 
+  &__movie-card {
+    &__score {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+    }
+  }
+
   &__items {
     padding: 20px 0;
   }
