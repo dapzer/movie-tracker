@@ -1,0 +1,95 @@
+@import "src/styles/variables";
+
+.series-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__item {
+    display: flex;
+    gap: 10px;
+    p  {
+      width: fit-content;
+      min-width: max-content;
+    }
+    select {
+      background: none;
+      color: $secondary;
+      width: 100%;
+      padding: 0 5px;
+
+      option {
+        color: #000;
+      }
+
+    }
+  }
+
+  &__site-to-view {
+    width: 100%;
+
+    &__default {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      a {
+        font-size: 1.1em;
+      }
+    }
+
+    &__add {
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        font-size: 1.1em;
+        text-align: left;
+        font-weight: $regular;
+      }
+
+
+      svg {
+        width: $span;
+        height: $span;
+        color: $secondary;
+      }
+    }
+
+    &__edit {
+      display: flex;
+      gap: 5px;
+      padding-bottom: 5px;
+      align-items: flex-end;
+      input {
+        border: unset;
+        border-bottom: 1px solid $text;
+        border-radius: unset;
+        font-size: $span;
+        width: 100%;
+      }
+
+      button {
+        //border: 1px solid $text;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: $accent;
+        height: fit-content;
+        font-size: $span;
+
+
+        &:nth-child(2):hover {
+          background: limegreen;
+        }
+
+        &:nth-child(3):hover {
+          background: red;
+        }
+      }
+    }
+
+  }
+}

@@ -24,7 +24,11 @@ const SearchResultMovie: FC<Props> = ({ item }) => {
       </div>
 
       <div className={styles['result__movie-card__favorite']}>
-        <FavoriteBtn id={item.id} className={'favorite-btn__movie-card-btn'} />
+        <FavoriteBtn
+          id={item.id}
+          className={'favorite-btn__movie-card-btn'}
+          showType={item.media_type}
+        />
       </div>
 
       <DetailsModal showId={item.id} showType={item.media_type} />

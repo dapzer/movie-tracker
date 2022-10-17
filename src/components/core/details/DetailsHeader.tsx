@@ -39,7 +39,7 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
             alt="Brand logo"
           />
         </div>
-        <FavoriteBtn id={details.id} className={'favorite-btn__details'} />
+        <FavoriteBtn id={details.id} className={'favorite-btn__details'} showType={showType} />
       </div>
 
       <div className={styles['details__header__info']}>
@@ -100,8 +100,8 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
             </>
           )}
           <li>
-            {details.episode_run_time ? 'Длительность серии' : 'Длительность'}:{' '}
-            <span>{details.episode_run_time || details.runtime} мин.</span>
+            {details.episode_run_time ? 'Длительность серий: ' : 'Длительность: '}
+            <span>{details.runtime || arrayToString(details.episode_run_time)} мин.</span>
           </li>
         </ul>
       </div>
