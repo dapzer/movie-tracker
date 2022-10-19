@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import { ContentNames } from '../types/ContentNames';
 
 const getResponse = async (url: string) => {
   const response = await fetch(url);
@@ -44,7 +45,7 @@ export const creditsApi = async (queries: any) => {
   const queriesValue = queries.queryKey[1];
   const url = queryString.stringifyUrl({
     url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.showType}/${queriesValue.showId}/${
-      queriesValue.showType === 'tv' ? 'aggregate_credits' : 'credits'
+      queriesValue.showType === ContentNames.Series ? 'aggregate_credits' : 'credits'
     }`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,

@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
-import { SearchItem } from '../../../types/SearchItem';
 import DetailsModal from '../../core/details-modal/DetailsModal';
 import UiCard from '../../ui/card/UiCard';
 import styles from './search-results.module.scss';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
+import { SearchResponse } from '../../../types/SearchResponse';
 
 interface Props {
-  item: SearchItem;
+  item: SearchResponse.ResultItem;
 }
 
 const SearchResultMovie: FC<Props> = ({ item }) => {

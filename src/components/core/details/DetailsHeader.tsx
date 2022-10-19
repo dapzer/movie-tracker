@@ -7,6 +7,7 @@ import { toCurrency } from '../../../utils/toCurrency.helper';
 import { Details } from '../../../types/Details';
 import { Credits } from '../../../types/Credits';
 import FavoriteBtn from '../favorite-btn/FavoriteBtn';
+import { ContentNames } from '../../../types/ContentNames';
 
 interface Props {
   details: Details.RootObject;
@@ -49,10 +50,13 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
         </div>
 
         <ul className={styles['details__header__info__list']}>
-          <li>
-            Страна производства: <span>{arrayToString(details.production_countries, 'name')}</span>
-          </li>
-          {showType === 'movie' && (
+          {details.production_countries && (
+            <li>
+              Страна производства:
+              <span>{arrayToString(details.production_countries, 'name')}</span>
+            </li>
+          )}
+          {showType === ContentNames.Movie && (
             <li>
               Режиссёр: <span>{arrayToString(getMovieDirectors(credits.crew), 'name')}</span>
             </li>
@@ -62,12 +66,18 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
               Создатель(и): <span>{arrayToString(details.created_by, 'name')}</span>
             </li>
           )}
-          <li>
-            Кинокомпании: <span>{arrayToString(details.production_companies, 'name')}</span>
-          </li>
-          <li>
-            Жанр: <span>{arrayToString(details.genres, 'name')}</span>
-          </li>
+          {details.production_companies && (
+            <li>
+              Кинокомпании: <span>{arrayToString(details.production_companies, 'name')}</span>
+            </li>
+          )}
+
+          {details.genres && (
+            <li>
+              Жанр: <span>{arrayToString(details.genres, 'name')}</span>
+            </li>
+          )}
+
           {details?.budget > 0 && (
             <li>
               Бюджет: <span>{toCurrency(details.budget, 'USD')}</span>
@@ -76,7 +86,7 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
           <li>
             Дата выхода: <span>{release}</span>
           </li>
-          {showType === 'tv' && (
+          {showType === ContentNames.Series && (
             <>
               <li>
                 Дата выхода последнего эпизода:{' '}
@@ -99,10 +109,12 @@ const DetailsHeader: FC<Props> = ({ details, credits, showType }) => {
               </li>
             </>
           )}
-          <li>
-            {details.episode_run_time ? 'Длительность серий: ' : 'Длительность: '}
-            <span>{details.runtime || arrayToString(details.episode_run_time)} мин.</span>
-          </li>
+          {(details.runtime || details.episode_run_time) && (
+            <li>
+              {details.episode_run_time ? 'Длительность серий: ' : 'Длительность: '}
+              <span>{details.runtime || arrayToString(details.episode_run_time)} мин.</span>
+            </li>
+          )}
         </ul>
       </div>
     </div>

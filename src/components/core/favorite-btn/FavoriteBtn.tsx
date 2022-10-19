@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useFavorite } from '../../../hooks/useFavorite';
 import styles from './favorite-btn.module.scss';
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import FavoriteRow from '../../favorite-page/favorite-row/FavoriteRow';
+import FavoriteRow from '../favorite-page/favorite-row/FavoriteRow';
 
 interface Props {}
 

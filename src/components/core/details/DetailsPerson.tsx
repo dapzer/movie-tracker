@@ -2,9 +2,6 @@ import React, { FC } from 'react';
 import styles from './details.module.scss';
 import { Credits } from '../../../types/Credits';
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import { personImagesApi } from '../../../api/searchApi';
-import { PersonImages } from '../../../types/PersonImages';
 import { arrayToString } from '../../../utils/arrayToString.helper';
 
 interface Props {
@@ -12,23 +9,13 @@ interface Props {
 }
 
 const DetailsPerson: FC<Props> = ({ person }) => {
-  const { data: images } = useQuery<PersonImages.RootObject>(
-    [
-      'getCredits',
-      {
-        person_id: person.id,
-      },
-    ],
-    personImagesApi
-  );
-
   return (
     <div className={styles['details__person']}>
       <div className={styles['details__person__image']}>
         <Image
           src={
-            images && images.profiles.length > 0
-              ? `https://image.tmdb.org/t/p/original${images.profiles[0]?.file_path}`
+            person.profile_path
+              ? `https://image.tmdb.org/t/p/original${person.profile_path}`
               : '/defaultPoster.svg'
           }
           width="100"

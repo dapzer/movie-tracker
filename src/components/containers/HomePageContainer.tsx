@@ -1,16 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
-import Search from '../../home-page/search/Search';
+import Search from '../home-page/search/Search';
 import { useQuery } from '@tanstack/react-query';
-import { searchApi } from '../../../api/searchApi';
-import { SearchResponse } from '../../../types/SearchResponse';
-import SearchResultsRow from '../../home-page/search-results/SearchResultsRow';
-import UiPagination from '../../ui/pagination/UiPagination';
+import { searchApi } from '../../api/fetchApi';
+import { SearchResponse } from '../../types/SearchResponse';
+import SearchResultsRow from '../home-page/search-results/SearchResultsRow';
+import UiPagination from '../ui/pagination/UiPagination';
 
 const HomePageContainer: FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data } = useQuery<SearchResponse>(
+  const { data } = useQuery<SearchResponse.RootObject>(
     [
       'searchFilms',
       {

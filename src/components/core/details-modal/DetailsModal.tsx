@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import UiModal from '../../ui/modal/UiModal';
 import styles from './details-modal.module.scss';
 import Details from '../details/Details';
+import { ContentNames } from '../../../types/ContentNames';
 
 interface Props {
   showId?: number;
@@ -18,7 +19,7 @@ const DetailsModal: FC<Props> = ({ showType, showId }) => {
       </button>
 
       <UiModal
-        title={`О ${showType === 'movie' ? 'фильме' : 'сериале'}`}
+        title={`О ${showType === ContentNames.Movie ? 'фильме' : 'сериале'}`}
         fullWidth
         visible={modalVisible}
         handleVisible={setModalVisible}

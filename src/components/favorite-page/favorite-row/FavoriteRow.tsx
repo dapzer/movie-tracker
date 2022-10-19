@@ -1,10 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import styles from './favorite-row.module.scss';
 import Masonry from 'react-masonry-css';
-import { useQueries, useQuery } from '@tanstack/react-query';
-import { detailApi, searchApi } from '../../../api/searchApi';
-import details from '../../core/details/Details';
-import { Details } from '../../../types/Details';
+import { useQueries } from '@tanstack/react-query';
+import { detailApi } from '../../../api/fetchApi';
 import { LocalStorageMovie } from '../../../types/LocalStorageMovie';
 import FavoriteCard from '../favorite-card/FavoriteCard';
 
@@ -71,8 +69,7 @@ const FavoriteRow: FC<Props> = () => {
       >
         {data &&
           data.map(
-            (value, index) =>
-              value.data && <FavoriteCard key={value.data.id} details={value.data} />
+            (value) => value.data && <FavoriteCard key={value.data.id} details={value.data} />
           )}
       </Masonry>
     </div>

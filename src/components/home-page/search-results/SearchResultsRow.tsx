@@ -4,9 +4,10 @@ import SearchResultMovie from './SearchResultMovie';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
 import DetailsModal from '../../core/details-modal/DetailsModal';
+import { ContentNames } from '../../../types/ContentNames';
 
 interface Props {
-  searchResponse?: SearchResponse;
+  searchResponse?: SearchResponse.RootObject;
 }
 
 const breakpointColumnsObj = {
@@ -32,7 +33,7 @@ const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
         >
           {searchResponse &&
             searchResponse.results.map((item, index) => {
-              if (item.media_type !== 'person') {
+              if (item.media_type !== ContentNames.Person) {
                 return <SearchResultMovie key={item.id} item={item} />;
               }
             })}

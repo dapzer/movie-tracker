@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import styles from './details.module.scss';
 import { useQuery } from '@tanstack/react-query';
-import { creditsApi, detailApi } from '../../../api/searchApi';
+import { creditsApi, detailApi } from '../../../api/fetchApi';
 import { Credits } from '../../../types/Credits';
 import { Details } from '../../../types/Details';
 import DetailsHeader from './DetailsHeader';
 import DetailsPerson from './DetailsPerson';
+import { ContentNames } from '../../../types/ContentNames';
 
 interface Props {
   showId?: number;
@@ -42,7 +43,7 @@ const Details: FC<Props> = ({ showType, showId }) => {
           <DetailsHeader details={details} credits={credits} showType={showType} />
 
           <div className={styles['details__about']}>
-            <h2>Описание {showType === 'movie' ? 'фильма' : 'сериала'}</h2>
+            <h2>Описание {showType === ContentNames.Movie ? 'фильма' : 'сериала'}</h2>
             <p>{details.overview}</p>
           </div>
 
@@ -50,7 +51,7 @@ const Details: FC<Props> = ({ showType, showId }) => {
             <div className={styles['']}>
               <h2>Актёры</h2>
               <div className={styles['details__persons-row']}>
-                {credits.cast.splice(0, 10).map((person) => (
+                {credits.cast.map((person) => (
                   <DetailsPerson key={person.id} person={person} />
                 ))}
               </div>

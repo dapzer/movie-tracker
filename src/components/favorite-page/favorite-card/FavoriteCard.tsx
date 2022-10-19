@@ -7,6 +7,7 @@ import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import SeriesControls from '../series-controls/SeriesControls';
 import UiDropdown from '../../ui/dropdown/UiDropdown';
+import { ContentNames } from '../../../types/ContentNames';
 
 interface Props {
   details: Details.RootObject;
@@ -35,7 +36,7 @@ const FavoriteCard: FC<Props> = ({ details }) => {
 
         <DetailsModal showType={storageData.showType} showId={storageData.id} />
 
-        {storageData.showType === 'tv' && (
+        {storageData.showType === ContentNames.Series && (
           <UiDropdown title={'Трекинг меню'}>
             <SeriesControls storageData={storageData} seasons={details.seasons} />
           </UiDropdown>
