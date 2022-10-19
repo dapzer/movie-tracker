@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import styles from './ui-modal.module.scss';
 import Image from 'next/image';
 
@@ -11,14 +11,22 @@ interface Props {
 }
 
 const UiModal: FC<Props> = ({ title, children, fullWidth, visible, handleVisible }) => {
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     handleVisible(false);
-  };
+  }, []);
+
+  const closeModalOnKeypress = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  }, []);
 
   useEffect(() => {
     if (visible) {
+      document.addEventListener('keydown', closeModalOnKeypress);
       document.body.style.overflow = 'hidden';
     } else {
+      document.removeEventListener('keydown', closeModalOnKeypress);
       document.body.style.overflow = 'auto';
     }
   }, [visible]);
