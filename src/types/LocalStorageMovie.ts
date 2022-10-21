@@ -7,7 +7,7 @@ export declare module LocalStorageMovie {
 
   export interface RootObject {
     id: number;
-    showType: string;
+    mediaType: string;
     addedDate: string;
     seriesInfo: SeriesInfo;
   }

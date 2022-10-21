@@ -1,0 +1,24 @@
+.person-details {
+  &__biography {
+    padding-top: 20px;
+
+    h3 {
+      padding-bottom: 20px;
+    }
+
+    p {
+      padding-bottom: 15px;
+    }
+  }
+
+  &__movies {
+    h3 {
+      padding-bottom: 20px;
+    }
+
+    &__row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

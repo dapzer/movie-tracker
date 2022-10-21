@@ -29,7 +29,8 @@ body {
 
 *::-webkit-scrollbar {
   display: block;
-  width: 12px;
+  width: 8px;
+  height: 6px;
   cursor: pointer;
   position: unset;
 }
@@ -40,7 +41,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  border-radius: 12px;
+  border-radius: 8px;
   background-color: $highlight
 }
 
@@ -125,6 +126,20 @@ button {
   color: $secondary;
 }
 
+.modal-open-btn {
+  width: 100%;
+  margin-top: 10px;
+  font-size: $span;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+
+  &:hover {
+    color: $highlight;
+    border-color: $highlight;
+  }
+}
+
 // Masonry
 
 
@@ -150,4 +165,15 @@ button {
     left: unset !important;
     bottom: unset !important;
   }
+}
+
+// Ui
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 20px;
+  max-height: 590px;
+  padding-top: 20px;
+  overflow: auto;
 }

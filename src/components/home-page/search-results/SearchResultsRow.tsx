@@ -3,8 +3,9 @@ import { SearchResponse } from '../../../types/SearchResponse';
 import SearchResultMovie from './SearchResultMovie';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
-import DetailsModal from '../../core/details-modal/DetailsModal';
 import { ContentNames } from '../../../types/ContentNames';
+import SearchResultPerson from './SearchResultPerson';
+import DetailsModal from '../../core/details/DetailsModal';
 
 interface Props {
   searchResponse?: SearchResponse.RootObject;
@@ -21,9 +22,9 @@ const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
   return (
     <div className={styles['result']}>
       {searchResponse && <h3>Найдено результатов: {searchResponse?.total_results}</h3>}
-      <DetailsModal showId={597} showType={'movie'} />
-      <DetailsModal showId={61222} showType={'tv'} />
-      <DetailsModal showId={60625} showType={'tv'} />
+      <DetailsModal mediaId={597} mediaType={'movie'} />
+      <DetailsModal mediaId={61222} mediaType={'tv'} />
+      <DetailsModal mediaId={60625} mediaType={'tv'} />
 
       <div className={styles['result__items']}>
         <Masonry
@@ -32,11 +33,13 @@ const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
           columnClassName="searching-results-masonry__row-column"
         >
           {searchResponse &&
-            searchResponse.results.map((item, index) => {
-              if (item.media_type !== ContentNames.Person) {
-                return <SearchResultMovie key={item.id} item={item} />;
-              }
-            })}
+            searchResponse.results.map((item, index) =>
+              item.media_type === ContentNames.Person ? (
+                <SearchResultPerson key={item.id} personData={item} />
+              ) : (
+                <SearchResultMovie key={item.id} item={item} />
+              )
+            )}
         </Masonry>
       </div>
     </div>

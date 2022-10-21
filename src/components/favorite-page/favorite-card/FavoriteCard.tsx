@@ -2,12 +2,12 @@ import React, { FC } from 'react';
 import styles from './favorite-card.module.scss';
 import { Details } from '../../../types/Details';
 import UiCard from '../../ui/card/UiCard';
-import DetailsModal from '../../core/details-modal/DetailsModal';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import SeriesControls from '../series-controls/SeriesControls';
 import UiDropdown from '../../ui/dropdown/UiDropdown';
 import { ContentNames } from '../../../types/ContentNames';
+import DetailsModal from '../../core/details/DetailsModal';
 
 interface Props {
   details: Details.RootObject;
@@ -30,13 +30,13 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           <FavoriteBtn
             id={details.id}
             className={'favorite-btn__movie-card-btn'}
-            showType={storageData.showType}
+            mediaType={storageData.mediaType}
           />
         </div>
 
-        <DetailsModal showType={storageData.showType} showId={storageData.id} />
+        <DetailsModal mediaType={storageData.mediaType} mediaId={storageData.id} />
 
-        {storageData.showType === ContentNames.Series && (
+        {storageData.mediaType === ContentNames.Series && (
           <UiDropdown title={'Трекинг меню'}>
             <SeriesControls storageData={storageData} seasons={details.seasons} />
           </UiDropdown>

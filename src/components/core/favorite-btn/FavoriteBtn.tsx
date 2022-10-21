@@ -5,11 +5,11 @@ import styles from './favorite-btn.module.scss';
 interface Props {
   id: number;
   className: string;
-  showType?: string;
+  mediaType?: string;
 }
 
-const FavoriteBtn: FC<Props> = ({ id, className, showType }) => {
-  const { isFavorite, handleFavorite } = useFavorite(id, showType || '');
+const FavoriteBtn: FC<Props> = ({ id, className, mediaType }) => {
+  const { isFavorite, handleFavorite } = useFavorite(id, mediaType || '');
 
   return (
     <div className={styles['favorite-btn']}>

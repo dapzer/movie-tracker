@@ -29,7 +29,7 @@ const FavoriteRow: FC<Props> = () => {
       try {
         const movie = JSON.parse(localStorage[key]);
 
-        if (movie.hasOwnProperty('showType')) {
+        if (movie.hasOwnProperty('mediaType')) {
           localStorageData.push(movie);
         }
       } catch (e: any) {
@@ -50,8 +50,8 @@ const FavoriteRow: FC<Props> = () => {
         queryKey: [
           'getDetailFromFavorite',
           {
-            showType: item.showType,
-            showId: item.id,
+            mediaType: item.mediaType,
+            mediaId: item.id,
           },
         ],
         queryFn: detailApi,

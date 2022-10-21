@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const useFavorite = (id: number, showType: string) => {
+export const useFavorite = (id: number, mediaType: string) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const addToFavorite = () => {
@@ -8,7 +8,7 @@ export const useFavorite = (id: number, showType: string) => {
       id.toString(),
       JSON.stringify({
         id,
-        showType: showType,
+        mediaType: mediaType,
         addedDate: Date.now(),
         seriesInfo: {
           currentEpisode: 1,

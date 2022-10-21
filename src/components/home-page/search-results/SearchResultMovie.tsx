@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import DetailsModal from '../../core/details-modal/DetailsModal';
 import UiCard from '../../ui/card/UiCard';
 import styles from './search-results.module.scss';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import { SearchResponse } from '../../../types/SearchResponse';
+import DetailsModal from '../../core/details/DetailsModal';
 
 interface Props {
   item: SearchResponse.ResultItem;
@@ -27,11 +27,11 @@ const SearchResultMovie: FC<Props> = ({ item }) => {
         <FavoriteBtn
           id={item.id}
           className={'favorite-btn__movie-card-btn'}
-          showType={item.media_type}
+          mediaType={item.media_type}
         />
       </div>
 
-      <DetailsModal showId={item.id} showType={item.media_type} />
+      <DetailsModal mediaId={item.id} mediaType={item.media_type} />
     </UiCard>
   );
 };

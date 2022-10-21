@@ -32,7 +32,7 @@ export const searchApi = async (queries: any) => {
 export const detailApi = async (queries: any) => {
   const queriesValue = queries.queryKey[1];
   const url = queryString.stringifyUrl({
-    url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.showType}/${queriesValue.showId}`,
+    url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.mediaType}/${queriesValue.mediaId}`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
     },
@@ -44,8 +44,8 @@ export const detailApi = async (queries: any) => {
 export const creditsApi = async (queries: any) => {
   const queriesValue = queries.queryKey[1];
   const url = queryString.stringifyUrl({
-    url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.showType}/${queriesValue.showId}/${
-      queriesValue.showType === ContentNames.Series ? 'aggregate_credits' : 'credits'
+    url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.mediaType}/${queriesValue.mediaId}/${
+      queriesValue.mediaType === ContentNames.Series ? 'aggregate_credits' : 'credits'
     }`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
@@ -59,6 +59,30 @@ export const personImagesApi = async (queries: any) => {
   const queriesValue = queries.queryKey[1];
   const url = queryString.stringifyUrl({
     url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}/images`,
+    query: {
+      api_key: process.env.NEXT_PUBLIC_API_KEY,
+    },
+  });
+
+  return await getResponse(url);
+};
+
+export const personDetailsApi = async (queries: any) => {
+  const queriesValue = queries.queryKey[1];
+  const url = queryString.stringifyUrl({
+    url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}`,
+    query: {
+      api_key: process.env.NEXT_PUBLIC_API_KEY,
+    },
+  });
+
+  return await getResponse(url);
+};
+
+export const personCreditsApi = async (queries: any) => {
+  const queriesValue = queries.queryKey[1];
+  const url = queryString.stringifyUrl({
+    url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}/combined_credits`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
     },

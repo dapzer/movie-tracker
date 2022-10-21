@@ -1,0 +1,38 @@
+@import "src/styles/variables";
+.info-header {
+  display: flex;
+  gap: 50px;
+
+  &__logo {
+    max-width: 270px;
+    width: 100%;
+  }
+
+  &__image {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  &__about {
+    &__title {
+      h3 {
+        color: $text;
+      }
+    }
+
+    &__list {
+      padding-top: 20px;
+      li {
+        list-style: none;
+        color: $text;
+        font-size: $p;
+        padding-bottom: 10px;
+
+        span {
+          all: unset;
+          color: $secondary;
+        }
+      }
+    }
+  }
+}

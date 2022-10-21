@@ -7,11 +7,16 @@ interface Props {
   children?: React.ReactNode;
   title?: string;
   date?: string;
+  width?: string;
+  horizontal?: boolean;
 }
 
-const UiCard: FC<Props> = ({ image, title, date, children }) => {
+const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal }) => {
   return (
-    <div className={styles['card']}>
+    <div
+      className={`${styles['card']} ${horizontal && styles['card__horizontal']}`}
+      style={width ? { maxWidth: width } : {}}
+    >
       <div className={styles['card__image']}>
         <Image
           src={image ? `https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
