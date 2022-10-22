@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import styles from './ui-modal.module.scss';
 import Image from 'next/image';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   title: string;
@@ -11,6 +12,7 @@ interface Props {
 
 const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const { t } = useTranslation('buttons');
 
   const closeModalOnKeypress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -33,7 +35,7 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle }) => {
   return (
     <>
       <button className={'modal-open-btn'} onClick={() => handleVisible(true)}>
-        {btnTitle ? btnTitle : 'Подробнее'}
+        {btnTitle ? btnTitle : t('more')}
       </button>
 
       {modalVisible && (

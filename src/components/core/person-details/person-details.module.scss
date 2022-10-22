@@ -11,14 +11,4 @@
     }
   }
 
-  &__movies {
-    h3 {
-      padding-bottom: 20px;
-    }
-
-    &__row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
 }

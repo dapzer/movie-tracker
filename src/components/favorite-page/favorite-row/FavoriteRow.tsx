@@ -5,6 +5,7 @@ import { useQueries } from '@tanstack/react-query';
 import { detailApi } from '../../../api/fetchApi';
 import { LocalStorageMovie } from '../../../types/LocalStorageMovie';
 import FavoriteCard from '../favorite-card/FavoriteCard';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {}
 
@@ -17,6 +18,7 @@ const breakpointColumnsObj = {
 
 const FavoriteRow: FC<Props> = () => {
   const [localStorageData, setLocalStorageData] = useState<LocalStorageMovie.RootObject[]>([]);
+  const { t, lang } = useTranslation('favoritePage');
 
   const getLocalStorageData = (): LocalStorageMovie.RootObject[] => {
     const localStorageData = [];
@@ -52,6 +54,7 @@ const FavoriteRow: FC<Props> = () => {
           {
             mediaType: item.mediaType,
             mediaId: item.id,
+            language: lang,
           },
         ],
         queryFn: detailApi,
@@ -62,15 +65,8 @@ const FavoriteRow: FC<Props> = () => {
 
   return (
     <div className={styles['favorite-row']}>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="searching-results-masonry__row"
-        columnClassName="searching-results-masonry__row-column"
-      >
-        {data &&
-          data.map(
-            (value) => value.data && <FavoriteCard key={value.data.id} details={value.data} />
-          )}
+      <Masonry breakpointCols={breakpointColumnsObj} className="searching-results-masonry__row" columnClassName="searching-results-masonry__row-column">
+        {data && data.map((value) => value.data && <FavoriteCard key={value.data.id} details={value.data} />)}
       </Masonry>
     </div>
   );

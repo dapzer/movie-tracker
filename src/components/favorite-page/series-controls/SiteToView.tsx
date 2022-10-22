@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { LocalStorageMovie } from '../../../types/LocalStorageMovie';
 import styles from './series-controls.module.scss';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   storageData: LocalStorageMovie.RootObject;
@@ -9,6 +10,7 @@ interface Props {
 const SiteToView: FC<Props> = ({ storageData }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editUrlValue, setEditUrlValue] = useState(storageData.seriesInfo.siteToView);
+  const { t } = useTranslation('favoritePage');
   const isHaveUrl = storageData.seriesInfo.siteToView;
 
   const cancelEdit = () => {
@@ -30,18 +32,15 @@ const SiteToView: FC<Props> = ({ storageData }) => {
       {isHaveUrl && !isEdit && (
         <div className={styles['series-controls__site-to-view__default']}>
           <a href={isHaveUrl} target="_blank">
-            Cайт для просмотра
+            {t('tracking_menu.site_to_view')}
           </a>
           <button onClick={() => setIsEdit(true)}>🖉</button>
         </div>
       )}
 
       {!isHaveUrl && !isEdit && (
-        <div
-          className={styles['series-controls__site-to-view__add']}
-          onClick={() => setIsEdit(true)}
-        >
-          <button>Cайт для просмотра</button>
+        <div className={styles['series-controls__site-to-view__add']} onClick={() => setIsEdit(true)}>
+          <button>{t('tracking_menu.site_to_view')}</button>
           <svg>
             <use href="/icon-add.svg#svg"></use>
           </svg>
@@ -50,12 +49,7 @@ const SiteToView: FC<Props> = ({ storageData }) => {
 
       {isEdit && (
         <div className={styles['series-controls__site-to-view__edit']}>
-          <input
-            type="text"
-            value={editUrlValue}
-            onChange={(event) => setEditUrlValue(event.target.value)}
-            placeholder="Вставьте ссылку на сайт"
-          />
+          <input type="text" value={editUrlValue} onChange={(event) => setEditUrlValue(event.target.value)} placeholder={t('tracking_menu.site_to_view_input')} />
           <button onClick={() => confirmlEdit()}>🗸</button>
           <button onClick={() => cancelEdit()}>✕</button>
         </div>

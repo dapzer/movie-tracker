@@ -8,6 +8,7 @@ import SeriesControls from '../series-controls/SeriesControls';
 import UiDropdown from '../../ui/dropdown/UiDropdown';
 import { ContentNames } from '../../../types/ContentNames';
 import DetailsModal from '../../core/details/DetailsModal';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   details: Details.RootObject;
@@ -15,29 +16,23 @@ interface Props {
 
 const FavoriteCard: FC<Props> = ({ details }) => {
   const storageData = JSON.parse(localStorage.getItem(details.id.toString()) || '');
+  const { t } = useTranslation('favoritePage');
+
   return (
     <div>
-      <UiCard
-        title={details.title || details.name}
-        image={details.poster_path}
-        date={`Дата добавления: ${new Date(storageData.addedDate).toLocaleDateString()}`}
-      >
+      <UiCard title={details.title || details.name} image={details.poster_path} date={`${t('added_date')} ${new Date(storageData.addedDate).toLocaleDateString()}`}>
         <div className={styles['favorite-card__score']}>
           <ScoreCircle value={Number(details.vote_average.toFixed(1))} />
         </div>
 
         <div className={styles['favorite-card__favorite-btn']}>
-          <FavoriteBtn
-            id={details.id}
-            className={'favorite-btn__movie-card-btn'}
-            mediaType={storageData.mediaType}
-          />
+          <FavoriteBtn id={details.id} className={'favorite-btn__movie-card-btn'} mediaType={storageData.mediaType} />
         </div>
 
         <DetailsModal mediaType={storageData.mediaType} mediaId={storageData.id} />
 
         {storageData.mediaType === ContentNames.Series && (
-          <UiDropdown title={'Трекинг меню'}>
+          <UiDropdown title={t('tracking_menu.title')}>
             <SeriesControls storageData={storageData} seasons={details.seasons} />
           </UiDropdown>
         )}

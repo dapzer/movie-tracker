@@ -8,17 +8,21 @@ import styles from './person-details.module.scss';
 import UiCard from '../../ui/card/UiCard';
 import DetailsModal from '../details/DetailsModal';
 import { Credits } from '../../../types/Credits';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   personData: SearchResponse.ResultItem | Person.Cast | Credits.Cast;
 }
 
 const PersonDetails: FC<Props> = ({ personData }) => {
+  const { t, lang } = useTranslation('details');
+
   const { data: details } = useQuery<Person.RootObject>(
     [
       'getPersonDetails',
       {
         person_id: personData.id,
+        language: lang,
       },
     ],
     personDetailsApi
@@ -29,6 +33,7 @@ const PersonDetails: FC<Props> = ({ personData }) => {
       'getPersonCredits',
       {
         person_id: personData.id,
+        language: lang,
       },
     ],
     personCreditsApi
@@ -41,27 +46,21 @@ const PersonDetails: FC<Props> = ({ personData }) => {
           <PersonDetailsHeader details={details} />
 
           <div className={styles['person-details__biography']}>
-            <h3>Биография</h3>
+            <h3>{t('person_details.biography')}</h3>
             {details.biography.split('\n\n').map((item, index) => (
               <p key={`biography-${index}`}>{item}</p>
             ))}
           </div>
 
           <div className={styles['person-details__movies']}>
-            <h3>Участвовал в</h3>
+            <h3>{t('person_details.filmography')}</h3>
             <div className={'details-grid'}>
               {credits.cast.map((item, index) => (
-                <UiCard
-                  key={index}
-                  title={item.title || item.name}
-                  image={item.poster_path}
-                  date={`Дата выхода ${new Date(
-                    item.release_date || item.first_air_date
-                  ).toLocaleDateString()}`}
-                  horizontal
-                >
+                <UiCard key={index} title={item.title || item.name} image={item.poster_path} date={`${t('movie_details.release_date')} ${new Date(item.release_date || item.first_air_date).toLocaleDateString()}`} horizontal>
                   <ul>
-                    <li>Роль(и): {item.character}</li>
+                    <li>
+                      {t('person_details.roles')} {item.character}
+                    </li>
                   </ul>
 
                   <DetailsModal mediaId={item.id} mediaType={item.media_type} />

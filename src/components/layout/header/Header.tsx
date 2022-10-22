@@ -3,20 +3,33 @@ import styles from './header.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { isUrlActive } from '../../../utils/url.helper';
+import LocaleSelect from './LocaleSelect';
 
-const links = [
-  {
-    title: 'Поиск',
-    url: '/',
-  },
-  {
-    title: 'Избранное',
-    url: '/favorite',
-  },
-];
+const links = {
+  ru: [
+    {
+      title: 'Поиск',
+      url: '/',
+    },
+    {
+      title: 'Избранное',
+      url: '/favorite',
+    },
+  ],
+  en: [
+    {
+      title: 'Search',
+      url: '/',
+    },
+    {
+      title: 'Favorite',
+      url: '/favorite',
+    },
+  ],
+};
 
 const Header: FC = () => {
-  const router = useRouter();
+  const { asPath, locale } = useRouter();
 
   return (
     <div className={styles['header']}>
@@ -26,19 +39,19 @@ const Header: FC = () => {
         </Link>
 
         <nav className={styles['header__link-list']}>
-          {links.map((link, index) => (
+          {links[locale as keyof typeof links].map((link, index) => (
             <Link key={index} href={link.url}>
               <a
                 className={
-                  isUrlActive(router.asPath, link.url)
-                    ? styles['header__link-list__active-page']
-                    : ''
+                  isUrlActive(asPath, link.url) ? styles['header__link-list__active-page'] : ''
                 }
               >
                 {link.title}
               </a>
             </Link>
           ))}
+
+          <LocaleSelect />
         </nav>
       </div>
     </div>

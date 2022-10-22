@@ -1,0 +1,33 @@
+{
+  "movie_details": {
+    "movie_description": "Movie description",
+    "series_description": "Description of the series",
+    "release_date": "Release date:",
+    "actors_title": "Actors",
+    "actors_roles": "Role(s):",
+    "actors_episodesCount": "In {{episodes}} episodes",
+    "production_country": "Production country:",
+    "producer": "Producer:",
+    "creator": "Creator(s):",
+    "production_companies": "Production companies:",
+    "genre": "Genre:",
+    "budget": "Budget:",
+    "last_air_date": "Release date of last episode:",
+    "next_air_date": "Release date for next episode:",
+    "series_status": "Series status:",
+    "seasons_count": "Number of seasons:",
+    "episodes_count": "Number of episodes:",
+    "series_runtime": "Series duration:",
+    "movie_runtime": "Duration:",
+    "runtime_mins": "mins."
+  },
+  "person_details": {
+    "biography": "Biography",
+    "roles": "Role(s):",
+    "filmography": "Filmography",
+    "birthday": "Birthday:",
+    "deathday": "Date of death:",
+    "fame_for": "Fame for:",
+    "also_known_as": "Also know as:"
+  }
+}

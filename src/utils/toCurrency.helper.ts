@@ -1,5 +1,5 @@
-export const toCurrency = (value: number, currencyType: string) => {
-  return value.toLocaleString('en-US', {
+export const toCurrency = (value: number, currencyType: string, locale: string) => {
+  return value.toLocaleString(locale, {
     style: 'currency',
     currency: currencyType,
     minimumFractionDigits: 0,

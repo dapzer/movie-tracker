@@ -29,3 +29,20 @@
     }
   }
 }
+
+
+.locale-select {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+
+  div {
+    background: $text;
+    height: 27px;
+    width: 1px;
+  }
+
+  &__active {
+    color: $highlight;
+  }
+}

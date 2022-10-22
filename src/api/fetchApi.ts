@@ -23,6 +23,7 @@ export const searchApi = async (queries: any) => {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
       query: queriesValue.searchValue,
       page: queriesValue.page,
+      language: queriesValue.language,
     },
   });
 
@@ -35,6 +36,7 @@ export const detailApi = async (queries: any) => {
     url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.mediaType}/${queriesValue.mediaId}`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
+      language: queriesValue.language,
     },
   });
 
@@ -61,6 +63,7 @@ export const personImagesApi = async (queries: any) => {
     url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}/images`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
+      language: queriesValue.language,
     },
   });
 
@@ -73,6 +76,7 @@ export const personDetailsApi = async (queries: any) => {
     url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
+      language: queriesValue.language,
     },
   });
 
@@ -85,6 +89,7 @@ export const personCreditsApi = async (queries: any) => {
     url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}/combined_credits`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
+      language: queriesValue.language,
     },
   });
 

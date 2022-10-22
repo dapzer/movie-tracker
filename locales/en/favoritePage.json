@@ -1,0 +1,11 @@
+{
+  "page_title": "Your favorites list",
+  "added_date": "Date added:",
+  "tracking_menu": {
+    "title": "Tracking menu",
+    "current_season": "Current season:",
+    "current_episode": "Current episode:",
+    "site_to_view": "Site to view",
+    "site_to_view_input": "Insert website link"
+  }
+}

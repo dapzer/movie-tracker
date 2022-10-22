@@ -1,0 +1,11 @@
+{
+  "page_title": "Ваш список избранного",
+  "added_date": "Дата добавления:",
+  "tracking_menu": {
+    "title": "Меню отслеживания",
+    "current_season": "Текущий сезон:",
+    "current_episode": "Текущая серия:",
+    "site_to_view": "Cайт для просмотра",
+    "site_to_view_input": "Вставьте ссылку на сайт"
+  }
+}

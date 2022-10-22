@@ -5,6 +5,7 @@ import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import { SearchResponse } from '../../../types/SearchResponse';
 import DetailsModal from '../../core/details/DetailsModal';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   item: SearchResponse.ResultItem;
@@ -12,12 +13,13 @@ interface Props {
 
 const SearchResultMovie: FC<Props> = ({ item }) => {
   const release = new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString();
+  const { t } = useTranslation('card');
 
   return (
     <UiCard
       image={item.poster_path}
       title={item.title || item.name}
-      date={`Дата выхода: ${release}`}
+      date={`${t('release_date')} ${release}`}
     >
       <div className={styles['result__movie-card__score']}>
         <ScoreCircle value={item.vote_average} />

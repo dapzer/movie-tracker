@@ -6,6 +6,7 @@ import Masonry from 'react-masonry-css';
 import { ContentNames } from '../../../types/ContentNames';
 import SearchResultPerson from './SearchResultPerson';
 import DetailsModal from '../../core/details/DetailsModal';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   searchResponse?: SearchResponse.RootObject;
@@ -19,9 +20,15 @@ const breakpointColumnsObj = {
 };
 
 const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
+  const { t } = useTranslation('searchPage');
+
   return (
     <div className={styles['result']}>
-      {searchResponse && <h3>Найдено результатов: {searchResponse?.total_results}</h3>}
+      {searchResponse && (
+        <h3>
+          {t('search_totalResults')} {searchResponse?.total_results}
+        </h3>
+      )}
       <DetailsModal mediaId={597} mediaType={'movie'} />
       <DetailsModal mediaId={61222} mediaType={'tv'} />
       <DetailsModal mediaId={60625} mediaType={'tv'} />

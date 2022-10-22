@@ -1,0 +1,33 @@
+{
+  "movie_details": {
+    "movie_description": "Описание фильма",
+    "series_description": "Описание сериала",
+    "release_date": "Дата выхода:",
+    "actors_title": "Актёры",
+    "actors_roles": "Роль(и):",
+    "actors_episodesCount": "В {{episodes}} эпизодах",
+    "production_country": "Страна производства:",
+    "producer": "Режиссёр:",
+    "creator": "Создатель(и):",
+    "production_companies": "Кинокомпании:",
+    "genre": "Жанр:",
+    "budget": "Бюджет:",
+    "last_air_date": "Дата выхода последнего эпизода:",
+    "next_air_date": "Дата выхода следующего эпизода:",
+    "series_status": "Статус сериала:",
+    "seasons_count": "Количество сезонов:",
+    "episodes_count": "Количество серий:",
+    "series_runtime": "Длительность серий:",
+    "movie_runtime": "Длительность:",
+    "runtime_mins": "мин."
+  },
+  "person_details": {
+    "biography": "Биография",
+    "roles": "Роль(и):",
+    "filmography": "Фильмография",
+    "birthday": "День рождения:",
+    "deathday": "Дата смерти:",
+    "fame_for": "Известность за:",
+    "also_known_as": "Также известен как:"
+  }
+}

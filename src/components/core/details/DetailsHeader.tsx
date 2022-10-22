@@ -6,6 +6,7 @@ import { Details } from '../../../types/Details';
 import { Credits } from '../../../types/Credits';
 import { ContentNames } from '../../../types/ContentNames';
 import UiInfoHeader from '../../ui/imfo-header/UiInfoHeader';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   details: Details.RootObject;
@@ -14,9 +15,9 @@ interface Props {
 }
 
 const DetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
-  const release = new Date(
-    `${details?.release_date || details?.first_air_date}`
-  ).toLocaleDateString();
+  const { t, lang } = useTranslation('details');
+
+  const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString();
 
   return (
     <UiInfoHeader
@@ -30,67 +31,69 @@ const DetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
     >
       {details.production_countries && (
         <li>
-          Страна производства:
+          {t('movie_details.production_country')}
           <span> {arrayToString(details.production_countries, 'name')}</span>
         </li>
       )}
       {mediaType === ContentNames.Movie && (
         <li>
-          Режиссёр: <span>{arrayToString(getMovieDirectors(credits.crew), 'name')}</span>
+          {t('movie_details.producer')} <span>{arrayToString(getMovieDirectors(credits.crew), 'name')}</span>
         </li>
       )}
       {details.created_by && details.created_by.length > 1 && (
         <li>
-          Создатель(и): <span>{arrayToString(details.created_by, 'name')}</span>
+          {t('movie_details.creator')} <span>{arrayToString(details.created_by, 'name')}</span>
         </li>
       )}
       {details.production_companies && (
         <li>
-          Кинокомпании: <span>{arrayToString(details.production_companies, 'name')}</span>
+          {t('movie_details.production_companies')}
+          <span> {arrayToString(details.production_companies, 'name')}</span>
         </li>
       )}
 
       {details.genres && (
         <li>
-          Жанр: <span>{arrayToString(details.genres, 'name')}</span>
+          {t('movie_details.genre')} <span>{arrayToString(details.genres, 'name')}</span>
         </li>
       )}
 
       {details?.budget > 0 && (
         <li>
-          Бюджет: <span>{toCurrency(details.budget, 'USD')}</span>
+          {t('movie_details.budget')} <span>{toCurrency(details.budget, 'USD', lang)}</span>
         </li>
       )}
       <li>
-        Дата выхода: <span>{release}</span>
+        {t('movie_details.release_date')} <span>{release}</span>
       </li>
       {mediaType === ContentNames.Series && (
         <>
           <li>
-            Дата выхода последнего эпизода:{' '}
-            <span>{new Date(details.last_air_date).toLocaleDateString()}</span>
+            {t('movie_details.last_air_date')} <span>{new Date(details.last_air_date).toLocaleDateString()}</span>
           </li>
           {details.next_episode_to_air && (
             <li>
-              Дата выхода следующего эпизода:{' '}
+              {t('movie_details.next_air_date')}
               <span>{new Date(details.next_episode_to_air.air_date).toLocaleDateString()}</span>
             </li>
           )}
           <li>
-            Статус сериала: <span>{details.in_production ? 'В производстве' : 'Завершён'}</span>
+            {t('movie_details.series_status')} <span>{lang === 'ru' ? (details.in_production ? 'В производстве' : 'Завершён') : details.status}</span>
           </li>
           <li>
-            Количество сезонов: <span>{details.number_of_seasons}</span>
+            {t('movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
           </li>
           <li>
-            Количество серий: <span>{details.number_of_episodes}</span>
+            {t('movie_details.episodes_count')} <span>{details.number_of_episodes}</span>
           </li>
         </>
       )}
       {(details.runtime || details.episode_run_time) && (
         <li>
-          {details.episode_run_time ? 'Длительность серий: ' : 'Длительность: '}
-          <span>{details.runtime || arrayToString(details.episode_run_time)} мин.</span>
+          {t(details.episode_run_time ? 'movie_details.series_runtime' : 'movie_details.movie_runtime')}{' '}
+          <span>
+            {details.runtime || arrayToString(details.episode_run_time)} {t('movie_details.runtime_mins')}
+          </span>
         </li>
       )}
     </UiInfoHeader>

@@ -5,10 +5,12 @@ import { searchApi } from '../../api/fetchApi';
 import { SearchResponse } from '../../types/SearchResponse';
 import SearchResultsRow from '../home-page/search-results/SearchResultsRow';
 import UiPagination from '../ui/pagination/UiPagination';
+import useTranslation from 'next-translate/useTranslation';
 
 const HomePageContainer: FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const { t, lang } = useTranslation('searchPage');
 
   const { data } = useQuery<SearchResponse.RootObject>(
     [
@@ -16,6 +18,7 @@ const HomePageContainer: FC = () => {
       {
         searchValue: searchTerm,
         page: currentPage,
+        language: lang,
       },
     ],
     searchApi
@@ -23,7 +26,7 @@ const HomePageContainer: FC = () => {
 
   return (
     <div className={`container`}>
-      <h2>Добро пожаловать на сайт по отслеживанию кинокартин!</h2>
+      <h2>{t('page_title')}</h2>
       <Search setSearchTerm={setSearchTerm} handlePage={setCurrentPage} />
       <SearchResultsRow searchResponse={data} />
 

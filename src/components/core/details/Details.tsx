@@ -9,6 +9,7 @@ import { ContentNames } from '../../../types/ContentNames';
 import UiCard from '../../ui/card/UiCard';
 import { arrayToString } from '../../../utils/arrayToString.helper';
 import PersonModal from '../person-details/PersonModal';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   mediaId?: number;
@@ -16,12 +17,15 @@ interface Props {
 }
 
 const Details: FC<Props> = ({ mediaType, mediaId }) => {
+  const { t, lang } = useTranslation('details');
+
   const { data: details } = useQuery<Details.RootObject>(
     [
       'getDetails',
       {
         mediaId: mediaId,
         mediaType: mediaType,
+        language: lang,
       },
     ],
     detailApi
@@ -33,6 +37,7 @@ const Details: FC<Props> = ({ mediaType, mediaId }) => {
       {
         mediaId: mediaId,
         mediaType: mediaType,
+        language: lang,
       },
     ],
     creditsApi
@@ -45,13 +50,19 @@ const Details: FC<Props> = ({ mediaType, mediaId }) => {
           <DetailsHeader details={details} credits={credits} mediaType={mediaType} />
 
           <div className={styles['details__about']}>
-            <h2>Описание {mediaType === ContentNames.Movie ? 'фильма' : 'сериала'}</h2>
+            <h2>
+              {t(
+                mediaType === ContentNames.Movie
+                  ? 'movie_details.movie_description'
+                  : 'movie_details.series_description'
+              )}
+            </h2>
             <p>{details.overview}</p>
           </div>
 
           {credits.cast.length > 0 && (
             <div className={styles['']}>
-              <h2>Актёры</h2>
+              <h2>{t('movie_details.actors_title')}</h2>
               <div className={'details-grid'}>
                 {credits.cast.map((item) => (
                   <UiCard
@@ -61,12 +72,22 @@ const Details: FC<Props> = ({ mediaType, mediaId }) => {
                     horizontal
                   >
                     <ul>
-                      {item.total_episode_count && <li>В {item.total_episode_count} эпизодах</li>}
+                      {item.total_episode_count && (
+                        <li>
+                          {t('movie_details.actors_episodesCount', {
+                            episodes: item.total_episode_count,
+                          })}
+                        </li>
+                      )}
 
                       {item?.roles?.length > 0 ? (
-                        <li>Роли(и): {arrayToString(item.roles, 'character')}</li>
+                        <li>
+                          {t('movie_details.actors_roles')} {arrayToString(item.roles, 'character')}
+                        </li>
                       ) : (
-                        <li>Роль(и): {item.character}</li>
+                        <li>
+                          {t('movie_details.actors_roles')} {item.character}
+                        </li>
                       )}
                     </ul>
 
