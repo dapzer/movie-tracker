@@ -88,6 +88,8 @@ a {
   font-weight: $regular;
   cursor: pointer;
   text-decoration: none;
+  height: fit-content;
+  line-height: 0;
 
   &:hover {
     color: $highlight;
@@ -160,10 +162,10 @@ button {
 
 .ReactQueryDevtools {
   button {
-    top: 0px;
-    right: 0px !important;
+    bottom: 0;
+    right: 0 !important;
     left: unset !important;
-    bottom: unset !important;
+    //bottom: unset !important;
   }
 }
 
@@ -176,4 +178,20 @@ button {
   max-height: 590px;
   margin-top: 20px;
   overflow: auto;
+}
+
+.login-btn {
+  //font-size: $h3;
+  padding: 7px 10px;
+  text-decoration: none;
+  margin-top: unset;
+  background: $primary;
+  font-size: $span;
+  height: 100%;
+
+  &__exit {
+    &:hover {
+      background: red;
+    }
+  }
 }

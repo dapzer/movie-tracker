@@ -8,10 +8,13 @@ interface Props {
   children: React.ReactNode;
   fullWidth?: boolean;
   btnTitle?: string;
+  maxWidth?: number;
+  btnClass?: string;
+  isOpenedDefault?: boolean;
 }
 
-const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, btnClass, isOpenedDefault }) => {
+  const [modalVisible, setModalVisible] = useState(isOpenedDefault);
   const { t } = useTranslation('buttons');
 
   const closeModalOnKeypress = useCallback((event: KeyboardEvent) => {
@@ -34,14 +37,18 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle }) => {
 
   return (
     <>
-      <button className={'modal-open-btn'} onClick={() => handleVisible(true)}>
+      <button hidden={isOpenedDefault} className={`modal-open-btn ${btnClass && btnClass}`} onClick={() => handleVisible(true)}>
         {btnTitle ? btnTitle : t('more')}
       </button>
 
       {modalVisible && (
         <div className={styles['modal']} onClick={() => handleVisible(false)}>
-          <div className={`container`} onClick={(event) => event.stopPropagation()}>
-            <div className={`${fullWidth && styles['modal__full-width']} ${styles['modal__body']}`}>
+          <div className={`container`}>
+            <div
+              className={`${fullWidth && styles['modal__full-width']} ${styles['modal__body']}`}
+              style={{ maxWidth: `${maxWidth}px` }}
+              onClick={(event) => event.stopPropagation()}
+            >
               <div className={styles['modal__header']}>
                 <h2>{title}</h2>
                 <button onClick={() => handleVisible(false)}>

@@ -21,6 +21,7 @@
 
   &__link-list {
     display: flex;
+    align-items: center;
     gap: 20px;
 
     &__active-page {
@@ -34,7 +35,7 @@
 .locale-select {
   display: flex;
   gap: 10px;
-  align-items: flex-end;
+  align-items: center;
 
   div {
     background: $text;

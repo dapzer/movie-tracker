@@ -1,5 +1,9 @@
 {
   "add_to_favorite": "Добавить в избранное",
   "delete_from_favorite": "Удалить из избранное",
-  "more": "Подробнее"
+  "more": "Подробнее",
+  "signIn": "Войти",
+  "signOut": "Выйти",
+  "paginationStart": "В начало",
+  "paginationEnd": "В конец"
 }

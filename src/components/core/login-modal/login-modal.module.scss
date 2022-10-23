@@ -1,0 +1,16 @@
+@import "src/styles/variables";
+
+.login-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  button {
+    width: 100%;
+    font-size: $h3;
+    padding: 20px 10px;
+    text-decoration: none;
+    background: var(--bg);
+  }
+}

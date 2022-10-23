@@ -41,13 +41,11 @@
 
   &__body {
     margin: 0 auto;
-    width: fit-content;
     background: $background;
     padding: 20px;
     padding-top: 0;
     max-height: 90vh;
     overflow-y: auto;
-
   }
 
   &__content {
