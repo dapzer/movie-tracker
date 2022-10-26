@@ -1,50 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { addFavoriteListItem, deleteFavoriteListApi, getFavoriteListApi, updateFavoriteListApi } from '../api/favoriteApi';
+import { FavoriteList } from '../types/FavoriteList';
+import { useFavoriteContext } from '../context/FavoriteContext';
 
-export const useFavorite = (id: number, mediaType: string) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+export const useFavorite = () => {
+  const { favoriteList, dispatchFavoriteList } = useFavoriteContext();
 
-  const addToFavorite = () => {
-    localStorage.setItem(
-      id.toString(),
-      JSON.stringify({
-        id,
-        mediaType: mediaType,
-        addedDate: Date.now(),
-        seriesInfo: {
-          currentEpisode: 1,
-          currentSeason: 0,
-        },
-      })
-    );
-    setIsFavorite(true);
-  };
-
-  const removeToFavorite = () => {
-    localStorage.removeItem(id.toString());
-    setIsFavorite(false);
-  };
-
-  const handleFavorite = () => {
-    if (isFavorite) {
-      removeToFavorite();
-    } else {
-      addToFavorite();
-    }
-  };
-
-  const checkOnFavorite = () => {
-    return localStorage.getItem(id.toString()) !== null;
-  };
-
-  useEffect(() => {
-    setIsFavorite(checkOnFavorite());
+  const getFavoriteList = useCallback((userId: string | undefined) => {
+    getFavoriteListApi(userId).then((value) => dispatchFavoriteList({ type: 'SET', payload: value.favoriteList }));
   }, []);
 
-  return {
-    addToFavorite,
-    removeToFavorite,
-    handleFavorite,
-    isFavorite,
-    checkOnFavorite,
-  };
+  const addFavoriteItem = useCallback((userId: string | undefined, mediaId: number, mediaType: string) => {
+    const newFavoriteItem: FavoriteList.RootObject = {
+      id: mediaId,
+      addedDate: Date.now(),
+      mediaType: mediaType,
+      seriesData: {
+        currentEpisode: 1,
+        currentSeason: 0,
+        siteToView: null,
+      },
+    };
+
+    addFavoriteListItem(userId, newFavoriteItem).then((value) =>
+      dispatchFavoriteList({
+        type: 'ADD',
+        payload: { newFavoriteItem: newFavoriteItem },
+      })
+    );
+  }, []);
+
+  const updateFavoriteList = useCallback((userId: string | undefined, mediaId: number, seriesData: FavoriteList.SeriesData) => {
+    updateFavoriteListApi(userId, mediaId, seriesData).then();
+    dispatchFavoriteList({ type: 'UPDATE', payload: { mediaId, seriesData } });
+  }, []);
+
+  const deleteFavoriteItem = useCallback((userId: string | undefined, mediaId: number) => {
+    deleteFavoriteListApi(userId, mediaId).then(() => {
+      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId } });
+    });
+  }, []);
+
+  return { getFavoriteList, updateFavoriteList, deleteFavoriteItem, addFavoriteItem };
 };

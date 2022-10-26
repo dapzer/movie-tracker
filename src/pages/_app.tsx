@@ -5,18 +5,21 @@ import { useState } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { FavoriteContextProvider } from '../context/FavoriteContext';
 
-// @ts-ignore
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <ReactQueryDevtools initialIsOpen={false} />
+        <FavoriteContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </FavoriteContextProvider>
       </QueryClientProvider>
     </SessionProvider>
   );

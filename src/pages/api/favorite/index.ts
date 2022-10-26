@@ -6,7 +6,7 @@ import { PushOperator, WithId } from 'mongodb';
 
 const addFavorite = async (req: NextApiRequest) => {
   const client = await clientPromise;
-
+  console.log(req.body);
   return await client
     .db()
     .collection('users')
@@ -19,9 +19,9 @@ const addFavorite = async (req: NextApiRequest) => {
             addedDate: req.body.addedDate,
             mediaType: req.body.mediaType,
             seriesData: {
-              currentEpisode: req.body.currentEpisode,
-              currentSeason: req.body.currentSeason,
-              siteToView: req.body.siteToView,
+              currentEpisode: req.body.seriesData.currentEpisode,
+              currentSeason: req.body.seriesData.currentSeason,
+              siteToView: req.body.seriesData.siteToView,
             },
           },
         } as PushOperator<Document>,

@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import { ContentNames } from '../types/ContentNames';
 
-const getResponse = async (url: string) => {
+export const getResponse = async (url: string) => {
   const response = await fetch(url);
 
   if (response.ok) {
