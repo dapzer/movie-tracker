@@ -23,8 +23,11 @@ const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler }) => {
       btnTitle={t('signIn')}
     >
       <div className={styles['login-modal']}>
-        <button onClick={() => signIn('google')} style={{ '--bg': '#f2573f' } as React.CSSProperties}>
+        <button onClick={() => signIn('google')} style={{ '--bg': '#D92929' } as React.CSSProperties}>
           Google
+        </button>
+        <button onClick={() => signIn('yandex')} style={{ '--bg': '#FFCC00' } as React.CSSProperties}>
+          Yandex
         </button>
         <button onClick={() => signIn('vk')} style={{ '--bg': '#0077FF' } as React.CSSProperties}>
           Vkontakte
