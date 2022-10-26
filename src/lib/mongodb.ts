@@ -1,12 +1,12 @@
 import { ConnectOptions, MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || '';
+const uri = process.env.NEXT_PUBLIC_MONGODB_URI || '';
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 } as ConnectOptions;
 
-if (!process.env.MONGODB_URI) {
+if (!process.env.NEXT_PUBLIC_MONGODB_URI) {
   throw new Error('Please add your Mongo URI to .env.local');
 }
 

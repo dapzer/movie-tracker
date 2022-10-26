@@ -2,12 +2,19 @@ import { useCallback, useEffect, useState } from 'react';
 import { addFavoriteListItem, deleteFavoriteListApi, getFavoriteListApi, updateFavoriteListApi } from '../api/favoriteApi';
 import { FavoriteList } from '../types/FavoriteList';
 import { useFavoriteContext } from '../context/FavoriteContext';
+import { useSession } from 'next-auth/react';
 
-export const useFavorite = () => {
+export const useFavorite = (mediaId?: number) => {
   const { favoriteList, dispatchFavoriteList } = useFavoriteContext();
+  const { data: session } = useSession();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const getFavoriteList = useCallback((userId: string | undefined) => {
-    getFavoriteListApi(userId).then((value) => dispatchFavoriteList({ type: 'SET', payload: value.favoriteList }));
+    getFavoriteListApi(userId).then((value) => {
+      if (value?.favoriteList?.length >= 1) {
+        dispatchFavoriteList({ type: 'SET', payload: value.favoriteList });
+      }
+    });
   }, []);
 
   const addFavoriteItem = useCallback((userId: string | undefined, mediaId: number, mediaType: string) => {
@@ -30,8 +37,8 @@ export const useFavorite = () => {
     );
   }, []);
 
-  const updateFavoriteList = useCallback((userId: string | undefined, mediaId: number, seriesData: FavoriteList.SeriesData) => {
-    updateFavoriteListApi(userId, mediaId, seriesData).then();
+  const updateFavoriteList = useCallback((mediaId: number, seriesData: FavoriteList.SeriesData) => {
+    updateFavoriteListApi(session?.user?.id, mediaId, seriesData).then();
     dispatchFavoriteList({ type: 'UPDATE', payload: { mediaId, seriesData } });
   }, []);
 
@@ -41,5 +48,25 @@ export const useFavorite = () => {
     });
   }, []);
 
-  return { getFavoriteList, updateFavoriteList, deleteFavoriteItem, addFavoriteItem };
+  const checkOnFavorite = () => {
+    setIsFavorite(favoriteList && favoriteList.some((el) => el.id === mediaId));
+  };
+
+  const handleFavorite = (id: number, mediaType: string) => {
+    if (isFavorite) {
+      deleteFavoriteItem(session?.user?.id, id);
+    } else {
+      addFavoriteItem(session?.user?.id, id, mediaType);
+    }
+  };
+
+  useEffect(() => {
+    checkOnFavorite();
+  }, [favoriteList]);
+
+  const getFavoriteItem = (id: number) => {
+    return favoriteList.find((el) => el.id === id);
+  };
+
+  return { getFavoriteList, updateFavoriteList, deleteFavoriteItem, addFavoriteItem, checkOnFavorite, handleFavorite, isFavorite, getFavoriteItem };
 };

@@ -11,9 +11,10 @@ interface Props {
   maxWidth?: number;
   btnClass?: string;
   isOpenedDefault?: boolean;
+  customHandler?: (arg0: boolean) => void;
 }
 
-const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, btnClass, isOpenedDefault }) => {
+const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, btnClass, isOpenedDefault, customHandler }) => {
   const [modalVisible, setModalVisible] = useState(isOpenedDefault);
   const { t } = useTranslation('buttons');
 
@@ -25,7 +26,7 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, bt
 
   const handleVisible = useCallback((value: boolean) => {
     setModalVisible(value);
-
+    customHandler && customHandler(value);
     if (value) {
       document.addEventListener('keydown', closeModalOnKeypress);
       document.body.style.overflow = 'hidden';
@@ -37,9 +38,11 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, bt
 
   return (
     <>
-      <button hidden={isOpenedDefault} className={`modal-open-btn ${btnClass && btnClass}`} onClick={() => handleVisible(true)}>
-        {btnTitle ? btnTitle : t('more')}
-      </button>
+      {!isOpenedDefault && (
+        <button hidden={isOpenedDefault} className={`modal-open-btn ${btnClass && btnClass}`} onClick={() => handleVisible(true)}>
+          {btnTitle ? btnTitle : t('more')}
+        </button>
+      )}
 
       {modalVisible && (
         <div className={styles['modal']} onClick={() => handleVisible(false)}>

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { usePagination } from '../../../hooks/usePagination';
 import styles from './ui-pagination.module.scss';
 import { PaginationOptions } from '../../../types/PaginationOptions';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   paginationInfo: {
@@ -13,6 +14,8 @@ interface Props {
 }
 
 const UiPagination: FC<Props> = ({ paginationInfo }) => {
+  const { t } = useTranslation('buttons');
+
   // * Получение массива страниц для отрисовки
   const { pages } = usePagination({
     currentPage: paginationInfo.currentPage,
@@ -32,14 +35,12 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
         className={`${styles['pagination__page']}`}
         onClick={() => pageHandler(1)}
       >
-        В начало
+        {t('paginationStart')}
       </button>
 
       {pages.map((page) => (
         <button
-          className={`${styles['pagination__page']} ${
-            page === paginationInfo.currentPage && styles['pagination__page_active']
-          }`}
+          className={`${styles['pagination__page']} ${page === paginationInfo.currentPage && styles['pagination__page_active']}`}
           key={page}
           onClick={() => pageHandler(page)}
         >
@@ -48,16 +49,11 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
       ))}
 
       <button
-        hidden={
-          !(
-            paginationInfo.currentPage <
-            (paginationInfo?.totalPages || 0) - paginationInfo.options.pageToShow
-          )
-        }
+        hidden={!(paginationInfo.currentPage < (paginationInfo?.totalPages || 0) - paginationInfo.options.pageToShow)}
         className={`${styles['pagination__page']}`}
         onClick={() => pageHandler(paginationInfo.totalPages || 1)}
       >
-        В конец
+        {t('paginationEnd')}
       </button>
     </div>
   );

@@ -1,17 +1,18 @@
-import { LocalStorageMovie } from '../types/LocalStorageMovie';
 import { useEffect, useState } from 'react';
 import { Details } from '../types/Details';
+import { FavoriteList } from '../types/FavoriteList';
+import { useFavorite } from './useFavorite';
 
-export const useSeriesControls = (id: number, seasons: Details.Season[]) => {
-  const localData = JSON.parse(localStorage.getItem(id.toString()) || '');
-  const [currentSeason, setCurrentSeason] = useState(localData.seriesInfo.currentSeason);
-  const [currentEpisode, setCurrentEpisode] = useState(localData.seriesInfo.currentEpisode);
+export const useSeriesControls = (favoriteData: FavoriteList.RootObject, seasons: Details.Season[]) => {
+  const { updateFavoriteList } = useFavorite();
+  const [currentSeason, setCurrentSeason] = useState(favoriteData.seriesData.currentSeason);
+  const [currentEpisode, setCurrentEpisode] = useState(favoriteData.seriesData.currentEpisode);
 
   const updateSeries = () => {
-    localData.seriesInfo.currentSeason = currentSeason;
-    localData.seriesInfo.currentEpisode = currentEpisode;
+    favoriteData.seriesData.currentSeason = currentSeason;
+    favoriteData.seriesData.currentEpisode = currentEpisode;
 
-    localStorage.setItem(localData.id.toString(), JSON.stringify(localData));
+    updateFavoriteList(favoriteData.id, favoriteData.seriesData);
   };
 
   const generateEpisodesList = (totalCount: number) => {
@@ -24,7 +25,7 @@ export const useSeriesControls = (id: number, seasons: Details.Season[]) => {
     return episodes;
   };
 
-  const handleSeason = (season?: string) => {
+  const handleSeason = (season: number) => {
     if (currentSeason === season) return;
     setCurrentSeason(season);
     setCurrentEpisode(1);

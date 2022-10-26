@@ -1,4 +1,4 @@
-import React, { createContext, FC, useContext, useReducer } from 'react';
+import React, { createContext, FC, Reducer, useContext, useReducer } from 'react';
 import { FavoriteList } from '../types/FavoriteList';
 import { Actions, favoriteReducer } from './favoriteReducer';
 
@@ -18,7 +18,15 @@ interface Props {
 }
 
 export const FavoriteContextProvider: FC<Props> = ({ children }) => {
-  const [favoriteList, dispatchFavoriteList] = useReducer(favoriteReducer, null!);
+  const [favoriteList, dispatchFavoriteList] = useReducer<Reducer<any, any>>(favoriteReducer, []);
 
-  return <FavoriteContext.Provider value={{ favoriteList, dispatchFavoriteList }}>{children}</FavoriteContext.Provider>;
+  return (
+    <FavoriteContext.Provider
+      value={React.useMemo(() => {
+        return { favoriteList, dispatchFavoriteList };
+      }, [favoriteList, dispatchFavoriteList])}
+    >
+      {children}
+    </FavoriteContext.Provider>
+  );
 };

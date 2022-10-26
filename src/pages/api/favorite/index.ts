@@ -6,7 +6,6 @@ import { PushOperator, WithId } from 'mongodb';
 
 const addFavorite = async (req: NextApiRequest) => {
   const client = await clientPromise;
-  console.log(req.body);
   return await client
     .db()
     .collection('users')

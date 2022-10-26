@@ -5,30 +5,35 @@ import UiModal from '../../ui/modal/UiModal';
 import styles from './login-modal.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 
-interface Props {}
+interface Props {
+  isOpenedDefault: boolean;
+  customHandler?: (arg0: boolean) => void;
+}
 
-const LoginModal: FC<Props> = () => {
-  const { status } = useSession();
+const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler }) => {
   const { t } = useTranslation('buttons');
 
   return (
-    <>
-      {status === LoginStatus.Unauthenticated && (
-        <UiModal title={t('signIn')} maxWidth={350} btnClass={'login-btn'} btnTitle={t('signIn')}>
-          <div className={styles['login-modal']}>
-            <button onClick={() => signIn('google')} style={{ '--bg': '#f2573f' } as React.CSSProperties}>
-              Google
-            </button>
-            <button onClick={() => signIn('github')} style={{ '--bg': '#444' } as React.CSSProperties}>
-              GitHub
-            </button>
-            <button onClick={() => signIn('vk')} style={{ '--bg': '#0077FF' } as React.CSSProperties}>
-              Vkontakte
-            </button>
-          </div>
-        </UiModal>
-      )}
-    </>
+    <UiModal
+      customHandler={customHandler}
+      title={t('signIn')}
+      maxWidth={350}
+      isOpenedDefault={isOpenedDefault}
+      btnClass={'login-btn'}
+      btnTitle={t('signIn')}
+    >
+      <div className={styles['login-modal']}>
+        <button onClick={() => signIn('google')} style={{ '--bg': '#f2573f' } as React.CSSProperties}>
+          Google
+        </button>
+        <button onClick={() => signIn('vk')} style={{ '--bg': '#0077FF' } as React.CSSProperties}>
+          Vkontakte
+        </button>
+        <button onClick={() => signIn('github')} style={{ '--bg': '#444' } as React.CSSProperties}>
+          GitHub
+        </button>
+      </div>
+    </UiModal>
   );
 };
 

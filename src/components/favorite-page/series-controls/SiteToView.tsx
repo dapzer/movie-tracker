@@ -1,17 +1,19 @@
 import React, { FC, useState } from 'react';
-import { LocalStorageMovie } from '../../../types/LocalStorageMovie';
 import styles from './series-controls.module.scss';
 import useTranslation from 'next-translate/useTranslation';
+import { FavoriteList } from '../../../types/FavoriteList';
+import { useFavorite } from '../../../hooks/useFavorite';
 
 interface Props {
-  storageData: LocalStorageMovie.RootObject;
+  favoriteData: FavoriteList.RootObject;
 }
 
-const SiteToView: FC<Props> = ({ storageData }) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [editUrlValue, setEditUrlValue] = useState(storageData.seriesInfo.siteToView);
+const SiteToView: FC<Props> = ({ favoriteData }) => {
+  const { updateFavoriteList } = useFavorite();
   const { t } = useTranslation('favoritePage');
-  const isHaveUrl = storageData.seriesInfo.siteToView;
+  const [editUrlValue, setEditUrlValue] = useState(favoriteData.seriesData.siteToView!);
+  const [isEdit, setIsEdit] = useState(false);
+  const isHaveUrl = favoriteData.seriesData.siteToView;
 
   const cancelEdit = () => {
     setIsEdit(false);
@@ -22,9 +24,9 @@ const SiteToView: FC<Props> = ({ storageData }) => {
     setIsEdit(false);
     setEditUrlValue('');
 
-    storageData.seriesInfo.siteToView = editUrlValue;
+    favoriteData.seriesData.siteToView = editUrlValue;
 
-    localStorage.setItem(storageData.id.toString(), JSON.stringify(storageData));
+    updateFavoriteList(favoriteData.id, favoriteData.seriesData);
   };
 
   return (
@@ -49,7 +51,12 @@ const SiteToView: FC<Props> = ({ storageData }) => {
 
       {isEdit && (
         <div className={styles['series-controls__site-to-view__edit']}>
-          <input type="text" value={editUrlValue} onChange={(event) => setEditUrlValue(event.target.value)} placeholder={t('tracking_menu.site_to_view_input')} />
+          <input
+            type="text"
+            value={editUrlValue}
+            onChange={(event) => setEditUrlValue(event.target.value)}
+            placeholder={t('tracking_menu.site_to_view_input')}
+          />
           <button onClick={() => confirmlEdit()}>🗸</button>
           <button onClick={() => cancelEdit()}>✕</button>
         </div>

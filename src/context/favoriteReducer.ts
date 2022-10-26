@@ -22,7 +22,11 @@ export const favoriteReducer = (state: FavoriteList.RootObject[], action: Action
     case 'SET':
       return action.payload;
     case 'ADD':
-      return [...state, action.payload.newFavoriteItem];
+      if (state?.length >= 1) {
+        return [...state, action.payload.newFavoriteItem];
+      } else {
+        return [action.payload.newFavoriteItem];
+      }
     default:
       throw new Error(`Unhandled  action type ${action.type}`);
   }
