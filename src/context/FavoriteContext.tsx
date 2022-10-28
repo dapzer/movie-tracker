@@ -3,7 +3,7 @@ import { FavoriteList } from '../types/FavoriteList';
 import { Actions, favoriteReducer } from './favoriteReducer';
 
 interface FavoriteContext {
-  favoriteList: FavoriteList.RootObject[];
+  favoriteList: FavoriteList.StatusedObject;
   dispatchFavoriteList: (value: Actions) => void;
 }
 

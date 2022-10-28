@@ -25,7 +25,7 @@ const SeriesControls: FC<Props> = ({ favoriteData, seasons }) => {
         <p>{t('tracking_menu.current_season')}</p>
         <select value={currentSeason} onChange={(event) => handleSeason(Number(event.target.value))} name="Season">
           {seasons.map((season, index) => (
-            <option key={season.season_number} value={index}>
+            <option key={`season-${season.season_number}-for${favoriteData.id}`} value={index}>
               {season.name}
             </option>
           ))}
@@ -36,7 +36,7 @@ const SeriesControls: FC<Props> = ({ favoriteData, seasons }) => {
         <p>{t('tracking_menu.current_episode')}</p>
         <select value={currentEpisode} onChange={(event) => setCurrentEpisode(Number(event.target.value))} name="Episode">
           {generateEpisodesList(seasons[currentSeason].episode_count).map((episode) => (
-            <option key={episode} value={episode}>
+            <option key={`episode-${episode}-for${favoriteData.id}`} value={episode}>
               {episode}
             </option>
           ))}

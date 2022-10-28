@@ -1,6 +1,13 @@
 {
   "page_title": "Ваш список избранного",
   "added_date": "Дата добавления:",
+  "changeStatus": "Изменить статус",
+  "statuses": {
+    "viewed": "Просмотрено",
+    "watchingNow": "Смотрю сейчас",
+    "notViewed": "Буду смотреть",
+    "waitNewPart": "Ожидается новая часть"
+  },
   "tracking_menu": {
     "title": "Меню отслеживания",
     "current_season": "Текущий сезон:",

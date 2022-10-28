@@ -1,6 +1,13 @@
 {
   "page_title": "Your favorites list",
   "added_date": "Date added:",
+  "changeStatus": "Change Status",
+  "statuses": {
+    "viewed": "Viewed",
+    "watchingNow": "Watching now",
+    "notViewed": "Will watch",
+    "waitNewPart": "New part expected"
+  },
   "tracking_menu": {
     "title": "Tracking menu",
     "current_season": "Current season:",

@@ -9,10 +9,11 @@ export const useSeriesControls = (favoriteData: FavoriteList.RootObject, seasons
   const [currentEpisode, setCurrentEpisode] = useState(favoriteData.seriesData.currentEpisode);
 
   const updateSeries = () => {
+    if (favoriteData.seriesData.currentSeason === currentSeason && favoriteData.seriesData.currentEpisode === currentEpisode) return;
     favoriteData.seriesData.currentSeason = currentSeason;
     favoriteData.seriesData.currentEpisode = currentEpisode;
 
-    updateFavoriteList(favoriteData.id, favoriteData.seriesData);
+    updateFavoriteList(favoriteData.id, favoriteData.seriesData, favoriteData.currentStatus);
   };
 
   const generateEpisodesList = (totalCount: number) => {

@@ -5,16 +5,18 @@ import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '../../../types/LoginStatus';
 import LoginModal from '../login-modal/LoginModal';
+import { StatusesNames } from '../../../types/StatusesNames';
 
 interface Props {
   id: number;
   className: string;
   mediaType?: string;
+  favoriteListStatus?: string;
 }
 
-const FavoriteBtn: FC<Props> = ({ id, className, mediaType }) => {
+const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }) => {
   const [showLogin, setShowLogin] = useState(false);
-  const { handleFavorite, isFavorite } = useFavorite(id);
+  const { handleFavorite, isFavorite } = useFavorite(id, favoriteListStatus || StatusesNames.notViewed);
   const { t } = useTranslation('buttons');
   const { status } = useSession();
 

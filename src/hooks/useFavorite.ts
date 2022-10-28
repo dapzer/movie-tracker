@@ -3,25 +3,25 @@ import { addFavoriteListItem, deleteFavoriteListApi, getFavoriteListApi, updateF
 import { FavoriteList } from '../types/FavoriteList';
 import { useFavoriteContext } from '../context/FavoriteContext';
 import { useSession } from 'next-auth/react';
+import { StatusesNames } from '../types/StatusesNames';
 
-export const useFavorite = (mediaId?: number) => {
+export const useFavorite = (mediaId?: number, currentStatus?: string) => {
   const { favoriteList, dispatchFavoriteList } = useFavoriteContext();
   const { data: session } = useSession();
   const [isFavorite, setIsFavorite] = useState(false);
 
   const getFavoriteList = useCallback((userId: string | undefined) => {
     getFavoriteListApi(userId).then((value) => {
-      if (value?.favoriteList?.length >= 1) {
-        dispatchFavoriteList({ type: 'SET', payload: value.favoriteList });
-      }
+      dispatchFavoriteList({ type: 'SET', payload: { favoriteList: value.favoriteList } });
     });
   }, []);
 
-  const addFavoriteItem = useCallback((userId: string | undefined, mediaId: number, mediaType: string) => {
+  const addFavoriteItem = (userId: string | undefined, mediaId: number, mediaType: string) => {
     const newFavoriteItem: FavoriteList.RootObject = {
       id: mediaId,
       addedDate: Date.now(),
       mediaType: mediaType,
+      currentStatus: StatusesNames.notViewed,
       seriesData: {
         currentEpisode: 1,
         currentSeason: 0,
@@ -32,24 +32,33 @@ export const useFavorite = (mediaId?: number) => {
     addFavoriteListItem(userId, newFavoriteItem).then((value) =>
       dispatchFavoriteList({
         type: 'ADD',
-        payload: { newFavoriteItem: newFavoriteItem },
+        payload: { newFavoriteItem },
       })
     );
-  }, []);
+  };
 
-  const updateFavoriteList = useCallback((mediaId: number, seriesData: FavoriteList.SeriesData) => {
-    updateFavoriteListApi(session?.user?.id, mediaId, seriesData).then();
-    dispatchFavoriteList({ type: 'UPDATE', payload: { mediaId, seriesData } });
-  }, []);
-
-  const deleteFavoriteItem = useCallback((userId: string | undefined, mediaId: number) => {
-    deleteFavoriteListApi(userId, mediaId).then(() => {
-      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId } });
+  const updateFavoriteList = (mediaId: number, seriesData: FavoriteList.SeriesData, status?: string) => {
+    updateFavoriteListApi(session?.user?.id, mediaId, seriesData, status || currentStatus).then(() => {
+      dispatchFavoriteList({ type: 'UPDATE', payload: { mediaId, seriesData, currentStatus: status || currentStatus } });
     });
-  }, []);
+  };
+
+  const deleteFavoriteItem = (userId: string | undefined, mediaId: number) => {
+    deleteFavoriteListApi(userId, mediaId).then(() => {
+      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus } });
+    });
+  };
+
+  const changeStatus = (currentStatus: string, newStatus: string) => {
+    const item = getFavoriteItem(mediaId!, currentStatus);
+    updateFavoriteListApi(session?.user?.id, mediaId, item?.seriesData, newStatus).then(() => {
+      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus } });
+      dispatchFavoriteList({ type: 'ADD', payload: { mediaId, newStatus, newFavoriteItem: item } });
+    });
+  };
 
   const checkOnFavorite = () => {
-    setIsFavorite(favoriteList && favoriteList.some((el) => el.id === mediaId));
+    setIsFavorite(favoriteList && favoriteList[currentStatus as keyof FavoriteList.StatusedObject]?.some((el) => el.id === mediaId));
   };
 
   const handleFavorite = (id: number, mediaType: string) => {
@@ -60,13 +69,23 @@ export const useFavorite = (mediaId?: number) => {
     }
   };
 
+  const getFavoriteItem = useCallback((id: number, currenStatus: string) => {
+    return favoriteList[(currenStatus as keyof FavoriteList.StatusedObject) || StatusesNames.notViewed].find((el) => el.id === id);
+  }, []);
+
   useEffect(() => {
     checkOnFavorite();
   }, [favoriteList]);
 
-  const getFavoriteItem = (id: number) => {
-    return favoriteList.find((el) => el.id === id);
+  return {
+    getFavoriteList,
+    updateFavoriteList,
+    deleteFavoriteItem,
+    addFavoriteItem,
+    checkOnFavorite,
+    handleFavorite,
+    isFavorite,
+    getFavoriteItem,
+    changeStatus,
   };
-
-  return { getFavoriteList, updateFavoriteList, deleteFavoriteItem, addFavoriteItem, checkOnFavorite, handleFavorite, isFavorite, getFavoriteItem };
 };

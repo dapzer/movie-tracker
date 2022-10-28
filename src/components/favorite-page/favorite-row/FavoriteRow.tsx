@@ -5,9 +5,14 @@ import { useQueries } from '@tanstack/react-query';
 import { detailApi } from '../../../api/fetchApi';
 import FavoriteCard from '../favorite-card/FavoriteCard';
 import useTranslation from 'next-translate/useTranslation';
-import { useFavoriteContext } from '../../../context/FavoriteContext';
+import { FavoriteList } from '../../../types/FavoriteList';
+import UiDropdown from '../../ui/dropdown/UiDropdown';
 
-interface Props {}
+interface Props {
+  favoriteList: FavoriteList.RootObject[];
+  title: string;
+  favoriteListStatus: string;
+}
 
 const breakpointColumnsObj = {
   default: 4,
@@ -16,8 +21,7 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const FavoriteRow: FC<Props> = () => {
-  const { favoriteList } = useFavoriteContext();
+const FavoriteRow: FC<Props> = ({ favoriteList, title, favoriteListStatus }) => {
   const { t, lang } = useTranslation('favoritePage');
 
   const data = useQueries({
@@ -37,15 +41,19 @@ const FavoriteRow: FC<Props> = () => {
   });
 
   return (
-    <div className={styles['favorite-row']}>
+    <UiDropdown title={title} btnClass={styles['favorite-row__dropdown-btn']} isOpenedDefault>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="searching-results-masonry__row"
         columnClassName="searching-results-masonry__row-column"
       >
-        {data && data.map((value) => value.data && <FavoriteCard key={value.data.id} details={value.data} />)}
+        {data &&
+          data.map(
+            (value, index) =>
+              value.data && <FavoriteCard key={`favorite-item-${value.data.id}`} details={value.data} favoriteListStatus={favoriteListStatus} />
+          )}
       </Masonry>
-    </div>
+    </UiDropdown>
   );
 };
 

@@ -26,7 +26,7 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
 
     favoriteData.seriesData.siteToView = editUrlValue;
 
-    updateFavoriteList(favoriteData.id, favoriteData.seriesData);
+    updateFavoriteList(favoriteData.id, favoriteData.seriesData, favoriteData.currentStatus);
   };
 
   return (

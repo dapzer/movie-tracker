@@ -3,22 +3,23 @@ import styles from './favorite-card.module.scss';
 import { Details } from '../../../types/Details';
 import UiCard from '../../ui/card/UiCard';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
-import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import SeriesControls from '../series-controls/SeriesControls';
 import UiDropdown from '../../ui/dropdown/UiDropdown';
 import { ContentNames } from '../../../types/ContentNames';
 import DetailsModal from '../../core/details/DetailsModal';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '../../../hooks/useFavorite';
+import StatusSelector from '../statusSelector/StatusSelector';
 
 interface Props {
   details: Details.RootObject;
+  favoriteListStatus: string;
 }
 
-const FavoriteCard: FC<Props> = ({ details }) => {
+const FavoriteCard: FC<Props> = ({ details, favoriteListStatus }) => {
   const { getFavoriteItem } = useFavorite();
   const { t } = useTranslation('favoritePage');
-  const favoriteData = getFavoriteItem(details.id);
+  const favoriteData = getFavoriteItem(details.id, favoriteListStatus);
 
   return (
     <div>
@@ -33,7 +34,7 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           </div>
 
           <div className={styles['favorite-card__favorite-btn']}>
-            <FavoriteBtn id={details.id} className={'favorite-btn__movie-card-btn'} mediaType={favoriteData.mediaType} />
+            <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteListStatus} />
           </div>
 
           <DetailsModal mediaType={favoriteData.mediaType} mediaId={favoriteData.id} />

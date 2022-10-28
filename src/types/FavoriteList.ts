@@ -5,10 +5,18 @@ export declare module FavoriteList {
     siteToView?: string | null;
   }
 
+  export interface StatusedObject {
+    notViewed: RootObject[];
+    watchingNow: RootObject[];
+    viewed: RootObject[];
+    waitNewPart: RootObject[];
+  }
+
   export interface RootObject {
     id: number;
     addedDate?: string | number;
     mediaType?: string;
     seriesData: SeriesData;
+    currentStatus: string;
   }
 }
