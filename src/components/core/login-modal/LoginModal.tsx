@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import { LoginStatus } from '../../../types/LoginStatus';
+import { signIn } from 'next-auth/react';
 import UiModal from '../../ui/modal/UiModal';
 import styles from './login-modal.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
-  isOpenedDefault: boolean;
+  isOpenedDefault?: boolean;
   customHandler?: (arg0: boolean) => void;
 }
 

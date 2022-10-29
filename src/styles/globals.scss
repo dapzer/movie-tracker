@@ -175,9 +175,18 @@ button {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 20px;
+  padding-right: 5px;
   max-height: 590px;
   margin-top: 20px;
   overflow: auto;
+
+  @media screen and (max-width: $lg){
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: $slg){
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .login-btn {
@@ -193,5 +202,11 @@ button {
     &:hover {
       background: red;
     }
+  }
+}
+
+@media screen and (max-width: $sm){
+  h2 {
+    font-size: $mh2;
   }
 }

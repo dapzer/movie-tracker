@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .card {
   width: 100%;
   height: fit-content;
@@ -30,5 +32,19 @@
 
   &__title {
     color: #fff;
+  }
+}
+
+@media screen and (max-width: $md){
+  .card {
+    max-width: unset;
+  }
+  .card__horizontal {
+    flex-direction: column;
+    gap: 15px;
+
+    .card__image {
+      max-width: unset;
+    }
   }
 }

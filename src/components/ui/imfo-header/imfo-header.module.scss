@@ -18,6 +18,11 @@
       h3 {
         color: $text;
       }
+
+      &__mobile {
+        display: none;
+      }
+
     }
 
     &__list {
@@ -34,5 +39,36 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: $md){
+
+  .info-header {
+    flex-direction: column;
+    gap: 20px;
+
+    &__logo {
+      max-width: 300px;
+      }
+    &__image {
+      max-width: 400px;
+    }
+
+    &__about {
+
+      &__list {
+        padding-top: 0;
+      }
+
+      &__title {
+        display: none;
+
+        &__mobile {
+          display: block !important;
+        }
+      }
+    }
+
   }
 }

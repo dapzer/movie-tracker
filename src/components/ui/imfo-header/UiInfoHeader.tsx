@@ -19,6 +19,11 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
 
   return (
     <div className={styles['info-header']}>
+      <div className={`${styles['info-header__about__title']} ${styles[`info-header__about__title__mobile`]}`}>
+        <h2>{title}</h2>
+        <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
+      </div>
+
       <div className={styles['info-header__logo']}>
         <div className={styles['info-header__image']}>
           <Image
@@ -30,13 +35,7 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
             alt="Brand logo"
           />
         </div>
-        {favoriteData && (
-          <FavoriteBtn
-            id={favoriteData.id}
-            className={'favorite-btn__details'}
-            mediaType={favoriteData.media_type}
-          />
-        )}
+        {favoriteData && <FavoriteBtn id={favoriteData.id} className={'favorite-btn__details'} mediaType={favoriteData.media_type} />}
       </div>
 
       <div className={styles['info-header__about']}>

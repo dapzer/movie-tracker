@@ -9,5 +9,9 @@
     margin-bottom: 20px !important;
     font-size: $h3 !important;
     border-bottom: 2px solid $text !important;
+
+    @media screen and (max-width: $sm){
+      font-size: $p !important;
+    }
   }
 }
