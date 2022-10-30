@@ -11,7 +11,6 @@ import UiDropdown from '../../ui/dropdown/UiDropdown';
 interface Props {
   favoriteList: FavoriteList.RootObject[];
   title: string;
-  favoriteListStatus: string;
 }
 
 const breakpointColumnsObj = {
@@ -21,14 +20,14 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const FavoriteRow: FC<Props> = ({ favoriteList, title, favoriteListStatus }) => {
-  const { t, lang } = useTranslation('favoritePage');
+const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
+  const { lang } = useTranslation('favoritePage');
 
   const data = useQueries({
     queries: favoriteList.map((item) => {
       return {
         queryKey: [
-          'getDetailFromFavorite',
+          'getDetails',
           {
             mediaType: item.mediaType,
             mediaId: item.id,
@@ -47,11 +46,7 @@ const FavoriteRow: FC<Props> = ({ favoriteList, title, favoriteListStatus }) => 
         className="searching-results-masonry__row"
         columnClassName="searching-results-masonry__row-column"
       >
-        {data &&
-          data.map(
-            (value, index) =>
-              value.data && <FavoriteCard key={`favorite-item-${value.data.id}`} details={value.data} favoriteListStatus={favoriteListStatus} />
-          )}
+        {data && data.map((value, index) => value.data && <FavoriteCard key={`favorite-item-${value.data.id}`} details={value.data} />)}
       </Masonry>
     </UiDropdown>
   );

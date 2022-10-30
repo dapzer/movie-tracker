@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Details } from '../types/Details';
 import { FavoriteList } from '../types/FavoriteList';
 import { useFavorite } from './useFavorite';
 
-export const useSeriesControls = (favoriteData: FavoriteList.RootObject, seasons: Details.Season[]) => {
-  const { updateFavoriteList } = useFavorite();
+export const useSeriesControls = (favoriteData: FavoriteList.RootObject) => {
   const [currentSeason, setCurrentSeason] = useState(favoriteData.seriesData.currentSeason);
   const [currentEpisode, setCurrentEpisode] = useState(favoriteData.seriesData.currentEpisode);
+  const { updateFavoriteList } = useFavorite();
 
   const updateSeries = () => {
     if (favoriteData.seriesData.currentSeason === currentSeason && favoriteData.seriesData.currentEpisode === currentEpisode) return;

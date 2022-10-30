@@ -9,7 +9,7 @@ interface Props {
   currentStatus: string;
 }
 
-const statuses = ['viewed', 'watchingNow', 'notViewed', 'waitNewPart'];
+const statuses = ['watchingNow', 'notViewed', 'waitNewPart', 'viewed'];
 
 const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus }) => {
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus }) => {
       <div className={styles['status-selector__tooltip']}>
         <div className={styles['status-selector__tooltip__content']}>
           {statuses.map((el, index) => (
-            <button key={`status-selector-${id}-${index}`} hidden={el === currentStatus} onClick={() => changeStatus(currentStatus, el)}>
+            <button key={`status-selector-${id}-${index}`} hidden={el === currentStatus} onClick={() => changeStatus(el)}>
               {t(`favoritePage:statuses.${el}`)}
             </button>
           ))}

@@ -10,6 +10,7 @@ export declare module FavoriteList {
     watchingNow: RootObject[];
     viewed: RootObject[];
     waitNewPart: RootObject[];
+    allFavorites: RootObject[];
   }
 
   export interface RootObject {

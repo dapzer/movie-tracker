@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Search from '../home-page/search/Search';
 import { useQuery } from '@tanstack/react-query';
 import { searchApi } from '../../api/fetchApi';
@@ -30,7 +30,7 @@ const HomePageContainer: FC = () => {
       <Search setSearchTerm={setSearchTerm} handlePage={setCurrentPage} />
       <SearchResultsRow searchResponse={data} />
 
-      {data?.total_pages && (
+      {data?.total_pages && data?.total_pages > 1 && (
         <UiPagination
           paginationInfo={{
             currentPage,

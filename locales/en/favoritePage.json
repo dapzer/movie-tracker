@@ -1,5 +1,7 @@
 {
   "page_title": "Your favorites list",
+  "emptyFavoriteList": "Your favorites list is empty",
+  "needToAuth": "Log in to display your favorites list",
   "added_date": "Date added:",
   "changeStatus": "Change Status",
   "statuses": {

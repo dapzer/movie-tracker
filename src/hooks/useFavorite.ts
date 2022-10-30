@@ -6,9 +6,9 @@ import { useSession } from 'next-auth/react';
 import { StatusesNames } from '../types/StatusesNames';
 
 export const useFavorite = (mediaId?: number, currentStatus?: string) => {
+  const [isFavorite, setIsFavorite] = useState(false);
   const { favoriteList, dispatchFavoriteList } = useFavoriteContext();
   const { data: session } = useSession();
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const getFavoriteList = useCallback((userId: string | undefined) => {
     getFavoriteListApi(userId).then((value) => {
@@ -29,7 +29,7 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
       },
     };
 
-    addFavoriteListItem(userId, newFavoriteItem).then((value) =>
+    addFavoriteListItem(userId, newFavoriteItem).then(() =>
       dispatchFavoriteList({
         type: 'ADD',
         payload: { newFavoriteItem },
@@ -49,16 +49,19 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
     });
   };
 
-  const changeStatus = (currentStatus: string, newStatus: string) => {
-    const item = getFavoriteItem(mediaId!, currentStatus);
+  const changeStatus = (newStatus: string) => {
+    const item = getFavoriteItem(mediaId!);
+    if (!item) return;
+
     updateFavoriteListApi(session?.user?.id, mediaId, item?.seriesData, newStatus).then(() => {
-      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus } });
+      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus: item.currentStatus } });
+      item.currentStatus = newStatus;
       dispatchFavoriteList({ type: 'ADD', payload: { mediaId, newStatus, newFavoriteItem: item } });
     });
   };
 
   const checkOnFavorite = () => {
-    setIsFavorite(favoriteList && favoriteList[currentStatus as keyof FavoriteList.StatusedObject]?.some((el) => el.id === mediaId));
+    setIsFavorite(favoriteList?.allFavorites && favoriteList.allFavorites.some((el) => el.id === mediaId));
   };
 
   const handleFavorite = (id: number, mediaType: string) => {
@@ -69,8 +72,8 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
     }
   };
 
-  const getFavoriteItem = useCallback((id: number, currenStatus: string) => {
-    return favoriteList[(currenStatus as keyof FavoriteList.StatusedObject) || StatusesNames.notViewed].find((el) => el.id === id);
+  const getFavoriteItem = useCallback((id: number) => {
+    return favoriteList.allFavorites.find((el) => el.id === id);
   }, []);
 
   useEffect(() => {

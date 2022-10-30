@@ -16,13 +16,12 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
   const isHaveUrl = favoriteData.seriesData.siteToView;
 
   const cancelEdit = () => {
+    setEditUrlValue(favoriteData.seriesData.siteToView!);
     setIsEdit(false);
-    setEditUrlValue('');
   };
 
   const confirmlEdit = () => {
     setIsEdit(false);
-    setEditUrlValue('');
 
     favoriteData.seriesData.siteToView = editUrlValue;
 

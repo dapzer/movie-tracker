@@ -12,7 +12,7 @@ interface Props {
 }
 
 const SeriesControls: FC<Props> = ({ favoriteData, seasons }) => {
-  const { generateEpisodesList, setCurrentEpisode, currentEpisode, currentSeason, handleSeason } = useSeriesControls(favoriteData, seasons);
+  const { generateEpisodesList, setCurrentEpisode, currentEpisode, currentSeason, handleSeason } = useSeriesControls(favoriteData);
   const { t } = useTranslation('favoritePage');
 
   return (

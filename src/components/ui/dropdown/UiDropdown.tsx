@@ -9,13 +9,13 @@ interface Props {
 }
 
 const UiDropdown: FC<Props> = ({ children, title, btnClass, isOpenedDefault }) => {
-  const [isOpen, setIsOpen] = useState(isOpenedDefault);
+  const [isOpen, setIsOpen] = useState(isOpenedDefault ? isOpenedDefault : false);
 
   return (
-    <div className={`${styles['ui-dropdown']} ${isOpen ? styles['ui-dropdown__open'] : ''}`}>
-      <button className={`${styles['ui-dropdown__toggle-btn']} ${btnClass}`} onClick={() => setIsOpen(!isOpen)}>
+    <div>
+      <button className={`${styles['ui-dropdown__toggle-btn']} ${btnClass}`} onClick={(e) => setIsOpen(!isOpen)}>
         {title}
-        <svg>
+        <svg className={`${isOpen && styles['ui-dropdown__arrow-active']}`}>
           <use href="/icon-arrow.svg#svg"></use>
         </svg>
       </button>

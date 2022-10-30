@@ -13,13 +13,12 @@ import StatusSelector from '../statusSelector/StatusSelector';
 
 interface Props {
   details: Details.RootObject;
-  favoriteListStatus: string;
 }
 
-const FavoriteCard: FC<Props> = ({ details, favoriteListStatus }) => {
+const FavoriteCard: FC<Props> = ({ details }) => {
   const { getFavoriteItem } = useFavorite();
   const { t } = useTranslation('favoritePage');
-  const favoriteData = getFavoriteItem(details.id, favoriteListStatus);
+  const favoriteData = getFavoriteItem(details.id);
 
   return (
     <div>
@@ -34,7 +33,7 @@ const FavoriteCard: FC<Props> = ({ details, favoriteListStatus }) => {
           </div>
 
           <div className={styles['favorite-card__favorite-btn']}>
-            <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteListStatus} />
+            <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteData.currentStatus} />
           </div>
 
           <DetailsModal mediaType={favoriteData.mediaType} mediaId={favoriteData.id} />

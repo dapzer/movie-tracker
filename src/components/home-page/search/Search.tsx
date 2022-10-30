@@ -11,7 +11,7 @@ const Search: FC<Props> = ({ setSearchTerm, handlePage }) => {
   const [localSearchValue, serLocalSearchValue] = useState('');
   const { t } = useTranslation('searchPage');
 
-  // Спустя n-секунд обновляем значение для поиска
+  // * Спустя n-секунд обновляем значение для поиска
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       handlePage(1);
@@ -24,11 +24,7 @@ const Search: FC<Props> = ({ setSearchTerm, handlePage }) => {
   return (
     <div className={styles['search']}>
       <h3>{t('input_title')}</h3>
-      <input
-        type="text"
-        placeholder={t('input_placeholder')}
-        onChange={(event) => serLocalSearchValue(event.target.value)}
-      />
+      <input type="text" placeholder={t('input_placeholder')} onChange={(event) => serLocalSearchValue(event.target.value)} />
     </div>
   );
 };

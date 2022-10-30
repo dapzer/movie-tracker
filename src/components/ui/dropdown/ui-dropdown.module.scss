@@ -1,8 +1,6 @@
 @import "src/styles/variables";
 
 .ui-dropdown {
-
-
   &__toggle-btn {
     margin-top: 10px;
     border: 1px solid $text;
@@ -22,15 +20,12 @@
     }
   }
 
-  &__open {
-    .ui-dropdown__toggle-btn {
-      svg {
-        rotate: 0deg;
-      }
-    }
-  }
 
   &__content {
     padding-top: 15px;
+  }
+
+  &__arrow-active {
+    rotate: 0deg !important;
   }
 }

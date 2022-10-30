@@ -20,19 +20,29 @@ export const favoriteReducer = (state: FavoriteList.StatusedObject, action: Acti
   switch (action.type) {
     case 'REMOVE':
       newState[currentStatus] = newState[currentStatus].filter((el: FavoriteList.RootObject) => el.id !== action.payload.mediaId);
+      newState.allFavorites = newState.allFavorites.filter((el: FavoriteList.RootObject) => el.id !== action.payload.mediaId);
 
-      return { ...newState };
+      return newState;
     case 'UPDATE':
       if (!action.payload.seriesData) return;
 
-      const index = newState[currentStatus].findIndex((el: FavoriteList.RootObject) => el.id === action.payload.mediaId);
-      newState[currentStatus][index].seriesData = action.payload.seriesData;
+      const statusIndex = newState[currentStatus].findIndex((el: FavoriteList.RootObject) => el.id === action.payload.mediaId);
+      const index = newState.allFavorites.findIndex((el: FavoriteList.RootObject) => el.id === action.payload.mediaId);
 
-      return { ...newState };
+      newState[currentStatus][statusIndex].seriesData = action.payload.seriesData;
+      newState.allFavorites[index].seriesData = action.payload.seriesData;
+
+      return newState;
     case 'SET':
       return action.payload.favoriteList;
     case 'ADD':
       if (!action.payload.newFavoriteItem) return;
+      if (!newState.allFavorites || newState.allFavorites.length < 1) {
+        newState[newStatus] = [action.payload.newFavoriteItem];
+        newState.allFavorites = [action.payload.newFavoriteItem];
+
+        return newState;
+      }
 
       if (newState[newStatus]?.length >= 1) {
         newState[newStatus] = [...newState[newStatus], action.payload.newFavoriteItem];
@@ -40,7 +50,9 @@ export const favoriteReducer = (state: FavoriteList.StatusedObject, action: Acti
         newState[newStatus] = [action.payload.newFavoriteItem];
       }
 
-      return { ...newState };
+      newState.allFavorites = [...newState.allFavorites, action.payload.newFavoriteItem];
+
+      return newState;
     default:
       throw new Error(`Unhandled  action type ${action.type}`);
   }
