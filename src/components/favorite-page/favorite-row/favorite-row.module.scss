@@ -1,14 +1,19 @@
 @import "src/styles/variables";
+@import "src/styles/mixins";
 
 .favorite-row {
   padding-top: 20px;
 
   &__dropdown-btn {
+    position: sticky;
+    top: $headerHeight;
+    z-index: 1;
     border: none !important;
     justify-content: space-between !important;
     margin-bottom: 20px !important;
     font-size: $h3 !important;
     border-bottom: 2px solid $text !important;
+    @include fullWidthBg($background);
 
     @media screen and (max-width: $sm){
       font-size: $p !important;

@@ -1,0 +1,5 @@
+@mixin fullWidthBg ($background) {
+  box-shadow: 0 0 0 100vmax $background;
+  clip-path: inset(0 -100vmax);
+  background: $background;
+}
