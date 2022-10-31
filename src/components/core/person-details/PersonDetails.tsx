@@ -9,6 +9,7 @@ import UiCard from '../../ui/card/UiCard';
 import DetailsModal from '../details/DetailsModal';
 import { Credits } from '../../../types/Credits';
 import useTranslation from 'next-translate/useTranslation';
+import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
 
 interface Props {
   personData: SearchResponse.ResultItem | Person.Cast | Credits.Cast;
@@ -17,7 +18,11 @@ interface Props {
 const PersonDetails: FC<Props> = ({ personData }) => {
   const { t, lang } = useTranslation('details');
 
-  const { data: details } = useQuery<Person.RootObject>(
+  const {
+    data: details,
+    isSuccess,
+    isLoading,
+  } = useQuery<Person.RootObject>(
     [
       'getPersonDetails',
       {
@@ -28,7 +33,11 @@ const PersonDetails: FC<Props> = ({ personData }) => {
     personDetailsApi
   );
 
-  const { data: credits } = useQuery<Person.Credits>(
+  const {
+    data: credits,
+    isSuccess: creditsIsSuccess,
+    isLoading: creditsIsLoading,
+  } = useQuery<Person.Credits>(
     [
       'getPersonCredits',
       {
@@ -41,7 +50,8 @@ const PersonDetails: FC<Props> = ({ personData }) => {
 
   return (
     <>
-      {details && credits && (
+      {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
+      {creditsIsSuccess && isSuccess && (
         <>
           <PersonDetailsHeader details={details} />
 
@@ -56,7 +66,13 @@ const PersonDetails: FC<Props> = ({ personData }) => {
             <h3>{t('person_details.filmography')}</h3>
             <div className={'details-grid'}>
               {credits.cast.map((item, index) => (
-                <UiCard key={index} title={item.title || item.name} image={item.poster_path} date={`${t('movie_details.release_date')} ${new Date(item.release_date || item.first_air_date).toLocaleDateString()}`} horizontal>
+                <UiCard
+                  key={index}
+                  title={item.title || item.name}
+                  image={item.poster_path}
+                  date={`${t('movie_details.release_date')} ${new Date(item.release_date || item.first_air_date).toLocaleDateString()}`}
+                  horizontal
+                >
                   <ul>
                     <li>
                       {t('person_details.roles')} {item.character}

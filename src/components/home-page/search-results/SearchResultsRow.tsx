@@ -7,9 +7,12 @@ import { ContentNames } from '../../../types/ContentNames';
 import SearchResultPerson from './SearchResultPerson';
 import DetailsModal from '../../core/details/DetailsModal';
 import useTranslation from 'next-translate/useTranslation';
+import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
+import Skeleton from 'react-loading-skeleton';
 
 interface Props {
   searchResponse?: SearchResponse.RootObject;
+  isLoading: boolean;
 }
 
 const breakpointColumnsObj = {
@@ -19,7 +22,7 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
+const SearchResultsRow: FC<Props> = ({ searchResponse, isLoading }) => {
   const { t } = useTranslation('searchPage');
 
   return (
@@ -29,9 +32,6 @@ const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
           {t('search_totalResults')} {searchResponse?.total_results}
         </h3>
       )}
-      <DetailsModal mediaId={597} mediaType={'movie'} />
-      <DetailsModal mediaId={61222} mediaType={'tv'} />
-      <DetailsModal mediaId={60625} mediaType={'tv'} />
 
       <div className={styles['result__items']}>
         <Masonry
@@ -39,6 +39,14 @@ const SearchResultsRow: FC<Props> = ({ searchResponse }) => {
           className="searching-results-masonry__row"
           columnClassName="searching-results-masonry__row-column"
         >
+          {isLoading &&
+            Array(20)
+              .fill('_')
+              .map((el, i) => (
+                <CardSkeleton key={i}>
+                  <Skeleton width={50} height={'1em'} />
+                </CardSkeleton>
+              ))}
           {searchResponse &&
             searchResponse.results.map((item, index) =>
               item.media_type === ContentNames.Person ? (

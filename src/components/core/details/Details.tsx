@@ -10,6 +10,7 @@ import UiCard from '../../ui/card/UiCard';
 import { arrayToString } from '../../../utils/arrayToString.helper';
 import PersonModal from '../person-details/PersonModal';
 import useTranslation from 'next-translate/useTranslation';
+import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
 
 interface Props {
   mediaId?: number;
@@ -19,7 +20,11 @@ interface Props {
 const Details: FC<Props> = ({ mediaType, mediaId }) => {
   const { t, lang } = useTranslation('details');
 
-  const { data: details } = useQuery<Details.RootObject>(
+  const {
+    data: details,
+    isLoading,
+    isSuccess,
+  } = useQuery<Details.RootObject>(
     [
       'getDetails',
       {
@@ -31,7 +36,11 @@ const Details: FC<Props> = ({ mediaType, mediaId }) => {
     detailApi
   );
 
-  const { data: credits } = useQuery<Credits.RootObject>(
+  const {
+    data: credits,
+    isLoading: creditsIsLoading,
+    isSuccess: creditsIsSuccess,
+  } = useQuery<Credits.RootObject>(
     [
       'getCredits',
       {
@@ -45,32 +54,22 @@ const Details: FC<Props> = ({ mediaType, mediaId }) => {
 
   return (
     <>
-      {details && credits && (
+      {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
+      {creditsIsSuccess && isSuccess && (
         <div className={styles['details']}>
           <DetailsHeader details={details} credits={credits} mediaType={mediaType} />
 
           <div className={styles['details__about']}>
-            <h2>
-              {t(
-                mediaType === ContentNames.Movie
-                  ? 'movie_details.movie_description'
-                  : 'movie_details.series_description'
-              )}
-            </h2>
+            <h2>{t(mediaType === ContentNames.Movie ? 'movie_details.movie_description' : 'movie_details.series_description')}</h2>
             <p>{details.overview}</p>
           </div>
 
-          {credits.cast.length > 0 && (
+          {credits && credits.cast.length > 0 && (
             <div className={styles['']}>
               <h2>{t('movie_details.actors_title')}</h2>
               <div className={'details-grid'}>
                 {credits.cast.map((item) => (
-                  <UiCard
-                    key={`person-${item.id}`}
-                    title={item.name}
-                    image={item.profile_path}
-                    horizontal
-                  >
+                  <UiCard key={`person-${item.id}`} title={item.name} image={item.profile_path} horizontal>
                     <ul>
                       {item.total_episode_count && (
                         <li>

@@ -7,6 +7,8 @@ import FavoriteCard from '../favorite-card/FavoriteCard';
 import useTranslation from 'next-translate/useTranslation';
 import { FavoriteList } from '../../../types/FavoriteList';
 import UiDropdown from '../../ui/dropdown/UiDropdown';
+import Skeleton from 'react-loading-skeleton';
+import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
 
 interface Props {
   favoriteList: FavoriteList.RootObject[];
@@ -41,6 +43,20 @@ const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
 
   return (
     <UiDropdown title={title} btnClass={styles['favorite-row__dropdown-btn']} isOpenedDefault>
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="searching-results-masonry__row"
+        columnClassName="searching-results-masonry__row-column"
+      >
+        {data.map(
+          (el, index) =>
+            el.status === 'loading' && (
+              <CardSkeleton key={index}>
+                <Skeleton width={50} height={'1em'} />
+              </CardSkeleton>
+            )
+        )}
+      </Masonry>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="searching-results-masonry__row"

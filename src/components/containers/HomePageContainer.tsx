@@ -12,7 +12,7 @@ const HomePageContainer: FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { t, lang } = useTranslation('searchPage');
 
-  const { data } = useQuery<SearchResponse.RootObject>(
+  const { data, isLoading, isSuccess } = useQuery<SearchResponse.RootObject>(
     [
       'searchFilms',
       {
@@ -28,7 +28,7 @@ const HomePageContainer: FC = () => {
     <div className={`container`}>
       <h2>{t('page_title')}</h2>
       <Search setSearchTerm={setSearchTerm} handlePage={setCurrentPage} />
-      <SearchResultsRow searchResponse={data} />
+      <SearchResultsRow searchResponse={data} isLoading={isLoading} />
 
       {data?.total_pages && data?.total_pages > 1 && (
         <UiPagination

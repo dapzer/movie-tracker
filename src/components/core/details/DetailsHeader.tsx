@@ -10,7 +10,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   details: Details.RootObject;
-  credits: Credits.RootObject;
+  credits?: Credits.RootObject;
   mediaType?: string;
 }
 
@@ -35,7 +35,7 @@ const DetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
           <span> {arrayToString(details.production_countries, 'name')}</span>
         </li>
       )}
-      {mediaType === ContentNames.Movie && (
+      {mediaType === ContentNames.Movie && credits && (
         <li>
           {t('movie_details.producer')} <span>{arrayToString(getMovieDirectors(credits.crew), 'name')}</span>
         </li>
