@@ -45,9 +45,19 @@ body {
   background-color: $highlight
 }
 
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
 
 main {
   padding: 72px 0;
+  flex: 1 1 auto;
+
+  @media screen and (max-width: $md){
+    min-height: 100vh;
+  }
 }
 
 // Default styles
