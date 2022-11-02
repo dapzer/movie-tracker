@@ -1,8 +1,14 @@
+@import "src/styles/variables";
 .search {
-  padding-top: 40px;
+  padding-top: 30px;
 
   input {
     width: 100%;
     margin-top: 20px;
+    border-color: $text;
+    border-radius: unset;
+    //border: none;
+    //border-bottom: 1px solid $secondary;
+    //border-radius: unset;
   }
 }
