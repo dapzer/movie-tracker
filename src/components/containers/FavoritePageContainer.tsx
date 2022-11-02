@@ -15,7 +15,9 @@ const FavoritePageContainer: FC<Props> = () => {
   return (
     <div className={'container'}>
       {status === LoginStatus.Unauthenticated && <h2>{t('needToAuth')}</h2>}
-      {favoriteList.allFavorites?.length < 1 && <h2>{t('emptyFavoriteList')}</h2>}
+      {((!favoriteList.allFavorites && status === LoginStatus.Authenticated) || favoriteList.allFavorites?.length < 1) && (
+        <h2>{t('emptyFavoriteList')}</h2>
+      )}
       {favoriteList.allFavorites?.length >= 1 && <h2>{t('page_title')}</h2>}
 
       {favoriteList?.watchingNow?.length > 0 && <FavoriteRow favoriteList={favoriteList.watchingNow} title={t('statuses.watchingNow')} />}
