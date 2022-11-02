@@ -38,15 +38,17 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
         {t('paginationStart')}
       </button>
 
-      {pages.map((page) => (
-        <button
-          className={`${styles['pagination__page']} ${page === paginationInfo.currentPage && styles['pagination__page_active']}`}
-          key={page}
-          onClick={() => pageHandler(page)}
-        >
-          {page}
-        </button>
-      ))}
+      <div className={styles['pagination__pages__list']}>
+        {pages.map((page) => (
+          <button
+            className={`${styles['pagination__page']} ${page === paginationInfo.currentPage && styles['pagination__page_active']}`}
+            key={page}
+            onClick={() => pageHandler(page)}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
 
       <button
         hidden={!(paginationInfo.currentPage < (paginationInfo?.totalPages || 0) - paginationInfo.options.pageToShow)}
