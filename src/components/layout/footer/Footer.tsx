@@ -33,7 +33,7 @@ const Footer: FC<Props> = () => {
             <li key={`footer-link-${index}`}>
               {el.title}{' '}
               <span>
-                <a href={el.link} target="_blank">
+                <a href={el.link} target="_blank" rel="noreferrer">
                   {el.value}
                 </a>
               </span>

@@ -32,7 +32,7 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
     <div className={styles['series-controls__site-to-view']}>
       {isHaveUrl && !isEdit && (
         <div className={styles['series-controls__site-to-view__default']}>
-          <a href={isHaveUrl} target="_blank">
+          <a href={isHaveUrl} target="_blank" rel="noreferrer">
             {t('tracking_menu.site_to_view')}
           </a>
           <button onClick={() => setIsEdit(true)}>🖉</button>

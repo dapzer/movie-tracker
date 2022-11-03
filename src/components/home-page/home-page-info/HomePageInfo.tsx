@@ -44,7 +44,7 @@ const HomePageInfo: FC<Props> = () => {
       <ul className={styles['home-page-info__socials']}>
         {socials[lang as keyof typeof socials].map((el, index) => (
           <li key={`social-link-${index}`}>
-            <a href={el.link} target="_blank">
+            <a href={el.link} target="_blank" rel="noreferrer">
               {el.title}
             </a>
           </li>
