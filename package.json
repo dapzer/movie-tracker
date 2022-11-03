@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@blazity/next-image-proxy": "^1.0.2",
     "@next-auth/mongodb-adapter": "^1.1.1",
     "@tanstack/react-query": "^4.10.3",
     "@tanstack/react-query-devtools": "^4.11.0",

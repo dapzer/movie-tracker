@@ -1,9 +1,8 @@
 import queryString from 'query-string';
 import { ContentNames } from '../types/ContentNames';
-import { useFavorite } from '../hooks/useFavorite';
 
 export const getResponse = async (url: string) => {
-  const response = await fetch(url);
+  const response = await fetch(`/api/proxy?url=${encodeURIComponent(url)}`);
 
   if (response.ok) {
     const data = await response.json();

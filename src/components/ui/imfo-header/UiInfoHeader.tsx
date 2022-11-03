@@ -27,7 +27,7 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
       <div className={styles['info-header__logo']}>
         <div className={styles['info-header__image']}>
           <Image
-            src={image ? `https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
+            src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
             width="100"
             height="150"
             objectFit="contain"
