@@ -14,6 +14,36 @@
       position: absolute;
       right: 0;
       top: 30px;
+      max-width: fit-content;
+      overflow: hidden;
+      width: 35px;
+      animation-duration: .7s;
+      transition: width .7s;
+
+      button {
+        transition: all .5s;
+        gap: 10px !important;
+        white-space: nowrap
+      }
+
+      &:hover {
+        animation-name: showFullBtn;
+        width: 100%;
+
+        button {
+          gap: 5px !important;
+          white-space: nowrap
+        }
+
+        @keyframes showFullBtn{
+          0%{
+            width: 30px;
+          }
+          100%{
+            width: 100%;
+          }
+        }
+      }
     }
   }
 

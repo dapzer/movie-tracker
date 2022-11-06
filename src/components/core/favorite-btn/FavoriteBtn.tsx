@@ -34,9 +34,15 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
         onClick={() => handleFavoriteStatus()}
         className={`${styles[`${isFavorite ? 'favorite-btn__remove' : 'favorite-btn__add'}`]} ${styles[className]}`}
       >
-        <svg>
-          <use href="/icon-favorite.svg#svg"></use>
-        </svg>
+        {isFavorite ? (
+          <svg>
+            <use href="/icon-in-favorite.svg#svg"></use>
+          </svg>
+        ) : (
+          <svg>
+            <use href="/icon-favorite.svg#svg"></use>
+          </svg>
+        )}
         {isFavorite ? t('delete_from_favorite') : t('add_to_favorite')}
       </button>
       {showLogin && <LoginModal isOpenedDefault={true} customHandler={setShowLogin} />}
