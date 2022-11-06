@@ -10,6 +10,7 @@ import { FavoriteContextProvider } from '../context/FavoriteContext';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { DefaultSeo } from 'next-seo';
+import { SearchContextProvider } from '../context/SearchContext';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const [queryClient] = useState(() => new QueryClient());
@@ -17,14 +18,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <FavoriteContextProvider>
-          <Layout>
-            <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
-              <DefaultSeo {...SEO} />
-              <Component {...pageProps} />
-            </SkeletonTheme>
-          </Layout>
-        </FavoriteContextProvider>
+        <SearchContextProvider>
+          <FavoriteContextProvider>
+            <Layout>
+              <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
+                <DefaultSeo {...SEO} />
+                <Component {...pageProps} />
+              </SkeletonTheme>
+            </Layout>
+          </FavoriteContextProvider>
+        </SearchContextProvider>
       </QueryClientProvider>
     </SessionProvider>
   );

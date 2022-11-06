@@ -9,11 +9,12 @@ import DetailsModal from '../../core/details/DetailsModal';
 import useTranslation from 'next-translate/useTranslation';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
+import UiPagination from '../../ui/pagination/UiPagination';
+import { useSearchContext } from '../../../context/SearchContext';
+import { useQuery } from '@tanstack/react-query';
+import { searchApi } from '../../../api/fetchApi';
 
-interface Props {
-  searchResponse?: SearchResponse.RootObject;
-  isLoading: boolean;
-}
+interface Props {}
 
 const breakpointColumnsObj = {
   default: 4,
@@ -22,8 +23,25 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const SearchResultsRow: FC<Props> = ({ searchResponse, isLoading }) => {
-  const { t } = useTranslation('searchPage');
+const SearchResultsRow: FC<Props> = () => {
+  const { t, lang } = useTranslation('searchPage');
+  const { currentPage, changePage, searchTerm } = useSearchContext();
+
+  const {
+    data: searchResponse,
+    isLoading,
+    isSuccess,
+  } = useQuery<SearchResponse.RootObject>(
+    [
+      'searchFilms',
+      {
+        searchValue: searchTerm,
+        page: currentPage,
+        language: lang,
+      },
+    ],
+    searchApi
+  );
 
   return (
     <div className={styles['result']}>
@@ -56,6 +74,20 @@ const SearchResultsRow: FC<Props> = ({ searchResponse, isLoading }) => {
               )
             )}
         </Masonry>
+
+        {searchResponse && searchResponse?.total_pages > 1 && (
+          <UiPagination
+            paginationInfo={{
+              currentPage,
+              handlePage: changePage,
+              totalPages: searchResponse?.total_pages,
+              options: {
+                pageToShow: 5,
+                pagesOnSides: 2,
+              },
+            }}
+          />
+        )}
       </div>
     </div>
   );

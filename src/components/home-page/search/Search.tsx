@@ -1,21 +1,25 @@
 import React, { FC, useEffect, useState } from 'react';
 import styles from './search.module.scss';
 import useTranslation from 'next-translate/useTranslation';
+import { useSearchContext } from '../../../context/SearchContext';
+import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
 
-interface Props {
-  setSearchTerm: (value: string) => void;
-  handlePage: (arg0: number) => void;
-}
+interface Props {}
 
-const Search: FC<Props> = ({ setSearchTerm, handlePage }) => {
-  const [localSearchValue, serLocalSearchValue] = useState('');
+const Search: FC<Props> = () => {
+  const { changeSearch, setCurrentPage, searchTerm, currentPage, updateRouter, clearQueries } = useSearchContext();
+  const [localSearchValue, setLocalSearchValue] = useState<string | null>(null);
   const { t } = useTranslation('searchPage');
 
   // * Спустя n-секунд обновляем значение для поиска
   useEffect(() => {
+    if (localSearchValue === null && !isOnlySpaces(searchTerm)) return updateRouter(searchTerm, currentPage);
+    if (localSearchValue === null) return;
     const delayDebounceFn = setTimeout(() => {
-      handlePage(1);
-      setSearchTerm(localSearchValue);
+      if (isOnlySpaces(localSearchValue) && isOnlySpaces(searchTerm)) return;
+      setCurrentPage(1);
+      if (isOnlySpaces(localSearchValue)) return clearQueries();
+      changeSearch(localSearchValue);
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
@@ -24,7 +28,12 @@ const Search: FC<Props> = ({ setSearchTerm, handlePage }) => {
   return (
     <div className={styles['search']}>
       <h3>{t('input_title')}</h3>
-      <input type="text" placeholder={t('input_placeholder')} onChange={(event) => serLocalSearchValue(event.target.value)} />
+      <input
+        type="text"
+        defaultValue={searchTerm}
+        placeholder={t('input_placeholder')}
+        onChange={(event) => setLocalSearchValue(event.target.value)}
+      />
     </div>
   );
 };

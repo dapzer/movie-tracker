@@ -33,13 +33,13 @@ interface Props {
 }
 
 const LinksList: FC<Props> = ({ modalHandler }) => {
-  const { asPath, locale } = useRouter();
+  const { locale, pathname } = useRouter();
 
   return (
     <>
       {links[locale as keyof typeof links].map((link, index) => (
         <Link key={index} href={link.url}>
-          <a className={isUrlActive(asPath, link.url) ? styles['header__link-list__active-page'] : ''} onClick={modalHandler}>
+          <a className={isUrlActive(pathname, link.url) ? styles['header__link-list__active-page'] : ''} onClick={modalHandler}>
             {link.title}
           </a>
         </Link>
