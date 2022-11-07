@@ -16,5 +16,12 @@
     justify-content: center;
     text-decoration: none;
     background: var(--bg);
+    
+    &:first-of-type {
+      border-radius: $borderRadius  $borderRadius 0 0;
+    }
+    &:last-of-type {
+      border-radius: 0 0 $borderRadius  $borderRadius;
+    }
   }
 }

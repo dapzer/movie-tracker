@@ -28,12 +28,15 @@ const Search: FC<Props> = () => {
   return (
     <div className={styles['search']}>
       <h3>{t('input_title')}</h3>
-      <input
-        type="text"
-        defaultValue={searchTerm}
-        placeholder={t('input_placeholder')}
-        onChange={(event) => setLocalSearchValue(event.target.value)}
-      />
+      <div className={styles['search__input']}>
+        <input
+          type="text"
+          defaultValue={searchTerm}
+          placeholder={t('input_placeholder')}
+          onChange={(event) => setLocalSearchValue(event.target.value)}
+        />
+        <span>🔎︎</span>
+      </div>
     </div>
   );
 };

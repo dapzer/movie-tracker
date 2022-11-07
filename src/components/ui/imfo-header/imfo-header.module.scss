@@ -11,6 +11,10 @@
   &__image {
     width: 100%;
     max-width: 300px;
+
+    img {
+      border-radius: $borderRadius;
+    }
   }
 
   &__about {

@@ -46,6 +46,7 @@
     padding-top: 0;
     max-height: 90vh;
     overflow-y: auto;
+    border-radius: $borderRadius;
   }
 
   &__content {

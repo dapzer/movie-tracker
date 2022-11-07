@@ -11,6 +11,7 @@
   gap: 15px;
   position: relative;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: $borderRadius;
 
  &__horizontal {
    flex-direction: row;
@@ -30,8 +31,13 @@
 
   &__image {
     width: 100%;
+    border-radius: $borderRadius;
     height: fit-content;
     position: relative;
+
+    img {
+      border-radius: $borderRadius;
+    }
   }
 
   &__title {

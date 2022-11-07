@@ -2,13 +2,23 @@
 .search {
   padding-top: 30px;
 
-  input {
-    width: 100%;
-    margin-top: 20px;
-    border-color: $text;
-    border-radius: unset;
-    //border: none;
-    //border-bottom: 1px solid $secondary;
-    //border-radius: unset;
+  &__input {
+    position: relative;
+    span {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-25%);
+      font-size: $h3;
+      pointer-events: none;
+    }
+
+    input {
+      padding-left: 55px;
+      width: 100%;
+      margin-top: 20px;
+      border-color: $text;
+      border-radius: 50px;
+    }
   }
 }
