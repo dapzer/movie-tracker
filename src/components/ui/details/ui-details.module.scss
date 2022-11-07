@@ -1,0 +1,31 @@
+@import "src/styles/variables";
+
+.ui-details {
+  &__toggle-btn {
+    margin-top: 10px;
+    border: 1px solid $text;
+    font-size: $span;
+    text-align: left;
+    width: 100%;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+
+    svg {
+      width: $span;
+      rotate: 180deg;
+      height: $span;
+    }
+  }
+
+
+  &__content {
+    padding-top: 15px;
+  }
+
+  &__arrow-active {
+    rotate: 0deg !important;
+  }
+}

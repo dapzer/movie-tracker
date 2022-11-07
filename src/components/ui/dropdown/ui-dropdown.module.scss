@@ -1,31 +1,25 @@
 @import "src/styles/variables";
 
 .ui-dropdown {
-  &__toggle-btn {
-    margin-top: 10px;
-    border: 1px solid $text;
-    font-size: $span;
-    text-align: left;
-    width: 100%;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    justify-content: center;
-
-    svg {
-      width: $span;
-      rotate: 180deg;
-      height: $span;
-    }
-  }
-
+  display: none;
+  right: 0;
+  position: absolute;
+  width: max-content;
 
   &__content {
-    padding-top: 15px;
-  }
-
-  &__arrow-active {
-    rotate: 0deg !important;
+    cursor: auto;
+    box-shadow: 0 0 20px rgb(0 0 0 / 20%);
+    padding: 15px 10px;
+    background: $accent;
+    width: 100%;
+    max-width: max-content;
+    display: flex;
+    margin-top: 10px;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-weight: unset;
   }
 }

@@ -204,6 +204,17 @@ button {
   }
 }
 
+.ui-dropdown__trigger {
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    .ui-dropdown {
+      display: flex;
+    }
+  }
+}
+
 @media screen and (max-width: $sm){
   h2 {
     font-size: $mh2;

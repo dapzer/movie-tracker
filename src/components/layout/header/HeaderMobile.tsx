@@ -7,6 +7,7 @@ import { signOut, useSession } from 'next-auth/react';
 import useTranslation from 'next-translate/useTranslation';
 import LinksList from './LinksList';
 import AuthBtn from './AuthBtn';
+import UserProfile from './user-profile/UserProfile';
 
 interface Props {
   isOpen: boolean;
@@ -20,6 +21,10 @@ const HeaderMobile: FC<Props> = ({ isOpen, setIsOpen }) => {
         <LocaleSelect />
       </div>
       <div className={styles['header-mobile__controls']}>
+        <div hidden={isOpen}>
+          <UserProfile />
+        </div>
+
         <div hidden={!isOpen}>
           <AuthBtn />
         </div>

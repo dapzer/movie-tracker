@@ -4,7 +4,7 @@ import { Details } from '../../../types/Details';
 import UiCard from '../../ui/card/UiCard';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import SeriesControls from '../series-controls/SeriesControls';
-import UiDropdown from '../../ui/dropdown/UiDropdown';
+import UiDetails from '../../ui/details/UiDetails';
 import { ContentNames } from '../../../types/ContentNames';
 import DetailsModal from '../../core/details/DetailsModal';
 import useTranslation from 'next-translate/useTranslation';
@@ -39,9 +39,9 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           <DetailsModal mediaType={favoriteData.mediaType} mediaId={favoriteData.id} />
 
           {favoriteData.mediaType === ContentNames.Series && (
-            <UiDropdown title={t('tracking_menu.title')}>
+            <UiDetails title={t('tracking_menu.title')}>
               <SeriesControls favoriteData={favoriteData} seasons={details.seasons} />
-            </UiDropdown>
+            </UiDetails>
           )}
         </UiCard>
       )}
