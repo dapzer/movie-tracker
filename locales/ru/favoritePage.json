@@ -1,7 +1,8 @@
 {
   "page_title": "Ваш список избранного",
   "emptyFavoriteList": "Ваш список избранного пуст",
-  "needToAuth": "Авторизируетесь для отображения списка избранного",
+  "needToAuthTitle": "Войдите",
+  "needToAuthDescription": "для отображения списка избранного",
   "added_date": "Дата добавления:",
   "changeStatus": "Изменить статус",
   "statuses": {

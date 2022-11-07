@@ -1,0 +1,10 @@
+@import "src/styles/variables";
+.favorite-page {
+  &__unlogin {
+    display: inline-block;
+    &__btn {
+      font-weight: $bold;
+      width: fit-content;
+    }
+  }
+}

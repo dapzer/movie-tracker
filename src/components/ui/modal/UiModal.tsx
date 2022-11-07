@@ -2,6 +2,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import styles from './ui-modal.module.scss';
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
+import Portal from '../../core/Portal';
 
 interface Props {
   title: string;
@@ -36,6 +37,11 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, bt
     }
   }, []);
 
+  useEffect(() => {
+    if (!isOpenedDefault) return;
+    handleVisible(isOpenedDefault);
+  }, [isOpenedDefault]);
+
   return (
     <>
       {!isOpenedDefault && (
@@ -45,24 +51,26 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, bt
       )}
 
       {modalVisible && (
-        <div className={styles['modal']} onClick={() => handleVisible(false)}>
-          <div className={`container`}>
-            <div
-              className={`${fullWidth && styles['modal__full-width']} ${styles['modal__body']}`}
-              style={{ maxWidth: `${maxWidth}px` }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className={styles['modal__header']}>
-                <h2>{title}</h2>
-                <button onClick={() => handleVisible(false)}>
-                  <Image src="/icon-close.svg" width={25} height={25} />
-                </button>
-              </div>
+        <Portal>
+          <div className={styles['modal']} onClick={() => handleVisible(false)}>
+            <div className={`container`}>
+              <div
+                className={`${fullWidth && styles['modal__full-width']} ${styles['modal__body']}`}
+                style={{ maxWidth: `${maxWidth}px` }}
+                onClick={(event) => event.stopPropagation()}
+              >
+                <div className={styles['modal__header']}>
+                  <h2>{title}</h2>
+                  <button onClick={() => handleVisible(false)}>
+                    <Image src="/icon-close.svg" width={25} height={25} />
+                  </button>
+                </div>
 
-              <div className={styles['modal__content']}>{children}</div>
+                <div className={styles['modal__content']}>{children}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </Portal>
       )}
     </>
   );

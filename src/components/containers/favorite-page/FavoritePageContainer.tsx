@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
-import FavoriteRow from '../favorite-page/favorite-row/FavoriteRow';
+import FavoriteRow from '../../favorite-page/favorite-row/FavoriteRow';
 import useTranslation from 'next-translate/useTranslation';
-import { useFavoriteContext } from '../../context/FavoriteContext';
+import { useFavoriteContext } from '../../../context/FavoriteContext';
 import { useSession } from 'next-auth/react';
-import { LoginStatus } from '../../types/LoginStatus';
+import { LoginStatus } from '../../../types/LoginStatus';
+import styles from './favorite-page.module.scss';
+import LoginModal from '../../core/login-modal/LoginModal';
 
 interface Props {}
 
@@ -14,7 +16,11 @@ const FavoritePageContainer: FC<Props> = () => {
 
   return (
     <div className={'container'}>
-      {status === LoginStatus.Unauthenticated && <h2>{t('needToAuth')}</h2>}
+      {status === LoginStatus.Unauthenticated && (
+        <h2 className={styles['favorite-page__unlogin']}>
+          <LoginModal btnClass={styles['favorite-page__unlogin__btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
+        </h2>
+      )}
       {((!favoriteList.allFavorites && status === LoginStatus.Authenticated) || favoriteList.allFavorites?.length < 1) && (
         <h2>{t('emptyFavoriteList')}</h2>
       )}

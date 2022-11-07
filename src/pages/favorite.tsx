@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Head from 'next/head';
-import FavoritePageContainer from '../components/containers/FavoritePageContainer';
+import FavoritePageContainer from '../components/containers/favorite-page/FavoritePageContainer';
 
 const Favorite: FC = () => {
   return (

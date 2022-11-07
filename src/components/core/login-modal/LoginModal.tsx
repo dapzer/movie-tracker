@@ -7,9 +7,11 @@ import useTranslation from 'next-translate/useTranslation';
 interface Props {
   isOpenedDefault?: boolean;
   customHandler?: (arg0: boolean) => void;
+  btnTitle?: string;
+  btnClass?: string;
 }
 
-const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler }) => {
+const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler, btnTitle, btnClass }) => {
   const { t } = useTranslation('buttons');
 
   return (
@@ -18,8 +20,8 @@ const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler }) => {
       title={t('signIn')}
       maxWidth={350}
       isOpenedDefault={isOpenedDefault}
-      btnClass={'login-btn'}
-      btnTitle={t('signIn')}
+      btnClass={btnClass || 'login-btn'}
+      btnTitle={btnTitle || t('signIn')}
     >
       <div className={styles['login-modal']}>
         <button onClick={() => signIn('google')} style={{ '--bg': '#D92929' } as React.CSSProperties}>
