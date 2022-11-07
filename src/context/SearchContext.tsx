@@ -37,10 +37,14 @@ export const SearchContextProvider: FC<Props> = ({ children }) => {
   }, [router.isReady]);
 
   const updateRouter = (str: string, page: number) => {
-    router.push({
-      pathname: router.pathname,
-      query: { search: str, page: page },
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { search: str, page: page },
+      },
+      undefined,
+      { scroll: false }
+    );
   };
 
   const changeSearch = (str: string) => {
@@ -54,7 +58,7 @@ export const SearchContextProvider: FC<Props> = ({ children }) => {
   };
 
   const clearQueries = () => {
-    router.push({ pathname: router.pathname });
+    router.push({ pathname: router.pathname }, undefined, { scroll: false });
     setSearchTerm('');
   };
 
