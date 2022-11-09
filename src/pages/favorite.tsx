@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
-import Head from 'next/head';
 import FavoritePageContainer from '../components/containers/favorite-page/FavoritePageContainer';
+import useTranslation from 'next-translate/useTranslation';
+import { NextSeo } from 'next-seo';
 
 const Favorite: FC = () => {
+  const { t } = useTranslation('pagesSeo');
+
   return (
     <div>
-      <Head>
-        <title>Movie Tracker | Избранное</title>
-        <meta name="description" content="Movie Tracker | Favorite" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextSeo title={t('favoritePage.title')} />
 
       <FavoritePageContainer />
     </div>

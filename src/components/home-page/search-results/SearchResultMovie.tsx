@@ -4,8 +4,8 @@ import styles from './search-results.module.scss';
 import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import { SearchResponse } from '../../../types/SearchResponse';
-import DetailsModal from '../../core/details/DetailsModal';
 import useTranslation from 'next-translate/useTranslation';
+import LinkToDetails from '../../core/link-to-details/LinkToDetails';
 
 interface Props {
   item: SearchResponse.ResultItem;
@@ -20,20 +20,17 @@ const SearchResultMovie: FC<Props> = ({ item }) => {
       image={item.poster_path}
       title={item.title || item.name}
       date={`${t('release_date')} ${release}`}
+      link={`details/${item.media_type}/${item.id}`}
     >
       <div className={styles['result__movie-card__score']}>
         <ScoreCircle value={item.vote_average} />
       </div>
 
       <div className={styles['result__movie-card__favorite']}>
-        <FavoriteBtn
-          id={item.id}
-          className={'favorite-btn__movie-card-btn'}
-          mediaType={item.media_type}
-        />
+        <FavoriteBtn id={item.id} className={'favorite-btn__movie-card-btn'} mediaType={item.media_type} />
       </div>
 
-      <DetailsModal mediaId={item.id} mediaType={item.media_type} />
+      <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
     </UiCard>
   );
 };

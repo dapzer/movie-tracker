@@ -2,7 +2,7 @@ import queryString from 'query-string';
 import { ContentNames } from '../types/ContentNames';
 
 export const getResponse = async (url: string) => {
-  const response = await fetch(`/api/proxy?url=${encodeURIComponent(url)}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/proxy?url=${encodeURIComponent(url)}`);
 
   if (response.ok) {
     const data = await response.json();
@@ -51,32 +51,6 @@ export const creditsApi = async (queries: any) => {
     }`,
     query: {
       api_key: process.env.NEXT_PUBLIC_API_KEY,
-    },
-  });
-
-  return await getResponse(url);
-};
-
-export const personImagesApi = async (queries: any) => {
-  const queriesValue = queries.queryKey[1];
-  const url = queryString.stringifyUrl({
-    url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}/images`,
-    query: {
-      api_key: process.env.NEXT_PUBLIC_API_KEY,
-      language: queriesValue.language,
-    },
-  });
-
-  return await getResponse(url);
-};
-
-export const personDetailsApi = async (queries: any) => {
-  const queriesValue = queries.queryKey[1];
-  const url = queryString.stringifyUrl({
-    url: `${process.env.NEXT_PUBLIC_API_URL}/person/${queriesValue.person_id}`,
-    query: {
-      api_key: process.env.NEXT_PUBLIC_API_KEY,
-      language: queriesValue.language,
     },
   });
 

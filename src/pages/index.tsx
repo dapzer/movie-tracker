@@ -1,16 +1,17 @@
 import type { NextPage } from 'next';
+import { NextSeo } from 'next-seo';
 import Head from 'next/head';
 import HomePageContainer from '../components/containers/HomePageContainer';
+import useTranslation from 'next-translate/useTranslation';
 
 const Home: NextPage = () => {
+  const { t } = useTranslation('pagesSeo');
   return (
     <>
       <Head>
-        <title>Movie Tracker</title>
-        <meta name="description" content="Movie Tracker | Search" />
         <meta name="google-site-verification" content="mvm-MZ-kTgUqAnmKIIIpaH0MON12PMmlwqfG1hPdY74" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NextSeo title={t('homePage.title')} />
 
       <HomePageContainer />
     </>

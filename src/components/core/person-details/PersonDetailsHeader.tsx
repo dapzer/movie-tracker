@@ -21,12 +21,16 @@ const PersonDetailsHeader: FC<Props> = ({ details }) => {
           {t('person_details.deathday')} <span>{new Date(details.deathday).toLocaleDateString()}</span>
         </li>
       )}
-      <li>
-        {t('person_details.fame_for')} <span>{details.known_for_department}</span>
-      </li>
-      <li>
-        {t('person_details.also_known_as')} <span>{arrayToString(details.also_known_as)}</span>
-      </li>
+      {details.known_for_department && (
+        <li>
+          {t('person_details.fame_for')} <span>{details.known_for_department}</span>
+        </li>
+      )}
+      {details.also_known_as.length > 0 && (
+        <li>
+          {t('person_details.also_known_as')} <span>{arrayToString(details.also_known_as)}</span>
+        </li>
+      )}
     </UiInfoHeader>
   );
 };

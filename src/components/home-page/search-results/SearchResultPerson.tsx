@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { SearchResponse } from '../../../types/SearchResponse';
 import UiCard from '../../ui/card/UiCard';
-import PersonModal from '../../core/person-details/PersonModal';
+import { ContentNames } from '../../../types/ContentNames';
+import LinkToDetails from '../../core/link-to-details/LinkToDetails';
 
 interface Props {
   personData: SearchResponse.ResultItem;
@@ -9,8 +10,8 @@ interface Props {
 
 const SearchResultPerson: FC<Props> = ({ personData }) => {
   return (
-    <UiCard title={personData.name} image={personData.profile_path}>
-      <PersonModal personData={personData} />
+    <UiCard link={`details/${ContentNames.Person}/${personData.id}`} title={personData.name} image={personData.profile_path}>
+      <LinkToDetails mediaId={personData.id} mediaType={ContentNames.Person} />
     </UiCard>
   );
 };

@@ -5,7 +5,6 @@ import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
 import { ContentNames } from '../../../types/ContentNames';
 import SearchResultPerson from './SearchResultPerson';
-import DetailsModal from '../../core/details/DetailsModal';
 import useTranslation from 'next-translate/useTranslation';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
 import Skeleton from 'react-loading-skeleton';

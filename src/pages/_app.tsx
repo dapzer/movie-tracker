@@ -11,6 +11,7 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { DefaultSeo } from 'next-seo';
 import { SearchContextProvider } from '../context/SearchContext';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const [queryClient] = useState(() => new QueryClient());
@@ -26,6 +27,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
                 <Component {...pageProps} />
               </SkeletonTheme>
             </Layout>
+            <ReactQueryDevtools initialIsOpen={false} />
           </FavoriteContextProvider>
         </SearchContextProvider>
       </QueryClientProvider>

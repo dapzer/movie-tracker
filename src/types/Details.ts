@@ -81,6 +81,7 @@ export declare module Details {
     adult: boolean;
     backdrop_path: string;
     created_by: CreatedBy[];
+    biography: string;
     episode_run_time: number[];
     first_air_date: string;
     genres: Genre[];
