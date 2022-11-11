@@ -27,7 +27,7 @@ const DetailsSkeleton: FC<Props> = () => {
         </h2>
 
         <div className={'details-grid'}>
-          {Array(10)
+          {Array(6)
             .fill('_')
             .map((el, index) => (
               <CardSkeleton key={index} horizontal height={225}>

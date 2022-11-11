@@ -11,6 +11,8 @@ import { arrayToString } from '../../../utils/arrayToString.helper';
 import useTranslation from 'next-translate/useTranslation';
 import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
 import LinkToDetails from '../link-to-details/LinkToDetails';
+import CastCard from '../details-cast/CastCard';
+import UiModal from '../../ui/modal/UiModal';
 
 interface Props {
   mediaId?: number;
@@ -72,37 +74,18 @@ const Details: FC<Props> = ({ mediaType, mediaId, initialData }) => {
             <div className={styles['details__about']}>
               <h2>{t('movie_details.actors_title')}</h2>
               <div className={'details-grid'}>
-                {credits.cast.map((item) => (
-                  <UiCard
-                    key={`person-${item.id}`}
-                    title={item.name}
-                    image={item.profile_path}
-                    horizontal
-                    link={`/details/${ContentNames.Person}/${item.id}`}
-                  >
-                    <ul>
-                      {item.total_episode_count && (
-                        <li>
-                          {t('movie_details.actors_episodesCount', {
-                            episodes: item.total_episode_count,
-                          })}
-                        </li>
-                      )}
-
-                      {item?.roles?.length > 0 ? (
-                        <li>
-                          {t('movie_details.actors_roles')} {arrayToString(item.roles, 'character')}
-                        </li>
-                      ) : (
-                        <li>
-                          {t('movie_details.actors_roles')} {item.character}
-                        </li>
-                      )}
-                    </ul>
-
-                    <LinkToDetails mediaId={item.id} mediaType={ContentNames.Person} />
-                  </UiCard>
+                {credits.cast.slice(0, 5).map((item) => (
+                  <CastCard key={`person-${item.id}`} item={item} />
                 ))}
+                {credits.cast.length > 5 && (
+                  <UiModal title={t('movie_details.actors_title')} btnTitle={t('full_list')} btnClass={'detail-full-cast-btn'}>
+                    <div className={'details-grid'}>
+                      {credits.cast.map((item) => (
+                        <CastCard key={`person-list-${item.id}`} item={item} />
+                      ))}
+                    </div>
+                  </UiModal>
+                )}
               </div>
             </div>
           )}

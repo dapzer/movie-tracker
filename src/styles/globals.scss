@@ -159,8 +159,18 @@ button {
   }
 }
 
-// Masonry
+.detail-full-cast-btn {
+  position: relative;
+  box-shadow: 0 0 20px rgb(0 0 0 / 20%);
+  border-radius: 10px;
+  padding: 20px;
+  font-size: $h2 !important;
+  text-align: center;
+  max-height: 265px;
+  margin-top: unset;
+}
 
+// Masonry
 
 .searching-results-masonry__row {
   display: -webkit-box; /* Not needed if autoprefixing */
@@ -204,9 +214,7 @@ button {
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 20px;
   padding-right: 5px;
-  max-height: 590px;
   margin-top: 20px;
-  overflow: auto;
 
   @media screen and (max-width: $lg){
     grid-template-columns: repeat(2, 1fr);

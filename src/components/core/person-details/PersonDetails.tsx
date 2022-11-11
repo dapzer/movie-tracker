@@ -9,6 +9,8 @@ import useTranslation from 'next-translate/useTranslation';
 import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
 import { ContentNames } from '../../../types/ContentNames';
 import LinkToDetails from '../link-to-details/LinkToDetails';
+import CreditsCard from '../details-cast/CreditsCard';
+import UiModal from '../../ui/modal/UiModal';
 
 interface Props {
   personId: number;
@@ -70,24 +72,18 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
             <div className={styles['person-details__movies']}>
               <h3>{t('person_details.filmography')}</h3>
               <div className={'details-grid'}>
-                {credits.cast.map((item, index) => (
-                  <UiCard
-                    key={index}
-                    title={item.title || item.name}
-                    image={item.poster_path}
-                    date={`${t('movie_details.release_date')} ${new Date(item.release_date || item.first_air_date).toLocaleDateString()}`}
-                    horizontal
-                    link={`/details/${item.media_type}/${item.id}`}
-                  >
-                    <ul>
-                      <li>
-                        {t('person_details.roles')} {item.character}
-                      </li>
-                    </ul>
-
-                    <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
-                  </UiCard>
+                {credits.cast.slice(0, 5).map((item) => (
+                  <CreditsCard key={`credit-${item.id}`} item={item} />
                 ))}
+                {credits.cast.length > 5 && (
+                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')} btnClass={'detail-full-cast-btn'}>
+                    <div className={'details-grid'}>
+                      {credits.cast.map((item) => (
+                        <CreditsCard key={`credit-list-${item.id}`} item={item} />
+                      ))}
+                    </div>
+                  </UiModal>
+                )}
               </div>
             </div>
           )}
