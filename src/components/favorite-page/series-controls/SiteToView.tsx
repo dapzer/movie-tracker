@@ -11,7 +11,7 @@ interface Props {
 const SiteToView: FC<Props> = ({ favoriteData }) => {
   const { updateFavoriteList } = useFavorite();
   const { t } = useTranslation('favoritePage');
-  const [editUrlValue, setEditUrlValue] = useState(favoriteData.seriesData.siteToView!);
+  const [editUrlValue, setEditUrlValue] = useState(favoriteData.seriesData.siteToView || '');
   const [isEdit, setIsEdit] = useState(false);
   const isHaveUrl = favoriteData.seriesData.siteToView;
 
