@@ -1,16 +1,21 @@
 @import "src/styles/variables";
+
 .search {
   padding-top: 30px;
 
   &__input {
     position: relative;
-    span {
+
+    svg {
       position: absolute;
       left: 20px;
       top: 50%;
-      transform: translateY(-25%);
-      font-size: $h3;
+      transform: translateY(-15%) scale(-1, 1);
       pointer-events: none;
+      font-size: $p;
+      color: $text;
+      height: $p;
+      width: $p;
     }
 
     input {

@@ -35,7 +35,9 @@ const Search: FC<Props> = () => {
           placeholder={t('input_placeholder')}
           onChange={(event) => setLocalSearchValue(event.target.value)}
         />
-        <span>🔎︎</span>
+        <svg>
+          <use href="/icon-search.svg#svg"></use>
+        </svg>
       </div>
     </div>
   );
