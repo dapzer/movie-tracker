@@ -7,7 +7,7 @@ import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
 interface Props {}
 
 const Search: FC<Props> = () => {
-  const { changeSearch, setCurrentPage, searchTerm, currentPage, updateRouter, clearQueries } = useSearchContext();
+  const { changeSearch, setCurrentPage, searchTerm, currentPage, updateRouter, clearQueries, searchRef } = useSearchContext();
   const [localSearchValue, setLocalSearchValue] = useState<string | null>(null);
   const { t } = useTranslation('searchPage');
 
@@ -27,7 +27,7 @@ const Search: FC<Props> = () => {
 
   return (
     <div className={styles['search']}>
-      <h3>{t('input_title')}</h3>
+      <h3 ref={searchRef}>{t('input_title')}</h3>
       <div className={styles['search__input']}>
         <input
           type="text"

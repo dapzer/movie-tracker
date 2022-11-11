@@ -1,4 +1,4 @@
-import React, { createContext, FC, useContext, useEffect, useState } from 'react';
+import React, { createContext, FC, useContext, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 interface SearchContext {
@@ -10,6 +10,8 @@ interface SearchContext {
   changePage: (value: number) => void;
   updateRouter: (str: string, page: number) => void;
   clearQueries: () => void;
+  searchRef: React.MutableRefObject<HTMLHeadingElement | null>;
+  scrollToSearch: () => void;
 }
 
 const SearchContext = createContext<SearchContext>(null!);
@@ -24,6 +26,7 @@ interface Props {
 
 export const SearchContextProvider: FC<Props> = ({ children }) => {
   const router = useRouter();
+  const searchRef = useRef<null | HTMLHeadingElement>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(5);
 
@@ -62,6 +65,10 @@ export const SearchContextProvider: FC<Props> = ({ children }) => {
     setSearchTerm('');
   };
 
+  const scrollToSearch = () => {
+    searchRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <SearchContext.Provider
       value={{
@@ -73,6 +80,8 @@ export const SearchContextProvider: FC<Props> = ({ children }) => {
         changePage,
         updateRouter,
         clearQueries,
+        searchRef,
+        scrollToSearch,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { SearchResponse } from '../../../types/SearchResponse';
 import SearchResultMovie from './SearchResultMovie';
 import styles from './search-results.module.scss';
@@ -24,7 +24,7 @@ const breakpointColumnsObj = {
 
 const SearchResultsRow: FC<Props> = () => {
   const { t, lang } = useTranslation('searchPage');
-  const { currentPage, changePage, searchTerm } = useSearchContext();
+  const { currentPage, changePage, searchTerm, scrollToSearch } = useSearchContext();
 
   const {
     data: searchResponse,
@@ -41,6 +41,12 @@ const SearchResultsRow: FC<Props> = () => {
     ],
     searchApi
   );
+
+  useEffect(() => {
+    if (isSuccess) {
+      scrollToSearch();
+    }
+  }, [searchResponse]);
 
   return (
     <div className={styles['result']}>

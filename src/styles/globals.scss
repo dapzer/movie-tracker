@@ -29,6 +29,10 @@ body {
   background-size: cover;
 }
 
+html {
+  scroll-padding-top: 10px + $headerHeight;
+}
+
 // Scroll
 
 *::-webkit-scrollbar {
