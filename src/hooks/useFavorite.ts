@@ -4,8 +4,11 @@ import { FavoriteList } from '../types/FavoriteList';
 import { useFavoriteContext } from '../context/FavoriteContext';
 import { useSession } from 'next-auth/react';
 import { StatusesNames } from '../types/StatusesNames';
+import { toast } from 'react-toastify';
+import useTranslation from 'next-translate/useTranslation';
 
 export const useFavorite = (mediaId?: number, currentStatus?: string) => {
+  const { t } = useTranslation();
   const [isFavorite, setIsFavorite] = useState(false);
   const { favoriteList, dispatchFavoriteList } = useFavoriteContext();
   const { data: session } = useSession();
@@ -29,12 +32,13 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
       },
     };
 
-    addFavoriteListItem(userId, newFavoriteItem).then(() =>
+    addFavoriteListItem(userId, newFavoriteItem).then(() => {
       dispatchFavoriteList({
         type: 'ADD',
         payload: { newFavoriteItem },
-      })
-    );
+      });
+      toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);
+    });
   };
 
   const updateFavoriteList = (mediaId: number, seriesData: FavoriteList.SeriesData, status?: string) => {
@@ -43,9 +47,10 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
     });
   };
 
-  const deleteFavoriteItem = (userId: string | undefined, mediaId: number) => {
+  const deleteFavoriteItem = (userId: string | undefined, mediaId: number, mediaType: string) => {
     deleteFavoriteListApi(userId, mediaId).then(() => {
       dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus } });
+      toast.success(`${t(`toasts:${mediaType}SuccessRemovedFromFavorite`)}`);
     });
   };
 
@@ -57,6 +62,7 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
       dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus: item.currentStatus } });
       item.currentStatus = newStatus;
       dispatchFavoriteList({ type: 'ADD', payload: { mediaId, newStatus, newFavoriteItem: item } });
+      toast.success(`${t(`toasts:statusChanged`)}`);
     });
   };
 
@@ -66,7 +72,7 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
 
   const handleFavorite = (id: number, mediaType: string) => {
     if (isFavorite) {
-      deleteFavoriteItem(session?.user?.id, id);
+      deleteFavoriteItem(session?.user?.id, id, mediaType);
     } else {
       addFavoriteItem(session?.user?.id, id, mediaType);
     }
