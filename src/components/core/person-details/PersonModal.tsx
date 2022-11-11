@@ -15,7 +15,7 @@ const PersonModal: FC<Props> = ({ personData }) => {
 
   return (
     <UiModal title={t('about_person')} fullWidth>
-      <PersonDetails personData={personData} />
+      <PersonDetails personId={personData.id} />
     </UiModal>
   );
 };
