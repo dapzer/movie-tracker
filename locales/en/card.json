@@ -2,5 +2,7 @@
   "release_date": "Release date:",
   "about_movie": "About movie",
   "about_tv": "About series",
-  "about_person": "Actor Information"
+  "about_person": "Actor Information",
+  "movie": "movie",
+  "tv": "series"
 }
