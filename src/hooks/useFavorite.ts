@@ -28,7 +28,7 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
       seriesData: {
         currentEpisode: 1,
         currentSeason: 0,
-        siteToView: null,
+        sitesToView: [],
       },
     };
 

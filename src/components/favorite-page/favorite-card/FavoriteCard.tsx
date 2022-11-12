@@ -8,7 +8,7 @@ import UiDetails from '../../ui/details/UiDetails';
 import { ContentNames } from '../../../types/ContentNames';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '../../../hooks/useFavorite';
-import StatusSelector from '../statusSelector/StatusSelector';
+import StatusSelector from '../status-selector/StatusSelector';
 import LinkToDetails from '../../core/link-to-details/LinkToDetails';
 
 interface Props {

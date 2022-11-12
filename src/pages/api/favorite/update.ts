@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           'favoriteList.$.currentStatus': req.body.currentStatus,
           'favoriteList.$.seriesData.currentEpisode': req.body.currentEpisode,
           'favoriteList.$.seriesData.currentSeason': req.body.currentSeason,
-          'favoriteList.$.seriesData.siteToView': req.body.siteToView,
+          'favoriteList.$.seriesData.sitesToView': req.body.sitesToView,
         },
       }
     );

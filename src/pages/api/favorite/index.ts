@@ -22,7 +22,7 @@ const addFavorite = async (req: NextApiRequest) => {
             seriesData: {
               currentEpisode: req.body.seriesData.currentEpisode,
               currentSeason: req.body.seriesData.currentSeason,
-              siteToView: req.body.seriesData.siteToView,
+              sitesToView: req.body.seriesData.sitesToView,
             },
           },
         } as PushOperator<Document>,

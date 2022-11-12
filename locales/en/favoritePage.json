@@ -16,6 +16,8 @@
     "current_season": "Current season:",
     "current_episode": "Current episode:",
     "site_to_view": "Site to view",
+    "site_to_view_limit": "You have reached the maximum sites to view",
+    "add_site_to_view": "Add site to view",
     "site_to_view_input": "Insert website link"
   }
 }

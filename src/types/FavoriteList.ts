@@ -2,7 +2,11 @@ export declare module FavoriteList {
   export interface SeriesData {
     currentEpisode: number;
     currentSeason: number;
-    siteToView?: string | null;
+    sitesToView?: SitesToViewObject[];
+  }
+
+  export interface SitesToViewObject {
+    url: string;
   }
 
   export interface StatusedObject {

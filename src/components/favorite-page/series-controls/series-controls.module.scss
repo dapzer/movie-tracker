@@ -27,6 +27,13 @@
 
   &__site-to-view {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    &__item  {
+      order: var(--order);
+    }
 
     &__default {
       display: flex;
@@ -44,9 +51,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-top: 5px;
 
       button {
-        font-size: 1.1em;
+        font-size: 1em;
         text-align: left;
         font-weight: $regular;
       }
