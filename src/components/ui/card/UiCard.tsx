@@ -20,11 +20,13 @@ const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, li
         <Link href={{ pathname: link || '', slashes: null }}>
           <a>
             <Image
-              src={image ? `https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
-              width="100"
-              height="150"
+              src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
+              blurDataURL={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
+              placeholder="blur"
+              width={100}
+              height={150}
               objectFit="contain"
-              sizes="320"
+              sizes="33wv"
               alt="Image"
             />
           </a>

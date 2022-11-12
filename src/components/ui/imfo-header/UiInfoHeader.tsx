@@ -28,11 +28,13 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
         <div className={styles['info-header__image']}>
           <Image
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
-            width="100"
-            height="150"
+            blurDataURL={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
+            placeholder="blur"
+            width={100}
+            height={150}
             objectFit="contain"
-            sizes="320"
-            alt="Brand logo"
+            sizes="33wv"
+            alt="Img"
           />
         </div>
         {favoriteData && <FavoriteBtn id={favoriteData.id} className={'favorite-btn__details'} mediaType={favoriteData.media_type} />}
