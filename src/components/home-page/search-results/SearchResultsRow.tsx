@@ -51,9 +51,7 @@ const SearchResultsRow: FC<Props> = () => {
   return (
     <div className={styles['result']}>
       {searchResponse && (
-        <h3>
-          {t('search_totalResults')} {searchResponse?.total_results}
-        </h3>
+        <h3>{searchResponse.results.length > 0 ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}</h3>
       )}
 
       <div className={styles['result__items']}>
