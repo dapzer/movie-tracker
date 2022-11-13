@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import styles from './movie-details.module.scss';
 import { arrayToString } from '../../../../utils/arrayToString.helper';
 import { getMovieDirectors } from '../../../../utils/getMovieDirectors.helper';
 import { toCurrency } from '../../../../utils/toCurrency.helper';
@@ -7,6 +8,7 @@ import { Credits } from '../../../../types/Credits';
 import { ContentNames } from '../../../../types/ContentNames';
 import UiInfoHeader from '../../../ui/imfo-header/UiInfoHeader';
 import useTranslation from 'next-translate/useTranslation';
+import ScoreCircle from '../../score-circle/ScoreCircle';
 
 interface Props {
   details: Details.RootObject;
@@ -29,6 +31,13 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         id: details.id,
       }}
     >
+      {details.vote_average && (
+        <li>
+          {t('movie_details.user_score')}
+          <span> {Number(details.vote_average.toFixed(1))}</span>
+        </li>
+      )}
+
       {details.production_countries && (
         <li>
           {t('movie_details.production_country')}

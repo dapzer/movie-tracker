@@ -20,7 +20,8 @@
     "episodes_count": "Number of episodes:",
     "series_runtime": "Series duration:",
     "movie_runtime": "Duration:",
-    "runtime_mins": "mins."
+    "runtime_mins": "mins.",
+    "user_score": "User score:"
   },
   "person_details": {
     "biography": "Biography",

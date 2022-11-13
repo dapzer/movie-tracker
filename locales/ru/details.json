@@ -20,7 +20,8 @@
     "episodes_count": "Количество серий:",
     "series_runtime": "Длительность серий:",
     "movie_runtime": "Длительность:",
-    "runtime_mins": "мин."
+    "runtime_mins": "мин.",
+    "user_score": "Оценка пользователей:"
   },
   "person_details": {
     "biography": "Биография",
