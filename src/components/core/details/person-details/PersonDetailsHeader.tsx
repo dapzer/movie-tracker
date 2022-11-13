@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import UiInfoHeader from '../../ui/imfo-header/UiInfoHeader';
-import { Person } from '../../../types/Person';
-import { arrayToString } from '../../../utils/arrayToString.helper';
+import UiInfoHeader from '../../../ui/imfo-header/UiInfoHeader';
+import { Person } from '../../../../types/Person';
+import { arrayToString } from '../../../../utils/arrayToString.helper';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from '../../components/core/details/details.module.scss';
+import styles from '../../components/core/details/movie-details/movie-details.module.scss';
 import CardSkeleton from './CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
 import InfoHeaderSkeleton from './InfoHeaderSkeleton';

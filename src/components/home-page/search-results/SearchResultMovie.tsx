@@ -5,7 +5,7 @@ import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
 import { SearchResponse } from '../../../types/SearchResponse';
 import useTranslation from 'next-translate/useTranslation';
-import LinkToDetails from '../../core/link-to-details/LinkToDetails';
+import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
 
 interface Props {
   item: SearchResponse.ResultItem;

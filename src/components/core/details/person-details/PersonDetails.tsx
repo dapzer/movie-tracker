@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Person } from '../../../types/Person';
-import { detailApi, personCreditsApi } from '../../../api/fetchApi';
+import { Person } from '../../../../types/Person';
+import { detailApi, personCreditsApi } from '../../../../api/fetchApi';
 import PersonDetailsHeader from './PersonDetailsHeader';
 import styles from './person-details.module.scss';
-import UiCard from '../../ui/card/UiCard';
+import UiCard from '../../../ui/card/UiCard';
 import useTranslation from 'next-translate/useTranslation';
-import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
-import { ContentNames } from '../../../types/ContentNames';
+import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
+import { ContentNames } from '../../../../types/ContentNames';
 import LinkToDetails from '../link-to-details/LinkToDetails';
 import CreditsCard from '../details-cast/CreditsCard';
-import UiModal from '../../ui/modal/UiModal';
+import UiModal from '../../../ui/modal/UiModal';
 
 interface Props {
   personId: number;

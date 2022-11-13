@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { arrayToString } from '../../../utils/arrayToString.helper';
-import { getMovieDirectors } from '../../../utils/getMovieDirectors.helper';
-import { toCurrency } from '../../../utils/toCurrency.helper';
-import { Details } from '../../../types/Details';
-import { Credits } from '../../../types/Credits';
-import { ContentNames } from '../../../types/ContentNames';
-import UiInfoHeader from '../../ui/imfo-header/UiInfoHeader';
+import { arrayToString } from '../../../../utils/arrayToString.helper';
+import { getMovieDirectors } from '../../../../utils/getMovieDirectors.helper';
+import { toCurrency } from '../../../../utils/toCurrency.helper';
+import { Details } from '../../../../types/Details';
+import { Credits } from '../../../../types/Credits';
+import { ContentNames } from '../../../../types/ContentNames';
+import UiInfoHeader from '../../../ui/imfo-header/UiInfoHeader';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   mediaType?: string;
 }
 
-const DetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
+const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
   const { t, lang } = useTranslation('details');
 
   const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString();
@@ -100,4 +100,4 @@ const DetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
   );
 };
 
-export default DetailsHeader;
+export default MovieDetailsHeader;

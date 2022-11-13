@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import UiModal from '../../ui/modal/UiModal';
-import Details from './Details';
+import UiModal from '../../../ui/modal/UiModal';
+import MovieDetails from './MovieDetails';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
@@ -8,14 +8,14 @@ interface Props {
   mediaId: number;
 }
 
-const DetailsModal: FC<Props> = ({ mediaId, mediaType }) => {
+const MovieDetailsModal: FC<Props> = ({ mediaId, mediaType }) => {
   const { t } = useTranslation('card');
 
   return (
     <UiModal title={t(`about_${mediaType}`)} fullWidth>
-      <Details mediaType={mediaType} mediaId={mediaId} />
+      <MovieDetails mediaType={mediaType} mediaId={mediaId} />
     </UiModal>
   );
 };
 
-export default DetailsModal;
+export default MovieDetailsModal;

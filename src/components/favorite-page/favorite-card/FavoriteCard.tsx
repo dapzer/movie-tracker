@@ -9,7 +9,7 @@ import { ContentNames } from '../../../types/ContentNames';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '../../../hooks/useFavorite';
 import StatusSelector from '../status-selector/StatusSelector';
-import LinkToDetails from '../../core/link-to-details/LinkToDetails';
+import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
 
 interface Props {
   details: Details.RootObject;

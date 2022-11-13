@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
-import styles from './details.module.scss';
+import styles from './movie-details.module.scss';
 import { useQuery } from '@tanstack/react-query';
-import { creditsApi, detailApi } from '../../../api/fetchApi';
-import { Credits } from '../../../types/Credits';
-import { Details } from '../../../types/Details';
-import DetailsHeader from './DetailsHeader';
-import { ContentNames } from '../../../types/ContentNames';
+import { creditsApi, detailApi } from '../../../../api/fetchApi';
+import { Credits } from '../../../../types/Credits';
+import { Details } from '../../../../types/Details';
+import MovieDetailsHeader from './MovieDetailsHeader';
+import { ContentNames } from '../../../../types/ContentNames';
 import useTranslation from 'next-translate/useTranslation';
-import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
+import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
 import CastCard from '../details-cast/CastCard';
-import UiModal from '../../ui/modal/UiModal';
+import UiModal from '../../../ui/modal/UiModal';
 
 interface Props {
   mediaId?: number;
@@ -17,7 +17,7 @@ interface Props {
   initialData?: Details.RootObject;
 }
 
-const Details: FC<Props> = ({ mediaType, mediaId, initialData }) => {
+const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
   const { t, lang } = useTranslation('details');
 
   const {
@@ -58,7 +58,7 @@ const Details: FC<Props> = ({ mediaType, mediaId, initialData }) => {
       {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
       {creditsIsSuccess && isSuccess && (
         <div className={styles['details']}>
-          <DetailsHeader details={details} credits={credits} mediaType={mediaType} />
+          <MovieDetailsHeader details={details} credits={credits} mediaType={mediaType} />
 
           {details.overview && (
             <div className={styles['details__about']}>
@@ -92,4 +92,4 @@ const Details: FC<Props> = ({ mediaType, mediaId, initialData }) => {
   );
 };
 
-export default Details;
+export default MovieDetails;

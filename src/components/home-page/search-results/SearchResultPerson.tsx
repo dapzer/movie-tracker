@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { SearchResponse } from '../../../types/SearchResponse';
 import UiCard from '../../ui/card/UiCard';
 import { ContentNames } from '../../../types/ContentNames';
-import LinkToDetails from '../../core/link-to-details/LinkToDetails';
+import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
 
 interface Props {
   personData: SearchResponse.ResultItem;

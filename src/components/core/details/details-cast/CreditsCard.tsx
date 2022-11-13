@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { Person } from '../../../types/Person';
-import UiCard from '../../ui/card/UiCard';
+import { Person } from '../../../../types/Person';
+import UiCard from '../../../ui/card/UiCard';
 import LinkToDetails from '../link-to-details/LinkToDetails';
 import useTranslation from 'next-translate/useTranslation';
 
