@@ -43,7 +43,7 @@ const SearchResultsRow: FC<Props> = () => {
   );
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && searchResponse?.results?.length) {
       scrollToSearch();
     }
   }, [searchResponse]);
