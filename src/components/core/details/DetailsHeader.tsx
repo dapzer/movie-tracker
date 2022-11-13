@@ -22,7 +22,7 @@ const DetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
   return (
     <UiInfoHeader
       original_title={details.original_title || details.original_name}
-      title={`${details.title || details.name} (${t(`card:${mediaType}`)})`}
+      title={`${details.title || details.name}`}
       image={details.poster_path}
       favoriteData={{
         media_type: mediaType,

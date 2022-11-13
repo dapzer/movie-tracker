@@ -6,11 +6,8 @@ import { Credits } from '../../../types/Credits';
 import { Details } from '../../../types/Details';
 import DetailsHeader from './DetailsHeader';
 import { ContentNames } from '../../../types/ContentNames';
-import UiCard from '../../ui/card/UiCard';
-import { arrayToString } from '../../../utils/arrayToString.helper';
 import useTranslation from 'next-translate/useTranslation';
 import DetailsSkeleton from '../../../lib/loading-skeleton/DetailsSkeleton';
-import LinkToDetails from '../link-to-details/LinkToDetails';
 import CastCard from '../details-cast/CastCard';
 import UiModal from '../../ui/modal/UiModal';
 

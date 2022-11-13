@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styles from './imfo-header.module.scss';
 import Image from 'next/image';
 import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   image?: string;
@@ -16,11 +17,14 @@ interface Props {
 
 const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteData }) => {
   const isHaveOriginalName = original_title !== title;
+  const { t, lang } = useTranslation();
 
   return (
     <div className={styles['info-header']}>
       <div className={`${styles['info-header__about__title']} ${styles[`info-header__about__title__mobile`]}`}>
-        <h2>{title}</h2>
+        <h2>
+          {title} {favoriteData?.media_type && `(${t(`card:${favoriteData?.media_type}`)})`}
+        </h2>
         <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
       </div>
 
@@ -42,7 +46,9 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
 
       <div className={styles['info-header__about']}>
         <div className={styles['info-header__about__title']}>
-          <h2>{title}</h2>
+          <h2>
+            {title} {favoriteData?.media_type && `(${t(`card:${favoriteData?.media_type}`)})`}
+          </h2>
           <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
         </div>
 
