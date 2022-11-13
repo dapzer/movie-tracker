@@ -15,8 +15,8 @@ interface Props {
 
 const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link }) => {
   return (
-    <div className={`${styles['card']} ${horizontal && styles['card__horizontal']}`} style={width ? { maxWidth: width } : {}}>
-      <div className={styles['card__image']}>
+    <div className={`${styles['body']} ${horizontal && styles['horizontal']}`} style={width ? { maxWidth: width } : {}}>
+      <div className={styles['image']}>
         <Link href={{ pathname: link || '', slashes: null }}>
           <a>
             <Image
@@ -32,9 +32,9 @@ const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, li
           </a>
         </Link>
       </div>
-      <div className={styles['card__info']}>
-        <span className={styles['card__release']}>{date}</span>
-        <p className={styles['card__title']}>{title}</p>
+      <div className={styles['info']}>
+        <span className={styles['release']}>{date}</span>
+        <p className={styles['title']}>{title}</p>
         {children}
       </div>
     </div>

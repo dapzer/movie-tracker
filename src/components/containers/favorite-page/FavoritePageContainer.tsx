@@ -17,8 +17,8 @@ const FavoritePageContainer: FC<Props> = () => {
   return (
     <div className={'container'}>
       {status === LoginStatus.Unauthenticated && (
-        <h2 className={styles['favorite-page__unlogin']}>
-          <LoginModal btnClass={styles['favorite-page__unlogin__btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
+        <h2 className={styles['unlogin']}>
+          <LoginModal btnClass={styles['unlogin_btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
         </h2>
       )}
       {((!favoriteList.allFavorites && status === LoginStatus.Authenticated) || favoriteList.allFavorites?.length < 1) && (

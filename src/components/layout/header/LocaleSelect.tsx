@@ -10,11 +10,11 @@ const LocaleSelect: FC<Props> = () => {
   return (
     <div className={styles['locale-select']}>
       <Link href={router.asPath} locale={'ru'}>
-        <a className={`${router.locale === 'ru' && styles['locale-select__active']}`}>Ru</a>
+        <a className={`${router.locale === 'ru' && styles['active']}`}>Ru</a>
       </Link>
       <div></div>
       <Link href={router.asPath} locale={'en'}>
-        <a className={`${router.locale === 'en' && styles['locale-select__active']}`}>En</a>
+        <a className={`${router.locale === 'en' && styles['active']}`}>En</a>
       </Link>
     </div>
   );

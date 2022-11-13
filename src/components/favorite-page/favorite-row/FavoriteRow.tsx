@@ -42,27 +42,22 @@ const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
   });
 
   return (
-    <UiDetails title={title} btnClass={styles['favorite-row__dropdown-btn']} isOpenedDefault>
+    <UiDetails title={title} btnClass={styles['dropdown_btn']} isOpenedDefault>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="searching-results-masonry__row"
         columnClassName="searching-results-masonry__row-column"
       >
-        {data.map(
-          (el, index) =>
-            el.status === 'loading' && (
+        {data &&
+          data.map((value, index) =>
+            value.status === 'loading' ? (
               <CardSkeleton key={index}>
                 <Skeleton width={50} height={'1em'} />
               </CardSkeleton>
+            ) : (
+              value.data && <FavoriteCard key={`favorite-item-${value.data.id}`} details={value.data} />
             )
-        )}
-      </Masonry>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="searching-results-masonry__row"
-        columnClassName="searching-results-masonry__row-column"
-      >
-        {data && data.map((value, index) => value.data && <FavoriteCard key={`favorite-item-${value.data.id}`} details={value.data} />)}
+          )}
       </Masonry>
     </UiDetails>
   );

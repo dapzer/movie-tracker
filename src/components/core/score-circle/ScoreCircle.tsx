@@ -38,9 +38,9 @@ const ScoreCircle: FC<Props> = ({ value }) => {
   };
 
   return (
-    <div className={styles['score-circle']}>
+    <div className={styles['container']}>
       <div
-        className={styles['score-circle__indicator']}
+        className={styles['indicator']}
         style={
           {
             '--progress': `${3.6 * (value * 10)}deg`,

@@ -57,18 +57,18 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
     <>
       {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
       {creditsIsSuccess && isSuccess && (
-        <div className={styles['details']}>
+        <div className={styles['container']}>
           <MovieDetailsHeader details={details} credits={credits} mediaType={mediaType} />
 
           {details.overview && (
-            <div className={styles['details__about']}>
+            <div className={styles['info_block']}>
               <h2>{t(mediaType === ContentNames.Movie ? 'movie_details.movie_description' : 'movie_details.series_description')}</h2>
               <p>{details.overview}</p>
             </div>
           )}
 
           {credits && credits.cast.length > 0 && (
-            <div className={styles['details__about']}>
+            <div className={styles['info_block']}>
               <h2>{t('movie_details.actors_title')}</h2>
               <div className={'details-grid'}>
                 {credits.cast.slice(0, 5).map((item) => (

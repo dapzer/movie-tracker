@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-.card {
+.body {
   width: 100%;
   height: fit-content;
   max-width: 300px;
@@ -13,23 +13,15 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border-radius: $borderRadius;
 
- &__horizontal {
-   flex-direction: row;
-   max-width: unset;
-   height: unset;
-   gap: 40px;
+  .title {
+    color: #fff;
+  }
 
-   .card__image {
-     max-width: 150px;
-     min-width: 150px;
-   }
- }
-
-  &__info {
+  .info {
     width: 100%;
   }
 
-  &__image {
+  .image {
     width: 100%;
     cursor: pointer;
     border-radius: $borderRadius;
@@ -40,21 +32,30 @@
       border-radius: $borderRadius;
     }
   }
+}
 
-  &__title {
-    color: #fff;
+.horizontal {
+  flex-direction: row;
+  max-width: unset;
+  height: unset;
+  gap: 40px;
+
+  .image {
+    max-width: 150px;
+    min-width: 150px;
   }
 }
 
 @media screen and (max-width: $md){
-  .card {
+  .body {
     max-width: unset;
   }
-  .card__horizontal {
+
+  .horizontal {
     flex-direction: column;
     gap: 15px;
 
-    .card__image {
+    .image {
       max-width: unset;
     }
   }

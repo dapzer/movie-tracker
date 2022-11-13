@@ -30,21 +30,21 @@ const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, ch
 
   return (
     <Portal>
-      <div className={styles['modal']} onClick={() => handleVisible(false)}>
+      <div className={styles['body']} onClick={() => handleVisible(false)}>
         <div className={`container`}>
           <div
-            className={`${fullWidth && styles['modal__full-width']} ${styles['modal__body']}`}
+            className={`${fullWidth && styles['frame_fullWidth']} ${styles['frame']}`}
             style={{ maxWidth: `${maxWidth}px` }}
             onClick={(event) => event.stopPropagation()}
           >
-            <div className={styles['modal__header']}>
+            <div className={styles['header']}>
               <h2>{title}</h2>
               <button onClick={() => handleVisible(false)}>
                 <Image src="/icon-close.svg" width={25} height={25} />
               </button>
             </div>
 
-            <div className={styles['modal__content']}>{children}</div>
+            <div className={styles['content']}>{children}</div>
           </div>
         </div>
       </div>

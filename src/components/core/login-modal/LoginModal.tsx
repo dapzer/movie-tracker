@@ -23,7 +23,7 @@ const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler, btnTitle, btnCl
       btnClass={btnClass || 'login-btn'}
       btnTitle={btnTitle || t('signIn')}
     >
-      <div className={styles['login-modal']}>
+      <div className={styles['content']}>
         <button onClick={() => signIn('google')} style={{ '--bg': '#D92929' } as React.CSSProperties}>
           Google
         </button>

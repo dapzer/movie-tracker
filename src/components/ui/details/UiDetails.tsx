@@ -13,13 +13,13 @@ const UiDetails: FC<Props> = ({ children, title, btnClass, isOpenedDefault }) =>
 
   return (
     <div>
-      <button className={`${styles['ui-details__toggle-btn']} ${btnClass}`} onClick={(e) => setIsOpen(!isOpen)}>
+      <button className={`${styles['toggle_btn']} ${btnClass}`} onClick={(e) => setIsOpen(!isOpen)}>
         {title}
-        <svg className={`${isOpen && styles['ui-details__arrow-active']}`}>
+        <svg className={`${isOpen && styles['arrow_active']}`}>
           <use href="/icon-arrow.svg#svg"></use>
         </svg>
       </button>
-      <div className={styles['ui-details__content']} hidden={!isOpen}>
+      <div className={styles['content']} hidden={!isOpen}>
         {children}
       </div>
     </div>

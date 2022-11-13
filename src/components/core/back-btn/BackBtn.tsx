@@ -8,7 +8,7 @@ const BackBtn: FC<Props> = () => {
   const { t } = useTranslation('buttons');
   const router = useRouter();
   return (
-    <button className={styles['back-btn']} onClick={router.back}>
+    <button className={styles['button']} onClick={router.back}>
       {t('goBack')}
     </button>
   );

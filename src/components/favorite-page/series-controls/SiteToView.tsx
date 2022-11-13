@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from './series-controls.module.scss';
+import styles from './site-to-view.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { FavoriteList } from '../../../types/FavoriteList';
 import { useSitesToView } from '../../../hooks/useSitesToView';
@@ -13,15 +13,10 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
   const { t } = useTranslation('favoritePage');
 
   return (
-    <div className={styles['series-controls__site-to-view']}>
+    <div className={styles['content']}>
       {sitesToView &&
-        sitesToView?.length > 0 &&
         sitesToView.map((item, index) => (
-          <div
-            key={`site-${index}`}
-            className={`${styles['series-controls__site-to-view__default']} ${styles['series-controls__site-to-view__item']}`}
-            style={{ '--order': index + 1 } as React.CSSProperties}
-          >
+          <div key={`site-${index}`} className={styles['item']} style={{ '--order': index + 1 } as React.CSSProperties}>
             <a href={item.url} target="_blank" rel="noreferrer">
               {t('tracking_menu.site_to_view')} #{index + 1}
             </a>
@@ -31,7 +26,7 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
 
       {!isEdit && (
         <div
-          className={`${styles['series-controls__site-to-view__add']} ${styles['series-controls__site-to-view__item']}`}
+          className={`${styles['add_new']} ${styles['item']}`}
           onClick={() => startEdit(null, '')}
           style={{ '--order': sitesToView?.length || 1 } as React.CSSProperties}
         >
@@ -43,10 +38,7 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
       )}
 
       {isEdit && (
-        <div
-          className={`${styles['series-controls__site-to-view__edit']} ${styles['series-controls__site-to-view__item']}`}
-          style={{ '--order': editUrlIndex || sitesToView?.length || 1 } as React.CSSProperties}
-        >
+        <div className={`${styles['edit']} ${styles['item']}`} style={{ '--order': editUrlIndex || sitesToView?.length || 1 } as React.CSSProperties}>
           <input
             type="text"
             value={editUrlValue}

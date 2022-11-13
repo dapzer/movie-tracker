@@ -23,18 +23,18 @@ const Header: FC = () => {
   };
 
   return (
-    <div className={`${styles['header']} ${isOpen && styles['header-mobile__active']}`}>
-      <div className={`${styles['header__content']} container`}>
-        <nav className={styles['header__logo__link-list']}>
+    <header className={`${styles['body']} ${isOpen && styles['mobile_body_active']}`}>
+      <div className={`${styles['content']} container`}>
+        <nav className={styles['logo_links']}>
           <Link href="/">
-            <h3 hidden={isOpen} className={styles['header__logo']}>
+            <h3 hidden={isOpen} className={styles['logo']}>
               Movie Tracker
             </h3>
           </Link>
           <LocaleSelect />
         </nav>
 
-        <nav className={styles['header__link-list']}>
+        <nav className={styles['links']}>
           <LinksList />
           <UserProfile />
           {status === LoginStatus.Unauthenticated && <AuthBtn />}
@@ -44,13 +44,13 @@ const Header: FC = () => {
       </div>
 
       {isOpen && (
-        <div className={styles['header-mobile__menu']} onClick={() => handleMobileMenu()}>
-          <nav onClick={(event) => event.stopPropagation()}>
+        <div className={styles['menu']} onClick={() => handleMobileMenu()}>
+          <nav onClick={(event) => event.stopPropagation()} className={styles['links']}>
             <LinksList modalHandler={handleMobileMenu} />
           </nav>
         </div>
       )}
-    </div>
+    </header>
   );
 };
 

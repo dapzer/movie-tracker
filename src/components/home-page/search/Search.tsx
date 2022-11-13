@@ -26,9 +26,9 @@ const Search: FC<Props> = () => {
   }, [localSearchValue]);
 
   return (
-    <div className={styles['search']}>
+    <div className={styles['content']}>
       <h3 ref={searchRef}>{t('input_title')}</h3>
-      <div className={styles['search__input']}>
+      <div className={styles['input_block']}>
         <input
           type="text"
           defaultValue={searchTerm}

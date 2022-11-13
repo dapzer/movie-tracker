@@ -23,7 +23,7 @@ const contacts = [
 
 const Footer: FC<Props> = () => {
   return (
-    <footer className={styles['footer']}>
+    <footer className={styles['body']}>
       <div className={'container'}>
         <ul>
           <li>

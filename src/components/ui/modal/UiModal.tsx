@@ -1,8 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import styles from './ui-modal.module.scss';
-import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
-import Portal from '../../core/Portal';
 import ModalContent from './ModalContent';
 
 interface Props {

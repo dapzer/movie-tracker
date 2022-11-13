@@ -20,10 +20,10 @@ const UserProfile: FC<Props> = () => {
   return (
     <>
       {status === LoginStatus.Authenticated && (
-        <div className={`ui-dropdown__trigger ${styles['user-profile__trigger']}`}>
-          <div className={`${styles['user-profile']}`}>
+        <div className={`ui-dropdown__trigger ${styles['trigger']}`}>
+          <div className={`${styles['content']}`}>
             <p>{session?.user?.name?.split(' ')[0]}</p>
-            <div className={styles['user-profile__image']}>
+            <div className={styles['image']}>
               <Image
                 src={profileImg ? `/api/proxy/image?imageUrl=${profileImg}` : '/icon-user.svg'}
                 width="32px"
@@ -32,8 +32,8 @@ const UserProfile: FC<Props> = () => {
               />
             </div>
           </div>
-          <UiDropdown marginTop={'20px'} containerClass={styles['user-profile__content']}>
-            <div className={styles['user-profile__dropdown']}>
+          <UiDropdown marginTop={'20px'} containerClass={styles['dropdown_body']}>
+            <div className={styles['dropdown']}>
               <div>
                 <p>{session?.user?.name}</p>
                 {session?.user?.email && <p>{session?.user?.email}</p>}

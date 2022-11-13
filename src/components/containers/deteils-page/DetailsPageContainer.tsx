@@ -15,7 +15,7 @@ interface Props {
 
 const DetailsPageContainer: FC<Props> = ({ mediaType, locale, details }) => {
   return (
-    <div className={`container ${styles['details']}`}>
+    <div className={`container`}>
       <BackBtn />
 
       {mediaType === ContentNames.Person ? (

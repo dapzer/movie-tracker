@@ -1,12 +1,12 @@
 @import "src/styles/variables";
 
-.ui-dropdown {
+.body {
   display: none;
   right: 0;
   position: absolute;
   width: max-content;
 
-  &__content {
+  .content {
     cursor: auto;
     box-shadow: 0 0 20px rgb(0 0 0 / 20%);
     padding: 15px 10px;

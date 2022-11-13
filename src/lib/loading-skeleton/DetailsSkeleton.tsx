@@ -8,10 +8,10 @@ interface Props {}
 
 const DetailsSkeleton: FC<Props> = () => {
   return (
-    <div className={styles['details']}>
+    <div className={styles['container']}>
       <InfoHeaderSkeleton />
 
-      <div className={styles['details__about']}>
+      <div className={styles['info_block']}>
         <h2>
           <Skeleton style={{ maxWidth: '250px' }} />
         </h2>

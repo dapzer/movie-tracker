@@ -1,11 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styles from './header.module.scss';
 import LocaleSelect from './LocaleSelect';
-import { LoginStatus } from '../../../types/LoginStatus';
-import LoginModal from '../../core/login-modal/LoginModal';
-import { signOut, useSession } from 'next-auth/react';
-import useTranslation from 'next-translate/useTranslation';
-import LinksList from './LinksList';
 import AuthBtn from './AuthBtn';
 import UserProfile from './user-profile/UserProfile';
 
@@ -16,11 +11,12 @@ interface Props {
 
 const HeaderMobile: FC<Props> = ({ isOpen, setIsOpen }) => {
   return (
-    <div className={styles['header-mobile']}>
-      <div className={styles['header-mobile__controls__lang']} hidden={!isOpen}>
+    <div className={styles['mobile_body']}>
+      <div className={styles['controls_locale']} hidden={!isOpen}>
         <LocaleSelect />
       </div>
-      <div className={styles['header-mobile__controls']}>
+
+      <div className={styles['controls']}>
         <div hidden={isOpen}>
           <UserProfile />
         </div>
@@ -29,7 +25,7 @@ const HeaderMobile: FC<Props> = ({ isOpen, setIsOpen }) => {
           <AuthBtn />
         </div>
 
-        <button className={`${styles['header-mobile__controls__handler']}`} onClick={setIsOpen}>
+        <button className={`${styles['handler']}`} onClick={setIsOpen}>
           <span></span>
         </button>
       </div>

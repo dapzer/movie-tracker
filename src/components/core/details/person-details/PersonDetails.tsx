@@ -4,11 +4,9 @@ import { Person } from '../../../../types/Person';
 import { detailApi, personCreditsApi } from '../../../../api/fetchApi';
 import PersonDetailsHeader from './PersonDetailsHeader';
 import styles from './person-details.module.scss';
-import UiCard from '../../../ui/card/UiCard';
 import useTranslation from 'next-translate/useTranslation';
 import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
 import { ContentNames } from '../../../../types/ContentNames';
-import LinkToDetails from '../link-to-details/LinkToDetails';
 import CreditsCard from '../details-cast/CreditsCard';
 import UiModal from '../../../ui/modal/UiModal';
 
@@ -60,7 +58,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
           <PersonDetailsHeader details={details} />
 
           {details.biography && (
-            <div className={styles['person-details__biography']}>
+            <div className={styles['biography']}>
               <h3>{t('person_details.biography')}</h3>
               {details.biography.split('\n\n').map((item, index) => (
                 <p key={`biography-${index}`}>{item}</p>
@@ -69,7 +67,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
           )}
 
           {credits.cast.length > 0 && (
-            <div className={styles['person-details__movies']}>
+            <div className={styles['movies']}>
               <h3>{t('person_details.filmography')}</h3>
               <div className={'details-grid'}>
                 {credits.cast.slice(0, 5).map((item) => (

@@ -29,11 +29,11 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           date={`${t('added_date')} ${new Date(favoriteData.addedDate || '').toLocaleDateString()}`}
           link={`details/${favoriteData.mediaType}/${details.id}`}
         >
-          <div className={styles['favorite-card__score']}>
+          <div className={styles['score']}>
             <ScoreCircle value={Number(details.vote_average.toFixed(1))} />
           </div>
 
-          <div className={styles['favorite-card__favorite-btn']}>
+          <div className={styles['status_selector']}>
             <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteData.currentStatus} />
           </div>
 

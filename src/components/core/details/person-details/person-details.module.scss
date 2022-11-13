@@ -1,17 +1,16 @@
-.person-details {
-  &__biography {
-    padding-top: 20px;
+.biography {
+  padding-top: 20px;
 
-    h3 {
-      padding-bottom: 20px;
-    }
-
-    p {
-      padding-bottom: 15px;
-    }
+  h3 {
+    padding-bottom: 20px;
   }
 
-  &__movies {
-    padding-top: 20px;
+  p {
+    padding-bottom: 15px;
   }
 }
+
+.movies {
+  padding-top: 20px;
+}
+

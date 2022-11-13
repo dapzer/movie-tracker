@@ -16,12 +16,12 @@ const SeriesControls: FC<Props> = ({ favoriteData, seasons }) => {
   const { t } = useTranslation('favoritePage');
 
   return (
-    <div className={styles['series-controls']}>
-      <div className={styles['series-controls__item']}>
+    <div className={styles['content']}>
+      <div className={styles['item']}>
         <SiteToView favoriteData={favoriteData} />
       </div>
 
-      <div className={styles['series-controls__item']}>
+      <div className={styles['item']}>
         <p>{t('tracking_menu.current_season')}</p>
         <select value={currentSeason} onChange={(event) => handleSeason(Number(event.target.value))} name="Season">
           {seasons.map((season, index) => (
@@ -32,7 +32,7 @@ const SeriesControls: FC<Props> = ({ favoriteData, seasons }) => {
         </select>
       </div>
 
-      <div className={styles['series-controls__item']}>
+      <div className={styles['item']}>
         <p>{t('tracking_menu.current_episode')}</p>
         <select value={currentEpisode} onChange={(event) => setCurrentEpisode(Number(event.target.value))} name="Episode">
           {generateEpisodesList(seasons[currentSeason].episode_count).map((episode) => (

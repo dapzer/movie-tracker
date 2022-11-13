@@ -9,8 +9,8 @@ interface Props {
 
 const UiDropdown: FC<Props> = ({ children, marginTop, containerClass }) => {
   return (
-    <div className={`ui-dropdown ${styles['ui-dropdown']} ${containerClass}`}>
-      <div className={styles['ui-dropdown__content']} style={{ marginTop: marginTop }}>
+    <div className={`ui-dropdown ${styles['body']} ${containerClass}`}>
+      <div className={styles['content']} style={{ marginTop: marginTop }}>
         {children}
       </div>
     </div>

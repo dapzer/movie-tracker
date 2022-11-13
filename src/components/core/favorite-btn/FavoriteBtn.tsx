@@ -29,10 +29,10 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
   };
 
   return (
-    <div className={styles['favorite-btn']}>
+    <div className={styles['container']}>
       <button
         onClick={() => handleFavoriteStatus()}
-        className={`${styles[`${isFavorite ? 'favorite-btn__remove' : 'favorite-btn__add'}`]} ${styles[className]}`}
+        className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${className} ${styles['button']}`}
       >
         {isFavorite ? (
           <svg>

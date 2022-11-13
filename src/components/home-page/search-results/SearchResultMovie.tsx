@@ -22,12 +22,12 @@ const SearchResultMovie: FC<Props> = ({ item }) => {
       date={`${t('release_date')} ${release}`}
       link={`details/${item.media_type}/${item.id}`}
     >
-      <div className={styles['result__movie-card__score']}>
+      <div className={styles['score_container']}>
         <ScoreCircle value={item.vote_average} />
       </div>
 
-      <div className={styles['result__movie-card__favorite']}>
-        <FavoriteBtn id={item.id} className={'favorite-btn__movie-card-btn'} mediaType={item.media_type} />
+      <div className={styles['favorite_container']}>
+        <FavoriteBtn id={item.id} className={styles['favorite_btn']} mediaType={item.media_type} />
       </div>
 
       <LinkToDetails mediaId={item.id} mediaType={item.media_type} />

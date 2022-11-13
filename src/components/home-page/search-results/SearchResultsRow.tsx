@@ -49,12 +49,12 @@ const SearchResultsRow: FC<Props> = () => {
   }, [searchResponse]);
 
   return (
-    <div className={styles['result']}>
+    <div className={styles['content']}>
       {searchResponse && (
         <h3>{searchResponse.results.length > 0 ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}</h3>
       )}
 
-      <div className={styles['result__items']}>
+      <div className={styles['items']}>
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="searching-results-masonry__row"

@@ -1,5 +1,6 @@
 @import "src/styles/variables";
-.footer {
+
+.body {
   width: 100%;
   padding: 15px 0;
   border-top: 1px solid $text;
@@ -41,7 +42,7 @@
 }
 
 @media screen and (max-width: $md){
-  .footer {
+  .body {
     ul {
       margin: unset;
       flex-direction: column;

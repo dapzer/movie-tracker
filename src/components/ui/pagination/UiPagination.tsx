@@ -29,19 +29,19 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
   };
 
   return (
-    <div className={styles['pagination__pages']}>
+    <div className={styles['body']}>
       <button
         hidden={!(paginationInfo.currentPage > paginationInfo.options.pageToShow)}
-        className={`${styles['pagination__page']}`}
+        className={`${styles['item']}`}
         onClick={() => pageHandler(1)}
       >
         {t('paginationStart')}
       </button>
 
-      <div className={styles['pagination__pages__list']}>
+      <div className={styles['list']}>
         {pages.map((page) => (
           <button
-            className={`${styles['pagination__page']} ${page === paginationInfo.currentPage && styles['pagination__page_active']}`}
+            className={`${styles['item']} ${page === paginationInfo.currentPage && styles['item_active']}`}
             key={page}
             onClick={() => pageHandler(page)}
           >
@@ -52,7 +52,7 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
 
       <button
         hidden={!(paginationInfo.currentPage < (paginationInfo?.totalPages || 0) - paginationInfo.options.pageToShow)}
-        className={`${styles['pagination__page']}`}
+        className={`${styles['item']}`}
         onClick={() => pageHandler(paginationInfo.totalPages || 1)}
       >
         {t('paginationEnd')}

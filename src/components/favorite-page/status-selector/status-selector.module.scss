@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-.status-selector {
+.content {
   padding: 5px 10px;
   background: $accent;
   border-radius: 10px 0 0 10px;
@@ -26,12 +26,12 @@
       color: $highlight;
     }
   }
+}
 
-  &__delete-btn {
-    color: red;
+.delete_btn {
+  color: red;
 
-    &:hover {
-      color: red !important;
-    }
+  &:hover {
+    color: red !important;
   }
 }

@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import Link from 'next/link';
 import { isUrlActive } from '../../../utils/url.helper';
 import styles from './header.module.scss';
-import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 
 const links = {
@@ -39,7 +38,7 @@ const LinksList: FC<Props> = ({ modalHandler }) => {
     <>
       {links[locale as keyof typeof links].map((link, index) => (
         <Link key={index} href={link.url}>
-          <a className={isUrlActive(pathname, link.url) ? styles['header__link-list__active-page'] : ''} onClick={modalHandler}>
+          <a className={isUrlActive(pathname, link.url) ? styles['active_page'] : ''} onClick={modalHandler}>
             {link.title}
           </a>
         </Link>

@@ -1,20 +1,17 @@
 @import "../../../styles/variables";
 
-.pagination {
-  &__pages__list,
-  &__pages {
+.body {
+  &,
+  .list {
     width: fit-content;
     display: flex;
     gap: 15px;
     margin: 0 auto;
     justify-content: center;
-  }
-
-  &__pages {
     flex-wrap: wrap;
   }
 
-  &__page {
+  .item {
     padding: 10px;
     background: $primary;
     color: $secondary;
@@ -30,11 +27,9 @@
   }
 }
 
-@media screen and (max-width: 550px){
-  .pagination {
-    &__pages__list {
-      order: -1;
-      flex-basis: 100%;
-    }
+@media screen and (max-width: 550px) {
+  .list {
+    order: -1;
+    flex-basis: 100%;
   }
 }

@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-.modal {
+.body {
   position: fixed;
   top: 0;
   left: 0;
@@ -16,11 +16,7 @@
     display: none !important;
   }
 
-  &__full-width {
-    width: 100% !important;
-  }
-
-  &__header {
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -39,7 +35,7 @@
     }
   }
 
-  &__body {
+  .frame {
     margin: 0 auto;
     background: $background;
     padding: 20px;
@@ -47,9 +43,9 @@
     max-height: 90vh;
     overflow-y: auto;
     border-radius: $borderRadius;
-  }
 
-  &__content {
+    &_fullWidth {
+      width: 100% !important;
+    }
   }
-
 }

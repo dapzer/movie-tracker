@@ -31,7 +31,7 @@ const HomePageInfo: FC<Props> = () => {
   const { t, lang } = useTranslation('searchPage');
 
   return (
-    <div className={styles['home-page-info']}>
+    <div className={styles['content']}>
       <h2>{t('page_title')}</h2>
       {t('about_service')
         .split('\n\n')
@@ -41,7 +41,7 @@ const HomePageInfo: FC<Props> = () => {
 
       <h3>{t('socials')}</h3>
 
-      <ul className={styles['home-page-info__socials']}>
+      <ul className={styles['socials']}>
         {socials[lang as keyof typeof socials].map((el, index) => (
           <li key={`social-link-${index}`}>
             <a href={el.link} target="_blank" rel="noreferrer">

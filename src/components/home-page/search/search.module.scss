@@ -1,29 +1,29 @@
 @import "src/styles/variables";
 
-.search {
+.content {
   padding-top: 30px;
+}
 
-  &__input {
-    position: relative;
+.input_block {
+  position: relative;
 
-    svg {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-15%) scale(-1, 1);
-      pointer-events: none;
-      font-size: $p;
-      color: $text;
-      height: $p;
-      width: $p;
-    }
+  svg {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-15%) scale(-1, 1);
+    pointer-events: none;
+    font-size: $p;
+    color: $text;
+    height: $p;
+    width: $p;
+  }
 
-    input {
-      padding-left: 55px;
-      width: 100%;
-      margin-top: 20px;
-      border-color: $text;
-      border-radius: 50px;
-    }
+  input {
+    padding-left: 55px;
+    width: 100%;
+    margin-top: 20px;
+    border-color: $text;
+    border-radius: 50px;
   }
 }

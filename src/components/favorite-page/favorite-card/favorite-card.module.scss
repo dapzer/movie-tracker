@@ -1,13 +1,11 @@
-.favorite-card {
-  &__score {
-    top: -10px;
-    left: -10px;
-    position: absolute;
-  }
+.score {
+  top: -10px;
+  left: -10px;
+  position: absolute;
+}
 
-  &__favorite-btn {
-    position: absolute;
-    top: 30px;
-    right: 0;
-  }
+.status_selector {
+  position: absolute;
+  top: 30px;
+  right: 0;
 }

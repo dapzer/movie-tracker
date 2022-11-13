@@ -17,7 +17,7 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus }) => {
   const { handleFavorite, changeStatus } = useFavorite(id, currentStatus);
 
   return (
-    <div className={`favorite-btn__movie-card-btn ${styles['status-selector']} ui-dropdown__trigger`}>
+    <div className={`favorite-btn__movie-card-btn ${styles['content']} ui-dropdown__trigger`}>
       <span>{t('favoritePage:changeStatus')}</span>
       <UiDropdown>
         {statuses.map((el, index) => (
@@ -25,7 +25,7 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus }) => {
             {t(`favoritePage:statuses.${el}`)}
           </button>
         ))}
-        <button onClick={() => handleFavorite(id, `${mediaType}`)} className={styles['status-selector__delete-btn']}>
+        <button onClick={() => handleFavorite(id, `${mediaType}`)} className={styles['delete_btn']}>
           {t('buttons:delete_from_favorite')}
         </button>
       </UiDropdown>
