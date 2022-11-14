@@ -30,7 +30,7 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         id: details.id,
       }}
     >
-      {details.vote_average && (
+      {details.vote_average > 0 && (
         <li>
           {t('movie_details.user_score')}
           <span> {Number(details.vote_average.toFixed(1))}</span>
