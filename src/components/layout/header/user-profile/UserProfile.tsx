@@ -5,6 +5,7 @@ import { LoginStatus } from '../../../../types/LoginStatus';
 import Image from 'next/image';
 import UiDropdown from '../../../ui/dropdown/UiDropdown';
 import AuthBtn from '../AuthBtn';
+import ProfileSkeleton from '../../../../lib/loading-skeleton/ProfileSkeleton';
 
 interface Props {}
 
@@ -19,6 +20,7 @@ const UserProfile: FC<Props> = () => {
 
   return (
     <>
+      {status === LoginStatus.Loading && <ProfileSkeleton />}
       {status === LoginStatus.Authenticated && (
         <div className={`ui-dropdown__trigger ${styles['trigger']}`}>
           <div className={`${styles['content']}`}>

@@ -24,14 +24,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
       <QueryClientProvider client={queryClient}>
         <SearchContextProvider>
           <FavoriteContextProvider>
-            <Layout>
-              <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
+            <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
+              <Layout>
                 <DefaultSeo {...SEO} />
                 <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color="#0073fa" />
                 <ToastContainer theme={'dark'} autoClose={1500} limit={2} />
                 <Component {...pageProps} />
-              </SkeletonTheme>
-            </Layout>
+              </Layout>
+            </SkeletonTheme>
             <ReactQueryDevtools initialIsOpen={false} />
           </FavoriteContextProvider>
         </SearchContextProvider>
