@@ -1,14 +1,15 @@
 import queryString from 'query-string';
 import { ContentNames } from '../types/ContentNames';
+import { toast } from 'react-toastify';
 
 export const getResponse = async (url: string) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/proxy?url=${encodeURIComponent(url)}`);
+  const data = await response.json();
 
   if (response.ok) {
-    const data = await response.json();
     return data;
   } else {
-    return null;
+    toast.warning(`Error when fetching data from THMD. Code: ${data.code}`);
   }
 };
 
