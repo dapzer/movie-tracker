@@ -9,6 +9,7 @@ import { FavoriteList } from '../../../types/FavoriteList';
 import UiDetails from '../../ui/details/UiDetails';
 import Skeleton from 'react-loading-skeleton';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
+import MovieCard from '../../core/movie-card/MovieCard';
 
 interface Props {
   favoriteList: FavoriteList.RootObject[];
@@ -42,7 +43,7 @@ const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
   });
 
   return (
-    <UiDetails title={title} btnClass={styles['dropdown_btn']} isOpenedDefault>
+    <UiDetails title={title} btnClass={'ui-details_large'} isOpenedDefault>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="searching-results-masonry__row"

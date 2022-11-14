@@ -7,11 +7,12 @@ interface Props {
   height?: number;
   horizontal?: boolean;
   children?: React.ReactNode;
+  small?: boolean;
 }
 
-const CardSkeleton: FC<Props> = ({ horizontal, width, children, height }) => {
+const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small }) => {
   return (
-    <div className={`${styles['body']} ${horizontal && styles['horizontal']}`} style={width ? { maxWidth: width } : {}}>
+    <div className={`${styles['body']} ${horizontal && styles['horizontal']} ${small && styles['small']}`} style={width ? { maxWidth: width } : {}}>
       <div className={styles['image']}>
         <Skeleton height={height ? height : 390} />
       </div>

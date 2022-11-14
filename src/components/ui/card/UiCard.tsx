@@ -11,11 +11,12 @@ interface Props {
   width?: string;
   horizontal?: boolean;
   link: string;
+  small?: boolean;
 }
 
-const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link }) => {
+const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link, small }) => {
   return (
-    <div className={`${styles['body']} ${horizontal && styles['horizontal']}`} style={width ? { maxWidth: width } : {}}>
+    <div className={`${styles['body']} ${horizontal && styles['horizontal']} ${small && styles['small']}`} style={width ? { maxWidth: width } : {}}>
       <div className={styles['image']}>
         <Link href={{ pathname: link || '', slashes: null }}>
           <a>

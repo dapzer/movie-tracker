@@ -1,15 +1,13 @@
 import React, { FC } from 'react';
 import styles from './favorite-card.module.scss';
 import { Details } from '../../../types/Details';
-import UiCard from '../../ui/card/UiCard';
-import ScoreCircle from '../../core/score-circle/ScoreCircle';
 import SeriesControls from '../series-controls/SeriesControls';
 import UiDetails from '../../ui/details/UiDetails';
 import { ContentNames } from '../../../types/ContentNames';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '../../../hooks/useFavorite';
 import StatusSelector from '../status-selector/StatusSelector';
-import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
+import MovieCard from '../../core/movie-card/MovieCard';
 
 interface Props {
   details: Details.RootObject;
@@ -23,28 +21,24 @@ const FavoriteCard: FC<Props> = ({ details }) => {
   return (
     <div>
       {favoriteData && (
-        <UiCard
+        <MovieCard
+          mediaType={favoriteData.mediaType!}
+          mediaId={details.id}
+          score={details.vote_average}
           title={details.title || details.name}
           image={details.poster_path}
-          date={`${t('added_date')} ${new Date(favoriteData.addedDate || '').toLocaleDateString()}`}
-          link={`details/${favoriteData.mediaType}/${details.id}`}
+          releaseDate={details.release_date || details.first_air_date}
         >
-          <div className={styles['score']}>
-            <ScoreCircle value={Number(details.vote_average.toFixed(1))} />
-          </div>
-
           <div className={styles['status_selector']}>
             <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteData.currentStatus} />
           </div>
-
-          <LinkToDetails mediaType={favoriteData.mediaType} mediaId={favoriteData.id} />
 
           {favoriteData.mediaType === ContentNames.Series && (
             <UiDetails title={t('tracking_menu.title')}>
               <SeriesControls favoriteData={favoriteData} seasons={details.seasons} />
             </UiDetails>
           )}
-        </UiCard>
+        </MovieCard>
       )}
     </div>
   );

@@ -8,7 +8,6 @@ import { Credits } from '../../../../types/Credits';
 import { ContentNames } from '../../../../types/ContentNames';
 import UiInfoHeader from '../../../ui/imfo-header/UiInfoHeader';
 import useTranslation from 'next-translate/useTranslation';
-import ScoreCircle from '../../score-circle/ScoreCircle';
 
 interface Props {
   details: Details.RootObject;

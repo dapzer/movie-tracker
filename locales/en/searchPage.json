@@ -5,5 +5,6 @@
   "input_title": "Find a movie, series, person...",
   "input_placeholder": "Search",
   "search_notFound": "Nothing found",
-  "search_totalResults": "Total results:"
-}
+  "search_totalResults": "Total results:",
+  "popular_movies": "Popular films",
+  "popular_tv": "Popular TV shows"}

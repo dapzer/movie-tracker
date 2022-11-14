@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import "mixins";
 
 :root{
   --toastify-color-dark: #282f43;
@@ -144,6 +145,22 @@ button {
   font-size: $p;
   cursor: pointer;
   color: $secondary;
+}
+
+.ui-details_large {
+  position: sticky;
+  top: $headerHeight;
+  z-index: 25;
+  border: none !important;
+  justify-content: space-between !important;
+  margin-bottom: 20px !important;
+  font-size: $h3 !important;
+  border-bottom: 2px solid $text !important;
+  @include fullWidthBg($background);
+
+  @media screen and (max-width: $sm){
+    font-size: $p !important;
+  }
 }
 
 .modal-open-btn {

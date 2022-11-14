@@ -46,6 +46,26 @@
   }
 }
 
+.small {
+  max-width: 200px;
+  min-width: 200px;
+  gap: 10px;
+
+  .title {
+    font-size: 1em;
+  }
+
+  a,
+  .release {
+    font-size: .9em;
+  }
+
+
+  @media screen and (max-width: 450px){
+    max-width: unset;
+  }
+}
+
 @media screen and (max-width: $md){
   .body {
     max-width: unset;

@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { SearchResponse } from '../../../types/SearchResponse';
-import SearchResultMovie from './SearchResultMovie';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
 import { ContentNames } from '../../../types/ContentNames';
@@ -12,6 +11,9 @@ import UiPagination from '../../ui/pagination/UiPagination';
 import { useSearchContext } from '../../../context/SearchContext';
 import { useQuery } from '@tanstack/react-query';
 import { searchApi } from '../../../api/fetchApi';
+import PopularlsList from '../popular/PopularlsList';
+import MovieCard from '../../core/movie-card/MovieCard';
+import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
 
 interface Props {}
 
@@ -50,6 +52,13 @@ const SearchResultsRow: FC<Props> = () => {
 
   return (
     <div className={styles['content']}>
+      {isOnlySpaces(searchTerm) && (
+        <>
+          <PopularlsList title={t('popular_movies')} mediaType={ContentNames.Movie} />
+          <PopularlsList title={t('popular_tv')} mediaType={ContentNames.Series} />
+        </>
+      )}
+
       {searchResponse && (
         <h3>{searchResponse.results.length > 0 ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}</h3>
       )}
@@ -73,7 +82,15 @@ const SearchResultsRow: FC<Props> = () => {
               item.media_type === ContentNames.Person ? (
                 <SearchResultPerson key={item.id} personData={item} />
               ) : (
-                <SearchResultMovie key={item.id} item={item} />
+                <MovieCard
+                  mediaType={item.media_type}
+                  mediaId={item.id}
+                  score={item.vote_average}
+                  title={item.title || item.name}
+                  image={item.poster_path}
+                  releaseDate={item.release_date || item.first_air_date}
+                  favoriteBtn
+                />
               )
             )}
         </Masonry>

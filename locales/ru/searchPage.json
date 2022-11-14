@@ -5,5 +5,7 @@
   "input_title": "Найти фильм, сериал, персону...",
   "input_placeholder": "Поиск",
   "search_notFound": "Ничего не найдено",
-  "search_totalResults": "Найдено результатов:"
+  "search_totalResults": "Найдено результатов:",
+  "popular_movies": "Популярные фильмы",
+  "popular_tv": "Популярные сериалы"
 }
