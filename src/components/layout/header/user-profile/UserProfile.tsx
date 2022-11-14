@@ -28,6 +28,8 @@ const UserProfile: FC<Props> = () => {
             <div className={styles['image']}>
               <Image
                 src={profileImg ? `/api/proxy/image?imageUrl=${profileImg}` : '/icon-user.svg'}
+                placeholder={'blur'}
+                blurDataURL={'/icon-user.svg'}
                 width="32px"
                 height="32px"
                 objectFit="scale-down"
