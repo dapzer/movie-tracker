@@ -37,10 +37,10 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         </li>
       )}
 
-      {details.production_countries && (
+      {(details.production_countries || details.origin_country) && (
         <li>
           {t('movie_details.production_country')}
-          <span> {arrayToString(details.production_countries, 'name')}</span>
+          <span> {arrayToString(details.production_countries, 'name') || arrayToString(details.origin_country)}</span>
         </li>
       )}
       {mediaType === ContentNames.Movie && credits && (
@@ -86,7 +86,8 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
             </li>
           )}
           <li>
-            {t('movie_details.series_status')} <span>{lang === 'ru' ? (details.in_production ? 'В производстве' : 'Завершён') : details.status}</span>
+            {t('movie_details.series_status')}
+            <span>{lang === 'ru' ? (details.in_production ? 'В производстве' : 'Завершён') : details.status}</span>
           </li>
           <li>
             {t('movie_details.seasons_count')} <span>{details.number_of_seasons}</span>

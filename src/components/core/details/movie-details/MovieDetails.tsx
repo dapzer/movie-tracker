@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styles from './movie-details.module.scss';
 import { useQuery } from '@tanstack/react-query';
-import { creditsApi, detailApi } from '../../../../api/fetchApi';
+import { creditsApi, detailApi, recommendationsApi } from '../../../../api/fetchApi';
 import { Credits } from '../../../../types/Credits';
 import { Details } from '../../../../types/Details';
 import MovieDetailsHeader from './MovieDetailsHeader';
@@ -10,6 +10,10 @@ import useTranslation from 'next-translate/useTranslation';
 import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
 import CastCard from '../details-cast/CastCard';
 import UiModal from '../../../ui/modal/UiModal';
+import { SearchResponse } from '../../../../types/SearchResponse';
+import CreditsCard from '../details-cast/CreditsCard';
+import UiCard from '../../../ui/card/UiCard';
+import LinkToDetails from '../link-to-details/LinkToDetails';
 
 interface Props {
   mediaId?: number;
@@ -53,6 +57,22 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
     creditsApi
   );
 
+  const {
+    data: recommendations,
+    isLoading: recommendationsIsLoading,
+    isSuccess: recommendationsIsSuccess,
+  } = useQuery<SearchResponse.RootObject>(
+    [
+      'getRecommendations',
+      {
+        mediaId: mediaId,
+        mediaType: mediaType,
+        language: lang,
+      },
+    ],
+    recommendationsApi
+  );
+
   return (
     <>
       {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
@@ -63,7 +83,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
           {details.overview && (
             <div className={styles['info_block']}>
               <h2>{t(mediaType === ContentNames.Movie ? 'movie_details.movie_description' : 'movie_details.series_description')}</h2>
-              <p>{details.overview}</p>
+              <p className={styles['text']}>{details.overview}</p>
             </div>
           )}
 
@@ -79,6 +99,44 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
                     <div className={'details-grid'}>
                       {credits.cast.map((item) => (
                         <CastCard key={`person-list-${item.id}`} item={item} />
+                      ))}
+                    </div>
+                  </UiModal>
+                )}
+              </div>
+            </div>
+          )}
+
+          {recommendations && recommendations.results.length > 0 && (
+            <div className={styles['info_block']}>
+              <h2>{t('recommendations')}</h2>
+              <div className={'details-grid'}>
+                {recommendations.results.slice(0, 5).map((item) => (
+                  <UiCard
+                    horizontal
+                    image={item.poster_path}
+                    date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString()}`}
+                    link={`/details/${item.media_type}/${item.id}`}
+                    key={`recommendations-${item.id}`}
+                    title={item.title || item.name}
+                  >
+                    <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
+                  </UiCard>
+                ))}
+                {recommendations.results.length > 5 && (
+                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')} btnClass={'detail-full-cast-btn'}>
+                    <div className={'details-grid'}>
+                      {recommendations.results.map((item) => (
+                        <UiCard
+                          horizontal
+                          image={item.poster_path}
+                          date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString()}`}
+                          link={`/details/${item.media_type}/${item.id}`}
+                          key={`recommendations-${item.id}`}
+                          title={item.title || item.name}
+                        >
+                          <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
+                        </UiCard>
                       ))}
                     </div>
                   </UiModal>

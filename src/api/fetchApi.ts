@@ -84,3 +84,17 @@ export const trendsApi = async (queries: any) => {
 
   return await getResponse(url);
 };
+
+export const recommendationsApi = async (queries: any) => {
+  const queriesValue = queries.queryKey[1];
+  const url = queryString.stringifyUrl({
+    url: `${process.env.NEXT_PUBLIC_API_URL}/${queriesValue.mediaType}/${queriesValue.mediaId}/recommendations`,
+    query: {
+      api_key: process.env.NEXT_PUBLIC_API_KEY,
+      language: queriesValue.language,
+      page: 1,
+    },
+  });
+
+  return await getResponse(url);
+};
