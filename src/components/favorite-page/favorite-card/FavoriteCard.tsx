@@ -28,6 +28,7 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           title={details.title || details.name}
           image={details.poster_path}
           releaseDate={details.release_date || details.first_air_date}
+          showScore
         >
           <div className={styles['status_selector']}>
             <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteData.currentStatus} />

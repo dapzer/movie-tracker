@@ -89,6 +89,7 @@ const SearchResultsRow: FC<Props> = () => {
                   title={item.title || item.name}
                   image={item.poster_path}
                   releaseDate={item.release_date || item.first_air_date}
+                  showScore
                   favoriteBtn
                 />
               )

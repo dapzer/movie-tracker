@@ -16,19 +16,33 @@ interface Props {
   width?: string;
   horizontal?: boolean;
   score?: number;
+  showScore?: boolean;
   favoriteBtn?: boolean;
   image?: string;
 }
 
-const MovieCard: FC<Props> = ({ children, image, small, horizontal, width, title, mediaType, mediaId, releaseDate, score, favoriteBtn }) => {
+const MovieCard: FC<Props> = ({
+  children,
+  image,
+  small,
+  horizontal,
+  showScore,
+  width,
+  title,
+  mediaType,
+  mediaId,
+  releaseDate,
+  score,
+  favoriteBtn,
+}) => {
   const release = new Date(`${releaseDate}`).toLocaleDateString();
   const { t } = useTranslation('card');
 
   return (
     <UiCard small={small} image={image} title={title} date={`${t('release_date')} ${release}`} width={width} link={`details/${mediaType}/${mediaId}`}>
-      {score && (
+      {showScore && (
         <div className={styles['score_container']}>
-          <ScoreCircle value={Number(score.toFixed(1))} />
+          <ScoreCircle value={Number(score?.toFixed(1))} />
         </div>
       )}
 
