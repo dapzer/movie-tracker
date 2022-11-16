@@ -8,9 +8,6 @@ const Home: NextPage = () => {
   const { t } = useTranslation('pagesSeo');
   return (
     <>
-      <Head>
-        <meta name="google-site-verification" content="mvm-MZ-kTgUqAnmKIIIpaH0MON12PMmlwqfG1hPdY74" />
-      </Head>
       <NextSeo title={t('homePage.title')} />
 
       <HomePageContainer />
