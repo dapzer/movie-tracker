@@ -23,6 +23,10 @@
 *.pem
 package-lock.json
 yarn.lock
+/public/robots.txt
+/public/sitemap.xml
+/public/sitemap-0.xml
+
 
 # debug
 npm-debug.log*

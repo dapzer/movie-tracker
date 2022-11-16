@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://movie-tracker.dapzer.ru
-
-# Sitemaps
-Sitemap: https://movie-tracker.dapzer.ru/sitemap.xml
