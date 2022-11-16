@@ -37,30 +37,33 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         </li>
       )}
 
-      {(details.production_countries || details.origin_country) && (
+      {(details.production_countries?.length > 0 || details.origin_country?.length > 0) && (
         <li>
           {t('movie_details.production_country')}
           <span> {arrayToString(details.production_countries, 'name') || arrayToString(details.origin_country)}</span>
         </li>
       )}
+
       {mediaType === ContentNames.Movie && credits && (
         <li>
           {t('movie_details.producer')} <span>{arrayToString(getMovieDirectors(credits.crew), 'name')}</span>
         </li>
       )}
-      {details.created_by && details.created_by.length > 1 && (
+
+      {details.created_by?.length > 1 && (
         <li>
           {t('movie_details.creator')} <span>{arrayToString(details.created_by, 'name')}</span>
         </li>
       )}
-      {details.production_companies && (
+
+      {details.production_companies?.length > 0 && (
         <li>
           {t('movie_details.production_companies')}
           <span> {arrayToString(details.production_companies, 'name')}</span>
         </li>
       )}
 
-      {details.genres && (
+      {details.genres?.length > 0 && (
         <li>
           {t('movie_details.genre')} <span>{arrayToString(details.genres, 'name')}</span>
         </li>
@@ -71,9 +74,11 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
           {t('movie_details.budget')} <span>{toCurrency(details.budget, 'USD', lang)}</span>
         </li>
       )}
+
       <li>
         {t('movie_details.release_date')} <span>{release}</span>
       </li>
+
       {mediaType === ContentNames.Series && (
         <>
           <li>
@@ -97,6 +102,7 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
           </li>
         </>
       )}
+
       {(details.runtime || details.episode_run_time) && (
         <li>
           {t(details.episode_run_time ? 'movie_details.series_runtime' : 'movie_details.movie_runtime')}{' '}
