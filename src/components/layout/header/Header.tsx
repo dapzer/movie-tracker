@@ -27,9 +27,11 @@ const Header: FC = () => {
       <div className={`${styles['content']} container`}>
         <nav className={styles['logo_links']}>
           <Link href="/">
-            <h3 hidden={isOpen} className={styles['logo']}>
-              Movie Tracker
-            </h3>
+            <a>
+              <h3 hidden={isOpen} className={styles['logo']}>
+                Movie Tracker
+              </h3>
+            </a>
           </Link>
           <LocaleSelect />
         </nav>
