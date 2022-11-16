@@ -20,7 +20,11 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
             <a href={item.url} target="_blank" rel="noreferrer">
               {t('tracking_menu.site_to_view')} #{index + 1}
             </a>
-            <button onClick={() => startEdit(index + 1, item.url)}>🖉</button>
+            <button className={styles['start_edit_btn']} onClick={() => startEdit(index + 1, item.url)}>
+              <svg>
+                <use href="/icon-edit.svg#svg"></use>
+              </svg>
+            </button>
           </div>
         ))}
 
@@ -45,8 +49,16 @@ const SiteToView: FC<Props> = ({ favoriteData }) => {
             onChange={(event) => setEditUrlValue(event.target.value)}
             placeholder={t('tracking_menu.site_to_view_input')}
           />
-          <button onClick={() => confirmlEdit()}>🗸</button>
-          <button onClick={() => cancelEdit()}>✕</button>
+          <button onClick={() => confirmlEdit()}>
+            <svg>
+              <use href="/icon-check-mark.svg#svg"></use>
+            </svg>
+          </button>
+          <button onClick={() => cancelEdit()}>
+            <svg>
+              <use href="/icon-close.svg#svg"></use>
+            </svg>
+          </button>
         </div>
       )}
     </div>
