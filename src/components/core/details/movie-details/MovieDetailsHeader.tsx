@@ -82,12 +82,12 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
           {details.next_episode_to_air && (
             <li>
               {t('movie_details.next_air_date')}
-              <span>{new Date(details.next_episode_to_air.air_date).toLocaleDateString()}</span>
+              <span> {new Date(details.next_episode_to_air.air_date).toLocaleDateString()}</span>
             </li>
           )}
           <li>
             {t('movie_details.series_status')}
-            <span>{lang === 'ru' ? (details.in_production ? 'В производстве' : 'Завершён') : details.status}</span>
+            <span> {lang === 'ru' ? (details.in_production ? 'В производстве' : 'Завершён') : details.status}</span>
           </li>
           <li>
             {t('movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
