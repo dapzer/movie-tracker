@@ -40,7 +40,9 @@ const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, ch
             <div className={styles['header']}>
               <h2>{title}</h2>
               <button onClick={() => handleVisible(false)}>
-                <Image src="/icon-close.svg" width={25} height={25} />
+                <svg width={25} height={25}>
+                  <use href="/icon-close.svg#svg"></use>
+                </svg>
               </button>
             </div>
 

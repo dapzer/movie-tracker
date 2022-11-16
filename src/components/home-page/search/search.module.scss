@@ -7,7 +7,7 @@
 .input_block {
   position: relative;
 
-  svg {
+  .search_logo {
     position: absolute;
     left: 20px;
     top: 50%;
@@ -25,5 +25,19 @@
     margin-top: 20px;
     border-color: $text;
     border-radius: 50px;
+  }
+
+  .clear_btn {
+    position: absolute;
+
+    right: 20px;
+    top: 50%;
+    transform: translateY(-5%);
+    svg {
+      color: $text;
+      height: 0.8em;
+      width: 0.8em;
+    }
+
   }
 }

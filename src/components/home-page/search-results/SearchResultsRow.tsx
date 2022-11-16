@@ -83,6 +83,7 @@ const SearchResultsRow: FC<Props> = () => {
                 <SearchResultPerson key={item.id} personData={item} />
               ) : (
                 <MovieCard
+                  key={`movie-card-${item.id}`}
                   mediaType={item.media_type}
                   mediaId={item.id}
                   score={item.vote_average}
