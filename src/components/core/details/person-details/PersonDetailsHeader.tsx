@@ -21,6 +21,11 @@ const PersonDetailsHeader: FC<Props> = ({ details }) => {
           {t('person_details.deathday')} <span>{new Date(details.deathday).toLocaleDateString()}</span>
         </li>
       )}
+      {details.place_of_birth && (
+        <li>
+          {t('person_details.place_of_birth')} <span>{details.place_of_birth}</span>
+        </li>
+      )}
       {details.known_for_department && (
         <li>
           {t('person_details.fame_for')} <span>{details.known_for_department}</span>
