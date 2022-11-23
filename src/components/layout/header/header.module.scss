@@ -6,6 +6,7 @@
   background: $accent;
   z-index: 100;
   top: 0;
+  min-height: $headerHeight;
 
   .content {
     padding: 10px $indent;

@@ -25,16 +25,16 @@ const Header: FC = () => {
   return (
     <header className={`${styles['body']} ${isOpen && styles['mobile_body_active']}`}>
       <div className={`${styles['content']} container`}>
-        <nav className={styles['logo_links']}>
-          <Link href="/">
-            <a>
-              <h3 hidden={isOpen} className={styles['logo']}>
-                Movie Tracker
-              </h3>
-            </a>
-          </Link>
-          <LocaleSelect />
-        </nav>
+        {!isOpen && (
+          <nav className={styles['logo_links']}>
+            <Link href="/">
+              <a>
+                <h3 className={styles['logo']}>Movie Tracker</h3>
+              </a>
+            </Link>
+            <LocaleSelect />
+          </nav>
+        )}
 
         <nav className={styles['links']}>
           <LinksList />
