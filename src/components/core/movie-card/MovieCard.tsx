@@ -10,7 +10,7 @@ interface Props {
   children?: React.ReactNode;
   small?: boolean;
   title?: string;
-  releaseDate?: string;
+  releaseDate?: string | Date;
   mediaType: string;
   mediaId: number;
   width?: string;
@@ -19,6 +19,7 @@ interface Props {
   showScore?: boolean;
   favoriteBtn?: boolean;
   image?: string;
+  dateTitle?: string;
 }
 
 const MovieCard: FC<Props> = ({
@@ -34,12 +35,20 @@ const MovieCard: FC<Props> = ({
   releaseDate,
   score,
   favoriteBtn,
+  dateTitle,
 }) => {
   const release = new Date(`${releaseDate}`).toLocaleDateString();
   const { t } = useTranslation('card');
 
   return (
-    <UiCard small={small} image={image} title={title} date={`${t('release_date')} ${release}`} width={width} link={`details/${mediaType}/${mediaId}`}>
+    <UiCard
+      small={small}
+      image={image}
+      title={title}
+      date={`${dateTitle || t('release_date')} ${release}`}
+      width={width}
+      link={`details/${mediaType}/${mediaId}`}
+    >
       {showScore && (
         <div className={styles['score_container']}>
           <ScoreCircle value={Number(score?.toFixed(1))} />

@@ -27,7 +27,8 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           score={details.vote_average}
           title={details.title || details.name}
           image={details.poster_path}
-          releaseDate={details.release_date || details.first_air_date}
+          releaseDate={new Date(favoriteData.addedDate || '')}
+          dateTitle={t('added_date')}
           showScore
         >
           <div className={styles['status_selector']}>
