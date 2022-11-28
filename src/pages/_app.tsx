@@ -15,6 +15,7 @@ import { SearchContextProvider } from '../context/SearchContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Analytics } from '@vercel/analytics/react';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const [queryClient] = useState(() => new QueryClient());
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
                 <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color="#0073fa" />
                 <ToastContainer theme={'dark'} autoClose={1500} limit={2} />
                 <Component {...pageProps} />
+                <Analytics />
               </Layout>
             </SkeletonTheme>
             <ReactQueryDevtools initialIsOpen={false} />
