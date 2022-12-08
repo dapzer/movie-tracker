@@ -9,6 +9,9 @@ import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
 import { ContentNames } from '../../../../types/ContentNames';
 import CreditsCard from '../details-cast/CreditsCard';
 import UiModal from '../../../ui/modal/UiModal';
+import InfoHeaderSkeleton from '../../../../lib/loading-skeleton/InfoHeaderSkeleton';
+import DetailsInfoBlockSkeleton from '../../../../lib/loading-skeleton/DetailsInfoBlockSkeleton';
+import DetailsCastSkeleton from '../../../../lib/loading-skeleton/DetailsCastSkeleton';
 
 interface Props {
   personId: number;
@@ -52,8 +55,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
 
   return (
     <>
-      {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
-      {creditsIsSuccess && isSuccess && (
+      {details && !isLoading ? (
         <>
           <PersonDetailsHeader details={details} />
 
@@ -65,7 +67,17 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
               ))}
             </div>
           )}
+        </>
+      ) : (
+        <>
+          <InfoHeaderSkeleton />
+          <DetailsInfoBlockSkeleton />
+        </>
+      )}
 
+      {creditsIsLoading && <DetailsCastSkeleton />}
+      {creditsIsSuccess && (
+        <>
           {credits.cast.length > 0 && (
             <div className={styles['movies']}>
               <h3>{t('person_details.filmography')}</h3>

@@ -84,7 +84,7 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
 
   useEffect(() => {
     checkOnFavorite();
-  }, [favoriteList]);
+  }, [favoriteList, mediaId]);
 
   return {
     getFavoriteList,

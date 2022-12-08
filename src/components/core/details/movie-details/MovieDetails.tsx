@@ -7,13 +7,14 @@ import { Details } from '../../../../types/Details';
 import MovieDetailsHeader from './MovieDetailsHeader';
 import { ContentNames } from '../../../../types/ContentNames';
 import useTranslation from 'next-translate/useTranslation';
-import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
 import CastCard from '../details-cast/CastCard';
 import UiModal from '../../../ui/modal/UiModal';
 import { SearchResponse } from '../../../../types/SearchResponse';
-import CreditsCard from '../details-cast/CreditsCard';
 import UiCard from '../../../ui/card/UiCard';
 import LinkToDetails from '../link-to-details/LinkToDetails';
+import InfoHeaderSkeleton from '../../../../lib/loading-skeleton/InfoHeaderSkeleton';
+import DetailsInfoBlockSkeleton from '../../../../lib/loading-skeleton/DetailsInfoBlockSkeleton';
+import DetailsCastSkeleton from '../../../../lib/loading-skeleton/DetailsCastSkeleton';
 
 interface Props {
   mediaId?: number;
@@ -74,19 +75,27 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
   );
 
   return (
-    <>
-      {(creditsIsLoading || isLoading) && <DetailsSkeleton />}
-      {creditsIsSuccess && isSuccess && (
-        <div className={styles['container']}>
-          <MovieDetailsHeader details={details} credits={credits} mediaType={mediaType} />
-
+    <div className={styles['container']}>
+      {details && !isLoading ? (
+        <>
+          <MovieDetailsHeader details={details} mediaType={mediaType} credits={credits} />
           {details.overview && (
             <div className={styles['info_block']}>
               <h2>{t(mediaType === ContentNames.Movie ? 'movie_details.movie_description' : 'movie_details.series_description')}</h2>
               <p className={styles['text']}>{details.overview}</p>
             </div>
           )}
+        </>
+      ) : (
+        <>
+          <InfoHeaderSkeleton />
+          <DetailsInfoBlockSkeleton />
+        </>
+      )}
 
+      {creditsIsLoading && <DetailsCastSkeleton />}
+      {creditsIsSuccess && (
+        <>
           {credits && credits.cast.length > 0 && (
             <div className={styles['info_block']}>
               <h2>{t('movie_details.actors_title')}</h2>
@@ -123,6 +132,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
                     <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
                   </UiCard>
                 ))}
+
                 {recommendations.results.length > 5 && (
                   <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')} btnClass={'detail-full-cast-btn'}>
                     <div className={'details-grid'}>
@@ -144,9 +154,9 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
               </div>
             </div>
           )}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

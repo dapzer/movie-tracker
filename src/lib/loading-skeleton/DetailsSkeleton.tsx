@@ -3,6 +3,8 @@ import styles from '../../components/core/details/movie-details/movie-details.mo
 import CardSkeleton from './CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
 import InfoHeaderSkeleton from './InfoHeaderSkeleton';
+import DetailsCastSkeleton from './DetailsCastSkeleton';
+import DetailsInfoBlockSkeleton from './DetailsInfoBlockSkeleton';
 
 interface Props {}
 
@@ -11,37 +13,9 @@ const DetailsSkeleton: FC<Props> = () => {
     <div className={styles['container']}>
       <InfoHeaderSkeleton />
 
-      <div className={styles['info_block']}>
-        <h2>
-          <Skeleton style={{ maxWidth: '250px' }} />
-        </h2>
+      <DetailsInfoBlockSkeleton />
 
-        <p>
-          <Skeleton count={3} />
-        </p>
-      </div>
-
-      <div className={styles['']}>
-        <h2>
-          <Skeleton style={{ maxWidth: '250px' }} />
-        </h2>
-
-        <div className={'details-grid'}>
-          {Array(6)
-            .fill('_')
-            .map((el, index) => (
-              <CardSkeleton key={index} horizontal height={225}>
-                <ul>
-                  <li>
-                    <Skeleton style={{ maxWidth: '100px' }} />
-                    <Skeleton style={{ maxWidth: '50px' }} />
-                  </li>
-                </ul>
-                <Skeleton style={{ maxWidth: '100px' }} />
-              </CardSkeleton>
-            ))}
-        </div>
-      </div>
+      <DetailsCastSkeleton />
     </div>
   );
 };
