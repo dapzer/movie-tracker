@@ -1,7 +1,7 @@
 import { FavoriteList } from '../../../types/FavoriteList';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { addFavoriteListItem, fetchFavoriteList } from './favoriteListThunk';
+import { addFavoriteListItemApi, fetchFavoriteListApi } from './favoriteListThunk';
 import { FavoriteListPayload } from './FavoriteListPayload';
 import { getFavoriteItemIndexesHelper } from '../../../utils/getFavoriteItemIndexes.helper';
 
@@ -37,10 +37,10 @@ export const favoriteListSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchFavoriteList.fulfilled, (state, action) => {
+    builder.addCase(fetchFavoriteListApi.fulfilled, (state, action) => {
       return (state = action.payload || initialState);
     });
-    builder.addCase(addFavoriteListItem.fulfilled, (state, action) => {
+    builder.addCase(addFavoriteListItemApi.fulfilled, (state, action) => {
       if (!action.payload) return;
       state.allFavorites.push(action.payload);
       state.notViewed.push(action.payload);

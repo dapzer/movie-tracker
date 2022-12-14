@@ -4,7 +4,7 @@ import { FavoriteList } from '../../../types/FavoriteList';
 import { FavoriteListPayload } from './FavoriteListPayload';
 import { FavoriteListThunks } from './FavoriteListThunks';
 
-export const fetchFavoriteList = createAsyncThunk('favoriteList/fetchById', async (userId: string) => {
+export const fetchFavoriteListApi = createAsyncThunk('favoriteList/fetchById', async (userId: string) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}?userId=${userId}`);
 
   if (response.ok) {
@@ -15,7 +15,7 @@ export const fetchFavoriteList = createAsyncThunk('favoriteList/fetchById', asyn
   }
 });
 
-export const addFavoriteListItem = createAsyncThunk('favoriteList/addItem', async ({ userId, favoriteItem }: FavoriteListPayload.AddNew) => {
+export const addFavoriteListItemApi = createAsyncThunk('favoriteList/addItem', async ({ userId, favoriteItem }: FavoriteListPayload.AddNew) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}`, {
     method: 'POST',
     headers: {
@@ -32,7 +32,7 @@ export const addFavoriteListItem = createAsyncThunk('favoriteList/addItem', asyn
   }
 });
 
-export const deleteFavoriteListItem = createAsyncThunk('favoriteList/deleteItem', async ({ userId, mediaId }: FavoriteListThunks.Delete) => {
+export const deleteFavoriteListItemApi = createAsyncThunk('favoriteList/deleteItem', async ({ userId, mediaId }: FavoriteListThunks.Delete) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}/delete`, {
     method: 'POST',
     headers: {
@@ -53,9 +53,9 @@ export const deleteFavoriteListItem = createAsyncThunk('favoriteList/deleteItem'
   }
 });
 
-export const updateFavoriteListItem = createAsyncThunk(
+export const updateFavoriteListItemApi = createAsyncThunk(
   'favoriteList/update',
-  async ({ userId, mediaId, status, seriesData }: FavoriteListThunks.Update) => {
+  async ({ userId, mediaId, mediaStatus, seriesData }: FavoriteListThunks.Update) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}/update`, {
       method: 'POST',
       headers: {
@@ -65,7 +65,7 @@ export const updateFavoriteListItem = createAsyncThunk(
       body: JSON.stringify({
         userId: userId,
         id: mediaId,
-        currentStatus: status,
+        currentStatus: mediaStatus,
         ...seriesData,
       }),
     });
