@@ -16,6 +16,7 @@ Movie Tracker - это сервис поиска и отслеживания п�
 
 - React Js
 - Next Js
+- Redux Toolkit
 - NextAuth.Js
 - React Query
 - TypeScript
