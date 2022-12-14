@@ -12,7 +12,7 @@ import useTranslation from 'next-translate/useTranslation';
 interface Props {
   details: Details.RootObject;
   credits?: Credits.RootObject;
-  mediaType?: string;
+  mediaType: string;
 }
 
 const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {

@@ -2,7 +2,7 @@ export declare module FavoriteList {
   export interface SeriesData {
     currentEpisode: number;
     currentSeason: number;
-    sitesToView?: SitesToViewObject[];
+    sitesToView: SitesToViewObject[];
   }
 
   export interface SitesToViewObject {
@@ -22,7 +22,7 @@ export declare module FavoriteList {
   export interface RootObject {
     id: number;
     addedDate?: string | number;
-    mediaType?: string;
+    mediaType: string;
     seriesData: SeriesData;
     currentStatus: StatusesNames;
   }

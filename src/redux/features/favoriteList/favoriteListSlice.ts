@@ -18,8 +18,8 @@ export const favoriteListSlice = createSlice({
   initialState,
   reducers: {
     deleteFavoriteListItem: (state, action: PayloadAction<FavoriteListPayload.Delete>) => {
-      state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
-      state.allFavorites.filter((el) => el.id !== action.payload.mediaId);
+      state[action.payload.mediaStatus] = state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
+      state.allFavorites = state.allFavorites.filter((el) => el.id !== action.payload.mediaId);
     },
     updateFavoriteListItemSeriesData: (state, action: PayloadAction<FavoriteListPayload.UpdateSeriesData>) => {
       const { indexInStatusedList, indexInAllFavorites } = getFavoriteItemIndexesHelper(state, action.payload.mediaId, action.payload.mediaStatus);
@@ -30,7 +30,7 @@ export const favoriteListSlice = createSlice({
     changeFavoriteListItemStatus: (state, action: PayloadAction<FavoriteListPayload.ChangeStatus>) => {
       const { indexInAllFavorites } = getFavoriteItemIndexesHelper(state, action.payload.mediaId, action.payload.mediaStatus);
 
-      state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
+      state[action.payload.mediaStatus] = state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
       state.allFavorites[indexInAllFavorites].currentStatus = action.payload.newStatus;
 
       state[action.payload.newStatus].push(state.allFavorites[indexInAllFavorites]);

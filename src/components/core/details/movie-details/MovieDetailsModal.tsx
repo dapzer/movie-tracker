@@ -4,7 +4,7 @@ import MovieDetails from './MovieDetails';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
-  mediaType?: string;
+  mediaType: string;
   mediaId: number;
 }
 

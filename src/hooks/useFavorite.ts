@@ -75,10 +75,6 @@ export const useFavorite = (mediaId?: number) => {
     });
   };
 
-  const checkOnFavorite = () => {
-    setIsFavorite(favoriteList.allFavorites.some((el) => el.id === mediaId));
-  };
-
   const handleFavorite = (mediaId: number, mediaType: string) => {
     if (isFavorite) {
       deleteFavoriteItem(mediaId, mediaType);
@@ -87,9 +83,13 @@ export const useFavorite = (mediaId?: number) => {
     }
   };
 
-  const getFavoriteItem = useCallback((id: number) => {
+  const checkOnFavorite = () => {
+    setIsFavorite(favoriteList.allFavorites.some((el) => el.id === mediaId));
+  };
+
+  const getFavoriteItem = (id: number) => {
     return favoriteList.allFavorites.find((el) => el.id === id);
-  }, []);
+  };
 
   useEffect(() => {
     checkOnFavorite();

@@ -10,13 +10,13 @@ import { StatusesNames } from '../../../types/StatusesNames';
 interface Props {
   id: number;
   className: string;
-  mediaType?: string;
+  mediaType: string;
   favoriteListStatus?: string;
 }
 
 const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }) => {
   const [showLogin, setShowLogin] = useState(false);
-  const { handleFavorite, isFavorite } = useFavorite(id, favoriteListStatus || StatusesNames.notViewed);
+  const { handleFavorite, isFavorite } = useFavorite(id);
   const { t } = useTranslation('buttons');
   const { status } = useSession();
 
@@ -24,7 +24,7 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
     if (status === LoginStatus.Unauthenticated) {
       setShowLogin(true);
     } else {
-      handleFavorite(id, mediaType || '');
+      handleFavorite(id, mediaType);
     }
   };
 
