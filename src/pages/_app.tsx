@@ -10,7 +10,6 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { DefaultSeo } from 'next-seo';
 import NextNProgress from 'nextjs-progressbar';
-import { SearchContextProvider } from '../context/SearchContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,18 +24,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
     <Provider store={store}>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <SearchContextProvider>
-            <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
-              <Layout>
-                <DefaultSeo {...SEO} />
-                <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color="#0073fa" />
-                <ToastContainer theme={'dark'} autoClose={1500} limit={2} />
-                <Component {...pageProps} />
-                <Analytics />
-              </Layout>
-            </SkeletonTheme>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </SearchContextProvider>
+          <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
+            <Layout>
+              <DefaultSeo {...SEO} />
+              <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color="#0073fa" />
+              <ToastContainer theme={'dark'} autoClose={1500} limit={2} />
+              <Component {...pageProps} />
+              <Analytics />
+            </Layout>
+          </SkeletonTheme>
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </SessionProvider>
     </Provider>

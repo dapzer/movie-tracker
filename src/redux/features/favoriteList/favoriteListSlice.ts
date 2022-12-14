@@ -2,7 +2,7 @@ import { FavoriteList } from '../../../types/FavoriteList';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { addFavoriteListItemApi, fetchFavoriteListApi } from './favoriteListThunk';
-import { FavoriteListPayload } from './FavoriteListPayload';
+import { FavoriteListPayload } from './types/FavoriteListPayload';
 import { getFavoriteItemIndexesHelper } from '../../../utils/getFavoriteItemIndexes.helper';
 
 const initialState: FavoriteList.StatusedObject = {

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { FavoriteList } from '../../../types/FavoriteList';
-import { FavoriteListPayload } from './FavoriteListPayload';
-import { FavoriteListThunks } from './FavoriteListThunks';
+import { FavoriteListPayload } from './types/FavoriteListPayload';
+import { FavoriteListThunks } from './types/FavoriteListThunks';
 
 export const fetchFavoriteListApi = createAsyncThunk('favoriteList/fetchById', async (userId: string) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}?userId=${userId}`);

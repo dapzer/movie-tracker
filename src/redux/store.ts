@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { favoriteListSlice } from './features/favoriteList/favoriteListSlice';
+import { searchParamsSlice } from './features/searchParams/searchParamsSlice';
 
 export const store = configureStore({
   reducer: {
     favoriteList: favoriteListSlice.reducer,
+    searchParams: searchParamsSlice.reducer,
   },
 });
 

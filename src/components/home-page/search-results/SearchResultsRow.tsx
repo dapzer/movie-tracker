@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, RefObject, useEffect } from 'react';
 import { SearchResponse } from '../../../types/SearchResponse';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
@@ -8,14 +8,18 @@ import useTranslation from 'next-translate/useTranslation';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
 import UiPagination from '../../ui/pagination/UiPagination';
-import { useSearchContext } from '../../../context/SearchContext';
 import { useQuery } from '@tanstack/react-query';
 import { searchApi } from '../../../api/fetchApi';
 import PopularlsList from '../popular/PopularlsList';
 import MovieCard from '../../core/movie-card/MovieCard';
 import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
+import { useAppSelector } from '../../../redux/hooks';
+import { selectSearchParams } from '../../../redux/features/searchParams/searchParamsSlice';
+import { useSearch } from '../../../hooks/useSearch';
 
-interface Props {}
+interface Props {
+  searchTitleRef: RefObject<HTMLInputElement> | null;
+}
 
 const breakpointColumnsObj = {
   default: 4,
@@ -24,9 +28,10 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const SearchResultsRow: FC<Props> = () => {
+const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
   const { t, lang } = useTranslation('searchPage');
-  const { currentPage, changePage, searchTerm, scrollToSearch } = useSearchContext();
+  const { changePage, scrollToSearch } = useSearch();
+  const { currentPage, searchTerm } = useAppSelector(selectSearchParams);
 
   const {
     data: searchResponse,
@@ -45,8 +50,8 @@ const SearchResultsRow: FC<Props> = () => {
   );
 
   useEffect(() => {
-    if (isSuccess && searchResponse?.results?.length) {
-      scrollToSearch();
+    if (isSuccess && searchResponse?.results?.length && searchTitleRef) {
+      scrollToSearch(searchTitleRef);
     }
   }, [searchResponse]);
 
