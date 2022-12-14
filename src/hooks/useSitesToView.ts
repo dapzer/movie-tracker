@@ -11,7 +11,7 @@ export const useSitesToView = (favoriteData: FavoriteList.RootObject) => {
   const [editUrlValue, setEditUrlValue] = useState('');
   const [editUrlIndex, setEditUrlIndex] = useState<number | null>(null);
   const [isEdit, setIsEdit] = useState(false);
-  let sitesToView = favoriteData.seriesData.sitesToView || [];
+  let sitesToView = [...favoriteData.seriesData.sitesToView];
 
   const cancelEdit = () => {
     setEditUrlValue('');
@@ -41,11 +41,15 @@ export const useSitesToView = (favoriteData: FavoriteList.RootObject) => {
       sitesToView[editUrlIndex - 1] = newSite;
     }
 
-    favoriteData.seriesData.sitesToView = sitesToView;
+    const newSeriesData: FavoriteList.SeriesData = {
+      currentSeason: favoriteData.seriesData.currentSeason,
+      currentEpisode: favoriteData.seriesData.currentEpisode,
+      sitesToView: sitesToView,
+    };
 
     setEditUrlIndex(null);
     setEditUrlValue('');
-    updateFavoriteList(favoriteData.id, favoriteData.seriesData, favoriteData.currentStatus);
+    updateFavoriteList(favoriteData.id, newSeriesData, favoriteData.currentStatus);
   };
 
   return {

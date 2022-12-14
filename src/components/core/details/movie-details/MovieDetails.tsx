@@ -18,7 +18,7 @@ import DetailsCastSkeleton from '../../../../lib/loading-skeleton/DetailsCastSke
 
 interface Props {
   mediaId?: number;
-  mediaType?: string;
+  mediaType: string;
   initialData?: Details.RootObject;
 }
 

@@ -22,7 +22,7 @@ const FavoriteCard: FC<Props> = ({ details }) => {
     <div>
       {favoriteData && (
         <MovieCard
-          mediaType={favoriteData.mediaType!}
+          mediaType={favoriteData.mediaType}
           mediaId={details.id}
           score={details.vote_average}
           title={details.title || details.name}

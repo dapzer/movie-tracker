@@ -11,7 +11,7 @@ interface Props {
   title: string;
   favoriteData?: {
     id: number;
-    media_type?: string;
+    media_type: string;
   };
 }
 

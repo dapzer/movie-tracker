@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
 import FavoriteRow from '../../favorite-page/favorite-row/FavoriteRow';
 import useTranslation from 'next-translate/useTranslation';
-import { useFavoriteContext } from '../../../context/FavoriteContext';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '../../../types/LoginStatus';
 import styles from './favorite-page.module.scss';
 import LoginModal from '../../core/login-modal/LoginModal';
+import { useAppSelector } from '../../../redux/hooks';
+import { selectFavoriteList } from '../../../redux/features/favoriteList/favoriteListSlice';
 
 interface Props {}
 
 const FavoritePageContainer: FC<Props> = () => {
-  const { favoriteList } = useFavoriteContext();
+  const favoriteList = useAppSelector(selectFavoriteList);
   const { status } = useSession();
   const { t } = useTranslation('favoritePage');
 

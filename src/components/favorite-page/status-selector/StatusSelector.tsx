@@ -3,18 +3,19 @@ import styles from './status-selector.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '../../../hooks/useFavorite';
 import UiDropdown from '../../ui/dropdown/UiDropdown';
+import { FavoriteList } from '../../../types/FavoriteList';
 
 interface Props {
-  mediaType?: string;
+  mediaType: string;
   id: number;
-  currentStatus: string;
+  currentStatus: FavoriteList.StatusesNames;
 }
 
-const statuses = ['watchingNow', 'notViewed', 'waitNewPart', 'viewed'];
+const statuses: FavoriteList.StatusesNames[] = ['watchingNow', 'notViewed', 'waitNewPart', 'viewed'];
 
 const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus }) => {
   const { t } = useTranslation();
-  const { handleFavorite, changeStatus } = useFavorite(id, currentStatus);
+  const { handleFavorite, changeStatus } = useFavorite(id);
 
   return (
     <div className={`favorite-btn__movie-card-btn ${styles['content']} ui-dropdown__trigger`}>
@@ -25,7 +26,7 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus }) => {
             {t(`favoritePage:statuses.${el}`)}
           </button>
         ))}
-        <button onClick={() => handleFavorite(id, `${mediaType}`)} className={styles['delete_btn']}>
+        <button onClick={() => handleFavorite(id, mediaType)} className={styles['delete_btn']}>
           {t('buttons:delete_from_favorite')}
         </button>
       </UiDropdown>

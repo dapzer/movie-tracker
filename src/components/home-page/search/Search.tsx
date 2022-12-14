@@ -1,13 +1,18 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, Ref, useEffect, useRef, useState } from 'react';
 import styles from './search.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import { useSearchContext } from '../../../context/SearchContext';
 import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
+import { useSearch } from '../../../hooks/useSearch';
+import { useAppSelector } from '../../../redux/hooks';
+import { selectSearchParams } from '../../../redux/features/searchParams/searchParamsSlice';
 
-interface Props {}
+interface Props {
+  searchTitleRef: Ref<HTMLInputElement> | null;
+}
 
-const Search: FC<Props> = () => {
-  const { changeSearch, setCurrentPage, searchTerm, currentPage, updateRouter, clearQueries, searchRef } = useSearchContext();
+const Search: FC<Props> = ({ searchTitleRef }) => {
+  const { changeSearch, updateRouter, clearQueries } = useSearch();
+  const { searchTerm, currentPage } = useAppSelector(selectSearchParams);
   const [localSearchValue, setLocalSearchValue] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation('searchPage');
@@ -18,7 +23,6 @@ const Search: FC<Props> = () => {
     if (localSearchValue === null) return;
     const delayDebounceFn = setTimeout(() => {
       if (isOnlySpaces(localSearchValue) && isOnlySpaces(searchTerm)) return;
-      setCurrentPage(1);
       if (isOnlySpaces(localSearchValue)) return clearQueries();
       changeSearch(localSearchValue);
     }, 500);
@@ -28,7 +32,7 @@ const Search: FC<Props> = () => {
 
   return (
     <div className={styles['content']}>
-      <h3 ref={searchRef}>{t('input_title')}</h3>
+      <h3 ref={searchTitleRef}>{t('input_title')}</h3>
       <div className={styles['input_block']}>
         <input
           type="text"

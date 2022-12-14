@@ -1,25 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
-import { addFavoriteListItem, deleteFavoriteListApi, getFavoriteListApi, updateFavoriteListApi } from '../api/favoriteApi';
 import { FavoriteList } from '../types/FavoriteList';
-import { useFavoriteContext } from '../context/FavoriteContext';
 import { useSession } from 'next-auth/react';
 import { StatusesNames } from '../types/StatusesNames';
 import { toast } from 'react-toastify';
 import useTranslation from 'next-translate/useTranslation';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { addFavoriteListItemApi, deleteFavoriteListItemApi, updateFavoriteListItemApi } from '../redux/features/favoriteList/favoriteListThunk';
+import {
+  changeFavoriteListItemStatus,
+  deleteFavoriteListItem,
+  selectFavoriteList,
+  updateFavoriteListItemSeriesData,
+} from '../redux/features/favoriteList/favoriteListSlice';
 
-export const useFavorite = (mediaId?: number, currentStatus?: string) => {
-  const { t } = useTranslation();
-  const [isFavorite, setIsFavorite] = useState(false);
-  const { favoriteList, dispatchFavoriteList } = useFavoriteContext();
+export const useFavorite = (mediaId?: number) => {
   const { data: session } = useSession();
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const favoriteList = useAppSelector(selectFavoriteList);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const getFavoriteList = useCallback((userId: string | undefined) => {
-    getFavoriteListApi(userId).then((value) => {
-      dispatchFavoriteList({ type: 'SET', payload: { favoriteList: value.favoriteList } });
-    });
-  }, []);
+  const addFavoriteItem = (mediaId: number, mediaType: string) => {
+    if (!session?.user?.id) return;
 
-  const addFavoriteItem = (userId: string | undefined, mediaId: number, mediaType: string) => {
     const newFavoriteItem: FavoriteList.RootObject = {
       id: mediaId,
       addedDate: Date.now(),
@@ -32,63 +35,68 @@ export const useFavorite = (mediaId?: number, currentStatus?: string) => {
       },
     };
 
-    addFavoriteListItem(userId, newFavoriteItem).then(() => {
-      dispatchFavoriteList({
-        type: 'ADD',
-        payload: { newFavoriteItem },
-      });
+    dispatch(addFavoriteListItemApi({ favoriteItem: newFavoriteItem, userId: session.user.id })).then(() => {
       toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);
     });
   };
 
-  const updateFavoriteList = (mediaId: number, seriesData: FavoriteList.SeriesData, status?: string) => {
-    updateFavoriteListApi(session?.user?.id, mediaId, seriesData, status || currentStatus).then(() => {
-      dispatchFavoriteList({ type: 'UPDATE', payload: { mediaId, seriesData, currentStatus: status || currentStatus } });
+  const updateFavoriteListSeriesData = (mediaId: number, seriesData: FavoriteList.SeriesData, mediaStatus: FavoriteList.StatusesNames) => {
+    if (!session?.user?.id) return;
+
+    dispatch(updateFavoriteListItemApi({ mediaId, seriesData, mediaStatus, userId: session.user.id })).then(() => {
+      dispatch(updateFavoriteListItemSeriesData({ newSeriesData: seriesData, mediaId, mediaStatus }));
     });
   };
 
-  const deleteFavoriteItem = (userId: string | undefined, mediaId: number, mediaType: string) => {
-    deleteFavoriteListApi(userId, mediaId).then(() => {
-      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus } });
+  const deleteFavoriteItem = (mediaId: number, mediaType: string) => {
+    const favoriteItem = getFavoriteItem(mediaId!);
+    if (!session?.user?.id || !favoriteItem) return;
+
+    dispatch(deleteFavoriteListItemApi({ userId: session.user.id, mediaId })).then(() => {
       toast.success(`${t(`toasts:${mediaType}SuccessRemovedFromFavorite`)}`);
+      dispatch(deleteFavoriteListItem({ mediaId, mediaStatus: favoriteItem.currentStatus }));
     });
   };
 
-  const changeStatus = (newStatus: string) => {
-    const item = getFavoriteItem(mediaId!);
-    if (!item) return;
+  const changeStatus = (newStatus: FavoriteList.StatusesNames) => {
+    const favoriteItem = getFavoriteItem(mediaId!);
+    if (!session?.user?.id || !favoriteItem) return;
 
-    updateFavoriteListApi(session?.user?.id, mediaId, item?.seriesData, newStatus).then(() => {
-      dispatchFavoriteList({ type: 'REMOVE', payload: { mediaId, currentStatus: item.currentStatus } });
-      item.currentStatus = newStatus;
-      dispatchFavoriteList({ type: 'ADD', payload: { mediaId, newStatus, newFavoriteItem: item } });
+    dispatch(
+      updateFavoriteListItemApi({
+        mediaId: favoriteItem.id,
+        seriesData: favoriteItem.seriesData,
+        mediaStatus: newStatus,
+        userId: session.user.id,
+      })
+    ).then(() => {
+      dispatch(changeFavoriteListItemStatus({ mediaId: favoriteItem.id, mediaStatus: favoriteItem.currentStatus, newStatus }));
       toast.success(`${t(`toasts:statusChanged`)}`);
     });
   };
 
-  const checkOnFavorite = () => {
-    setIsFavorite(favoriteList?.allFavorites && favoriteList.allFavorites.some((el) => el.id === mediaId));
-  };
-
-  const handleFavorite = (id: number, mediaType: string) => {
+  const handleFavorite = (mediaId: number, mediaType: string) => {
     if (isFavorite) {
-      deleteFavoriteItem(session?.user?.id, id, mediaType);
+      deleteFavoriteItem(mediaId, mediaType);
     } else {
-      addFavoriteItem(session?.user?.id, id, mediaType);
+      addFavoriteItem(mediaId, mediaType);
     }
   };
 
-  const getFavoriteItem = useCallback((id: number) => {
+  const checkOnFavorite = () => {
+    setIsFavorite(favoriteList.allFavorites.some((el) => el.id === mediaId));
+  };
+
+  const getFavoriteItem = (id: number) => {
     return favoriteList.allFavorites.find((el) => el.id === id);
-  }, []);
+  };
 
   useEffect(() => {
     checkOnFavorite();
   }, [favoriteList, mediaId]);
 
   return {
-    getFavoriteList,
-    updateFavoriteList,
+    updateFavoriteList: updateFavoriteListSeriesData,
     deleteFavoriteItem,
     addFavoriteItem,
     checkOnFavorite,
