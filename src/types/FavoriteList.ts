@@ -17,6 +17,8 @@ export declare module FavoriteList {
     allFavorites: RootObject[];
   }
 
+  export type StatusesNames = keyof StatusedObject;
+
   export interface RootObject {
     id: number;
     addedDate?: string | number;
