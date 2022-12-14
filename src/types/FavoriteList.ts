@@ -24,6 +24,6 @@ export declare module FavoriteList {
     addedDate?: string | number;
     mediaType?: string;
     seriesData: SeriesData;
-    currentStatus: string;
+    currentStatus: StatusesNames;
   }
 }
