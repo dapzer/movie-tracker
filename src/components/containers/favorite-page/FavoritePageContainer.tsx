@@ -22,9 +22,7 @@ const FavoritePageContainer: FC<Props> = () => {
           <LoginModal btnClass={styles['unlogin_btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
         </h2>
       )}
-      {((!favoriteList.allFavorites && status === LoginStatus.Authenticated) || favoriteList.allFavorites?.length < 1) && (
-        <h2>{t('emptyFavoriteList')}</h2>
-      )}
+      {favoriteList.allFavorites?.length < 1 && status === LoginStatus.Authenticated && <h2>{t('emptyFavoriteList')}</h2>}
       {favoriteList.allFavorites?.length >= 1 && <h2>{t('page_title')}</h2>}
 
       {favoriteList?.watchingNow?.length > 0 && <FavoriteRow favoriteList={favoriteList.watchingNow} title={t('statuses.watchingNow')} />}

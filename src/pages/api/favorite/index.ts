@@ -56,7 +56,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     .collection('users')
     .findOne({ _id: new ObjectId(req.query.userId as string) })) as unknown as UserData;
 
-  let favoriteList: FavoriteList.StatusedObject = { notViewed: [], watchingNow: [], viewed: [], waitNewPart: [], allFavorites: data.favoriteList };
+  let favoriteList: FavoriteList.StatusedObject = {
+    notViewed: [],
+    watchingNow: [],
+    viewed: [],
+    waitNewPart: [],
+    allFavorites: data.favoriteList || [],
+  };
 
   data?.favoriteList?.length > 0 &&
     data.favoriteList.forEach((el) => {
