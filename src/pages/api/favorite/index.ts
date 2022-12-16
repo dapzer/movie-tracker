@@ -15,15 +15,7 @@ const addFavorite = async (req: NextApiRequest) => {
       {
         $push: {
           favoriteList: {
-            id: req.body.id,
-            addedDate: req.body.addedDate,
-            mediaType: req.body.mediaType,
-            currentStatus: req.body.currentStatus,
-            seriesData: {
-              currentEpisode: req.body.seriesData.currentEpisode,
-              currentSeason: req.body.seriesData.currentSeason,
-              sitesToView: req.body.seriesData.sitesToView,
-            },
+            ...req.body.favoriteItem,
           },
         } as PushOperator<Document>,
       }
@@ -66,8 +58,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   data?.favoriteList?.length > 0 &&
     data.favoriteList.forEach((el) => {
-      if (favoriteList[el.currentStatus as keyof FavoriteList.StatusedObject]) {
-        favoriteList[el.currentStatus as keyof FavoriteList.StatusedObject].push(el);
+      if (favoriteList[el.trackingData.currentStatus]) {
+        favoriteList[el.trackingData.currentStatus].push(el);
       } else {
         favoriteList[StatusesNames.notViewed].push(el);
       }

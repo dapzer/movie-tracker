@@ -9,13 +9,13 @@ interface Props {
   children: React.ReactNode;
   original_title: string;
   title: string;
-  favoriteData?: {
+  favoriteItem?: {
     id: number;
     media_type: string;
   };
 }
 
-const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteData }) => {
+const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteItem }) => {
   const isHaveOriginalName = original_title !== title;
   const { t, lang } = useTranslation();
 
@@ -23,7 +23,7 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
     <div className={styles['body']}>
       <div className={`${styles['title_block']} ${styles[`title_block_mobile`]}`}>
         <h2>
-          {title} {favoriteData?.media_type && `(${t(`card:${favoriteData?.media_type}`)})`}
+          {title} {favoriteItem?.media_type && `(${t(`card:${favoriteItem?.media_type}`)})`}
         </h2>
         <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
       </div>
@@ -41,13 +41,13 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
             alt="Img"
           />
         </div>
-        {favoriteData && <FavoriteBtn id={favoriteData.id} className={styles['favorite_btn']} mediaType={favoriteData.media_type} />}
+        {favoriteItem && <FavoriteBtn id={favoriteItem.id} className={styles['favorite_btn']} mediaType={favoriteItem.media_type} />}
       </div>
 
       <div className={styles['info_block']}>
         <div className={styles['title_block']}>
           <h2>
-            {title} {favoriteData?.media_type && `(${t(`card:${favoriteData?.media_type}`)})`}
+            {title} {favoriteItem?.media_type && `(${t(`card:${favoriteItem?.media_type}`)})`}
           </h2>
           <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
         </div>

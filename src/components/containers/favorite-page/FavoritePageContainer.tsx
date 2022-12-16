@@ -11,7 +11,7 @@ import { selectFavoriteList } from '../../../redux/features/favoriteList/favorit
 interface Props {}
 
 const FavoritePageContainer: FC<Props> = () => {
-  const favoriteList = useAppSelector(selectFavoriteList);
+  const { viewed, notViewed, waitNewPart, allFavorites, watchingNow } = useAppSelector(selectFavoriteList);
   const { status } = useSession();
   const { t } = useTranslation('favoritePage');
 
@@ -22,13 +22,13 @@ const FavoritePageContainer: FC<Props> = () => {
           <LoginModal btnClass={styles['unlogin_btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
         </h2>
       )}
-      {favoriteList.allFavorites?.length < 1 && status === LoginStatus.Authenticated && <h2>{t('emptyFavoriteList')}</h2>}
-      {favoriteList.allFavorites?.length >= 1 && <h2>{t('page_title')}</h2>}
+      {allFavorites?.length < 1 && status === LoginStatus.Authenticated && <h2>{t('emptyFavoriteList')}</h2>}
+      {allFavorites?.length >= 1 && <h2>{t('page_title')}</h2>}
 
-      {favoriteList?.watchingNow?.length > 0 && <FavoriteRow favoriteList={favoriteList.watchingNow} title={t('statuses.watchingNow')} />}
-      {favoriteList?.notViewed?.length > 0 && <FavoriteRow favoriteList={favoriteList.notViewed} title={t('statuses.notViewed')} />}
-      {favoriteList?.waitNewPart?.length > 0 && <FavoriteRow favoriteList={favoriteList.waitNewPart} title={t('statuses.waitNewPart')} />}
-      {favoriteList?.viewed?.length > 0 && <FavoriteRow favoriteList={favoriteList.viewed} title={t('statuses.viewed')} />}
+      {watchingNow?.length > 0 && <FavoriteRow favoriteList={watchingNow} title={t('statuses.watchingNow')} />}
+      {notViewed?.length > 0 && <FavoriteRow favoriteList={notViewed} title={t('statuses.notViewed')} />}
+      {waitNewPart?.length > 0 && <FavoriteRow favoriteList={waitNewPart} title={t('statuses.waitNewPart')} />}
+      {viewed?.length > 0 && <FavoriteRow favoriteList={viewed} title={t('statuses.viewed')} />}
     </div>
   );
 };

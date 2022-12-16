@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FavoriteList } from '../types/FavoriteList';
 import { useSession } from 'next-auth/react';
 import { StatusesNames } from '../types/StatusesNames';
@@ -10,7 +10,7 @@ import {
   changeFavoriteListItemStatus,
   deleteFavoriteListItem,
   selectFavoriteList,
-  updateFavoriteListItemSeriesData,
+  updateFavoriteListItem,
 } from '../redux/features/favoriteList/favoriteListSlice';
 
 export const useFavorite = (mediaId?: number) => {
@@ -27,24 +27,18 @@ export const useFavorite = (mediaId?: number) => {
       id: mediaId,
       addedDate: Date.now(),
       mediaType: mediaType,
-      currentStatus: StatusesNames.notViewed,
-      seriesData: {
-        currentEpisode: 1,
-        currentSeason: 0,
+      trackingData: {
+        currentStatus: StatusesNames.notViewed,
         sitesToView: [],
+        seriesInfo: {
+          currentSeason: 0,
+          currentEpisode: 1,
+        },
       },
     };
 
     dispatch(addFavoriteListItemApi({ favoriteItem: newFavoriteItem, userId: session.user.id })).then(() => {
       toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);
-    });
-  };
-
-  const updateFavoriteListSeriesData = (mediaId: number, seriesData: FavoriteList.SeriesData, mediaStatus: FavoriteList.StatusesNames) => {
-    if (!session?.user?.id) return;
-
-    dispatch(updateFavoriteListItemApi({ mediaId, seriesData, mediaStatus, userId: session.user.id })).then(() => {
-      dispatch(updateFavoriteListItemSeriesData({ newSeriesData: seriesData, mediaId, mediaStatus }));
     });
   };
 
@@ -54,7 +48,27 @@ export const useFavorite = (mediaId?: number) => {
 
     dispatch(deleteFavoriteListItemApi({ userId: session.user.id, mediaId })).then(() => {
       toast.success(`${t(`toasts:${mediaType}SuccessRemovedFromFavorite`)}`);
-      dispatch(deleteFavoriteListItem({ mediaId, mediaStatus: favoriteItem.currentStatus }));
+      dispatch(deleteFavoriteListItem({ mediaId, mediaStatus: favoriteItem.trackingData.currentStatus }));
+    });
+  };
+
+  const updateFavoriteItem = (mediaId: number, trackingData: FavoriteList.TrackingData) => {
+    if (!session?.user?.id) return;
+
+    dispatch(
+      updateFavoriteListItemApi({
+        mediaId: mediaId,
+        trackingData,
+        userId: session.user.id,
+      })
+    ).then(() => {
+      dispatch(
+        updateFavoriteListItem({
+          mediaId,
+          newTrackingData: trackingData,
+          mediaStatus: trackingData.currentStatus,
+        })
+      );
     });
   };
 
@@ -65,12 +79,20 @@ export const useFavorite = (mediaId?: number) => {
     dispatch(
       updateFavoriteListItemApi({
         mediaId: favoriteItem.id,
-        seriesData: favoriteItem.seriesData,
-        mediaStatus: newStatus,
+        trackingData: {
+          ...favoriteItem.trackingData,
+          currentStatus: newStatus,
+        },
         userId: session.user.id,
       })
     ).then(() => {
-      dispatch(changeFavoriteListItemStatus({ mediaId: favoriteItem.id, mediaStatus: favoriteItem.currentStatus, newStatus }));
+      dispatch(
+        changeFavoriteListItemStatus({
+          mediaId: favoriteItem.id,
+          mediaStatus: favoriteItem.trackingData.currentStatus,
+          newStatus,
+        })
+      );
       toast.success(`${t(`toasts:statusChanged`)}`);
     });
   };
@@ -96,7 +118,7 @@ export const useFavorite = (mediaId?: number) => {
   }, [favoriteList, mediaId]);
 
   return {
-    updateFavoriteList: updateFavoriteListSeriesData,
+    updateFavoriteItem,
     deleteFavoriteItem,
     addFavoriteItem,
     checkOnFavorite,

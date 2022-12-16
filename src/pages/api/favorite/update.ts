@@ -19,10 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       },
       {
         $set: {
-          'favoriteList.$.currentStatus': req.body.currentStatus,
-          'favoriteList.$.seriesData.currentEpisode': req.body.currentEpisode,
-          'favoriteList.$.seriesData.currentSeason': req.body.currentSeason,
-          'favoriteList.$.seriesData.sitesToView': req.body.sitesToView,
+          'favoriteList.$.trackingData': req.body.trackingData,
         },
       }
     );

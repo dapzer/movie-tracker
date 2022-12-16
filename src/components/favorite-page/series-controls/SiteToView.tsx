@@ -5,11 +5,11 @@ import { FavoriteList } from '../../../types/FavoriteList';
 import { useSitesToView } from '../../../hooks/useSitesToView';
 
 interface Props {
-  favoriteData: FavoriteList.RootObject;
+  favoriteItem: FavoriteList.RootObject;
 }
 
-const SiteToView: FC<Props> = ({ favoriteData }) => {
-  const { sitesToView, startEdit, isEdit, editUrlIndex, editUrlValue, confirmlEdit, cancelEdit, setEditUrlValue } = useSitesToView(favoriteData);
+const SiteToView: FC<Props> = ({ favoriteItem }) => {
+  const { sitesToView, startEdit, isEdit, editUrlIndex, editUrlValue, confirmlEdit, cancelEdit, setEditUrlValue } = useSitesToView(favoriteItem);
   const { t } = useTranslation('favoritePage');
 
   return (

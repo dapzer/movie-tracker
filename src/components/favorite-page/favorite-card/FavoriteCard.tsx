@@ -16,28 +16,28 @@ interface Props {
 const FavoriteCard: FC<Props> = ({ details }) => {
   const { getFavoriteItem } = useFavorite();
   const { t } = useTranslation('favoritePage');
-  const favoriteData = getFavoriteItem(details.id);
+  const favoriteItem = getFavoriteItem(details.id);
 
   return (
     <div>
-      {favoriteData && (
+      {favoriteItem && (
         <MovieCard
-          mediaType={favoriteData.mediaType}
+          mediaType={favoriteItem.mediaType}
           mediaId={details.id}
           score={details.vote_average}
           title={details.title || details.name}
           image={details.poster_path}
-          releaseDate={new Date(favoriteData.addedDate || '')}
+          releaseDate={new Date(favoriteItem.addedDate || '')}
           dateTitle={t('added_date')}
           showScore
         >
           <div className={styles['status_selector']}>
-            <StatusSelector mediaType={favoriteData.mediaType} id={details.id} currentStatus={favoriteData.currentStatus} />
+            <StatusSelector mediaType={favoriteItem.mediaType} id={details.id} currentStatus={favoriteItem.trackingData.currentStatus} />
           </div>
 
-          {favoriteData.mediaType === ContentNames.Series && (
+          {favoriteItem.mediaType === ContentNames.Series && (
             <UiDetails title={t('tracking_menu.title')}>
-              <SeriesControls favoriteData={favoriteData} seasons={details.seasons} />
+              <SeriesControls favoriteItem={favoriteItem} seasons={details.seasons} />
             </UiDetails>
           )}
         </MovieCard>

@@ -11,10 +11,16 @@ export declare namespace FavoriteListPayload {
     favoriteItem: FavoriteList.RootObject;
   }
 
-  export interface UpdateSeriesData {
+  export interface UpdateItem {
     mediaId: number;
     mediaStatus: FavoriteList.StatusesNames;
-    newSeriesData: FavoriteList.SeriesData;
+    newTrackingData: FavoriteList.TrackingData;
+  }
+
+  export interface UpdateSeriesInfo {
+    mediaId: number;
+    mediaStatus: FavoriteList.StatusesNames;
+    seriesInfo: FavoriteList.SeriesInfo;
   }
 
   export interface ChangeStatus {

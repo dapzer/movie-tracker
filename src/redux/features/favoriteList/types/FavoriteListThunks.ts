@@ -9,7 +9,6 @@ export declare namespace FavoriteListThunks {
   export interface Update {
     userId: string;
     mediaId: number;
-    mediaStatus: FavoriteList.StatusesNames;
-    seriesData: FavoriteList.SeriesData;
+    trackingData: FavoriteList.TrackingData;
   }
 }

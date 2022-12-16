@@ -21,17 +21,17 @@ export const favoriteListSlice = createSlice({
       state[action.payload.mediaStatus] = state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
       state.allFavorites = state.allFavorites.filter((el) => el.id !== action.payload.mediaId);
     },
-    updateFavoriteListItemSeriesData: (state, action: PayloadAction<FavoriteListPayload.UpdateSeriesData>) => {
+    updateFavoriteListItem: (state, action: PayloadAction<FavoriteListPayload.UpdateItem>) => {
       const { indexInStatusedList, indexInAllFavorites } = getFavoriteItemIndexesHelper(state, action.payload.mediaId, action.payload.mediaStatus);
 
-      state[action.payload.mediaStatus][indexInStatusedList].seriesData = action.payload.newSeriesData;
-      state.allFavorites[indexInAllFavorites].seriesData = action.payload.newSeriesData;
+      state[action.payload.mediaStatus][indexInStatusedList].trackingData = action.payload.newTrackingData;
+      state.allFavorites[indexInAllFavorites].trackingData = action.payload.newTrackingData;
     },
     changeFavoriteListItemStatus: (state, action: PayloadAction<FavoriteListPayload.ChangeStatus>) => {
       const { indexInAllFavorites } = getFavoriteItemIndexesHelper(state, action.payload.mediaId, action.payload.mediaStatus);
 
       state[action.payload.mediaStatus] = state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
-      state.allFavorites[indexInAllFavorites].currentStatus = action.payload.newStatus;
+      state.allFavorites[indexInAllFavorites].trackingData.currentStatus = action.payload.newStatus;
 
       state[action.payload.newStatus].push(state.allFavorites[indexInAllFavorites]);
     },
@@ -48,6 +48,6 @@ export const favoriteListSlice = createSlice({
   },
 });
 
-export const { deleteFavoriteListItem, updateFavoriteListItemSeriesData, changeFavoriteListItemStatus } = favoriteListSlice.actions;
+export const { deleteFavoriteListItem, updateFavoriteListItem, changeFavoriteListItemStatus } = favoriteListSlice.actions;
 export const selectFavoriteList = (state: RootState) => state.favoriteList;
 export default favoriteListSlice.reducer;

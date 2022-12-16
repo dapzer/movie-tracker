@@ -22,7 +22,7 @@ export const addFavoriteListItemApi = createAsyncThunk('favoriteList/addItem', a
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ userId, ...favoriteItem }),
+    body: JSON.stringify({ userId, favoriteItem }),
   });
 
   if (response.ok) {
@@ -55,7 +55,7 @@ export const deleteFavoriteListItemApi = createAsyncThunk('favoriteList/deleteIt
 
 export const updateFavoriteListItemApi = createAsyncThunk(
   'favoriteList/update',
-  async ({ userId, mediaId, mediaStatus, seriesData }: FavoriteListThunks.Update) => {
+  async ({ userId, mediaId, trackingData }: FavoriteListThunks.Update) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}/update`, {
       method: 'POST',
       headers: {
@@ -65,8 +65,7 @@ export const updateFavoriteListItemApi = createAsyncThunk(
       body: JSON.stringify({
         userId: userId,
         id: mediaId,
-        currentStatus: mediaStatus,
-        ...seriesData,
+        trackingData,
       }),
     });
 

@@ -25,7 +25,7 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
       original_title={details.original_title || details.original_name}
       title={`${details.title || details.name}`}
       image={details.poster_path}
-      favoriteData={{
+      favoriteItem={{
         media_type: mediaType,
         id: details.id,
       }}

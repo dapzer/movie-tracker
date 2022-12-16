@@ -3,19 +3,25 @@ import { FavoriteList } from '../types/FavoriteList';
 import { useFavorite } from './useFavorite';
 
 export const useSeriesControls = (favoriteData: FavoriteList.RootObject) => {
-  const [currentSeason, setCurrentSeason] = useState(favoriteData.seriesData.currentSeason);
-  const [currentEpisode, setCurrentEpisode] = useState(favoriteData.seriesData.currentEpisode);
-  const { updateFavoriteList } = useFavorite();
+  const [currentSeason, setCurrentSeason] = useState(favoriteData.trackingData.seriesInfo.currentSeason);
+  const [currentEpisode, setCurrentEpisode] = useState(favoriteData.trackingData.seriesInfo.currentEpisode);
+  const { updateFavoriteItem } = useFavorite();
 
   const updateSeries = () => {
-    if (favoriteData.seriesData.currentSeason === currentSeason && favoriteData.seriesData.currentEpisode === currentEpisode) return;
-    const newSeriesData: FavoriteList.SeriesData = {
-      currentSeason,
-      currentEpisode,
-      sitesToView: favoriteData.seriesData.sitesToView,
-    };
+    if (
+      favoriteData.trackingData.seriesInfo.currentSeason === currentSeason &&
+      favoriteData.trackingData.seriesInfo.currentEpisode === currentEpisode
+    ) {
+      return;
+    }
 
-    updateFavoriteList(favoriteData.id, newSeriesData, favoriteData.currentStatus);
+    updateFavoriteItem(favoriteData.id, {
+      ...favoriteData.trackingData,
+      seriesInfo: {
+        currentEpisode,
+        currentSeason,
+      },
+    });
   };
 
   const generateEpisodesList = (totalCount: number) => {

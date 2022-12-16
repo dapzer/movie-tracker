@@ -5,13 +5,13 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { isOnlySpaces } from '../utils/isOnlySpaces.helper';
 
-export const useSitesToView = (favoriteData: FavoriteList.RootObject) => {
-  const { updateFavoriteList } = useFavorite();
+export const useSitesToView = (favoriteItem: FavoriteList.RootObject) => {
+  const { updateFavoriteItem } = useFavorite();
   const { t } = useTranslation('favoritePage');
   const [editUrlValue, setEditUrlValue] = useState('');
   const [editUrlIndex, setEditUrlIndex] = useState<number | null>(null);
   const [isEdit, setIsEdit] = useState(false);
-  let sitesToView = [...favoriteData.seriesData.sitesToView];
+  let sitesToView = [...favoriteItem.trackingData.sitesToView];
 
   const cancelEdit = () => {
     setEditUrlValue('');
@@ -41,15 +41,12 @@ export const useSitesToView = (favoriteData: FavoriteList.RootObject) => {
       sitesToView[editUrlIndex - 1] = newSite;
     }
 
-    const newSeriesData: FavoriteList.SeriesData = {
-      currentSeason: favoriteData.seriesData.currentSeason,
-      currentEpisode: favoriteData.seriesData.currentEpisode,
-      sitesToView: sitesToView,
-    };
-
     setEditUrlIndex(null);
     setEditUrlValue('');
-    updateFavoriteList(favoriteData.id, newSeriesData, favoriteData.currentStatus);
+    updateFavoriteItem(favoriteItem.id, {
+      ...favoriteItem.trackingData,
+      sitesToView,
+    });
   };
 
   return {

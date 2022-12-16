@@ -1,8 +1,13 @@
 export declare module FavoriteList {
-  export interface SeriesData {
-    currentEpisode: number;
-    currentSeason: number;
+  export interface TrackingData {
+    currentStatus: StatusesNames;
     sitesToView: SitesToViewObject[];
+    seriesInfo: SeriesInfo;
+  }
+
+  export interface SeriesInfo {
+    currentSeason: number;
+    currentEpisode: number;
   }
 
   export interface SitesToViewObject {
@@ -21,9 +26,8 @@ export declare module FavoriteList {
 
   export interface RootObject {
     id: number;
-    addedDate?: string | number;
     mediaType: string;
-    seriesData: SeriesData;
-    currentStatus: StatusesNames;
+    addedDate?: string | number;
+    trackingData: TrackingData;
   }
 }
