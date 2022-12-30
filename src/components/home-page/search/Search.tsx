@@ -50,7 +50,7 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
             onClick={() => {
               if (!inputRef.current) return;
               inputRef.current.value = '';
-              setLocalSearchValue('');
+              clearQueries();
             }}
           >
             <svg>
