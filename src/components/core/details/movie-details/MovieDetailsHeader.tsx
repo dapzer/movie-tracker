@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import styles from './movie-details.module.scss';
 import { arrayToString } from '../../../../utils/arrayToString.helper';
 import { getMovieDirectors } from '../../../../utils/getMovieDirectors.helper';
 import { toCurrency } from '../../../../utils/toCurrency.helper';
@@ -15,8 +14,8 @@ interface Props {
   mediaType: string;
 }
 
-const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
-  const { t, lang } = useTranslation('details');
+const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
+  const {t, lang} = useTranslation('details');
 
   const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString();
 
@@ -75,15 +74,18 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         </li>
       )}
 
-      <li>
-        {t('movie_details.release_date')} <span>{release}</span>
-      </li>
+      {release !== "Invalid Date" && (
+        <li>
+          {t('movie_details.release_date')} <span>{release}</span>
+        </li>
+      )}
 
       {mediaType === ContentNames.Series && (
         <>
-          <li>
-            {t('movie_details.last_air_date')} <span>{new Date(details.last_air_date).toLocaleDateString()}</span>
-          </li>
+          {details.last_air_date && (
+            <li>
+              {t('movie_details.last_air_date')} <span>{new Date(details.last_air_date).toLocaleDateString()}</span>
+            </li>)}
           {details.next_episode_to_air && (
             <li>
               {t('movie_details.next_air_date')}
@@ -103,7 +105,7 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         </>
       )}
 
-      {(details.runtime || details.episode_run_time) && (
+      {(details.runtime || details.episode_run_time?.length > 0) && (
         <li>
           {t(details.episode_run_time ? 'movie_details.series_runtime' : 'movie_details.movie_runtime')}{' '}
           <span>
