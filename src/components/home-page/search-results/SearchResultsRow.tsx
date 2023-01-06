@@ -1,5 +1,4 @@
 import React, { FC, RefObject, useEffect } from 'react';
-import { SearchResponse } from '../../../types/SearchResponse';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
 import { ContentNames } from '../../../types/ContentNames';
@@ -8,14 +7,13 @@ import useTranslation from 'next-translate/useTranslation';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
 import UiPagination from '../../ui/pagination/UiPagination';
-import { useQuery } from '@tanstack/react-query';
-import { searchApi } from '../../../api/fetchApi';
 import PopularlsList from '../popular/PopularlsList';
 import MovieCard from '../../core/movie-card/MovieCard';
 import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
 import { useAppSelector } from '../../../redux/hooks';
 import { selectSearchParams } from '../../../redux/features/searchParams/searchParamsSlice';
 import { useSearch } from '../../../hooks/useSearch';
+import { useGetSearchByTerm } from '../../../hooks/useTmdbApi';
 
 interface Props {
   searchTitleRef: RefObject<HTMLInputElement> | null;
@@ -37,17 +35,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
     data: searchResponse,
     isLoading,
     isSuccess,
-  } = useQuery<SearchResponse.RootObject>(
-    [
-      'searchFilms',
-      {
-        searchValue: searchTerm,
-        page: currentPage,
-        language: lang,
-      },
-    ],
-    searchApi
-  );
+  } = useGetSearchByTerm(searchTerm, lang, currentPage);
 
   useEffect(() => {
     if (isSuccess && searchResponse?.results?.length && searchTitleRef) {
@@ -71,8 +59,8 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
       <div className={styles['items']}>
         <Masonry
           breakpointCols={breakpointColumnsObj}
-          className="searching-results-masonry__row"
-          columnClassName="searching-results-masonry__row-column"
+          className='searching-results-masonry__row'
+          columnClassName='searching-results-masonry__row-column'
         >
           {isLoading &&
             Array(20)
@@ -98,7 +86,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
                   showScore
                   favoriteBtn
                 />
-              )
+              ),
             )}
         </Masonry>
 

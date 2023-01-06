@@ -1,17 +1,15 @@
 import React, { FC } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Person } from '../../../../types/Person';
-import { detailApi, personCreditsApi } from '../../../../api/fetchApi';
 import PersonDetailsHeader from './PersonDetailsHeader';
 import styles from './person-details.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import DetailsSkeleton from '../../../../lib/loading-skeleton/DetailsSkeleton';
 import { ContentNames } from '../../../../types/ContentNames';
 import CreditsCard from '../details-cast/CreditsCard';
 import UiModal from '../../../ui/modal/UiModal';
 import InfoHeaderSkeleton from '../../../../lib/loading-skeleton/InfoHeaderSkeleton';
 import DetailsInfoBlockSkeleton from '../../../../lib/loading-skeleton/DetailsInfoBlockSkeleton';
 import DetailsCastSkeleton from '../../../../lib/loading-skeleton/DetailsCastSkeleton';
+import { useGetPersonCredits, useGetPersonDetails } from '../../../../hooks/useTmdbApi';
 
 interface Props {
   personId: number;
@@ -20,44 +18,18 @@ interface Props {
 
 const PersonDetails: FC<Props> = ({ personId, initialData }) => {
   const { t, lang } = useTranslation('details');
-
-  const {
-    data: details,
-    isSuccess,
-    isLoading,
-  } = useQuery<Person.RootObject>({
-    queryKey: [
-      'getDetails',
-      {
-        mediaId: personId,
-        mediaType: ContentNames.Person,
-        language: lang,
-      },
-    ],
-    queryFn: detailApi,
-    initialData: initialData,
-  });
-
+  const { data: details, isLoading } = useGetPersonDetails(personId, ContentNames.Person, lang, initialData);
   const {
     data: credits,
-    isSuccess: creditsIsSuccess,
     isLoading: creditsIsLoading,
-  } = useQuery<Person.Credits>(
-    [
-      'getPersonCredits',
-      {
-        person_id: personId,
-        language: lang,
-      },
-    ],
-    personCreditsApi
-  );
+    isSuccess: creditsIsSuccess,
+  } = useGetPersonCredits(personId, lang);
 
   return (
     <>
       {details && !isLoading ? (
         <>
-          <PersonDetailsHeader details={details} />
+          <PersonDetailsHeader details={details as Person.RootObject} />
 
           {details.biography && (
             <div className={styles['biography']}>
@@ -86,7 +58,8 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
                   <CreditsCard key={`credit-${item.id}`} item={item} />
                 ))}
                 {credits.cast.length > 5 && (
-                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')} btnClass={'detail-full-cast-btn'}>
+                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')}
+                           btnClass={'detail-full-cast-btn'}>
                     <div className={'details-grid'}>
                       {credits.cast.map((item) => (
                         <CreditsCard key={`credit-list-${item.id}`} item={item} />

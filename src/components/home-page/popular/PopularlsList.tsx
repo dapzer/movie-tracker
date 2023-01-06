@@ -1,13 +1,11 @@
 import React, { FC } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { trendsApi } from '../../../api/fetchApi';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './popular-list.module.scss';
 import UiModal from '../../ui/modal/UiModal';
 import Masonry from 'react-masonry-css';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
 import MovieCard from '../../core/movie-card/MovieCard';
-import { SearchResponse } from '../../../types/SearchResponse';
+import { useGetPopularList } from '../../../hooks/useTmdbApi';
 
 interface Props {
   mediaType: string;
@@ -24,17 +22,7 @@ const breakpointColumnsObj = {
 const PopularlsList: FC<Props> = ({ mediaType, title }) => {
   const { lang } = useTranslation();
   const { t } = useTranslation('buttons');
-
-  const { data: popular, isLoading } = useQuery<SearchResponse.RootObject>({
-    queryKey: [
-      'getDetails',
-      {
-        mediaType: mediaType,
-        language: lang,
-      },
-    ],
-    queryFn: trendsApi,
-  });
+  const { data: popular, isLoading } = useGetPopularList(mediaType, lang);
 
   return (
     <div>
@@ -70,8 +58,8 @@ const PopularlsList: FC<Props> = ({ mediaType, title }) => {
             <div className={styles['modal_list']}>
               <Masonry
                 breakpointCols={breakpointColumnsObj}
-                className="searching-results-masonry__row"
-                columnClassName="searching-results-masonry__row-column"
+                className='searching-results-masonry__row'
+                columnClassName='searching-results-masonry__row-column'
               >
                 {popular.results.map((item) => (
                   <MovieCard
