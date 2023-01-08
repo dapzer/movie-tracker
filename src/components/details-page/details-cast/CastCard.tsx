@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Credits } from '../../../../types/Credits';
-import { ContentNames } from '../../../../types/ContentNames';
-import { arrayToString } from '../../../../utils/arrayToString.helper';
-import LinkToDetails from '../link-to-details/LinkToDetails';
-import UiCard from '../../../ui/card/UiCard';
+import { Credits } from '../../../types/Credits';
+import { ContentNames } from '../../../types/ContentNames';
+import { arrayToString } from '../../../utils/arrayToString.helper';
+import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
+import UiCard from '../../ui/card/UiCard';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

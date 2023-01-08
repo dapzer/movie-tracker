@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import UiModal from '../../../ui/modal/UiModal';
+import UiModal from '../../ui/modal/UiModal';
 import MovieDetails from './MovieDetails';
 import useTranslation from 'next-translate/useTranslation';
 

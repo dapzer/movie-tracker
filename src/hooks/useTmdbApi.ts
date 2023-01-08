@@ -1,10 +1,20 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { Details } from '../types/Details';
-import { creditsApi, detailApi, personCreditsApi, recommendationsApi, searchApi, trendsApi } from '../api/fetchApi';
+import {
+  creditsApi,
+  detailApi,
+  personCreditsApi,
+  recommendationsApi,
+  searchApi,
+  trendsApi,
+  videosApi,
+} from '../api/fetchApi';
 import { Person } from '../types/Person';
 import { Credits } from '../types/Credits';
 import { SearchResponse } from '../types/SearchResponse';
 import { FavoriteList } from '../types/FavoriteList';
+import { Videos } from '../types/Videos';
+import { useCallback } from 'react';
 
 export const useGetMovieDetails = (mediaId: number, mediaType: string, lang: string, initialData?: Details.RootObject) =>
   useQuery<Details.RootObject>({
@@ -114,3 +124,22 @@ export const useGetSearchByTerm = (searchTerm: string, lang: string, currentPage
     ],
     searchApi,
   );
+
+export const useGetVideos = (mediaId: number, mediaType: string, lang: string) =>
+  useQuery<Videos.RootObject>({
+    queryKey: [
+      'getVideos',
+      {
+        mediaId: mediaId,
+        mediaType: mediaType,
+        language: lang,
+      },
+    ],
+    queryFn: videosApi,
+    select: useCallback(
+      (data: Videos.RootObject) => {
+        data.results = data.results.sort((a, b) => a.type === 'Trailer' || a.type === 'Teaser' ? -1 : 1);
+        return data;
+      }, [],
+    ),
+  });

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from '../../components/core/details/movie-details/movie-details.module.scss';
+import styles from '../../components/details-page/movie-details/movie-details.module.scss';
 import Skeleton from 'react-loading-skeleton';
 
 interface Props {}

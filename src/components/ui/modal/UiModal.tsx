@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import ModalContent from './ModalContent';
 
@@ -6,7 +6,7 @@ interface Props {
   title: string;
   children: React.ReactNode;
   fullWidth?: boolean;
-  btnTitle?: string;
+  btnTitle?: string | ReactElement;
   maxWidth?: number;
   btnClass?: string;
   isOpenedDefault?: boolean;

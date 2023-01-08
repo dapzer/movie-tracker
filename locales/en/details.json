@@ -5,6 +5,7 @@
     "movie_description": "Movie description",
     "series_description": "Description of the series",
     "release_date": "Release date:",
+    "videos_title": "Videos",
     "actors_title": "Actors",
     "actors_roles": "Role(s):",
     "actors_episodesCount": "In {{episodes}} episodes",

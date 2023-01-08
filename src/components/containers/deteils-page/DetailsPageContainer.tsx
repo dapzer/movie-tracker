@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Person } from '../../../types/Person';
-import MovieDetails from '../../core/details/movie-details/MovieDetails';
+import MovieDetails from '../../details-page/movie-details/MovieDetails';
 import { Details as DetailsType } from '../../../types/Details';
 import { ContentNames } from '../../../types/ContentNames';
-import PersonDetails from '../../core/details/person-details/PersonDetails';
+import PersonDetails from '../../details-page/person-details/PersonDetails';
 import styles from './details.module.scss';
 import BackBtn from '../../core/back-btn/BackBtn';
 

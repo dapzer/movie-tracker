@@ -1,17 +1,8 @@
 @import "src/styles/variables";
+@import "src/styles/mixins";
 
 .body {
-  width: 100%;
-  height: fit-content;
-  max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto 20px auto;
-  padding: 20px;
-  gap: 15px;
-  position: relative;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  border-radius: $borderRadius;
+  @include card;
 
   .title {
     color: #fff;
@@ -47,23 +38,7 @@
 }
 
 .small {
-  max-width: 200px;
-  min-width: 200px;
-  gap: 10px;
-
-  .title {
-    font-size: 1em;
-  }
-
-  a,
-  .release {
-    font-size: .9em;
-  }
-
-
-  @media screen and (max-width: 450px){
-    max-width: unset;
-  }
+  @include card_small;
 }
 
 @media screen and (max-width: $md){

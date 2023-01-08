@@ -5,6 +5,7 @@
     "movie_description": "Описание фильма",
     "series_description": "Описание сериала",
     "release_date": "Дата выхода:",
+    "videos_title": "Видеоматериалы",
     "actors_title": "Актёры",
     "actors_roles": "Роль(и):",
     "actors_episodesCount": "В {{episodes}} эпизодах",

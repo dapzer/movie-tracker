@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { arrayToString } from '../../../../utils/arrayToString.helper';
-import { getMovieDirectors } from '../../../../utils/getMovieDirectors.helper';
-import { toCurrency } from '../../../../utils/toCurrency.helper';
-import { Details } from '../../../../types/Details';
-import { Credits } from '../../../../types/Credits';
-import { ContentNames } from '../../../../types/ContentNames';
-import UiInfoHeader from '../../../ui/imfo-header/UiInfoHeader';
+import { arrayToString } from '../../../utils/arrayToString.helper';
+import { getMovieDirectors } from '../../../utils/getMovieDirectors.helper';
+import { toCurrency } from '../../../utils/toCurrency.helper';
+import { Details } from '../../../types/Details';
+import { Credits } from '../../../types/Credits';
+import { ContentNames } from '../../../types/ContentNames';
+import UiInfoHeader from '../../ui/imfo-header/UiInfoHeader';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

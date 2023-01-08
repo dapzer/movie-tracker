@@ -1,0 +1,76 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.body {
+  @include card;
+  cursor: pointer;
+
+  .overlay {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    border-radius: $borderRadius;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    svg {
+      width: 90px;
+      height: 90px;
+    }
+  }
+
+  &:hover {
+    .overlay {
+      display: flex;
+    }
+  }
+
+
+  .title {
+    color: #fff;
+  }
+
+  .info {
+    width: 100%;
+  }
+
+  .image {
+    width: 100%;
+    border-radius: $borderRadius;
+    height: fit-content;
+    position: relative;
+
+    img {
+      border-radius: $borderRadius;
+    }
+  }
+}
+
+.trigger_btn {
+  all: unset;
+  width: 100%;
+  max-width: 300px;
+}
+
+.frame {
+  width: 100%;
+  height: 100%;
+
+  iframe {
+    width: 100%;
+    height: 100vw;
+    max-height: 75vh;
+  }
+}
+
+@media screen and (max-width: $md) {
+  .trigger_btn,
+  .body {
+    max-width: unset;
+  }
+}
