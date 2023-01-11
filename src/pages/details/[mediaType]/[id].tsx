@@ -4,6 +4,7 @@ import { Details as DetailsType } from '../../../types/Details';
 import DetailsPageContainer from '../../../components/containers/deteils-page/DetailsPageContainer';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   details: DetailsType.RootObject;
@@ -12,16 +13,25 @@ interface Props {
 }
 
 const Details: NextPage<Props> = ({ details, mediaType, locale }) => {
-  const title = details.original_title || details.title || details.name;
   const router = useRouter();
+  const { t } = useTranslation('errors');
+  const title = details && details?.original_title || details?.title || details?.name || 'Error';
+
   return (
     <>
       <NextSeo
         title={title}
-        description={details.overview || details.biography}
+        description={details?.overview || details?.biography || 'Error'}
         openGraph={{ url: `https://movie-tracker.dapzer.ru${router.asPath}` }}
       />
-      <DetailsPageContainer details={details} mediaType={mediaType} locale={locale} />
+
+      {details ? <DetailsPageContainer details={details} mediaType={mediaType} locale={locale} />
+        : (
+          <div className={'container'}>
+            <h2>{t('getDetails')}</h2>
+          </div>
+        )
+      }
     </>
   );
 };
@@ -29,9 +39,16 @@ const Details: NextPage<Props> = ({ details, mediaType, locale }) => {
 export default Details;
 
 export async function getServerSideProps({ query, locale }: NextPageContext) {
-  const data = await detailApi({ queryKey: ['getDetails', { mediaType: query.mediaType, mediaId: query.id, language: locale }] });
+  const data = await detailApi({
+    queryKey: ['getDetails', {
+      mediaType: query.mediaType,
+      mediaId: query.id,
+      language: locale,
+    }],
+  });
 
   return {
     props: { details: data, mediaType: query.mediaType, locale },
   };
+
 }

@@ -9,7 +9,8 @@ export const getResponse = async (url: string) => {
   if (response.ok) {
     return data;
   } else {
-    toast.warning(`Error when fetching data from THMD. Code: ${data.code}`);
+    toast.warning(`An error occurred while getting data from TMDB. Code: ${data.code}`);
+    return null
   }
 };
 
