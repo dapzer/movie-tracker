@@ -18,6 +18,7 @@ const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
   const {t, lang} = useTranslation('details');
 
   const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString();
+  const producers = mediaType === ContentNames.Movie && credits && getMovieDirectors(credits.crew)
 
   return (
     <UiInfoHeader
@@ -43,13 +44,13 @@ const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
         </li>
       )}
 
-      {mediaType === ContentNames.Movie && credits && (
+      {producers && producers.length > 0 && (
         <li>
-          {t('movie_details.producer')} <span>{arrayToString(getMovieDirectors(credits.crew), 'name')}</span>
+          {t('movie_details.producer')} <span>{arrayToString(producers, 'name')}</span>
         </li>
       )}
 
-      {details.created_by?.length > 1 && (
+      {details.created_by?.length > 0 && (
         <li>
           {t('movie_details.creator')} <span>{arrayToString(details.created_by, 'name')}</span>
         </li>
