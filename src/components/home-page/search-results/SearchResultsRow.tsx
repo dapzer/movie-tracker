@@ -1,7 +1,7 @@
 import React, { FC, RefObject, useEffect } from 'react';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
-import { ContentNames } from '../../../types/ContentNames';
+import { ContentNames } from '../../../types/Enums';
 import SearchResultPerson from './SearchResultPerson';
 import useTranslation from 'next-translate/useTranslation';
 import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styles from './movie-details.module.scss';
 import { Details } from '../../../types/Details';
 import MovieDetailsHeader from './MovieDetailsHeader';
-import { ContentNames } from '../../../types/ContentNames';
+import { ContentNames } from '../../../types/Enums';
 import useTranslation from 'next-translate/useTranslation';
 import CastCard from '../details-cast/CastCard';
 import UiModal from '../../ui/modal/UiModal';

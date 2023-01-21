@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Credits } from '../../../types/Credits';
-import { ContentNames } from '../../../types/ContentNames';
+import { ContentNames } from '../../../types/Enums';
 import { arrayToString } from '../../../utils/arrayToString';
 import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
 import UiCard from '../../ui/card/UiCard';

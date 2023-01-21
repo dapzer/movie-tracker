@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { LoginStatus } from '../../../types/LoginStatus';
+import { LoginStatus } from '../../../types/Enums';
 import LoginModal from '../../core/login-modal/LoginModal';
 import { signOut, useSession } from 'next-auth/react';
 import useTranslation from 'next-translate/useTranslation';

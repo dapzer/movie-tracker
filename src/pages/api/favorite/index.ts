@@ -3,7 +3,7 @@ import { clientPromise } from '../../../lib/mongodb';
 import { ObjectId } from 'bson';
 import { FavoriteList } from '../../../types/FavoriteList';
 import { PushOperator, WithId } from 'mongodb';
-import { StatusesNames } from '../../../types/StatusesNames';
+import { StatusesNames } from '../../../types/Enums';
 
 const addFavorite = async (req: NextApiRequest) => {
   const client = await clientPromise;

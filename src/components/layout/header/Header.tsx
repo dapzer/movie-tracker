@@ -7,7 +7,7 @@ import LinksList from './LinksList';
 import AuthBtn from './AuthBtn';
 import UserProfile from './user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
-import { LoginStatus } from '../../../types/LoginStatus';
+import { LoginStatus } from '../../../types/Enums';
 
 const Header: FC = () => {
   const [isOpen, setIsOpen] = useState(false);

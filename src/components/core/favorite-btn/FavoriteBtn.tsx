@@ -3,9 +3,8 @@ import { useFavorite } from '../../../hooks/useFavorite';
 import styles from './favorite-btn.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
-import { LoginStatus } from '../../../types/LoginStatus';
+import { LoginStatus } from '../../../types/Enums';
 import LoginModal from '../login-modal/LoginModal';
-import { StatusesNames } from '../../../types/StatusesNames';
 
 interface Props {
   id: number;

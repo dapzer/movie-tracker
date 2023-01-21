@@ -1,4 +1,4 @@
-import { ContentNames } from '../types/ContentNames';
+import { ContentNames } from '../types/Enums';
 import { toast } from 'react-toastify';
 import { generateApiUrl } from '../utils/generateApiUrl';
 import { SearchResponse } from '../types/SearchResponse';

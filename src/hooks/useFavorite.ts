@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FavoriteList } from '../types/FavoriteList';
 import { useSession } from 'next-auth/react';
-import { StatusesNames } from '../types/StatusesNames';
+import { StatusesNames } from '../types/Enums';
 import { toast } from 'react-toastify';
 import useTranslation from 'next-translate/useTranslation';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';

@@ -3,7 +3,7 @@ import { Person } from '../../../types/Person';
 import PersonDetailsHeader from './PersonDetailsHeader';
 import styles from './person-details.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import { ContentNames } from '../../../types/ContentNames';
+import { ContentNames } from '../../../types/Enums';
 import CreditsCard from '../details-cast/CreditsCard';
 import UiModal from '../../ui/modal/UiModal';
 import InfoHeaderSkeleton from '../../../lib/loading-skeleton/InfoHeaderSkeleton';

@@ -3,7 +3,7 @@ import styles from './favorite-card.module.scss';
 import { Details } from '../../../types/Details';
 import SeriesControls from '../series-controls/SeriesControls';
 import UiDetails from '../../ui/details/UiDetails';
-import { ContentNames } from '../../../types/ContentNames';
+import { ContentNames } from '../../../types/Enums';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '../../../hooks/useFavorite';
 import StatusSelector from '../status-selector/StatusSelector';

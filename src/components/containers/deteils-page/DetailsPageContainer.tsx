@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Person } from '../../../types/Person';
 import MovieDetails from '../../details-page/movie-details/MovieDetails';
 import { Details as DetailsType } from '../../../types/Details';
-import { ContentNames } from '../../../types/ContentNames';
+import { ContentNames } from '../../../types/Enums';
 import PersonDetails from '../../details-page/person-details/PersonDetails';
 import styles from './details.module.scss';
 import BackBtn from '../../core/back-btn/BackBtn';
