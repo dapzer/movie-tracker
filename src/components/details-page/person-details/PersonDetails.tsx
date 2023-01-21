@@ -48,7 +48,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
       )}
 
       {creditsIsLoading && <DetailsCastSkeleton />}
-      {creditsIsSuccess && (
+      {creditsIsSuccess && credits && (
         <>
           {credits.cast.length > 0 && (
             <div className={styles['movies']}>

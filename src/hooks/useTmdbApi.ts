@@ -10,14 +10,12 @@ import {
   videosApi,
 } from '../api/fetchApi';
 import { Person } from '../types/Person';
-import { Credits } from '../types/Credits';
-import { SearchResponse } from '../types/SearchResponse';
 import { FavoriteList } from '../types/FavoriteList';
 import { Videos } from '../types/Videos';
 import { useCallback } from 'react';
 
 export const useGetMovieDetails = (mediaId: number, mediaType: string, lang: string, initialData?: Details.RootObject) =>
-  useQuery<Details.RootObject>({
+  useQuery({
     queryKey: [
       'getDetails',
       {
@@ -26,12 +24,12 @@ export const useGetMovieDetails = (mediaId: number, mediaType: string, lang: str
         language: lang,
       },
     ],
-    queryFn: detailApi,
+    queryFn: () => detailApi({ mediaId, mediaType, language: lang }),
     initialData: initialData,
   });
 
 export const useGetPersonDetails = (mediaId: number, mediaType: string, lang: string, initialData?: Person.RootObject) =>
-  useQuery<Person.RootObject>({
+  useQuery({
     queryKey: [
       'getDetails',
       {
@@ -40,12 +38,12 @@ export const useGetPersonDetails = (mediaId: number, mediaType: string, lang: st
         language: lang,
       },
     ],
-    queryFn: detailApi,
+    queryFn: () => detailApi<Person.RootObject>({ mediaId, mediaType, language: lang }),
     initialData: initialData,
   });
 
 export const useGetMovieCredits = (mediaId: number, mediaType: string, lang: string) =>
-  useQuery<Credits.RootObject>(
+  useQuery(
     [
       'getCredits',
       {
@@ -59,7 +57,7 @@ export const useGetMovieCredits = (mediaId: number, mediaType: string, lang: str
 
 
 export const useGetPersonCredits = (personId: number, lang: string) =>
-  useQuery<Person.Credits>(
+  useQuery(
     [
       'getPersonCredits',
       {
@@ -71,7 +69,7 @@ export const useGetPersonCredits = (personId: number, lang: string) =>
   );
 
 export const useGetRecommendations = (mediaId: number, mediaType: string, lang: string) =>
-  useQuery<SearchResponse.RootObject>(
+  useQuery(
     [
       'getRecommendations',
       {
@@ -95,13 +93,17 @@ export const useGetFavoriteItemsDetail = (favoriteList: FavoriteList.RootObject[
             language: lang,
           },
         ],
-        queryFn: detailApi,
+        queryFn: () => detailApi({
+          mediaType: item.mediaType,
+          mediaId: item.id,
+          language: lang,
+        }),
       };
     }),
   });
 
 export const useGetPopularList = (mediaType: string, lang: string) =>
-  useQuery<SearchResponse.RootObject>({
+  useQuery({
     queryKey: [
       'getPopularList',
       {
@@ -113,7 +115,7 @@ export const useGetPopularList = (mediaType: string, lang: string) =>
   });
 
 export const useGetSearchByTerm = (searchTerm: string, lang: string, currentPage: number) =>
-  useQuery<SearchResponse.RootObject>(
+  useQuery(
     [
       'getSearchByTerm',
       {
@@ -126,7 +128,7 @@ export const useGetSearchByTerm = (searchTerm: string, lang: string, currentPage
   );
 
 export const useGetVideos = (mediaId: number, mediaType: string, lang: string) =>
-  useQuery<Videos.RootObject>({
+  useQuery({
     queryKey: [
       'getVideos',
       {
@@ -137,7 +139,8 @@ export const useGetVideos = (mediaId: number, mediaType: string, lang: string) =
     ],
     queryFn: videosApi,
     select: useCallback(
-      (data: Videos.RootObject) => {
+      (data: Videos.RootObject | null) => {
+        if (!data) return null;
         data.results = data.results.sort((a, b) => a.type === 'Trailer' || a.type === 'Teaser' ? -1 : 1);
         return data;
       }, [],

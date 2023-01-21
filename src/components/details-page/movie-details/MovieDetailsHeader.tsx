@@ -10,7 +10,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   details: Details.RootObject;
-  credits?: Credits.RootObject;
+  credits?: Credits.RootObject | null;
   mediaType: string;
 }
 

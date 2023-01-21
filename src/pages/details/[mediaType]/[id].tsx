@@ -5,6 +5,7 @@ import DetailsPageContainer from '../../../components/containers/deteils-page/De
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
+import { Person } from '../../../types/Person';
 
 interface Props {
   details: DetailsType.RootObject;
@@ -39,12 +40,10 @@ const Details: NextPage<Props> = ({ details, mediaType, locale }) => {
 export default Details;
 
 export async function getServerSideProps({ query, locale }: NextPageContext) {
-  const data = await detailApi({
-    queryKey: ['getDetails', {
-      mediaType: query.mediaType,
-      mediaId: query.id,
-      language: locale,
-    }],
+  const data = await detailApi<DetailsType.RootObject | Person.RootObject>({
+    mediaType: query.mediaType,
+    mediaId: query.id,
+    language: locale,
   });
 
   return {

@@ -71,7 +71,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
       )}
 
       {videosIsLoading && <DetailsVideosSkeleton />}
-      {videosIsSuccess && videos.results.length > 0 && (
+      {videos && videos.results.length > 0 && (
         <div className={`${styles['info_block']} ${styles['videos']}`}>
           <h2>{t('movie_details.videos_title')}</h2>
           <div className={styles['videos_grid']}
