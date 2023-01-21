@@ -25,7 +25,6 @@
     "next-translate": "^1.6.0",
     "nextjs-progressbar": "0.0.16",
     "prettier": "^2.7.1",
-    "query-string": "^7.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-loading-skeleton": "^3.1.0",
