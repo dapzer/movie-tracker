@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { addFavoriteListItemApi, fetchFavoriteListApi } from './favoriteListThunk';
 import { FavoriteListPayload } from './types/FavoriteListPayload';
-import { getFavoriteItemIndexesHelper } from '../../../utils/getFavoriteItemIndexes.helper';
+import { getFavoriteItemIndexes } from '../../../utils/getFavoriteItemIndexes';
 
 const initialState: FavoriteList.StatusedObject = {
   notViewed: [],
@@ -22,13 +22,13 @@ export const favoriteListSlice = createSlice({
       state.allFavorites = state.allFavorites.filter((el) => el.id !== action.payload.mediaId);
     },
     updateFavoriteListItem: (state, action: PayloadAction<FavoriteListPayload.UpdateItem>) => {
-      const { indexInStatusedList, indexInAllFavorites } = getFavoriteItemIndexesHelper(state, action.payload.mediaId, action.payload.mediaStatus);
+      const { indexInStatusedList, indexInAllFavorites } = getFavoriteItemIndexes(state, action.payload.mediaId, action.payload.mediaStatus);
 
       state[action.payload.mediaStatus][indexInStatusedList].trackingData = action.payload.newTrackingData;
       state.allFavorites[indexInAllFavorites].trackingData = action.payload.newTrackingData;
     },
     changeFavoriteListItemStatus: (state, action: PayloadAction<FavoriteListPayload.ChangeStatus>) => {
-      const { indexInAllFavorites } = getFavoriteItemIndexesHelper(state, action.payload.mediaId, action.payload.mediaStatus);
+      const { indexInAllFavorites } = getFavoriteItemIndexes(state, action.payload.mediaId, action.payload.mediaStatus);
 
       state[action.payload.mediaStatus] = state[action.payload.mediaStatus].filter((el) => el.id !== action.payload.mediaId);
       state.allFavorites[indexInAllFavorites].trackingData.currentStatus = action.payload.newStatus;

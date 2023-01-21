@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { arrayToString } from '../../../utils/arrayToString.helper';
-import { getMovieDirectors } from '../../../utils/getMovieDirectors.helper';
-import { toCurrency } from '../../../utils/toCurrency.helper';
+import { arrayToString } from '../../../utils/arrayToString';
+import { getMovieDirectors } from '../../../utils/getMovieDirectors';
+import { toCurrency } from '../../../utils/toCurrency';
 import { Details } from '../../../types/Details';
 import { Credits } from '../../../types/Credits';
 import { ContentNames } from '../../../types/ContentNames';

@@ -9,7 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 import UiPagination from '../../ui/pagination/UiPagination';
 import PopularlsList from '../popular/PopularlsList';
 import MovieCard from '../../core/movie-card/MovieCard';
-import { isOnlySpaces } from '../../../utils/isOnlySpaces.helper';
+import { isOnlySpaces } from '../../../utils/isOnlySpaces';
 import { useAppSelector } from '../../../redux/hooks';
 import { selectSearchParams } from '../../../redux/features/searchParams/searchParamsSlice';
 import { useSearch } from '../../../hooks/useSearch';
