@@ -23,6 +23,11 @@
   padding-top: 15px;
 }
 
+.arrow {
+  display: flex;
+  align-items: center;
+}
+
 .arrow_active {
   svg {
     rotate: 0deg !important;

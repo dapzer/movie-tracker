@@ -5,8 +5,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import LoginModal from '@/components/core/login-modal/LoginModal';
-import FavoriteIcon from 'public/icons/favorite.svg';
-import InFavoriteIcon from 'public/icons/in-favorite.svg';
+import { FavoriteIcon, InFavoriteIcon } from '@/components/ui/Icons';
 
 interface Props {
   id: number;

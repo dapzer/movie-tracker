@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './ui-details.module.scss';
-import ArrowIcon from "public/icons/arrow.svg"
+import { ArrowIcon } from '@/components/ui/Icons';
 
 interface Props {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ const UiDetails: FC<Props> = ({ children, title, btnClass, isOpenedDefault }) =>
     <div>
       <button className={`${styles['toggle_btn']} ${btnClass}`} onClick={(e) => setIsOpen(!isOpen)}>
         {title}
-        <div className={`${isOpen && styles['arrow_active']}`}>
+        <div className={`${styles['arrow']} ${isOpen && styles['arrow_active']}`}>
           <ArrowIcon />
         </div>
       </button>

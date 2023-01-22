@@ -3,10 +3,7 @@ import styles from './site-to-view.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { FavoriteList } from '@/types/FavoriteList';
 import { useSitesToView } from '@/hooks/useSitesToView';
-import AddIcon from "public/icons/add.svg"
-import EditIcon from "public/icons/edit.svg"
-import CheckMarkIcon from "public/icons/check-mark.svg"
-import CloseIcon from "public/icons/close.svg"
+import { AddIcon, CheckMarkIcon, CloseIcon, EditIcon } from '@/components/ui/Icons';
 
 interface Props {
   favoriteItem: FavoriteList.RootObject;

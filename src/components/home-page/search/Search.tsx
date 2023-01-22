@@ -5,8 +5,7 @@ import { isOnlySpaces } from '@/utils/isOnlySpaces';
 import { useSearch } from '@/hooks/useSearch';
 import { useAppSelector } from '@/redux/hooks';
 import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
-import SearchIcon from "public/icons/search.svg"
-import CloseIcon from "public/icons/close.svg"
+import { CloseIcon, SearchIcon } from '@/components/ui/Icons';
 
 interface Props {
   searchTitleRef: Ref<HTMLInputElement> | null;

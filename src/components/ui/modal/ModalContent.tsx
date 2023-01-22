@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import Portal from '@/components/core/Portal';
 import styles from './ui-modal.module.scss';
-import CloseIcon from "public/icons/close.svg"
+import { CloseIcon } from '@/components/ui/Icons';
 
 
 interface Props {

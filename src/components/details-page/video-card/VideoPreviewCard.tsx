@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import styles from './video-card.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import PlayIcon from "public/icons/play.svg"
+import { PlayIcon } from '@/components/ui/Icons';
 
 interface Props {
   previewUrl: string;
