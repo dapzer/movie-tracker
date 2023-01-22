@@ -1,7 +1,7 @@
-export const arrayToString = (array: any[], selector?: string) => {
+export const arrayToString = <T>(array: T[], selector?: keyof T) => {
   if (selector) {
     return array.map((el) => el[selector]).join(', ');
-  } else {
-    return array.map((el) => el).join(', ');
   }
+
+  return array.map((el) => el).join(', ');
 };
