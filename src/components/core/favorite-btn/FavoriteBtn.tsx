@@ -5,6 +5,8 @@ import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import LoginModal from '@/components/core/login-modal/LoginModal';
+import FavoriteIcon from 'public/icons/favorite.svg';
+import InFavoriteIcon from 'public/icons/in-favorite.svg';
 
 interface Props {
   id: number;
@@ -34,13 +36,9 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
         className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${className} ${styles['button']}`}
       >
         {isFavorite ? (
-          <svg>
-            <use href="/icon-in-favorite.svg#svg"></use>
-          </svg>
+          <InFavoriteIcon />
         ) : (
-          <svg>
-            <use href="/icon-favorite.svg#svg"></use>
-          </svg>
+          <FavoriteIcon />
         )}
         {isFavorite ? t('delete_from_favorite') : t('add_to_favorite')}
       </button>

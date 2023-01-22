@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import Portal from '@/components/core/Portal';
 import styles from './ui-modal.module.scss';
-import Image from 'next/image';
+import CloseIcon from "public/icons/close.svg"
+
 
 interface Props {
   maxWidth?: number;
@@ -40,9 +41,7 @@ const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, ch
             <div className={styles['header']}>
               <h2>{title}</h2>
               <button onClick={() => handleVisible(false)}>
-                <svg width={25} height={25}>
-                  <use href="/icon-close.svg#svg"></use>
-                </svg>
+                <CloseIcon  />
               </button>
             </div>
 

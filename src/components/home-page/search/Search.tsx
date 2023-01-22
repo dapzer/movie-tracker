@@ -5,6 +5,8 @@ import { isOnlySpaces } from '@/utils/isOnlySpaces';
 import { useSearch } from '@/hooks/useSearch';
 import { useAppSelector } from '@/redux/hooks';
 import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
+import SearchIcon from "public/icons/search.svg"
+import CloseIcon from "public/icons/close.svg"
 
 interface Props {
   searchTitleRef: Ref<HTMLInputElement> | null;
@@ -41,9 +43,9 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
           placeholder={t('input_placeholder')}
           onChange={(event) => setLocalSearchValue(event.target.value)}
         />
-        <svg className={styles['search_logo']}>
-          <use href="/icon-search.svg#svg"></use>
-        </svg>
+        <div className={styles['search_logo']}>
+          <SearchIcon />
+        </div>
         {searchTerm.length > 0 && (
           <button
             className={styles['clear_btn']}
@@ -53,9 +55,7 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
               clearQueries();
             }}
           >
-            <svg>
-              <use href="/icon-close.svg#svg"></use>
-            </svg>
+            <CloseIcon />
           </button>
         )}
       </div>

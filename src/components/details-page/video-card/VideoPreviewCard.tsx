@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import styles from './video-card.module.scss';
 import useTranslation from 'next-translate/useTranslation';
+import PlayIcon from "public/icons/play.svg"
 
 interface Props {
   previewUrl: string;
@@ -22,9 +23,7 @@ const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
           alt='Image'
         />
         <div className={styles['overlay']}>
-          <svg>
-            <use href={'/icon-play.svg#svg'}></use>
-          </svg>
+          <PlayIcon />
         </div>
       </div>
 

@@ -24,5 +24,7 @@
 }
 
 .arrow_active {
-  rotate: 0deg !important;
+  svg {
+    rotate: 0deg !important;
+  }
 }

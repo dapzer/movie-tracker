@@ -19,7 +19,11 @@
   button {
     transition: all .5s;
     gap: 10px !important;
-    white-space: nowrap
+    white-space: nowrap;
+
+    svg {
+      transition: all .5s;
+    }
   }
 
   &:hover {
