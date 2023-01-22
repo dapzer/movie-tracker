@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { usePagination } from '../../../hooks/usePagination';
+import { usePagination } from '@/hooks/usePagination';
 import styles from './ui-pagination.module.scss';
-import { PaginationOptions } from '../../../types/PaginationOptions';
+import { PaginationOptions } from '@/types/PaginationOptions';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

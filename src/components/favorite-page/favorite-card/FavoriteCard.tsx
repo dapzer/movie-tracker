@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import styles from './favorite-card.module.scss';
-import { Details } from '../../../types/Details';
-import SeriesControls from '../series-controls/SeriesControls';
-import UiDetails from '../../ui/details/UiDetails';
-import { ContentNames } from '../../../types/Enums';
+import { Details } from '@/types/Details';
+import SeriesControls from '@/components/favorite-page/series-controls/SeriesControls';
+import UiDetails from '@/components/ui/details/UiDetails';
+import { ContentNames } from '@/types/Enums';
 import useTranslation from 'next-translate/useTranslation';
-import { useFavorite } from '../../../hooks/useFavorite';
-import StatusSelector from '../status-selector/StatusSelector';
-import MovieCard from '../../core/movie-card/MovieCard';
+import { useFavorite } from '@/hooks/useFavorite';
+import StatusSelector from '@/components/favorite-page/status-selector/StatusSelector';
+import MovieCard from '@/components/core/movie-card/MovieCard';
 
 interface Props {
   details: Details.RootObject;

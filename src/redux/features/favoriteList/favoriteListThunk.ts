@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { FavoriteList } from '../../../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 import { FavoriteListPayload } from './types/FavoriteListPayload';
 import { FavoriteListThunks } from './types/FavoriteListThunks';
 

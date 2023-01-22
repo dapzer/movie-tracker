@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import styles from './series-controls.module.scss';
-import { Details } from '../../../types/Details';
-import { useSeriesControls } from '../../../hooks/useSeriesControls';
+import { Details } from '@/types/Details';
+import { useSeriesControls } from '@/hooks/useSeriesControls';
 import SiteToView from './SiteToView';
 import useTranslation from 'next-translate/useTranslation';
-import { FavoriteList } from '../../../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 
 interface Props {
   favoriteItem: FavoriteList.RootObject;

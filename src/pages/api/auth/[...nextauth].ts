@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import VkProvider from 'next-auth/providers/vk';
 import YandexProvider from 'next-auth/providers/yandex';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import { clientPromise } from '../../../lib/mongodb';
+import { clientPromise } from '@/lib/mongodb';
 
 export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),

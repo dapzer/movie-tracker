@@ -1,10 +1,10 @@
 import React, { FC, Ref, useEffect, useRef, useState } from 'react';
 import styles from './search.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import { isOnlySpaces } from '../../../utils/isOnlySpaces';
-import { useSearch } from '../../../hooks/useSearch';
-import { useAppSelector } from '../../../redux/hooks';
-import { selectSearchParams } from '../../../redux/features/searchParams/searchParamsSlice';
+import { isOnlySpaces } from '@/utils/isOnlySpaces';
+import { useSearch } from '@/hooks/useSearch';
+import { useAppSelector } from '@/redux/hooks';
+import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
 
 interface Props {
   searchTitleRef: Ref<HTMLInputElement> | null;

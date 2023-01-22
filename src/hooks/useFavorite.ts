@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { FavoriteList } from '../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 import { useSession } from 'next-auth/react';
-import { StatusesNames } from '../types/Enums';
+import { StatusesNames } from '@/types/Enums';
 import { toast } from 'react-toastify';
 import useTranslation from 'next-translate/useTranslation';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addFavoriteListItemApi, deleteFavoriteListItemApi, updateFavoriteListItemApi } from '../redux/features/favoriteList/favoriteListThunk';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { addFavoriteListItemApi, deleteFavoriteListItemApi, updateFavoriteListItemApi } from '@/redux/features/favoriteList/favoriteListThunk';
 import {
   changeFavoriteListItemStatus,
   deleteFavoriteListItem,
   selectFavoriteList,
   updateFavoriteListItem,
-} from '../redux/features/favoriteList/favoriteListSlice';
+} from '@/redux/features/favoriteList/favoriteListSlice';
 
 export const useFavorite = (mediaId?: number) => {
   const { data: session } = useSession();

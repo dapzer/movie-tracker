@@ -4,7 +4,7 @@ import LocaleSelect from './LocaleSelect';
 import AuthBtn from './AuthBtn';
 import UserProfile from './user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
-import { LoginStatus } from '../../../types/Enums';
+import { LoginStatus } from '@/types/Enums';
 
 interface Props {
   isOpen: boolean;

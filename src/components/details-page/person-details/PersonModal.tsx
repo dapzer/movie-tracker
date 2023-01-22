@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import UiModal from '../../ui/modal/UiModal';
+import UiModal from '@/components/ui/modal/UiModal';
 import PersonDetails from './PersonDetails';
-import { SearchResponse } from '../../../types/SearchResponse';
-import { Person } from '../../../types/Person';
-import { Credits } from '../../../types/Credits';
+import { SearchResponse } from '@/types/SearchResponse';
+import { Person } from '@/types/Person';
+import { Credits } from '@/types/Credits';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

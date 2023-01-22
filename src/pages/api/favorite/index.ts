@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '../../../lib/mongodb';
+import { clientPromise } from '@/lib/mongodb';
 import { ObjectId } from 'bson';
-import { FavoriteList } from '../../../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 import { PushOperator, WithId } from 'mongodb';
-import { StatusesNames } from '../../../types/Enums';
+import { StatusesNames } from '@/types/Enums';
 
 const addFavorite = async (req: NextApiRequest) => {
   const client = await clientPromise;

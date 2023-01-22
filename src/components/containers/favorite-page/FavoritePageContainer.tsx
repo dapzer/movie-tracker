@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import FavoriteRow from '../../favorite-page/favorite-row/FavoriteRow';
+import FavoriteRow from '@/components/favorite-page/favorite-row/FavoriteRow';
 import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
-import { LoginStatus } from '../../../types/Enums';
+import { LoginStatus } from '@/types/Enums';
 import styles from './favorite-page.module.scss';
-import LoginModal from '../../core/login-modal/LoginModal';
-import { useAppSelector } from '../../../redux/hooks';
-import { selectFavoriteList } from '../../../redux/features/favoriteList/favoriteListSlice';
+import LoginModal from '@/components/core/login-modal/LoginModal';
+import { useAppSelector } from '@/redux/hooks';
+import { selectFavoriteList } from '@/redux/features/favoriteList/favoriteListSlice';
 
 interface Props {}
 

@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
-import { Person } from '../../../types/Person';
+import { Person } from '@/types/Person';
 import PersonDetailsHeader from './PersonDetailsHeader';
 import styles from './person-details.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import { ContentNames } from '../../../types/Enums';
-import CreditsCard from '../details-cast/CreditsCard';
-import UiModal from '../../ui/modal/UiModal';
-import InfoHeaderSkeleton from '../../../lib/loading-skeleton/InfoHeaderSkeleton';
-import DetailsInfoBlockSkeleton from '../../../lib/loading-skeleton/DetailsInfoBlockSkeleton';
-import DetailsCastSkeleton from '../../../lib/loading-skeleton/DetailsCastSkeleton';
-import { useGetPersonCredits, useGetPersonDetails } from '../../../hooks/useTmdbApi';
+import { ContentNames } from '@/types/Enums';
+import CreditsCard from '@/components/details-page/details-cast/CreditsCard';
+import UiModal from '@/components/ui/modal/UiModal';
+import InfoHeaderSkeleton from '@/lib/loading-skeleton/InfoHeaderSkeleton';
+import DetailsInfoBlockSkeleton from '@/lib/loading-skeleton/DetailsInfoBlockSkeleton';
+import DetailsCastSkeleton from '@/lib/loading-skeleton/DetailsCastSkeleton';
+import { useGetPersonCredits, useGetPersonDetails } from '@/hooks/useTmdbApi';
 
 interface Props {
   personId: number;

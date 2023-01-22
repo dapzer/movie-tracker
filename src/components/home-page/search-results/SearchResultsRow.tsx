@@ -1,19 +1,19 @@
 import React, { FC, RefObject, useEffect } from 'react';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
-import { ContentNames } from '../../../types/Enums';
+import { ContentNames } from '@/types/Enums';
 import SearchResultPerson from './SearchResultPerson';
 import useTranslation from 'next-translate/useTranslation';
-import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
+import CardSkeleton from '@/lib/loading-skeleton/CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
-import UiPagination from '../../ui/pagination/UiPagination';
-import PopularlsList from '../popular/PopularlsList';
-import MovieCard from '../../core/movie-card/MovieCard';
-import { isOnlySpaces } from '../../../utils/isOnlySpaces';
-import { useAppSelector } from '../../../redux/hooks';
-import { selectSearchParams } from '../../../redux/features/searchParams/searchParamsSlice';
-import { useSearch } from '../../../hooks/useSearch';
-import { useGetSearchByTerm } from '../../../hooks/useTmdbApi';
+import UiPagination from '@/components/ui/pagination/UiPagination';
+import PopularlsList from '@/components/home-page/popular/PopularlsList';
+import MovieCard from '@/components/core/movie-card/MovieCard';
+import { isOnlySpaces } from '@/utils/isOnlySpaces';
+import { useAppSelector } from '@/redux/hooks';
+import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
+import { useSearch } from '@/hooks/useSearch';
+import { useGetSearchByTerm } from '@/hooks/useTmdbApi';
 
 interface Props {
   searchTitleRef: RefObject<HTMLInputElement> | null;

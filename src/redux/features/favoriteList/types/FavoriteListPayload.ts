@@ -1,4 +1,4 @@
-import { FavoriteList } from '../../../../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 
 export declare namespace FavoriteListPayload {
   export interface Delete {

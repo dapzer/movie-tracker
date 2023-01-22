@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { Details } from '../types/Details';
+import { Details } from '@/types/Details';
 import {
   creditsApi,
   detailApi,
@@ -8,10 +8,10 @@ import {
   searchApi,
   trendsApi,
   videosApi,
-} from '../api/fetchApi';
-import { Person } from '../types/Person';
-import { FavoriteList } from '../types/FavoriteList';
-import { Videos } from '../types/Videos';
+} from '@/api/fetchApi';
+import { Person } from '@/types/Person';
+import { FavoriteList } from '@/types/FavoriteList';
+import { Videos } from '@/types/Videos';
 import { useCallback } from 'react';
 
 export const useGetMovieDetails = (mediaId: number, mediaType: string, lang: string, initialData?: Details.RootObject) =>

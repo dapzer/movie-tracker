@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import styles from './status-selector.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import { useFavorite } from '../../../hooks/useFavorite';
-import UiDropdown from '../../ui/dropdown/UiDropdown';
-import { FavoriteList } from '../../../types/FavoriteList';
+import { useFavorite } from '@/hooks/useFavorite';
+import UiDropdown from '@/components/ui/dropdown/UiDropdown';
+import { FavoriteList } from '@/types/FavoriteList';
 
 interface Props {
   mediaType: string;

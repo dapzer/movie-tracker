@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Link from 'next/link';
-import { isUrlActive } from '../../../utils/isUrlActive';
+import { isUrlActive } from '@/utils/isUrlActive';
 import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 

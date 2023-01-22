@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styles from './ui-imfo-header.module.scss';
 import Image from 'next/image';
-import FavoriteBtn from '../../core/favorite-btn/FavoriteBtn';
+import FavoriteBtn from '@/components/core/favorite-btn/FavoriteBtn';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

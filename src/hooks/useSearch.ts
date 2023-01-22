@@ -1,7 +1,7 @@
 import { RefObject, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { changeCurrentPage, changeSearchTern, selectSearchParams } from '../redux/features/searchParams/searchParamsSlice';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { changeCurrentPage, changeSearchTern, selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 export const useSearch = () => {
   const dispatch = useAppDispatch();

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import UiModal from '../../ui/modal/UiModal';
+import UiModal from '@/components/ui/modal/UiModal';
 import VideoPreviewCard from './VideoPreviewCard';
 import styles from './video-card.module.scss';
 

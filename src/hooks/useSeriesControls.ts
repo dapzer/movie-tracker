@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FavoriteList } from '../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 import { useFavorite } from './useFavorite';
 
 export const useSeriesControls = (favoriteData: FavoriteList.RootObject) => {

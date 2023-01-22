@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import Portal from '../../core/Portal';
+import Portal from '@/components/core/Portal';
 import styles from './ui-modal.module.scss';
 import Image from 'next/image';
 

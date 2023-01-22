@@ -1,4 +1,4 @@
-import { FavoriteList } from '../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 
 export const getFavoriteItemIndexes = (state: FavoriteList.StatusedObject, id: number, status: FavoriteList.StatusesNames) => {
   const indexInStatusedList = state[status].findIndex((el) => el.id === id);

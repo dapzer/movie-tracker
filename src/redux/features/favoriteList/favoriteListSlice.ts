@@ -1,9 +1,9 @@
-import { FavoriteList } from '../../../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { RootState } from '@/redux/store';
 import { addFavoriteListItemApi, fetchFavoriteListApi } from './favoriteListThunk';
 import { FavoriteListPayload } from './types/FavoriteListPayload';
-import { getFavoriteItemIndexes } from '../../../utils/getFavoriteItemIndexes';
+import { getFavoriteItemIndexes } from '@/utils/getFavoriteItemIndexes';
 
 const initialState: FavoriteList.StatusedObject = {
   notViewed: [],

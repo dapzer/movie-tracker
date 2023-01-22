@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styles from './site-to-view.module.scss';
 import useTranslation from 'next-translate/useTranslation';
-import { FavoriteList } from '../../../types/FavoriteList';
-import { useSitesToView } from '../../../hooks/useSitesToView';
+import { FavoriteList } from '@/types/FavoriteList';
+import { useSitesToView } from '@/hooks/useSitesToView';
 
 interface Props {
   favoriteItem: FavoriteList.RootObject;

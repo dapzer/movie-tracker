@@ -1,25 +1,25 @@
 import React, { FC } from 'react';
 import styles from './movie-details.module.scss';
-import { Details } from '../../../types/Details';
+import { Details } from '@/types/Details';
 import MovieDetailsHeader from './MovieDetailsHeader';
-import { ContentNames } from '../../../types/Enums';
+import { ContentNames } from '@/types/Enums';
 import useTranslation from 'next-translate/useTranslation';
-import CastCard from '../details-cast/CastCard';
-import UiModal from '../../ui/modal/UiModal';
-import UiCard from '../../ui/card/UiCard';
-import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
-import InfoHeaderSkeleton from '../../../lib/loading-skeleton/InfoHeaderSkeleton';
-import DetailsInfoBlockSkeleton from '../../../lib/loading-skeleton/DetailsInfoBlockSkeleton';
-import DetailsCastSkeleton from '../../../lib/loading-skeleton/DetailsCastSkeleton';
+import CastCard from '@/components/details-page/details-cast/CastCard';
+import UiModal from '@/components/ui/modal/UiModal';
+import UiCard from '@/components/ui/card/UiCard';
+import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetails';
+import InfoHeaderSkeleton from '@/lib/loading-skeleton/InfoHeaderSkeleton';
+import DetailsInfoBlockSkeleton from '@/lib/loading-skeleton/DetailsInfoBlockSkeleton';
+import DetailsCastSkeleton from '@/lib/loading-skeleton/DetailsCastSkeleton';
 import {
   useGetMovieCredits,
   useGetMovieDetails,
   useGetRecommendations,
   useGetVideos,
-} from '../../../hooks/useTmdbApi';
-import VideoCard from '../video-card/VideoCard';
+} from '@/hooks/useTmdbApi';
+import VideoCard from '@/components/details-page/video-card/VideoCard';
 import Masonry from 'react-masonry-css';
-import DetailsVideosSkeleton from '../../../lib/loading-skeleton/DetailsVideosSkeleton';
+import DetailsVideosSkeleton from '@/lib/loading-skeleton/DetailsVideosSkeleton';
 
 interface Props {
   mediaId: number;

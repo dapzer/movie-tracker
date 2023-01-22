@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { SearchResponse } from '../../../types/SearchResponse';
-import UiCard from '../../ui/card/UiCard';
-import { ContentNames } from '../../../types/Enums';
-import LinkToDetails from '../../core/details/link-to-details/LinkToDetails';
+import { SearchResponse } from '@/types/SearchResponse';
+import UiCard from '@/components/ui/card/UiCard';
+import { ContentNames } from '@/types/Enums';
+import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetails';
 
 interface Props {
   personData: SearchResponse.ResultItem;

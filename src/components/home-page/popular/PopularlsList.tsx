@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './popular-list.module.scss';
-import UiModal from '../../ui/modal/UiModal';
+import UiModal from '@/components/ui/modal/UiModal';
 import Masonry from 'react-masonry-css';
-import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
-import MovieCard from '../../core/movie-card/MovieCard';
-import { useGetPopularList } from '../../../hooks/useTmdbApi';
+import CardSkeleton from '@/lib/loading-skeleton/CardSkeleton';
+import MovieCard from '@/components/core/movie-card/MovieCard';
+import { useGetPopularList } from '@/hooks/useTmdbApi';
 
 interface Props {
   mediaType: string;

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import UiCard from '../../ui/card/UiCard';
+import UiCard from '@/components/ui/card/UiCard';
 import styles from './movie-card.module.scss';
-import FavoriteBtn from '../favorite-btn/FavoriteBtn';
-import LinkToDetails from '../details/link-to-details/LinkToDetails';
-import ScoreCircle from '../score-circle/ScoreCircle';
+import FavoriteBtn from '@/components/core/favorite-btn/FavoriteBtn';
+import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetails';
+import ScoreCircle from '@/components/core/score-circle/ScoreCircle';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {

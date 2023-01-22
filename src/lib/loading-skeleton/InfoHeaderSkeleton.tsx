@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from '../../components/ui/imfo-header/ui-imfo-header.module.scss';
+import styles from '@/components/ui/imfo-header/ui-imfo-header.module.scss';
 import Skeleton from 'react-loading-skeleton';
 
 interface Props {}

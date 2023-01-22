@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import styles from '../../components/layout/header/user-profile/user-profie.module.scss';
+import styles from '@/components/layout/header/user-profile/user-profie.module.scss';
 import Skeleton from 'react-loading-skeleton';
 
 interface Props {}

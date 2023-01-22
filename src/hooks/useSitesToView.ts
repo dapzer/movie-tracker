@@ -1,9 +1,9 @@
-import { FavoriteList } from '../types/FavoriteList';
+import { FavoriteList } from '@/types/FavoriteList';
 import { useFavorite } from './useFavorite';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { isOnlySpaces } from '../utils/isOnlySpaces';
+import { isOnlySpaces } from '@/utils/isOnlySpaces';
 
 export const useSitesToView = (favoriteItem: FavoriteList.RootObject) => {
   const { updateFavoriteItem } = useFavorite();

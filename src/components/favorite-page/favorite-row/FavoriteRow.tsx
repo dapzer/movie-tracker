@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import Masonry from 'react-masonry-css';
-import FavoriteCard from '../favorite-card/FavoriteCard';
+import FavoriteCard from '@/components/favorite-page/favorite-card/FavoriteCard';
 import useTranslation from 'next-translate/useTranslation';
-import { FavoriteList } from '../../../types/FavoriteList';
-import UiDetails from '../../ui/details/UiDetails';
+import { FavoriteList } from '@/types/FavoriteList';
+import UiDetails from '@/components/ui/details/UiDetails';
 import Skeleton from 'react-loading-skeleton';
-import CardSkeleton from '../../../lib/loading-skeleton/CardSkeleton';
-import { useGetFavoriteItemsDetail } from '../../../hooks/useTmdbApi';
+import CardSkeleton from '@/lib/loading-skeleton/CardSkeleton';
+import { useGetFavoriteItemsDetail } from '@/hooks/useTmdbApi';
 
 interface Props {
   favoriteList: FavoriteList.RootObject[];

@@ -1,11 +1,11 @@
-import { ContentNames } from '../types/Enums';
+import { ContentNames } from '@/types/Enums';
 import { toast } from 'react-toastify';
-import { generateApiUrl } from '../utils/generateApiUrl';
-import { SearchResponse } from '../types/SearchResponse';
-import { Person } from '../types/Person';
-import { Details } from '../types/Details';
-import { Videos } from '../types/Videos';
-import { Credits } from '../types/Credits';
+import { generateApiUrl } from '@/utils/generateApiUrl';
+import { SearchResponse } from '@/types/SearchResponse';
+import { Person } from '@/types/Person';
+import { Details } from '@/types/Details';
+import { Videos } from '@/types/Videos';
+import { Credits } from '@/types/Credits';
 
 const getApiUrl = generateApiUrl(process.env.NEXT_PUBLIC_API_URL || '', {
   api_key: process.env.NEXT_PUBLIC_API_KEY || '',

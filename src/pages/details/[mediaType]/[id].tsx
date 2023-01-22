@@ -1,11 +1,11 @@
 import type { NextPage, NextPageContext } from 'next';
-import { detailApi } from '../../../api/fetchApi';
-import { Details as DetailsType } from '../../../types/Details';
-import DetailsPageContainer from '../../../components/containers/deteils-page/DetailsPageContainer';
+import { detailApi } from '@/api/fetchApi';
+import { Details as DetailsType } from '@/types/Details';
+import DetailsPageContainer from '@/components/containers/deteils-page/DetailsPageContainer';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
-import { Person } from '../../../types/Person';
+import { Person } from '@/types/Person';
 
 interface Props {
   details: DetailsType.RootObject;

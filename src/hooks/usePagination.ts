@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PaginationOptions } from '../types/PaginationOptions';
+import { PaginationOptions } from '@/types/PaginationOptions';
 
 interface Pagination {
   currentPage: number;

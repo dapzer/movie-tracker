@@ -1,6 +1,6 @@
-import '../styles/globals.scss';
+import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
-import Layout from '../components/layout/Layout';
+import Layout from '@/components/layout/Layout';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
@@ -15,7 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from '@vercel/analytics/react';
 import { Provider } from 'react-redux';
-import { store } from '../redux/store';
+import { store } from '@/redux/store';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const [queryClient] = useState(() => new QueryClient());

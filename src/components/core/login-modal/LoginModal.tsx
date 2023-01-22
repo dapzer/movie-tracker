@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { signIn } from 'next-auth/react';
-import UiModal from '../../ui/modal/UiModal';
+import UiModal from '@/components/ui/modal/UiModal';
 import styles from './login-modal.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 
