@@ -14,74 +14,74 @@ import { FavoriteList } from '@/types/FavoriteList';
 import { Videos } from '@/types/Videos';
 import { useCallback } from 'react';
 
-export const useGetMovieDetails = (mediaId: number, mediaType: string, lang: string, initialData?: Details.RootObject) =>
+export const useGetMovieDetails = (mediaId: number, mediaType: string, language: string, initialData?: Details.RootObject) =>
   useQuery({
     queryKey: [
       'getDetails',
       {
-        mediaId: mediaId,
-        mediaType: mediaType,
-        language: lang,
+        mediaId,
+        mediaType,
+        language,
       },
     ],
-    queryFn: () => detailApi({ mediaId, mediaType, language: lang }),
+    queryFn: () => detailApi({ mediaId, mediaType, language }),
     initialData: initialData,
   });
 
-export const useGetPersonDetails = (mediaId: number, mediaType: string, lang: string, initialData?: Person.RootObject) =>
+export const useGetPersonDetails = (mediaId: number, mediaType: string, language: string, initialData?: Person.RootObject) =>
   useQuery({
     queryKey: [
       'getDetails',
       {
-        mediaId: mediaId,
-        mediaType: mediaType,
-        language: lang,
+        mediaId,
+        mediaType,
+        language,
       },
     ],
-    queryFn: () => detailApi<Person.RootObject>({ mediaId, mediaType, language: lang }),
+    queryFn: () => detailApi<Person.RootObject>({ mediaId, mediaType, language }),
     initialData: initialData,
   });
 
-export const useGetMovieCredits = (mediaId: number, mediaType: string, lang: string) =>
+export const useGetMovieCredits = (mediaId: number, mediaType: string, language: string) =>
   useQuery(
     [
       'getCredits',
       {
-        mediaId: mediaId,
-        mediaType: mediaType,
-        language: lang,
+        mediaId,
+        mediaType,
+        language,
       },
     ],
-    creditsApi,
+    () => creditsApi({ mediaId, mediaType, language }),
   );
 
 
-export const useGetPersonCredits = (personId: number, lang: string) =>
+export const useGetPersonCredits = (personId: number, language: string) =>
   useQuery(
     [
       'getPersonCredits',
       {
-        person_id: personId,
-        language: lang,
+        personId,
+        language,
       },
     ],
-    personCreditsApi,
+    () => personCreditsApi({ personId, language }),
   );
 
-export const useGetRecommendations = (mediaId: number, mediaType: string, lang: string) =>
+export const useGetRecommendations = (mediaId: number, mediaType: string, language: string) =>
   useQuery(
     [
       'getRecommendations',
       {
-        mediaId: mediaId,
-        mediaType: mediaType,
-        language: lang,
+        mediaId,
+        mediaType,
+        language,
       },
     ],
-    recommendationsApi,
+    () => recommendationsApi({ mediaId, mediaType, language }),
   );
 
-export const useGetFavoriteItemsDetail = (favoriteList: FavoriteList.RootObject[], lang: string) =>
+export const useGetFavoriteItemsDetail = (favoriteList: FavoriteList.RootObject[], language: string) =>
   useQueries({
     queries: favoriteList.map((item) => {
       return {
@@ -90,54 +90,54 @@ export const useGetFavoriteItemsDetail = (favoriteList: FavoriteList.RootObject[
           {
             mediaType: item.mediaType,
             mediaId: item.id,
-            language: lang,
+            language,
           },
         ],
         queryFn: () => detailApi({
           mediaType: item.mediaType,
           mediaId: item.id,
-          language: lang,
+          language,
         }),
       };
     }),
   });
 
-export const useGetPopularList = (mediaType: string, lang: string) =>
+export const useGetPopularList = (mediaType: string, language: string) =>
   useQuery({
     queryKey: [
       'getPopularList',
       {
-        mediaType: mediaType,
-        language: lang,
+        mediaType,
+        language,
       },
     ],
-    queryFn: trendsApi,
+    queryFn: () => trendsApi({ language, mediaType }),
   });
 
-export const useGetSearchByTerm = (searchTerm: string, lang: string, currentPage: number) =>
+export const useGetSearchByTerm = (searchValue: string, language: string, page: number) =>
   useQuery(
     [
       'getSearchByTerm',
       {
-        searchValue: searchTerm,
-        page: currentPage,
-        language: lang,
+        searchValue,
+        page,
+        language,
       },
     ],
-    searchApi,
+    () => searchApi({ searchValue, page, language }),
   );
 
-export const useGetVideos = (mediaId: number, mediaType: string, lang: string) =>
+export const useGetVideos = (mediaId: number, mediaType: string, language: string) =>
   useQuery({
     queryKey: [
       'getVideos',
       {
-        mediaId: mediaId,
-        mediaType: mediaType,
-        language: lang,
+        mediaId,
+        mediaType,
+        language,
       },
     ],
-    queryFn: videosApi,
+    queryFn: () => videosApi({ mediaId, mediaType, language }),
     select: useCallback(
       (data: Videos.RootObject | null) => {
         if (!data) return null;

@@ -41,9 +41,9 @@ export default Details;
 
 export async function getServerSideProps({ query, locale }: NextPageContext) {
   const data = await detailApi<DetailsType.RootObject | Person.RootObject>({
-    mediaType: query.mediaType,
-    mediaId: query.id,
-    language: locale,
+    mediaType: query.mediaType as string,
+    mediaId: Number(query.id),
+    language: locale!,
   });
 
   return {
