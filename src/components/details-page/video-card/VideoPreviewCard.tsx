@@ -20,8 +20,7 @@ const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
           placeholder='blur'
           width={260}
           height={147}
-          objectFit='contain'
-          sizes='33wv'
+          // sizes='33wv'
           alt='Image'
         />
         <div className={styles['overlay']}>

@@ -28,9 +28,7 @@ const Header: FC = () => {
         {!isOpen && (
           <nav className={styles['logo_links']}>
             <Link href="/">
-              <a>
                 <h3 className={styles['logo']}>Movie Tracker</h3>
-              </a>
             </Link>
             <LocaleSelect />
           </nav>

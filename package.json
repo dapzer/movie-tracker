@@ -18,15 +18,15 @@
     "@vercel/analytics": "^0.1.5",
     "eslint-config-prettier": "^8.5.0",
     "mongodb": "^4.11.0",
-    "next": "12.3.1",
+    "next": "^13.1.4",
     "next-auth": "^4.14.0",
     "next-seo": "^5.13.0",
     "next-sitemap": "^3.1.30",
     "next-translate": "^1.6.0",
     "nextjs-progressbar": "0.0.16",
     "prettier": "^2.7.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-loading-skeleton": "^3.1.0",
     "react-masonry-css": "^1.0.16",
     "react-redux": "^8.0.5",
@@ -38,7 +38,7 @@
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "eslint": "8.25.0",
-    "eslint-config-next": "12.3.1",
+    "eslint-config-next": "^13.1.4",
     "typescript": "4.8.4"
   }
 }

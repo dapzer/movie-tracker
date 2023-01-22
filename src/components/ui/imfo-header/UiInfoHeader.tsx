@@ -34,9 +34,8 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
             blurDataURL={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
             placeholder="blur"
-            width={100}
-            height={150}
-            objectFit="contain"
+            width={270}
+            height={405}
             sizes="33wv"
             alt="Img"
           />

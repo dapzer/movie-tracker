@@ -19,6 +19,10 @@
     line-height: 0;
     vertical-align: top;
     display: inline-block;
+
+    img {
+      object-fit: scale-down;
+    }
   }
 }
 

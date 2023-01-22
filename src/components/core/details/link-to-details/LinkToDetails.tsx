@@ -13,8 +13,8 @@ const LinkToDetails: FC<Props> = ({ mediaId, mediaType, title }) => {
   const { t } = useTranslation('buttons');
 
   return (
-    <Link href={`/details/${mediaType}/${mediaId}`}>
-      <a className={styles['link']}>{title ? title : t('more')}</a>
+    <Link href={`/details/${mediaType}/${mediaId}`} className={styles['link']}>
+      {title ? title : t('more')}
     </Link>
   );
 };

@@ -37,10 +37,8 @@ const LinksList: FC<Props> = ({ modalHandler }) => {
   return (
     <>
       {links[locale as keyof typeof links].map((link, index) => (
-        <Link key={index} href={link.url}>
-          <a className={isUrlActive(pathname, link.url) ? styles['active_page'] : ''} onClick={modalHandler}>
+        <Link key={index} href={link.url} className={isUrlActive(pathname, link.url) ? styles['active_page'] : ''} onClick={modalHandler}>
             {link.title}
-          </a>
         </Link>
       ))}
     </>

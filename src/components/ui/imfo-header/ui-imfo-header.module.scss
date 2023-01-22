@@ -44,6 +44,7 @@
     max-width: 300px;
 
     img {
+      object-fit: contain;
       border-radius: $borderRadius;
     }
   }
