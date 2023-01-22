@@ -16,11 +16,9 @@ const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
       <div className={styles['image']}>
         <Image
           src={previewUrl ? previewUrl : '/defaultPoster.svg'}
-          blurDataURL={previewUrl ? previewUrl : '/defaultPoster.svg'}
-          placeholder='blur'
           width={260}
           height={147}
-          // sizes='33wv'
+          sizes='33wv'
           alt='Image'
         />
         <div className={styles['overlay']}>

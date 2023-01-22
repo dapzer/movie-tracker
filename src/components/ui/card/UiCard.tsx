@@ -22,8 +22,6 @@ const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, li
         <Link href={{ pathname: link || '', slashes: null }}>
           <Image
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
-            blurDataURL={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
-            placeholder='blur'
             width={260}
             height={390}
             sizes='33wv'
