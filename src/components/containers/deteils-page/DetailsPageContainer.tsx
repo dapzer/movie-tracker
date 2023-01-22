@@ -8,7 +8,7 @@ import styles from './details.module.scss';
 import BackBtn from '@/components/core/back-btn/BackBtn';
 
 interface Props {
-  details: Person.RootObject | DetailsType.RootObject;
+  details: Person.RootObject & DetailsType.RootObject;
   mediaType: string;
   locale: string;
 }
