@@ -5,7 +5,11 @@ import { StatusesNames } from '@/types/Enums';
 import { toast } from 'react-toastify';
 import useTranslation from 'next-translate/useTranslation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { addFavoriteListItemApi, deleteFavoriteListItemApi, updateFavoriteListItemApi } from '@/redux/features/favoriteList/favoriteListThunk';
+import {
+  addFavoriteListItemApi,
+  deleteFavoriteListItemApi,
+  updateFavoriteListItemApi,
+} from '@/redux/features/favoriteList/favoriteListThunk';
 import {
   changeFavoriteListItemStatus,
   deleteFavoriteListItem,
@@ -29,6 +33,7 @@ export const useFavorite = (mediaId?: number) => {
       mediaType: mediaType,
       trackingData: {
         currentStatus: StatusesNames.notViewed,
+        note: '',
         sitesToView: [],
         seriesInfo: {
           currentSeason: 0,
@@ -52,7 +57,7 @@ export const useFavorite = (mediaId?: number) => {
     });
   };
 
-  const updateFavoriteItem = (mediaId: number, trackingData: FavoriteList.TrackingData) => {
+  const updateFavoriteItem = (mediaId: number, trackingData: FavoriteList.TrackingData, successToast?: string) => {
     if (!session?.user?.id) return;
 
     dispatch(
@@ -60,15 +65,18 @@ export const useFavorite = (mediaId?: number) => {
         mediaId: mediaId,
         trackingData,
         userId: session.user.id,
-      })
+      }),
     ).then(() => {
       dispatch(
         updateFavoriteListItem({
           mediaId,
           newTrackingData: trackingData,
           mediaStatus: trackingData.currentStatus,
-        })
+        }),
       );
+      if (successToast) {
+        toast.success(successToast)
+      }
     });
   };
 
@@ -84,14 +92,14 @@ export const useFavorite = (mediaId?: number) => {
           currentStatus: newStatus,
         },
         userId: session.user.id,
-      })
+      }),
     ).then(() => {
       dispatch(
         changeFavoriteListItemStatus({
           mediaId: favoriteItem.id,
           mediaStatus: favoriteItem.trackingData.currentStatus,
           newStatus,
-        })
+        }),
       );
       toast.success(`${t(`toasts:statusChanged`)}`);
     });

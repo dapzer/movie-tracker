@@ -18,6 +18,9 @@
     "site_to_view": "Cайт для просмотра",
     "site_to_view_limit": "Вы достигли максимума сайтов для просмотра",
     "add_site_to_view": "Добавить сайт для просмотра",
-    "site_to_view_input": "Вставьте ссылку на сайт"
+    "site_to_view_input": "Вставьте ссылку на сайт",
+    "note": "Заметка",
+    "information": "Информация",
+    "max_note_length": "Символы:"
   }
 }

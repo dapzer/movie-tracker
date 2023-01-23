@@ -1,0 +1,52 @@
+@import "src/styles/variables";
+
+.body {
+  textarea {
+    font-size: $span;
+    border-color: $text;
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+  }
+
+  .block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+
+    span {
+      font-size: $mspan;
+    }
+
+    button {
+      padding: 8px 10px;
+      border-radius: 5px;
+      background: $accent;
+      height: fit-content;
+      font-size: $span;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        width: 0.9em;
+        height: 0.9em;
+      }
+
+      &:nth-child(1):hover {
+        background: limegreen;
+      }
+
+      &:nth-child(2):hover {
+        background: red;
+      }
+    }
+  }
+}

@@ -5,6 +5,13 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  padding-bottom: 10px;
+
+  & > .item:last-of-type {
+    &.add_new {
+      padding-top: 5px !important;
+    }
+  }
 }
 
 .item {
@@ -33,7 +40,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 5px;
+
 
   button {
     font-size: 1em;

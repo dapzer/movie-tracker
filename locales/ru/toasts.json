@@ -3,5 +3,6 @@
   "tvSuccessAddedToFavorite": "Сериал добавлен в избранное",
   "movieSuccessRemovedFromFavorite": "Фильм удалён из избранное",
   "tvSuccessRemovedFromFavorite": "Сериал удалён из избранное",
-  "statusChanged": "Статус успешно изменён"
+  "statusChanged": "Статус успешно изменён",
+  "noteSuccessUpdate": "Заметка успешно обновлена"
 }

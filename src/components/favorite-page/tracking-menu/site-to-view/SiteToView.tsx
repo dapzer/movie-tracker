@@ -17,7 +17,7 @@ const SiteToView: FC<Props> = ({ favoriteItem }) => {
     <div className={styles['content']}>
       {sitesToView &&
         sitesToView.map((item, index) => (
-          <div key={`site-${index}`} className={styles['item']} style={{ '--order': index + 1 } as React.CSSProperties}>
+          <div key={`site-${index}`} className={`${styles['item']} ${styles['site']}`} style={{ '--order': index + 1 } as React.CSSProperties}>
             <a href={item.url} target="_blank" rel="noreferrer">
               {t('tracking_menu.site_to_view')} #{index + 1}
             </a>
