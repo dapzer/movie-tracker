@@ -18,6 +18,9 @@
     "site_to_view": "Site to view",
     "site_to_view_limit": "You have reached the maximum sites to view",
     "add_site_to_view": "Add site to view",
-    "site_to_view_input": "Insert website link"
+    "site_to_view_input": "Insert website link",
+    "note": "Note",
+    "information": "Information",
+    "max_note_length": "Characters:"
   }
 }
