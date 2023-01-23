@@ -44,7 +44,7 @@ const TrackingMenu: FC<Props> = ({ details, favoriteItem }) => {
       )}
 
       {activeTab === 'note' && (
-        <Note maxLength={250} />
+        <Note maxLength={250} favoriteItem={favoriteItem} />
       )}
     </UiDetails>
   );

@@ -1,6 +1,7 @@
 export declare module FavoriteList {
   export interface TrackingData {
     currentStatus: StatusesNames;
+    note: string
     sitesToView: SitesToViewObject[];
     seriesInfo: SeriesInfo;
   }
