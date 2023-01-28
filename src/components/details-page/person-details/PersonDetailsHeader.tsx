@@ -9,16 +9,16 @@ interface Props {
 }
 
 const PersonDetailsHeader: FC<Props> = ({ details }) => {
-  const { t } = useTranslation('details');
+  const { t, lang } = useTranslation('details');
 
   return (
     <UiInfoHeader original_title={details.name} title={details.name} image={details.profile_path}>
       <li>
-        {t('person_details.birthday')} <span>{new Date(details.birthday).toLocaleDateString()}</span>
+        {t('person_details.birthday')} <span>{new Date(details.birthday).toLocaleDateString(lang)}</span>
       </li>
       {details.deathday && (
         <li>
-          {t('person_details.deathday')} <span>{new Date(details.deathday).toLocaleDateString()}</span>
+          {t('person_details.deathday')} <span>{new Date(details.deathday).toLocaleDateString(lang)}</span>
         </li>
       )}
       {details.place_of_birth && (

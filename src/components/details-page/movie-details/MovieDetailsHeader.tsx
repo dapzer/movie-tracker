@@ -85,12 +85,12 @@ const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
         <>
           {details.last_air_date && (
             <li>
-              {t('movie_details.last_air_date')} <span>{new Date(details.last_air_date).toLocaleDateString()}</span>
+              {t('movie_details.last_air_date')} <span>{new Date(details.last_air_date).toLocaleDateString(lang)}</span>
             </li>)}
           {details.next_episode_to_air && (
             <li>
               {t('movie_details.next_air_date')}
-              <span> {new Date(details.next_episode_to_air.air_date).toLocaleDateString()}</span>
+              <span> {new Date(details.next_episode_to_air.air_date).toLocaleDateString(lang)}</span>
             </li>
           )}
           <li>
