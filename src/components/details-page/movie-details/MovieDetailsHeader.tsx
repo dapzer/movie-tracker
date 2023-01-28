@@ -17,7 +17,7 @@ interface Props {
 const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
   const {t, lang} = useTranslation('details');
 
-  const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString();
+  const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString(lang);
   const producers = mediaType === ContentNames.Movie && credits && getMovieDirectors(credits.crew)
 
   return (
