@@ -42,19 +42,23 @@ export const useFavorite = (mediaId?: number) => {
       },
     };
 
-    dispatch(addFavoriteListItemApi({ favoriteItem: newFavoriteItem, userId: session.user.id })).then(() => {
-      toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);
-    });
+    dispatch(addFavoriteListItemApi({ favoriteItem: newFavoriteItem, userId: session.user.id }))
+      .unwrap()
+      .then(() => {
+        toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);
+      });
   };
 
   const deleteFavoriteItem = (mediaId: number, mediaType: string) => {
     const favoriteItem = getFavoriteItem(mediaId!);
     if (!session?.user?.id || !favoriteItem) return;
 
-    dispatch(deleteFavoriteListItemApi({ userId: session.user.id, mediaId })).then(() => {
-      toast.success(`${t(`toasts:${mediaType}SuccessRemovedFromFavorite`)}`);
-      dispatch(deleteFavoriteListItem({ mediaId, mediaStatus: favoriteItem.trackingData.currentStatus }));
-    });
+    dispatch(deleteFavoriteListItemApi({ userId: session.user.id, mediaId }))
+      .unwrap()
+      .then(() => {
+        dispatch(deleteFavoriteListItem({ mediaId, mediaStatus: favoriteItem.trackingData.currentStatus }));
+        toast.success(`${t(`toasts:${mediaType}SuccessRemovedFromFavorite`)}`);
+      });
   };
 
   const updateFavoriteItem = (mediaId: number, trackingData: FavoriteList.TrackingData, successToast?: string) => {
@@ -65,19 +69,20 @@ export const useFavorite = (mediaId?: number) => {
         mediaId: mediaId,
         trackingData,
         userId: session.user.id,
-      }),
-    ).then(() => {
-      dispatch(
-        updateFavoriteListItem({
-          mediaId,
-          newTrackingData: trackingData,
-          mediaStatus: trackingData.currentStatus,
-        }),
-      );
-      if (successToast) {
-        toast.success(successToast)
-      }
-    });
+      }))
+      .unwrap()
+      .then(() => {
+        dispatch(
+          updateFavoriteListItem({
+            mediaId,
+            newTrackingData: trackingData,
+            mediaStatus: trackingData.currentStatus,
+          }),
+        );
+        if (successToast) {
+          toast.success(successToast);
+        }
+      });
   };
 
   const changeStatus = (newStatus: FavoriteList.StatusesNames) => {
@@ -92,17 +97,18 @@ export const useFavorite = (mediaId?: number) => {
           currentStatus: newStatus,
         },
         userId: session.user.id,
-      }),
-    ).then(() => {
-      dispatch(
-        changeFavoriteListItemStatus({
-          mediaId: favoriteItem.id,
-          mediaStatus: favoriteItem.trackingData.currentStatus,
-          newStatus,
-        }),
-      );
-      toast.success(`${t(`toasts:statusChanged`)}`);
-    });
+      }))
+      .unwrap()
+      .then(() => {
+        dispatch(
+          changeFavoriteListItemStatus({
+            mediaId: favoriteItem.id,
+            mediaStatus: favoriteItem.trackingData.currentStatus,
+            newStatus,
+          }),
+        );
+        toast.success(`${t(`toasts:statusChanged`)}`);
+      });
   };
 
   const handleFavorite = (mediaId: number, mediaType: string) => {
