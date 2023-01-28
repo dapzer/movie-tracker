@@ -2,13 +2,13 @@
 
 .content {
   padding: 5px 10px;
-  background: $accent;
+  background: $c-accent;
   border-radius: 10px 0 0 10px;
   font-weight: unset;
 
 
   span {
-    color: $secondary;
+    color: $c-secondary;
     cursor: pointer;
 
   }
@@ -24,7 +24,7 @@
     width: 100%;
 
     &:hover {
-      color: $highlight;
+      color: $c-highlight;
     }
   }
 }

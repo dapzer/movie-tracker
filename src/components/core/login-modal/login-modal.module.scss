@@ -9,7 +9,7 @@
 
   button {
     width: 100%;
-    font-size: $h3;
+    font-size: $fs-h3;
     padding: 20px 10px;
     text-align: center;
     display: flex;
@@ -18,10 +18,10 @@
     background: var(--bg);
 
     &:first-of-type {
-      border-radius: $borderRadius  $borderRadius 0 0;
+      border-radius: $s-border-radius $s-border-radius 0 0;
     }
     &:last-of-type {
-      border-radius: 0 0 $borderRadius  $borderRadius;
+      border-radius: 0 0 $s-border-radius $s-border-radius;
     }
   }
 }

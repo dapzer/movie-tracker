@@ -3,13 +3,13 @@
 .body {
   width: 100%;
   position: fixed;
-  background: $accent;
+  background: $c-accent;
   z-index: 100;
   top: 0;
-  min-height: $headerHeight;
+  min-height: $s-header-height;
 
   .content {
-    padding: 10px $indent;
+    padding: 10px $s-indent;
     display: flex;
     justify-content: space-between;
     gap: 20px;
@@ -27,7 +27,7 @@
     gap: 20px;
 
     .active_page {
-      color: $highlight;
+      color: $c-highlight;
     }
   }
 }
@@ -39,13 +39,13 @@
   align-items: center;
 
   div {
-    background: $text;
+    background: $c-text;
     height: 27px;
     width: 1px;
   }
 
   .active {
-    color: $highlight;
+    color: $c-highlight;
   }
 }
 
@@ -105,15 +105,15 @@
     .menu {
       width: 100%;
       position: fixed;
-      top: $headerHeight;
+      top: $s-header-height;
       height: 100%;
       background-color: rgba(0,0,0,0.5);
 
       nav {
         width: 100%;
-        border-top: 1px solid $text;
-        padding: $indent;
-        background: $accent;
+        border-top: 1px solid $c-text;
+        padding: $s-indent;
+        background: $c-accent;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -141,7 +141,7 @@
   }
 }
 
-@media screen and (max-width: $md) {
+@media screen and (max-width: $bp-md) {
   .body {
     .links {
       display: none;

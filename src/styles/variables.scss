@@ -1,44 +1,44 @@
 // Colors
 
-$text: #9ca8b1;
-$background: #1f242d;
-$primary: #4F5D75;
-$secondary: #FFFFFF;
-$highlight: #0073fa;
-$accent: #282f43;
+$c-text: #9ca8b1;
+$c-background: #1f242d;
+$c-primary: #4F5D75;
+$c-secondary: #FFFFFF;
+$c-highlight: #0073fa;
+$c-accent: #282f43;
 
 // Font Sizes
 
-$h1: 3em;
-$h2: 2em;
-$h3: 1.5em;
-$p: 1.25em;
-$span: 1em;
+$fs-h1: 3em;
+$fs-h2: 2em;
+$fs-h3: 1.5em;
+$fs-p: 1.25em;
+$fs-span: 1em;
 
-$mh1: 2.5em;
-$mh2: 1.75em;
-$mh3: 1.5em;
-$mp: 1.25em;
-$mspan: 1em;
+$fs-m-h1: 2.5em;
+$fs-m-h2: 1.75em;
+$fs-m-h3: 1.5em;
+$fs-m-p: 1.25em;
+$fs-m-span: 1em;
 
 // Font Weights
 
-$light: 300;
-$regular: 400;
-$medium: 500;
-$bold: 700;
+$fw-light: 300;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-bold: 700;
 
 // Sizes
 
-$indent: 24px;
-$container: 1400 + ($indent * 2);
-$headerHeight: 52px;
-$borderRadius: 10px;
+$s-indent: 24px;
+$s-container: 1400 + ($s-indent * 2);
+$s-header-height: 52px;
+$s-border-radius: 10px;
 
 // Breakpoints
 
-$xl: 1440px;
-$lg: 1250px;
-$slg: 825px;
-$md: 700px;
-$sm: 400px;
+$bp-xl: 1440px;
+$bp-lg: 1250px;
+$bp-slg: 825px;
+$bp-md: 700px;
+$bp-sm: 400px;

@@ -26,12 +26,12 @@ body > div:first-of-type {
 }
 
 body {
-  background: $background;
+  background: $c-background;
   background-size: cover;
 }
 
 html {
-  scroll-padding-top: 10px + $headerHeight;
+  scroll-padding-top: 10px + $s-header-height;
 }
 
 // Scroll
@@ -46,12 +46,12 @@ html {
 
 *::-webkit-scrollbar-track {
   border-radius: 2px;
-  background: $primary
+  background: $c-primary
 }
 
 *::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background-color: $highlight
+  background-color: $c-highlight
 }
 
 .layout {
@@ -64,7 +64,7 @@ main {
   padding: 72px 0;
   flex: 1 1 auto;
 
-  @media screen and (max-width: $md){
+  @media screen and (max-width: $bp-md){
     min-height: 100vh;
   }
 }
@@ -77,46 +77,46 @@ img {
 }
 
 h1 {
-  color: $secondary;
-  font-size: $h1;
-  font-weight: $bold;
+  color: $c-secondary;
+  font-size: $fs-h1;
+  font-weight: $fw-bold;
 }
 
 h2 {
-  color: $secondary;
-  font-size: $h2;
-  font-weight: $bold;
+  color: $c-secondary;
+  font-size: $fs-h2;
+  font-weight: $fw-bold;
 }
 
 h3 {
-  color: $secondary;
-  font-size: $h3;
-  font-weight: $medium;
+  color: $c-secondary;
+  font-size: $fs-h3;
+  font-weight: $fw-medium;
 }
 
 p {
-  color: $text;
-  font-size: $p;
-  font-weight: $medium;
+  color: $c-text;
+  font-size: $fs-p;
+  font-weight: $fw-medium;
 }
 
 span {
-  color: $text;
-  font-size: $span;
-  font-weight: $light;
+  color: $c-text;
+  font-size: $fs-span;
+  font-weight: $fw-light;
 }
 
 a {
-  color: $secondary;
-  font-size: $p;
-  font-weight: $regular;
+  color: $c-secondary;
+  font-size: $fs-p;
+  font-weight: $fw-regular;
   cursor: pointer;
   text-decoration: none;
   height: fit-content;
   line-height: 0;
 
   &:hover {
-    color: $highlight;
+    color: $c-highlight;
   }
 }
 
@@ -127,58 +127,58 @@ input {
   background: none;
   border: 1px solid #fff;
   padding: 10px 15px;
-  color: $secondary;
-  font-size: $p;
+  color: $c-secondary;
+  font-size: $fs-p;
   border-radius: 5px;
 }
 
 .container {
   width: 100%;
-  max-width: $container;
-  padding: 0 $indent;
+  max-width: $s-container;
+  padding: 0 $s-indent;
   margin: 0 auto;
 }
 
 li {
   list-style: none;
-  color: $text;
-  font-size: $p;
+  color: $c-text;
+  font-size: $fs-p;
 }
 
 button {
   border: none;
   background: unset;
-  font-size: $p;
+  font-size: $fs-p;
   cursor: pointer;
-  color: $secondary;
+  color: $c-secondary;
 }
 
 .ui-details_large {
   position: sticky;
-  top: $headerHeight;
+  top: $s-header-height;
   z-index: 25;
   border: none !important;
   justify-content: space-between !important;
   margin-bottom: 20px !important;
-  font-size: $h3 !important;
-  border-bottom: 2px solid $text !important;
-  @include fullWidthBg($background);
+  font-size: $fs-h3 !important;
+  border-bottom: 2px solid $c-text !important;
+  @include fullWidthBg($c-background);
 
-  @media screen and (max-width: $sm){
-    font-size: $p !important;
+  @media screen and (max-width: $bp-sm){
+    font-size: $fs-p !important;
   }
 }
 
 .modal-open-btn {
   width: 100%;
   margin-top: 10px;
-  font-size: $span;
+  font-size: $fs-span;
   text-align: left;
   text-decoration: underline;
 
   &:hover {
-    color: $highlight;
-    border-color: $highlight;
+    color: $c-highlight;
+    border-color: $c-highlight;
   }
 }
 
@@ -187,7 +187,7 @@ button {
   box-shadow: 0 0 20px rgb(0 0 0 / 20%);
   border-radius: 10px;
   padding: 20px;
-  font-size: $h2 !important;
+  font-size: $fs-h2 !important;
   text-align: center;
   max-height: 265px;
   margin-top: unset;
@@ -213,12 +213,12 @@ button {
 /** Classes for the displayed toast **/
 
 .Toastify__toast-theme--dark {
-  background: $accent !important;
+  background: $c-accent !important;
   box-shadow: 0 0 20px rgb(0 0 0 / 20%) !important;
 }
 
 .Toastify__toast-container--top-right {
-  top: 10px + $headerHeight !important;
+  top: 10px + $s-header-height !important;
 }
 
 .Toastify__toast {
@@ -239,11 +239,11 @@ button {
   padding-right: 5px;
   margin-top: 20px;
 
-  @media screen and (max-width: $lg){
+  @media screen and (max-width: $bp-lg){
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media screen and (max-width: $slg){
+  @media screen and (max-width: $bp-slg){
     grid-template-columns: repeat(1, 1fr);
   }
 }
@@ -253,8 +253,8 @@ button {
   padding: 7px 10px;
   text-decoration: none;
   margin-top: unset;
-  background: $primary;
-  font-size: $span;
+  background: $c-primary;
+  font-size: $fs-span;
   height: 100%;
 
   &__exit {
@@ -275,8 +275,8 @@ button {
   }
 }
 
-@media screen and (max-width: $sm){
+@media screen and (max-width: $bp-sm){
   h2 {
-    font-size: $mh2;
+    font-size: $fs-m-h2;
   }
 }

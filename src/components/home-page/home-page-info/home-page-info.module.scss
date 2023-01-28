@@ -8,8 +8,8 @@
 
   p {
     padding-top: 5px;
-    color: $secondary;
-    font-weight: $light;
+    color: $c-secondary;
+    font-weight: $fw-light;
   }
 
   h3 {
@@ -27,7 +27,7 @@
   }
 
   a {
-    font-weight: $regular;
-    font-size: $span;
+    font-weight: $fw-regular;
+    font-size: $fs-span;
   }
 }

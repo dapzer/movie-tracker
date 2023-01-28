@@ -23,7 +23,7 @@
     height: 100%;
 }
 
-@media screen and (max-width: $md) {
+@media screen and (max-width: $bp-md) {
   .videos_grid {
     grid-template-columns: 1fr;
   }

@@ -13,17 +13,17 @@
     top: 50%;
     transform: translateY(-15%) scale(-1, 1);
     pointer-events: none;
-    font-size: $p;
-    color: $text;
-    height: $p;
-    width: $p;
+    font-size: $fs-p;
+    color: $c-text;
+    height: $fs-p;
+    width: $fs-p;
   }
 
   input {
     padding-left: 55px;
     width: 100%;
     margin-top: 20px;
-    border-color: $text;
+    border-color: $c-text;
     border-radius: 50px;
   }
 
@@ -34,7 +34,7 @@
     top: 50%;
     transform: translateY(-5%);
     svg {
-      color: $text;
+      color: $c-text;
       height: 0.8em;
       width: 0.8em;
     }

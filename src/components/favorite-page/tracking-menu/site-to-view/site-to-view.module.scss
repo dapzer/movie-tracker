@@ -23,7 +23,7 @@
   .start_edit_btn {
     svg {
       transform: scale(-1, 1);
-      fill: $secondary;
+      fill: $c-secondary;
       width: 0.8em;
       height: 0.8em;
     }
@@ -45,14 +45,14 @@
   button {
     font-size: 1em;
     text-align: left;
-    font-weight: $regular;
+    font-weight: $fw-regular;
   }
 
 
   svg {
-    width: $span;
-    height: $span;
-    color: $secondary;
+    width: $fs-span;
+    height: $fs-span;
+    color: $c-secondary;
   }
 }
 
@@ -64,18 +64,18 @@
 
   input {
     border: unset;
-    border-bottom: 1px solid $text;
+    border-bottom: 1px solid $c-text;
     border-radius: unset;
-    font-size: $span;
+    font-size: $fs-span;
     width: 100%;
   }
 
   button {
     padding: 8px 10px;
     border-radius: 5px;
-    background: $accent;
+    background: $c-accent;
     height: fit-content;
-    font-size: $span;
+    font-size: $fs-span;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -3,27 +3,27 @@
 .tabs {
   display: flex;
   margin-bottom: 15px;
-  border-bottom: 1px solid $text;
+  border-bottom: 1px solid $c-text;
 
   button {
     width: 100%;
     padding: 5px 0;
     font-weight: 400;
-    font-size: $span;
+    font-size: $fs-span;
 
     &:not(:last-of-type) {
-      border-right: 1px solid $text;
+      border-right: 1px solid $c-text;
     }
 
     &:hover,
     &.active {
-      color: $highlight;
+      color: $c-highlight;
     }
 
     svg {
-      width: $p;
-      height: $p;
-      color: $secondary;
+      width: $fs-p;
+      height: $fs-p;
+      color: $c-secondary;
     }
   }
 }

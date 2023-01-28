@@ -2,8 +2,8 @@
 
 .toggle_btn {
   margin-top: 10px;
-  border: 1px solid $text;
-  font-size: $span;
+  border: 1px solid $c-text;
+  font-size: $fs-span;
   text-align: left;
   width: 100%;
   padding: 10px 15px;
@@ -13,9 +13,9 @@
   justify-content: center;
 
   svg {
-    width: $span;
+    width: $fs-span;
     rotate: 180deg;
-    height: $span;
+    height: $fs-span;
   }
 }
 

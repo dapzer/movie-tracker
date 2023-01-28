@@ -13,16 +13,16 @@
 
   .item {
     padding: 10px;
-    background: $primary;
-    color: $secondary;
+    background: $c-primary;
+    color: $c-secondary;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    font-size: $p;
+    font-size: $fs-p;
 
     &_active,
     &:hover {
-      background: $highlight;
+      background: $c-highlight;
     }
   }
 }

@@ -25,7 +25,7 @@
     padding-bottom: 20px;
     position: sticky;
     top: 0px;
-    @include fullWidthBg($background);
+    @include fullWidthBg($c-background);
     z-index: 1000;
     padding-top: 20px;
 
@@ -43,12 +43,12 @@
 
   .frame {
     margin: 0 auto;
-    background: $background;
+    background: $c-background;
     padding: 20px;
     padding-top: 0;
     max-height: 90vh;
     overflow-y: auto;
-    border-radius: $borderRadius;
+    border-radius: $s-border-radius;
 
     &_fullWidth {
       width: 100% !important;

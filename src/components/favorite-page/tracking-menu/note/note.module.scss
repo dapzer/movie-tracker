@@ -2,8 +2,8 @@
 
 .body {
   textarea {
-    font-size: $span;
-    border-color: $text;
+    font-size: $fs-span;
+    border-color: $c-text;
     width: 100%;
     min-height: 100px;
     resize: none;
@@ -22,15 +22,15 @@
     gap: 5px;
 
     span {
-      font-size: $mspan;
+      font-size: $fs-m-span;
     }
 
     button {
       padding: 8px 10px;
       border-radius: 5px;
-      background: $accent;
+      background: $c-accent;
       height: fit-content;
-      font-size: $span;
+      font-size: $fs-span;
       display: flex;
       justify-content: center;
       align-items: center;

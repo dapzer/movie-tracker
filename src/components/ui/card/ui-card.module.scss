@@ -15,12 +15,12 @@
   .image {
     width: 100%;
     cursor: pointer;
-    border-radius: $borderRadius;
+    border-radius: $s-border-radius;
     height: fit-content;
     position: relative;
 
     img {
-      border-radius: $borderRadius;
+      border-radius: $s-border-radius;
       object-fit: contain;
     }
   }
@@ -42,7 +42,7 @@
   @include card_small;
 }
 
-@media screen and (max-width: $md){
+@media screen and (max-width: $bp-md){
   .body {
     max-width: unset;
   }

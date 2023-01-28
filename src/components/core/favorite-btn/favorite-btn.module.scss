@@ -6,10 +6,10 @@
   gap: 5px;
 
   &_add:hover {
-    color: $highlight;
+    color: $c-highlight;
 
     svg {
-      fill: $highlight;
+      fill: $c-highlight;
     }
   }
 

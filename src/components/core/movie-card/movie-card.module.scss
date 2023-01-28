@@ -47,15 +47,15 @@
 }
 
 .favorite_btn {
-  font-size: $span;
+  font-size: $fs-span;
   padding: 5px 10px;
-  background: $accent;
+  background: $c-accent;
   border-radius: 10px 0 0 10px;
 
   svg {
-    width: $span;
-    height: $span;
-    fill: $secondary;
+    width: $fs-span;
+    height: $fs-span;
+    fill: $c-secondary;
   }
 }
 

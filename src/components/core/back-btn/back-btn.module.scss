@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
 .button {
-  background: $accent;
+  background: $c-accent;
   z-index: 1;
   position: relative;
   padding: 5px 10px;
@@ -9,7 +9,7 @@
   margin-bottom: 20px;
 
   &:hover {
-    color: $highlight;
+    color: $c-highlight;
   }
 
   &:before {
@@ -22,7 +22,7 @@
     width: 23px;
     content: " ";
     transform: rotate(45deg);
-    background-color: $accent;
+    background-color: $c-accent;
     background-size: 100%;
   }
 }

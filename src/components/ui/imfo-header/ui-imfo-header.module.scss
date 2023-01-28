@@ -12,13 +12,13 @@
 
       li {
         list-style: none;
-        color: $text;
-        font-size: $p;
+        color: $c-text;
+        font-size: $fs-p;
         padding-bottom: 10px;
 
         span {
           all: unset;
-          color: $secondary;
+          color: $c-secondary;
         }
       }
     }
@@ -26,7 +26,7 @@
 
   .title_block {
     h3 {
-      color: $text;
+      color: $c-text;
     }
 
     &_mobile {
@@ -45,29 +45,29 @@
 
     img {
       object-fit: contain;
-      border-radius: $borderRadius;
+      border-radius: $s-border-radius;
     }
   }
 
 }
 
 .favorite_btn {
-  font-size: $p;
+  font-size: $fs-p;
   padding: 10px 13px;
   width: 100%;
   justify-content: center;
   margin-top: 20px;
-  background: $accent;
+  background: $c-accent;
   border-radius: 10px;
 
   svg {
-    width: $p;
-    height: $p;
-    fill: $secondary;
+    width: $fs-p;
+    height: $fs-p;
+    fill: $c-secondary;
   }
 }
 
-@media screen and (max-width: $md){
+@media screen and (max-width: $bp-md){
 
   .body {
     flex-direction: column;

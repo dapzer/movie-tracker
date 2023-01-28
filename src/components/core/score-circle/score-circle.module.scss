@@ -2,7 +2,7 @@
 
 .container {
   padding: 5px;
-  background: $accent;
+  background: $c-accent;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  background: conic-gradient(var(--progressColor) var(--progress), $background 0deg);
+  background: conic-gradient(var(--progressColor) var(--progress), $c-background 0deg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,14 +26,14 @@
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    background-color: $accent;
+    background-color: $c-accent;
   }
 
   span {
     position: relative;
-    font-size: $span;
-    font-weight: $bold;
+    font-size: $fs-span;
+    font-weight: $fw-bold;
     line-height: 0;
-    color: $secondary;
+    color: $c-secondary;
   }
 }
