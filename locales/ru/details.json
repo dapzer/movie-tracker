@@ -23,7 +23,12 @@
     "series_runtime": "Длительность серий:",
     "movie_runtime": "Длительность:",
     "runtime_mins": "мин.",
-    "user_score": "Оценка пользователей:"
+    "user_score": "Оценка пользователей:",
+    "series_statuses": {
+      "canceled": "Отменён",
+      "ended": "Завершён",
+      "returning series": "В производстве"
+    }
   },
   "person_details": {
     "biography": "Биография",

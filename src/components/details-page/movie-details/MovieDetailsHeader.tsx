@@ -14,11 +14,11 @@ interface Props {
   mediaType: string;
 }
 
-const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
-  const {t, lang} = useTranslation('details');
+const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
+  const { t, lang } = useTranslation('details');
 
   const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString(lang);
-  const producers = mediaType === ContentNames.Movie && credits && getMovieDirectors(credits.crew)
+  const producers = mediaType === ContentNames.Movie && credits && getMovieDirectors(credits.crew);
 
   return (
     <UiInfoHeader
@@ -75,7 +75,7 @@ const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
         </li>
       )}
 
-      {release !== "Invalid Date" && (
+      {release !== 'Invalid Date' && (
         <li>
           {t('movie_details.release_date')} <span>{release}</span>
         </li>
@@ -95,7 +95,7 @@ const MovieDetailsHeader: FC<Props> = ({details, credits, mediaType}) => {
           )}
           <li>
             {t('movie_details.series_status')}
-            <span> {lang === 'ru' ? (details.in_production ? 'В производстве' : 'Завершён') : details.status}</span>
+            <span> {lang === 'ru' ? t(`movie_details.series_statuses.${details.status.toLowerCase()}`) : details.status}</span>
           </li>
           <li>
             {t('movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
