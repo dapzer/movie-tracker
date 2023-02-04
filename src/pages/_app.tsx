@@ -16,18 +16,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from '@vercel/analytics/react';
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store';
+import useTranslation from 'next-translate/useTranslation';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const [queryClient] = useState(() => new QueryClient());
+  const { t, lang } = useTranslation('pagesSeo');
 
   return (
     <Provider store={store}>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
+          <SkeletonTheme baseColor='#282f43' highlightColor='#4F5D75' duration={2}>
             <Layout>
-              <DefaultSeo {...SEO} />
-              <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color="#0073fa" />
+              <DefaultSeo {...SEO} description={t('defaultDescription')}
+                          openGraph={{ description: t('defaultDescription'), locale: lang }} />
+              <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color='#0073fa' />
               <ToastContainer theme={'dark'} autoClose={1500} limit={2} />
               <Component {...pageProps} />
               <Analytics />

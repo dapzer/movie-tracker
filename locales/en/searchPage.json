@@ -1,7 +1,7 @@
 {
   "page_title": "Welcome to the Movie Tracking Site!",
   "socials": "Social",
-  "about_service": "Here you can search for movies, series, people and add them to your favorite list.\n\nIn the favorites list, you can select the status for each movie.\n\nFor TV shows, you can choose the series and the season you stopped at, as well as add a link to the site for viewing.",
+  "about_service": "Here you can search for movies, series, and people and add them to your list of favorites.\n\nIn the list of favorites you can choose the status for each movie, add a link to the site for viewing and a note about the movie or series.\n\nFor TV series you can choose the series and season you're on.",
   "input_title": "Find a movie, series, person...",
   "input_placeholder": "Search",
   "search_notFound": "Nothing found",

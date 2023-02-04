@@ -1,4 +1,6 @@
 {
+  "about": "Here you can search for movies, series, and people and add them to your list of favorites.\n\nIn the list of favorites you can choose the status for each movie, add a link to the site for viewing and a note about the movie or series.\n\nFor TV series you can choose the series and season you're on.",
+  "defaultDescription": "Movie Tracker - is a convenient service for tracking movies and TV series",
   "homePage": {
     "title": "Search",
     "description": ""
