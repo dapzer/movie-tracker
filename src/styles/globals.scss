@@ -113,7 +113,7 @@ a {
   cursor: pointer;
   text-decoration: none;
   height: fit-content;
-  line-height: 0;
+  line-height: 1;
 
   &:hover {
     color: $c-highlight;
