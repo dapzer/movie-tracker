@@ -20,7 +20,7 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
   const { t, lang } = useTranslation();
 
   return (
-    <div className={styles['body']}>
+    <section className={styles['body']}>
       <div className={`${styles['title_block']} ${styles[`title_block_mobile`]}`}>
         <h2>
           {title} {favoriteItem?.media_type && `(${t(`card:${favoriteItem?.media_type}`)})`}
@@ -51,7 +51,7 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
 
         <ul className={styles['list']}>{children}</ul>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -6,7 +6,7 @@ interface Props {}
 
 const DetailsInfoBlockSkeleton: FC<Props> = () => {
   return (
-    <div className={styles['info_block']}>
+    <section className={styles['info_block']}>
       <h2>
         <Skeleton style={{ maxWidth: '250px' }} />
       </h2>
@@ -14,7 +14,7 @@ const DetailsInfoBlockSkeleton: FC<Props> = () => {
       <p>
         <Skeleton count={3} />
       </p>
-    </div>
+    </section>
   );
 };
 

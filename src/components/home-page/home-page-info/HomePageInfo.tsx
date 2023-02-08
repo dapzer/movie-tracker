@@ -31,7 +31,7 @@ const HomePageInfo: FC<Props> = () => {
   const { t, lang } = useTranslation('searchPage');
 
   return (
-    <div className={styles['content']}>
+    <section className={styles['content']}>
       <h2>{t('page_title')}</h2>
       {t('about_service')
         .split('\n\n')
@@ -50,7 +50,7 @@ const HomePageInfo: FC<Props> = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 };
 

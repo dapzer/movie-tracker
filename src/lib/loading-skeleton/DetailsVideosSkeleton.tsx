@@ -7,7 +7,7 @@ interface Props {}
 
 const DetailsVideosSkeleton: FC<Props> = () => {
   return (
-    <div className={styles['']}>
+    <section className={styles['']}>
       <h2>
         <Skeleton style={{ maxWidth: '250px' }} />
       </h2>
@@ -19,7 +19,7 @@ const DetailsVideosSkeleton: FC<Props> = () => {
             <CardSkeleton key={index} height={150} />
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 

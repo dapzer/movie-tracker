@@ -32,7 +32,7 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
   }, [localSearchValue]);
 
   return (
-    <div className={styles['content']}>
+    <section className={styles['content']}>
       <h3 ref={searchTitleRef}>{t('input_title')}</h3>
       <div className={styles['input_block']}>
         <input
@@ -58,7 +58,7 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
           </button>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

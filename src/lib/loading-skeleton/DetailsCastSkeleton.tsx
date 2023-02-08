@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import styles from '@/components/details-page/movie-details/movie-details.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import CardSkeleton from './CardSkeleton';
 
@@ -7,7 +6,7 @@ interface Props {}
 
 const DetailsCastSkeleton: FC<Props> = () => {
   return (
-    <div className={styles['']}>
+    <section>
       <h2>
         <Skeleton style={{ maxWidth: '250px' }} />
       </h2>
@@ -27,7 +26,7 @@ const DetailsCastSkeleton: FC<Props> = () => {
             </CardSkeleton>
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 

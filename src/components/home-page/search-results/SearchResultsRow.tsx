@@ -44,7 +44,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
   }, [searchResponse]);
 
   return (
-    <div className={styles['content']}>
+    <section className={styles['content']}>
       {isOnlySpaces(searchTerm) && (
         <>
           <PopularlsList title={t('popular_movies')} mediaType={ContentNames.Movie} />
@@ -71,7 +71,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
                 </CardSkeleton>
               ))}
           {searchResponse &&
-            searchResponse.results.map((item, index) =>
+            searchResponse.results.map((item) =>
               item.media_type === ContentNames.Person ? (
                 <SearchResultPerson key={item.id} personData={item} />
               ) : (
@@ -104,7 +104,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
           />
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

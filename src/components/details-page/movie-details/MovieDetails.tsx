@@ -51,16 +51,16 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
   } = useGetVideos(mediaId, mediaType, lang);
 
   return (
-    <div className={styles['container']}>
+    <>
 
       {details && !isLoading ? (
         <>
           <MovieDetailsHeader details={details as Details.RootObject} mediaType={mediaType} credits={credits} />
           {details.overview && (
-            <div className={styles['info_block']}>
+            <section className={styles['info_block']}>
               <h2>{t(mediaType === ContentNames.Movie ? 'movie_details.movie_description' : 'movie_details.series_description')}</h2>
               <p className={styles['text']}>{details.overview}</p>
-            </div>
+            </section>
           )}
         </>
       ) : (
@@ -72,7 +72,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
 
       {videosIsLoading && <DetailsVideosSkeleton />}
       {videos && !!videos.results.length && (
-        <div className={`${styles['info_block']} ${styles['videos']}`}>
+        <section className={styles['info_block']}>
           <h2>{t('movie_details.videos_title')}</h2>
           <div className={styles['videos_grid']}
           >
@@ -108,7 +108,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
               </UiModal>
             )}
           </div>
-        </div>
+        </section>
       )}
 
 
@@ -116,7 +116,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
       {creditsIsSuccess && (
         <>
           {credits && !!credits.cast.length && (
-            <div className={styles['info_block']}>
+            <section className={styles['info_block']}>
               <h2>{t('movie_details.actors_title')}</h2>
               <div className={'details-grid'}>
                 {credits.cast.slice(0, 5).map((item) => (
@@ -133,11 +133,11 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
                   </UiModal>
                 )}
               </div>
-            </div>
+            </section>
           )}
 
           {recommendations && !!recommendations.results.length && (
-            <div className={styles['info_block']}>
+            <section className={styles['info_block']}>
               <h2>{t('recommendations')}</h2>
               <div className={'details-grid'}>
                 {recommendations.results.slice(0, 5).map((item) => (
@@ -173,11 +173,11 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
                   </UiModal>
                 )}
               </div>
-            </div>
+            </section>
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

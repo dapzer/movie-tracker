@@ -32,12 +32,12 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
           <PersonDetailsHeader details={details as Person.RootObject} />
 
           {details.biography && (
-            <div className={styles['biography']}>
+            <section className={styles['biography']}>
               <h3>{t('person_details.biography')}</h3>
               {details.biography.split('\n\n').map((item, index) => (
                 <p key={`biography-${index}`}>{item}</p>
               ))}
-            </div>
+            </section>
           )}
         </>
       ) : (
@@ -51,7 +51,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
       {creditsIsSuccess && credits && (
         <>
           {!!credits.cast.length && (
-            <div className={styles['movies']}>
+            <section className={styles['movies']}>
               <h3>{t('person_details.filmography')}</h3>
               <div className={'details-grid'}>
                 {credits.cast.slice(0, 5).map((item) => (
@@ -68,7 +68,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
                   </UiModal>
                 )}
               </div>
-            </div>
+            </section>
           )}
         </>
       )}

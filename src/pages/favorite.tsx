@@ -7,11 +7,11 @@ const Favorite: FC = () => {
   const { t } = useTranslation('pagesSeo');
 
   return (
-    <div>
+    <>
       <NextSeo title={t('favoritePage.title')} />
 
       <FavoritePageContainer />
-    </div>
+    </>
   );
 };
 
