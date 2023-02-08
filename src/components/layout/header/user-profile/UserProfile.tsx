@@ -11,12 +11,6 @@ interface Props {}
 
 const UserProfile: FC<Props> = () => {
   const { data: session, status } = useSession();
-  let profileImg = session?.user?.image;
-
-  if (profileImg && profileImg.includes('googleusercontent')) {
-    const url = new URL(profileImg);
-    profileImg = `${url.protocol}//lh3-googleusercontent-com.translate.goog${url.pathname}`;
-  }
 
   return (
     <>
@@ -27,12 +21,11 @@ const UserProfile: FC<Props> = () => {
             <p>{session?.user?.name?.split(' ')[0]}</p>
             <div className={styles['image']}>
               <Image
-                src={profileImg ? `/api/proxy/image?imageUrl=${profileImg}` : '/icons/user.svg'}
-                placeholder={'blur'}
-                blurDataURL={'/icons/user.svg'}
+                src={session?.user?.image ? `/api/proxy/image?imageUrl=${session?.user?.image}` : '/icons/user.svg'}
                 width={32}
                 height={32}
-                alt={""}
+                sizes="33wv"
+                alt="Img"
               />
             </div>
           </div>

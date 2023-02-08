@@ -13,15 +13,11 @@
 
   .image {
     border-radius: 50%;
-    max-width: 32px;
-    max-height: 32px;
-    overflow: hidden;
-    line-height: 0;
-    vertical-align: top;
-    display: inline-block;
+    width: 32px;
+    height: 32px;
 
     img {
-      object-fit: scale-down;
+      border-radius: 50%;
     }
   }
 }
