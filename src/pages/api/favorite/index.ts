@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     allFavorites: data.favoriteList || [],
   };
 
-  data?.favoriteList?.length > 0 &&
+  !!data?.favoriteList?.length &&
     data.favoriteList.forEach((el) => {
       if (favoriteList[el.trackingData.currentStatus]) {
         favoriteList[el.trackingData.currentStatus].push(el);

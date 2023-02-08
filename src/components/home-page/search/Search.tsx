@@ -45,7 +45,7 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
         <div className={styles['search_logo']}>
           <SearchIcon />
         </div>
-        {searchTerm.length > 0 && (
+        {!!searchTerm.length && (
           <button
             className={styles['clear_btn']}
             onClick={() => {

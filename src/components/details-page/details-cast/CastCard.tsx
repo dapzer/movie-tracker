@@ -24,7 +24,7 @@ const CastCard: FC<Props> = ({ item }) => {
           </li>
         )}
 
-        {item?.roles?.length > 0 ? (
+        {!!item?.roles?.length ? (
           <li>
             {t('movie_details.actors_roles')} {arrayToString(item.roles, 'character')}
           </li>

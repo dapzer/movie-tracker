@@ -22,13 +22,13 @@ const FavoritePageContainer: FC<Props> = () => {
           <LoginModal btnClass={styles['unlogin_btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
         </h2>
       )}
-      {allFavorites?.length < 1 && status === LoginStatus.Authenticated && <h2>{t('emptyFavoriteList')}</h2>}
-      {allFavorites?.length >= 1 && <h2>{t('page_title')}</h2>}
+      {!allFavorites?.length && status === LoginStatus.Authenticated && <h2>{t('emptyFavoriteList')}</h2>}
+      {!!allFavorites?.length && <h2>{t('page_title')}</h2>}
 
-      {watchingNow?.length > 0 && <FavoriteRow favoriteList={watchingNow} title={t('statuses.watchingNow')} />}
-      {notViewed?.length > 0 && <FavoriteRow favoriteList={notViewed} title={t('statuses.notViewed')} />}
-      {waitNewPart?.length > 0 && <FavoriteRow favoriteList={waitNewPart} title={t('statuses.waitNewPart')} />}
-      {viewed?.length > 0 && <FavoriteRow favoriteList={viewed} title={t('statuses.viewed')} />}
+      {!!watchingNow?.length && <FavoriteRow favoriteList={watchingNow} title={t('statuses.watchingNow')} />}
+      {!!notViewed?.length && <FavoriteRow favoriteList={notViewed} title={t('statuses.notViewed')} />}
+      {!!waitNewPart?.length && <FavoriteRow favoriteList={waitNewPart} title={t('statuses.waitNewPart')} />}
+      {!!viewed?.length && <FavoriteRow favoriteList={viewed} title={t('statuses.viewed')} />}
     </div>
   );
 };

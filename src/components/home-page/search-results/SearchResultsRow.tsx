@@ -53,7 +53,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
       )}
 
       {searchResponse && (
-        <h3>{searchResponse.results.length > 0 ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}</h3>
+        <h3>{!!searchResponse.results.length ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}</h3>
       )}
 
       <div className={styles['items']}>

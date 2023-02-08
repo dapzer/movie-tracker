@@ -30,46 +30,46 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         id: details.id,
       }}
     >
-      {details.vote_average > 0 && (
+      {!!details.vote_average && (
         <li>
           {t('movie_details.user_score')}
           <span> {Number(details.vote_average.toFixed(1))}</span>
         </li>
       )}
 
-      {(details.production_countries?.length > 0 || details.origin_country?.length > 0) && (
+      {(!!details.production_countries?.length || !!details.origin_country?.length) && (
         <li>
           {t('movie_details.production_country')}
           <span> {arrayToString(details.production_countries, 'name') || arrayToString(details.origin_country)}</span>
         </li>
       )}
 
-      {producers && producers.length > 0 && (
+      {producers && !!producers.length && (
         <li>
           {t('movie_details.producer')} <span>{arrayToString(producers, 'name')}</span>
         </li>
       )}
 
-      {details.created_by?.length > 0 && (
+      {!!details.created_by?.length && (
         <li>
           {t('movie_details.creator')} <span>{arrayToString(details.created_by, 'name')}</span>
         </li>
       )}
 
-      {details.production_companies?.length > 0 && (
+      {!!details.production_companies?.length && (
         <li>
           {t('movie_details.production_companies')}
           <span> {arrayToString(details.production_companies, 'name')}</span>
         </li>
       )}
 
-      {details.genres?.length > 0 && (
+      {!!details.genres?.length && (
         <li>
           {t('movie_details.genre')} <span>{arrayToString(details.genres, 'name')}</span>
         </li>
       )}
 
-      {details?.budget > 0 && (
+      {!!details?.budget && (
         <li>
           {t('movie_details.budget')} <span>{toCurrency(details.budget, 'USD', lang)}</span>
         </li>
@@ -106,7 +106,7 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
         </>
       )}
 
-      {(details.runtime || details.episode_run_time?.length > 0) && (
+      {(details.runtime || !!details.episode_run_time?.length) && (
         <li>
           {t(details.episode_run_time ? 'movie_details.series_runtime' : 'movie_details.movie_runtime')}{' '}
           <span>

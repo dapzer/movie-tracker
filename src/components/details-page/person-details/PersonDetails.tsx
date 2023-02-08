@@ -50,7 +50,7 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
       {creditsIsLoading && <DetailsCastSkeleton />}
       {creditsIsSuccess && credits && (
         <>
-          {credits.cast.length > 0 && (
+          {!!credits.cast.length && (
             <div className={styles['movies']}>
               <h3>{t('person_details.filmography')}</h3>
               <div className={'details-grid'}>

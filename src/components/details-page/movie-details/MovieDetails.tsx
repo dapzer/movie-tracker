@@ -71,7 +71,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
       )}
 
       {videosIsLoading && <DetailsVideosSkeleton />}
-      {videos && videos.results.length > 0 && (
+      {videos && !!videos.results.length && (
         <div className={`${styles['info_block']} ${styles['videos']}`}>
           <h2>{t('movie_details.videos_title')}</h2>
           <div className={styles['videos_grid']}
@@ -115,7 +115,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
       {creditsIsLoading && <DetailsCastSkeleton />}
       {creditsIsSuccess && (
         <>
-          {credits && credits.cast.length > 0 && (
+          {credits && !!credits.cast.length && (
             <div className={styles['info_block']}>
               <h2>{t('movie_details.actors_title')}</h2>
               <div className={'details-grid'}>
@@ -136,7 +136,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
             </div>
           )}
 
-          {recommendations && recommendations.results.length > 0 && (
+          {recommendations && !!recommendations.results.length && (
             <div className={styles['info_block']}>
               <h2>{t('recommendations')}</h2>
               <div className={'details-grid'}>
