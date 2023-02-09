@@ -11,7 +11,7 @@ interface Props {
 }
 
 const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
-  const { t } = useTranslation('card');
+  const { t, lang } = useTranslation('card');
   return (
     <div className={styles['body']}>
       <div className={styles['image']}>
@@ -28,7 +28,7 @@ const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
       </div>
 
       <div className={styles['info']}>
-        <span className={styles['release']}>{t('release_date')} {new Date(releaseDate).toLocaleDateString()}</span>
+        <span className={styles['release']}>{t('release_date')} {new Date(releaseDate).toLocaleDateString(lang)}</span>
         <p className={styles['title']}>{title}</p>
       </div>
     </div>

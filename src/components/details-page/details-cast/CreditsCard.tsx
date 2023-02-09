@@ -9,13 +9,13 @@ interface Props {
 }
 
 const CreditsCard: FC<Props> = ({ item }) => {
-  const { t } = useTranslation('details');
+  const { t, lang } = useTranslation('details');
 
   return (
     <UiCard
       title={item.title || item.name}
       image={item.poster_path}
-      date={`${t('movie_details.release_date')} ${new Date(item.release_date || item.first_air_date).toLocaleDateString()}`}
+      date={`${t('movie_details.release_date')} ${new Date(item.release_date || item.first_air_date).toLocaleDateString(lang)}`}
       horizontal
       link={`/details/${item.media_type}/${item.id}`}
     >

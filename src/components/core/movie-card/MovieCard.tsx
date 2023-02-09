@@ -37,8 +37,8 @@ const MovieCard: FC<Props> = ({
   favoriteBtn,
   dateTitle,
 }) => {
-  const release = new Date(`${releaseDate}`).toLocaleDateString();
-  const { t } = useTranslation('card');
+  const { t, lang } = useTranslation('card');
+  const release = new Date(`${releaseDate}`).toLocaleDateString(lang);
 
   return (
     <UiCard

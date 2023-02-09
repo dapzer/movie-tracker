@@ -144,7 +144,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
                   <UiCard
                     horizontal
                     image={item.poster_path}
-                    date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString()}`}
+                    date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString(lang)}`}
                     link={`/details/${item.media_type}/${item.id}`}
                     key={`recommendations-${item.id}`}
                     title={item.title || item.name}
@@ -161,7 +161,7 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
                         <UiCard
                           horizontal
                           image={item.poster_path}
-                          date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString()}`}
+                          date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString(lang)}`}
                           link={`/details/${item.media_type}/${item.id}`}
                           key={`recommendations-${item.id}`}
                           title={item.title || item.name}
