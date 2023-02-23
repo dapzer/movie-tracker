@@ -16,9 +16,16 @@
         font-size: $fs-p;
         padding-bottom: 10px;
 
+        //a,
         span {
           all: unset;
           color: $c-secondary;
+        }
+
+        a {
+          cursor: pointer;
+          font-size: inherit;
+          border-bottom: 1px solid $c-secondary;
         }
       }
     }

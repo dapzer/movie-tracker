@@ -7,6 +7,8 @@ import { Credits } from '@/types/Credits';
 import { ContentNames } from '@/types/Enums';
 import UiInfoHeader from '@/components/ui/imfo-header/UiInfoHeader';
 import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
+import MovieDetailsProducers from '@/components/details-page/movie-details/MovieDetailsProducers';
 
 interface Props {
   details: Details.RootObject;
@@ -46,13 +48,19 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
 
       {producers && !!producers.length && (
         <li>
-          {t('movie_details.producer')} <span>{arrayToString(producers, 'name')}</span>
+          {t('movie_details.producer')}{' '}
+          <span>
+            <MovieDetailsProducers producers={producers} />
+          </span>
         </li>
       )}
 
       {!!details.created_by?.length && (
         <li>
-          {t('movie_details.creator')} <span>{arrayToString(details.created_by, 'name')}</span>
+          {t('movie_details.creator')}{' '}
+          <span>
+            <MovieDetailsProducers producers={details.created_by} />
+          </span>
         </li>
       )}
 
@@ -86,7 +94,8 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
           {details.last_air_date && (
             <li>
               {t('movie_details.last_air_date')} <span>{new Date(details.last_air_date).toLocaleDateString(lang)}</span>
-            </li>)}
+            </li>
+          )}
           {details.next_episode_to_air && (
             <li>
               {t('movie_details.next_air_date')}

@@ -117,6 +117,7 @@ a {
 
   &:hover {
     color: $c-highlight;
+    border-color: $c-highlight !important;
   }
 }
 
