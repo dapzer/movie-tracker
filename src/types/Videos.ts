@@ -1,4 +1,4 @@
-export declare module Videos {
+export module Videos {
 
   export interface Result {
     iso_639_1: string;

@@ -1,4 +1,4 @@
-export declare namespace SearchResponse {
+export module SearchResponse {
   export interface ResultItem {
     adult: boolean;
     backdrop_path: string;

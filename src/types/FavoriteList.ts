@@ -1,4 +1,4 @@
-export declare module FavoriteList {
+export module FavoriteList {
   export interface TrackingData {
     currentStatus: StatusesNames;
     note: string

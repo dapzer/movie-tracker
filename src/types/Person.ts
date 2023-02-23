@@ -1,4 +1,4 @@
-export declare module Person {
+export module Person {
   export interface Cast {
     adult: boolean;
     backdrop_path: string;

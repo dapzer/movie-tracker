@@ -1,6 +1,6 @@
 import { FavoriteList } from '@/types/FavoriteList';
 
-export declare namespace FavoriteListThunks {
+export module FavoriteListThunks {
   export interface Delete {
     userId: string;
     mediaId: number;

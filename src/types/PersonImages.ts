@@ -1,4 +1,4 @@
-export declare module PersonImages {
+export module PersonImages {
   export interface Profile {
     aspect_ratio: number;
     height: number;

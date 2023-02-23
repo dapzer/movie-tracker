@@ -1,4 +1,4 @@
-export declare module Details {
+export module Details {
   export interface CreatedBy {
     id: number;
     credit_id: string;

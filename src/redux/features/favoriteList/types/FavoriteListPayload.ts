@@ -1,6 +1,6 @@
 import { FavoriteList } from '@/types/FavoriteList';
 
-export declare namespace FavoriteListPayload {
+export module FavoriteListPayload {
   export interface Delete {
     mediaId: number;
     mediaStatus: FavoriteList.StatusesNames;

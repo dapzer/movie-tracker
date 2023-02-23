@@ -1,4 +1,4 @@
-export declare namespace Queries {
+export module Queries {
   type Language = string
   type SearchValue = string
   type Page = number
