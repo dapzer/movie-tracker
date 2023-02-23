@@ -5,6 +5,7 @@
   "needToAuthDescription": "для отображения списка избранного",
   "added_date": "Дата добавления:",
   "changeStatus": "Изменить статус",
+  "loading": "Загрузка...",
   "statuses": {
     "viewed": "Просмотрено",
     "watchingNow": "Смотрю сейчас",

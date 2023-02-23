@@ -5,6 +5,7 @@
   "needToAuthDescription": "to display your favorites list",
   "added_date": "Date added:",
   "changeStatus": "Change Status",
+  "loading": "Loading...",
   "statuses": {
     "viewed": "Viewed",
     "watchingNow": "Watching now",

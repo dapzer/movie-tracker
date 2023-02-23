@@ -8,7 +8,8 @@ import LoginModal from '@/components/core/login-modal/LoginModal';
 import { useAppSelector } from '@/redux/hooks';
 import { selectFavoriteList } from '@/redux/features/favoriteList/favoriteListSlice';
 
-interface Props {}
+interface Props {
+}
 
 const FavoritePageContainer: FC<Props> = () => {
   const { viewed, notViewed, waitNewPart, allFavorites, watchingNow } = useAppSelector(selectFavoriteList);
@@ -17,6 +18,10 @@ const FavoritePageContainer: FC<Props> = () => {
 
   return (
     <div className={'container'}>
+      {status === LoginStatus.Loading && (
+        <h2>{t('loading')}</h2>
+      )}
+
       {status === LoginStatus.Unauthenticated && (
         <h2 className={styles['unlogin']}>
           <LoginModal btnClass={styles['unlogin_btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
