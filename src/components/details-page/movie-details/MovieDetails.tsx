@@ -11,12 +11,7 @@ import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetai
 import InfoHeaderSkeleton from '@/lib/loading-skeleton/InfoHeaderSkeleton';
 import DetailsInfoBlockSkeleton from '@/lib/loading-skeleton/DetailsInfoBlockSkeleton';
 import DetailsCastSkeleton from '@/lib/loading-skeleton/DetailsCastSkeleton';
-import {
-  useGetMovieCredits,
-  useGetMovieDetails,
-  useGetRecommendations,
-  useGetVideos,
-} from '@/hooks/useTmdbApi';
+import { useGetMovieCredits, useGetMovieDetails, useGetRecommendations, useGetVideos } from '@/hooks/useTmdbApi';
 import VideoCard from '@/components/details-page/video-card/VideoCard';
 import Masonry from 'react-masonry-css';
 import DetailsVideosSkeleton from '@/lib/loading-skeleton/DetailsVideosSkeleton';
@@ -38,7 +33,10 @@ const breakpointColumnsObj = {
 const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
   const { t, lang } = useTranslation('details');
   const { data: details, isLoading } = useGetMovieDetails(mediaId, mediaType, lang, initialData);
-  const { data: recommendations } = useGetRecommendations(mediaId, mediaType, lang);
+  const {
+    data: recommendations,
+    isLoading: recommendationsIsLoading,
+  } = useGetRecommendations(mediaId, mediaType, lang);
   const {
     data: credits,
     isLoading: creditsIsLoading,
@@ -113,69 +111,66 @@ const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
 
 
       {creditsIsLoading && <DetailsCastSkeleton />}
-      {creditsIsSuccess && (
-        <>
-          {credits && !!credits.cast.length && (
-            <section className={styles['info_block']}>
-              <h2>{t('movie_details.actors_title')}</h2>
-              <div className={'details-grid'}>
-                {credits.cast.slice(0, 5).map((item) => (
-                  <CastCard key={`person-${item.id}`} item={item} />
-                ))}
-                {credits.cast.length > 5 && (
-                  <UiModal title={t('movie_details.actors_title')} btnTitle={t('full_list')}
-                           btnClass={'detail-full-cast-btn'}>
-                    <div className={'details-grid'}>
-                      {credits.cast.map((item) => (
-                        <CastCard key={`person-list-${item.id}`} item={item} />
-                      ))}
-                    </div>
-                  </UiModal>
-                )}
-              </div>
-            </section>
-          )}
+      {credits && !!credits.cast.length && (
+        <section className={styles['info_block']}>
+          <h2>{t('movie_details.actors_title')}</h2>
+          <div className={'details-grid'}>
+            {credits.cast.slice(0, 5).map((item) => (
+              <CastCard key={`person-${item.id}`} item={item} />
+            ))}
+            {credits.cast.length > 5 && (
+              <UiModal title={t('movie_details.actors_title')} btnTitle={t('full_list')}
+                       btnClass={'detail-full-cast-btn'}>
+                <div className={'details-grid'}>
+                  {credits.cast.map((item) => (
+                    <CastCard key={`person-list-${item.id}`} item={item} />
+                  ))}
+                </div>
+              </UiModal>
+            )}
+          </div>
+        </section>
+      )}
 
-          {recommendations && !!recommendations.results.length && (
-            <section className={styles['info_block']}>
-              <h2>{t('recommendations')}</h2>
-              <div className={'details-grid'}>
-                {recommendations.results.slice(0, 5).map((item) => (
-                  <UiCard
-                    horizontal
-                    image={item.poster_path}
-                    date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString(lang)}`}
-                    link={`/details/${item.media_type}/${item.id}`}
-                    key={`recommendations-${item.id}`}
-                    title={item.title || item.name}
-                  >
-                    <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
-                  </UiCard>
-                ))}
+      {recommendationsIsLoading && <DetailsCastSkeleton />}
+      {recommendations && !!recommendations.results.length && (
+        <section className={styles['info_block']}>
+          <h2>{t('recommendations')}</h2>
+          <div className={'details-grid'}>
+            {recommendations.results.slice(0, 5).map((item) => (
+              <UiCard
+                horizontal
+                image={item.poster_path}
+                date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString(lang)}`}
+                link={`/details/${item.media_type}/${item.id}`}
+                key={`recommendations-${item.id}`}
+                title={item.title || item.name}
+              >
+                <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
+              </UiCard>
+            ))}
 
-                {recommendations.results.length > 5 && (
-                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')}
-                           btnClass={'detail-full-cast-btn'}>
-                    <div className={'details-grid'}>
-                      {recommendations.results.map((item) => (
-                        <UiCard
-                          horizontal
-                          image={item.poster_path}
-                          date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString(lang)}`}
-                          link={`/details/${item.media_type}/${item.id}`}
-                          key={`recommendations-${item.id}`}
-                          title={item.title || item.name}
-                        >
-                          <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
-                        </UiCard>
-                      ))}
-                    </div>
-                  </UiModal>
-                )}
-              </div>
-            </section>
-          )}
-        </>
+            {recommendations.results.length > 5 && (
+              <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')}
+                       btnClass={'detail-full-cast-btn'}>
+                <div className={'details-grid'}>
+                  {recommendations.results.map((item) => (
+                    <UiCard
+                      horizontal
+                      image={item.poster_path}
+                      date={`${t('movie_details.release_date')} ${new Date(`${item.release_date || item.first_air_date}`).toLocaleDateString(lang)}`}
+                      link={`/details/${item.media_type}/${item.id}`}
+                      key={`recommendations-${item.id}`}
+                      title={item.title || item.name}
+                    >
+                      <LinkToDetails mediaId={item.id} mediaType={item.media_type} />
+                    </UiCard>
+                  ))}
+                </div>
+              </UiModal>
+            )}
+          </div>
+        </section>
       )}
     </>
   );
