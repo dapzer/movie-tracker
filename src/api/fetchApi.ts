@@ -12,7 +12,7 @@ const getApiUrl = generateApiUrl(process.env.NEXT_PUBLIC_API_URL || '', {
   api_key: process.env.NEXT_PUBLIC_API_KEY || '',
 });
 
-export const getResponse = async <T = any>(url: string): Promise<T | null> => {
+export const getResponse = async <T = unknown>(url: string): Promise<T | null> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/proxy?url=${encodeURIComponent(url)}`);
   const data = await response.json();
 
