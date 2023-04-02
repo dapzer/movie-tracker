@@ -16,7 +16,6 @@
         font-size: $fs-p;
         padding-bottom: 10px;
 
-        //a,
         span {
           all: unset;
           color: $c-secondary;
@@ -60,7 +59,7 @@
 
 .favorite_btn {
   font-size: $fs-p;
-  padding: 10px 13px;
+  padding: 10px 10px;
   width: 100%;
   justify-content: center;
   margin-top: 20px;
@@ -74,21 +73,18 @@
   }
 }
 
-@media screen and (max-width: $bp-md){
+@media screen and (max-width: $bp-md) {
 
   .body {
     flex-direction: column;
     gap: 20px;
 
-    .logo {
-      max-width: 300px;
-      }
+    .logo,
     .image {
-      max-width: 400px;
+      max-width: 475px;
     }
 
     .info_block {
-
       .list {
         padding-top: 0;
       }
