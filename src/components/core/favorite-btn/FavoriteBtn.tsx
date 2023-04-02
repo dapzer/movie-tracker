@@ -29,7 +29,7 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
   };
 
   return (
-    <div className={styles['container']}>
+    <>
       <button
         onClick={() => handleFavoriteStatus()}
         className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${className} ${styles['button']}`}
@@ -42,7 +42,7 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
         {isFavorite ? t('delete_from_favorite') : t('add_to_favorite')}
       </button>
       {showLogin && <LoginModal isOpenedDefault={true} customHandler={setShowLogin} />}
-    </div>
+    </>
   );
 };
 
