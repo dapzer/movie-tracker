@@ -5,25 +5,26 @@ import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import LoginModal from '@/components/core/login-modal/LoginModal';
-import { FavoriteIcon, InFavoriteIcon } from '@/components/ui/Icons';
+import { FavoriteIcon, InFavoriteIcon, ListIcon } from '@/components/ui/Icons';
 
 interface Props {
   id: number;
   className: string;
   mediaType: string;
-  favoriteListStatus?: string;
+  asListTrigger?: boolean;
 }
 
-const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }) => {
+const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => {
   const [showLogin, setShowLogin] = useState(false);
   const { handleFavorite, isFavorite } = useFavorite(id);
-  const { t } = useTranslation('buttons');
+  const { t } = useTranslation();
   const { status } = useSession();
 
   const handleFavoriteStatus = () => {
     if (status === LoginStatus.Unauthenticated) {
       setShowLogin(true);
     } else {
+      if (isFavorite && asListTrigger) return;
       handleFavorite(id, mediaType);
     }
   };
@@ -32,14 +33,28 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, favoriteListStatus }
     <>
       <button
         onClick={() => handleFavoriteStatus()}
-        className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${className} ${styles['button']}`}
+        className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${asListTrigger && isFavorite ? styles['button_without_hover'] : ''} ${className} ${styles['button']}`}
       >
-        {isFavorite ? (
-          <InFavoriteIcon />
-        ) : (
-          <FavoriteIcon />
+        {!isFavorite && (
+          <>
+            <FavoriteIcon />
+            {t('buttons:add_to_favorite')}
+          </>
         )}
-        {isFavorite ? t('delete_from_favorite') : t('add_to_favorite')}
+
+        {isFavorite && !asListTrigger && (
+          <>
+            <InFavoriteIcon />
+            {t('buttons:delete_from_favorite')}
+          </>
+        )}
+
+        {isFavorite && asListTrigger && (
+          <>
+            <ListIcon />
+            {t('favoritePage:changeStatus')}
+          </>
+        )}
       </button>
       {showLogin && <LoginModal isOpenedDefault={true} customHandler={setShowLogin} />}
     </>

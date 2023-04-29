@@ -73,6 +73,16 @@
   }
 }
 
+.status_selector {
+  width: 100%;
+  max-width: unset;
+
+  & > div {
+    width: 100%;
+    max-width: unset !important;
+  }
+}
+
 @media screen and (max-width: $bp-md) {
 
   .body {

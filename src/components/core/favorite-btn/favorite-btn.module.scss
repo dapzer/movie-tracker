@@ -20,4 +20,12 @@
       fill: red;
     }
   }
+
+  &_without_hover:hover {
+    color: $c-secondary;
+
+    svg {
+      fill: $c-secondary;
+    }
+  }
 }

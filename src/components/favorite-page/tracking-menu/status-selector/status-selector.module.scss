@@ -1,31 +1,36 @@
 @import "src/styles/variables";
 
-.content {
+.body {
   padding: 5px 10px;
   background: $c-accent;
   border-radius: 10px 0 0 10px;
   font-weight: unset;
+}
 
-
+.content {
   span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     color: $c-secondary;
     cursor: pointer;
 
+    svg {
+      width: $fs-span;
+      height: $fs-span;
+      fill: $c-secondary;
+      transition: all .5s;
+      overflow: visible;
+    }
   }
+}
+
+.status {
+  font-size: 1em;
+  width: 100%;
 
   &:hover {
-    .status-selector__tooltip {
-      display: block;
-    }
-  }
-
-  button {
-    font-size: 1em;
-    width: 100%;
-
-    &:hover {
-      color: $c-highlight;
-    }
+    color: $c-highlight;
   }
 }
 

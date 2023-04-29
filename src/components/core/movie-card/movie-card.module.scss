@@ -10,9 +10,29 @@
   position: absolute;
   right: 0;
   top: 30px;
+
   max-width: fit-content;
   display: flex;
   justify-content: flex-end;
+  width: 30px;
+  transition: all .5s;
+
+  .trigger_wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  & > div {
+    position: relative;
+  }
+
+
+  &:hover {
+    .favorite_btn {
+      width: 100%;
+      gap: 5px;
+    }
+  }
 }
 
 .favorite_btn {

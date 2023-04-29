@@ -3,6 +3,9 @@ import styles from './ui-imfo-header.module.scss';
 import Image from 'next/image';
 import FavoriteBtn from '@/components/core/favorite-btn/FavoriteBtn';
 import useTranslation from 'next-translate/useTranslation';
+import { useFavorite } from '@/hooks/useFavorite';
+import StatusSelector from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
+import { StatusesNames } from '@/types/Enums';
 
 interface Props {
   image?: string;
@@ -18,6 +21,9 @@ interface Props {
 const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteItem }) => {
   const isHaveOriginalName = original_title !== title;
   const { t, lang } = useTranslation();
+  const { getFavoriteItem, isFavorite } = useFavorite(favoriteItem?.id);
+  const favoriteItemData = isFavorite ? getFavoriteItem(favoriteItem!.id) : null;
+
 
   return (
     <section className={styles['body']}>
@@ -34,11 +40,17 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
             width={270}
             height={405}
-            sizes="33wv"
-            alt="Img"
+            sizes='33wv'
+            alt='Img'
           />
         </div>
-        {favoriteItem && <FavoriteBtn id={favoriteItem.id} className={styles['favorite_btn']} mediaType={favoriteItem.media_type} />}
+        {favoriteItem && (
+          <StatusSelector mediaType={favoriteItem.media_type} id={favoriteItem.id}
+                          dropdownStyles={styles['status_selector']}
+                          currentStatus={favoriteItemData?.trackingData.currentStatus || StatusesNames.notViewed}
+                          trigger={<FavoriteBtn id={favoriteItem.id} className={styles['favorite_btn']}
+                                                mediaType={favoriteItem.media_type} asListTrigger />} />
+        )}
       </div>
 
       <div className={styles['info_block']}>
