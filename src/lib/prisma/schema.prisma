@@ -1,0 +1,74 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("NEXT_PUBLIC_MONGODB_URI")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  // previewFeatures = ["referentialActions"] // You won't need this in Prisma 3.X or higher.
+}
+
+model account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user user @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model user {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      account[]
+  sessions      session[]
+  favoriteList FavioriteItem[]?
+}
+
+model VerificationToken {
+  identifier String   @id @default(auto()) @map("_id") @db.ObjectId
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+type FavioriteItem {
+  id Int
+  addedDate Int
+  mediaType String
+  trackingData TrackingData
+}
+
+type TrackingData {
+  currentStatus String
+  note String
+  sitesToView String[]
+  seriesInfo SeriesInfo
+}
+
+type SeriesInfo {
+  currentSeason Int
+  currentEpisode Int
+}
