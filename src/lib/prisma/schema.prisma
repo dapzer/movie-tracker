@@ -5,7 +5,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = ["referentialActions"] // You won't need this in Prisma 3.X or higher.
 }
 
 model account {
@@ -44,14 +43,14 @@ model VerificationToken {
 }
 
 model user {
-id            String          @id @default(auto()) @map("_id") @db.ObjectId
-name          String?
-email         String?         @unique
-emailVerified DateTime?
-image         String?
-accounts      account[]
-sessions      session[]
-favoriteList  FavioriteItem[]
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?         @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      account[]
+  sessions      session[]
+  favoriteList  FavioriteItem[]
 }
 
 type FavioriteItem {
@@ -82,4 +81,5 @@ enum StatusesNames {
   watchingNow
   notViewed
   waitNewPart
+  allFavorites
 }
