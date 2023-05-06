@@ -1,28 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { clientPromise } from '@/lib/mongodb';
-import { ObjectId } from 'bson';
+import { prisma } from '@/lib/prisma';
 
 type Data = {
   msg: string;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  await (
-    await clientPromise
-  )
-    .db()
-    .collection('users')
-    .updateOne(
-      {
-        _id: new ObjectId(req.body.userId),
-        'favoriteList.id': req.body.id,
+  await prisma.user.update({
+    where: {
+      id: req.body.userId as string,
+    },
+    data: {
+      favoriteList: {
+        updateMany: {
+          where: {
+            id: req.body.id
+          },
+          data: {
+            trackingData: req.body.trackingData
+          }
+        }
       },
-      {
-        $set: {
-          'favoriteList.$.trackingData': req.body.trackingData,
-        },
-      }
-    );
+    },
+  });
 
   res.status(200).json({ msg: `Movie with id ${req.body.id} was updated` });
 }

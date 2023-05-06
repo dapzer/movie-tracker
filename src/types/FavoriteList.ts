@@ -1,3 +1,5 @@
+import { FavioriteItem, StatusesNames as StatusesNamesBase } from '@prisma/client';
+
 export module FavoriteList {
   export interface TrackingData {
     currentStatus: StatusesNames;
@@ -23,12 +25,7 @@ export module FavoriteList {
     allFavorites: RootObject[];
   }
 
-  export type StatusesNames = keyof StatusedObject;
+  export type StatusesNames = StatusesNamesBase;
 
-  export interface RootObject {
-    id: number;
-    mediaType: string;
-    addedDate?: string | number;
-    trackingData: TrackingData;
-  }
+  export type RootObject = FavioriteItem
 }

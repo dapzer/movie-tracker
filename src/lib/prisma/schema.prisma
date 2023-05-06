@@ -4,13 +4,13 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
   // previewFeatures = ["referentialActions"] // You won't need this in Prisma 3.X or higher.
 }
 
 model account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String @db.ObjectId
+  userId            String  @db.ObjectId
   type              String
   provider          String
   providerAccountId String
@@ -35,17 +35,6 @@ model session {
   user         user     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model user {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      account[]
-  sessions      session[]
-  favoriteList FavioriteItem[]?
-}
-
 model VerificationToken {
   identifier String   @id @default(auto()) @map("_id") @db.ObjectId
   token      String   @unique
@@ -54,21 +43,43 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model user {
+id            String          @id @default(auto()) @map("_id") @db.ObjectId
+name          String?
+email         String?         @unique
+emailVerified DateTime?
+image         String?
+accounts      account[]
+sessions      session[]
+favoriteList  FavioriteItem[]
+}
+
 type FavioriteItem {
-  id Int
-  addedDate Int
-  mediaType String
+  id           Int
+  addedDate    Int
+  mediaType    String
   trackingData TrackingData
 }
 
 type TrackingData {
-  currentStatus String
-  note String
-  sitesToView String[]
-  seriesInfo SeriesInfo
+  currentStatus StatusesNames
+  note          String
+  sitesToView   SitesToView[]
+  seriesInfo    SeriesInfo
 }
 
 type SeriesInfo {
-  currentSeason Int
+  currentSeason  Int
   currentEpisode Int
+}
+
+type SitesToView {
+  url String
+}
+
+enum StatusesNames {
+  viewed
+  watchingNow
+  notViewed
+  waitNewPart
 }
