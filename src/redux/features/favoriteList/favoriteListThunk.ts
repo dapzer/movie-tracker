@@ -39,8 +39,8 @@ export const deleteFavoriteListItemApi = createAsyncThunk('favoriteList/deleteIt
            userId,
            mediaId,
          }: FavoriteListThunks.Delete, thunkAPI) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}/delete`, {
-      method: 'POST',
+    const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}`, {
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -62,8 +62,8 @@ export const deleteFavoriteListItemApi = createAsyncThunk('favoriteList/deleteIt
 export const updateFavoriteListItemApi = createAsyncThunk(
   'favoriteList/update',
   async ({ userId, mediaId, trackingData }: FavoriteListThunks.Update, thunkAPI) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}/update`, {
-      method: 'POST',
+    const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}`, {
+      method: 'PATCH',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -81,6 +81,5 @@ export const updateFavoriteListItemApi = createAsyncThunk(
     }
 
     thunkAPI.rejectWithValue(`Error when updating favorite list item. Code: ${response.status}`);
-
   },
 );

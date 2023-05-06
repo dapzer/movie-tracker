@@ -3,7 +3,7 @@ import { FavoriteList } from '@/types/FavoriteList';
 import { StatusesNames } from '@/types/Enums';
 import { prisma } from '@/lib/prisma';
 
-const addFavorite = async (req: NextApiRequest) => {
+const addFavoriteItem = async (req: NextApiRequest) => {
   await prisma.user.update({
     where: {
       id: req.body.userId as string,
@@ -17,7 +17,7 @@ const addFavorite = async (req: NextApiRequest) => {
 };
 
 
-const deleteFavorite = async (req: NextApiRequest) => {
+const deleteFavoriteItem = async (req: NextApiRequest) => {
   await prisma.user.update({
     where: {
       id: req.body.userId as string,
@@ -34,19 +34,28 @@ const deleteFavorite = async (req: NextApiRequest) => {
   });
 };
 
+const updateFavoriteItem = async (req: NextApiRequest) => {
+  await prisma.user.update({
+    where: {
+      id: req.body.userId as string,
+    },
+    data: {
+      favoriteList: {
+        updateMany: {
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            trackingData: req.body.trackingData,
+          },
+        },
+      },
+    },
+  });
+};
 
 
-interface Response {
-  favoriteList?: FavoriteList.StatusedObject;
-  msg?: string;
-}
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  if (req.method === 'POST') {
-    await addFavorite(req);
-    return res.status(200).json({ msg: `Movie with id ${req.body.favoriteItem.id} was added` });
-  }
-
+const getFavoriteList = async (req: NextApiRequest) => {
   const user = await prisma.user.findUnique({
     where: {
       id: req.query.userId as string,
@@ -69,5 +78,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
   });
 
-  res.status(200).json({ favoriteList });
+  return favoriteList;
+};
+
+interface Response {
+  favoriteList?: FavoriteList.StatusedObject;
+  msg?: string;
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
+  if (req.method === 'GET') {
+    const favoriteList = await getFavoriteList(req);
+    return res.status(200).json({ favoriteList });
+  }
+
+  if (req.method === 'POST') {
+    await addFavoriteItem(req);
+    return res.status(200).json({ msg: `Movie with id ${req.body.favoriteItem.id} was added` });
+  }
+
+  if (req.method === 'DELETE') {
+    await deleteFavoriteItem(req);
+    return res.status(200).json({ msg: `Movie with id ${req.body.id} was deleted` });
+  }
+
+  if (req.method === 'PATCH') {
+    await updateFavoriteItem(req);
+    return res.status(200).json({ msg: `Movie with id ${req.body.id} was updated` });
+  }
+
+  res.status(200).json({ msg: 'Method not supported' });
 }
