@@ -3,11 +3,11 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import VkProvider from 'next-auth/providers/vk';
 import YandexProvider from 'next-auth/providers/yandex';
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import { clientPromise } from '@/lib/mongodb';
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from '@/lib/prisma';
 
 export default NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: PrismaAdapter(prisma),
   // Configure one or more authentication providers
   providers: [
     GithubProvider({

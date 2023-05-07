@@ -1,34 +1,15 @@
+import * as PrismaTypes from '@prisma/client';
+
 export module FavoriteList {
-  export interface TrackingData {
-    currentStatus: StatusesNames;
-    note: string
-    sitesToView: SitesToViewObject[];
-    seriesInfo: SeriesInfo;
-  }
+  export type TrackingData = PrismaTypes.TrackingData
 
-  export interface SeriesInfo {
-    currentSeason: number;
-    currentEpisode: number;
-  }
+  export type SeriesInfo = PrismaTypes.SeriesInfo
 
-  export interface SitesToViewObject {
-    url: string;
-  }
+  export type SitesToViewObject = PrismaTypes.SitesToView
 
-  export interface StatusedObject {
-    notViewed: RootObject[];
-    watchingNow: RootObject[];
-    viewed: RootObject[];
-    waitNewPart: RootObject[];
-    allFavorites: RootObject[];
-  }
+  export type StatusedObject = Record<PrismaTypes.StatusesNames, RootObject[]>
 
-  export type StatusesNames = keyof StatusedObject;
+  export type StatusesNames = PrismaTypes.StatusesNames;
 
-  export interface RootObject {
-    id: number;
-    mediaType: string;
-    addedDate?: string | number;
-    trackingData: TrackingData;
-  }
+  export type RootObject = PrismaTypes.FavioriteItem
 }

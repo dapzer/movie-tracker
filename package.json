@@ -7,11 +7,15 @@
     "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:generate": "prisma generate  --schema=./src/lib/prisma/schema.prisma",
+    "prisma:reset": "npm prisma:push --force-reset",
+    "prisma:push": "prisma db push"
   },
   "dependencies": {
     "@blazity/next-image-proxy": "^1.0.2",
-    "@next-auth/mongodb-adapter": "^1.1.1",
+    "@next-auth/prisma-adapter": "^1.0.6",
+    "@prisma/client": "^4.13.0",
     "@reduxjs/toolkit": "^1.9.1",
     "@svgr/webpack": "^6.5.1",
     "@tanstack/react-query": "^4.10.3",
@@ -19,7 +23,6 @@
     "@vercel/analytics": "^0.1.5",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-no-relative-import-paths": "^1.5.2",
-    "mongodb": "^4.11.0",
     "next": "^13.1.4",
     "next-auth": "^4.14.0",
     "next-seo": "^5.13.0",
@@ -41,6 +44,7 @@
     "@types/react-dom": "18.0.6",
     "eslint": "8.25.0",
     "eslint-config-next": "^13.1.4",
+    "prisma": "^4.13.0",
     "typescript": "4.8.4"
   }
 }
