@@ -8,7 +8,8 @@ export module FavoriteListPayload {
 
   export interface AddNew {
     userId: string;
-    favoriteItem: FavoriteList.RootObject;
+    mediaId: number
+    mediaType: string
   }
 
   export interface UpdateItem {

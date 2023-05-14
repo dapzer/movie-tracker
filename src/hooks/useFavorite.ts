@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FavoriteList } from '@/types/FavoriteList';
 import { useSession } from 'next-auth/react';
-import { StatusesNames } from '@/types/Enums';
 import { toast } from 'react-toastify';
 import useTranslation from 'next-translate/useTranslation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -27,22 +26,7 @@ export const useFavorite = (mediaId?: number) => {
   const addFavoriteItem = (mediaId: number, mediaType: string) => {
     if (!session?.user?.id) return;
 
-    const newFavoriteItem: FavoriteList.RootObject = {
-      id: mediaId,
-      addedDate: Date.now(),
-      mediaType: mediaType,
-      trackingData: {
-        currentStatus: StatusesNames.notViewed,
-        note: '',
-        sitesToView: [],
-        seriesInfo: {
-          currentSeason: 0,
-          currentEpisode: 1,
-        },
-      },
-    };
-
-    dispatch(addFavoriteListItemApi({ favoriteItem: newFavoriteItem, userId: session.user.id }))
+    dispatch(addFavoriteListItemApi({ mediaId, mediaType, userId: session.user.id }))
       .unwrap()
       .then(() => {
         toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);

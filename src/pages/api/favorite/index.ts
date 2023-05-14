@@ -4,16 +4,33 @@ import { StatusesNames } from '@/types/Enums';
 import { prisma } from '@/lib/prisma';
 
 const addFavoriteItem = async (req: NextApiRequest) => {
+  const newFavoriteItem: FavoriteList.RootObject = {
+    id: req.body.mediaId,
+    addedDate: Date.now(),
+    mediaType: req.body.mediaType,
+    trackingData: {
+      currentStatus: StatusesNames.notViewed,
+      note: '',
+      sitesToView: [],
+      seriesInfo: {
+        currentSeason: 0,
+        currentEpisode: 1,
+      },
+    },
+  };
+
   await prisma.user.update({
     where: {
       id: req.body.userId as string,
     },
     data: {
       favoriteList: {
-        push: req.body.favoriteItem,
+        push: newFavoriteItem,
       },
     },
   });
+
+  return newFavoriteItem;
 };
 
 
@@ -83,6 +100,7 @@ const getFavoriteList = async (req: NextApiRequest) => {
 
 interface Response {
   favoriteList?: FavoriteList.StatusedObject;
+  favoriteItem?: FavoriteList.RootObject;
   msg?: string;
 }
 
@@ -93,8 +111,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   if (req.method === 'POST') {
-    await addFavoriteItem(req);
-    return res.status(200).json({ msg: `Movie with id ${req.body.favoriteItem.id} was added` });
+    const favoriteItem = await addFavoriteItem(req);
+    return res.status(200).json({ msg: `Movie with id ${req.body.mediaId} was added`, favoriteItem });
   }
 
   if (req.method === 'DELETE') {

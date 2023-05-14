@@ -52,7 +52,7 @@ export const favoriteListSlice = createSlice({
     builder.addCase(addFavoriteListItemApi.fulfilled, (state, action) => {
       if (!action.payload) return;
       state.allFavorites.push(action.payload);
-      state.notViewed.push(action.payload);
+      state[action.payload.trackingData.currentStatus].push(action.payload);
     });
     builder.addMatcher(
       isRejected(addFavoriteListItemApi, fetchFavoriteListApi, deleteFavoriteListItemApi, updateFavoriteListItemApi),

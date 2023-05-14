@@ -16,18 +16,20 @@ export const fetchFavoriteListApi = createAsyncThunk('favoriteList/fetchById', a
 
 export const addFavoriteListItemApi = createAsyncThunk(
   'favoriteList/addItem',
-  async ({ userId, favoriteItem }: FavoriteListPayload.AddNew, thunkAPI) => {
+  async ({ userId, mediaId, mediaType }: FavoriteListPayload.AddNew, thunkAPI) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_FAVORITE_API}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId, favoriteItem }),
+      body: JSON.stringify({ userId, mediaId, mediaType }),
     });
 
+    const data = await response.json();
+
     if (response.ok) {
-      return favoriteItem as FavoriteList.RootObject;
+      return data.favoriteItem as FavoriteList.RootObject;
     }
 
     return thunkAPI.rejectWithValue(`Error when adding new favorite list item. Code: ${response.status}`);
