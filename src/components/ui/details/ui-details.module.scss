@@ -1,9 +1,9 @@
 @import "src/styles/variables";
+@import "src/styles/mixins";
 
 .toggle_btn {
   margin-top: 10px;
   border: 1px solid $c-text;
-  font-size: $fs-span;
   text-align: left;
   width: 100%;
   padding: 10px 15px;
@@ -12,10 +12,57 @@
   gap: 20px;
   justify-content: center;
 
+  &,
+  .title {
+    font-size: $fs-span;
+    color: $c-secondary;
+  }
+
   svg {
     width: $fs-span;
     rotate: 180deg;
     height: $fs-span;
+  }
+}
+
+.large {
+  position: sticky;
+  top: $s-header-height;
+  z-index: 25;
+  border: none;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 2px solid $c-text ;
+
+  @include fullWidthBg($c-background);
+
+  &,
+  .title {
+    font-size: $fs-h3;
+    color: $c-secondary;
+  }
+
+  @media screen and (max-width: $bp-sm){
+    &,
+    .title {
+      font-size: $fs-p !important;
+    }
+  }
+}
+
+.info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  .description {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: calc($bp-sm + 100px)){
+   flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
   }
 }
 

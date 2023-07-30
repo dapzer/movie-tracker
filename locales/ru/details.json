@@ -4,6 +4,8 @@
   "movie_details": {
     "movie_description": "Описание фильма",
     "series_description": "Описание сериала",
+    "episode_description": "Описание эпизода",
+    "episode_number": "Номер эпизода",
     "release_date": "Дата выхода:",
     "videos_title": "Видеоматериалы",
     "actors_title": "Актёры",
@@ -24,6 +26,8 @@
     "movie_runtime": "Длительность:",
     "runtime_mins": "мин.",
     "user_score": "Оценка пользователей:",
+    "episode_list": "Список эпизодов",
+    "list_of_episodes": "Список эпизодов сериала «{{title}}»",
     "series_statuses": {
       "canceled": "Отменён",
       "ended": "Завершён",

@@ -1,0 +1,13 @@
+@import "@/styles/variables";
+
+.list {
+  margin-top: 12px;
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+
+  span {
+    color: $c-secondary;
+  }
+}
+

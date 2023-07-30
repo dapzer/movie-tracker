@@ -1,3 +1,5 @@
+import { SeasonDetails } from '@/types/SeasonDetails';
+
 export module Details {
   export interface CreatedBy {
     id: number;
@@ -77,6 +79,8 @@ export module Details {
     name: string;
   }
 
+  export type SeasonKey = `season/${number}`;
+
   export interface RootObject {
     adult: boolean;
     backdrop_path: string;
@@ -120,5 +124,7 @@ export module Details {
     original_title: string;
     imdb_id: string;
     budget: number;
+
+    [key: SeasonKey]: SeasonDetails.RootObject | undefined;
   }
 }

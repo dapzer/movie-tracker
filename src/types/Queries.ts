@@ -1,9 +1,9 @@
 export module Queries {
-  type Language = string
-  type SearchValue = string
-  type Page = number
-  type MediaType = string
-  type MediaId = number
+  type Language = string;
+  type SearchValue = string;
+  type Page = number;
+  type MediaType = string;
+  type MediaId = number;
 
   export interface Search {
     language: Language;
@@ -20,6 +20,8 @@ export module Queries {
     language: Language;
     mediaType: MediaType;
   }
+
+  export interface Seasons extends RootObject {}
 
   export interface RootObject {
     language: Language;

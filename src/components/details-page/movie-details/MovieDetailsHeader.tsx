@@ -110,7 +110,10 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
             {t('movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
           </li>
           <li>
-            {t('movie_details.episodes_count')} <span>{details.number_of_episodes}</span>
+            {t('movie_details.episodes_count')}{' '}
+            <span>
+              {details.number_of_episodes} (<Link href={`/details/${mediaType}/${details.id}/seasons`}>{t('movie_details.episode_list')}</Link>)
+            </span>
           </li>
         </>
       )}

@@ -25,11 +25,11 @@ const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
   const data = useGetFavoriteItemsDetail(favoriteList, lang);
 
   return (
-    <UiDetails title={title} btnClass={'ui-details_large'} isOpenedDefault>
+    <UiDetails title={title} isLarge isOpenedDefault>
       <Masonry
         breakpointCols={breakpointColumnsObj}
-        className='searching-results-masonry__row'
-        columnClassName='searching-results-masonry__row-column'
+        className="searching-results-masonry__row"
+        columnClassName="searching-results-masonry__row-column"
       >
         {data &&
           data.map((value, index) =>
@@ -39,7 +39,7 @@ const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
               </CardSkeleton>
             ) : (
               value.data && <FavoriteCard key={`favorite-item-${value.data.id}`} details={value.data} />
-            ),
+            )
           )}
       </Masonry>
     </UiDetails>
