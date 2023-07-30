@@ -4,6 +4,8 @@
   "movie_details": {
     "movie_description": "Movie description",
     "series_description": "Description of the series",
+    "episode_description": "Episode description",
+    "episode_number": "Episode number",
     "release_date": "Release date:",
     "videos_title": "Videos",
     "actors_title": "Actors",
@@ -23,7 +25,9 @@
     "series_runtime": "Series duration:",
     "movie_runtime": "Duration:",
     "runtime_mins": "mins.",
-    "user_score": "User score:"
+    "user_score": "User score:",
+    "episode_list": "Episode list",
+    "list_of_episodes": "List of episodes of the series «{{title}}»"
   },
   "person_details": {
     "biography": "Biography",

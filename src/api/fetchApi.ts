@@ -7,6 +7,7 @@ import { Details } from '@/types/Details';
 import { Videos } from '@/types/Videos';
 import { Credits } from '@/types/Credits';
 import { Queries } from '@/types/Queries';
+import { SeasonDetails } from '@/types/SeasonDetails';
 
 const getApiUrl = generateApiUrl(process.env.NEXT_PUBLIC_API_URL || '', {
   api_key: process.env.NEXT_PUBLIC_API_KEY || '',
@@ -45,9 +46,7 @@ export const detailApi = async <T = Details.RootObject>(queries: Queries.RootObj
 };
 
 export const creditsApi = async (queries: Queries.RootObject) => {
-  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/${
-    queries.mediaType === ContentNames.Series ? 'aggregate_credits' : 'credits'
-  }`, {
+  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/${queries.mediaType === ContentNames.Series ? 'aggregate_credits' : 'credits'}`, {
     language: queries.language,
   });
 
@@ -63,7 +62,6 @@ export const personCreditsApi = async (queries: Queries.PersonCredits) => {
 };
 
 export const trendsApi = async (queries: Queries.Trends) => {
-
   const url = getApiUrl(`/${queries.mediaType}/popular`, {
     language: queries.language,
     page: 1,
@@ -87,4 +85,55 @@ export const videosApi = async (queries: Queries.RootObject) => {
   });
 
   return await getResponse<Videos.RootObject>(url);
+};
+
+export const seasonsApi = async (queries: Queries.Seasons): Promise<SeasonDetails.RootObjectWithDetails> => {
+  let details = {} as Details.RootObject;
+  const result: SeasonDetails.RootObject[] = [];
+
+  const maxSeasonsInRequest = 20;
+  let cursor = 0;
+
+  while (true) {
+    const start = cursor * maxSeasonsInRequest;
+    const end = Math.min(start + maxSeasonsInRequest);
+
+    const seasonQuery = Array.from({ length: maxSeasonsInRequest }, (_, index) => `season/${start + index + 1}`);
+
+    const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}`, {
+      language: queries.language,
+      append_to_response: seasonQuery.join(','),
+    });
+    const res = await getResponse<Details.RootObject>(url);
+
+    if (res) {
+      const seasons: SeasonDetails.RootObject[] = [];
+
+      for (let j = start; j <= end; j++) {
+        const seasonTitle: Details.SeasonKey = `season/${j}`;
+
+        if (seasonTitle in res) {
+          seasons.push(res[seasonTitle] as SeasonDetails.RootObject);
+
+          if (cursor === 0) {
+            delete res[seasonTitle];
+          }
+        }
+      }
+
+      if (cursor === 0) {
+        details = res;
+      }
+
+      result.push(...seasons);
+    }
+
+    cursor++;
+    if (details && end >= details.number_of_seasons) break;
+  }
+
+  return {
+    details,
+    seasons: result,
+  };
 };

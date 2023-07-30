@@ -1,18 +1,11 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { Details } from '@/types/Details';
-import {
-  creditsApi,
-  detailApi,
-  personCreditsApi,
-  recommendationsApi,
-  searchApi,
-  trendsApi,
-  videosApi,
-} from '@/api/fetchApi';
+import { creditsApi, detailApi, personCreditsApi, recommendationsApi, searchApi, seasonsApi, trendsApi, videosApi } from '@/api/fetchApi';
 import { Person } from '@/types/Person';
 import { FavoriteList } from '@/types/FavoriteList';
 import { Videos } from '@/types/Videos';
 import { useCallback } from 'react';
+import { SeasonDetails } from '@/types/SeasonDetails';
 
 export const useGetMovieDetails = (mediaId: number, mediaType: string, language: string, initialData?: Details.RootObject) =>
   useQuery({
@@ -52,9 +45,8 @@ export const useGetMovieCredits = (mediaId: number, mediaType: string, language:
         language,
       },
     ],
-    () => creditsApi({ mediaId, mediaType, language }),
+    () => creditsApi({ mediaId, mediaType, language })
   );
-
 
 export const useGetPersonCredits = (personId: number, language: string) =>
   useQuery(
@@ -65,7 +57,7 @@ export const useGetPersonCredits = (personId: number, language: string) =>
         language,
       },
     ],
-    () => personCreditsApi({ personId, language }),
+    () => personCreditsApi({ personId, language })
   );
 
 export const useGetRecommendations = (mediaId: number, mediaType: string, language: string) =>
@@ -78,7 +70,7 @@ export const useGetRecommendations = (mediaId: number, mediaType: string, langua
         language,
       },
     ],
-    () => recommendationsApi({ mediaId, mediaType, language }),
+    () => recommendationsApi({ mediaId, mediaType, language })
   );
 
 export const useGetFavoriteItemsDetail = (favoriteList: FavoriteList.RootObject[], language: string) =>
@@ -93,11 +85,12 @@ export const useGetFavoriteItemsDetail = (favoriteList: FavoriteList.RootObject[
             language,
           },
         ],
-        queryFn: () => detailApi({
-          mediaType: item.mediaType,
-          mediaId: item.id,
-          language,
-        }),
+        queryFn: () =>
+          detailApi({
+            mediaType: item.mediaType,
+            mediaId: item.id,
+            language,
+          }),
       };
     }),
   });
@@ -124,7 +117,7 @@ export const useGetSearchByTerm = (searchValue: string, language: string, page: 
         language,
       },
     ],
-    () => searchApi({ searchValue, page, language }),
+    () => searchApi({ searchValue, page, language })
   );
 
 export const useGetVideos = (mediaId: number, mediaType: string, language: string) =>
@@ -138,11 +131,23 @@ export const useGetVideos = (mediaId: number, mediaType: string, language: strin
       },
     ],
     queryFn: () => videosApi({ mediaId, mediaType, language }),
-    select: useCallback(
-      (data: Videos.RootObject | null) => {
-        if (!data) return null;
-        data.results = data.results.sort((a, b) => a.type === 'Trailer' || a.type === 'Teaser' ? -1 : 1);
-        return data;
-      }, [],
-    ),
+    select: useCallback((data: Videos.RootObject | null) => {
+      if (!data) return null;
+      data.results = data.results.sort((a, b) => (a.type === 'Trailer' || a.type === 'Teaser' ? -1 : 1));
+      return data;
+    }, []),
+  });
+
+export const useGetTvSeriesDetails = (mediaId: number, mediaType: string, language: string, initialData?: SeasonDetails.RootObject[]) =>
+  useQuery({
+    queryKey: [
+      'getTvSeriesDetails',
+      {
+        mediaId,
+        mediaType,
+        language,
+      },
+    ],
+    queryFn: () => seasonsApi({ mediaId, mediaType, language }).then((data) => data.seasons),
+    initialData: initialData,
   });

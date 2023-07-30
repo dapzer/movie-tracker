@@ -76,37 +76,43 @@ img {
   height: 100%;
 }
 
-h1 {
+h1,
+.h1 {
   color: $c-secondary;
   font-size: $fs-h1;
   font-weight: $fw-bold;
 }
 
-h2 {
+h2,
+.h2 {
   color: $c-secondary;
   font-size: $fs-h2;
   font-weight: $fw-bold;
 }
 
-h3 {
+h3,
+.h3 {
   color: $c-secondary;
   font-size: $fs-h3;
   font-weight: $fw-medium;
 }
 
-p {
+p,
+.p{
   color: $c-text;
   font-size: $fs-p;
   font-weight: $fw-medium;
 }
 
-span {
+span,
+.span {
   color: $c-text;
   font-size: $fs-span;
   font-weight: $fw-light;
 }
 
-a {
+a,
+.a{
   color: $c-secondary;
   font-size: $fs-p;
   font-weight: $fw-regular;
@@ -152,22 +158,6 @@ button {
   font-size: $fs-p;
   cursor: pointer;
   color: $c-secondary;
-}
-
-.ui-details_large {
-  position: sticky;
-  top: $s-header-height;
-  z-index: 25;
-  border: none !important;
-  justify-content: space-between !important;
-  margin-bottom: 20px !important;
-  font-size: $fs-h3 !important;
-  border-bottom: 2px solid $c-text !important;
-  @include fullWidthBg($c-background);
-
-  @media screen and (max-width: $bp-sm){
-    font-size: $fs-p !important;
-  }
 }
 
 .modal-open-btn {
