@@ -36,15 +36,14 @@
 
   @include fullWidthBg($c-background);
 
-  .title {
-    font-size: $fs-h3;
-    color: $c-secondary;
-  }
-
   svg {
     font-size: $fs-h3;
   }
 
+  .title {
+    font-size: $fs-h3;
+    color: $c-secondary;
+  }
   @media screen and (max-width: $bp-sm) {
     .title {
       font-size: $fs-p !important;
