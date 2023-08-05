@@ -45,14 +45,16 @@ export const SeasonsDetails = ({ mediaType, locale, initialData }: SeasonsDetail
           <p>
             {t('details:movie_details.episodes_count')} <span>{details.number_of_episodes}</span>
           </p>
-          <p>
-            {t('details:movie_details.total_viewing_time')}{' '}
-            <span>
-              {!!totalDuration.days && `${totalDuration.days} ${t('general:days')}`}{' '}
-              {!!totalDuration.hours && `${totalDuration.hours} ${t('general:hours')}`}{' '}
-              {!!totalDuration.minutes && `${totalDuration.minutes} ${t('general:minutes')}`}
-            </span>
-          </p>
+          {(!!totalDuration.minutes || totalDuration.hours || !!totalDuration.days) && (
+            <p>
+              {t('details:movie_details.total_viewing_time')}{' '}
+              <span>
+                {!!totalDuration.days && `${totalDuration.days} ${t('general:days')}`}{' '}
+                {!!totalDuration.hours && `${totalDuration.hours} ${t('general:hours')}`}{' '}
+                {!!totalDuration.minutes && `${totalDuration.minutes} ${t('general:minutes')}`}
+              </span>
+            </p>
+          )}
         </div>
       )}
       {seasons && !isLoadingSeasons && seasons?.map((el, index) => <SeasonDetailsItem key={index} season={el} />)}
