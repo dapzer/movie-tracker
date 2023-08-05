@@ -32,7 +32,8 @@
     "series_statuses": {
       "canceled": "Отменён",
       "ended": "Завершён",
-      "returning series": "В производстве"
+      "returning series": "В производстве",
+      "in production": "В производстве"
     }
   },
   "person_details": {
