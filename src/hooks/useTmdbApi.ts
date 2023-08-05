@@ -148,6 +148,6 @@ export const useGetTvSeriesDetails = (mediaId: number, mediaType: string, langua
         language,
       },
     ],
-    queryFn: () => seasonsApi({ mediaId, mediaType, language }).then((data) => data.seasons),
+    queryFn: () => seasonsApi({ mediaId, mediaType, language }).then((data) => data?.seasons),
     initialData: initialData,
   });

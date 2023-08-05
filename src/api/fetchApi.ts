@@ -87,7 +87,7 @@ export const videosApi = async (queries: Queries.RootObject) => {
   return await getResponse<Videos.RootObject>(url);
 };
 
-export const seasonsApi = async (queries: Queries.Seasons): Promise<SeasonDetails.RootObjectWithDetails> => {
+export const seasonsApi = async (queries: Queries.Seasons): Promise<SeasonDetails.RootObjectWithDetails | null> => {
   let details = {} as Details.RootObject;
   const result: SeasonDetails.RootObject[] = [];
 
@@ -126,10 +126,12 @@ export const seasonsApi = async (queries: Queries.Seasons): Promise<SeasonDetail
       }
 
       result.push(...seasons);
+    } else {
+      return null;
     }
 
-    cursor++;
     if (details && end >= details.number_of_seasons) break;
+    cursor++;
   }
 
   return {
