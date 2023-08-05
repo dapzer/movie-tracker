@@ -10,4 +10,10 @@
       color: $c-secondary;
     }
   }
+
+  .title a {
+    font-size: 1em;
+    font-weight: $fw-bold;
+    border-bottom: 1px solid $c-secondary;
+  }
 }

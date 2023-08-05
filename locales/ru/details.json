@@ -27,7 +27,7 @@
     "runtime_mins": "мин.",
     "user_score": "Оценка пользователей:",
     "episode_list": "Список эпизодов",
-    "list_of_episodes": "Список эпизодов сериала «{{title}}»",
+    "list_of_episodes": "Список эпизодов сериала",
     "total_viewing_time": "Общее время просмотра:",
     "series_statuses": {
       "canceled": "Отменён",

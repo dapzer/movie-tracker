@@ -5,6 +5,8 @@ import { SeasonDetailsItem } from '@/components/details-page/seasons-details/sea
 import styles from './seasons-details.module.scss';
 import { useMemo } from 'react';
 import { minsToTimeConverter } from '@/utils/minsToTimeConverter';
+import Link from 'next/link';
+import { ContentNames } from '@/types/Enums';
 
 interface SeasonsDetailsProps {
   initialData: SeasonDetails.RootObjectWithDetails;
@@ -33,7 +35,10 @@ export const SeasonsDetails = ({ mediaType, locale, initialData }: SeasonsDetail
     <div>
       {details && (
         <div className={styles['details']}>
-          <h2>{t('details:movie_details.list_of_episodes', { title: details.title || details.name })}</h2>
+          <h2 className={styles['title']}>
+            {t('details:movie_details.list_of_episodes')} «
+            <Link href={`/details/${ContentNames.Series}/${details.id}`}>{details.title || details.name}</Link>»
+          </h2>
           <p>
             {t('details:movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
           </p>

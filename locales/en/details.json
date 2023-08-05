@@ -27,7 +27,7 @@
     "runtime_mins": "mins.",
     "user_score": "User score:",
     "episode_list": "Episode list",
-    "list_of_episodes": "List of episodes of the series «{{title}}»",
+    "list_of_episodes": "List of episodes of the series",
     "total_viewing_time": "Total viewing time:"
   },
   "person_details": {
