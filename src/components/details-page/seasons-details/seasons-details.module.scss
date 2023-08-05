@@ -1,5 +1,13 @@
+@import "src/styles/variables";
+
 .details {
   display: flex;
   flex-direction: column;
   gap: 5px;
+
+  p {
+    span {
+      color: $c-secondary;
+    }
+  }
 }

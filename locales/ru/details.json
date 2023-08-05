@@ -28,6 +28,7 @@
     "user_score": "Оценка пользователей:",
     "episode_list": "Список эпизодов",
     "list_of_episodes": "Список эпизодов сериала «{{title}}»",
+    "total_viewing_time": "Общее время просмотра:",
     "series_statuses": {
       "canceled": "Отменён",
       "ended": "Завершён",

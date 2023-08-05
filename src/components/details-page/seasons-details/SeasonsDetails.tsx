@@ -3,6 +3,8 @@ import { useGetMovieDetails, useGetTvSeriesDetails } from '@/hooks/useTmdbApi';
 import useTranslation from 'next-translate/useTranslation';
 import { SeasonDetailsItem } from '@/components/details-page/seasons-details/seasons-details-item/SeasonDetailsItem';
 import styles from './seasons-details.module.scss';
+import { useMemo } from 'react';
+import { minsToTimeConverter } from '@/utils/minsToTimeConverter';
 
 interface SeasonsDetailsProps {
   initialData: SeasonDetails.RootObjectWithDetails;
@@ -11,20 +13,40 @@ interface SeasonsDetailsProps {
 }
 
 export const SeasonsDetails = ({ mediaType, locale, initialData }: SeasonsDetailsProps) => {
-  const { t } = useTranslation('details');
+  const { t } = useTranslation('');
   const { data: details, isLoading: isLoadingDetails } = useGetMovieDetails(initialData.details.id, mediaType, locale, initialData.details);
   const { data: seasons, isLoading: isLoadingSeasons } = useGetTvSeriesDetails(initialData.details.id, mediaType, locale, initialData.seasons);
+
+  const totalDuration = useMemo(() => {
+    return minsToTimeConverter(
+      seasons?.reduce((acc, season) => {
+        season.episodes.forEach((el) => {
+          acc += el.runtime;
+        });
+
+        return acc;
+      }, 0) || 0
+    );
+  }, [seasons]);
 
   return (
     <div>
       {details && (
         <div className={styles['details']}>
-          <h2>{t('movie_details.list_of_episodes', { title: details.title || details.name })}</h2>
+          <h2>{t('details:movie_details.list_of_episodes', { title: details.title || details.name })}</h2>
           <p>
-            {t('movie_details.seasons_count')} {details.number_of_seasons}
+            {t('details:movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
           </p>
           <p>
-            {t('movie_details.episodes_count')} {details.number_of_episodes}
+            {t('details:movie_details.episodes_count')} <span>{details.number_of_episodes}</span>
+          </p>
+          <p>
+            {t('details:movie_details.total_viewing_time')}{' '}
+            <span>
+              {!!totalDuration.days && `${totalDuration.days} ${t('general:days')}`}{' '}
+              {!!totalDuration.hours && `${totalDuration.hours} ${t('general:hours')}`}{' '}
+              {!!totalDuration.minutes && `${totalDuration.minutes} ${t('general:minutes')}`}
+            </span>
           </p>
         </div>
       )}
