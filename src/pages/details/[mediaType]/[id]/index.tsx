@@ -7,6 +7,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { Person } from '@/types/Person';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 const Details: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ details, mediaType, locale }) => {
   const router = useRouter();
@@ -21,13 +22,15 @@ const Details: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
         openGraph={{ url: `https://movie-tracker.dapzer.ru${router.asPath}` }}
       />
 
-      {details ? <DetailsPageContainer details={details} mediaType={mediaType} locale={locale} />
-        : (
-          <div className={'container'}>
-            <h2>{t('getDetails')}</h2>
-          </div>
-        )
-      }
+      {details ? (
+        <DetailsPageContainer details={details} mediaType={mediaType} locale={locale} />
+      ) : (
+        <div className={'container'}>
+          <Typography as="h2" variant="title2">
+            {t('getDetails')}
+          </Typography>
+        </div>
+      )}
     </>
   );
 };
@@ -44,5 +47,4 @@ export async function getServerSideProps({ query, locale }: NextPageContext) {
   return {
     props: { details: data, mediaType: query.mediaType as string, locale: locale as string },
   };
-
 }

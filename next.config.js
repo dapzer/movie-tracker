@@ -19,5 +19,5 @@ const nextConfig = {
     return config;
   },
 };
-''
+
 module.exports = nextTranslate(nextConfig);

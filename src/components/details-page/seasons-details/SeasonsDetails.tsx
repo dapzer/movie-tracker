@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { minsToTimeConverter } from '@/utils/minsToTimeConverter';
 import Link from 'next/link';
 import { ContentNames } from '@/types/Enums';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface SeasonsDetailsProps {
   initialData: SeasonDetails.RootObjectWithDetails;
@@ -32,32 +33,41 @@ export const SeasonsDetails = ({ mediaType, locale, initialData }: SeasonsDetail
   }, [seasons]);
 
   return (
-    <div>
+    <>
       {details && (
-        <div className={styles['details']}>
-          <h2 className={styles['title']}>
+        <section className={styles['details']}>
+          <Typography as="h1" variant="title2" className={styles['title']}>
             {t('details:movie_details.list_of_episodes')} «
-            <Link href={`/details/${ContentNames.Series}/${details.id}`}>{details.title || details.name}</Link>»
-          </h2>
-          <p>
-            {t('details:movie_details.seasons_count')} <span>{details.number_of_seasons}</span>
-          </p>
-          <p>
-            {t('details:movie_details.episodes_count')} <span>{details.number_of_episodes}</span>
-          </p>
+            <Typography as={Link} variant="linkUnderlined" href={`/details/${ContentNames.Series}/${details.id}`}>
+              {details.title || details.name}
+            </Typography>
+            »
+          </Typography>
+          <Typography>
+            {t('details:movie_details.seasons_count')}{' '}
+            <Typography as="span" variant="listItem">
+              {details.number_of_seasons}
+            </Typography>
+          </Typography>
+          <Typography>
+            {t('details:movie_details.episodes_count')}{' '}
+            <Typography as="span" variant="listItem">
+              {details.number_of_episodes}
+            </Typography>
+          </Typography>
           {(!!totalDuration.minutes || totalDuration.hours || !!totalDuration.days) && (
-            <p>
+            <Typography>
               {t('details:movie_details.total_viewing_time')}{' '}
-              <span>
+              <Typography as="span" variant="listItem">
                 {!!totalDuration.days && `${totalDuration.days} ${t('general:days')}`}{' '}
                 {!!totalDuration.hours && `${totalDuration.hours} ${t('general:hours')}`}{' '}
                 {!!totalDuration.minutes && `${totalDuration.minutes} ${t('general:minutes')}`}
-              </span>
-            </p>
+              </Typography>
+            </Typography>
           )}
-        </div>
+        </section>
       )}
       {seasons && !isLoadingSeasons && seasons?.map((el, index) => <SeasonDetailsItem key={index} season={el} />)}
-    </div>
+    </>
   );
 };

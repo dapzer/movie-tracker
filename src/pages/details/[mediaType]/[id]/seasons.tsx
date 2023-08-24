@@ -4,6 +4,7 @@ import { SeasonsPageContainer } from '@/components/containers/seasons-page/Seaso
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 type SeasonsProps = NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>;
 
@@ -24,7 +25,9 @@ const Seasons: SeasonsProps = ({ data, mediaType, locale }) => {
         <SeasonsPageContainer data={data} mediaType={mediaType} locale={locale} />
       ) : (
         <div className={'container'}>
-          <h2>{t('getDetails')}</h2>
+          <Typography as="h1" variant="title2">
+            {t('getDetails')}
+          </Typography>
         </div>
       )}
     </div>

@@ -18,10 +18,9 @@
     color: $c-secondary;
   }
 
-  svg {
-    width: $fs-span;
+  .arrow {
     rotate: 180deg;
-    height: $fs-span;
+    width: 16px;
   }
 }
 
@@ -36,21 +35,22 @@
 
   @include fullWidthBg($c-background);
 
-  svg {
-    font-size: $fs-h3;
+  .arrow {
+    width: 24px;
   }
 
   .title {
     font-size: $fs-h3;
     color: $c-secondary;
   }
+
   @media screen and (max-width: $bp-sm) {
     .title {
       font-size: $fs-p !important;
     }
 
-    svg {
-      font-size: $fs-span;
+    .arrow {
+      width: 16px;
     }
   }
 }
@@ -61,7 +61,7 @@
   align-items: center;
 
   .description {
-    font-size: 16px;
+    font-size: $fs-span;
   }
 
   @media screen and (max-width: calc($bp-sm + 100px)) {
@@ -78,10 +78,9 @@
 .arrow {
   display: flex;
   align-items: center;
-}
 
-.arrow_active {
-  svg {
+  &_active {
     rotate: 0deg !important;
   }
 }
+

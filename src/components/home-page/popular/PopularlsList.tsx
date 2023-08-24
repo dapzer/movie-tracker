@@ -6,6 +6,7 @@ import Masonry from 'react-masonry-css';
 import CardSkeleton from '@/lib/loading-skeleton/CardSkeleton';
 import MovieCard from '@/components/core/movie-card/MovieCard';
 import { useGetPopularList } from '@/hooks/useTmdbApi';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   mediaType: string;
@@ -26,7 +27,9 @@ const PopularlsList: FC<Props> = ({ mediaType, title }) => {
 
   return (
     <div>
-      <h2 className={styles['title']}>{title}</h2>
+      <Typography as="h2" variant="title2" className={styles['title']}>
+        {title}
+      </Typography>
 
       {isLoading && (
         <div className={styles['row']}>
@@ -58,8 +61,8 @@ const PopularlsList: FC<Props> = ({ mediaType, title }) => {
             <div className={styles['modal_list']}>
               <Masonry
                 breakpointCols={breakpointColumnsObj}
-                className='searching-results-masonry__row'
-                columnClassName='searching-results-masonry__row-column'
+                className="searching-results-masonry__row"
+                columnClassName="searching-results-masonry__row-column"
               >
                 {popular.results.map((item) => (
                   <MovieCard

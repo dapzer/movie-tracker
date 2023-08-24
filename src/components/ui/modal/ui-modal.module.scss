@@ -31,7 +31,7 @@
 
     button {
       background: none;
-      border:none;
+      border: none;
       cursor: pointer;
 
       svg {
@@ -53,5 +53,22 @@
     &_fullWidth {
       width: 100% !important;
     }
+  }
+}
+
+.open-btn {
+  text-decoration: underline;
+
+  &__default {
+    width: 100%;
+    margin-top: 10px;
+    font-size: $fs-span;
+    text-align: left;
+    text-decoration: underline;
+  }
+
+  &:hover {
+    color: $c-highlight;
+    border-color: $c-highlight;
   }
 }

@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import styles from './ui-details.module.scss';
 import { ArrowIcon } from '@/components/ui/Icons';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   children: React.ReactNode;
@@ -17,10 +18,10 @@ const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, i
     <div>
       <button className={`${styles['toggle_btn']} ${isLarge ? styles['large'] : ''}`} onClick={(e) => setIsOpen(!isOpen)}>
         <div className={styles['info']}>
-          <p className={styles['title']}>{title}</p>
-          <p className={styles['description']}>{description}</p>
+          <Typography className={styles['title']}>{title}</Typography>
+          <Typography className={styles['description']}>{description}</Typography>
         </div>
-        <div className={`${styles['arrow']} ${isOpen && styles['arrow_active']}`}>
+        <div className={`${styles['arrow']} ${isOpen ? styles['arrow_active'] : ''}`}>
           <ArrowIcon />
         </div>
       </button>

@@ -26,27 +26,28 @@ interface Props {
 }
 
 const MovieCard: FC<Props> = ({
-                                children,
-                                image,
-                                small,
-                                horizontal,
-                                showScore,
-                                width,
-                                title,
-                                mediaType,
-                                mediaId,
-                                releaseDate,
-                                score,
-                                favoriteBtn,
-                                dateTitle,
-                              }) => {
+  children,
+  image,
+  small,
+  horizontal,
+  showScore,
+  width,
+  title,
+  mediaType,
+  mediaId,
+  releaseDate,
+  score,
+  favoriteBtn,
+  dateTitle,
+}) => {
   const { t, lang } = useTranslation('card');
   const release = new Date(`${releaseDate}`).toLocaleDateString(lang);
   const { getFavoriteItem, isFavorite } = useFavorite(mediaId);
-  const favoriteItem = isFavorite ? getFavoriteItem(mediaId) : null
+  const favoriteItem = isFavorite ? getFavoriteItem(mediaId) : null;
 
   return (
     <UiCard
+      horizontal={horizontal}
       small={small}
       image={image}
       title={title}

@@ -4,6 +4,7 @@ import { CheckMarkIcon, CloseIcon } from '@/components/ui/Icons';
 import useTranslation from 'next-translate/useTranslation';
 import { useNote } from '@/hooks/useNote';
 import { FavoriteList } from '@/types/FavoriteList';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   maxLength: number;
@@ -16,13 +17,12 @@ const Note: FC<Props> = ({ maxLength, favoriteItem }) => {
 
   return (
     <div className={styles['body']}>
-      <textarea placeholder={t('tracking_menu.note')}
-                value={note}
-                onChange={(event) => setNote(event.target.value)}
-                maxLength={maxLength} />
+      <textarea placeholder={t('tracking_menu.note')} value={note} onChange={(event) => setNote(event.target.value)} maxLength={maxLength} />
 
       <div className={styles['block']}>
-        <span>{t('tracking_menu.max_note_length')} {note.length}/{maxLength}</span>
+        <Typography as="span" variant="textSmall">
+          {t('tracking_menu.max_note_length')} {note.length}/{maxLength}
+        </Typography>
 
         <div className={styles['controls']}>
           <button onClick={saveNote}>

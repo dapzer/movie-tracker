@@ -76,55 +76,9 @@ img {
   height: 100%;
 }
 
-h1,
-.h1 {
-  color: $c-secondary;
-  font-size: $fs-h1;
-  font-weight: $fw-bold;
-}
-
-h2,
-.h2 {
-  color: $c-secondary;
-  font-size: $fs-h2;
-  font-weight: $fw-bold;
-}
-
-h3,
-.h3 {
-  color: $c-secondary;
-  font-size: $fs-h3;
-  font-weight: $fw-medium;
-}
-
-p,
-.p{
-  color: $c-text;
-  font-size: $fs-p;
-  font-weight: $fw-medium;
-}
-
-span,
-.span {
-  color: $c-text;
-  font-size: $fs-span;
-  font-weight: $fw-light;
-}
-
 a,
 .a{
-  color: $c-secondary;
-  font-size: $fs-p;
-  font-weight: $fw-regular;
-  cursor: pointer;
   text-decoration: none;
-  height: fit-content;
-  line-height: 1;
-
-  &:hover {
-    color: $c-highlight;
-    border-color: $c-highlight !important;
-  }
 }
 
 textarea,
@@ -158,19 +112,6 @@ button {
   font-size: $fs-p;
   cursor: pointer;
   color: $c-secondary;
-}
-
-.modal-open-btn {
-  width: 100%;
-  margin-top: 10px;
-  font-size: $fs-span;
-  text-align: left;
-  text-decoration: underline;
-
-  &:hover {
-    color: $c-highlight;
-    border-color: $c-highlight;
-  }
 }
 
 .detail-full-cast-btn {
@@ -240,9 +181,8 @@ button {
 }
 
 .login-btn {
-  //font-size: $h3;
   padding: 7px 10px;
-  text-decoration: none;
+  text-decoration: none !important;
   margin-top: unset;
   background: $c-primary;
   font-size: $fs-span;

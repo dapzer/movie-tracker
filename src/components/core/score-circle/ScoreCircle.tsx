@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styles from './score-circle.module.scss';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   value: number;
@@ -48,7 +49,9 @@ const ScoreCircle: FC<Props> = ({ value }) => {
           } as React.CSSProperties
         }
       >
-        <span>{value}</span>
+        <Typography as="span" variant="textSmall">
+          {value}
+        </Typography>
       </div>
     </div>
   );

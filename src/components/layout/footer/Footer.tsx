@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import styles from './footer.module.scss';
+import { Typography } from '@/components/ui/typography/UiTypography';
+import Link from 'next/link';
 
 interface Props {}
 
@@ -27,16 +29,17 @@ const Footer: FC<Props> = () => {
       <div className={'container'}>
         <ul>
           <li>
-            Created by: <span>Danila Voronkov</span>
+            Created by:{' '}
+            <Typography variant="listItem" as="span">
+              Danila Voronkov
+            </Typography>
           </li>
           {contacts.map((el, index) => (
             <li key={`footer-link-${index}`}>
               {el.title}{' '}
-              <span>
-                <a href={el.link} target="_blank" rel="noreferrer">
-                  {el.value}
-                </a>
-              </span>
+              <Typography as={Link} variant="link" href={el.link} target="_blank" rel="noreferrer">
+                {el.value}
+              </Typography>
             </li>
           ))}
         </ul>

@@ -2,21 +2,21 @@ import React, { FC } from 'react';
 import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
-}
+interface Props {}
 
 const LocaleSelect: FC<Props> = () => {
   const router = useRouter();
   return (
     <div className={styles['locale-select']}>
-      <Link href={router.asPath} locale={'ru'} className={`${router.locale === 'ru' && styles['active']}`}>
+      <Typography as={Link} variant="link" href={router.asPath} locale={'ru'} className={`${router.locale === 'ru' && styles['active']}`}>
         Ru
-      </Link>
+      </Typography>
       <div></div>
-      <Link href={router.asPath} locale={'en'} className={`${router.locale === 'en' && styles['active']}`}>
+      <Typography as={Link} variant="link" href={router.asPath} locale={'en'} className={`${router.locale === 'en' && styles['active']}`}>
         En
-      </Link>
+      </Typography>
     </div>
   );
 };

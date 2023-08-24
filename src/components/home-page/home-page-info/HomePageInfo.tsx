@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './home-page-info.module.scss';
+import { Typography } from '@/components/ui/typography/UiTypography';
+import Link from 'next/link';
 
 interface Props {}
 
@@ -32,21 +34,25 @@ const HomePageInfo: FC<Props> = () => {
 
   return (
     <section className={styles['content']}>
-      <h2>{t('page_title')}</h2>
+      <Typography as="h2" variant="title2">
+        {t('page_title')}
+      </Typography>
       {t('about_service')
         .split('\n\n')
         .map((el, index) => (
-          <p key={`info-p-${index}`}>{el}</p>
+          <Typography key={`info-p-${index}`}>{el}</Typography>
         ))}
 
-      <h3>{t('socials')}</h3>
+      <Typography as="h3" variant="title3">
+        {t('socials')}
+      </Typography>
 
       <ul className={styles['socials']}>
         {socials[lang as keyof typeof socials].map((el, index) => (
           <li key={`social-link-${index}`}>
-            <a href={el.link} target="_blank" rel="noreferrer">
+            <Typography as={Link} variant="link" href={el.link} target="_blank" rel="noreferrer">
               {el.title}
-            </a>
+            </Typography>
           </li>
         ))}
       </ul>

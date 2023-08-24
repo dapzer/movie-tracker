@@ -13,10 +13,9 @@
     top: 50%;
     transform: translateY(-15%) scale(-1, 1);
     pointer-events: none;
-    font-size: $fs-p;
     color: $c-text;
-    height: $fs-p;
-    width: $fs-p;
+    height: 25px;
+    width: 25px;
   }
 
   input {
@@ -29,14 +28,14 @@
 
   .clear_btn {
     position: absolute;
-
     right: 20px;
     top: 50%;
     transform: translateY(-5%);
+
     svg {
       color: $c-text;
-      height: 0.8em;
-      width: 0.8em;
+      height: 16px;
+      width: 16px;
     }
 
   }

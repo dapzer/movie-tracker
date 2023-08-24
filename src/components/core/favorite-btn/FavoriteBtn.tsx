@@ -33,7 +33,9 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => 
     <>
       <button
         onClick={() => handleFavoriteStatus()}
-        className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${asListTrigger && isFavorite ? styles['button_without_hover'] : ''} ${className} ${styles['button']}`}
+        className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${
+          asListTrigger && isFavorite ? styles['button_without_hover'] : ''
+        } ${className} ${styles['button']}`}
       >
         {!isFavorite && (
           <>
@@ -56,7 +58,7 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => 
           </>
         )}
       </button>
-      {showLogin && <LoginModal isOpenedDefault={true} customHandler={setShowLogin} />}
+      {showLogin && <LoginModal isOpenedDefault customHandler={setShowLogin} />}
     </>
   );
 };

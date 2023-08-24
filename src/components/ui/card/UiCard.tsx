@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styles from './ui-card.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   image?: string;
@@ -29,8 +30,10 @@ const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, li
         </Link>
       </div>
       <div className={styles['info']}>
-        <span className={styles['release']}>{date}</span>
-        <p className={styles['title']}>{title}</p>
+        <Typography as="span" variant="textSmall" className={styles['release']}>
+          {date}
+        </Typography>
+        <Typography className={styles['title']}>{title}</Typography>
         {children}
       </div>
     </div>
