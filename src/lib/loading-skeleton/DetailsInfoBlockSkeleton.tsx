@@ -1,19 +1,20 @@
 import React, { FC } from 'react';
 import styles from '@/components/details-page/movie-details/movie-details.module.scss';
 import Skeleton from 'react-loading-skeleton';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
 const DetailsInfoBlockSkeleton: FC<Props> = () => {
   return (
     <section className={styles['info_block']}>
-      <h2>
+      <Typography as="h2" variant="title2">
         <Skeleton style={{ maxWidth: '250px' }} />
-      </h2>
+      </Typography>
 
-      <p>
+      <Typography>
         <Skeleton count={3} />
-      </p>
+      </Typography>
     </section>
   );
 };

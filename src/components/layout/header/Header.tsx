@@ -8,6 +8,7 @@ import AuthBtn from './AuthBtn';
 import UserProfile from './user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 const Header: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,9 +28,9 @@ const Header: FC = () => {
       <div className={`${styles['content']} container`}>
         {!isOpen && (
           <nav className={styles['logo_links']}>
-            <Link href="/">
-                <h3 className={styles['logo']}>Movie Tracker</h3>
-            </Link>
+            <Typography as={Link} variant="title3" className={styles['logo']} href="/">
+              Movie Tracker
+            </Typography>
             <LocaleSelect />
           </nav>
         )}

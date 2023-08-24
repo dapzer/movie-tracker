@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import styles from '@/components/ui/card/ui-card.module.scss';
 import Skeleton from 'react-loading-skeleton';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   width?: string;
@@ -17,12 +18,12 @@ const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small })
         <Skeleton height={height ? height : 390} />
       </div>
       <div className={styles['info']}>
-        <span className={styles['release']}>
+        <Typography as="span" variant="textSmall" className={styles['release']}>
           <Skeleton style={{ maxWidth: '100px' }} height={'1em'} />
-        </span>
-        <p className={styles['title']}>
+        </Typography>
+        <Typography className={styles['title']}>
           <Skeleton style={{ maxWidth: '150px' }} />
-        </p>
+        </Typography>
         {children}
       </div>
     </div>

@@ -6,6 +6,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '@/hooks/useFavorite';
 import StatusSelector from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
 import { StatusesNames } from '@/types/Enums';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   image?: string;
@@ -24,14 +25,15 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
   const { getFavoriteItem, isFavorite } = useFavorite(favoriteItem?.id);
   const favoriteItemData = isFavorite ? getFavoriteItem(favoriteItem!.id) : null;
 
-
   return (
     <section className={styles['body']}>
       <div className={`${styles['title_block']} ${styles[`title_block_mobile`]}`}>
-        <h2>
+        <Typography as="h2" variant="title2">
           {title} {favoriteItem?.media_type && `(${t(`card:${favoriteItem?.media_type}`)})`}
-        </h2>
-        <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
+        </Typography>
+        <Typography as="h3" variant="title3" hidden={!isHaveOriginalName}>
+          {original_title}
+        </Typography>
       </div>
 
       <div className={styles['logo']}>
@@ -40,25 +42,29 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
             width={270}
             height={405}
-            sizes='33wv'
-            alt='Img'
+            sizes="33wv"
+            alt="Img"
           />
         </div>
         {favoriteItem && (
-          <StatusSelector mediaType={favoriteItem.media_type} id={favoriteItem.id}
-                          dropdownStyles={styles['status_selector']}
-                          currentStatus={favoriteItemData?.trackingData.currentStatus || StatusesNames.notViewed}
-                          trigger={<FavoriteBtn id={favoriteItem.id} className={styles['favorite_btn']}
-                                                mediaType={favoriteItem.media_type} asListTrigger />} />
+          <StatusSelector
+            mediaType={favoriteItem.media_type}
+            id={favoriteItem.id}
+            dropdownStyles={styles['status_selector']}
+            currentStatus={favoriteItemData?.trackingData.currentStatus || StatusesNames.notViewed}
+            trigger={<FavoriteBtn id={favoriteItem.id} className={styles['favorite_btn']} mediaType={favoriteItem.media_type} asListTrigger />}
+          />
         )}
       </div>
 
       <div className={styles['info_block']}>
         <div className={styles['title_block']}>
-          <h2>
+          <Typography as="h2" variant="title2">
             {title} {favoriteItem?.media_type && `(${t(`card:${favoriteItem?.media_type}`)})`}
-          </h2>
-          <h3 hidden={!isHaveOriginalName}>{original_title}</h3>
+          </Typography>
+          <Typography as="h3" variant="title3" hidden={!isHaveOriginalName}>
+            {original_title}
+          </Typography>
         </div>
 
         <ul className={styles['list']}>{children}</ul>

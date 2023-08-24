@@ -1,6 +1,8 @@
 import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import ModalContent from './ModalContent';
+import styles from './ui-modal.module.scss';
+import clsx from 'clsx';
 
 interface Props {
   title: string;
@@ -30,7 +32,14 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, bt
   return (
     <>
       {!isOpenedDefault && (
-        <button hidden={isOpenedDefault} className={`modal-open-btn ${btnClass && btnClass}`} onClick={() => handleVisible(true)}>
+        <button
+          hidden={isOpenedDefault}
+          className={clsx(styles['open-btn'], {
+            [styles['open-btn__default']]: !btnClass,
+            [btnClass as string]: btnClass,
+          })}
+          onClick={() => handleVisible(true)}
+        >
           {btnTitle ? btnTitle : t('more')}
         </button>
       )}

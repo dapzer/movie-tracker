@@ -2,8 +2,12 @@
 
 .unlogin {
   display: inline-block;
+  
   &_btn {
+    font-size: 1em;
     font-weight: $fw-bold;
     width: fit-content;
+    text-decoration: none !important;
+    border-bottom: 1px solid $c-secondary;
   }
 }

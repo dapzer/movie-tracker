@@ -1,15 +1,16 @@
 import React, { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import CardSkeleton from './CardSkeleton';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
 const DetailsCastSkeleton: FC<Props> = () => {
   return (
     <section>
-      <h2>
+      <Typography as="h2" variant="title2">
         <Skeleton style={{ maxWidth: '250px' }} />
-      </h2>
+      </Typography>
 
       <div className={'details-grid'}>
         {Array(6)

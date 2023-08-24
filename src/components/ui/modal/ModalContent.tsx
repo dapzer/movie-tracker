@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect } from 'react';
 import Portal from '@/components/core/Portal';
 import styles from './ui-modal.module.scss';
 import { CloseIcon } from '@/components/ui/Icons';
-
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   maxWidth?: number;
@@ -39,9 +39,11 @@ const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, ch
             onClick={(event) => event.stopPropagation()}
           >
             <div className={styles['header']}>
-              <h2>{title}</h2>
+              <Typography as="h2" variant="title2">
+                {title}
+              </Typography>
               <button onClick={() => handleVisible(false)}>
-                <CloseIcon  />
+                <CloseIcon />
               </button>
             </div>
 

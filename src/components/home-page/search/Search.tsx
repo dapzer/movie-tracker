@@ -6,6 +6,7 @@ import { useSearch } from '@/hooks/useSearch';
 import { useAppSelector } from '@/redux/hooks';
 import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
 import { CloseIcon, SearchIcon } from '@/components/ui/Icons';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   searchTitleRef: Ref<HTMLInputElement> | null;
@@ -33,7 +34,9 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
 
   return (
     <section className={styles['content']}>
-      <h3 ref={searchTitleRef}>{t('input_title')}</h3>
+      <Typography ref={searchTitleRef} as="h3" variant="title3">
+        {t('input_title')}
+      </Typography>
       <div className={styles['input_block']}>
         <input
           type="text"

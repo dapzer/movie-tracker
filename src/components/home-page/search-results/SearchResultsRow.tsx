@@ -14,6 +14,7 @@ import { useAppSelector } from '@/redux/hooks';
 import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
 import { useSearch } from '@/hooks/useSearch';
 import { useGetSearchByTerm } from '@/hooks/useTmdbApi';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   searchTitleRef: RefObject<HTMLInputElement> | null;
@@ -31,11 +32,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
   const { changePage, scrollToSearch } = useSearch();
   const { currentPage, searchTerm } = useAppSelector(selectSearchParams);
 
-  const {
-    data: searchResponse,
-    isLoading,
-    isSuccess,
-  } = useGetSearchByTerm(searchTerm, lang, currentPage);
+  const { data: searchResponse, isLoading, isSuccess } = useGetSearchByTerm(searchTerm, lang, currentPage);
 
   useEffect(() => {
     if (isSuccess && searchResponse?.results?.length && searchTitleRef) {
@@ -53,14 +50,16 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
       )}
 
       {searchResponse && (
-        <h3>{!!searchResponse.results.length ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}</h3>
+        <Typography variant="title3">
+          {!!searchResponse.results.length ? `${t('search_totalResults')} ${searchResponse?.total_results}` : t('search_notFound')}
+        </Typography>
       )}
 
       <div className={styles['items']}>
         <Masonry
           breakpointCols={breakpointColumnsObj}
-          className='searching-results-masonry__row'
-          columnClassName='searching-results-masonry__row-column'
+          className="searching-results-masonry__row"
+          columnClassName="searching-results-masonry__row-column"
         >
           {isLoading &&
             Array(20)
@@ -86,7 +85,7 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
                   showScore
                   favoriteBtn
                 />
-              ),
+              )
             )}
         </Masonry>
 

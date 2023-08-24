@@ -1,6 +1,5 @@
 import BackBtn from '@/components/core/back-btn/BackBtn';
 import React from 'react';
-import { NextPageContext } from 'next';
 import { SeasonDetails } from '@/types/SeasonDetails';
 import { SeasonsDetails } from '@/components/details-page/seasons-details/SeasonsDetails';
 

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import styles from '@/components/ui/imfo-header/ui-imfo-header.module.scss';
 import Skeleton from 'react-loading-skeleton';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
@@ -8,12 +9,12 @@ const InfoHeaderSkeleton: FC<Props> = () => {
   return (
     <section className={styles['body']}>
       <div className={`${styles['title_block']} ${styles[`title_block_mobile`]}`}>
-        <h2>
+        <Typography as="h2" variant="title2">
           <Skeleton style={{ maxWidth: '250px' }} />
-        </h2>
-        <h3>
+        </Typography>
+        <Typography as="h3" variant="title3">
           <Skeleton style={{ maxWidth: '150px' }} />
-        </h3>
+        </Typography>
       </div>
 
       <div className={styles['logo']}>
@@ -25,12 +26,12 @@ const InfoHeaderSkeleton: FC<Props> = () => {
 
       <div className={styles['info_block']}>
         <div className={styles['title_block']}>
-          <h2>
+          <Typography>
             <Skeleton style={{ maxWidth: '250px' }} />
-          </h2>
-          <h3>
+          </Typography>
+          <Typography as="h3" variant="title3">
             <Skeleton style={{ maxWidth: '150px' }} />
-          </h3>
+          </Typography>
         </div>
 
         <ul className={styles['list']}>

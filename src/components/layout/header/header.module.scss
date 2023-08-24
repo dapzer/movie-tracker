@@ -18,6 +18,11 @@
 
   .logo {
     cursor: pointer;
+    font-size: $fs-logo;
+
+    &:hover {
+      color: $c-secondary;
+    }
   }
 
   .logo_links,
@@ -81,13 +86,11 @@
 
     &:before {
       content: "";
-      //margin-top: -8px;
       position: absolute;
     }
 
     &:after {
       content: "";
-      //margin-top: -8px;
       position: absolute;
       bottom: 0;
       top: unset;

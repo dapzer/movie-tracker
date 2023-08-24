@@ -10,6 +10,7 @@ import InfoHeaderSkeleton from '@/lib/loading-skeleton/InfoHeaderSkeleton';
 import DetailsInfoBlockSkeleton from '@/lib/loading-skeleton/DetailsInfoBlockSkeleton';
 import DetailsCastSkeleton from '@/lib/loading-skeleton/DetailsCastSkeleton';
 import { useGetPersonCredits, useGetPersonDetails } from '@/hooks/useTmdbApi';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   personId: number;
@@ -19,11 +20,7 @@ interface Props {
 const PersonDetails: FC<Props> = ({ personId, initialData }) => {
   const { t, lang } = useTranslation('details');
   const { data: details, isLoading } = useGetPersonDetails(personId, ContentNames.Person, lang, initialData);
-  const {
-    data: credits,
-    isLoading: creditsIsLoading,
-    isSuccess: creditsIsSuccess,
-  } = useGetPersonCredits(personId, lang);
+  const { data: credits, isLoading: creditsIsLoading, isSuccess: creditsIsSuccess } = useGetPersonCredits(personId, lang);
 
   return (
     <>
@@ -33,9 +30,11 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
 
           {details.biography && (
             <section className={styles['biography']}>
-              <h3>{t('person_details.biography')}</h3>
+              <Typography as="h2" variant="title2">
+                {t('person_details.biography')}
+              </Typography>
               {details.biography.split('\n\n').map((item, index) => (
-                <p key={`biography-${index}`}>{item}</p>
+                <Typography key={`biography-${index}`}>{item}</Typography>
               ))}
             </section>
           )}
@@ -52,14 +51,15 @@ const PersonDetails: FC<Props> = ({ personId, initialData }) => {
         <>
           {!!credits.cast.length && (
             <section className={styles['movies']}>
-              <h3>{t('person_details.filmography')}</h3>
+              <Typography as="h2" variant="title2">
+                {t('person_details.filmography')}
+              </Typography>
               <div className={'details-grid'}>
                 {credits.cast.slice(0, 5).map((item) => (
                   <CreditsCard key={`credit-${item.id}`} item={item} />
                 ))}
                 {credits.cast.length > 5 && (
-                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')}
-                           btnClass={'detail-full-cast-btn'}>
+                  <UiModal title={t('person_details.filmography')} btnTitle={t('full_list')} btnClass={'detail-full-cast-btn'}>
                     <div className={'details-grid'}>
                       {credits.cast.map((item) => (
                         <CreditsCard key={`credit-list-${item.id}`} item={item} />

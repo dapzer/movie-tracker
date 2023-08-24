@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { FavoriteList } from '@/types/FavoriteList';
 import { useSitesToView } from '@/hooks/useSitesToView';
 import { AddIcon, CheckMarkIcon, CloseIcon, EditIcon } from '@/components/ui/Icons';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
   favoriteItem: FavoriteList.RootObject;
@@ -18,9 +19,9 @@ const SiteToView: FC<Props> = ({ favoriteItem }) => {
       {sitesToView &&
         sitesToView.map((item, index) => (
           <div key={`site-${index}`} className={`${styles['item']} ${styles['site']}`} style={{ '--order': index + 1 } as React.CSSProperties}>
-            <a href={item.url} target="_blank" rel="noreferrer">
+            <Typography as="a" variant="link" href={item.url} target="_blank" rel="noreferrer">
               {t('tracking_menu.site_to_view')} #{index + 1}
-            </a>
+            </Typography>
             <button className={styles['start_edit_btn']} onClick={() => startEdit(index + 1, item.url)}>
               <EditIcon />
             </button>

@@ -4,6 +4,7 @@ import { isUrlActive } from '@/utils/isUrlActive';
 import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 const links = [
   {
@@ -27,10 +28,16 @@ const LinksList: FC<Props> = ({ modalHandler }) => {
   return (
     <>
       {links.map((link, index) => (
-        <Link key={index} href={link.url} className={isUrlActive(pathname, link.url) ? styles['active_page'] : ''}
-              onClick={modalHandler}>
+        <Typography
+          as={Link}
+          variant="link"
+          key={index}
+          href={link.url}
+          className={isUrlActive(pathname, link.url) ? styles['active_page'] : ''}
+          onClick={modalHandler}
+        >
           {t(link.title)}
-        </Link>
+        </Typography>
       ))}
     </>
   );

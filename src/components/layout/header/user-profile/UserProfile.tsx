@@ -6,6 +6,7 @@ import Image from 'next/image';
 import UiDropdown from '@/components/ui/dropdown/UiDropdown';
 import AuthBtn from '@/components/layout/header/AuthBtn';
 import ProfileSkeleton from '@/lib/loading-skeleton/ProfileSkeleton';
+import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
@@ -18,7 +19,7 @@ const UserProfile: FC<Props> = () => {
       {status === LoginStatus.Authenticated && (
         <div className={`ui-dropdown__trigger ${styles['trigger']}`}>
           <div className={`${styles['content']}`}>
-            <p>{session?.user?.name?.split(' ')[0]}</p>
+            <Typography>{session?.user?.name?.split(' ')[0]}</Typography>
             <div className={styles['image']}>
               <Image
                 src={session?.user?.image ? `/api/proxy/image?imageUrl=${session?.user?.image}` : '/icons/user.svg'}
@@ -32,8 +33,8 @@ const UserProfile: FC<Props> = () => {
           <UiDropdown marginTop={'20px'} containerClass={styles['dropdown_body']}>
             <div className={styles['dropdown']}>
               <div>
-                <p>{session?.user?.name}</p>
-                {session?.user?.email && <p>{session?.user?.email}</p>}
+                <Typography>{session?.user?.name}</Typography>
+                {session?.user?.email && <Typography>{session?.user?.email}</Typography>}
               </div>
               <AuthBtn />
             </div>

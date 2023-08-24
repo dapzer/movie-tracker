@@ -15,17 +15,6 @@
         color: $c-text;
         font-size: $fs-p;
         padding-bottom: 10px;
-
-        span {
-          all: unset;
-          color: $c-secondary;
-        }
-
-        a {
-          cursor: pointer;
-          font-size: inherit;
-          border-bottom: 1px solid $c-secondary;
-        }
       }
     }
   }
@@ -67,8 +56,8 @@
   border-radius: 10px;
 
   svg {
-    width: $fs-p;
-    height: $fs-p;
+    width: 25px;
+    height: 25px;
     fill: $c-secondary;
   }
 }
