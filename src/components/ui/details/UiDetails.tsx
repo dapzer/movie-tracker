@@ -19,7 +19,7 @@ const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, i
       <button className={`${styles['toggle_btn']} ${isLarge ? styles['large'] : ''}`} onClick={(e) => setIsOpen(!isOpen)}>
         <div className={styles['info']}>
           <Typography className={styles['title']}>{title}</Typography>
-          <Typography className={styles['description']}>{description}</Typography>
+          {description && <Typography className={styles['description']}>{description}</Typography>}
         </div>
         <div className={`${styles['arrow']} ${isOpen ? styles['arrow_active'] : ''}`}>
           <ArrowIcon />
