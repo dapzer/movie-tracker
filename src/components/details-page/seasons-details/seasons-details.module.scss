@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding-bottom: 15px;
 
   p {
     span {
@@ -11,8 +12,12 @@
     }
   }
 
-  .title a {
-    font-size: 1em;
-    font-weight: $fw-bold;
+  .title {
+    padding-bottom: 10px;
+
+    a {
+      font-size: 1em;
+      font-weight: $fw-bold;
+    }
   }
 }

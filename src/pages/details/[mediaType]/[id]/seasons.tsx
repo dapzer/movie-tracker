@@ -14,7 +14,7 @@ const Seasons: SeasonsProps = ({ data, mediaType, locale }) => {
   const title = data?.details?.title || data?.details?.original_title || data?.details?.name || 'Error';
 
   return (
-    <div>
+    <>
       <NextSeo
         title={title}
         description={data?.details?.overview || 'Error'}
@@ -30,7 +30,7 @@ const Seasons: SeasonsProps = ({ data, mediaType, locale }) => {
           </Typography>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

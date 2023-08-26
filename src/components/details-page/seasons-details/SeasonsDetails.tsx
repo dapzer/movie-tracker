@@ -67,7 +67,7 @@ export const SeasonsDetails = ({ mediaType, locale, initialData }: SeasonsDetail
           )}
         </section>
       )}
-      {seasons && !isLoadingSeasons && seasons?.map((el, index) => <SeasonDetailsItem key={index} season={el} />)}
+      <section>{seasons && !isLoadingSeasons && seasons?.map((el, index) => <SeasonDetailsItem key={index} season={el} />)}</section>
     </>
   );
 };
