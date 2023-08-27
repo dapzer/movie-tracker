@@ -1,6 +1,6 @@
 export enum StatusesNames {
-  Viewed = 'viewed',
-  WatchingNow = 'watchingNow',
+  viewed = 'viewed',
+  watchingNow = 'watchingNow',
   notViewed = 'notViewed',
   waitNewPart = 'waitNewPart',
 }

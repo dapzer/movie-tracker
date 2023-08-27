@@ -10,9 +10,10 @@ interface Props {
   title: string;
   isOpenedDefault?: boolean;
   isLarge?: boolean;
+  additionalOpenHandler?: () => void;
 }
 
-const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, isLarge }) => {
+const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, isLarge, additionalOpenHandler }) => {
   const [isOpen, setIsOpen] = useState(isOpenedDefault ? isOpenedDefault : false);
 
   return (
@@ -21,7 +22,10 @@ const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, i
         className={clsx(styles['toggle_btn'], {
           [styles['large']]: isLarge,
         })}
-        onClick={(e) => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          setIsOpen((prevState) => !prevState);
+          additionalOpenHandler?.();
+        }}
       >
         <div className={styles['info']}>
           <Typography className={styles['title']}>{title}</Typography>

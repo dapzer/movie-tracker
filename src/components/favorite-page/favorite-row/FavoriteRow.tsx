@@ -11,6 +11,8 @@ import { useGetFavoriteItemsDetail } from '@/hooks/useTmdbApi';
 interface Props {
   favoriteList: FavoriteList.RootObject[];
   title: string;
+  isOpenedDefault?: boolean;
+  additionalOpenHandler?: () => void;
 }
 
 const breakpointColumnsObj = {
@@ -20,12 +22,12 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const FavoriteRow: FC<Props> = ({ favoriteList, title }) => {
+const FavoriteRow: FC<Props> = ({ favoriteList, title, additionalOpenHandler, isOpenedDefault }) => {
   const { lang } = useTranslation('favoritePage');
   const data = useGetFavoriteItemsDetail(favoriteList, lang);
 
   return (
-    <UiDetails title={title} isLarge isOpenedDefault>
+    <UiDetails title={title} isLarge isOpenedDefault={isOpenedDefault} additionalOpenHandler={additionalOpenHandler}>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="searching-results-masonry__row"
