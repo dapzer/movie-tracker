@@ -29,8 +29,18 @@
   font-size: 1em;
   width: 100%;
 
+
   &:hover {
     color: $c-highlight;
+  }
+
+  &_loading {
+    cursor: auto;
+    opacity: 0.65;
+
+    &:hover {
+      color: $c-secondary;
+    }
   }
 }
 

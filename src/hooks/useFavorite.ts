@@ -4,11 +4,7 @@ import { useSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import useTranslation from 'next-translate/useTranslation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import {
-  addFavoriteListItemApi,
-  deleteFavoriteListItemApi,
-  updateFavoriteListItemApi,
-} from '@/redux/features/favoriteList/favoriteListThunk';
+import { addFavoriteListItemApi, deleteFavoriteListItemApi, updateFavoriteListItemApi } from '@/redux/features/favoriteList/favoriteListThunk';
 import {
   changeFavoriteListItemStatus,
   deleteFavoriteListItem,
@@ -21,15 +17,23 @@ export const useFavorite = (mediaId?: number) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const favoriteList = useAppSelector(selectFavoriteList);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const isGettingFavoriteList = useAppSelector((state) => state.favoriteList.isGettingFavoriteList);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLoading(isGettingFavoriteList);
+  }, [isGettingFavoriteList]);
 
   const addFavoriteItem = (mediaId: number, mediaType: string) => {
     if (!session?.user?.id) return;
 
+    setIsLoading(true);
     dispatch(addFavoriteListItemApi({ mediaId, mediaType, userId: session.user.id }))
       .unwrap()
       .then(() => {
         toast.success(`${t(`toasts:${mediaType}SuccessAddedToFavorite`)}`);
+        setIsLoading(false);
       });
   };
 
@@ -37,23 +41,27 @@ export const useFavorite = (mediaId?: number) => {
     const favoriteItem = getFavoriteItem(mediaId!);
     if (!session?.user?.id || !favoriteItem) return;
 
+    setIsLoading(true);
     dispatch(deleteFavoriteListItemApi({ userId: session.user.id, mediaId }))
       .unwrap()
       .then(() => {
         dispatch(deleteFavoriteListItem({ mediaId, mediaStatus: favoriteItem.trackingData.currentStatus }));
         toast.success(`${t(`toasts:${mediaType}SuccessRemovedFromFavorite`)}`);
+        setIsLoading(false);
       });
   };
 
   const updateFavoriteItem = (mediaId: number, trackingData: FavoriteList.TrackingData, successToast?: string) => {
     if (!session?.user?.id) return;
 
+    setIsLoading(true);
     dispatch(
       updateFavoriteListItemApi({
         mediaId: mediaId,
         trackingData,
         userId: session.user.id,
-      }))
+      })
+    )
       .unwrap()
       .then(() => {
         dispatch(
@@ -61,10 +69,11 @@ export const useFavorite = (mediaId?: number) => {
             mediaId,
             newTrackingData: trackingData,
             mediaStatus: trackingData.currentStatus,
-          }),
+          })
         );
         if (successToast) {
           toast.success(successToast);
+          setIsLoading(false);
         }
       });
   };
@@ -73,6 +82,7 @@ export const useFavorite = (mediaId?: number) => {
     const favoriteItem = getFavoriteItem(mediaId!);
     if (!session?.user?.id || !favoriteItem) return;
 
+    setIsLoading(true);
     dispatch(
       updateFavoriteListItemApi({
         mediaId: favoriteItem.id,
@@ -81,7 +91,8 @@ export const useFavorite = (mediaId?: number) => {
           currentStatus: newStatus,
         },
         userId: session.user.id,
-      }))
+      })
+    )
       .unwrap()
       .then(() => {
         dispatch(
@@ -89,13 +100,16 @@ export const useFavorite = (mediaId?: number) => {
             mediaId: favoriteItem.id,
             mediaStatus: favoriteItem.trackingData.currentStatus,
             newStatus,
-          }),
+          })
         );
+        setIsLoading(false);
         toast.success(`${t(`toasts:statusChanged`)}`);
       });
   };
 
   const handleFavorite = (mediaId: number, mediaType: string) => {
+    if (isLoading) return;
+
     if (isFavorite) {
       deleteFavoriteItem(mediaId, mediaType);
     } else {
@@ -122,6 +136,7 @@ export const useFavorite = (mediaId?: number) => {
     checkOnFavorite,
     handleFavorite,
     isFavorite,
+    isLoading,
     getFavoriteItem,
     changeStatus,
   };

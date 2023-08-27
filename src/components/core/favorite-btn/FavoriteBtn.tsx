@@ -7,6 +7,7 @@ import { LoginStatus } from '@/types/Enums';
 import LoginModal from '@/components/core/login-modal/LoginModal';
 import { FavoriteIcon, InFavoriteIcon, ListIcon } from '@/components/ui/Icons';
 import clsx from 'clsx';
+import { UiLoader } from '@/components/ui/loader/UiLoader';
 
 interface Props {
   id: number;
@@ -17,7 +18,7 @@ interface Props {
 
 const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => {
   const [showLogin, setShowLogin] = useState(false);
-  const { handleFavorite, isFavorite } = useFavorite(id);
+  const { handleFavorite, isFavorite, isLoading } = useFavorite(id);
   const { t } = useTranslation();
   const { status } = useSession();
 
@@ -38,26 +39,30 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => 
           [styles['button_remove']]: isFavorite,
           [styles['button_add']]: !isFavorite,
           [styles['button_without_hover']]: asListTrigger && isFavorite,
+          [styles['button_loading']]: isLoading,
           [className]: className,
         })}
       >
         {!isFavorite && (
           <>
-            <FavoriteIcon />
+            {isLoading && <UiLoader />}
+            {!isLoading && <FavoriteIcon />}
             {t('buttons:add_to_favorite')}
           </>
         )}
 
         {isFavorite && !asListTrigger && (
           <>
-            <InFavoriteIcon />
+            {isLoading && <UiLoader />}
+            {!isLoading && <InFavoriteIcon />}
             {t('buttons:delete_from_favorite')}
           </>
         )}
 
         {isFavorite && asListTrigger && (
           <>
-            <ListIcon />
+            {isLoading && <UiLoader />}
+            {!isLoading && <ListIcon />}
             {t('favoritePage:changeStatus')}
           </>
         )}

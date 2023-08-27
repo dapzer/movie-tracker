@@ -20,7 +20,7 @@ const statuses: FavoriteList.StatusesNames[] = ['watchingNow', 'notViewed', 'wai
 
 const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, dropdownStyles }) => {
   const { t } = useTranslation();
-  const { handleFavorite, changeStatus, isFavorite } = useFavorite(id);
+  const { handleFavorite, changeStatus, isFavorite, isLoading } = useFavorite(id);
 
   return (
     <div
@@ -42,12 +42,17 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, drop
               key={`status-selector-${id}-${index}`}
               hidden={el === currentStatus}
               onClick={() => changeStatus(el)}
-              className={styles['status']}
+              className={clsx(styles['status'], {
+                [styles['status_loading']]: isLoading,
+              })}
             >
               {t(`favoritePage:statuses.${el}`)}
             </button>
           ))}
-          <button onClick={() => handleFavorite(id, mediaType)} className={clsx(styles['status'], styles['delete_btn'])}>
+          <button
+            onClick={() => handleFavorite(id, mediaType)}
+            className={clsx(styles['status'], styles['delete_btn'], { [styles['status_loading']]: isLoading })}
+          >
             {t('buttons:delete_from_favorite')}
           </button>
         </UiDropdown>

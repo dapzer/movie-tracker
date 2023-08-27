@@ -7,6 +7,7 @@
 
   &_add:hover {
     color: $c-highlight;
+    --loader-color: #{$c-highlight};
 
     svg {
       fill: $c-highlight;
@@ -15,6 +16,7 @@
 
   &_remove:hover {
     color: red;
+    --loader-color: red;
 
     svg {
       fill: red;
@@ -27,5 +29,18 @@
     svg {
       fill: $c-secondary;
     }
+  }
+
+  &_loading {
+    cursor: auto;
+
+    &:hover {
+      color: $c-secondary;
+      --loader-color: #{$c-secondary};
+
+    }
+
+    --loader-size: 1em;
+    --loader-thickness: 3px;
   }
 }
