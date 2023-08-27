@@ -7,6 +7,7 @@ import UiDropdown from '@/components/ui/dropdown/UiDropdown';
 import AuthBtn from '@/components/layout/header/AuthBtn';
 import ProfileSkeleton from '@/lib/loading-skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {}
 
@@ -17,8 +18,8 @@ const UserProfile: FC<Props> = () => {
     <>
       {status === LoginStatus.Loading && <ProfileSkeleton />}
       {status === LoginStatus.Authenticated && (
-        <div className={`ui-dropdown__trigger ${styles['trigger']}`}>
-          <div className={`${styles['content']}`}>
+        <div className={clsx(styles['trigger'], 'ui-dropdown__trigger')}>
+          <div className={styles['content']}>
             <Typography>{session?.user?.name?.split(' ')[0]}</Typography>
             <div className={styles['image']}>
               <Image

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styles from '@/components/ui/card/ui-card.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {
   width?: string;
@@ -13,7 +14,13 @@ interface Props {
 
 const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small }) => {
   return (
-    <div className={`${styles['body']} ${horizontal && styles['horizontal']} ${small && styles['small']}`} style={width ? { maxWidth: width } : {}}>
+    <div
+      className={clsx(styles['body'], {
+        [styles['horizontal']]: horizontal,
+        [styles['small']]: small,
+      })}
+      style={width ? { maxWidth: width } : {}}
+    >
       <div className={styles['image']}>
         <Skeleton height={height ? height : 390} />
       </div>

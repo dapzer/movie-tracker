@@ -2,13 +2,14 @@ import React, { FC } from 'react';
 import styles from '@/components/ui/imfo-header/ui-imfo-header.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {}
 
 const InfoHeaderSkeleton: FC<Props> = () => {
   return (
     <section className={styles['body']}>
-      <div className={`${styles['title_block']} ${styles[`title_block_mobile`]}`}>
+      <div className={clsx(styles['title_block'], styles[`title_block_mobile`])}>
         <Typography as="h2" variant="title2">
           <Skeleton style={{ maxWidth: '250px' }} />
         </Typography>

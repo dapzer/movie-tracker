@@ -1,5 +1,6 @@
 import styles from './ui-spoiler-text.module.scss';
 import { ReactNode, useState } from 'react';
+import clsx from 'clsx';
 
 interface UiSpoilerTextProps {
   children: ReactNode;
@@ -13,7 +14,12 @@ export const UiSpoilerText = (props: UiSpoilerTextProps) => {
   };
 
   return (
-    <div className={`${styles['wrapper']} ${!isShowText ? styles['active'] : ''}`} onClick={toggleShowText}>
+    <div
+      className={clsx(styles['wrapper'], {
+        [styles['active']]: !isShowText,
+      })}
+      onClick={toggleShowText}
+    >
       {props.children}
     </div>
   );

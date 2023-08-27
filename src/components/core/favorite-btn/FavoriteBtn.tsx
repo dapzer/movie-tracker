@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import LoginModal from '@/components/core/login-modal/LoginModal';
 import { FavoriteIcon, InFavoriteIcon, ListIcon } from '@/components/ui/Icons';
+import clsx from 'clsx';
 
 interface Props {
   id: number;
@@ -33,9 +34,12 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => 
     <>
       <button
         onClick={() => handleFavoriteStatus()}
-        className={`${styles[`${isFavorite ? 'button_remove' : 'button_add'}`]} ${
-          asListTrigger && isFavorite ? styles['button_without_hover'] : ''
-        } ${className} ${styles['button']}`}
+        className={clsx(styles['button'], {
+          [styles['button_remove']]: isFavorite,
+          [styles['button_add']]: !isFavorite,
+          [styles['button_without_hover']]: asListTrigger && isFavorite,
+          [className]: className,
+        })}
       >
         {!isFavorite && (
           <>

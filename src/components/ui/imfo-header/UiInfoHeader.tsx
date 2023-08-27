@@ -7,6 +7,7 @@ import { useFavorite } from '@/hooks/useFavorite';
 import StatusSelector from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
 import { StatusesNames } from '@/types/Enums';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {
   image?: string;
@@ -27,7 +28,7 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
 
   return (
     <section className={styles['body']}>
-      <div className={`${styles['title_block']} ${styles[`title_block_mobile`]}`}>
+      <div className={clsx(styles['title_block'], styles['title_block_mobile'])}>
         <Typography as="h2" variant="title2">
           {title} {favoriteItem?.media_type && `(${t(`card:${favoriteItem?.media_type}`)})`}
         </Typography>
