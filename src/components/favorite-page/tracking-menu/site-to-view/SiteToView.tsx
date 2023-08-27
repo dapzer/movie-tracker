@@ -5,6 +5,7 @@ import { FavoriteList } from '@/types/FavoriteList';
 import { useSitesToView } from '@/hooks/useSitesToView';
 import { AddIcon, CheckMarkIcon, CloseIcon, EditIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {
   favoriteItem: FavoriteList.RootObject;
@@ -18,7 +19,7 @@ const SiteToView: FC<Props> = ({ favoriteItem }) => {
     <div className={styles['content']}>
       {sitesToView &&
         sitesToView.map((item, index) => (
-          <div key={`site-${index}`} className={`${styles['item']} ${styles['site']}`} style={{ '--order': index + 1 } as React.CSSProperties}>
+          <div key={`site-${index}`} className={clsx(styles['item'], styles['site'])} style={{ '--order': index + 1 } as React.CSSProperties}>
             <Typography as="a" variant="link" href={item.url} target="_blank" rel="noreferrer">
               {t('tracking_menu.site_to_view')} #{index + 1}
             </Typography>
@@ -30,7 +31,7 @@ const SiteToView: FC<Props> = ({ favoriteItem }) => {
 
       {!isEdit && (
         <div
-          className={`${styles['add_new']} ${styles['item']}`}
+          className={clsx(styles['item'], styles['add_new'])}
           onClick={() => startEdit(null, '')}
           style={{ '--order': sitesToView?.length || 1 } as React.CSSProperties}
         >
@@ -40,7 +41,7 @@ const SiteToView: FC<Props> = ({ favoriteItem }) => {
       )}
 
       {isEdit && (
-        <div className={`${styles['edit']} ${styles['item']}`} style={{ '--order': editUrlIndex || sitesToView?.length || 1 } as React.CSSProperties}>
+        <div className={clsx(styles['item'], styles['edit'])} style={{ '--order': editUrlIndex || sitesToView?.length || 1 } as React.CSSProperties}>
           <input
             type="text"
             value={editUrlValue}

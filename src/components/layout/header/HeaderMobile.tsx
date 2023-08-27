@@ -31,7 +31,7 @@ const HeaderMobile: FC<Props> = ({ isOpen, setIsOpen }) => {
           </div>
         )}
 
-        <button className={`${styles['handler']}`} onClick={setIsOpen}>
+        <button className={styles['handler']} onClick={setIsOpen}>
           <span></span>
         </button>
       </div>

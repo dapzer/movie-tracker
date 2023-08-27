@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styles from './ui-dropdown.module.scss';
+import clsx from 'clsx';
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +10,11 @@ interface Props {
 
 const UiDropdown: FC<Props> = ({ children, marginTop, containerClass }) => {
   return (
-    <div className={`ui-dropdown ${styles['body']} ${containerClass}`}>
+    <div
+      className={clsx('ui-dropdown', styles['body'], {
+        [containerClass as string]: containerClass,
+      })}
+    >
       <div className={styles['content']} style={{ marginTop: marginTop }}>
         {children}
       </div>

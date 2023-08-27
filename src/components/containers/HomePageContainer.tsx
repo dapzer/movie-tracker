@@ -6,7 +6,7 @@ import HomePageInfo from '@/components/home-page/home-page-info/HomePageInfo';
 const HomePageContainer: FC = () => {
   const searchTitleRef = useRef<HTMLInputElement | null>(null);
   return (
-    <div className={`container`}>
+    <div className={'container'}>
       <HomePageInfo />
       <Search searchTitleRef={searchTitleRef} />
       <SearchResultsRow searchTitleRef={searchTitleRef} />

@@ -6,6 +6,7 @@ import UiDropdown from '@/components/ui/dropdown/UiDropdown';
 import { FavoriteList } from '@/types/FavoriteList';
 import { ListIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {
   mediaType: string;
@@ -22,7 +23,11 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, drop
   const { handleFavorite, changeStatus, isFavorite } = useFavorite(id);
 
   return (
-    <div className={`${!trigger ? styles['body'] : ''} ${styles['content']} ui-dropdown__trigger`}>
+    <div
+      className={clsx('ui-dropdown__trigger', styles['content'], {
+        [styles['body']]: !trigger,
+      })}
+    >
       {trigger ? (
         trigger
       ) : (
@@ -42,7 +47,7 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, drop
               {t(`favoritePage:statuses.${el}`)}
             </button>
           ))}
-          <button onClick={() => handleFavorite(id, mediaType)} className={`${styles['status']} ${styles['delete_btn']}`}>
+          <button onClick={() => handleFavorite(id, mediaType)} className={clsx(styles['status'], styles['delete_btn'])}>
             {t('buttons:delete_from_favorite')}
           </button>
         </UiDropdown>

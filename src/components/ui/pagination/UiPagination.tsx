@@ -3,6 +3,7 @@ import { usePagination } from '@/hooks/usePagination';
 import styles from './ui-pagination.module.scss';
 import { PaginationOptions } from '@/types/PaginationOptions';
 import useTranslation from 'next-translate/useTranslation';
+import clsx from 'clsx';
 
 interface Props {
   paginationInfo: {
@@ -30,18 +31,16 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
 
   return (
     <div className={styles['body']}>
-      <button
-        hidden={!(paginationInfo.currentPage > paginationInfo.options.pageToShow)}
-        className={`${styles['item']}`}
-        onClick={() => pageHandler(1)}
-      >
+      <button hidden={!(paginationInfo.currentPage > paginationInfo.options.pageToShow)} className={styles['item']} onClick={() => pageHandler(1)}>
         {t('paginationStart')}
       </button>
 
       <div className={styles['list']}>
         {pages.map((page) => (
           <button
-            className={`${styles['item']} ${page === paginationInfo.currentPage && styles['item_active']}`}
+            className={clsx(styles['item'], {
+              [styles['item_active']]: page === paginationInfo.currentPage,
+            })}
             key={page}
             onClick={() => pageHandler(page)}
           >
@@ -52,7 +51,7 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
 
       <button
         hidden={!(paginationInfo.currentPage < (paginationInfo?.totalPages || 0) - paginationInfo.options.pageToShow)}
-        className={`${styles['item']}`}
+        className={styles['item']}
         onClick={() => pageHandler(paginationInfo.totalPages || 1)}
       >
         {t('paginationEnd')}

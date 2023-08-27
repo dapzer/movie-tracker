@@ -9,6 +9,7 @@ import UserProfile from './user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 const Header: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,8 +25,12 @@ const Header: FC = () => {
   };
 
   return (
-    <header className={`${styles['body']} ${isOpen && styles['mobile_body_active']}`}>
-      <div className={`${styles['content']} container`}>
+    <header
+      className={clsx(styles['body'], {
+        [styles['mobile_body_active']]: isOpen,
+      })}
+    >
+      <div className={clsx(styles['content'], 'container')}>
         {!isOpen && (
           <nav className={styles['logo_links']}>
             <Typography as={Link} variant="title3" className={styles['logo']} href="/">

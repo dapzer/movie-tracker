@@ -3,6 +3,7 @@ import styles from './ui-card.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {
   image?: string;
@@ -17,7 +18,13 @@ interface Props {
 
 const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link, small }) => {
   return (
-    <div className={`${styles['body']} ${horizontal && styles['horizontal']} ${small && styles['small']}`} style={width ? { maxWidth: width } : {}}>
+    <div
+      className={clsx(styles['body'], {
+        [styles['horizontal']]: horizontal,
+        [styles['small']]: small,
+      })}
+      style={width ? { maxWidth: width } : {}}
+    >
       <div className={styles['image']}>
         <Link href={{ pathname: link || '', slashes: null }}>
           <Image

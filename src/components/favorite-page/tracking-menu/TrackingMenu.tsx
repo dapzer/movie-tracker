@@ -8,13 +8,14 @@ import styles from './tracking-menu.module.scss';
 import Note from '@/components/favorite-page/tracking-menu/note/Note';
 import SiteToView from '@/components/favorite-page/tracking-menu/site-to-view/SiteToView';
 import { ContentNames } from '@/types/Enums';
+import clsx from 'clsx';
 
 interface Props {
   favoriteItem: FavoriteList.RootObject;
   details: Details.RootObject;
 }
 
-type Tab = 'information' | 'note'
+type Tab = 'information' | 'note';
 const tabs: Tab[] = ['information', 'note'];
 
 const TrackingMenu: FC<Props> = ({ details, favoriteItem }) => {
@@ -25,9 +26,12 @@ const TrackingMenu: FC<Props> = ({ details, favoriteItem }) => {
     <UiDetails title={t('tracking_menu.title')}>
       <div className={styles['tabs']}>
         {tabs.map((el, index) => (
-          <button key={`tab-${index}`}
-                  className={`${activeTab === el && styles['active']}`}
-                  onClick={() => setSetActiveTab(el)}
+          <button
+            key={`tab-${index}`}
+            className={clsx({
+              [styles['active']]: activeTab === el,
+            })}
+            onClick={() => setSetActiveTab(el)}
           >
             {t(`tracking_menu.${el}`)}
           </button>
@@ -37,15 +41,11 @@ const TrackingMenu: FC<Props> = ({ details, favoriteItem }) => {
       {activeTab === 'information' && (
         <>
           <SiteToView favoriteItem={favoriteItem} />
-          {favoriteItem.mediaType === ContentNames.Series && (
-            <SeriesControls favoriteItem={favoriteItem} seasons={details.seasons} />
-          )}
+          {favoriteItem.mediaType === ContentNames.Series && <SeriesControls favoriteItem={favoriteItem} seasons={details.seasons} />}
         </>
       )}
 
-      {activeTab === 'note' && (
-        <Note maxLength={250} favoriteItem={favoriteItem} />
-      )}
+      {activeTab === 'note' && <Note maxLength={250} favoriteItem={favoriteItem} />}
     </UiDetails>
   );
 };

@@ -3,6 +3,7 @@ import Portal from '@/components/core/Portal';
 import styles from './ui-modal.module.scss';
 import { CloseIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 interface Props {
   maxWidth?: number;
@@ -32,9 +33,11 @@ const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, ch
   return (
     <Portal>
       <div className={styles['body']} onClick={() => handleVisible(false)}>
-        <div className={`container`}>
+        <div className={'container'}>
           <div
-            className={`${fullWidth && styles['frame_fullWidth']} ${styles['frame']}`}
+            className={clsx(styles['frame'], {
+              [styles['frame_fullWidth']]: fullWidth,
+            })}
             style={{ maxWidth: `${maxWidth}px` }}
             onClick={(event) => event.stopPropagation()}
           >
