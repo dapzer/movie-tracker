@@ -30,7 +30,7 @@ const Footer: FC<Props> = () => {
         <ul>
           <li>
             Created by:{' '}
-            <Typography variant="listItem" as="span">
+            <Typography className={styles['author']} variant="listItem" as="span">
               Danila Voronkov
             </Typography>
           </li>
