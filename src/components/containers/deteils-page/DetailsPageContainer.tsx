@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { Person } from '@/types/Person';
-import MovieDetails from '@/components/details-page/movie-details/MovieDetails';
+import { MovieDetails } from '@/components/details-page/movie-details/MovieDetails';
 import { Details as DetailsType } from '@/types/Details';
 import { ContentNames } from '@/types/Enums';
-import PersonDetails from '@/components/details-page/person-details/PersonDetails';
+import { PersonDetails } from '@/components/details-page/person-details/PersonDetails';
 import styles from './details.module.scss';
-import BackBtn from '@/components/core/back-btn/BackBtn';
+import { BackBtn } from '@/components/core/back-btn/BackBtn';
 
 interface Props {
   details: Person.RootObject & DetailsType.RootObject;
@@ -13,7 +13,7 @@ interface Props {
   locale: string;
 }
 
-const DetailsPageContainer: FC<Props> = ({ mediaType, locale, details }) => {
+export const DetailsPageContainer: FC<Props> = ({ mediaType, locale, details }) => {
   return (
     <div className={'container'}>
       <BackBtn />
@@ -26,5 +26,3 @@ const DetailsPageContainer: FC<Props> = ({ mediaType, locale, details }) => {
     </div>
   );
 };
-
-export default DetailsPageContainer;

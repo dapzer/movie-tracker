@@ -11,7 +11,7 @@ interface Props {
   seasons: Details.Season[];
 }
 
-const SeriesControls: FC<Props> = ({ favoriteItem, seasons }) => {
+export const SeriesControls: FC<Props> = ({ favoriteItem, seasons }) => {
   const { generateEpisodesList, setCurrentEpisode, currentEpisode, currentSeason, handleSeason } = useSeriesControls(favoriteItem);
   const { t } = useTranslation('favoritePage');
 
@@ -41,5 +41,3 @@ const SeriesControls: FC<Props> = ({ favoriteItem, seasons }) => {
     </div>
   );
 };
-
-export default SeriesControls;

@@ -1,4 +1,4 @@
-import BackBtn from '@/components/core/back-btn/BackBtn';
+import { BackBtn } from '@/components/core/back-btn/BackBtn';
 import React from 'react';
 import { SeasonDetails } from '@/types/SeasonDetails';
 import { SeasonsDetails } from '@/components/details-page/seasons-details/SeasonsDetails';

@@ -13,7 +13,7 @@ interface Props {
   additionalOpenHandler?: () => void;
 }
 
-const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, isLarge, additionalOpenHandler }) => {
+export const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, isLarge, additionalOpenHandler }) => {
   const [isOpen, setIsOpen] = useState(isOpenedDefault ? isOpenedDefault : false);
 
   useEffect(() => {
@@ -49,5 +49,3 @@ const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, i
     </div>
   );
 };
-
-export default UiDetails;

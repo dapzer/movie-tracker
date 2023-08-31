@@ -12,7 +12,7 @@ interface Props {
   small?: boolean;
 }
 
-const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small }) => {
+export const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small }) => {
   return (
     <div
       className={clsx(styles['body'], {
@@ -36,5 +36,3 @@ const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small })
     </div>
   );
 };
-
-export default CardSkeleton;

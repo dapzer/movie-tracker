@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import UiInfoHeader from '@/components/ui/imfo-header/UiInfoHeader';
+import { UiInfoHeader } from '@/components/ui/imfo-header/UiInfoHeader';
 import { Person } from '@/types/Person';
 import { arrayToString } from '@/utils/arrayToString';
 import useTranslation from 'next-translate/useTranslation';
@@ -9,7 +9,7 @@ interface Props {
   details: Person.RootObject;
 }
 
-const PersonDetailsHeader: FC<Props> = ({ details }) => {
+export const PersonDetailsHeader: FC<Props> = ({ details }) => {
   const { t, lang } = useTranslation('details');
 
   return (
@@ -55,5 +55,3 @@ const PersonDetailsHeader: FC<Props> = ({ details }) => {
     </UiInfoHeader>
   );
 };
-
-export default PersonDetailsHeader;

@@ -21,7 +21,7 @@ interface Props {
   modalHandler?: () => void;
 }
 
-const LinksList: FC<Props> = ({ modalHandler }) => {
+export const LinksList: FC<Props> = ({ modalHandler }) => {
   const { pathname } = useRouter();
   const { t } = useTranslation('links');
 
@@ -42,5 +42,3 @@ const LinksList: FC<Props> = ({ modalHandler }) => {
     </>
   );
 };
-
-export default LinksList;

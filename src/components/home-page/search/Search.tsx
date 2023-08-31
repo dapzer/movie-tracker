@@ -12,7 +12,7 @@ interface Props {
   searchTitleRef: Ref<HTMLInputElement> | null;
 }
 
-const Search: FC<Props> = ({ searchTitleRef }) => {
+export const Search: FC<Props> = ({ searchTitleRef }) => {
   const { changeSearch, updateRouter, clearQueries } = useSearch();
   const { searchTerm, currentPage } = useAppSelector(selectSearchParams);
   const [localSearchValue, setLocalSearchValue] = useState<string | null>(null);
@@ -64,5 +64,3 @@ const Search: FC<Props> = ({ searchTitleRef }) => {
     </section>
   );
 };
-
-export default Search;

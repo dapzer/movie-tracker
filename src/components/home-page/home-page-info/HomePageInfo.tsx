@@ -29,7 +29,7 @@ const socials = {
   ],
 };
 
-const HomePageInfo: FC<Props> = () => {
+export const HomePageInfo: FC<Props> = () => {
   const { t, lang } = useTranslation('searchPage');
 
   return (
@@ -59,5 +59,3 @@ const HomePageInfo: FC<Props> = () => {
     </section>
   );
 };
-
-export default HomePageInfo;

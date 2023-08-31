@@ -11,7 +11,7 @@ interface Props {
   title: string;
 }
 
-const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
+export const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
   const { t, lang } = useTranslation('card');
   return (
     <div className={styles['body']}>
@@ -31,5 +31,3 @@ const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
     </div>
   );
 };
-
-export default VideoPreviewCard;

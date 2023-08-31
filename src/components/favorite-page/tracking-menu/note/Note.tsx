@@ -11,7 +11,7 @@ interface Props {
   favoriteItem: FavoriteList.RootObject;
 }
 
-const Note: FC<Props> = ({ maxLength, favoriteItem }) => {
+export const Note: FC<Props> = ({ maxLength, favoriteItem }) => {
   const { note, setNote, saveNote, cancelChanges } = useNote(favoriteItem);
   const { t } = useTranslation('favoritePage');
 
@@ -36,5 +36,3 @@ const Note: FC<Props> = ({ maxLength, favoriteItem }) => {
     </div>
   );
 };
-
-export default Note;

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './popular-list.module.scss';
-import UiModal from '@/components/ui/modal/UiModal';
+import { UiModal } from '@/components/ui/modal/UiModal';
 import Masonry from 'react-masonry-css';
-import CardSkeleton from '@/lib/loading-skeleton/CardSkeleton';
-import MovieCard from '@/components/core/movie-card/MovieCard';
+import { CardSkeleton } from '@/lib/loading-skeleton/CardSkeleton';
+import { MovieCard } from '@/components/core/movie-card/MovieCard';
 import { useGetPopularList } from '@/hooks/useTmdbApi';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
@@ -20,7 +20,7 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const PopularlsList: FC<Props> = ({ mediaType, title }) => {
+export const PopularlsList: FC<Props> = ({ mediaType, title }) => {
   const { lang } = useTranslation();
   const { t } = useTranslation('buttons');
   const { data: popular, isLoading } = useGetPopularList(mediaType, lang);
@@ -85,5 +85,3 @@ const PopularlsList: FC<Props> = ({ mediaType, title }) => {
     </div>
   );
 };
-
-export default PopularlsList;

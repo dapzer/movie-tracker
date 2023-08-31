@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 interface Props {}
 
-const LocaleSelect: FC<Props> = () => {
+export const LocaleSelect: FC<Props> = () => {
   const router = useRouter();
   return (
     <div className={styles['locale-select']}>
@@ -37,5 +37,3 @@ const LocaleSelect: FC<Props> = () => {
     </div>
   );
 };
-
-export default LocaleSelect;

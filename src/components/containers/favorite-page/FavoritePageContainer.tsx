@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import FavoriteRow from '@/components/favorite-page/favorite-row/FavoriteRow';
+import { FavoriteRow } from '@/components/favorite-page/favorite-row/FavoriteRow';
 import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
 import { LoginStatus, StatusesNames } from '@/types/Enums';
 import styles from './favorite-page.module.scss';
-import LoginModal from '@/components/core/login-modal/LoginModal';
+import { LoginModal } from '@/components/core/login-modal/LoginModal';
 import { useAppSelector } from '@/redux/hooks';
 import { selectFavoriteList } from '@/redux/features/favoriteList/favoriteListSlice';
 import { Typography } from '@/components/ui/typography/UiTypography';
@@ -12,7 +12,7 @@ import { FavoriteListCategoriesOpenStatus } from '@/types/FavoriteListCategories
 
 interface Props {}
 
-const FavoritePageContainer: FC<Props> = () => {
+export const FavoritePageContainer: FC<Props> = () => {
   const { viewed, notViewed, waitNewPart, allFavorites, watchingNow } = useAppSelector(selectFavoriteList);
   const { status } = useSession();
   const { t } = useTranslation('favoritePage');
@@ -96,5 +96,3 @@ const FavoritePageContainer: FC<Props> = () => {
     </div>
   );
 };
-
-export default FavoritePageContainer;

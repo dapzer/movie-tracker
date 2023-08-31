@@ -10,7 +10,7 @@ interface Props {
   title?: string;
 }
 
-const LinkToDetails: FC<Props> = ({ mediaId, mediaType, title }) => {
+export const LinkToDetails: FC<Props> = ({ mediaId, mediaType, title }) => {
   const { t } = useTranslation('buttons');
 
   return (
@@ -19,5 +19,3 @@ const LinkToDetails: FC<Props> = ({ mediaId, mediaType, title }) => {
     </Typography>
   );
 };
-
-export default LinkToDetails;

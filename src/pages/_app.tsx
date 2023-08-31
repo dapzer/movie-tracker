@@ -1,6 +1,6 @@
 import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
@@ -26,11 +26,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
     <Provider store={store}>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <SkeletonTheme baseColor='#282f43' highlightColor='#4F5D75' duration={2}>
+          <SkeletonTheme baseColor="#282f43" highlightColor="#4F5D75" duration={2}>
             <Layout>
-              <DefaultSeo {...SEO} description={t('defaultDescription')}
-                          openGraph={{ description: t('defaultDescription'), locale: lang }} />
-              <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color='#0073fa' />
+              <DefaultSeo {...SEO} description={t('defaultDescription')} openGraph={{ description: t('defaultDescription'), locale: lang }} />
+              <NextNProgress startPosition={0.3} stopDelayMs={100} height={3} color="#0073fa" />
               <ToastContainer theme={'dark'} autoClose={1500} limit={2} />
               <Component {...pageProps} />
               <Analytics />

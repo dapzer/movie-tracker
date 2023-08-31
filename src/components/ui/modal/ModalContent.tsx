@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import Portal from '@/components/core/Portal';
+import { Portal } from '@/components/core/Portal';
 import styles from './ui-modal.module.scss';
 import { CloseIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
@@ -13,7 +13,7 @@ interface Props {
   title: string;
 }
 
-const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, children }) => {
+export const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, children }) => {
   const closeModalOnKeypress = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       handleVisible(false);
@@ -57,5 +57,3 @@ const ModalContent: FC<Props> = ({ fullWidth, handleVisible, maxWidth, title, ch
     </Portal>
   );
 };
-
-export default ModalContent;

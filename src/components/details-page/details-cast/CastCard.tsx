@@ -2,15 +2,15 @@ import React, { FC } from 'react';
 import { Credits } from '@/types/Credits';
 import { ContentNames } from '@/types/Enums';
 import { arrayToString } from '@/utils/arrayToString';
-import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetails';
-import UiCard from '@/components/ui/card/UiCard';
+import { LinkToDetails } from '@/components/core/details/link-to-details/LinkToDetails';
+import { UiCard } from '@/components/ui/card/UiCard';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   item: Credits.Cast;
 }
 
-const CastCard: FC<Props> = ({ item }) => {
+export const CastCard: FC<Props> = ({ item }) => {
   const { t } = useTranslation('details');
 
   return (
@@ -39,5 +39,3 @@ const CastCard: FC<Props> = ({ item }) => {
     </UiCard>
   );
 };
-
-export default CastCard;

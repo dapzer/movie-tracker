@@ -4,7 +4,7 @@ import styles from './favorite-btn.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
-import LoginModal from '@/components/core/login-modal/LoginModal';
+import { LoginModal } from '@/components/core/login-modal/LoginModal';
 import { FavoriteIcon, InFavoriteIcon, ListIcon } from '@/components/ui/Icons';
 import clsx from 'clsx';
 import { UiLoader } from '@/components/ui/loader/UiLoader';
@@ -16,7 +16,7 @@ interface Props {
   asListTrigger?: boolean;
 }
 
-const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => {
+export const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => {
   const [showLogin, setShowLogin] = useState(false);
   const { handleFavorite, isFavorite, isLoading } = useFavorite(id);
   const { t } = useTranslation();
@@ -71,5 +71,3 @@ const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => 
     </>
   );
 };
-
-export default FavoriteBtn;

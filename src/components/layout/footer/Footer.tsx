@@ -23,7 +23,7 @@ const contacts = [
   },
 ];
 
-const Footer: FC<Props> = () => {
+export const Footer: FC<Props> = () => {
   return (
     <footer className={styles['body']}>
       <div className={'container'}>
@@ -47,5 +47,3 @@ const Footer: FC<Props> = () => {
     </footer>
   );
 };
-
-export default Footer;

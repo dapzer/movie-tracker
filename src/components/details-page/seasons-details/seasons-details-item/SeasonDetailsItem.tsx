@@ -1,7 +1,7 @@
 import { SeasonDetails } from '@/types/SeasonDetails';
-import UiDetails from '@/components/ui/details/UiDetails';
+import { UiDetails } from '@/components/ui/details/UiDetails';
 import React from 'react';
-import UiCard from '@/components/ui/card/UiCard';
+import { UiCard } from '@/components/ui/card/UiCard';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './seasons-details-item.module.scss';
 import { UiSpoilerText } from '@/components/ui/spoiler-text/UiSpoilerText';

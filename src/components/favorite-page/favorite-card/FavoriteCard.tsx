@@ -3,15 +3,15 @@ import styles from './favorite-card.module.scss';
 import { Details } from '@/types/Details';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '@/hooks/useFavorite';
-import StatusSelector from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
-import MovieCard from '@/components/core/movie-card/MovieCard';
-import TrackingMenu from '@/components/favorite-page/tracking-menu/TrackingMenu';
+import { StatusSelector } from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
+import { MovieCard } from '@/components/core/movie-card/MovieCard';
+import { TrackingMenu } from '@/components/favorite-page/tracking-menu/TrackingMenu';
 
 interface Props {
   details: Details.RootObject;
 }
 
-const FavoriteCard: FC<Props> = ({ details }) => {
+export const FavoriteCard: FC<Props> = ({ details }) => {
   const { getFavoriteItem } = useFavorite();
   const { t } = useTranslation('favoritePage');
   const favoriteItem = getFavoriteItem(details.id);
@@ -30,8 +30,7 @@ const FavoriteCard: FC<Props> = ({ details }) => {
           showScore
         >
           <div className={styles['status_selector']}>
-            <StatusSelector mediaType={favoriteItem.mediaType} id={details.id}
-                            currentStatus={favoriteItem.trackingData.currentStatus} />
+            <StatusSelector mediaType={favoriteItem.mediaType} id={details.id} currentStatus={favoriteItem.trackingData.currentStatus} />
           </div>
 
           <TrackingMenu favoriteItem={favoriteItem} details={details} />
@@ -40,5 +39,3 @@ const FavoriteCard: FC<Props> = ({ details }) => {
     </div>
   );
 };
-
-export default FavoriteCard;

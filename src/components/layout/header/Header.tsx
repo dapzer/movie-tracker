@@ -1,17 +1,17 @@
 import React, { FC, useState } from 'react';
 import styles from './header.module.scss';
 import Link from 'next/link';
-import LocaleSelect from './LocaleSelect';
-import HeaderMobile from './HeaderMobile';
-import LinksList from './LinksList';
-import AuthBtn from './AuthBtn';
-import UserProfile from './user-profile/UserProfile';
+import { LocaleSelect } from './LocaleSelect';
+import { HeaderMobile } from './HeaderMobile';
+import { LinksList } from './LinksList';
+import { AuthBtn } from './AuthBtn';
+import { UserProfile } from './user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-const Header: FC = () => {
+export const Header: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
 
@@ -59,5 +59,3 @@ const Header: FC = () => {
     </header>
   );
 };
-
-export default Header;

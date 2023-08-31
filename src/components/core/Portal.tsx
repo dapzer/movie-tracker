@@ -5,7 +5,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Portal: FC<Props> = ({ children }) => {
+export const Portal: FC<Props> = ({ children }) => {
   const [container] = useState(() => document.createElement('div'));
 
   useEffect(() => {
@@ -17,5 +17,3 @@ const Portal: FC<Props> = ({ children }) => {
 
   return ReactDOM.createPortal(children, container);
 };
-
-export default Portal;

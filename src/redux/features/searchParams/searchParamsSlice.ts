@@ -25,4 +25,3 @@ export const searchParamsSlice = createSlice({
 });
 export const { changeSearchTern, changeCurrentPage } = searchParamsSlice.actions;
 export const selectSearchParams = (state: RootState) => state.searchParams;
-export default searchParamsSlice.reducer;

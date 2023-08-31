@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import styles from './ui-imfo-header.module.scss';
 import Image from 'next/image';
-import FavoriteBtn from '@/components/core/favorite-btn/FavoriteBtn';
+import { FavoriteBtn } from '@/components/core/favorite-btn/FavoriteBtn';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '@/hooks/useFavorite';
-import StatusSelector from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
+import { StatusSelector } from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
 import { StatusesNames } from '@/types/Enums';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
@@ -20,7 +20,7 @@ interface Props {
   };
 }
 
-const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteItem }) => {
+export const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteItem }) => {
   const isHaveOriginalName = original_title !== title;
   const { t, lang } = useTranslation();
   const { getFavoriteItem, isFavorite } = useFavorite(favoriteItem?.id);
@@ -73,5 +73,3 @@ const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favor
     </section>
   );
 };
-
-export default UiInfoHeader;

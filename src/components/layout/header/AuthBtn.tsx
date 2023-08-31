@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { LoginStatus } from '@/types/Enums';
-import LoginModal from '@/components/core/login-modal/LoginModal';
+import { LoginModal } from '@/components/core/login-modal/LoginModal';
 import { signOut, useSession } from 'next-auth/react';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {}
 
-const AuthBtn: FC<Props> = () => {
+export const AuthBtn: FC<Props> = () => {
   const { status } = useSession();
   const { t } = useTranslation('buttons');
   return (
@@ -21,5 +21,3 @@ const AuthBtn: FC<Props> = () => {
     </>
   );
 };
-
-export default AuthBtn;
