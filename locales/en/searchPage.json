@@ -7,4 +7,9 @@
   "search_notFound": "Nothing found",
   "search_totalResults": "Total results:",
   "popular_movies": "Popular films",
-  "popular_tv": "Popular TV shows"}
+  "popular_tv": "Popular TV shows",
+  "info": {
+    "telegram_with_project_news": "Telegram with project news",
+    "telegram_for_communication_and_discussion_of_films": "Telegram for communication and discussion of films"
+  }
+}

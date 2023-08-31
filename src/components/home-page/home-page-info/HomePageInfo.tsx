@@ -3,28 +3,16 @@ import styles from './home-page-info.module.scss';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import Link from 'next/link';
 
-const socials = {
-  ru: [
-    {
-      title: 'Телеграм с новостями проекта',
-      link: 'https://t.me/movie_tracker_news',
-    },
-    {
-      title: 'Телеграм для общения и обсуждения фильмов',
-      link: 'https://t.me/+2lEXfqjyC2NjZWMy',
-    },
-  ],
-  en: [
-    {
-      title: 'Telegram with project news',
-      link: 'https://t.me/movie_tracker_news',
-    },
-    {
-      title: 'Telegram for communication and discussion of films',
-      link: 'https://t.me/+2lEXfqjyC2NjZWMy',
-    },
-  ],
-};
+const socials = [
+  {
+    title: 'telegram_with_project_news',
+    link: 'https://t.me/movie_tracker_news',
+  },
+  {
+    title: 'telegram_for_communication_and_discussion_of_films',
+    link: 'https://t.me/+2lEXfqjyC2NjZWMy',
+  },
+];
 
 export const HomePageInfo = () => {
   const { t, lang } = useTranslation('searchPage');
@@ -34,6 +22,7 @@ export const HomePageInfo = () => {
       <Typography as="h2" variant="title2">
         {t('page_title')}
       </Typography>
+
       {t('about_service')
         .split('\n\n')
         .map((el, index) => (
@@ -45,10 +34,10 @@ export const HomePageInfo = () => {
       </Typography>
 
       <ul className={styles['socials']}>
-        {socials[lang as keyof typeof socials].map((el, index) => (
+        {socials.map((el, index) => (
           <li key={`social-link-${index}`}>
             <Typography as={Link} variant="link" href={el.link} target="_blank" rel="noreferrer">
-              {el.title}
+              {t(`info.${el.title}`)}
             </Typography>
           </li>
         ))}
