@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
 import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './link-to-details.module.scss';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface LinkToDetailsProps {
   mediaId: number;
   mediaType?: string;
   title?: string;
 }
 
-export const LinkToDetails: FC<Props> = ({ mediaId, mediaType, title }) => {
+export const LinkToDetails = (props: LinkToDetailsProps) => {
+  const { mediaId, mediaType, title } = props;
   const { t } = useTranslation('buttons');
 
   return (

@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { Person } from '@/types/Person';
 import { PersonDetailsHeader } from './PersonDetailsHeader';
 import styles from './person-details.module.scss';
@@ -12,12 +11,13 @@ import { DetailsCastSkeleton } from '@/lib/loading-skeleton/DetailsCastSkeleton'
 import { useGetPersonCredits, useGetPersonDetails } from '@/hooks/useTmdbApi';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface PersonDetailsProps {
   personId: number;
   initialData?: Person.RootObject;
 }
 
-export const PersonDetails: FC<Props> = ({ personId, initialData }) => {
+export const PersonDetails = (props: PersonDetailsProps) => {
+  const { personId, initialData } = props;
   const { t, lang } = useTranslation('details');
   const { data: details, isLoading } = useGetPersonDetails(personId, ContentNames.Person, lang, initialData);
   const { data: credits, isLoading: creditsIsLoading, isSuccess: creditsIsSuccess } = useGetPersonCredits(personId, lang);

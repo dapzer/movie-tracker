@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
 import Link from 'next/link';
 import { isUrlActive } from '@/utils/isUrlActive';
 import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { Typography } from '@/components/ui/typography/UiTypography';
+import clsx from 'clsx';
 
 const links = [
   {
@@ -17,11 +17,12 @@ const links = [
   },
 ];
 
-interface Props {
+interface LinksListProps {
   modalHandler?: () => void;
 }
 
-export const LinksList: FC<Props> = ({ modalHandler }) => {
+export const LinksList = (props: LinksListProps) => {
+  const { modalHandler } = props;
   const { pathname } = useRouter();
   const { t } = useTranslation('links');
 
@@ -33,7 +34,9 @@ export const LinksList: FC<Props> = ({ modalHandler }) => {
           variant="link"
           key={index}
           href={link.url}
-          className={isUrlActive(pathname, link.url) ? styles['active_page'] : ''}
+          className={clsx({
+            [styles['active_page']]: isUrlActive(pathname, link.url),
+          })}
           onClick={modalHandler}
         >
           {t(link.title)}

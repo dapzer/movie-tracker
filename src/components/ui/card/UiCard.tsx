@@ -1,13 +1,13 @@
-import React, { FC } from 'react';
 import styles from './ui-card.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 interface Props {
   image?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   title?: string;
   date?: string;
   width?: string;
@@ -16,7 +16,9 @@ interface Props {
   small?: boolean;
 }
 
-export const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link, small }) => {
+export const UiCard = (props: Props) => {
+  const { image, title, date, children, width, horizontal, link, small } = props;
+
   return (
     <div
       className={clsx(styles['body'], {

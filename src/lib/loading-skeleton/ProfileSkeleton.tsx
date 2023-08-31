@@ -1,11 +1,8 @@
-import React, { FC } from 'react';
 import styles from '@/components/layout/header/user-profile/user-profie.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {}
-
-export const ProfileSkeleton: FC<Props> = () => {
+export const ProfileSkeleton = () => {
   return (
     <div className={styles['content']}>
       <Typography>

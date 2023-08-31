@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './ui-imfo-header.module.scss';
 import Image from 'next/image';
 import { FavoriteBtn } from '@/components/core/favorite-btn/FavoriteBtn';
@@ -9,7 +8,7 @@ import { StatusesNames } from '@/types/Enums';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {
+interface UiInfoHeaderProps {
   image?: string;
   children: React.ReactNode;
   original_title: string;
@@ -20,7 +19,8 @@ interface Props {
   };
 }
 
-export const UiInfoHeader: FC<Props> = ({ children, title, original_title, image, favoriteItem }) => {
+export const UiInfoHeader = (props: UiInfoHeaderProps) => {
+  const { image, children, original_title, title, favoriteItem } = props;
   const isHaveOriginalName = original_title !== title;
   const { t, lang } = useTranslation();
   const { getFavoriteItem, isFavorite } = useFavorite(favoriteItem?.id);

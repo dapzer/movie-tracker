@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './header.module.scss';
 import { LocaleSelect } from './LocaleSelect';
 import { AuthBtn } from './AuthBtn';
@@ -6,12 +5,13 @@ import { UserProfile } from './user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 
-interface Props {
+interface HeaderMobileProps {
   isOpen: boolean;
   setIsOpen: () => void;
 }
 
-export const HeaderMobile: FC<Props> = ({ isOpen, setIsOpen }) => {
+export const HeaderMobile = (props: HeaderMobileProps) => {
+  const { isOpen, setIsOpen } = props;
   const { status } = useSession();
 
   return (

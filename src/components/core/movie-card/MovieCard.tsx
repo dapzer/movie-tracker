@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { UiCard } from '@/components/ui/card/UiCard';
 import styles from './movie-card.module.scss';
 import { FavoriteBtn } from '@/components/core/favorite-btn/FavoriteBtn';
@@ -8,9 +7,10 @@ import useTranslation from 'next-translate/useTranslation';
 import { StatusSelector } from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
 import { StatusesNames } from '@/types/Enums';
 import { useFavorite } from '@/hooks/useFavorite';
+import { ReactNode } from 'react';
 
-interface Props {
-  children?: React.ReactNode;
+interface MovieCardProps {
+  children?: ReactNode;
   small?: boolean;
   title?: string;
   releaseDate?: string | Date;
@@ -25,21 +25,8 @@ interface Props {
   dateTitle?: string;
 }
 
-export const MovieCard: FC<Props> = ({
-  children,
-  image,
-  small,
-  horizontal,
-  showScore,
-  width,
-  title,
-  mediaType,
-  mediaId,
-  releaseDate,
-  score,
-  favoriteBtn,
-  dateTitle,
-}) => {
+export const MovieCard = (props: MovieCardProps) => {
+  const { children, image, small, horizontal, showScore, width, title, mediaType, mediaId, releaseDate, score, favoriteBtn, dateTitle } = props;
   const { t, lang } = useTranslation('card');
   const release = new Date(`${releaseDate}`).toLocaleDateString(lang);
   const { getFavoriteItem, isFavorite } = useFavorite(mediaId);

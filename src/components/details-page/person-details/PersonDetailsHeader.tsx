@@ -1,15 +1,15 @@
-import React, { FC } from 'react';
 import { UiInfoHeader } from '@/components/ui/imfo-header/UiInfoHeader';
 import { Person } from '@/types/Person';
 import { arrayToString } from '@/utils/arrayToString';
 import useTranslation from 'next-translate/useTranslation';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface PersonDetailsHeaderProps {
   details: Person.RootObject;
 }
 
-export const PersonDetailsHeader: FC<Props> = ({ details }) => {
+export const PersonDetailsHeader = (props: PersonDetailsHeaderProps) => {
+  const { details } = props;
   const { t, lang } = useTranslation('details');
 
   return (

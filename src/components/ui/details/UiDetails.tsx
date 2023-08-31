@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ui-details.module.scss';
 import { ArrowIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
@@ -13,7 +13,8 @@ interface Props {
   additionalOpenHandler?: () => void;
 }
 
-export const UiDetails: FC<Props> = ({ children, title, isOpenedDefault, description, isLarge, additionalOpenHandler }) => {
+export const UiDetails = (props: Props) => {
+  const { children, title, isOpenedDefault, description, isLarge, additionalOpenHandler } = props;
   const [isOpen, setIsOpen] = useState(isOpenedDefault ? isOpenedDefault : false);
 
   useEffect(() => {

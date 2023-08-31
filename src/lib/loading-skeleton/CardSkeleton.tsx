@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
 import styles from '@/components/ui/card/ui-card.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {
+interface CardSkeletonProps {
   width?: string;
   height?: number;
   horizontal?: boolean;
@@ -12,7 +11,9 @@ interface Props {
   small?: boolean;
 }
 
-export const CardSkeleton: FC<Props> = ({ horizontal, width, children, height, small }) => {
+export const CardSkeleton = (props: CardSkeletonProps) => {
+  const { width, height, horizontal, children, small } = props;
+
   return (
     <div
       className={clsx(styles['body'], {

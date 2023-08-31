@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import Masonry from 'react-masonry-css';
 import { FavoriteCard } from '@/components/favorite-page/favorite-card/FavoriteCard';
 import useTranslation from 'next-translate/useTranslation';
@@ -8,7 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import { CardSkeleton } from '@/lib/loading-skeleton/CardSkeleton';
 import { useGetFavoriteItemsDetail } from '@/hooks/useTmdbApi';
 
-interface Props {
+interface FavoriteRowProps {
   favoriteList: FavoriteList.RootObject[];
   title: string;
   isOpenedDefault?: boolean;
@@ -22,7 +21,8 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-export const FavoriteRow: FC<Props> = ({ favoriteList, title, additionalOpenHandler, isOpenedDefault }) => {
+export const FavoriteRow = (props: FavoriteRowProps) => {
+  const { favoriteList, title, additionalOpenHandler, isOpenedDefault } = props;
   const { lang } = useTranslation('favoritePage');
   const data = useGetFavoriteItemsDetail(favoriteList, lang);
 

@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './movie-details.module.scss';
 import { Details } from '@/types/Details';
 import { MovieDetailsHeader } from './MovieDetailsHeader';
@@ -17,7 +16,7 @@ import Masonry from 'react-masonry-css';
 import { DetailsVideosSkeleton } from '@/lib/loading-skeleton/DetailsVideosSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface MovieDetailsProps {
   mediaId: number;
   mediaType: string;
   initialData?: Details.RootObject;
@@ -30,7 +29,8 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-export const MovieDetails: FC<Props> = ({ mediaType, mediaId, initialData }) => {
+export const MovieDetails = (props: MovieDetailsProps) => {
+  const { mediaId, mediaType, initialData } = props;
   const { t, lang } = useTranslation('details');
   const { data: details, isLoading } = useGetMovieDetails(mediaId, mediaType, lang, initialData);
   const { data: recommendations, isLoading: recommendationsIsLoading } = useGetRecommendations(mediaId, mediaType, lang);

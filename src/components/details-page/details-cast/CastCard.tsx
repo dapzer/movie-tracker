@@ -6,11 +6,12 @@ import { LinkToDetails } from '@/components/core/details/link-to-details/LinkToD
 import { UiCard } from '@/components/ui/card/UiCard';
 import useTranslation from 'next-translate/useTranslation';
 
-interface Props {
+interface CastCardProps {
   item: Credits.Cast;
 }
 
-export const CastCard: FC<Props> = ({ item }) => {
+export const CastCard = (props: CastCardProps) => {
+  const { item } = props;
   const { t } = useTranslation('details');
 
   return (

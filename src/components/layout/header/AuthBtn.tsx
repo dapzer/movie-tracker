@@ -1,14 +1,12 @@
-import React, { FC } from 'react';
 import { LoginStatus } from '@/types/Enums';
 import { LoginModal } from '@/components/core/login-modal/LoginModal';
 import { signOut, useSession } from 'next-auth/react';
 import useTranslation from 'next-translate/useTranslation';
 
-interface Props {}
-
-export const AuthBtn: FC<Props> = () => {
+export const AuthBtn = () => {
   const { status } = useSession();
   const { t } = useTranslation('buttons');
+
   return (
     <>
       {status === LoginStatus.Unauthenticated ? (

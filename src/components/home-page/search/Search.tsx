@@ -1,4 +1,4 @@
-import React, { FC, Ref, useEffect, useRef, useState } from 'react';
+import { Ref, useEffect, useRef, useState } from 'react';
 import styles from './search.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { isOnlySpaces } from '@/utils/isOnlySpaces';
@@ -8,11 +8,12 @@ import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSl
 import { CloseIcon, SearchIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface SearchProps {
   searchTitleRef: Ref<HTMLInputElement> | null;
 }
 
-export const Search: FC<Props> = ({ searchTitleRef }) => {
+export const Search = (props: SearchProps) => {
+  const { searchTitleRef } = props;
   const { changeSearch, updateRouter, clearQueries } = useSearch();
   const { searchTerm, currentPage } = useAppSelector(selectSearchParams);
   const [localSearchValue, setLocalSearchValue] = useState<string | null>(null);

@@ -1,11 +1,8 @@
-import React, { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { CardSkeleton } from './CardSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {}
-
-export const DetailsCastSkeleton: FC<Props> = () => {
+export const DetailsCastSkeleton = () => {
   return (
     <section>
       <Typography as="h2" variant="title2">

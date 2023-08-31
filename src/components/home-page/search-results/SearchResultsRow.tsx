@@ -1,4 +1,4 @@
-import React, { FC, RefObject, useEffect } from 'react';
+import { RefObject, useEffect } from 'react';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
 import { ContentNames } from '@/types/Enums';
@@ -16,7 +16,7 @@ import { useSearch } from '@/hooks/useSearch';
 import { useGetSearchByTerm } from '@/hooks/useTmdbApi';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface SearchResultsRowProps {
   searchTitleRef: RefObject<HTMLInputElement> | null;
 }
 
@@ -27,7 +27,8 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-export const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
+export const SearchResultsRow = (props: SearchResultsRowProps) => {
+  const { searchTitleRef } = props;
   const { t, lang } = useTranslation('searchPage');
   const { changePage, scrollToSearch } = useSearch();
   const { currentPage, searchTerm } = useAppSelector(selectSearchParams);

@@ -5,11 +5,12 @@ import { Footer } from './footer/Footer';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchFavoriteListApi } from '@/redux/features/favoriteList/favoriteListThunk';
 
-interface Props {
+interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout: FC<Props> = ({ children }) => {
+export const Layout = (props: LayoutProps) => {
+  const { children } = props;
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
 

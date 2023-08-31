@@ -1,17 +1,17 @@
-import React, { FC } from 'react';
 import { signIn } from 'next-auth/react';
 import { UiModal } from '@/components/ui/modal/UiModal';
 import styles from './login-modal.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 
-interface Props {
+interface LoginModalProps {
   isOpenedDefault?: boolean;
   customHandler?: (arg0: boolean) => void;
   btnTitle?: string;
   btnClass?: string;
 }
 
-export const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler, btnTitle, btnClass }) => {
+export const LoginModal = (props: LoginModalProps) => {
+  const { isOpenedDefault, customHandler, btnTitle, btnClass } = props;
   const { t } = useTranslation('buttons');
 
   return (

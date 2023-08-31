@@ -9,7 +9,10 @@ import useTranslation from 'next-translate/useTranslation';
 import { Person } from '@/types/Person';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-const Details: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ details, mediaType, locale }) => {
+type DetailsProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const Details: NextPage<DetailsProps> = (props) => {
+  const { details, mediaType, locale } = props;
   const router = useRouter();
   const { t } = useTranslation('errors');
   const title = details?.title || details?.original_title || details?.name || 'Error';

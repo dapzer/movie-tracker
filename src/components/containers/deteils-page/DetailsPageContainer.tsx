@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { Person } from '@/types/Person';
 import { MovieDetails } from '@/components/details-page/movie-details/MovieDetails';
 import { Details as DetailsType } from '@/types/Details';
@@ -7,13 +6,15 @@ import { PersonDetails } from '@/components/details-page/person-details/PersonDe
 import styles from './details.module.scss';
 import { BackBtn } from '@/components/core/back-btn/BackBtn';
 
-interface Props {
+interface DetailsPageContainerProps {
   details: Person.RootObject & DetailsType.RootObject;
   mediaType: string;
   locale: string;
 }
 
-export const DetailsPageContainer: FC<Props> = ({ mediaType, locale, details }) => {
+export const DetailsPageContainer = (props: DetailsPageContainerProps) => {
+  const { mediaType, details } = props;
+
   return (
     <div className={'container'}>
       <BackBtn />

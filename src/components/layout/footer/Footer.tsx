@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './footer.module.scss';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import Link from 'next/link';
@@ -23,7 +22,7 @@ const contacts = [
   },
 ];
 
-export const Footer: FC<Props> = () => {
+export const Footer = () => {
   return (
     <footer className={styles['body']}>
       <div className={'container'}>
