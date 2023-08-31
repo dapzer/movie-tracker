@@ -8,7 +8,7 @@ interface TypographyProps {
   variant?: 'text' | 'title' | 'title2' | 'title3' | 'link' | 'linkUnderlined' | 'textSmall' | 'listItem';
 }
 
-export const _Typography = forwardRef<
+const _Typography = forwardRef<
   React.ElementType,
   TypographyProps & {
     as: React.ElementType;
