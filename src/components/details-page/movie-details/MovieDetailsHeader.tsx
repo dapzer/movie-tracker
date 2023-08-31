@@ -5,10 +5,10 @@ import { toCurrency } from '@/utils/toCurrency';
 import { Details } from '@/types/Details';
 import { Credits } from '@/types/Credits';
 import { ContentNames } from '@/types/Enums';
-import UiInfoHeader from '@/components/ui/imfo-header/UiInfoHeader';
+import { UiInfoHeader } from '@/components/ui/imfo-header/UiInfoHeader';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
-import MovieDetailsProducers from '@/components/details-page/movie-details/MovieDetailsProducers';
+import { MovieDetailsProducers } from '@/components/details-page/movie-details/MovieDetailsProducers';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
   mediaType: string;
 }
 
-const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
+export const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
   const { t, lang } = useTranslation('details');
 
   const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString(lang);
@@ -164,5 +164,3 @@ const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
     </UiInfoHeader>
   );
 };
-
-export default MovieDetailsHeader;

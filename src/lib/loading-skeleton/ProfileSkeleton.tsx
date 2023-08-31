@@ -5,7 +5,7 @@ import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
-const ProfileSkeleton: FC<Props> = () => {
+export const ProfileSkeleton: FC<Props> = () => {
   return (
     <div className={styles['content']}>
       <Typography>
@@ -17,5 +17,3 @@ const ProfileSkeleton: FC<Props> = () => {
     </div>
   );
 };
-
-export default ProfileSkeleton;

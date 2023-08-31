@@ -8,7 +8,7 @@ interface Props {
   producers: Credits.Cast[] | Details.CreatedBy[];
 }
 
-const MovieDetailsProducers: FC<Props> = (props) => {
+export const MovieDetailsProducers: FC<Props> = (props) => {
   return (
     <>
       {props.producers.map((el, index) => (
@@ -22,5 +22,3 @@ const MovieDetailsProducers: FC<Props> = (props) => {
     </>
   );
 };
-
-export default MovieDetailsProducers;

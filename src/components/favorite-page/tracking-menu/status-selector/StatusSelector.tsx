@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styles from './status-selector.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '@/hooks/useFavorite';
-import UiDropdown from '@/components/ui/dropdown/UiDropdown';
+import { UiDropdown } from '@/components/ui/dropdown/UiDropdown';
 import { FavoriteList } from '@/types/FavoriteList';
 import { ListIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
@@ -18,7 +18,7 @@ interface Props {
 
 const statuses: FavoriteList.StatusesNames[] = ['watchingNow', 'notViewed', 'waitNewPart', 'viewed'];
 
-const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, dropdownStyles }) => {
+export const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, dropdownStyles }) => {
   const { t } = useTranslation();
   const { handleFavorite, changeStatus, isFavorite, isLoading } = useFavorite(id);
 
@@ -60,5 +60,3 @@ const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, drop
     </div>
   );
 };
-
-export default StatusSelector;

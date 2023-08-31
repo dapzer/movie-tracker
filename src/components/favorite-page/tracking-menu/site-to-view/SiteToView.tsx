@@ -11,7 +11,7 @@ interface Props {
   favoriteItem: FavoriteList.RootObject;
 }
 
-const SiteToView: FC<Props> = ({ favoriteItem }) => {
+export const SiteToView: FC<Props> = ({ favoriteItem }) => {
   const { sitesToView, startEdit, isEdit, editUrlIndex, editUrlValue, confirmlEdit, cancelEdit, setEditUrlValue } = useSitesToView(favoriteItem);
   const { t } = useTranslation('favoritePage');
 
@@ -59,5 +59,3 @@ const SiteToView: FC<Props> = ({ favoriteItem }) => {
     </div>
   );
 };
-
-export default SiteToView;

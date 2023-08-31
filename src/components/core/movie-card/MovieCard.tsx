@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import UiCard from '@/components/ui/card/UiCard';
+import { UiCard } from '@/components/ui/card/UiCard';
 import styles from './movie-card.module.scss';
-import FavoriteBtn from '@/components/core/favorite-btn/FavoriteBtn';
-import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetails';
-import ScoreCircle from '@/components/core/score-circle/ScoreCircle';
+import { FavoriteBtn } from '@/components/core/favorite-btn/FavoriteBtn';
+import { LinkToDetails } from '@/components/core/details/link-to-details/LinkToDetails';
+import { ScoreCircle } from '@/components/core/score-circle/ScoreCircle';
 import useTranslation from 'next-translate/useTranslation';
-import StatusSelector from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
+import { StatusSelector } from '@/components/favorite-page/tracking-menu/status-selector/StatusSelector';
 import { StatusesNames } from '@/types/Enums';
 import { useFavorite } from '@/hooks/useFavorite';
 
@@ -25,7 +25,7 @@ interface Props {
   dateTitle?: string;
 }
 
-const MovieCard: FC<Props> = ({
+export const MovieCard: FC<Props> = ({
   children,
   image,
   small,
@@ -82,5 +82,3 @@ const MovieCard: FC<Props> = ({
     </UiCard>
   );
 };
-
-export default MovieCard;

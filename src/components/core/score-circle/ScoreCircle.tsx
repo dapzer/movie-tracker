@@ -29,7 +29,7 @@ const scoreRanges = [
   },
 ];
 
-const ScoreCircle: FC<Props> = ({ value }) => {
+export const ScoreCircle: FC<Props> = ({ value }) => {
   const indicatorColor = (score: number) => {
     for (let range of scoreRanges) {
       if (range.min <= score && score <= range.max) {
@@ -56,5 +56,3 @@ const ScoreCircle: FC<Props> = ({ value }) => {
     </div>
   );
 };
-
-export default ScoreCircle;

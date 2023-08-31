@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import CardSkeleton from './CardSkeleton';
+import { CardSkeleton } from './CardSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
-const DetailsCastSkeleton: FC<Props> = () => {
+export const DetailsCastSkeleton: FC<Props> = () => {
   return (
     <section>
       <Typography as="h2" variant="title2">
@@ -30,5 +30,3 @@ const DetailsCastSkeleton: FC<Props> = () => {
     </section>
   );
 };
-
-export default DetailsCastSkeleton;

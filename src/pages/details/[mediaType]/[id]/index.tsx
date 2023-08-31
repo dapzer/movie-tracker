@@ -2,7 +2,7 @@ import type { NextPage, NextPageContext } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import { detailApi } from '@/api/fetchApi';
 import { Details as DetailsType } from '@/types/Details';
-import DetailsPageContainer from '@/components/containers/deteils-page/DetailsPageContainer';
+import { DetailsPageContainer } from '@/components/containers/deteils-page/DetailsPageContainer';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
@@ -35,16 +35,15 @@ const Details: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> 
   );
 };
 
-export default Details;
-
 export async function getServerSideProps({ query, locale }: NextPageContext) {
   const data = await detailApi<DetailsType.RootObject & Person.RootObject>({
     mediaType: query.mediaType as string,
     mediaId: Number(query.id),
     language: locale!,
   });
-
   return {
     props: { details: data, mediaType: query.mediaType as string, locale: locale as string },
   };
 }
+
+export default Details;

@@ -2,13 +2,13 @@ import React, { FC, RefObject, useEffect } from 'react';
 import styles from './search-results.module.scss';
 import Masonry from 'react-masonry-css';
 import { ContentNames } from '@/types/Enums';
-import SearchResultPerson from './SearchResultPerson';
+import { SearchResultPerson } from './SearchResultPerson';
 import useTranslation from 'next-translate/useTranslation';
-import CardSkeleton from '@/lib/loading-skeleton/CardSkeleton';
+import { CardSkeleton } from '@/lib/loading-skeleton/CardSkeleton';
 import Skeleton from 'react-loading-skeleton';
-import UiPagination from '@/components/ui/pagination/UiPagination';
-import PopularlsList from '@/components/home-page/popular/PopularlsList';
-import MovieCard from '@/components/core/movie-card/MovieCard';
+import { UiPagination } from '@/components/ui/pagination/UiPagination';
+import { PopularlsList } from '@/components/home-page/popular/PopularlsList';
+import { MovieCard } from '@/components/core/movie-card/MovieCard';
 import { isOnlySpaces } from '@/utils/isOnlySpaces';
 import { useAppSelector } from '@/redux/hooks';
 import { selectSearchParams } from '@/redux/features/searchParams/searchParamsSlice';
@@ -27,7 +27,7 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
+export const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
   const { t, lang } = useTranslation('searchPage');
   const { changePage, scrollToSearch } = useSearch();
   const { currentPage, searchTerm } = useAppSelector(selectSearchParams);
@@ -106,5 +106,3 @@ const SearchResultsRow: FC<Props> = ({ searchTitleRef }) => {
     </section>
   );
 };
-
-export default SearchResultsRow;

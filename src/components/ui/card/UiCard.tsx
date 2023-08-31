@@ -16,7 +16,7 @@ interface Props {
   small?: boolean;
 }
 
-const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link, small }) => {
+export const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, link, small }) => {
   return (
     <div
       className={clsx(styles['body'], {
@@ -46,5 +46,3 @@ const UiCard: FC<Props> = ({ image, title, date, children, width, horizontal, li
     </div>
   );
 };
-
-export default UiCard;

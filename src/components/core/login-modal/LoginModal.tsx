@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { signIn } from 'next-auth/react';
-import UiModal from '@/components/ui/modal/UiModal';
+import { UiModal } from '@/components/ui/modal/UiModal';
 import styles from './login-modal.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -11,7 +11,7 @@ interface Props {
   btnClass?: string;
 }
 
-const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler, btnTitle, btnClass }) => {
+export const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler, btnTitle, btnClass }) => {
   const { t } = useTranslation('buttons');
 
   return (
@@ -40,5 +40,3 @@ const LoginModal: FC<Props> = ({ isOpenedDefault, customHandler, btnTitle, btnCl
     </UiModal>
   );
 };
-
-export default LoginModal;

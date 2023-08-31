@@ -5,7 +5,7 @@ import { Typography } from '@/components/ui/typography/UiTypography';
 
 interface Props {}
 
-const DetailsInfoBlockSkeleton: FC<Props> = () => {
+export const DetailsInfoBlockSkeleton: FC<Props> = () => {
   return (
     <section className={styles['info_block']}>
       <Typography as="h2" variant="title2">
@@ -18,5 +18,3 @@ const DetailsInfoBlockSkeleton: FC<Props> = () => {
     </section>
   );
 };
-
-export default DetailsInfoBlockSkeleton;

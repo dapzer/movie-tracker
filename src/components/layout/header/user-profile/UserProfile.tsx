@@ -3,15 +3,15 @@ import styles from './user-profie.module.scss';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
 import Image from 'next/image';
-import UiDropdown from '@/components/ui/dropdown/UiDropdown';
-import AuthBtn from '@/components/layout/header/AuthBtn';
-import ProfileSkeleton from '@/lib/loading-skeleton/ProfileSkeleton';
+import { UiDropdown } from '@/components/ui/dropdown/UiDropdown';
+import { AuthBtn } from '@/components/layout/header/AuthBtn';
+import { ProfileSkeleton } from '@/lib/loading-skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
 interface Props {}
 
-const UserProfile: FC<Props> = () => {
+export const UserProfile: FC<Props> = () => {
   const { data: session, status } = useSession();
 
   return (
@@ -45,5 +45,3 @@ const UserProfile: FC<Props> = () => {
     </>
   );
 };
-
-export default UserProfile;

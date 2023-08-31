@@ -8,7 +8,7 @@ interface Props {
   containerClass?: string;
 }
 
-const UiDropdown: FC<Props> = ({ children, marginTop, containerClass }) => {
+export const UiDropdown: FC<Props> = ({ children, marginTop, containerClass }) => {
   return (
     <div
       className={clsx('ui-dropdown', styles['body'], {
@@ -21,5 +21,3 @@ const UiDropdown: FC<Props> = ({ children, marginTop, containerClass }) => {
     </div>
   );
 };
-
-export default UiDropdown;

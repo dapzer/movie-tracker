@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import { Person } from '@/types/Person';
-import UiCard from '@/components/ui/card/UiCard';
-import LinkToDetails from '@/components/core/details/link-to-details/LinkToDetails';
+import { UiCard } from '@/components/ui/card/UiCard';
+import { LinkToDetails } from '@/components/core/details/link-to-details/LinkToDetails';
 import useTranslation from 'next-translate/useTranslation';
 
 interface Props {
   item: Person.Cast;
 }
 
-const CreditsCard: FC<Props> = ({ item }) => {
+export const CreditsCard: FC<Props> = ({ item }) => {
   const { t, lang } = useTranslation('details');
 
   return (
@@ -29,5 +29,3 @@ const CreditsCard: FC<Props> = ({ item }) => {
     </UiCard>
   );
 };
-
-export default CreditsCard;

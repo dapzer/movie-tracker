@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import FavoritePageContainer from '@/components/containers/favorite-page/FavoritePageContainer';
+import { FavoritePageContainer } from '@/components/containers/favorite-page/FavoritePageContainer';
 import useTranslation from 'next-translate/useTranslation';
 import { NextSeo } from 'next-seo';
 

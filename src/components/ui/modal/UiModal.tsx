@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import ModalContent from './ModalContent';
+import { ModalContent } from './ModalContent';
 import styles from './ui-modal.module.scss';
 import clsx from 'clsx';
 
@@ -15,7 +15,8 @@ interface Props {
   customHandler?: (arg0: boolean) => void;
 }
 
-const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, btnClass, isOpenedDefault, customHandler }) => {
+export const UiModal: FC<Props> = (props) => {
+  const { title, children, fullWidth, btnTitle, maxWidth, btnClass, isOpenedDefault, customHandler } = props;
   const [modalVisible, setModalVisible] = useState(isOpenedDefault);
   const { t } = useTranslation('buttons');
 
@@ -52,5 +53,3 @@ const UiModal: FC<Props> = ({ title, children, fullWidth, btnTitle, maxWidth, bt
     </>
   );
 };
-
-export default UiModal;

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 interface Props {}
 
-const InfoHeaderSkeleton: FC<Props> = () => {
+export const InfoHeaderSkeleton: FC<Props> = () => {
   return (
     <section className={styles['body']}>
       <div className={clsx(styles['title_block'], styles[`title_block_mobile`])}>
@@ -42,5 +42,3 @@ const InfoHeaderSkeleton: FC<Props> = () => {
     </section>
   );
 };
-
-export default InfoHeaderSkeleton;

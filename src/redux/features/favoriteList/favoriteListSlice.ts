@@ -70,4 +70,3 @@ export const favoriteListSlice = createSlice({
 
 export const { deleteFavoriteListItem, updateFavoriteListItem, changeFavoriteListItemStatus } = favoriteListSlice.actions;
 export const selectFavoriteList = (state: RootState) => state.favoriteList;
-export default favoriteListSlice.reducer;

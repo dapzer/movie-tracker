@@ -14,7 +14,7 @@ interface Props {
   };
 }
 
-const UiPagination: FC<Props> = ({ paginationInfo }) => {
+export const UiPagination: FC<Props> = ({ paginationInfo }) => {
   const { t } = useTranslation('buttons');
 
   // * Получение массива страниц для отрисовки
@@ -59,5 +59,3 @@ const UiPagination: FC<Props> = ({ paginationInfo }) => {
     </div>
   );
 };
-
-export default UiPagination;
