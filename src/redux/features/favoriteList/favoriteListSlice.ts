@@ -16,7 +16,7 @@ const initialState: FavoriteListState = {
   viewed: [],
   waitNewPart: [],
   watchingNow: [],
-  isGettingFavoriteList: false,
+  isGettingFavoriteList: true,
 };
 
 export const favoriteListSlice = createSlice({
@@ -40,6 +40,9 @@ export const favoriteListSlice = createSlice({
       state.allFavorites[indexInAllFavorites].trackingData.currentStatus = action.payload.newStatus;
 
       state[action.payload.newStatus].push(state.allFavorites[indexInAllFavorites]);
+    },
+    changeFavoriteListLoadingStatus: (state, action: PayloadAction<boolean>) => {
+      state.isGettingFavoriteList = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -68,5 +71,6 @@ export const favoriteListSlice = createSlice({
   },
 });
 
-export const { deleteFavoriteListItem, updateFavoriteListItem, changeFavoriteListItemStatus } = favoriteListSlice.actions;
+export const { deleteFavoriteListItem, updateFavoriteListItem, changeFavoriteListItemStatus, changeFavoriteListLoadingStatus } =
+  favoriteListSlice.actions;
 export const selectFavoriteList = (state: RootState) => state.favoriteList;
