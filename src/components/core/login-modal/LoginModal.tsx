@@ -3,6 +3,29 @@ import { UiModal } from '@/components/ui/modal/UiModal';
 import styles from './login-modal.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 
+const loginOptions = [
+  {
+    title: 'Google',
+    provider: 'google',
+    color: '#D92929',
+  },
+  {
+    title: 'Yandex',
+    provider: 'yandex',
+    color: '#FFCC00',
+  },
+  {
+    title: 'Vkontakte',
+    provider: 'vk',
+    color: '#0077FF',
+  },
+  {
+    title: 'GitHub',
+    provider: 'github',
+    color: '#444',
+  },
+];
+
 interface LoginModalProps {
   isOpenedDefault?: boolean;
   customHandler?: (arg0: boolean) => void;
@@ -24,18 +47,11 @@ export const LoginModal = (props: LoginModalProps) => {
       btnTitle={btnTitle || t('signIn')}
     >
       <div className={styles['content']}>
-        <button onClick={() => signIn('google')} style={{ '--bg': '#D92929' } as React.CSSProperties}>
-          Google
-        </button>
-        <button onClick={() => signIn('yandex')} style={{ '--bg': '#FFCC00' } as React.CSSProperties}>
-          Yandex
-        </button>
-        <button onClick={() => signIn('vk')} style={{ '--bg': '#0077FF' } as React.CSSProperties}>
-          Vkontakte
-        </button>
-        <button onClick={() => signIn('github')} style={{ '--bg': '#444' } as React.CSSProperties}>
-          GitHub
-        </button>
+        {loginOptions.map((option) => (
+          <button key={option.title} onClick={() => signIn(option.provider)} style={{ '--bg': option.color } as React.CSSProperties}>
+            {option.title}
+          </button>
+        ))}
       </div>
     </UiModal>
   );
