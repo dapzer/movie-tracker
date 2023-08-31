@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { useState } from 'react';
 import { FavoriteList } from '@/types/FavoriteList';
 import { Details } from '@/types/Details';
 import useTranslation from 'next-translate/useTranslation';
@@ -10,7 +10,7 @@ import { SiteToView } from '@/components/favorite-page/tracking-menu/site-to-vie
 import { ContentNames } from '@/types/Enums';
 import clsx from 'clsx';
 
-interface Props {
+interface TrackingMenuProps {
   favoriteItem: FavoriteList.RootObject;
   details: Details.RootObject;
 }
@@ -18,7 +18,8 @@ interface Props {
 type Tab = 'information' | 'note';
 const tabs: Tab[] = ['information', 'note'];
 
-export const TrackingMenu: FC<Props> = ({ details, favoriteItem }) => {
+export const TrackingMenu = (props: TrackingMenuProps) => {
+  const { favoriteItem, details } = props;
   const [activeTab, setSetActiveTab] = useState<Tab>('information');
   const { t } = useTranslation('favoritePage');
 

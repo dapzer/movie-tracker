@@ -1,11 +1,10 @@
-import React, { FC } from 'react';
 import { usePagination } from '@/hooks/usePagination';
 import styles from './ui-pagination.module.scss';
 import { PaginationOptions } from '@/types/PaginationOptions';
 import useTranslation from 'next-translate/useTranslation';
 import clsx from 'clsx';
 
-interface Props {
+interface UiPaginationProps {
   paginationInfo: {
     currentPage: number;
     handlePage: (arg0: number) => void;
@@ -14,7 +13,8 @@ interface Props {
   };
 }
 
-export const UiPagination: FC<Props> = ({ paginationInfo }) => {
+export const UiPagination = (props: UiPaginationProps) => {
+  const { paginationInfo } = props;
   const { t } = useTranslation('buttons');
 
   // * Получение массива страниц для отрисовки

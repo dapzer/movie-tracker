@@ -1,18 +1,19 @@
-import React, { FC } from 'react';
 import Image from 'next/image';
 import styles from './video-card.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { PlayIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface VideoPreviewCardProps {
   previewUrl: string;
   releaseDate: Date;
   title: string;
 }
 
-export const VideoPreviewCard: FC<Props> = ({ previewUrl, title, releaseDate }) => {
+export const VideoPreviewCard = (props: VideoPreviewCardProps) => {
+  const { previewUrl, releaseDate, title } = props;
   const { t, lang } = useTranslation('card');
+
   return (
     <div className={styles['body']}>
       <div className={styles['image']}>

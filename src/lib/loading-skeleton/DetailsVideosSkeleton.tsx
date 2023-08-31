@@ -1,12 +1,9 @@
-import React, { FC } from 'react';
 import styles from '@/components/details-page/movie-details/movie-details.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { CardSkeleton } from './CardSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {}
-
-export const DetailsVideosSkeleton: FC<Props> = () => {
+export const DetailsVideosSkeleton = () => {
   return (
     <section className={styles['']}>
       <Typography as="h2" variant="title2">

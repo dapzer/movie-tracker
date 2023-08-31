@@ -6,11 +6,12 @@ import { Person } from '@/types/Person';
 import { Credits } from '@/types/Credits';
 import useTranslation from 'next-translate/useTranslation';
 
-interface Props {
+interface PersonModalProps {
   personData: SearchResponse.ResultItem | Person.Cast | Credits.Cast;
 }
 
-export const PersonModal: FC<Props> = ({ personData }) => {
+export const PersonModal = (props: PersonModalProps) => {
+  const { personData } = props;
   const { t } = useTranslation('card');
 
   return (

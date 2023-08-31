@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './header.module.scss';
 import Link from 'next/link';
 import { LocaleSelect } from './LocaleSelect';
@@ -11,7 +11,7 @@ import { LoginStatus } from '@/types/Enums';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-export const Header: FC = () => {
+export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
 

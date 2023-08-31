@@ -1,10 +1,5 @@
-import React, { FC } from 'react';
 import styles from './score-circle.module.scss';
 import { Typography } from '@/components/ui/typography/UiTypography';
-
-interface Props {
-  value: number;
-}
 
 const scoreRanges = [
   {
@@ -29,7 +24,13 @@ const scoreRanges = [
   },
 ];
 
-export const ScoreCircle: FC<Props> = ({ value }) => {
+interface ScoreCircleProps {
+  value: number;
+}
+
+export const ScoreCircle = (props: ScoreCircleProps) => {
+  const { value } = props;
+
   const indicatorColor = (score: number) => {
     for (let range of scoreRanges) {
       if (range.min <= score && score <= range.max) {

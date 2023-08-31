@@ -8,7 +8,7 @@ import { MovieCard } from '@/components/core/movie-card/MovieCard';
 import { useGetPopularList } from '@/hooks/useTmdbApi';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface PopularlsListProps {
   mediaType: string;
   title: string;
 }
@@ -20,7 +20,8 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-export const PopularlsList: FC<Props> = ({ mediaType, title }) => {
+export const PopularlsList = (props: PopularlsListProps) => {
+  const { mediaType, title } = props;
   const { lang } = useTranslation();
   const { t } = useTranslation('buttons');
   const { data: popular, isLoading } = useGetPopularList(mediaType, lang);

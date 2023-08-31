@@ -1,12 +1,9 @@
-import React, { FC } from 'react';
 import styles from '@/components/ui/imfo-header/ui-imfo-header.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {}
-
-export const InfoHeaderSkeleton: FC<Props> = () => {
+export const InfoHeaderSkeleton = () => {
   return (
     <section className={styles['body']}>
       <div className={clsx(styles['title_block'], styles[`title_block_mobile`])}>

@@ -4,11 +4,11 @@ import { Details } from '@/types/Details';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface MovieDetailsProducersProps {
   producers: Credits.Cast[] | Details.CreatedBy[];
 }
 
-export const MovieDetailsProducers: FC<Props> = (props) => {
+export const MovieDetailsProducers = (props: MovieDetailsProducersProps) => {
   return (
     <>
       {props.producers.map((el, index) => (

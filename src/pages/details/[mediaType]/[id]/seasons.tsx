@@ -6,9 +6,10 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-type SeasonsProps = NextPage<InferGetServerSidePropsType<typeof getServerSideProps>>;
+type SeasonsProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Seasons: SeasonsProps = ({ data, mediaType, locale }) => {
+const Seasons: NextPage<SeasonsProps> = (props) => {
+  const { data, mediaType, locale } = props;
   const { t } = useTranslation('errors');
   const router = useRouter();
   const title = data?.details?.title || data?.details?.original_title || data?.details?.name || 'Error';

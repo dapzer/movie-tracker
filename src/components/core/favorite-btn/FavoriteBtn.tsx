@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { useState } from 'react';
 import { useFavorite } from '@/hooks/useFavorite';
 import styles from './favorite-btn.module.scss';
 import useTranslation from 'next-translate/useTranslation';
@@ -9,14 +9,15 @@ import { FavoriteIcon, InFavoriteIcon, ListIcon } from '@/components/ui/Icons';
 import clsx from 'clsx';
 import { UiLoader } from '@/components/ui/loader/UiLoader';
 
-interface Props {
+interface FavoriteBtnProps {
   id: number;
   className: string;
   mediaType: string;
   asListTrigger?: boolean;
 }
 
-export const FavoriteBtn: FC<Props> = ({ id, className, mediaType, asListTrigger }) => {
+export const FavoriteBtn = (props: FavoriteBtnProps) => {
+  const { id, className, mediaType, asListTrigger } = props;
   const [showLogin, setShowLogin] = useState(false);
   const { handleFavorite, isFavorite, isLoading } = useFavorite(id);
   const { t } = useTranslation();

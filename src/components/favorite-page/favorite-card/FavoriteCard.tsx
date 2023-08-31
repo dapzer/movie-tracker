@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './favorite-card.module.scss';
 import { Details } from '@/types/Details';
 import useTranslation from 'next-translate/useTranslation';
@@ -7,11 +6,12 @@ import { StatusSelector } from '@/components/favorite-page/tracking-menu/status-
 import { MovieCard } from '@/components/core/movie-card/MovieCard';
 import { TrackingMenu } from '@/components/favorite-page/tracking-menu/TrackingMenu';
 
-interface Props {
+interface FavoriteCardProps {
   details: Details.RootObject;
 }
 
-export const FavoriteCard: FC<Props> = ({ details }) => {
+export const FavoriteCard = (props: FavoriteCardProps) => {
+  const { details } = props;
   const { getFavoriteItem } = useFavorite();
   const { t } = useTranslation('favoritePage');
   const favoriteItem = getFavoriteItem(details.id);

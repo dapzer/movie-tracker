@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { arrayToString } from '@/utils/arrayToString';
 import { getMovieDirectors } from '@/utils/getMovieDirectors';
 import { toCurrency } from '@/utils/toCurrency';
@@ -11,13 +10,14 @@ import Link from 'next/link';
 import { MovieDetailsProducers } from '@/components/details-page/movie-details/MovieDetailsProducers';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface MovieDetailsHeaderProps {
   details: Details.RootObject;
   credits?: Credits.RootObject | null;
   mediaType: string;
 }
 
-export const MovieDetailsHeader: FC<Props> = ({ details, credits, mediaType }) => {
+export const MovieDetailsHeader = (props: MovieDetailsHeaderProps) => {
+  const { details, mediaType, credits } = props;
   const { t, lang } = useTranslation('details');
 
   const release = new Date(`${details?.release_date || details?.first_air_date}`).toLocaleDateString(lang);

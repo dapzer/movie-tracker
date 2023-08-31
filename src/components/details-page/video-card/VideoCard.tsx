@@ -1,16 +1,17 @@
-import React, { FC } from 'react';
 import { UiModal } from '@/components/ui/modal/UiModal';
 import { VideoPreviewCard } from './VideoPreviewCard';
 import styles from './video-card.module.scss';
 
-interface Props {
+interface VideoCardProps {
   previewUrl: string;
   videoUrl: string;
   releaseDate: Date;
   title: string;
 }
 
-export const VideoCard: FC<Props> = ({ videoUrl, previewUrl, title, releaseDate }) => {
+export const VideoCard = (props: VideoCardProps) => {
+  const { videoUrl, previewUrl, title, releaseDate } = props;
+
   return (
     <UiModal
       title={title}

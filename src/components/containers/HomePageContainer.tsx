@@ -1,9 +1,9 @@
-import React, { FC, useRef } from 'react';
+import { useRef } from 'react';
 import { Search } from '@/components/home-page/search/Search';
 import { SearchResultsRow } from '@/components/home-page/search-results/SearchResultsRow';
 import { HomePageInfo } from '@/components/home-page/home-page-info/HomePageInfo';
 
-export const HomePageContainer: FC = () => {
+export const HomePageContainer = () => {
   const searchTitleRef = useRef<HTMLInputElement | null>(null);
 
   return (

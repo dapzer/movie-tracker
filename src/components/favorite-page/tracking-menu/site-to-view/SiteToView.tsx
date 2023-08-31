@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './site-to-view.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { FavoriteList } from '@/types/FavoriteList';
@@ -7,11 +6,12 @@ import { AddIcon, CheckMarkIcon, CloseIcon, EditIcon } from '@/components/ui/Ico
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {
+interface SiteToViewProps {
   favoriteItem: FavoriteList.RootObject;
 }
 
-export const SiteToView: FC<Props> = ({ favoriteItem }) => {
+export const SiteToView = (props: SiteToViewProps) => {
+  const { favoriteItem } = props;
   const { sitesToView, startEdit, isEdit, editUrlIndex, editUrlValue, confirmlEdit, cancelEdit, setEditUrlValue } = useSitesToView(favoriteItem);
   const { t } = useTranslation('favoritePage');
 

@@ -6,12 +6,13 @@ import { useNote } from '@/hooks/useNote';
 import { FavoriteList } from '@/types/FavoriteList';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface NoteProps {
   maxLength: number;
   favoriteItem: FavoriteList.RootObject;
 }
 
-export const Note: FC<Props> = ({ maxLength, favoriteItem }) => {
+export const Note = (props: NoteProps) => {
+  const { maxLength, favoriteItem } = props;
   const { note, setNote, saveNote, cancelChanges } = useNote(favoriteItem);
   const { t } = useTranslation('favoritePage');
 

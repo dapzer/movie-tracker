@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FavoriteRow } from '@/components/favorite-page/favorite-row/FavoriteRow';
 import useTranslation from 'next-translate/useTranslation';
 import { useSession } from 'next-auth/react';
@@ -10,9 +10,7 @@ import { selectFavoriteList } from '@/redux/features/favoriteList/favoriteListSl
 import { Typography } from '@/components/ui/typography/UiTypography';
 import { FavoriteListCategoriesOpenStatus } from '@/types/FavoriteListCategoriesOpenStatus';
 
-interface Props {}
-
-export const FavoritePageContainer: FC<Props> = () => {
+export const FavoritePageContainer = () => {
   const { viewed, notViewed, waitNewPart, allFavorites, watchingNow } = useAppSelector(selectFavoriteList);
   const { status } = useSession();
   const { t } = useTranslation('favoritePage');

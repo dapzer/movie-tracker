@@ -1,10 +1,7 @@
-import React, { FC } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import styles from './home-page-info.module.scss';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import Link from 'next/link';
-
-interface Props {}
 
 const socials = {
   ru: [
@@ -29,7 +26,7 @@ const socials = {
   ],
 };
 
-export const HomePageInfo: FC<Props> = () => {
+export const HomePageInfo = () => {
   const { t, lang } = useTranslation('searchPage');
 
   return (

@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './status-selector.module.scss';
 import useTranslation from 'next-translate/useTranslation';
 import { useFavorite } from '@/hooks/useFavorite';
@@ -8,7 +7,7 @@ import { ListIcon } from '@/components/ui/Icons';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {
+interface StatusSelectorProps {
   mediaType: string;
   id: number;
   currentStatus: FavoriteList.StatusesNames;
@@ -18,7 +17,8 @@ interface Props {
 
 const statuses: FavoriteList.StatusesNames[] = ['watchingNow', 'notViewed', 'waitNewPart', 'viewed'];
 
-export const StatusSelector: FC<Props> = ({ id, mediaType, currentStatus, trigger, dropdownStyles }) => {
+export const StatusSelector = (props: StatusSelectorProps) => {
+  const { id, mediaType, currentStatus, trigger, dropdownStyles } = props;
   const { t } = useTranslation();
   const { handleFavorite, changeStatus, isFavorite, isLoading } = useFavorite(id);
 

@@ -1,14 +1,16 @@
-import React, { FC } from 'react';
 import styles from './ui-dropdown.module.scss';
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   marginTop?: string;
   containerClass?: string;
 }
 
-export const UiDropdown: FC<Props> = ({ children, marginTop, containerClass }) => {
+export const UiDropdown = (props: Props) => {
+  const { children, marginTop, containerClass } = props;
+
   return (
     <div
       className={clsx('ui-dropdown', styles['body'], {

@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './series-controls.module.scss';
 import { Details } from '@/types/Details';
 import { useSeriesControls } from '@/hooks/useSeriesControls';
@@ -6,12 +5,13 @@ import useTranslation from 'next-translate/useTranslation';
 import { FavoriteList } from '@/types/FavoriteList';
 import { Typography } from '@/components/ui/typography/UiTypography';
 
-interface Props {
+interface SeriesControlsProps {
   favoriteItem: FavoriteList.RootObject;
   seasons: Details.Season[];
 }
 
-export const SeriesControls: FC<Props> = ({ favoriteItem, seasons }) => {
+export const SeriesControls = (props: SeriesControlsProps) => {
+  const { favoriteItem, seasons } = props;
   const { generateEpisodesList, setCurrentEpisode, currentEpisode, currentSeason, handleSeason } = useSeriesControls(favoriteItem);
   const { t } = useTranslation('favoritePage');
 

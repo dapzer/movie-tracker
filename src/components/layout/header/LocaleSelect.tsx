@@ -1,13 +1,10 @@
-import React, { FC } from 'react';
 import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {}
-
-export const LocaleSelect: FC<Props> = () => {
+export const LocaleSelect = () => {
   const router = useRouter();
   return (
     <div className={styles['locale-select']}>

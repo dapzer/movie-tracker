@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import styles from './user-profie.module.scss';
 import { useSession } from 'next-auth/react';
 import { LoginStatus } from '@/types/Enums';
@@ -9,9 +8,7 @@ import { ProfileSkeleton } from '@/lib/loading-skeleton/ProfileSkeleton';
 import { Typography } from '@/components/ui/typography/UiTypography';
 import clsx from 'clsx';
 
-interface Props {}
-
-export const UserProfile: FC<Props> = () => {
+export const UserProfile = () => {
   const { data: session, status } = useSession();
 
   return (
