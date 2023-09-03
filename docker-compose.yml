@@ -7,10 +7,11 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+    ports:
+      - 3000:3000
   nginx:
     container_name: nginx
     build:
       context: ./nginx
     ports:
-      - 3000:80
-    network_mode: "host"
+      - 80:80
