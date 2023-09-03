@@ -35,5 +35,9 @@ export default NextAuth({
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      console.log(baseUrl, url);
+      return baseUrl;
+    },
   },
 });
