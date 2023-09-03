@@ -1,0 +1,15 @@
+version: '3'
+services:
+  nextjs:
+    container_name: nextjs
+    build:
+      context: ./
+    env_file:
+      - ./.env
+      - ./.env.local
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - 3000:80
