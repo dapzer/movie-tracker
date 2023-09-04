@@ -1,14 +1,6 @@
 version: '3'
+
 services:
-  nextjs:
-    container_name: nextjs
-    build:
-      context: ./
-    env_file:
-      - ./.env
-      - ./.env.local
-    ports:
-      - 3000:3000
   caddy:
     image: caddy:2
     restart: unless-stopped
@@ -21,6 +13,16 @@ services:
       - ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
+  frontend:
+    container_name: frontend
+    build:
+      context: ./
+    env_file:
+      - ./.env
+      - ./.env.local
+    ports:
+      - 3000:3000
+
 
 volumes:
   caddy_data:

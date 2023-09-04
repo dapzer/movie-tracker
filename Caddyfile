@@ -1,3 +1,11 @@
+{
+    email danilavoronkov2002@gmail.com
+}
+
+
 test.dapzer.ru {
-	reverse_proxy localhost:3000
+    root * /app
+    encode gzip
+    file_server
+    reverse_proxy http://frontend:3000
 }
