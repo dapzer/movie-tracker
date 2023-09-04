@@ -1,0 +1,3 @@
+test.dapzer.ru {
+	reverse_proxy localhost:3000
+}
