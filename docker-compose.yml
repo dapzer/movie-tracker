@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./site:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+  frontend:
+    container_name: frontend
+    build:
+      context: ./
+      args:
+        - DOPPLER_TOKEN=${DOPPLER_TOKEN}
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+
+volumes:
+  caddy_data:
+  caddy_config:

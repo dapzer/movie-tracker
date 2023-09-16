@@ -11,23 +11,23 @@ export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     GithubProvider({
-      clientId: process.env.NEXT_PUBLIC_GITHUB_ID || '',
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET || '',
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
     }),
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
     VkProvider({
-      clientId: process.env.NEXT_PUBLIC_VK_CLIENT_ID || '',
-      clientSecret: process.env.NEXT_PUBLIC_VK_CLIENT_SECRET || '',
+      clientId: process.env.VK_CLIENT_ID || '',
+      clientSecret: process.env.VK_CLIENT_SECRET || '',
     }),
     YandexProvider({
-      clientId: process.env.NEXT_PUBLIC_YANDEX_CLIENT_ID || '',
-      clientSecret: process.env.NEXT_PUBLIC_YANDEX_CLIENT_SECRET || '',
+      clientId: process.env.YANDEX_CLIENT_ID || '',
+      clientSecret: process.env.YANDEX_CLIENT_SECRET || '',
     }),
   ],
-  secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     async session({ session, token, user }) {
       if (session?.user) {
