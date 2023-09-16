@@ -11,7 +11,7 @@ import { Typography } from '@/components/ui/typography/UiTypography';
 import { FavoriteListCategoriesOpenStatus } from '@/types/FavoriteListCategoriesOpenStatus';
 
 export const FavoritePageContainer = () => {
-  const { viewed, notViewed, waitNewPart, allFavorites, watchingNow } = useAppSelector(selectFavoriteList);
+  const { viewed, notViewed, waitNewPart, allFavorites, watchingNow, isGettingFavoriteList } = useAppSelector(selectFavoriteList);
   const { status } = useSession();
   const { t } = useTranslation('favoritePage');
   const [currentCategoriesOpenStatus, setCurrentCategoriesOpenStatus] = useState<FavoriteListCategoriesOpenStatus>({
@@ -41,18 +41,19 @@ export const FavoritePageContainer = () => {
 
   return (
     <div className={'container'}>
-      {status === LoginStatus.Loading && <Typography variant="title2">{t('loading')}</Typography>}
+      {(status === LoginStatus.Loading || isGettingFavoriteList) && <Typography variant="title2">{t('loading')}</Typography>}
 
-      {status === LoginStatus.Unauthenticated && (
+      {status === LoginStatus.Unauthenticated && !isGettingFavoriteList && (
         <Typography variant="title2" className={styles['unlogin']}>
           <LoginModal btnClass={styles['unlogin_btn']} btnTitle={t('needToAuthTitle')} /> {t('needToAuthDescription')}
         </Typography>
       )}
-      {!allFavorites?.length && status === LoginStatus.Authenticated && (
+      {!allFavorites?.length && status === LoginStatus.Authenticated && !isGettingFavoriteList && (
         <Typography variant="title2" as="h1">
           {t('emptyFavoriteList')}
         </Typography>
       )}
+
       {!!allFavorites?.length && (
         <Typography variant="title2" as="h1">
           {t('page_title')}
