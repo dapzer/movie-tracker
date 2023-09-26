@@ -28,5 +28,5 @@ jobs:
         with:
           push: true
           tags: dapzer/movie-tracker:latest
-          build-args:
-            DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+          build-args: |
+            DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
