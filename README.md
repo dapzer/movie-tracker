@@ -35,7 +35,7 @@ Movie Tracker - это сервис поиска и отслеживания п�
 
 1. Склонируйте данный репозиторий `git clone https://github.com/dapzer/movie-tracket.git`
 2. Выполните сборку docker контейнера `docker compose build --build-arg DOPPLER_TOKEN="YOUR_TOKEN"`
-3. Запустите проект `docker-compose up`
+3. Запустите проект `docker compose up`
 
 ### F.A.Q
 
