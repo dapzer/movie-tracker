@@ -17,10 +17,6 @@ services:
     container_name: frontend
     build:
       context: ./
-      args:
-        - DOPPLER_TOKEN=${DOPPLER_TOKEN}
-    env_file:
-      - .env
     ports:
       - 3000:3000
 

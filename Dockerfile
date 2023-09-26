@@ -15,6 +15,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 ARG DOPPLER_TOKEN
+ENV DOPPLER_TOKEN=${DOPPLER_TOKEN}
 
 RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub && \
     echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories && \
@@ -22,12 +23,16 @@ RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.ke
 
 RUN doppler run --command="npm run prisma:generate"
 RUN doppler run --command="npm run build"
+RUN doppler run --command="npm run postbuild"
 
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
+
+ARG DOPPLER_TOKEN
+ENV DOPPLER_TOKEN=${DOPPLER_TOKEN}
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 frontend
