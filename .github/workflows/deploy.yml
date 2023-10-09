@@ -29,6 +29,6 @@ jobs:
         with:
           push: true
           file: ./Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/movie-tracker:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/movie-tracker-frontend:latest
           build-args: |
             DOPPLER_TOKEN=${{ secrets.DOPPLER_TOKEN }}
