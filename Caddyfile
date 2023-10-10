@@ -4,8 +4,5 @@
 
 
 test.dapzer.ru {
-    root * /app
-    encode gzip
-    file_server
-    reverse_proxy http://frontend:3000
+    reverse_proxy frontend:3000
 }
