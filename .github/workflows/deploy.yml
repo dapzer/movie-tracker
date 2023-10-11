@@ -3,10 +3,14 @@ name: Build and push docker images
 on:
   push:
     branches: ['master']
+  workflow_dispatch:
 
 jobs:
   frontend:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://movie-tracker.dapzer.ru
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -20,7 +24,6 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-#          registry: ${{ secrets.DOCKER_REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
