@@ -3,6 +3,6 @@
 }
 
 
-test.dapzer.ru {
+movie-tracker.dapzer.ru {
     reverse_proxy frontend:3000
 }
