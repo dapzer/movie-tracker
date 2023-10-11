@@ -21,6 +21,8 @@ export const UserProfile = () => {
             <div className={styles['image']}>
               <Image
                 src={session?.user?.image ? `/api/proxy/image?imageUrl=${session?.user?.image}` : '/icons/user.svg'}
+                onError={(event) => event.currentTarget.src = '/icons/user.svg'}
+                loading={"lazy"}
                 width={32}
                 height={32}
                 sizes="33wv"

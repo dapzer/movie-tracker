@@ -41,6 +41,8 @@ export const UiInfoHeader = (props: UiInfoHeaderProps) => {
         <div className={styles['image']}>
           <Image
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
+            onError={(event) => event.currentTarget.src = '/defaultPoster.svg'}
+            loading={"lazy"}
             width={270}
             height={405}
             sizes="33wv"

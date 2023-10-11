@@ -31,6 +31,8 @@ export const UiCard = (props: Props) => {
         <Link href={{ pathname: link || '', slashes: null }}>
           <Image
             src={image ? `/api/proxy/image?imageUrl=https://image.tmdb.org/t/p/original${image}` : '/defaultPoster.svg'}
+            onError={(event) => event.currentTarget.src = '/defaultPoster.svg'}
+            loading={"lazy"}
             width={260}
             height={390}
             sizes="33wv"

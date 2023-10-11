@@ -11,15 +11,23 @@ interface VideoPreviewCardProps {
 }
 
 export const VideoPreviewCard = (props: VideoPreviewCardProps) => {
-  const { previewUrl, releaseDate, title } = props;
-  const { t, lang } = useTranslation('card');
+  const {previewUrl, releaseDate, title} = props;
+  const {t, lang} = useTranslation('card');
 
   return (
     <div className={styles['body']}>
       <div className={styles['image']}>
-        <Image src={previewUrl ? previewUrl : '/defaultPoster.svg'} width={260} height={147} sizes="33wv" alt="Image" />
+        <Image
+          src={previewUrl ? previewUrl : '/defaultPoster.svg'}
+          onError={(event) => event.currentTarget.src = '/defaultPoster.svg'}
+          loading={"lazy"}
+          width={260}
+          height={147}
+          sizes="33wv"
+          alt="Image"
+        />
         <div className={styles['overlay']}>
-          <PlayIcon />
+          <PlayIcon/>
         </div>
       </div>
 
