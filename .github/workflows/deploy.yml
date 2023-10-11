@@ -8,9 +8,9 @@ on:
 jobs:
   frontend:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://movie-tracker.dapzer.ru
+#    environment:
+#      name: production
+#      url: https://movie-tracker.dapzer.ru
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
