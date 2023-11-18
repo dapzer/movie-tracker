@@ -6,6 +6,7 @@ RUN npm i -g pnpm@8
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
 RUN pnpm install
 
 FROM base AS builder
