@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+model Session {
+  objId     String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @unique
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+
+  @@map("sessions")
+}
+
+model Account {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.String
+  access_token      String?  @db.String
+  expires_at        Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model User {
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  // userName   String?     @unique
+  name       String?
+  email      String         @unique
+  image      String?
+  roles      UserRoleEnum[] @default([USER])
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt()
+  mediaLists MediaList[]
+  accounts   Account[]
+
+  @@map("users")
+}
+
+model MediaList {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String      @db.ObjectId
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String?
+  poster     String?
+  isSystem   Boolean     @default(false)
+  isPublic   Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt()
+  mediaItems MediaItem[]
+
+  @@map("mediaLists")
+}
+
+model MediaItem {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  mediaListId    String        @db.ObjectId
+  mediaList      MediaList     @relation(fields: [mediaListId], references: [id], onDelete: Cascade)
+  mediaDetailsId String?       @db.ObjectId
+  mediaDetails   MediaDetails? @relation(fields: [mediaDetailsId], references: [id], onDelete: Cascade)
+  mediaId        Int
+  mediaType      MediaTypeEnum
+  trackingData   TrackingData
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt()
+
+  @@unique([mediaId, mediaType, mediaListId])
+  @@map("mediaItems")
+}
+
+model MediaDetails {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  mediaId   Int
+  mediaType MediaTypeEnum
+  score     Int?
+  en        MediaDetailsInfo
+  ru        MediaDetailsInfo
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt()
+  MediaItem MediaItem[]
+
+  @@unique([mediaId, mediaType])
+  @@map("mediaDetails")
+}
+
+type MediaDetailsInfo {
+  title         String?
+  originalTitle String?
+  poster        String?
+  seasons       MediaDetailsSeason[]
+}
+
+type MediaDetailsSeason {
+  air_date      String?
+  episode_count Int
+  id            Int
+  name          String?
+  overview      String?
+  poster_path   String?
+  season_number Int
+  vote_average  Int?
+}
+
+type TrackingData {
+  currentStatus StatusNameEnum
+  note          String
+  score         Int?
+  sitesToView   SiteToView[]
+  seriesInfo    SeriesInfo
+}
+
+type SeriesInfo {
+  currentSeason  Int
+  currentEpisode Int
+}
+
+type SiteToView {
+  url String
+}
+
+enum StatusNameEnum {
+  VIEWED
+  WATCHING_NOW
+  NOT_VIEWED
+  WAIT_NEW_PART
+}
+
+enum MediaTypeEnum {
+  MOVIE
+  TV
+}
+
+enum UserRoleEnum {
+  ADMIN
+  USER
+}
