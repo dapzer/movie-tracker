@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "prisma:generate": "prisma generate  --schema=./src/lib/prisma/schema.prisma",
-    "prisma:reset": "npm prisma:push --force-reset",
+    "prisma:reset": "pnpm prisma:push --force-reset",
     "prisma:push": "prisma db push"
   },
   "dependencies": {
@@ -44,6 +44,7 @@
     "@types/node": "^20.4.8",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
+    "encoding": "^0.1.13",
     "eslint": "8.25.0",
     "eslint-config-next": "^13.1.4",
     "prisma": "^5.1.1",

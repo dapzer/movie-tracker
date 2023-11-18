@@ -2,10 +2,11 @@ FROM node:alpine AS base
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
+RUN npm i -g pnpm@8
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN npm ci
+RUN pnpm install
 
 FROM base AS builder
 WORKDIR /app
@@ -19,11 +20,13 @@ ENV DOPPLER_TOKEN=${DOPPLER_TOKEN}
 
 RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub && \
     echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories && \
-    apk add doppler
+    apk add doppler && \
+    npm i -g pnpm@8
 
-RUN doppler run --command="npm run prisma:generate"
-RUN doppler run --command="npm run build"
-RUN doppler run --command="npm run postbuild"
+
+RUN doppler run --command="pnpm prisma:generate"
+RUN doppler run --command="pnpm build"
+RUN doppler run --command="pnpm postbuild"
 
 FROM base AS runner
 WORKDIR /app
