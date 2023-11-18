@@ -1,8 +1,9 @@
 FROM node:alpine AS base
 
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
-RUN npm i -g pnpm@8
+RUN apk add --no-cache libc6-compat && \
+    npm i -g pnpm@8
+
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
