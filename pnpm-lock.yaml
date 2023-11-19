@@ -26,6 +26,9 @@ importers:
       '@movie-tracker/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@movie-tracker/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@nestjs/common':
         specifier: ^10.0.0
         version: 10.2.9(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -254,6 +257,8 @@ importers:
       prisma:
         specifier: ^5.6.0
         version: 5.6.0
+
+  packages/types: {}
 
 packages:
 
