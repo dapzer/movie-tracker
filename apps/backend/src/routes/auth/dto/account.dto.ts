@@ -1,4 +1,4 @@
-import { Account } from '@prisma/client';
+import { Account } from 'database';
 import { IsDateString, IsInt, IsMongoId, IsString } from 'class-validator';
 
 export class AccountDto implements Account {

@@ -1,4 +1,4 @@
-import { SeriesInfo } from '@prisma/client';
+import { SeriesInfo } from 'database';
 import { IsInt } from 'class-validator';
 
 export class MediaItemSeriesInfoDto implements SeriesInfo {

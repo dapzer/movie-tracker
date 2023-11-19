@@ -1,3 +1,22 @@
 {
-  "extends": "tsconfig/base.json"
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "strictPropertyInitialization": false
+  }
 }

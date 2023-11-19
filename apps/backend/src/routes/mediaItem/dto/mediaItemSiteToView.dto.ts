@@ -1,4 +1,4 @@
-import { SiteToView } from '@prisma/client';
+import { SiteToView } from 'database';
 import { IsString } from 'class-validator';
 
 export class MediaItemSiteToViewDto implements SiteToView {

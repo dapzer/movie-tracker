@@ -1,4 +1,4 @@
 import { Reflector } from '@nestjs/core';
-import { UserRoleEnum } from '@prisma/client';
+import { UserRoleEnum } from 'database';
 
 export const Roles = Reflector.createDecorator<UserRoleEnum[]>();

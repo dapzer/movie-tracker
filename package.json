@@ -3,14 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "postbuild": "turbo run postbuild"
+    "postbuild": "turbo run postbuild",
+    "db:generate": "turbo db:push db:generate",
+    "db:build": "turbo build"
   },
   "devDependencies": {
     "eslint": "^8.48.0",

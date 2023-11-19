@@ -1,4 +1,4 @@
-import { User, UserRoleEnum } from '@prisma/client';
+import { User, UserRoleEnum } from 'database';
 import {
   IsDateString,
   IsEmail,

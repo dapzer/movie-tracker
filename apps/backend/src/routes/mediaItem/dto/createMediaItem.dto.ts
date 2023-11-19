@@ -1,4 +1,4 @@
-import { MediaTypeEnum } from '@prisma/client';
+import { MediaTypeEnum } from 'database';
 import { IsEnum, IsMongoId, IsNumber } from 'class-validator';
 
 export class CreateMediaItemDto {

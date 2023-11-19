@@ -1,4 +1,4 @@
-import { MediaDetailsSeason } from '@prisma/client';
+import { MediaDetailsSeason } from 'database';
 
 export class MediaDetailsSeasonDto implements MediaDetailsSeason {
   air_date: string;

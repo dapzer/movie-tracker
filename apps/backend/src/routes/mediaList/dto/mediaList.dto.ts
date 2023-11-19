@@ -1,4 +1,4 @@
-import { MediaList } from '@prisma/client';
+import { MediaList } from 'database';
 import { IsBoolean, IsDateString, IsMongoId, IsString } from 'class-validator';
 
 export class MediaListDto implements MediaList {

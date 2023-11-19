@@ -1,4 +1,4 @@
-import { MediaItem, MediaTypeEnum } from '@prisma/client';
+import { MediaItem, MediaTypeEnum } from 'database';
 import {
   IsDateString,
   IsEnum,
