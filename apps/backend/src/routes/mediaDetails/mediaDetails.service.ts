@@ -14,15 +14,18 @@ import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
 } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
-import { MediaDetailsDto } from '@/routes/mediaDetails/dto/mediaDetails.dto';
 import { ConfigService } from '@nestjs/config';
 import { generateApiUrl } from '@/shared/utils/generateApiUrl';
-import { DetailsType } from '@/shared/dto/DetailsType';
 import { convertMediaDetailsToMediaDetailsInfo } from '@/shared/utils/convertMediaDetailsToMediaDetailsInfo';
 import { convertArrayToChunks } from '@/shared/utils/convertArrayToChunks';
-import { MediaItemDto } from '@/routes/mediaItem/dto/mediaItem.dto';
 import { Interval } from '@nestjs/schedule';
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
+import {
+  MediaDetailsMovieType,
+  MediaDetailsType,
+  MediaItemType,
+  MediaTypeEnum,
+} from '@movie-tracker/types';
 
 @Injectable()
 export class MediaDetailsService implements OnModuleInit {
@@ -55,9 +58,9 @@ export class MediaDetailsService implements OnModuleInit {
 
   private async getMediaDetailsItemFromApi(
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
+    mediaType: MediaTypeEnum,
     language: string,
-  ): Promise<DetailsType.RootObject | null> {
+  ): Promise<MediaDetailsMovieType | null> {
     const response = await fetch(
       this.getApiUrl(`/${mediaType.toLowerCase()}/${mediaId}`, {
         language,
@@ -71,10 +74,7 @@ export class MediaDetailsService implements OnModuleInit {
     }
   }
 
-  private async getAllMediaDetails(
-    mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-  ) {
+  private async getAllMediaDetails(mediaId: number, mediaType: MediaTypeEnum) {
     try {
       const [ru, en] = await Promise.all([
         this.getMediaDetailsItemFromApi(mediaId, mediaType, 'ru'),
@@ -97,9 +97,9 @@ export class MediaDetailsService implements OnModuleInit {
 
   async createOrUpdateMediaDetails(
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
+    mediaType: MediaTypeEnum,
     skipError: boolean = false,
-    mediaItem?: MediaItemDto,
+    mediaItem?: MediaItemType,
   ) {
     const { ru, en } = await this.getAllMediaDetails(mediaId, mediaType);
 
@@ -118,7 +118,7 @@ export class MediaDetailsService implements OnModuleInit {
       mediaType,
     );
 
-    let mediaDetailsItem: MediaDetailsDto | null = null;
+    let mediaDetailsItem: MediaDetailsType | null = null;
 
     try {
       if (!mediaDetails) {

@@ -1,8 +1,8 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
-import { MediaListDto } from '@/routes/mediaList/dto/mediaList.dto';
+import { MediaListType } from '@movie-tracker/types';
 
 export class UpdateMediaListDto
-  implements Pick<MediaListDto, 'title' | 'isPublic' | 'poster'>
+  implements Pick<MediaListType, 'title' | 'isPublic' | 'poster'>
 {
   @IsOptional()
   @IsBoolean()

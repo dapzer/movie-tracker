@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { MediaDetailsRepositoryInterface } from '@/repositories/mediaDetails/MediaDetailsRepositoryInterface';
-import { MediaDetailsDto } from '@/routes/mediaDetails/dto/mediaDetails.dto';
-import { MediaDetailsInfoDto } from '@/routes/mediaDetails/dto/mediaDetailsInfo.dto';
 import { PrismaService } from '@/services/prisma/prisma.service';
+import {
+  MediaDetailsInfoType,
+  MediaDetailsType,
+  MediaTypeEnum,
+} from '@movie-tracker/types';
+import { MediaDetails } from '@movie-tracker/database';
 
 @Injectable()
 export class PrismaMediaDetailsRepository
@@ -10,14 +14,27 @@ export class PrismaMediaDetailsRepository
 {
   constructor(private readonly prismaService: PrismaService) {}
 
+  private convertToInterface(data: MediaDetails): MediaDetailsType {
+    return {
+      id: data.id,
+      mediaId: data.mediaId,
+      mediaType: MediaTypeEnum[data.mediaType],
+      score: data.score,
+      en: data.en,
+      ru: data.ru,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    };
+  }
+
   async createMediaDetails(
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-    mediaDetailsInfoRu: MediaDetailsInfoDto,
-    mediaDetailsInfoEn: MediaDetailsInfoDto,
+    mediaType: MediaTypeEnum,
+    mediaDetailsInfoRu: MediaDetailsInfoType,
+    mediaDetailsInfoEn: MediaDetailsInfoType,
     score: number,
   ) {
-    return this.prismaService.mediaDetails.create({
+    const mediaDetails = await this.prismaService.mediaDetails.create({
       data: {
         mediaId,
         mediaType,
@@ -26,16 +43,18 @@ export class PrismaMediaDetailsRepository
         score,
       },
     });
+
+    return this.convertToInterface(mediaDetails);
   }
 
   async updateMediaDetails(
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-    mediaDetailsInfoRu: MediaDetailsInfoDto,
-    mediaDetailsInfoEn: MediaDetailsInfoDto,
+    mediaType: MediaTypeEnum,
+    mediaDetailsInfoRu: MediaDetailsInfoType,
+    mediaDetailsInfoEn: MediaDetailsInfoType,
     score: number,
   ) {
-    return this.prismaService.mediaDetails.update({
+    const mediaDetails = await this.prismaService.mediaDetails.update({
       where: {
         mediaId_mediaType: {
           mediaId,
@@ -48,13 +67,12 @@ export class PrismaMediaDetailsRepository
         score,
       },
     });
+
+    return this.convertToInterface(mediaDetails);
   }
 
-  async getMediaDetailsItem(
-    mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-  ) {
-    return this.prismaService.mediaDetails.findUnique({
+  async getMediaDetailsItem(mediaId: number, mediaType: MediaTypeEnum) {
+    const mediaDetails = await this.prismaService.mediaDetails.findUnique({
       where: {
         mediaId_mediaType: {
           mediaId,
@@ -62,5 +80,7 @@ export class PrismaMediaDetailsRepository
         },
       },
     });
+
+    return this.convertToInterface(mediaDetails);
   }
 }

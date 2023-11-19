@@ -1,28 +1,31 @@
+import { MediaDetailsType } from "./mediaDetails";
+
 export enum MediaTypeEnum {
   MOVIE = "MOVIE",
   TV = "TV",
 }
 
-export enum StatusNameEnum {
+export enum MediaItemStatusNameEnum {
   VIEWED = "VIEWED",
   WATCHING_NOW = "WATCHING_NOW",
   NOT_VIEWED = "NOT_VIEWED",
   WAIT_NEW_PART = "WAIT_NEW_PART",
 }
 
-export interface MediaItem {
+export interface MediaItemType {
   id: string;
   mediaId: number;
   mediaDetailsId: string;
   mediaListId: string;
   mediaType: MediaTypeEnum;
+  mediaDetails?: MediaDetailsType;
   trackingData: MediaItemTrackingDataType;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface MediaItemTrackingDataType {
-  currentStatus: StatusNameEnum;
+  currentStatus: MediaItemStatusNameEnum;
   note: string;
   score: number | null;
   seriesInfo: MediaItemSeriesInfoType;

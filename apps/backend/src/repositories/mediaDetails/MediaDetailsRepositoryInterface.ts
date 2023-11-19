@@ -1,27 +1,30 @@
-import { MediaDetailsDto } from '@/routes/mediaDetails/dto/mediaDetails.dto';
-import { MediaDetailsInfoDto } from '@/routes/mediaDetails/dto/mediaDetailsInfo.dto';
+import {
+  MediaDetailsInfoType,
+  MediaDetailsType,
+  MediaTypeEnum,
+} from '@movie-tracker/types';
 
 export const MediaDetailsRepositorySymbol = Symbol();
 
 export interface MediaDetailsRepositoryInterface {
   createMediaDetails: (
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-    mediaDetailsInfoRu: MediaDetailsInfoDto,
-    mediaDetailsInfoEn: MediaDetailsInfoDto,
+    mediaType: MediaTypeEnum,
+    mediaDetailsInfoRu: MediaDetailsInfoType,
+    mediaDetailsInfoEn: MediaDetailsInfoType,
     score: number,
-  ) => Promise<MediaDetailsDto>;
+  ) => Promise<MediaDetailsType>;
 
   updateMediaDetails: (
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-    mediaDetailsInfoRu: MediaDetailsInfoDto,
-    mediaDetailsInfoEn: MediaDetailsInfoDto,
+    mediaType: MediaTypeEnum,
+    mediaDetailsInfoRu: MediaDetailsInfoType,
+    mediaDetailsInfoEn: MediaDetailsInfoType,
     score: number,
-  ) => Promise<MediaDetailsDto>;
+  ) => Promise<MediaDetailsType>;
 
   getMediaDetailsItem: (
     mediaId: number,
-    mediaType: MediaDetailsDto['mediaType'],
-  ) => Promise<MediaDetailsDto>;
+    mediaType: MediaTypeEnum,
+  ) => Promise<MediaDetailsType>;
 }

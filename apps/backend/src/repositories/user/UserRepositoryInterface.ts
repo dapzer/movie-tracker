@@ -1,18 +1,18 @@
-import { UserDto } from '@/routes/auth/dto/user.dto';
+import { UserType } from '@movie-tracker/types';
 
 export const UserRepositorySymbol = Symbol();
 
 export interface UserRepositoryInterface {
-  getUserById: (id: string) => Promise<UserDto>;
+  getUserById: (id: string) => Promise<UserType>;
 
   createUser: (
-    body: Pick<UserDto, 'email' | 'name' | 'image'>,
-  ) => Promise<UserDto>;
+    body: Pick<UserType, 'email' | 'name' | 'image'>,
+  ) => Promise<UserType>;
 
   updateUser: (
     id: string,
-    body: Partial<Pick<UserDto, 'name' | 'image'>>,
-  ) => Promise<UserDto>;
+    body: Partial<Pick<UserType, 'name' | 'image'>>,
+  ) => Promise<UserType>;
 
-  deleteUser: (id: string) => Promise<UserDto>;
+  deleteUser: (id: string) => Promise<UserType>;
 }

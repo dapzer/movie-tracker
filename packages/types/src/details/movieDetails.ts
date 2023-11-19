@@ -1,4 +1,4 @@
-export interface MediaDetailsRootObjectType {
+export interface MediaDetailsMovieType {
   adult: boolean;
   backdrop_path: string;
   created_by: MediaDetailsCreatedByType[];

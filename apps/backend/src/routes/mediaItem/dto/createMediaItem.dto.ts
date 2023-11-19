@@ -1,4 +1,4 @@
-import { MediaTypeEnum } from '@movie-tracker/database';
+import { MediaTypeEnum } from '@movie-tracker/types';
 import { IsEnum, IsMongoId, IsNumber } from 'class-validator';
 
 export class CreateMediaItemDto {

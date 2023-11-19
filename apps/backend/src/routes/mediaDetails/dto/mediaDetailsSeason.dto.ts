@@ -1,6 +1,6 @@
-import { MediaDetailsSeason } from '@movie-tracker/database';
+import { MediaDetailsSeasonType } from '@movie-tracker/types';
 
-export class MediaDetailsSeasonDto implements MediaDetailsSeason {
+export class MediaDetailsSeasonDto implements MediaDetailsSeasonType {
   air_date: string;
   episode_count: number;
   id: number;
@@ -8,5 +8,4 @@ export class MediaDetailsSeasonDto implements MediaDetailsSeason {
   overview: string;
   poster_path: string;
   season_number: number;
-  vote_average: number;
 }

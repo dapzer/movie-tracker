@@ -1,7 +1,7 @@
-import { SiteToView } from '@movie-tracker/database';
 import { IsString } from 'class-validator';
+import { MediaItemSiteToViewType } from '@movie-tracker/types';
 
-export class MediaItemSiteToViewDto implements SiteToView {
+export class MediaItemSiteToViewDto implements MediaItemSiteToViewType {
   @IsString()
   url: string;
 }

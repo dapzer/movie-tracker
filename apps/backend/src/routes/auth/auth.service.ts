@@ -32,7 +32,7 @@ export class AuthService {
     const providerInstance = this.providersService.findService(provider);
     const profile = await providerInstance.getUserByCode(code);
 
-    let account = await this.accountRepository.getAccountByProvider(
+    const account = await this.accountRepository.getAccountByProvider(
       profile.provider,
       profile.id,
     );

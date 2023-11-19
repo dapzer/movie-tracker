@@ -1,4 +1,3 @@
-import { MediaItem, MediaTypeEnum } from '@movie-tracker/database';
 import {
   IsDateString,
   IsEnum,
@@ -8,8 +7,9 @@ import {
 } from 'class-validator';
 import { MediaItemTrackingDataDto } from '@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto';
 import { Type } from 'class-transformer';
+import { MediaItemType, MediaTypeEnum } from '@movie-tracker/types';
 
-export class MediaItemDto implements MediaItem {
+export class MediaItemDto implements MediaItemType {
   @IsMongoId()
   id: string;
 

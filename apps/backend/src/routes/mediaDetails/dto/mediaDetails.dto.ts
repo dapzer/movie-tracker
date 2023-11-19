@@ -1,10 +1,10 @@
-import { MediaDetails } from '@movie-tracker/database';
 import { MediaDetailsInfoDto } from '@/routes/mediaDetails/dto/mediaDetailsInfo.dto';
+import { MediaDetailsType, MediaTypeEnum } from '@movie-tracker/types';
 
-export class MediaDetailsDto implements MediaDetails {
+export class MediaDetailsDto implements MediaDetailsType {
   id: string;
   mediaId: number;
-  mediaType: MediaDetails['mediaType'];
+  mediaType: MediaTypeEnum;
   score: number;
   en: MediaDetailsInfoDto;
   ru: MediaDetailsInfoDto;

@@ -1,25 +1,67 @@
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { MediaItemRepositoryInterface } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
-import { StatusNameEnum } from '@movie-tracker/database';
-import { MediaItemDto } from '@/routes/mediaItem/dto/mediaItem.dto';
+import { MediaDetails, MediaItem } from '@movie-tracker/database';
 import { Injectable } from '@nestjs/common';
+import {
+  MediaItemStatusNameEnum,
+  MediaItemTrackingDataType,
+  MediaItemType,
+  MediaTypeEnum,
+} from '@movie-tracker/types';
 
 @Injectable()
 export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
 
+  private convertToInterface(
+    data: MediaItem & { mediaDetails?: MediaDetails },
+  ): MediaItemType {
+    return {
+      id: data.id,
+      mediaDetailsId: data.mediaDetailsId,
+      mediaId: data.mediaId,
+      mediaType: MediaTypeEnum[data.mediaType],
+      mediaListId: data.mediaListId,
+      trackingData: {
+        currentStatus: MediaItemStatusNameEnum[data.trackingData.currentStatus],
+        note: data.trackingData.note,
+        score: data.trackingData.score,
+        seriesInfo: data.trackingData.seriesInfo,
+        sitesToView: data.trackingData.sitesToView,
+      },
+      mediaDetails: data.mediaDetails
+        ? {
+            id: data.mediaDetails.id,
+            mediaType: MediaTypeEnum[data.mediaDetails.mediaType],
+            mediaId: data.mediaDetails.mediaId,
+            score: data.mediaDetails.score,
+            ru: data.mediaDetails.ru,
+            en: data.mediaDetails.en,
+            createdAt: data.mediaDetails.createdAt,
+            updatedAt: data.mediaDetails.updatedAt,
+          }
+        : undefined,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    };
+  }
+
   async getAllMediaItems() {
-    return this.prisma.mediaItem.findMany();
+    const mediaItems = await this.prisma.mediaItem.findMany();
+
+    return mediaItems.map(this.convertToInterface);
   }
 
   async getMediaItemById(id: string) {
-    return this.prisma.mediaItem.findUnique({
+    const mediaItem = await this.prisma.mediaItem.findUnique({
       where: { id },
     });
+
+    return this.convertToInterface(mediaItem);
   }
 
   async getMediaItemsByListId(mediaListId: string) {
-    return this.prisma.mediaItem.findMany({
+    const mediaItems = await this.prisma.mediaItem.findMany({
       where: {
         mediaListId,
       },
@@ -27,22 +69,24 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
         mediaDetails: true,
       },
     });
+
+    return mediaItems.map(this.convertToInterface);
   }
 
   async createMediaItem(
     mediaId: number,
-    mediaType: MediaItemDto['mediaType'],
+    mediaType: MediaTypeEnum,
     mediaListId: string,
     mediaDetailsId: string,
   ) {
-    return this.prisma.mediaItem.create({
+    const mediaItem = await this.prisma.mediaItem.create({
       data: {
         mediaListId,
         mediaId,
         mediaType,
         mediaDetailsId,
         trackingData: {
-          currentStatus: StatusNameEnum.NOT_VIEWED,
+          currentStatus: MediaItemStatusNameEnum.NOT_VIEWED,
           note: '',
           sitesToView: [],
           score: null,
@@ -56,21 +100,25 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
         mediaDetails: true,
       },
     });
+
+    return this.convertToInterface(mediaItem);
   }
 
   async deleteMediaItem(id: string) {
-    return this.prisma.mediaItem.delete({
+    const mediaItem = await this.prisma.mediaItem.delete({
       where: {
         id,
       },
     });
+
+    return this.convertToInterface(mediaItem);
   }
 
   async updateMediaItemTrackingData(
     id: string,
-    trackingData: MediaItemDto['trackingData'],
+    trackingData: MediaItemTrackingDataType,
   ) {
-    return this.prisma.mediaItem.update({
+    const mediaItem = await this.prisma.mediaItem.update({
       where: { id },
       data: {
         trackingData,
@@ -79,18 +127,22 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
         mediaDetails: true,
       },
     });
+
+    return this.convertToInterface(mediaItem);
   }
 
   async updateMediaItem(
     id: string,
-    data: Partial<Pick<MediaItemDto, 'mediaDetailsId' | 'mediaListId'>>,
+    data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,
   ) {
-    return this.prisma.mediaItem.update({
+    const mediaItem = await this.prisma.mediaItem.update({
       where: { id },
       data,
       include: {
         mediaDetails: true,
       },
     });
+
+    return this.convertToInterface(mediaItem);
   }
 }

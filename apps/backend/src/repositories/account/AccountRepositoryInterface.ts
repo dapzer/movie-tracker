@@ -1,23 +1,34 @@
-import { AccountDto } from '@/routes/auth/dto/account.dto';
-
 export const AccountRepositorySymbol = Symbol();
 
+export interface AccountType {
+  id: string;
+  userId: string;
+  access_token: string;
+  refresh_token: string;
+  provider: string;
+  providerAccountId: string;
+  expires_at: number;
+  type: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface AccountRepositoryInterface {
-  getAccountById: (id: string) => Promise<AccountDto>;
+  getAccountById: (id: string) => Promise<AccountType>;
 
   getAccountByProvider: (
     provider: string,
     providerAccountId: string,
-  ) => Promise<AccountDto>;
+  ) => Promise<AccountType>;
 
   createAccount: (
-    body: Omit<AccountDto, 'id' | 'createdAt' | 'updatedAt'>,
-  ) => Promise<AccountDto>;
+    body: Omit<AccountType, 'id' | 'createdAt' | 'updatedAt'>,
+  ) => Promise<AccountType>;
 
   updateAccount: (
     id: string,
-    body: Omit<AccountDto, 'id' | 'createdAt' | 'updatedAt'>,
-  ) => Promise<AccountDto>;
+    body: Omit<AccountType, 'id' | 'createdAt' | 'updatedAt'>,
+  ) => Promise<AccountType>;
 
-  deleteAccount: (id: string) => Promise<AccountDto>;
+  deleteAccount: (id: string) => Promise<AccountType>;
 }

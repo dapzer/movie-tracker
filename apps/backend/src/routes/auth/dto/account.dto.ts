@@ -1,7 +1,7 @@
-import { Account } from '@movie-tracker/database';
 import { IsDateString, IsInt, IsMongoId, IsString } from 'class-validator';
+import { AccountType } from '@/repositories/account/AccountRepositoryInterface';
 
-export class AccountDto implements Account {
+export class AccountDto implements AccountType {
   @IsMongoId()
   id: string;
 
