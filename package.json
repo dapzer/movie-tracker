@@ -12,8 +12,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postbuild": "turbo run postbuild",
-    "db:generate": "turbo db:push db:generate",
-    "db:build": "turbo build"
+    "db:push": "turbo db:push"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
