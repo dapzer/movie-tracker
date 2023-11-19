@@ -1,4 +1,4 @@
-import { SeriesInfo } from 'database';
+import { SeriesInfo } from '@movie-tracker/database';
 import { IsInt } from 'class-validator';
 
 export class MediaItemSeriesInfoDto implements SeriesInfo {

@@ -1,4 +1,4 @@
-import { MediaItem, MediaTypeEnum } from 'database';
+import { MediaItem, MediaTypeEnum } from '@movie-tracker/database';
 import {
   IsDateString,
   IsEnum,

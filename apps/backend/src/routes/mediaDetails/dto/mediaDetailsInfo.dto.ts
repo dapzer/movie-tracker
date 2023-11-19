@@ -1,4 +1,4 @@
-import { MediaDetailsInfo } from 'database';
+import { MediaDetailsInfo } from '@movie-tracker/database';
 import { MediaDetailsSeasonDto } from '@/routes/mediaDetails/dto/mediaDetailsSeason.dto';
 
 export class MediaDetailsInfoDto implements MediaDetailsInfo {

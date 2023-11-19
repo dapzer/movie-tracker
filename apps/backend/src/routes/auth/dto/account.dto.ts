@@ -1,4 +1,4 @@
-import { Account } from 'database';
+import { Account } from '@movie-tracker/database';
 import { IsDateString, IsInt, IsMongoId, IsString } from 'class-validator';
 
 export class AccountDto implements Account {

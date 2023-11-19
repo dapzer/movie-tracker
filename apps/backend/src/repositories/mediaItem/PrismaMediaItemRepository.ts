@@ -1,6 +1,6 @@
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { MediaItemRepositoryInterface } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
-import { StatusNameEnum } from 'database';
+import { StatusNameEnum } from '@movie-tracker/database';
 import { MediaItemDto } from '@/routes/mediaItem/dto/mediaItem.dto';
 import { Injectable } from '@nestjs/common';
 

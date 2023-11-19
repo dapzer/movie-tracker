@@ -1,4 +1,4 @@
-import { MediaList } from 'database';
+import { MediaList } from '@movie-tracker/database';
 import { IsBoolean, IsDateString, IsMongoId, IsString } from 'class-validator';
 
 export class MediaListDto implements MediaList {

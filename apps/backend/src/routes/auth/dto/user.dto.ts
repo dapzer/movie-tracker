@@ -1,4 +1,4 @@
-import { User, UserRoleEnum } from 'database';
+import { User, UserRoleEnum } from '@movie-tracker/database';
 import {
   IsDateString,
   IsEmail,

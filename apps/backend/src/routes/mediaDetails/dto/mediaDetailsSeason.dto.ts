@@ -1,4 +1,4 @@
-import { MediaDetailsSeason } from 'database';
+import { MediaDetailsSeason } from '@movie-tracker/database';
 
 export class MediaDetailsSeasonDto implements MediaDetailsSeason {
   air_date: string;

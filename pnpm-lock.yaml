@@ -23,6 +23,9 @@ importers:
 
   apps/backend:
     dependencies:
+      '@movie-tracker/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@nestjs/common':
         specifier: ^10.0.0
         version: 10.2.9(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -53,9 +56,6 @@ importers:
       cookie-parser:
         specifier: ^1.4.6
         version: 1.4.6
-      database:
-        specifier: workspace:*
-        version: link:../../packages/database
       express-session:
         specifier: ^1.17.3
         version: 1.17.3

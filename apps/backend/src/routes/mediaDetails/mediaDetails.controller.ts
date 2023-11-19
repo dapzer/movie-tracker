@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { MediaDetailsService } from '@/routes/mediaDetails/mediaDetails.service';
 import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { Roles } from '@/decorators/roles.decorator';
-import { UserRoleEnum } from 'database';
+import { UserRoleEnum } from '@movie-tracker/database';
 import { RolesGuard } from '@/guards/roles.guard';
 
 @Controller('mediaDetails')
