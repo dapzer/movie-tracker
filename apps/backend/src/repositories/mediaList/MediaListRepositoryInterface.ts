@@ -1,26 +1,26 @@
-import { MediaListDto } from '@/routes/mediaList/dto/mediaList.dto';
+import { MediaListType } from '@movie-tracker/types';
 
 export const MediaListRepositorySymbol = Symbol();
 
 export interface MediaListRepositoryInterface {
-  getAllMedialLists: (isPublicOnly?: boolean) => Promise<MediaListDto[]>;
+  getAllMedialLists: (isPublicOnly?: boolean) => Promise<MediaListType[]>;
 
-  getMedialListById: (id: string) => Promise<MediaListDto>;
+  getMedialListById: (id: string) => Promise<MediaListType>;
 
   getMedialListsByUserId: (
     userId: string,
     isPublicOnly?: boolean,
-  ) => Promise<MediaListDto[]>;
+  ) => Promise<MediaListType[]>;
 
   createMediaList: (
     userId: string,
     isSystem?: boolean,
-  ) => Promise<MediaListDto>;
+  ) => Promise<MediaListType>;
 
-  deleteMediaList: (id: string) => Promise<MediaListDto>;
+  deleteMediaList: (id: string) => Promise<MediaListType>;
 
   updateMediaList: (
     id: string,
-    body: Pick<MediaListDto, 'title' | 'poster' | 'isPublic'>,
-  ) => Promise<MediaListDto>;
+    body: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
+  ) => Promise<MediaListType>;
 }

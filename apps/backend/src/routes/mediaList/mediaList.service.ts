@@ -4,7 +4,7 @@ import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from '@/repositories/mediaList/MediaListRepositoryInterface';
-import { MediaListDto } from '@/routes/mediaList/dto/mediaList.dto';
+import { MediaListType } from '@movie-tracker/types';
 
 @Injectable()
 export class MediaListService {
@@ -16,7 +16,7 @@ export class MediaListService {
   private async isListOwner(
     id: string,
     userId: string,
-    mediaListBase?: MediaListDto,
+    mediaListBase?: MediaListType,
   ) {
     const mediaList =
       mediaListBase ?? (await this.mediaListRepository.getMedialListById(id));

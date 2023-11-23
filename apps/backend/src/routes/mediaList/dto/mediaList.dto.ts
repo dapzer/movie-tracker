@@ -1,7 +1,7 @@
-import { MediaList } from '@prisma/client';
 import { IsBoolean, IsDateString, IsMongoId, IsString } from 'class-validator';
+import { MediaListType } from '@movie-tracker/types';
 
-export class MediaListDto implements MediaList {
+export class MediaListDto implements MediaListType {
   @IsMongoId()
   id: string;
 

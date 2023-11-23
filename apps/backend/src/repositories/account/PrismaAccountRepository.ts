@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { AccountRepositoryInterface } from '@/repositories/Account/AccountRepositoryInterface';
+import {
+  AccountRepositoryInterface,
+  AccountType,
+} from '@/repositories/Account/AccountRepositoryInterface';
 import { PrismaService } from '@/services/prisma/prisma.service';
-import { AccountDto } from '@/routes/auth/dto/account.dto';
 
 @Injectable()
 export class PrismaAccountRepository implements AccountRepositoryInterface {
@@ -23,14 +25,14 @@ export class PrismaAccountRepository implements AccountRepositoryInterface {
   }
 
   async createAccount(
-    body: Omit<AccountDto, 'id' | 'createdAt' | 'updatedAt'>,
+    body: Omit<AccountType, 'id' | 'createdAt' | 'updatedAt'>,
   ) {
     return this.prisma.account.create({ data: body });
   }
 
   async updateAccount(
     id: string,
-    body: Omit<AccountDto, 'id' | 'createdAt' | 'updatedAt'>,
+    body: Omit<AccountType, 'id' | 'createdAt' | 'updatedAt'>,
   ) {
     return this.prisma.account.update({ where: { id }, data: body });
   }

@@ -3,12 +3,16 @@ import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
 } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
-import { MediaItemDto } from '@/routes/mediaItem/dto/mediaItem.dto';
 import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from '@/repositories/mediaList/MediaListRepositoryInterface';
 import { MediaDetailsService } from '@/routes/mediaDetails/mediaDetails.service';
+import {
+  MediaItemTrackingDataType,
+  MediaItemType,
+  MediaTypeEnum,
+} from '@movie-tracker/types';
 
 @Injectable()
 export class MediaItemService {
@@ -23,7 +27,7 @@ export class MediaItemService {
   private async isMediaItemOwner(
     id: string,
     userId: string,
-    mediaItemBase?: MediaItemDto,
+    mediaItemBase?: MediaItemType,
   ) {
     const mediaItem =
       mediaItemBase ?? (await this.mediaItemRepository.getMediaItemById(id));
@@ -43,7 +47,7 @@ export class MediaItemService {
 
   async createMediaItem(
     mediaId: number,
-    mediaType: MediaItemDto['mediaType'],
+    mediaType: MediaTypeEnum,
     mediaListId: string,
     userId: string,
   ) {
@@ -99,7 +103,7 @@ export class MediaItemService {
 
   async updateMediaItemTrackingData(
     id: string,
-    trackingData: MediaItemDto['trackingData'],
+    trackingData: MediaItemTrackingDataType,
     userId: string,
   ) {
     const isMediaItemOwner = await this.isMediaItemOwner(id, userId);

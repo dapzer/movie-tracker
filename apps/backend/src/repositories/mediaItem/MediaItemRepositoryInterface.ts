@@ -1,30 +1,30 @@
-import { MediaItemDto } from '@/routes/mediaItem/dto/mediaItem.dto';
+import { MediaItemTrackingDataType, MediaItemType } from '@movie-tracker/types';
 
 export const MediaItemRepositorySymbol = Symbol();
 
 export interface MediaItemRepositoryInterface {
-  getAllMediaItems: () => Promise<MediaItemDto[]>;
+  getAllMediaItems: () => Promise<MediaItemType[]>;
 
-  getMediaItemById: (id: string) => Promise<MediaItemDto>;
+  getMediaItemById: (id: string) => Promise<MediaItemType>;
 
-  getMediaItemsByListId: (mediaListId: string) => Promise<MediaItemDto[]>;
+  getMediaItemsByListId: (mediaListId: string) => Promise<MediaItemType[]>;
 
   createMediaItem: (
     mediaId: number,
     mediaType: string,
     mediaListId: string,
     mediaDetailsId: string,
-  ) => Promise<MediaItemDto>;
+  ) => Promise<MediaItemType>;
 
-  deleteMediaItem: (id: string) => Promise<MediaItemDto>;
+  deleteMediaItem: (id: string) => Promise<MediaItemType>;
 
   updateMediaItemTrackingData: (
     id: string,
-    trackingData: MediaItemDto['trackingData'],
-  ) => Promise<MediaItemDto>;
+    trackingData: MediaItemTrackingDataType,
+  ) => Promise<MediaItemType>;
 
   updateMediaItem: (
     id: string,
-    data: Partial<Pick<MediaItemDto, 'mediaDetailsId' | 'mediaListId'>>,
-  ) => Promise<MediaItemDto>;
+    data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,
+  ) => Promise<MediaItemType>;
 }

@@ -1,4 +1,4 @@
-import { MediaTypeEnum } from '@prisma/client';
+import { MediaTypeEnum } from '@movie-tracker/types';
 import { IsEnum, IsMongoId, IsNumber } from 'class-validator';
 
 export class CreateMediaItemDto {

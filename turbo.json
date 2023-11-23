@@ -14,8 +14,12 @@
         "!.next/cache/**"
       ]
     },
+    "db:push": {
+      "cache": false
+    },
     "lint": {},
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },

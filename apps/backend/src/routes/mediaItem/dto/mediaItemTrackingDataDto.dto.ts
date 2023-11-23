@@ -1,4 +1,3 @@
-import { StatusNameEnum, TrackingData } from '@prisma/client';
 import {
   IsArray,
   IsEnum,
@@ -10,10 +9,14 @@ import {
 import { MediaItemSeriesInfoDto } from '@/routes/mediaItem/dto/mediaItemSeriesInfo.dto';
 import { MediaItemSiteToViewDto } from '@/routes/mediaItem/dto/mediaItemSiteToView.dto';
 import { Type } from 'class-transformer';
+import {
+  MediaItemStatusNameEnum,
+  MediaItemTrackingDataType,
+} from '@movie-tracker/types';
 
-export class MediaItemTrackingDataDto implements TrackingData {
-  @IsEnum(StatusNameEnum)
-  currentStatus: StatusNameEnum;
+export class MediaItemTrackingDataDto implements MediaItemTrackingDataType {
+  @IsEnum(MediaItemStatusNameEnum)
+  currentStatus: MediaItemStatusNameEnum;
 
   @IsString()
   note: string;

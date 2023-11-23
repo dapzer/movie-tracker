@@ -1,7 +1,7 @@
-import { SeriesInfo } from '@prisma/client';
 import { IsInt } from 'class-validator';
+import { MediaItemSeriesInfoType } from '@movie-tracker/types';
 
-export class MediaItemSeriesInfoDto implements SeriesInfo {
+export class MediaItemSeriesInfoDto implements MediaItemSeriesInfoType {
   @IsInt()
   currentSeason: number;
 

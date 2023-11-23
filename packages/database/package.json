@@ -1,0 +1,25 @@
+{
+  "name": "@movie-tracker/database",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "index": [
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:push": "dotenv -e ../../.env.development -e ../../.env -e ../../.env.local prisma db push --skip-generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "dotenv-cli": "^7.3.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.6.0"
+  }
+}

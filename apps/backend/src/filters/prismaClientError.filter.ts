@@ -4,7 +4,7 @@ import {
   ExceptionFilter,
   HttpStatus,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@movie-tracker/database';
 import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch(Prisma.PrismaClientKnownRequestError)
