@@ -12,6 +12,13 @@ coverage
 out/
 build
 
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+
 # Build
 dist/
 !bower_components/**/dist/

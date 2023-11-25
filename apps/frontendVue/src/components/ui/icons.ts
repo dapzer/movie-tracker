@@ -1,0 +1,11 @@
+export { default as CloseIcon } from "~/assets/svg/icons/close.svg";
+export { default as CheckMarkIcon } from "~/assets/svg/icons/check-mark.svg";
+export { default as AddIcon } from "~/assets/svg/icons/add.svg";
+export { default as ArrowIcon } from "~/assets/svg/icons/arrow.svg";
+export { default as EditIcon } from "~/assets/svg/icons/edit.svg";
+export { default as SearchIcon } from "~/assets/svg/icons/search.svg";
+export { default as FavoriteIcon } from "~/assets/svg/icons/favorite.svg";
+export { default as InFavoriteIcon } from "~/assets/svg/icons/in-favorite.svg";
+export { default as UserIcon } from "~/assets/svg/icons/user.svg";
+export { default as PlayIcon } from "~/assets/svg/icons/play.svg";
+export { default as ListIcon } from "~/assets/svg/icons/list.svg";

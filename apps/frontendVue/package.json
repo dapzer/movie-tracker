@@ -1,0 +1,32 @@
+{
+  "name": "frontendVue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.18.1",
+    "nuxt": "^3.8.2",
+    "nuxt-svgo": "^3.6.0",
+    "vue": "^3.3.8",
+    "vue-eslint-parser": "^9.3.2",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "sass": "^1.69.5"
+  }
+}
