@@ -1,0 +1,78 @@
+<script lang="ts" setup>
+type Variant = "default" | "clear" | "outlined";
+type ColorScheme = "danger";
+
+interface UiButtonProps {
+  variant?: Variant;
+  colorScheme?: ColorScheme;
+}
+
+const props = withDefaults(defineProps<UiButtonProps>(), {
+  variant: "default",
+});
+
+</script>
+<template>
+  <button
+    :class="[
+      $style.body,
+      $style.default,
+      {
+        [$style.danger]: props.colorScheme === 'danger',
+        [$style.clear]: props.variant === 'clear',
+        [$style.outlined]: props.variant === 'outlined',
+      },
+    ]"
+  >
+    <slot />
+  </button>
+</template>
+
+<style lang="scss" module>
+.body {
+  cursor: pointer;
+  border: none;
+  padding: 8px 16px;
+  color: var(--c-secondary);
+  background: var(--c-accent);
+  font-size: var(--fs-p);
+  border-radius: var(--s-border-radius);
+  transition-property: color, border;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--s-disabled-opacity);
+  }
+}
+
+.default {
+  &:hover:not(:disabled) {
+    color: var(--c-highlight);
+    border-color: var(--c-highlight);
+  }
+}
+
+.outlined {
+  background: none;
+  box-shadow: inset 0 0 0 1px;
+}
+
+.danger {
+  color: var(--c-danger);
+  border-color: var(--c-danger);
+
+  &:hover:not(:disabled) {
+    color: var(--c-danger-hovered);
+    border-color: var(--c-danger-hovered);
+  }
+}
+
+.clear {
+  box-shadow: none;
+  border: none;
+  background: none;
+  padding: unset;
+}
+</style>

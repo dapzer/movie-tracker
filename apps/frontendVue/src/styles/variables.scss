@@ -7,6 +7,8 @@
   --c-secondary: #FFFFFF;
   --c-highlight: #0073fa;
   --c-accent: #282f43;
+  --c-danger: #ff0000;
+  --c-danger-hovered: #c82333;
 
   /* Font Sizes */
 
@@ -37,6 +39,7 @@
   --s-container: calc(1400px + (var(--s-indent) * 2));
   --s-header-height: 59.2px;
   --s-border-radius: 10px;
+  --s-disabled-opacity: 0.65;
 
   /* Breakpoints */
 
