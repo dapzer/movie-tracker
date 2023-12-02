@@ -3,8 +3,26 @@ import crypto from "crypto";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   srcDir: "./src",
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+    }
+  },
   devtools: { enabled: true },
-  modules: ["nuxt-svgo"],
+  modules: [
+    "nuxt-svgo",
+    '@nuxtjs/i18n',
+  ],
+  i18n: {
+    lazy: true,
+    langDir: './locales',
+    defaultLocale: 'ru',
+    locales: [
+      { code: 'en', files: ['navigation/en.ts'] },
+      { code: 'ru', files: ['navigation/ru.ts'] },
+    ]
+  },
   vue: {
     defineModel: true
   },
@@ -15,7 +33,7 @@ export default defineNuxtConfig({
       multipass: true
     }
   },
-  css: ["@/styles/global.scss"],
+  css: ["@/styles/global.scss", "@/styles/variables.scss"],
   imports: {
     autoImport: false
   },

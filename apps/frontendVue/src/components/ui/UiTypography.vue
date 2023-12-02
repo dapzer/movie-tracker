@@ -11,7 +11,8 @@ interface Props {
     | "link"
     | "linkUnderlined"
     | "textSmall"
-    | "listItem";
+    | "listItem"
+    | "listItemValue";
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
   <component
     :is="props.as"
+    v-bind="$attrs"
     :class="{
       [$style.text]: variant === 'text',
       [$style.title]: variant === 'title',
@@ -32,6 +34,7 @@ const props = withDefaults(defineProps<Props>(), {
       [$style.link]: variant === 'link',
       [$style.linkUnderlined]: variant === 'linkUnderlined',
       [$style.listItem]: variant === 'listItem',
+      [$style.listItemValue]: variant === 'listItemValue',
     }"
   >
     <slot />
@@ -39,6 +42,8 @@ const props = withDefaults(defineProps<Props>(), {
 </template>
 
 <style lang="scss" module>
+@import "~/styles/variables";
+
 .title {
   color: var(--c-secondary);
   font-size: var(--fs-h1);
@@ -50,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {
   font-size: var(--fs-h2);
   font-weight: var(--fw-bold);
 
-  @media screen and (max-width: var(--bp-sm)) {
+  @media screen and (max-width: $bp-sm) {
     font-size: var(--fs-m-h2);
   }
 }
@@ -93,8 +98,15 @@ const props = withDefaults(defineProps<Props>(), {
 }
 
 .listItem {
+  color: var(--c-text);
+  font-size: var(--fs-p);
+  font-weight: var(--fw-regular);
+}
+
+.listItemValue {
   color: var(--c-secondary);
   font-size: var(--fs-p);
   font-weight: var(--fw-regular);
+  display: inline;
 }
 </style>

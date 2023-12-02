@@ -4,12 +4,12 @@ import UiContainer from "~/components/ui/UiContainer.vue";
 import UiInput from "~/components/ui/UiInput.vue";
 import { ref } from "vue";
 
-const v = ref("")
+const v = ref("");
+
 </script>
 
 <template>
   <UiContainer>
-    <UiTypography>Main</UiTypography>
     <UiTypography>{{ v }}</UiTypography>
     <UiInput v-model="v" />
   </UiContainer>
