@@ -15,14 +15,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthProviderGuard } from './guards/provider.guard';
 import { ProvidersService } from '@/routes/auth/providers/providers.service';
 import { AllowedProvider } from '@/routes/auth/dto/allowedProvider';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly providersService: ProvidersService,
-    private readonly configService: ConfigService,
   ) {}
 
   @Get('/callback/:provider')
@@ -50,18 +48,7 @@ export class AuthController {
       });
     });
 
-    const clientBaseUrl = this.configService.get('CLIENT_BASE_URL');
-
-    if (!clientBaseUrl) {
-      throw new HttpException(
-        'Client base url is not configured',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-
-    return {
-      url: clientBaseUrl,
-    };
+    return;
   }
 
   @Get(['/connect/:provider', '/login/:provider'])
