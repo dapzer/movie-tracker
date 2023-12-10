@@ -20,7 +20,7 @@ import { PrismaMediaListRepository } from '@/repositories/mediaList/PrismaMediaL
     ProvidersModule.registerAsync({
       useFactory: (configService: ConfigService) => {
         return {
-          baseUrl: configService.get('API_BASE_URL')!,
+          baseUrl: configService.get('AUTH_REDIRECT_URL')!,
           services: [
             new GithubProvider({
               client_id: configService.get('GITHUB_CLIENT_ID')!,

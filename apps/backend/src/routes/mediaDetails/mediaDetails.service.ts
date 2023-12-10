@@ -15,7 +15,7 @@ import {
   MediaItemRepositorySymbol,
 } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
 import { ConfigService } from '@nestjs/config';
-import { generateApiUrl } from '@/shared/utils/generateApiUrl';
+import { generateApiUrl } from '@movie-tracker/utils';
 import { convertMediaDetailsToMediaDetailsInfo } from '@/shared/utils/convertMediaDetailsToMediaDetailsInfo';
 import { convertArrayToChunks } from '@/shared/utils/convertArrayToChunks';
 import { Interval } from '@nestjs/schedule';

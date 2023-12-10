@@ -19,7 +19,7 @@ async function bootstrap() {
   const prisma = app.get(PrismaService);
 
   app.enableCors({
-    origin: '*',
+    origin: true,
     methods: '*',
     credentials: true,
   });

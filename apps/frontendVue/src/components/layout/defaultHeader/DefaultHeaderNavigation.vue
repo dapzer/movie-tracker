@@ -3,8 +3,13 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 import { NuxtLink } from "#components";
 import { useLocalePath } from "#i18n";
 import { navigationLinks } from "~/components/layout/defaultHeader/navigationLinks";
+import SignInModal from "~/features/signIn/ui/SignInModal.vue";
+import { useUserProfile } from "~/composables/useAuthApi";
+import { UserProfileDropdown } from "~/features/profile";
 
 const localePath = useLocalePath();
+
+const { data: profile, isLoading } = useUserProfile();
 
 </script>
 
@@ -20,6 +25,8 @@ const localePath = useLocalePath();
     >
       {{ $t(link.title) }}
     </UiTypography>
+    <SignInModal v-if="!profile" />
+    <UserProfileDropdown v-else />
   </div>
 </template>
 

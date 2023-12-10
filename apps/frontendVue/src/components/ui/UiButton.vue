@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-type Variant = "default" | "clear" | "outlined";
+export type ButtonVariant = "default" | "clear" | "outlined";
 type ColorScheme = "danger";
 
 interface UiButtonProps {
-  variant?: Variant;
+  variant?: ButtonVariant;
   colorScheme?: ColorScheme;
 }
 
@@ -34,9 +34,8 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   border: none;
   padding: 8px 16px;
   color: var(--c-secondary);
-  background: var(--c-accent);
+  background: var(--c-primary);
   font-size: var(--fs-p);
-  border-radius: var(--s-border-radius);
   transition-property: color, border;
   transition-duration: 0.2s;
   transition-timing-function: linear;
