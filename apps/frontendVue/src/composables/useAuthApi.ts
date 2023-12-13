@@ -7,17 +7,10 @@ export const useSignInApi = () => useMutation({
   mutationFn: async (provider: string) => await signInApi(provider)
 });
 
-export const useSignInCallbackApi = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationKey: [AuthQueryKeys.SIGN_IN_CALLBACK],
-    mutationFn: async (args: { provider: string, code: string }) => await signInCallbackApi(args.provider, args.code),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [AuthQueryKeys.USER_PROFILE] });
-    }
-  });
-};
+export const useSignInCallbackApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.SIGN_IN_CALLBACK],
+  mutationFn: async (args: { provider: string, code: string }) => await signInCallbackApi(args.provider, args.code)
+});
 
 export const useLogoutApi = () => {
   const queryClient = useQueryClient();
@@ -33,6 +26,7 @@ export const useLogoutApi = () => {
 
 export const useUserProfile = () => useQuery({
   queryKey: [AuthQueryKeys.USER_PROFILE],
-  queryFn: async () => await getProfileApi()
+  queryFn: async () => await getProfileApi(),
+  retry: false
 });
 

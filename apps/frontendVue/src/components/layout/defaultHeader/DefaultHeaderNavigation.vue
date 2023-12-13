@@ -5,11 +5,11 @@ import { useLocalePath } from "#i18n";
 import { navigationLinks } from "~/components/layout/defaultHeader/navigationLinks";
 import SignInModal from "~/features/signIn/ui/SignInModal.vue";
 import { useUserProfile } from "~/composables/useAuthApi";
-import { UserProfileDropdown } from "~/features/profile";
+import { UserProfileDropdown, UserProfileDropdownSkeleton } from "~/features/profile";
 
 const localePath = useLocalePath();
 
-const { data: profile, isLoading } = useUserProfile();
+const { data: profile, isLoading: isLoadingProfile } = useUserProfile();
 
 </script>
 
@@ -25,7 +25,8 @@ const { data: profile, isLoading } = useUserProfile();
     >
       {{ $t(link.title) }}
     </UiTypography>
-    <SignInModal v-if="!profile" />
+    <UserProfileDropdownSkeleton v-if="isLoadingProfile" />
+    <SignInModal v-if="!profile && !isLoadingProfile" />
     <UserProfileDropdown v-else />
   </div>
 </template>

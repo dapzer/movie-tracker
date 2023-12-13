@@ -7,6 +7,8 @@ import { signInMethods } from "~/features/signIn/model/signInMethods";
 import { useSignInApi } from "~/composables/useAuthApi";
 import { spawnWindowInScreenCenter } from "~/utils/spawnWindowInScreenCenter";
 import { ref } from "vue";
+import { useQueryClient } from "@tanstack/vue-query";
+import { AuthQueryKeys } from "~/constants/queryKeys";
 
 interface LoginModalProps {
   isHideTrigger?: boolean;
@@ -23,38 +25,40 @@ const emits = defineEmits<{
 const isModalVisible = ref(props.externalOpenedState);
 
 const { mutateAsync } = useSignInApi();
+const queryClient = useQueryClient();
 
 const onSignIn = async (provider: string) => {
   const response = await mutateAsync(provider);
 
   if (response) {
     const win = spawnWindowInScreenCenter(response, "Movie Tracker Sign In", window, 800, 600);
-
+    win?.focus();
     const interval = setInterval(() => {
       if (win?.closed) {
-        handleVisible(false)
-        clearInterval(interval)
+        handleVisible(false);
+        queryClient.invalidateQueries({ queryKey: [AuthQueryKeys.USER_PROFILE] });
+        clearInterval(interval);
       }
     }, 1000);
   }
 };
 
 const handleVisible = (value: boolean) => {
-  emits('additionalHandler', value)
-  isModalVisible.value = value
-}
+  emits("additionalHandler", value);
+  isModalVisible.value = value;
+};
 </script>
 
 <template>
   <UiModal
-    v-bind="$attrs"
-    :externalOpenedState="isModalVisible"
     :btnTitle="props.btnTitle || $t('auth.signIn')"
     :buttonVariant="props.buttonVariant"
+    :externalOpenedState="isModalVisible"
     :isHideTrigger="props.isHideTrigger"
     :maxWidth="350"
     :title="$t('auth.signIn')"
     isFullWidth
+    v-bind="$attrs"
     @additionalHandler="handleVisible"
   >
     <div :class="$style.wrapper">
