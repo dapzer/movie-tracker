@@ -1,4 +1,6 @@
 export default {
-  "navigation.home": "Search",
-  "navigation.lists": "My lists",
+  navigation: {
+    home: "Search",
+    lists: "My lists",
+  }
 }

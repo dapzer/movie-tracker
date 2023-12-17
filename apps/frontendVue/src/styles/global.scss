@@ -20,6 +20,7 @@ body > div:first-of-type {
 }
 
 body {
+  font-size: 16px;
   background: var(--c-background);
   background-size: cover;
 }
@@ -60,4 +61,5 @@ a {
 
 li {
   list-style: none;
+  font-size: var(--fs-p);
 }

@@ -27,8 +27,8 @@ export default defineNuxtConfig({
     langDir: './locales',
     defaultLocale: 'ru',
     locales: [
-      { code: 'en', files: ['navigation/en.ts', 'auth/en.ts'] },
-      { code: 'ru', files: ['navigation/ru.ts', 'auth/ru.ts'] },
+      { code: 'en', files: ['navigation/en.ts', 'auth/en.ts', 'hero/en.ts'] },
+      { code: 'ru', files: ['navigation/ru.ts', 'auth/ru.ts', 'hero/ru.ts'] },
     ]
   },
   vue: {

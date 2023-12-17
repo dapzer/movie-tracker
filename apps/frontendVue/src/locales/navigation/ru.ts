@@ -1,4 +1,6 @@
 export default {
-  "navigation.home": "Поиск",
-  "navigation.lists": "Мои списки",
+  navigation: {
+    home: "Поиск",
+    lists: "Мои списки",
+  }
 }

@@ -8,7 +8,7 @@ interface UiButtonProps {
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
-  variant: "default",
+  variant: "default"
 });
 
 </script>
@@ -50,22 +50,17 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &:hover:not(:disabled) {
     color: var(--c-highlight);
     border-color: var(--c-highlight);
+
+    &.danger {
+      color: var(--c-secondary);
+      background-color: var(--c-danger);
+    }
   }
 }
 
 .outlined {
   background: none;
   box-shadow: inset 0 0 0 1px;
-}
-
-.danger {
-  color: var(--c-danger);
-  border-color: var(--c-danger);
-
-  &:hover:not(:disabled) {
-    color: var(--c-danger-hovered);
-    border-color: var(--c-danger-hovered);
-  }
 }
 
 .clear {

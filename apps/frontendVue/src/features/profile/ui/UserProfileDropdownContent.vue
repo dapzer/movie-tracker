@@ -27,6 +27,7 @@ const { mutateAsync: logout } = useLogoutApi();
     </div>
     <UiButton
       :class="$style.signOut"
+      color-scheme="danger"
       @click="logout()"
     >
       {{ $t("auth.signOut") }}
