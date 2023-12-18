@@ -1,13 +1,18 @@
-<script setup lang="ts">
-import UiTypography from "~/components/ui/UiTypography.vue";
-import { NuxtLink } from "#components";
-import { useLocalePath } from "#i18n";
-import { navigationLinks } from "~/components/layout/defaultHeader/navigationLinks";
+<script lang="ts" setup>
 import SignInModal from "~/features/signIn/ui/SignInModal.vue";
 import { useUserProfile } from "~/composables/useAuthApi";
 import { UserProfileDropdown, UserProfileDropdownSkeleton } from "~/features/profile";
+import UiButton from "~/components/ui/UiButton.vue";
+import DefaultHeaderNavigationLinks from "~/components/layout/defaultHeader/DefaultHeaderNavigationLinks.vue";
 
-const localePath = useLocalePath();
+interface DefaultHeaderNavigationProps {
+  isMobileMenuOpen: boolean;
+}
+
+const props = defineProps<DefaultHeaderNavigationProps>();
+const emit = defineEmits<{
+  (e: "toggleMobileMenu"): void
+}>();
 
 const { data: profile, isLoading: isLoadingProfile } = useUserProfile();
 
@@ -15,30 +20,87 @@ const { data: profile, isLoading: isLoadingProfile } = useUserProfile();
 
 <template>
   <div :class="$style.wrapper">
-    <UiTypography
-      v-for="link in navigationLinks"
-      :key="link.path"
-      :to="localePath(link.path)"
-      :as="NuxtLink"
-      variant="link"
-      :activeClass="$style.active"
-    >
-      {{ $t(link.title) }}
-    </UiTypography>
+    <DefaultHeaderNavigationLinks :class="$style.list" />
     <UserProfileDropdownSkeleton v-if="isLoadingProfile" />
     <SignInModal v-if="!profile && !isLoadingProfile" />
     <UserProfileDropdown v-else />
+    <UiButton
+      :class="[$style.mobileMenuHandler, {
+        [$style.mobileMenuHandlerActive]: props.isMobileMenuOpen
+      }]"
+      variant="clear"
+      @click="emit('toggleMobileMenu')"
+    >
+      <span />
+    </UiButton>
   </div>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
+@import "~/styles/variables";
+
 .wrapper {
   display: flex;
   align-items: center;
   gap: 20px;
-}
 
-.active {
-  color: var(--c-highlight);
+  .mobileMenuHandler {
+    position: relative;
+    height: 20px;
+    width: 30px;
+    display: none;
+    align-items: center;
+
+    span,
+    &:before,
+    &:after {
+      display: block;
+      top: 0;
+      right: 0;
+      background-color: #fff;
+      height: 2px;
+      width: 30px;
+      transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+      border-radius: 2px;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      top: unset;
+    }
+
+    &Active {
+      span {
+        display: none;
+      }
+
+      &:before {
+        top: 50%;
+        transform: rotate(405deg);
+      }
+
+      &:after {
+        top: 50%;
+        transform: rotate(-405deg);
+      }
+    }
+  }
+
+  @media screen and (max-width: $bp-md) {
+    .mobileMenuHandler {
+      display: flex;
+    }
+
+    .list {
+      display: none;
+    }
+  }
 }
 </style>

@@ -5,20 +5,30 @@ import { LanguageSelector } from "~/features/languegeSelector";
 import { useLocalePath } from "#i18n";
 import UiTypography from "~/components/ui/UiTypography.vue";
 
+interface DefaultHeaderLogoProps {
+  isMobileMenuOpen: boolean;
+}
+
+const props = defineProps<DefaultHeaderLogoProps>();
 const localePath = useLocalePath();
 </script>
 
 <template>
   <div :class="$style.wrapper">
     <UiTypography
-      :class="$style.logo"
+      v-if="!props.isMobileMenuOpen"
       :as="NuxtLink"
+      :class="$style.logo"
       :to="localePath('/')"
       variant="title3"
     >
       Movie Tracker
     </UiTypography>
-    <LanguageSelector />
+    <LanguageSelector
+      :class="{
+        [$style.localeHider]: !props.isMobileMenuOpen
+      }"
+    />
   </div>
 </template>
 
@@ -35,6 +45,12 @@ const localePath = useLocalePath();
 
     @media screen and (max-width: $bp-md) {
       font-size: var(--fs-m-logo);
+    }
+  }
+
+  @media screen and (max-width: $bp-md) {
+    .localeHider {
+      display: none;
     }
   }
 }

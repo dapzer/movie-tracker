@@ -4,10 +4,10 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 import type { UserType } from "@movie-tracker/types";
 
 interface UserProfileDropdownTriggerProps {
-  profile: UserType
+  profile: UserType;
 }
 
-const props = defineProps<UserProfileDropdownTriggerProps>()
+const props = defineProps<UserProfileDropdownTriggerProps>();
 </script>
 
 <template>
@@ -16,19 +16,21 @@ const props = defineProps<UserProfileDropdownTriggerProps>()
     :class="$style.wrapper"
   >
     <UiTypography :class="$style.userName">
-      {{ props.profile.name.split(' ')[0] }}
+      {{ props.profile.name.split(" ")[0] }}
     </UiTypography>
     <NuxtImg
       :class="$style.avatar"
       :src="props.profile.image"
-      width="32"
-      height="32"
       fit="contain"
+      height="32"
+      width="32"
     />
   </div>
 </template>
 
 <style lang="scss" module>
+@import "~/styles/variables";
+
 .wrapper {
   display: flex;
   gap: 10px;
@@ -37,6 +39,10 @@ const props = defineProps<UserProfileDropdownTriggerProps>()
   .userName {
     color: var(--c-secondary);
     font-weight: var(--fw-light);
+
+    @media screen and (max-width: $bp-md) {
+      display: none;
+    }
   }
 
   .avatar {
