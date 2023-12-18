@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     '@nuxtjs/i18n',
     '@nuxt/image',
+    'nuxt-lazy-load'
   ],
   i18n: {
     lazy: true,
@@ -30,6 +31,14 @@ export default defineNuxtConfig({
       { code: 'en', files: ['navigation/en.ts', 'auth/en.ts', 'hero/en.ts'] },
       { code: 'ru', files: ['navigation/ru.ts', 'auth/ru.ts', 'hero/ru.ts'] },
     ]
+  },
+  lazyLoad: {
+    images: true,
+    videos: true,
+    audios: true,
+    iframes: true,
+    native: false,
+    directiveOnly: false,
   },
   vue: {
     defineModel: true

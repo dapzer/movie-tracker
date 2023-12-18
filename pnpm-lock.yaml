@@ -256,6 +256,9 @@ importers:
       '@tanstack/vue-query':
         specifier: ^5.12.2
         version: 5.12.2(vue@3.3.9)
+      nuxt-lazy-load:
+        specifier: ^3.0.4
+        version: 3.0.4
       sass:
         specifier: ^1.69.5
         version: 1.69.5
@@ -10276,6 +10279,15 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /nuxt-lazy-load@3.0.4:
+    resolution: {integrity: sha512-NlJ/E3RPnbpHIhMigVIDHJwRaTsOHP9dVSPoUH9XhHXvSAgjkywGyoFkI21t+4x5Ug1pv13sFalPE8e75SnY4w==}
+    dependencies:
+      '@nuxt/kit': 3.8.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: false
 
   /nuxt-svgo@3.6.0:
     resolution: {integrity: sha512-mRl4340S6sGMhIfcCJa96PxpoZdSf2jj5j5FscbxgNtiWU5eQhCDO18aiPmks9CDZrFGpbv67Bd+9ZYI7jva6A==}

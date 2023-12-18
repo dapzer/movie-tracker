@@ -1,0 +1,12 @@
+@mixin card () {
+  width: 100%;
+  height: fit-content;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 14px;
+  position: relative;
+  box-shadow: var(--sd-default);
+  border-radius: var(--s-border-radius);
+}

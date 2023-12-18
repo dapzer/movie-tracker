@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Hero } from "~/widgets/hero";
-</script>
+  </script>
 
 <template>
   <Hero />
