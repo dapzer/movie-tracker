@@ -1,5 +1,5 @@
 import { MediaTypeEnum } from "./mediaItem";
-import { MediaDetailsSeasonType } from "../details";
+import { TmdbMediaDetailsSeasonType } from "../tmdb";
 
 export type MediaDetailsType = {
   id: string;
@@ -16,5 +16,5 @@ export type MediaDetailsInfoType = {
   title: string | null;
   originalTitle: string | null;
   poster: string | null;
-  seasons?: MediaDetailsSeasonType[];
+  seasons?: TmdbMediaDetailsSeasonType[];
 };

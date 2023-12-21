@@ -1,8 +1,8 @@
 import { MediaDetailsInfoDto } from '@/routes/mediaDetails/dto/mediaDetailsInfo.dto';
-import { MediaDetailsMovieType } from '@movie-tracker/types';
+import { TmdbMediaDetailsType } from '@movie-tracker/types';
 
 export const convertMediaDetailsToMediaDetailsInfo = (
-  details: MediaDetailsMovieType,
+  details: TmdbMediaDetailsType,
 ): MediaDetailsInfoDto => {
   return {
     originalTitle: details?.original_title || details?.original_name,

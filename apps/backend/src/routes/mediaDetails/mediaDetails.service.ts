@@ -21,7 +21,7 @@ import { convertArrayToChunks } from '@/shared/utils/convertArrayToChunks';
 import { Interval } from '@nestjs/schedule';
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
 import {
-  MediaDetailsMovieType,
+  TmdbMediaDetailsType,
   MediaDetailsType,
   MediaItemType,
   MediaTypeEnum,
@@ -60,7 +60,7 @@ export class MediaDetailsService implements OnModuleInit {
     mediaId: number,
     mediaType: MediaTypeEnum,
     language: string,
-  ): Promise<MediaDetailsMovieType | null> {
+  ): Promise<TmdbMediaDetailsType | null> {
     const response = await fetch(
       this.getApiUrl(`/${mediaType.toLowerCase()}/${mediaId}`, {
         language,

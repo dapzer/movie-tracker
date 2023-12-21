@@ -1,20 +1,20 @@
-export interface MediaDetailsMovieType {
+export interface TmdbMediaDetailsType {
   adult: boolean;
   backdrop_path: string;
-  created_by: MediaDetailsCreatedByType[];
+  created_by: TmdbMediaDetailsCreatedByType[];
   biography: string;
   episode_run_time: number[];
   first_air_date: string;
-  genres: MediaDetailsGenreType[];
+  genres: TmdbMediaDetailsGenreType[];
   homepage: string;
   id: number;
   in_production: boolean;
   languages: string[];
   last_air_date: string;
-  last_episode_to_air: MediaDetailsLastEpisodeToAirType;
+  last_episode_to_air: TmdbMediaDetailsLastEpisodeToAirType;
   name: string;
-  next_episode_to_air?: MediaDetailsNextEpisodeToAirType;
-  networks: MediaDetailsNetworkType[];
+  next_episode_to_air?: TmdbMediaDetailsNextEpisodeToAirType;
+  networks: TmdbMediaDetailsNetworkType[];
   number_of_episodes: number;
   number_of_seasons: number;
   origin_country: string[];
@@ -23,10 +23,10 @@ export interface MediaDetailsMovieType {
   overview: string;
   popularity: number;
   poster_path: string;
-  production_companies: MediaDetailsProductionCompanyType[];
-  production_countries: MediaDetailsProductionCountryType[];
-  seasons: MediaDetailsSeasonType[];
-  spoken_languages: MediaDetailsSpokenLanguageType[];
+  production_companies: TmdbMediaDetailsProductionCompanyType[];
+  production_countries: TmdbMediaDetailsProductionCountryType[];
+  seasons: TmdbMediaDetailsSeasonType[];
+  spoken_languages: TmdbMediaDetailsSpokenLanguageType[];
   status: string;
   tagline: string;
   type: string;
@@ -43,7 +43,7 @@ export interface MediaDetailsMovieType {
   budget: number;
 }
 
-export interface MediaDetailsCreatedByType {
+export interface TmdbMediaDetailsCreatedByType {
   id: number;
   credit_id: string;
   name: string;
@@ -51,12 +51,12 @@ export interface MediaDetailsCreatedByType {
   profile_path: string;
 }
 
-export interface MediaDetailsGenreType {
+export interface TmdbMediaDetailsGenreType {
   id: number;
   name: string;
 }
 
-export interface MediaDetailsLastEpisodeToAirType {
+export interface TmdbMediaDetailsLastEpisodeToAirType {
   air_date: string;
   episode_number: number;
   id: number;
@@ -71,7 +71,7 @@ export interface MediaDetailsLastEpisodeToAirType {
   vote_count: number;
 }
 
-export interface MediaDetailsNextEpisodeToAirType {
+export interface TmdbMediaDetailsNextEpisodeToAirType {
   air_date: string;
   episode_number: number;
   id: number;
@@ -86,26 +86,26 @@ export interface MediaDetailsNextEpisodeToAirType {
   vote_count: number;
 }
 
-export interface MediaDetailsNetworkType {
+export interface TmdbMediaDetailsNetworkType {
   id: number;
   name: string;
   logo_path: string;
   origin_country: string;
 }
 
-export interface MediaDetailsProductionCompanyType {
+export interface TmdbMediaDetailsProductionCompanyType {
   id: number;
   logo_path: string;
   name: string;
   origin_country: string;
 }
 
-export interface MediaDetailsProductionCountryType {
+export interface TmdbMediaDetailsProductionCountryType {
   iso_3166_1: string;
   name: string;
 }
 
-export interface MediaDetailsSeasonType {
+export interface TmdbMediaDetailsSeasonType {
   air_date: string;
   episode_count: number;
   id: number;
@@ -115,7 +115,7 @@ export interface MediaDetailsSeasonType {
   season_number: number;
 }
 
-export interface MediaDetailsSpokenLanguageType {
+export interface TmdbMediaDetailsSpokenLanguageType {
   english_name: string;
   iso_639_1: string;
   name: string;
