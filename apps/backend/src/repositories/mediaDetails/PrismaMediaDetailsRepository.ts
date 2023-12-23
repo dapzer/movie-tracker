@@ -81,6 +81,6 @@ export class PrismaMediaDetailsRepository
       },
     });
 
-    return this.convertToInterface(mediaDetails);
+    return mediaDetails ? this.convertToInterface(mediaDetails) : null;
   }
 }
