@@ -1,0 +1,39 @@
+<script lang="ts" setup>
+import { UiCard } from "~/components/ui/UiCard";
+import { computed } from "#imports";
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
+import { useLocalePath } from "#i18n";
+import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
+import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
+
+interface PersonCardProps {
+  person: TmdbSearchResponseResultItemType;
+  width?: number
+  isHorizontal?: boolean
+  isSmall?: boolean
+}
+
+const props = defineProps<PersonCardProps>();
+
+const image = computed(() => props.person.profile_path);
+const localePath = useLocalePath();
+</script>
+
+<template>
+  <UiCard
+    :width="props.width"
+    :is-horizontal="props.isHorizontal"
+    :is-small="props.isSmall"
+    :image="image ? getProxiedImageUrl(`https://image.tmdb.org/t/p/original${image}`) : '/defaultPoster.svg'"
+    :link="localePath(`/details/${props.person.media_type}/${props.person.id}`)"
+    :title="props.person.name"
+  >
+    <UiLinkToDetails
+      :media-id="props.person.id"
+      :media-type="props.person.media_type"
+    />
+  </UiCard>
+</template>
+
+<style lang="scss" module>
+</style>

@@ -1,3 +1,5 @@
+import { TmdbSeasonDetailsType } from "./seasonDetails";
+
 export interface TmdbMediaDetailsType {
   adult: boolean;
   backdrop_path: string;
@@ -41,7 +43,11 @@ export interface TmdbMediaDetailsType {
   original_title: string;
   imdb_id: string;
   budget: number;
+  [key: TmdbMediaDetailsSeasonKey]: TmdbSeasonDetailsType | undefined;
+
 }
+
+export type TmdbMediaDetailsSeasonKey = `season/${number}`;
 
 export interface TmdbMediaDetailsCreatedByType {
   id: number;

@@ -1,8 +1,8 @@
 import { MediaDetailsType } from "./mediaDetails";
 
 export enum MediaTypeEnum {
-  MOVIE = "MOVIE",
-  TV = "TV",
+  MOVIE = "movie",
+  TV = "tv",
 }
 
 export enum MediaItemStatusNameEnum {

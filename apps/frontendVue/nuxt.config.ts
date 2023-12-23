@@ -21,15 +21,15 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     '@nuxtjs/i18n',
     '@nuxt/image',
-    'nuxt-lazy-load'
+    'nuxt-lazy-load',
   ],
   i18n: {
     lazy: true,
     langDir: './locales',
     defaultLocale: 'ru',
     locales: [
-      { code: 'en', files: ['navigation/en.ts', 'auth/en.ts', 'hero/en.ts', 'search/en.ts', 'ui/en.ts'] },
-      { code: 'ru', files: ['navigation/ru.ts', 'auth/ru.ts', 'hero/ru.ts', 'search/ru.ts', 'ui/ru.ts'] },
+      { code: 'en', files: ['navigation/en.ts', 'auth/en.ts', 'hero/en.ts', 'search/en.ts', 'ui/en.ts', 'details/en.ts'] },
+      { code: 'ru', files: ['navigation/ru.ts', 'auth/ru.ts', 'hero/ru.ts', 'search/ru.ts', 'ui/ru.ts', 'details/ru.ts'] },
     ]
   },
   lazyLoad: {

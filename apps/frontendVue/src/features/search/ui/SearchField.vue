@@ -21,8 +21,14 @@ onMounted(() => {
     localSearchValue.value = route.query.search as string;
     searchStore.onChangeSearch(route.query.search as string);
   }
+
   if (route.query.page) {
     searchStore.handleCurrentPage(parseInt(route.query.page as string));
+  }
+
+  if (searchValue.value) {
+    updateSearchData(searchValue.value, currentPage.value);
+    localSearchValue.value = searchValue.value;
   }
 });
 

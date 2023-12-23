@@ -1,14 +1,26 @@
 {
   "name": "@movie-tracker/types",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
   },
-  "keywords": [],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/types/*.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:esm && pnpm build:cjs && pnpm build:types && pnpm postbuild",
+    "postbuild": "node postbuild.js",
+    "build:esm": "tsc --module ESNext --outDir dist/esm --declaration false --declarationMap false",
+    "build:cjs": "tsc --module CommonJS --declaration false --declarationMap false --outDir dist/cjs",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist/types"
+  },
   "author": "",
   "license": "ISC"
 }

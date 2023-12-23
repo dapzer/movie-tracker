@@ -1,11 +1,11 @@
-export interface TmdbSearchResponse {
+export interface TmdbSearchResponseType {
   page: number;
-  results: TmdbSearchResponseResultItem[];
+  results: TmdbSearchResponseResultItemType[];
   total_pages: number;
   total_results: number;
 }
 
-export interface TmdbSearchResponseResultItem {
+export interface TmdbSearchResponseResultItemType {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -25,10 +25,10 @@ export interface TmdbSearchResponseResultItem {
   vote_average: number;
   profile_path?: string;
   vote_count: number;
-  known_for: TmdbSearchResponseKnownFor[];
+  known_for: TmdbSearchResponseKnownForType[];
 }
 
-export interface TmdbSearchResponseKnownFor {
+export interface TmdbSearchResponseKnownForType {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
