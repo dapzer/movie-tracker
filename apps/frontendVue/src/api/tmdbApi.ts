@@ -5,6 +5,7 @@ import type {
   TmdbSearchResponseType, TmdbSeasonDetailsType, TmdbSeasonDetailsWithMediaDetailsType, TmdbVideosType,
   TmdbMediaDetailsSeasonKey
 } from "@movie-tracker/types";
+import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import type {
   TmdbDefaultQueriesType,
   TmdbPersonCreditsQueriesType,
@@ -47,11 +48,11 @@ export const tmdbDetailApi = async <T = TmdbMediaDetailsType>(queries: TmdbDefau
 };
 
 export const tmdbCreditsApi = async (queries: TmdbDefaultQueriesType) => {
-  // const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/${queries.mediaType === MediaTypeEnum.TV ? "aggregate_credits" : "credits"}`, {
-  //   language: queries.language
-  // });
+  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/${queries.mediaType === TmdbMediaTypeEnum.TV ? "aggregate_credits" : "credits"}`, {
+    language: queries.language
+  });
 
-  return await getResponse<TmdbCreditsType>("url");
+  return await getResponse<TmdbCreditsType>(url);
 };
 
 export const tmdbPersonCreditsApi = async (queries: TmdbPersonCreditsQueriesType) => {

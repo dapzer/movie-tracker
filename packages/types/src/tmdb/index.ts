@@ -4,3 +4,4 @@ export * from "./credits";
 export * from "./mediaDetails";
 export * from "./seasonDetails";
 export * from "./videos";
+export * from "./mediaTypes";

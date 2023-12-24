@@ -51,7 +51,6 @@ const handleVisible = (value: boolean) => {
 
 <template>
   <UiModal
-    :btnTitle="props.btnTitle || $t('auth.signIn')"
     :buttonVariant="props.buttonVariant"
     :externalOpenedState="isModalVisible"
     :isHideTrigger="props.isHideTrigger"
@@ -61,16 +60,22 @@ const handleVisible = (value: boolean) => {
     v-bind="$attrs"
     @additionalHandler="handleVisible"
   >
-    <div :class="$style.wrapper">
-      <UiButton
-        v-for="method in signInMethods"
-        :key="method.title"
-        :style="{ '--bg': method.color }"
-        @click="onSignIn(method.provider)"
-      >
-        {{ method.title }}
-      </UiButton>
-    </div>
+    <template #trigger>
+      {{ props.btnTitle || $t('auth.signIn') }}
+    </template>
+
+    <template #content>
+      <div :class="$style.wrapper">
+        <UiButton
+          v-for="method in signInMethods"
+          :key="method.title"
+          :style="{ '--bg': method.color }"
+          @click="onSignIn(method.provider)"
+        >
+          {{ method.title }}
+        </UiButton>
+      </div>
+    </template>
   </UiModal>
 </template>
 

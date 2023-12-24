@@ -21,6 +21,9 @@
     "build:cjs": "tsc --module CommonJS --declaration false --declarationMap false --outDir dist/cjs",
     "build:types": "tsc --emitDeclarationOnly --outDir dist/types"
   },
+  "devDependencies": {
+    "@movie-tracker/types": "workspace:*"
+  },
   "author": "",
   "license": "ISC"
 }

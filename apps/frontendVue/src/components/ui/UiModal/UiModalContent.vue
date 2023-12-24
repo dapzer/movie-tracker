@@ -21,7 +21,7 @@ const bodyMaxWidth = computed(() => {
   if (props.maxWidth) {
     return `${props.maxWidth}px`;
   }
-  return "fit-content";
+  return props.isFullWidth ? "100%" : "fit-content";
 })
 
 const closeModalOnKeypress = (event: KeyboardEvent) => {

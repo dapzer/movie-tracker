@@ -342,7 +342,11 @@ importers:
 
   packages/types: {}
 
-  packages/utils: {}
+  packages/utils:
+    devDependencies:
+      '@movie-tracker/types':
+        specifier: workspace:*
+        version: link:../types
 
 packages:
 

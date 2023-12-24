@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 
-import type { VNode } from "vue";
 import { ref } from "vue";
-import UiButton from "~/components/ui/UiButton.vue";
 import type { ButtonVariant } from "~/components/ui/UiButton.vue";
+import UiButton from "~/components/ui/UiButton.vue";
 import UiModalContent from "~/components/ui/UiModal/UiModalContent.vue";
 import { watch } from "#imports";
 
 interface UiModalProps {
   title: string;
-  btnTitle?: string | VNode;
   maxWidth?: number;
   isFullWidth?: boolean;
   buttonVariant?: ButtonVariant;
@@ -46,7 +44,7 @@ const handleVisible = (value: boolean) => {
     v-bind="$attrs"
     @click="handleVisible(true)"
   >
-    {{ props.btnTitle }}
+    <slot name="trigger" />
   </UiButton>
 
   <Teleport
@@ -59,7 +57,7 @@ const handleVisible = (value: boolean) => {
       :title="props.title"
       @handle-close="handleVisible(false)"
     >
-      <slot />
+      <slot name="content" />
     </UiModalContent>
   </Teleport>
 </template>
