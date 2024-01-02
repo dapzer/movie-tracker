@@ -5,8 +5,8 @@ export default defineNuxtConfig({
   srcDir: "./src",
   app: {
     head: {
-      charset: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1',
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1"
     }
   },
   devtools: { enabled: true },
@@ -14,22 +14,28 @@ export default defineNuxtConfig({
     public: {
       API_URL: process.env.NUXT_API_URL,
       TMDB_API_URL: process.env.NUXT_TMDB_API_URL,
-      TMDB_API_KEY: process.env.NUXT_TMDB_API_KEY,
-    },
+      TMDB_API_KEY: process.env.NUXT_TMDB_API_KEY
+    }
   },
   modules: [
     "nuxt-svgo",
-    '@nuxtjs/i18n',
-    '@nuxt/image',
-    'nuxt-lazy-load',
+    "@nuxtjs/i18n",
+    "@nuxt/image",
+    "nuxt-lazy-load"
   ],
   i18n: {
     lazy: true,
-    langDir: './locales',
-    defaultLocale: 'ru',
+    langDir: "./locales",
+    defaultLocale: "ru",
     locales: [
-      { code: 'en', files: ['navigation/en.ts', 'auth/en.ts', 'hero/en.ts', 'search/en.ts', 'ui/en.ts', 'details/en.ts'] },
-      { code: 'ru', files: ['navigation/ru.ts', 'auth/ru.ts', 'hero/ru.ts', 'search/ru.ts', 'ui/ru.ts', 'details/ru.ts'] },
+      {
+        code: "en",
+        files: ["navigation/en.ts", "auth/en.ts", "hero/en.ts", "search/en.ts", "ui/en.ts", "details/en.ts"]
+      },
+      {
+        code: "ru",
+        files: ["navigation/ru.ts", "auth/ru.ts", "hero/ru.ts", "search/ru.ts", "ui/ru.ts", "details/ru.ts"]
+      }
     ]
   },
   lazyLoad: {
@@ -38,10 +44,7 @@ export default defineNuxtConfig({
     audios: true,
     iframes: true,
     native: false,
-    directiveOnly: false,
-  },
-  vue: {
-    defineModel: true
+    directiveOnly: false
   },
   svgo: {
     svgo: true,
