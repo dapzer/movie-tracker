@@ -1,6 +1,8 @@
 @import "src/styles/variables";
 
 .body {
+  display: flex;
+  align-items: center;
   width: 100%;
   position: fixed;
   background: $c-accent;
@@ -110,7 +112,7 @@
       position: fixed;
       top: $s-header-height;
       height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
 
       nav {
         width: 100%;
@@ -128,10 +130,12 @@
       span {
         display: none;
       }
+
       &:before {
         top: 50%;
         transform: rotate(405deg);
       }
+
       &:after {
         top: 50%;
         transform: rotate(-405deg);
