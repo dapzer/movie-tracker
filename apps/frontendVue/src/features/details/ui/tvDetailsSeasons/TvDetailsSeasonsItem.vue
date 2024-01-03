@@ -44,6 +44,7 @@ const { locale } = useI18n();
             {{ Number(episode.vote_average.toFixed(1)) }}
           </UiTypography>
         </UiTypography>
+
         <UiTypography
           as="li"
           variant="listItem"
@@ -56,6 +57,7 @@ const { locale } = useI18n();
             {{ episode.episode_number }}
           </UiTypography>
         </UiTypography>
+
         <UiTypography
           as="li"
           variant="listItem"
@@ -68,6 +70,7 @@ const { locale } = useI18n();
             {{ episode.runtime }} {{ $t("details.runTimeMins") }}
           </UiTypography>
         </UiTypography>
+
         <UiTypography
           as="li"
           variant="listItem"

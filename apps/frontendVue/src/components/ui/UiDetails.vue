@@ -125,6 +125,12 @@ const handleOpen = () => {
       top: var(--s-header-height);
       @include fullWidthBg(var(--c-background));
 
+      .info {
+        .title {
+          font-size: var(--fs-p);
+        }
+      }
+
       @media screen and (min-width: $bp-sm) {
         .arrow {
           width: 24px;
