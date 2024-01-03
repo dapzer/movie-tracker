@@ -82,9 +82,10 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 275px;
+    height: 100%;
+    max-height: 265px;
     width: 100%;
-    max-width: 300px;
+    max-width: unset;
     font-size: var(--fs-h2);
   }
 

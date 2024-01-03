@@ -3,11 +3,11 @@ import { UiCard } from "~/components/ui/UiCard";
 import { computed } from "#imports";
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
 import { useLocalePath } from "#i18n";
-import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
+import { type TmdbSearchResponseResultItemType, type TmdbCreditsCastType, TmdbMediaTypeEnum } from "@movie-tracker/types";
 import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
 
 interface PersonCardProps {
-  person: TmdbSearchResponseResultItemType;
+  person: TmdbSearchResponseResultItemType | TmdbCreditsCastType;
   width?: number
   isHorizontal?: boolean
   isSmall?: boolean
@@ -25,12 +25,12 @@ const localePath = useLocalePath();
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
     :image="image ? getProxiedImageUrl(`https://image.tmdb.org/t/p/original${image}`) : '/defaultPoster.svg'"
-    :link="localePath(`/details/${props.person.media_type}/${props.person.id}`)"
+    :link="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${props.person.id}`)"
     :title="props.person.name"
   >
     <UiLinkToDetails
       :media-id="props.person.id"
-      :media-type="props.person.media_type"
+      :media-type="TmdbMediaTypeEnum.PERSON"
     />
   </UiCard>
 </template>

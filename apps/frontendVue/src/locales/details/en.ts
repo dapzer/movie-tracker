@@ -20,6 +20,7 @@ export default {
     tvDescription: 'Series description',
     personDescription: 'Biography',
     videosTitle: 'Videos',
+    castTitle: 'Actors',
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",

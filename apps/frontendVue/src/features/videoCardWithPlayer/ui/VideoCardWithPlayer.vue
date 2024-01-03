@@ -43,12 +43,18 @@ const props = defineProps<VideoCardWithPlayerProps>();
 </template>
 
 <style lang="scss" module>
+@import "~/styles/variables";
+
 .trigger {
   text-align: start;
   width: 100%;
   max-width: 300px;
   user-select: text;
   cursor: pointer;
+
+  @media screen and (max-width: $bp-md) {
+    max-width: unset;
+  }
 }
 
 .frame {

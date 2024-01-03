@@ -12,6 +12,7 @@ import MovieDetailsHeader from "~/features/details/ui/MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
+import { PersonCard } from "~/widgets/personCard";
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -106,6 +107,32 @@ const videosList = computed(() => {
             :preview-url="`https://i.ytimg.com/vi/${video.key}/hq720.jpg`"
             :title="video.name"
             :video-url="`https://www.youtube.com/embed/${video.key}?autoplay=1`"
+          />
+        </template>
+      </UiListWithShowMore>
+    </section>
+
+    <section
+      v-if="credits?.cast.length"
+      :class="$style.block"
+    >
+      <UiTypography
+        as="h2"
+        variant="title2"
+      >
+        {{ $t(`details.castTitle`) }}
+      </UiTypography>
+      <UiListWithShowMore
+        variant="tripleColumns"
+        :items="credits?.cast"
+        :items-to-show="5"
+        :title="$t('details.castTitle')"
+      >
+        <template #card="{ item: person, isFromModal }">
+          <PersonCard
+            :key="person.id"
+            :is-horizontal="!isFromModal"
+            :person="person"
           />
         </template>
       </UiListWithShowMore>
