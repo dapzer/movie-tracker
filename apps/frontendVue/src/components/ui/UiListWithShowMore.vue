@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
     />
 
     <UiModal
+      v-if="props.items.length > props.itemsToShow"
       :class="[$style.showMore, props.triggerClass]"
       :title="props.title"
       button-variant="clear"
