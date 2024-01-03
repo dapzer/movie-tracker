@@ -32,13 +32,18 @@ const isShowOriginalTitle = computed(() => {
   if (!props.details) return false;
   return (props.details?.original_title || props.details?.original_name) !== (props.details?.title || props.details?.name);
 });
+
+const title = computed(() => {
+  if (!props.details) return "";
+  return props.details?.title || props.details?.name;
+});
 </script>
 
 <template>
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
     :image="getProxiedImageUrl(`https://image.tmdb.org/t/p/original${props.details?.poster_path}`)"
-    :title="`${props.details?.title || props.details?.name} (${$t(`details.mediaType.${props.mediaType}`)})`"
+    :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`)})` : ''"
   >
     <UiTypography
       v-if="props.details?.vote_average"
