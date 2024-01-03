@@ -1,11 +1,13 @@
 <script generic="T" lang="ts" setup>
 import MasonryWall from "@yeger/vue-masonry-wall";
 import { UiModal } from "~/components/ui/UiModal";
-import UiTypography from "~/components/ui/UiTypography.vue";
+
+type Variant = "tripleColumns";
 
 interface UiListWithShowMoreProps<T> {
   items: T[];
   itemsToShow: number;
+  variant?: Variant;
   title: string;
   columnWidth?: number;
   gap?: number;
@@ -13,15 +15,19 @@ interface UiListWithShowMoreProps<T> {
   triggerClass?: string;
 }
 
-const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(),{
+const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
   columnWidth: 300,
   gap: 20,
   maxColumns: 4
-})
+});
 </script>
 
 <template>
-  <div :class="$style.wrapper">
+  <div
+    :class="[$style.wrapper, {
+      [$style.tripleColumns]: props.variant === 'tripleColumns',
+    }]"
+  >
     <slot
       v-for="item in props.items.slice(0, props.itemsToShow)"
       :item="item"
@@ -35,7 +41,7 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(),{
       is-full-width
     >
       <template #trigger>
-        {{ $t('ui.fullList') }}
+        {{ $t("ui.fullList") }}
       </template>
       <template #content>
         <MasonryWall
@@ -47,8 +53,8 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(),{
         >
           <template #default="{ item }">
             <slot
-              :item="item"
               :is-from-modal="true"
+              :item="item"
               name="card"
             />
           </template>
@@ -83,6 +89,24 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(),{
 
   @media screen and (max-width: $bp-md) {
     grid-template-columns: 1fr;
+  }
+}
+
+.tripleColumns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 20px;
+
+  .showMore {
+    max-width: unset;
+  }
+
+  @media screen and (max-width: $bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: $bp-slg) {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 </style>

@@ -52,6 +52,14 @@ await Promise.all([
   suspenseCredits(),
   suspenseVideos()
 ]);
+
+const videosList = computed(() => {
+  if (!videos.value?.results.length) {
+    return [];
+  }
+
+  return [...videos.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1))
+})
 </script>
 
 <template>
@@ -77,7 +85,7 @@ await Promise.all([
     </section>
 
     <section
-      v-if="videos"
+      v-if="videosList.length"
       :class="$style.block"
     >
       <UiTypography
@@ -87,14 +95,14 @@ await Promise.all([
         {{ $t(`details.videosTitle`) }}
       </UiTypography>
       <UiListWithShowMore
-        :items="videos.results"
+        :items="videosList"
         :items-to-show="3"
         :title="$t('details.videosTitle')"
       >
         <template #card="{ item: video }">
           <VideoCardWithPlayer
             :key="video.id"
-            :description="new Date(video.published_at).toLocaleDateString(locale)"
+            :description="`${$t('details.releaseDate')}: ${new Date(video.published_at).toLocaleDateString(locale)}`"
             :preview-url="`https://i.ytimg.com/vi/${video.key}/hq720.jpg`"
             :title="video.name"
             :video-url="`https://www.youtube.com/embed/${video.key}?autoplay=1`"

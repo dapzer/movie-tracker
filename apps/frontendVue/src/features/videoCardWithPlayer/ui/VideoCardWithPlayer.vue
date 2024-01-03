@@ -44,7 +44,7 @@ const props = defineProps<VideoCardWithPlayerProps>();
 
 <style lang="scss" module>
 .trigger {
-  all: unset;
+  text-align: start;
   width: 100%;
   max-width: 300px;
   user-select: text;

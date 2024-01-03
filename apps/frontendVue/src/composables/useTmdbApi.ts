@@ -95,12 +95,7 @@ export const useTmdbGetVideos = (queries: Ref<TmdbDefaultQueriesType>) =>
       "getVideos",
       queries
     ],
-    queryFn: () => tmdbVideosApi(queries.value),
-    select: (data: TmdbVideosType | null) => {
-      if (!data) return null;
-      data.results = data.results.sort((a, b) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
-      return data;
-    }
+    queryFn: () => tmdbVideosApi(queries.value)
   });
 
 export const useTmdbGetTvSeriesDetails = (queries: Ref<TmdbSeasonsQueriesType>) =>

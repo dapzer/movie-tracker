@@ -7,7 +7,7 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils";
 import { computed } from "vue";
 import MovieDetailsProducers from "~/features/details/ui/MovieDetailsProducers.vue";
-import { useI18n } from "#imports";
+import { getProxiedImageUrl, useI18n } from "#imports";
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
@@ -37,7 +37,7 @@ const isShowOriginalTitle = computed(() => {
 <template>
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
-    :image="props.details?.poster_path"
+    :image="getProxiedImageUrl(`https://image.tmdb.org/t/p/original${props.details?.poster_path}`)"
     :title="`${props.details?.title || props.details?.name} (${$t(`details.mediaType.${props.mediaType}`)})`"
   >
     <UiTypography
