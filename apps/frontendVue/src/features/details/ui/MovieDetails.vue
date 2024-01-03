@@ -6,6 +6,7 @@ import {
   useTmdbGetVideos
 } from "~/composables/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
+import { arrayToString } from "@movie-tracker/utils";
 import { computed, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MovieDetailsHeader from "~/features/details/ui/MovieDetailsHeader.vue";
@@ -13,6 +14,7 @@ import UiContainer from "~/components/ui/UiContainer.vue";
 import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { PersonCard } from "~/widgets/personCard";
+import { MovieCard } from "~/widgets/movieCard";
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -70,6 +72,7 @@ const videosList = computed(() => {
       :details="details"
       :mediaType="props.mediaType"
     />
+
     <section
       v-if="details?.overview"
       :class="$style.block"
@@ -133,6 +136,40 @@ const videosList = computed(() => {
             :key="person.id"
             :is-horizontal="!isFromModal"
             :person="person"
+          >
+            <UiTypography v-if="person.total_episode_count">
+              {{ $t('details.inNumberOfEpisodes', {episodes: person.total_episode_count}) }}
+            </UiTypography>
+            <UiTypography v-if="person.character || !!person?.roles?.length">
+              {{ $t('details.role') }}: {{ person.character || arrayToString(person.roles, "character") }}
+            </UiTypography>
+          </PersonCard>
+        </template>
+      </UiListWithShowMore>
+    </section>
+
+    <section
+      v-if="recommendations?.results.length"
+      :class="$style.block"
+    >
+      <UiTypography
+        as="h2"
+        variant="title2"
+      >
+        {{ $t(`details.recommendationsTitle`) }}
+      </UiTypography>
+      <UiListWithShowMore
+        variant="tripleColumns"
+        :items="recommendations?.results"
+        :items-to-show="5"
+        :title="$t('details.recommendationsTitle')"
+      >
+        <template #card="{ item: movie, isFromModal }">
+          <MovieCard
+            :key="movie.id"
+            :is-horizontal="!isFromModal"
+            :is-hide-score="!isFromModal"
+            :movie="movie"
           />
         </template>
       </UiListWithShowMore>

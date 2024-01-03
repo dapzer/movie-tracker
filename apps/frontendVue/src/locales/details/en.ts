@@ -21,6 +21,9 @@ export default {
     personDescription: 'Biography',
     videosTitle: 'Videos',
     castTitle: 'Actors',
+    recommendationsTitle: 'Similar films',
+    inNumberOfEpisodes: 'In {episodes} episodes',
+    role: 'Role(s)',
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",

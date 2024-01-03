@@ -12,6 +12,7 @@ interface MovieCardProps {
   width?: number
   isHorizontal?: boolean
   isSmall?: boolean
+  isHideScore?: boolean
 }
 
 const props = defineProps<MovieCardProps>();
@@ -25,7 +26,9 @@ const releaseDate =
 
 <template>
   <UiCard
-    :class="$style.wrapper"
+    :class="[$style.wrapper, {
+      [$style.wrapperWithScore]: !props.isHideScore
+    }]"
     :width="props.width"
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
@@ -35,6 +38,7 @@ const releaseDate =
     :title="movie.title || movie.name || movie.original_name"
   >
     <UiScoreCircle
+      v-if="!props.isHideScore"
       :class="$style.score"
       :value="movie.vote_average"
     />
@@ -53,6 +57,10 @@ const releaseDate =
     position: absolute;
     top: -10px;
     left: -10px;
+  }
+
+  &.wrapperWithScore {
+    margin-top: 10px;
   }
 }
 </style>

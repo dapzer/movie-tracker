@@ -28,6 +28,7 @@ const localePath = useLocalePath();
     :link="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${props.person.id}`)"
     :title="props.person.name"
   >
+    <slot />
     <UiLinkToDetails
       :media-id="props.person.id"
       :media-type="TmdbMediaTypeEnum.PERSON"

@@ -21,6 +21,9 @@ export default {
     personDescription: 'Биография',
     videosTitle: 'Видеоматериалы',
     castTitle: 'Актеры',
+    recommendationsTitle: 'Похожие кинокартины',
+    inNumberOfEpisodes: 'В {episodes} эпизодах',
+    role: 'Роль(и)',
     seriesStatusName: {
       "canceled": "Отменён",
       "ended": "Завершён",
