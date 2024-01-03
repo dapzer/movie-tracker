@@ -10,6 +10,7 @@ import MovieDetailsProducers from "~/features/details/ui/MovieDetailsProducers.v
 import { getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
+import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
@@ -45,7 +46,7 @@ const title = computed(() => {
 <template>
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
-    :image="props.details?.poster_path ? getProxiedImageUrl(`https://image.tmdb.org/t/p/original${props.details?.poster_path}`) : '/defaultPoster.svg'"
+    :image="getTmdbImageUrl(props.details?.poster_path)"
     :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`)})` : ''"
   >
     <UiTypography

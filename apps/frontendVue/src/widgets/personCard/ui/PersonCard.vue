@@ -5,6 +5,7 @@ import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
 import { useLocalePath } from "#i18n";
 import { type TmdbSearchResponseResultItemType, type TmdbCreditsCastType, TmdbMediaTypeEnum } from "@movie-tracker/types";
 import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
+import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 
 interface PersonCardProps {
   person: TmdbSearchResponseResultItemType | TmdbCreditsCastType;
@@ -24,7 +25,7 @@ const localePath = useLocalePath();
     :width="props.width"
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
-    :image="image ? getProxiedImageUrl(`https://image.tmdb.org/t/p/original${image}`) : '/defaultPoster.svg'"
+    :image="getTmdbImageUrl(image)"
     :link="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${props.person.id}`)"
     :title="props.person.name"
   >

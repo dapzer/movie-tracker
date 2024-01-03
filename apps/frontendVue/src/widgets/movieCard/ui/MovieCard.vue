@@ -6,6 +6,7 @@ import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
 import { useLocalePath } from "#i18n";
 import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
+import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType;
@@ -33,7 +34,7 @@ const releaseDate =
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
     :description="`${$t('details.releaseDate')}: ${releaseDate}`"
-    :image="image ? getProxiedImageUrl(`https://image.tmdb.org/t/p/original${image}`) : '/defaultPoster.svg'"
+    :image="getTmdbImageUrl(image)"
     :link="localePath(`/details/${movie.media_type}/${movie.id}`)"
     :title="movie.title || movie.name || movie.original_name"
   >
