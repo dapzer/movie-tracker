@@ -1,10 +1,15 @@
 export default {
   ui: {
-    detailed: 'Подробнее',
+    detailed: "Подробнее",
     fullList: "Полный список",
     pagination: {
-      toStart: 'В начало',
-      toEnd: 'В конец',
+      toStart: "В начало",
+      toEnd: "В конец"
+    },
+    time: {
+      shortDay: "д.",
+      shortHour: "ч.",
+      shortMin: "м."
     }
   }
-}
+};

@@ -8,6 +8,8 @@ import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movi
 import { computed } from "vue";
 import MovieDetailsProducers from "~/features/details/ui/MovieDetailsProducers.vue";
 import { getProxiedImageUrl, useI18n } from "#imports";
+import { useLocalePath } from "#i18n";
+import { NuxtLink } from "#components";
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
@@ -17,6 +19,7 @@ interface MovieDetailsHeaderProps {
 
 const props = defineProps<MovieDetailsHeaderProps>();
 const { locale } = useI18n();
+const localePath = useLocalePath();
 
 const producers = computed(() => {
   if (!props.credits || props.mediaType !== TmdbMediaTypeEnum.MOVIE) return [];
@@ -42,7 +45,7 @@ const title = computed(() => {
 <template>
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
-    :image="getProxiedImageUrl(`https://image.tmdb.org/t/p/original${props.details?.poster_path}`)"
+    :image="props.details?.poster_path ? getProxiedImageUrl(`https://image.tmdb.org/t/p/original${props.details?.poster_path}`) : '/defaultPoster.svg'"
     :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`)})` : ''"
   >
     <UiTypography
@@ -194,7 +197,13 @@ const title = computed(() => {
           as="span"
           variant="listItemValue"
         >
-          {{ props.details?.number_of_seasons }}
+          {{ props.details?.number_of_seasons }} (<UiTypography
+            :as="NuxtLink"
+            variant="linkUnderlined"
+            :to="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.details?.id}/seasons`)"
+          >
+            {{ $t('details.episodesList') }}
+          </UiTypography>)
         </UiTypography>
       </UiTypography>
 

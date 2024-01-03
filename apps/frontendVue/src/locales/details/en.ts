@@ -24,6 +24,12 @@ export default {
     recommendationsTitle: 'Similar films',
     inNumberOfEpisodes: 'In {episodes} episodes',
     role: 'Role(s)',
+    episodesList: 'List of episodes',
+    listOfEpisodes: 'List of episodes of the series',
+    totalViewingTime: 'Total viewing time',
+    episodeNumber: 'Episode number',
+    episodeDuration: 'Episode duration',
+    episodeDescription: 'Episode description',
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",

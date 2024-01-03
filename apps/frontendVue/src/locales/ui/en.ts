@@ -5,6 +5,11 @@ export default {
     pagination: {
       toStart: "Begin",
       toEnd: "End"
+    },
+    time: {
+      shortDay: "d.",
+      shortHour: "h.",
+      shortMin: "m.",
     }
   }
 };

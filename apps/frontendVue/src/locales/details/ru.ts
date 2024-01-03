@@ -24,6 +24,12 @@ export default {
     recommendationsTitle: 'Похожие кинокартины',
     inNumberOfEpisodes: 'В {episodes} эпизодах',
     role: 'Роль(и)',
+    episodesList: 'Список эпизодов',
+    listOfEpisodes: 'Список эпизодов сериала',
+    totalViewingTime: 'Общее время просмотра',
+    episodeNumber: 'Номер эпизода',
+    episodeDuration: 'Продолжительность эпизода',
+    episodeDescription: 'Описание эпизода',
     seriesStatusName: {
       "canceled": "Отменён",
       "ended": "Завершён",

@@ -19,6 +19,4 @@ const mediaId = computed(() => route.params.mediaId);
 </template>
 
 <style lang="scss" module>
-
-
 </style>
