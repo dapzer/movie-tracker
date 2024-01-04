@@ -7,7 +7,7 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { minsToTimeConverter } from "@movie-tracker/utils";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { NuxtLink } from "#components";
-import TvDetailsSeasonsItem from "~/features/details/ui/tvDetailsSeasons/TvDetailsSeasonsItem.vue";
+import TvDetailsSeasonsItem from "./TvDetailsSeasonsItem.vue";
 import { useLocalePath } from "#i18n";
 
 interface TvDetailsSeasonsProps {

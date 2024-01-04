@@ -30,6 +30,13 @@ export default {
     episodeNumber: 'Episode number',
     episodeDuration: 'Episode duration',
     episodeDescription: 'Episode description',
+    birthday: 'Birthday',
+    deathday: 'Deathday',
+    placeOfBirth: 'Place of birth',
+    fameFor: 'Fame for',
+    alsoKnownAs: 'Also known as',
+    biography: 'Biography',
+    filmography: 'Filmography',
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",

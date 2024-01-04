@@ -6,7 +6,7 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils";
 import { computed } from "vue";
-import MovieDetailsProducers from "~/features/details/ui/MovieDetailsProducers.vue";
+import MovieDetailsProducers from "./MovieDetailsProducers.vue";
 import { getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";

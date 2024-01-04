@@ -30,6 +30,13 @@ export default {
     episodeNumber: 'Номер эпизода',
     episodeDuration: 'Продолжительность эпизода',
     episodeDescription: 'Описание эпизода',
+    birthday: 'Дата рождения',
+    deathday: 'Дата смерти',
+    placeOfBirth: 'Место рождения',
+    fameFor: 'Известность за',
+    alsoKnownAs: 'Также известно как',
+    biography: 'Биография',
+    filmography: 'Фильмография',
     seriesStatusName: {
       "canceled": "Отменён",
       "ended": "Завершён",

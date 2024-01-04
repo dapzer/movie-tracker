@@ -9,7 +9,7 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { arrayToString } from "@movie-tracker/utils";
 import { computed, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
-import MovieDetailsHeader from "~/features/details/ui/MovieDetailsHeader.vue";
+import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
@@ -134,6 +134,7 @@ const videosList = computed(() => {
         <template #card="{ item: person, isFromModal }">
           <PersonCard
             :key="person.id"
+            :class="{ [$style.card]: !isFromModal }"
             :is-horizontal="!isFromModal"
             :person="person"
           >
@@ -182,6 +183,10 @@ const videosList = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  .card {
+    height: 100%;
+  }
 
   .block {
     display: flex;

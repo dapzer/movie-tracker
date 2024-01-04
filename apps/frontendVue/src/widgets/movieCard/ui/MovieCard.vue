@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
+import type { TmdbSearchResponseResultItemType, TmdbPersonCastType } from "@movie-tracker/types";
 import { UiCard } from "~/components/ui/UiCard";
 import { computed, useI18n } from "#imports";
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
@@ -9,7 +9,7 @@ import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
 import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 
 interface MovieCardProps {
-  movie: TmdbSearchResponseResultItemType;
+  movie: TmdbSearchResponseResultItemType | TmdbPersonCastType;
   width?: number
   isHorizontal?: boolean
   isSmall?: boolean
@@ -43,6 +43,7 @@ const releaseDate =
       :class="$style.score"
       :value="movie.vote_average"
     />
+    <slot />
     <UiLinkToDetails
       :media-id="props.movie.id"
       :media-type="props.movie.media_type"
