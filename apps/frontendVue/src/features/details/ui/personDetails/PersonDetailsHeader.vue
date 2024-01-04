@@ -77,7 +77,7 @@ const { locale } = useI18n();
     </UiTypography>
 
     <UiTypography
-      v-if="props.details?.also_known_as"
+      v-if="props.details?.also_known_as?.length"
       as="li"
       variant="listItem"
     >
