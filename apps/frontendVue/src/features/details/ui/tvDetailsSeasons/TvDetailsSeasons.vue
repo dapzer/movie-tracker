@@ -102,9 +102,9 @@ const totalDuration = computed(() => {
             as="span"
             variant="listItemValue"
           >
-            {{ totalDuration.days && `${totalDuration.days} ${$t("ui.time.shortDay")}` }}
-            {{ totalDuration.hours && `${totalDuration.hours} ${$t("ui.time.shortHour")}` }}
-            {{ totalDuration.minutes && `${totalDuration.minutes} ${$t("ui.time.shortMin")}` }}
+            {{ totalDuration.days ? `${totalDuration.days} ${$t("ui.time.shortDay")}` : "" }}
+            {{ totalDuration.hours ? `${totalDuration.hours} ${$t("ui.time.shortHour")}` : "" }}
+            {{ totalDuration.minutes ? `${totalDuration.minutes} ${$t("ui.time.shortMin")}` : "" }}
           </UiTypography>
         </UiTypography>
       </ul>

@@ -59,6 +59,7 @@ const { locale } = useI18n();
         </UiTypography>
 
         <UiTypography
+          v-if="episode.runtime"
           as="li"
           variant="listItem"
         >
@@ -72,6 +73,7 @@ const { locale } = useI18n();
         </UiTypography>
 
         <UiTypography
+          v-if="episode.overview"
           as="li"
           variant="listItem"
         >
