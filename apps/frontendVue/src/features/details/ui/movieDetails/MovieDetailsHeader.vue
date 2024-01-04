@@ -64,7 +64,7 @@ const title = computed(() => {
     </UiTypography>
 
     <UiTypography
-      v-if="props.details?.production_countries || props.details?.origin_country"
+      v-if="!!props.details?.production_countries?.length || !!props.details?.origin_country?.length"
       as="li"
       variant="listItem"
     >
