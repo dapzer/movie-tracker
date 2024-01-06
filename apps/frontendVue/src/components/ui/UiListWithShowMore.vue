@@ -2,7 +2,7 @@
 import MasonryWall from "@yeger/vue-masonry-wall";
 import { UiModal } from "~/components/ui/UiModal";
 
-type Variant = "tripleColumns";
+type Variant = "tripleColumns" | 'smallColumns';
 
 interface UiListWithShowMoreProps<T> {
   items: T[];
@@ -13,6 +13,7 @@ interface UiListWithShowMoreProps<T> {
   gap?: number;
   maxColumns?: number;
   triggerClass?: string;
+  isHideShowMore?: boolean;
 }
 
 const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
@@ -26,6 +27,7 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
   <div
     :class="[$style.wrapper, {
       [$style.tripleColumns]: props.variant === 'tripleColumns',
+      [$style.smallColumns]: props.variant === 'smallColumns',
     }]"
   >
     <slot
@@ -35,7 +37,7 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
     />
 
     <UiModal
-      v-if="props.items.length > props.itemsToShow"
+      v-if="props.items.length > props.itemsToShow && !props.isHideShowMore"
       :class="[$style.showMore, props.triggerClass]"
       :title="props.title"
       button-variant="clear"
@@ -109,6 +111,23 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
 
   @media screen and (max-width: $bp-slg) {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.smallColumns {
+  grid-template-columns: repeat(auto-fill, 200px);
+  justify-content: space-around;
+  grid-gap: 20px;
+
+  .showMore {
+    min-height: unset;
+    max-height: unset;
+
+  }
+
+  @media screen and (max-width: $bp-smp) {
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: unset;
   }
 }
 </style>

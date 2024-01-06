@@ -1,5 +1,7 @@
 export default {
   ui: {
+    popularMovies: "Популярные фильмы",
+    popularTv: "Популярные сериалы",
     detailed: "Подробнее",
     fullList: "Полный список",
     pagination: {

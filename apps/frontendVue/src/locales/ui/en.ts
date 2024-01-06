@@ -1,5 +1,7 @@
 export default {
   ui: {
+    popularMovies: "Popular movies",
+    popularTv: "Popular TV shows",
     detailed: "Details",
     fullList: "Full list",
     pagination: {

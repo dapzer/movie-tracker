@@ -1,9 +1,20 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+interface UiContainerProps {
+  as?: keyof Pick<HTMLElementTagNameMap, "div" | "section">;
+}
+
+const props = withDefaults(defineProps<UiContainerProps>(), {
+  as: "div"
+});
+</script>
 
 <template>
-  <div :class="$style.body">
+  <component
+    :is="props.as"
+    :class="$style.body"
+  >
     <slot />
-  </div>
+  </component>
 </template>
 
 <style lang="scss" module>
