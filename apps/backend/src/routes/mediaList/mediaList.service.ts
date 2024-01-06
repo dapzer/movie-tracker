@@ -66,7 +66,7 @@ export class MediaListService {
   async updateMediaList(id: string, body: UpdateMediaListDto, userId: string) {
     const isListOwner = await this.isListOwner(id, userId);
 
-    if (isListOwner) {
+    if (!isListOwner) {
       throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
     }
 
@@ -77,7 +77,7 @@ export class MediaListService {
     const mediaList = await this.mediaListRepository.getMedialListById(id);
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
-    if (isListOwner) {
+    if (!isListOwner) {
       throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
     }
 
