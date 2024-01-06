@@ -49,6 +49,10 @@ export class MediaListService {
   async getMedialListByUserId(userId: string, currentUserId: string) {
     const isPublicOnly = userId !== currentUserId;
 
+    if (!userId) {
+      throw new HttpException('User ID is required.', HttpStatus.BAD_REQUEST);
+    }
+
     return this.mediaListRepository.getMedialListsByUserId(
       userId,
       isPublicOnly,
