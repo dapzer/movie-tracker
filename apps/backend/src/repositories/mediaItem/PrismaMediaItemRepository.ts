@@ -12,7 +12,6 @@ import {
 @Injectable()
 export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
-
   private convertToInterface(
     data: MediaItem & { mediaDetails?: MediaDetails },
   ): MediaItemType {
@@ -20,7 +19,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
       id: data.id,
       mediaDetailsId: data.mediaDetailsId,
       mediaId: data.mediaId,
-      mediaType: MediaTypeEnum[data.mediaType],
+      mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       mediaListId: data.mediaListId,
       trackingData: {
         currentStatus: MediaItemStatusNameEnum[data.trackingData.currentStatus],
@@ -32,7 +31,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
       mediaDetails: data.mediaDetails
         ? {
             id: data.mediaDetails.id,
-            mediaType: MediaTypeEnum[data.mediaDetails.mediaType],
+            mediaType: MediaTypeEnum[data.mediaDetails.mediaType.toUpperCase()],
             mediaId: data.mediaDetails.mediaId,
             score: data.mediaDetails.score,
             ru: data.mediaDetails.ru,
@@ -58,6 +57,21 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     });
 
     return this.convertToInterface(mediaItem);
+  }
+
+  async getMediaItemsByUserId(userId: string) {
+    const mediaItems = await this.prisma.mediaItem.findMany({
+      where: {
+        mediaList: {
+          userId,
+        },
+      },
+      include: {
+        mediaDetails: true,
+      },
+    });
+
+    return mediaItems.map(this.convertToInterface);
   }
 
   async getMediaItemsByListId(mediaListId: string) {

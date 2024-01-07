@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { MediaItemService } from '@/routes/mediaItem/mediaItem.service';
@@ -37,12 +36,18 @@ export class MediaItemController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  async getMediaItemsByUserId(@User() user: UserDto) {
+    return this.mediaItemService.getMediaItemsByUserId(user?.id);
+  }
+
+  @Get('/mediaList/:mediaListId')
   async getMediaItemsByListId(
-    @Query() query: MediaItemListIdDto,
+    @Param() param: MediaItemListIdDto,
     @User() user: UserDto,
   ) {
     return this.mediaItemService.getMediaItemsByListId(
-      query.mediaListId,
+      param.mediaListId,
       user?.id,
     );
   }

@@ -80,6 +80,10 @@ export class MediaItemService {
     );
   }
 
+  async getMediaItemsByUserId(userId: string) {
+    return this.mediaItemRepository.getMediaItemsByUserId(userId);
+  }
+
   async getMediaItemsByListId(mediaListId: string, userId: string) {
     const mediaList =
       await this.mediaListRepository.getMedialListById(mediaListId);

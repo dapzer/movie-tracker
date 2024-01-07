@@ -9,6 +9,8 @@ export interface MediaItemRepositoryInterface {
 
   getMediaItemsByListId: (mediaListId: string) => Promise<MediaItemType[]>;
 
+  getMediaItemsByUserId: (userId: string) => Promise<MediaItemType[]>;
+
   createMediaItem: (
     mediaId: number,
     mediaType: string,

@@ -4,6 +4,9 @@ import { useUserProfile } from "~/composables/useAuthApi";
 import { UserProfileDropdown, UserProfileDropdownSkeleton } from "~/features/profile";
 import UiButton from "~/components/ui/UiButton.vue";
 import DefaultHeaderNavigationLinks from "~/components/layout/defaultHeader/DefaultHeaderNavigationLinks.vue";
+import { useGetMediaItemsApi, useGetMediaListsApi, watch } from "#imports";
+import { useQueryClient } from "@tanstack/vue-query";
+import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 
 interface DefaultHeaderNavigationProps {
   isMobileMenuOpen: boolean;
@@ -14,7 +17,18 @@ const emit = defineEmits<{
   (e: "toggleMobileMenu"): void
 }>();
 
-const { data: profile, isLoading: isLoadingProfile } = useUserProfile();
+const { data: profile, isLoading: isLoadingProfile, isSuccess: isProfileSuccess } = useUserProfile();
+const { data: mediaLists } = useGetMediaListsApi();
+const { data: mediaItems } = useGetMediaItemsApi();
+
+const queryClient = useQueryClient();
+
+watch(isProfileSuccess, () => {
+  if (isProfileSuccess) {
+    queryClient.refetchQueries({ queryKey: [MediaListQueryKeys.GET_ALL] });
+    queryClient.refetchQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
+  }
+});
 
 </script>
 
