@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import SignInModal from "~/features/signIn/ui/SignInModal.vue";
-import { useUserProfile } from "~/composables/useAuthApi";
 import { UserProfileDropdown, UserProfileDropdownSkeleton } from "~/features/profile";
 import UiButton from "~/components/ui/UiButton.vue";
 import DefaultHeaderNavigationLinks from "~/components/layout/defaultHeader/DefaultHeaderNavigationLinks.vue";
-import { useGetMediaItemsApi, useGetMediaListsApi, watch } from "#imports";
+import { useAuth, useGetMediaItemsApi, useGetMediaListsApi, watch } from "#imports";
 import { useQueryClient } from "@tanstack/vue-query";
 import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 
@@ -17,7 +16,7 @@ const emit = defineEmits<{
   (e: "toggleMobileMenu"): void
 }>();
 
-const { data: profile, isLoading: isLoadingProfile, isSuccess: isProfileSuccess } = useUserProfile();
+const { profile, isLoadingProfile, isProfileSuccess } = useAuth();
 const { data: mediaLists } = useGetMediaListsApi();
 const { data: mediaItems } = useGetMediaItemsApi();
 

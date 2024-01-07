@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import UiDropdown from "~/components/ui/UiDropdown.vue";
 import UserProfileDropdownTrigger from "~/features/profile/ui/UserProfileDropdownTrigger.vue";
-import { useUserProfile } from "~/composables/useAuthApi";
 import UserProfileDropdownContent from "~/features/profile/ui/UserProfileDropdownContent.vue";
+import { useAuth } from "~/composables/useAuth";
 
-const { data: profile, isLoading } = useUserProfile();
+const { profile } = useAuth();
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const { data: profile, isLoading } = useUserProfile();
   </UiDropdown>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
 .content {
   margin-top: 20px;
 }

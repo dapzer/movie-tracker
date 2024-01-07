@@ -3,13 +3,14 @@ import type { UserType } from "@movie-tracker/types";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import { useLogoutApi } from "~/composables/useAuthApi";
+import { useAuth } from "~/composables/useAuth";
 
 interface UserProfileDropdownProps {
   profile: UserType;
 }
 
 const props = defineProps<UserProfileDropdownProps>();
-const { mutateAsync: logout } = useLogoutApi();
+const { handleLogout, isProcessingLogout } = useAuth();
 </script>
 
 <template>
@@ -28,7 +29,8 @@ const { mutateAsync: logout } = useLogoutApi();
     <UiButton
       :class="$style.signOut"
       color-scheme="danger"
-      @click="logout()"
+      :disabled="isProcessingLogout"
+      @click="handleLogout()"
     >
       {{ $t("auth.signOut") }}
     </UiButton>
