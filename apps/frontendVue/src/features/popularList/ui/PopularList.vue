@@ -60,7 +60,7 @@ const { data: popular, isLoading: isPopularLoading } = useTmdbGetPopularList(que
       <template #card="{ item: movie, isFromModal }">
         <MovieCard
           :key="movie.id"
-          :movie="movie"
+          :movie="{...movie, media_type: props.mediaType}"
           :is-small="!isFromModal"
         />
       </template>
