@@ -47,6 +47,9 @@ export const deleteMediaListsApi = async (mediaListId: string) => {
 export const updateMediaListsApi = async (mediaListId: string, body: MediaListUpdateApiTypes) => {
   const response = await fetchWihCredentials(getApiUrl(`/mediaList/${mediaListId}`), {
     method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(body),
   });
   const data = await response.json();

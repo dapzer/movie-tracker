@@ -57,7 +57,10 @@ const handleVisible = (value: boolean) => {
       :title="props.title"
       @handle-close="handleVisible(false)"
     >
-      <slot name="content" />
+      <slot
+        name="content"
+        :closeModal="() => handleVisible(false)"
+      />
     </UiModalContent>
   </Teleport>
 </template>

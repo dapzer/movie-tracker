@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-type Variant = "underlined";
+type Variant = "underlined" | "boxed";
 
 const props = defineProps<{
   variant?: Variant
@@ -14,6 +14,7 @@ const inputModel = defineModel()
     v-model="inputModel"
     :class="[$style.body, {
       [$style.underlined]: props.variant === 'underlined',
+      [$style.boxed]: props.variant === 'boxed',
     }]"
   >
 </template>
@@ -36,5 +37,17 @@ const inputModel = defineModel()
   border-radius: unset;
   border: none;
   border-bottom: 1px solid var(--c-text);
+}
+
+
+.boxed {
+  background-color: var(--c-primary);
+  color: var(--c-secondary);
+  border-radius: unset;
+  border: unset;
+
+  &::placeholder {
+    color: var(--c-text);
+  }
 }
 </style>

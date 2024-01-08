@@ -2,7 +2,7 @@ export default {
   auth:{
     signIn: "Sign in",
     signOut: "Sign out",
-    authInProgress: "Auth in progress",
+    authInProgress: "Authorization in progress",
     authError: "An error occurred during authorization",
     authErrorHint: "Choose a different login method or try logging in later",
     login: "Login",

@@ -1,9 +1,15 @@
 export default {
   ui: {
+    loading: "Загрузка",
     popularMovies: "Популярные фильмы",
     popularTv: "Популярные сериалы",
     detailed: "Подробнее",
     fullList: "Полный список",
+    settings: "Настройки",
+    actions: {
+      save: "Сохранять",
+      cancel: "Отменить",
+    },
     pagination: {
       toStart: "В начало",
       toEnd: "В конец"

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 export type ButtonVariant = "default" | "clear" | "outlined";
-type ColorScheme = "danger";
+type ColorScheme = "danger" | "success" | "afterSuccess";
 
 interface UiButtonProps {
   variant?: ButtonVariant;
@@ -19,6 +19,8 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       $style.default,
       {
         [$style.danger]: props.colorScheme === 'danger',
+        [$style.success]: props.colorScheme === 'success',
+        [$style.afterSuccess]: props.colorScheme === 'afterSuccess',
         [$style.clear]: props.variant === 'clear',
         [$style.outlined]: props.variant === 'outlined',
       },
@@ -55,7 +57,17 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       color: var(--c-secondary);
       background-color: var(--c-danger);
     }
+
+    &.success {
+      color: var(--c-secondary);
+      background-color: var(--c-success);
+    }
   }
+}
+
+.afterSuccess {
+  pointer-events: none;
+  background-color: var(--c-success);
 }
 
 .outlined {

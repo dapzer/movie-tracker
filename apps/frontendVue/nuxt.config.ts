@@ -21,22 +21,21 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     "@nuxtjs/i18n",
     "@nuxt/image",
-    "nuxt-lazy-load"
+    "nuxt-lazy-load",
+    "@vueuse/nuxt"
   ],
   i18n: {
     lazy: true,
     langDir: "./locales",
     defaultLocale: "ru",
-    locales: [
-      {
-        code: "en",
-        files: ["navigation/en.ts", "auth/en.ts", "hero/en.ts", "search/en.ts", "ui/en.ts", "details/en.ts"]
-      },
-      {
-        code: "ru",
-        files: ["navigation/ru.ts", "auth/ru.ts", "hero/ru.ts", "search/ru.ts", "ui/ru.ts", "details/ru.ts"]
-      }
-    ]
+    locales: ["ru", "en"].map((locale) => {
+      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList"];
+
+      return {
+        code: locale,
+        files: foldersWithLocale.map((folder) => `${folder}/${locale}.ts`)
+      };
+    })
   },
   lazyLoad: {
     images: true,

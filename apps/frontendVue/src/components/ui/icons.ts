@@ -9,3 +9,6 @@ export { default as InFavoriteIcon } from "~/assets/svg/icons/in-favorite.svg";
 export { default as UserIcon } from "~/assets/svg/icons/user.svg";
 export { default as PlayIcon } from "~/assets/svg/icons/play.svg";
 export { default as ListIcon } from "~/assets/svg/icons/list.svg";
+export { default as ShareIcon } from "~/assets/svg/icons/share.svg";
+export { default as SettingsIcon } from "~/assets/svg/icons/settings.svg";
+export { default as TrashIcon } from "~/assets/svg/icons/trash.svg";
