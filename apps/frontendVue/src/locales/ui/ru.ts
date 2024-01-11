@@ -10,6 +10,7 @@ export default {
     yes: "Да",
     no: "Нет",
     actions: {
+      create: "Создать",
       save: "Сохранять",
       cancel: "Отменить",
     },

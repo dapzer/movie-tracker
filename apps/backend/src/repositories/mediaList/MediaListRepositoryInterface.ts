@@ -15,6 +15,7 @@ export interface MediaListRepositoryInterface {
   createMediaList: (
     userId: string,
     isSystem?: boolean,
+    body?: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
   ) => Promise<MediaListType>;
 
   deleteMediaList: (id: string) => Promise<MediaListType>;

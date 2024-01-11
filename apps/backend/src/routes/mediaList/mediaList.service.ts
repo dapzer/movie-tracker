@@ -59,8 +59,8 @@ export class MediaListService {
     );
   }
 
-  async createMediaList(userId: string) {
-    return this.mediaListRepository.createMediaList(userId);
+  async createMediaList(userId: string, body?: UpdateMediaListDto) {
+    return this.mediaListRepository.createMediaList(userId, false, body);
   }
 
   async updateMediaList(id: string, body: UpdateMediaListDto, userId: string) {

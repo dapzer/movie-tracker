@@ -15,7 +15,7 @@ export const useCreateMediaListApi = () => {
 
   return useMutation({
     mutationKey: [MediaListQueryKeys.CREATE],
-    mutationFn: async () => await createMediaListsApi(),
+    mutationFn: async (body: MediaListUpdateApiTypes) => await createMediaListsApi(body),
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => [...oldData, data]);
     }

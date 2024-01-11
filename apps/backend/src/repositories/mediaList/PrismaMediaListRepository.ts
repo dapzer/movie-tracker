@@ -52,11 +52,16 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     return mediaLists.map(this.convertToInterface);
   }
 
-  async createMediaList(userId: string, isSystem = false) {
+  async createMediaList(
+    userId: string,
+    isSystem = false,
+    body?: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
+  ) {
     const mediaList = await this.prisma.mediaList.create({
       data: {
         userId,
         isSystem,
+        ...(body ?? {}),
       },
     });
 

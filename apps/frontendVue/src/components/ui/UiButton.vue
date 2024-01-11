@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 export type ButtonVariant = "default" | "clear" | "outlined";
-export type ColorScheme = "danger" | "success" | "afterSuccess";
+export type ButtonColorScheme = "danger" | "success" | "afterSuccess";
+export type ButtonSize = "small";
 
 interface UiButtonProps {
   variant?: ButtonVariant;
-  colorScheme?: ColorScheme;
+  colorScheme?: ButtonColorScheme;
+  size?: ButtonSize;
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
@@ -23,6 +25,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
         [$style.afterSuccess]: props.colorScheme === 'afterSuccess',
         [$style.clear]: props.variant === 'clear',
         [$style.outlined]: props.variant === 'outlined',
+        [$style.small]: props.size === 'small',
       },
     ]"
   >
@@ -80,5 +83,9 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   border: none;
   background: none;
   padding: unset;
+}
+
+.small {
+  padding: 4px 8px;
 }
 </style>

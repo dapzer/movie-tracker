@@ -5,7 +5,8 @@ import UiContainer from "~/components/ui/UiContainer.vue";
 import { useAuth } from "~/composables/useAuth";
 import { SignInModal } from "~/features/signIn";
 import { useGetMediaListsApi } from "~/composables/useMediaListApi";
-import { MediaListCard } from "~/features/mediaList";
+import { MediaListCard, MediaListCreateModal } from "~/features/mediaList";
+import UiButton from "~/components/ui/UiButton.vue";
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
@@ -33,9 +34,12 @@ const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi
     </UiTypography>
 
     <template v-if="mediaLists && !isLoadingMediaLists && isAuthorized">
-      <UiTypography variant="title2">
-        {{ $t("mediaList.yourLists") }}
-      </UiTypography>
+      <div :class="$style.listsTitle">
+        <UiTypography variant="title2">
+          {{ $t("mediaList.yourLists") }}
+        </UiTypography>
+        <MediaListCreateModal />
+      </div>
 
       <div :class="$style.lists">
         <MediaListCard
@@ -61,7 +65,12 @@ const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+}
 
+.listsTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .wrapper {

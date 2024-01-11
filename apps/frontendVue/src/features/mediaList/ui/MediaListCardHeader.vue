@@ -25,7 +25,7 @@ const title = computed(() => {
   if (props.list.isSystem && !props.list.title) {
     value = t("mediaList.favorites");
   } else {
-    value = props.list.title ?? t("mediaList.nameNotSet");
+    value = props.list.title || t("mediaList.nameNotSet");
   }
 
   if (value.length > 12) {

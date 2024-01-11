@@ -7,6 +7,7 @@ export default {
     nameNotSet: "Без имени",
     confirmDeleteTitle: "Вы уверены, что хотите удалить список «{title}»?",
     confirmDeleteDescription: "Вы не сможете восстановить этот список и всё его содержимое.",
+    create: "Создать список",
     settingsForm: {
       title: "Название списка",
       titlePlaceholder: "Введите название",

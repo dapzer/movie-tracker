@@ -46,8 +46,11 @@ export class MediaListController {
 
   @Post()
   @UseGuards(AuthGuard)
-  async createMediaList(@User() user: UserDto) {
-    return this.mediaListService.createMediaList(user?.id);
+  async createMediaList(
+    @User() user: UserDto,
+    @Body() body: UpdateMediaListDto,
+  ) {
+    return this.mediaListService.createMediaList(user?.id, body);
   }
 
   @Patch(':id')

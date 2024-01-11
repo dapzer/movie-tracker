@@ -5,7 +5,7 @@ import UiButton from "~/components/ui/UiButton.vue";
 import type { MediaListType } from "@movie-tracker/types";
 import { useClipboard } from "@vueuse/core";
 import { UiConfirmationModal, UiModal } from "~/components/ui/UiModal";
-import MediaListCardSettings from "~/features/mediaList/ui/MediaListForm.vue";
+import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
 import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/composables/useMediaListApi";
 import { computed } from "vue";
 
@@ -46,7 +46,7 @@ const copyLink = () => {
       </template>
 
       <template #content="{ closeModal }">
-        <MediaListCardSettings
+        <MediaListForm
           :initial-value="{
             title: props.list.title,
             isPublic: props.list.isPublic,
@@ -63,7 +63,7 @@ const copyLink = () => {
       :class="$style.removeBtn"
       :description="$t('mediaList.confirmDeleteDescription')"
       :disabled="props.list.isSystem"
-      :title="$t('mediaList.confirmDeleteTitle', { title: props.list.title ?? $t('mediaList.nameNotSet') })"
+      :title="$t('mediaList.confirmDeleteTitle', { title: props.list.title || $t('mediaList.nameNotSet') })"
       button-color-scheme="danger"
       @on-confirm="deleteList(props.list.id)"
     >

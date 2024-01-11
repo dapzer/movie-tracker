@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { ref } from "vue";
-import type { ButtonVariant, ColorScheme } from "~/components/ui/UiButton.vue";
+import type { ButtonVariant, ButtonColorScheme, ButtonSize } from "~/components/ui/UiButton.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import UiModalContent from "~/components/ui/UiModal/UiModalContent.vue";
 import { watch } from "#imports";
@@ -11,9 +11,10 @@ export interface UiModalProps {
   maxWidth?: number;
   isFullWidth?: boolean;
   buttonVariant?: ButtonVariant;
-  buttonColorScheme?: ColorScheme;
+  buttonColorScheme?: ButtonColorScheme;
   isHideTrigger?: boolean;
   externalOpenedState?: boolean;
+  buttonSize?: ButtonSize;
 }
 
 export interface UiModalEmits {
@@ -44,6 +45,7 @@ const handleVisible = (value: boolean) => {
     v-if="!isHideTrigger"
     :color-scheme="props.buttonColorScheme"
     :variant="props.buttonVariant ?? 'default'"
+    :size="props.buttonSize"
     v-bind="$attrs"
     @click="handleVisible(true)"
   >

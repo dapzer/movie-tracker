@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 
-import { computed, onMounted, onUnmounted } from "#imports";
+import { computed, nextTick, onMounted, onUnmounted } from "#imports";
 import { CloseIcon } from "~/components/ui/icons";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
+import { ref, type VNodeRef } from "vue";
 
 interface UiModaContentProps {
   title: string;
@@ -16,6 +17,8 @@ const props = defineProps<UiModaContentProps>();
 const emit = defineEmits<{
   (event: "handleClose"): void
 }>();
+
+const bodyRef = ref<VNodeRef | null>(null);
 
 const bodyMaxWidth = computed(() => {
   if (props.maxWidth) {
@@ -33,6 +36,9 @@ const closeModalOnKeypress = (event: KeyboardEvent) => {
 onMounted(() => {
   document.addEventListener('keydown', closeModalOnKeypress);
   document.body.style.overflow = 'hidden';
+  if (bodyRef.value) {
+    bodyRef.value.focus();
+  }
 });
 
 onUnmounted(() => {
@@ -49,6 +55,8 @@ onUnmounted(() => {
   >
     <UiContainer>
       <div
+        ref="bodyRef"
+        tabindex="0"
         :class="[$style.body, {
           [$style.body_fullWidth]: props.isFullWidth
         }]"
