@@ -75,6 +75,11 @@ const title = computed(() => {
     align-items: center;
     justify-content: center;
     border-radius: var(--s-border-radius);
+
+    p {
+      word-break: break-all;
+      text-align: center;
+    }
   }
 
   .imageWrapper {
