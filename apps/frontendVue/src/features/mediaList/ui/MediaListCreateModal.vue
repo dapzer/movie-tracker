@@ -28,6 +28,7 @@ const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
 
     <template #content="{ closeModal }">
       <MediaListForm
+        :save-button-text="$t('ui.actions.create')"
         :initial-value="{
           title: '',
           isPublic: true,
