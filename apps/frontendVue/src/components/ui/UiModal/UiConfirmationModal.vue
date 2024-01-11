@@ -73,6 +73,7 @@ const emits = defineEmits<UiConfirmationModalEmits>();
 
   p {
     text-align: center;
+    word-break: break-word;
   }
 
   .controls {
