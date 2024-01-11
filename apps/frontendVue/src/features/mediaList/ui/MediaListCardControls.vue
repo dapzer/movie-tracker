@@ -4,7 +4,7 @@ import { CheckMarkIcon, SettingsIcon, ShareIcon, TrashIcon } from "~/components/
 import UiButton from "~/components/ui/UiButton.vue";
 import type { MediaListType } from "@movie-tracker/types";
 import { useClipboard } from "@vueuse/core";
-import { UiModal } from "~/components/ui/UiModal";
+import { UiConfirmationModal, UiModal } from "~/components/ui/UiModal";
 import MediaListCardSettings from "~/features/mediaList/ui/MediaListForm.vue";
 import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/composables/useMediaListApi";
 import { computed } from "vue";
@@ -59,14 +59,16 @@ const copyLink = () => {
       </template>
     </UiModal>
 
-    <UiButton
+    <UiConfirmationModal
       :class="$style.removeBtn"
+      :description="$t('mediaList.confirmDeleteDescription')"
       :disabled="props.list.isSystem"
-      color-scheme="danger"
-      @click="deleteList(props.list.id)"
+      :title="$t('mediaList.confirmDeleteTitle', { title: props.list.title ?? $t('mediaList.nameNotSet') })"
+      button-color-scheme="danger"
+      @on-confirm="deleteList(props.list.id)"
     >
       <TrashIcon />
-    </UiButton>
+    </UiConfirmationModal>
   </div>
 </template>
 

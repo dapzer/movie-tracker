@@ -1,25 +1,27 @@
 <script lang="ts" setup>
 
 import { ref } from "vue";
-import type { ButtonVariant } from "~/components/ui/UiButton.vue";
+import type { ButtonVariant, ColorScheme } from "~/components/ui/UiButton.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import UiModalContent from "~/components/ui/UiModal/UiModalContent.vue";
 import { watch } from "#imports";
 
-interface UiModalProps {
+export interface UiModalProps {
   title: string;
   maxWidth?: number;
   isFullWidth?: boolean;
   buttonVariant?: ButtonVariant;
+  buttonColorScheme?: ColorScheme;
   isHideTrigger?: boolean;
   externalOpenedState?: boolean;
 }
 
-const emits = defineEmits<{
+export interface UiModalEmits {
   (event: "additionalHandler", currentVisibleState: boolean): void;
-}>();
+}
 
 const props = defineProps<UiModalProps>();
+const emits = defineEmits<UiModalEmits>();
 
 const isModalVisible = ref<boolean>(props.externalOpenedState);
 
@@ -40,6 +42,7 @@ const handleVisible = (value: boolean) => {
 <template>
   <UiButton
     v-if="!isHideTrigger"
+    :color-scheme="props.buttonColorScheme"
     :variant="props.buttonVariant ?? 'default'"
     v-bind="$attrs"
     @click="handleVisible(true)"

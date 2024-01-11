@@ -6,6 +6,9 @@ export default {
     detailed: "Подробнее",
     fullList: "Полный список",
     settings: "Настройки",
+    confirmAction: "Подтвердите действие",
+    yes: "Да",
+    no: "Нет",
     actions: {
       save: "Сохранять",
       cancel: "Отменить",

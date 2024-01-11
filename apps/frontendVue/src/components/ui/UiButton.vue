@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 export type ButtonVariant = "default" | "clear" | "outlined";
-type ColorScheme = "danger" | "success" | "afterSuccess";
+export type ColorScheme = "danger" | "success" | "afterSuccess";
 
 interface UiButtonProps {
   variant?: ButtonVariant;

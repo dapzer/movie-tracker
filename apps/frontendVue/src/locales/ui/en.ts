@@ -6,6 +6,9 @@ export default {
     detailed: "Details",
     fullList: "Full list",
     settings: "Settings",
+    confirmAction: "Confirm action",
+    yes: "Yes",
+    no: "No",
     actions: {
       save: "Save",
       cancel: "Cancel",
