@@ -7,7 +7,8 @@ import { useClipboard } from "@vueuse/core";
 import { UiConfirmationModal, UiModal } from "~/components/ui/UiModal";
 import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
 import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/composables/useMediaListApi";
-import { computed } from "vue";
+import { computed, ref, type VNode } from "vue";
+import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
 const { copy, copied } = useClipboard({ copiedDuring: 1000 });
 
@@ -20,10 +21,16 @@ const { mutateAsync: updateList, status: updateListStatus } = useUpdateMediaList
 const { mutateAsync: deleteList, status: deleteListStatus } = useDeleteMediaListApi();
 
 const isUpdatingMediaList = computed(() => updateListStatus.value === "pending");
+const settingsModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const copyLink = () => {
   copy(`${window.location.origin}/lists/${props.list.id}`);
 };
+
+const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
+  await updateList({ mediaListId: props.list.id, body: value });
+  settingsModalRef.value?.handleVisible(false);
+}
 </script>
 
 <template>
@@ -38,6 +45,7 @@ const copyLink = () => {
     </UiButton>
 
     <UiModal
+      ref="settingsModalRef"
       :max-width="470"
       :title="$t('ui.settings')"
     >
@@ -53,7 +61,7 @@ const copyLink = () => {
             poster: props.list.poster
           }"
           :is-loading="isUpdatingMediaList"
-          @on-click-save="(value) => updateList({mediaListId: props.list.id, body: value}).then(() => closeModal())"
+          @on-click-save="handleUpdateList"
           @on-click-cancel="closeModal"
         />
       </template>

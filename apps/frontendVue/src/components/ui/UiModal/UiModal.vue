@@ -38,6 +38,8 @@ const handleVisible = (value: boolean) => {
   isModalVisible.value = value;
   emits("additionalHandler", value);
 };
+
+defineExpose({ handleVisible });
 </script>
 
 <template>
