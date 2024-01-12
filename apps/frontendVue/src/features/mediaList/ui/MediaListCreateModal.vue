@@ -6,10 +6,8 @@ import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
 const { mutateAsync: createList, status: createListStatus } = useCreateMediaListApi();
-const { mutateAsync: updateList, status: updateListStatus } = useUpdateMediaListApi();
 
 const isCreatingMediaList = computed(() => createListStatus.value === "pending");
-const isUpdatingMediaList = computed(() => updateListStatus.value === "pending");
 const createModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
@@ -37,7 +35,7 @@ const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
           isPublic: true,
           poster: ''
         }"
-        :is-loading="isUpdatingMediaList || isCreatingMediaList"
+        :is-loading="isCreatingMediaList"
         @on-click-save="handleCreateMediaList"
         @on-click-cancel="closeModal"
       />

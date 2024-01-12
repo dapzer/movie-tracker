@@ -5,8 +5,7 @@ import UiContainer from "~/components/ui/UiContainer.vue";
 import { useAuth } from "~/composables/useAuth";
 import { SignInModal } from "~/features/signIn";
 import { useGetMediaListsApi } from "~/composables/useMediaListApi";
-import { MediaListCard, MediaListCreateModal } from "~/features/mediaList";
-import UiButton from "~/components/ui/UiButton.vue";
+import { MediaListCard, MediaListCardSkeleton, MediaListCreateModal } from "~/features/mediaList";
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
@@ -33,7 +32,7 @@ const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi
       {{ $t("auth.authInProgress") }}...
     </UiTypography>
 
-    <template v-if="mediaLists && !isLoadingMediaLists && isAuthorized">
+    <template v-if="isAuthorized">
       <div :class="$style.listsTitle">
         <UiTypography variant="title2">
           {{ $t("mediaList.yourLists") }}
@@ -42,10 +41,17 @@ const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi
       </div>
 
       <div :class="$style.lists">
-        <MediaListCard
-          v-for="list in mediaLists"
-          :key="list.id"
-          :list="list"
+        <template v-if="mediaLists && !isLoadingMediaLists">
+          <MediaListCard
+            v-for="list in mediaLists"
+            :key="list.id"
+            :list="list"
+          />
+        </template>
+        <MediaListCardSkeleton
+          v-for="i in 8"
+          v-else
+          :key="i"
         />
       </div>
     </template>
