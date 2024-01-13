@@ -18,7 +18,7 @@ export default {
       title: "Название списка",
       titlePlaceholder: "Введите название",
       poster: "Постер",
-      posterPlaceholder: "Введите URL-адрес изображения",
+      posterPlaceholder: "Вставьте ссылку на изображение или gif",
       publicStatus: "Просмотр по публичному URL"
     }
   }

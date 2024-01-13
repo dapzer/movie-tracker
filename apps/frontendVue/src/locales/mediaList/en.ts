@@ -18,7 +18,7 @@ export default {
       title: "List name",
       titlePlaceholder: "Enter the name",
       poster: "Poster URL",
-      posterPlaceholder: "Enter the URL to the picture",
+      posterPlaceholder: "Insert a link to an image or gif",
       publicStatus: "View by public URL",
     }
   },
