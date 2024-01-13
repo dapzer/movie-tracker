@@ -1,25 +1,67 @@
 <script lang="ts" setup>
 
+import UiTypography from "~/components/ui/UiTypography.vue";
+
 type Variant = "underlined" | "boxed";
 
 const props = defineProps<{
   variant?: Variant
+  error?: string
 }>();
 
 const inputModel = defineModel()
+defineOptions({
+  inheritAttrs: false
+})
 </script>
 
 <template>
-  <input
-    v-model="inputModel"
-    :class="[$style.body, {
-      [$style.underlined]: props.variant === 'underlined',
-      [$style.boxed]: props.variant === 'boxed',
+  <div
+    :class="[$style.wrapper, {
+      [$style.error]: props.error
     }]"
   >
+    <input
+      v-bind="$attrs"
+      v-model="inputModel"
+      :class="[$style.body, {
+        [$style.underlined]: props.variant === 'underlined',
+        [$style.boxed]: props.variant === 'boxed',
+      }]"
+    >
+    <UiTypography
+      v-if="props.error"
+      :class="$style.errorText"
+      variant="textSmall"
+      as="span"
+    >
+      {{ error }}
+    </UiTypography>
+  </div>
 </template>
 
 <style lang="scss" module>
+.wrapper {
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
+
+  &.error {
+    .boxed {
+      border: 1px solid var(--c-danger);
+    }
+
+    .body {
+      border-color: var(--c-danger);
+    }
+
+    .errorText {
+      color: var(--c-danger);
+      font-weight: var(--fw-regular);
+    }
+  }
+}
+
 .body {
   background: none;
   text-decoration: none;
@@ -39,12 +81,15 @@ const inputModel = defineModel()
   border-bottom: 1px solid var(--c-text);
 }
 
-
 .boxed {
   background-color: var(--c-primary);
   color: var(--c-secondary);
   border-radius: unset;
   border: unset;
+
+  &:disabled {
+    opacity: var(--s-disabled-opacity);
+  }
 
   &::placeholder {
     color: var(--c-text);

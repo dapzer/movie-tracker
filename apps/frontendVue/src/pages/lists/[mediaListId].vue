@@ -5,7 +5,7 @@ import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/composa
 import { useAuth } from "~/composables/useAuth";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
-import { useI18n, watch } from "#imports";
+import { useI18n } from "#imports";
 import { MediaItemsStatusedCategory, MediaItemsStatusedCategorySkeleton } from "~/features/mediaItem";
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
@@ -34,7 +34,7 @@ const {
 });
 const {
   isLoading: isLoadingExternalMediaItems,
-  data: externalMediaItems,
+  data: externalMediaItems
 } = useGetMediaItemsByMediaListIdApi(mediaListId as
   string, {
   enabled: isUseExternalData,
@@ -55,8 +55,7 @@ const currentMediaItems = computed(() => {
 
 const title = computed(() => {
   return t(isUseExternalData.value ? "mediaList.userList" : "mediaList.yourList", {
-    title: currentMediaList?.value?.title
-      || (currentMediaList?.value?.isSystem ? t("mediaList.favorites") : t("mediaList.nameNotSet"))
+    title: currentMediaList?.value?.title || t("mediaList.favorites")
   });
 });
 

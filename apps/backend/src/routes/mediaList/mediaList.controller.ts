@@ -16,6 +16,7 @@ import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { User } from '@/routes/user/users.decorator';
 import { UserDto } from '@/routes/auth/dto/user.dto';
 import { GetAllMediaListsDto } from '@/routes/mediaList/dto/getAllMediaLists.dto';
+import { CreateMediaListDto } from '@/routes/mediaList/dto/createMediaList.dto';
 
 @Controller('mediaList')
 export class MediaListController {
@@ -48,7 +49,7 @@ export class MediaListController {
   @UseGuards(AuthGuard)
   async createMediaList(
     @User() user: UserDto,
-    @Body() body: UpdateMediaListDto,
+    @Body() body: CreateMediaListDto,
   ) {
     return this.mediaListService.createMediaList(user?.id, body);
   }

@@ -1,18 +1,15 @@
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
+import { IsBoolean, IsString, Length } from 'class-validator';
 import { MediaListType } from '@movie-tracker/types';
 
-export class UpdateMediaListDto
+export class CreateMediaListDto
   implements Pick<MediaListType, 'title' | 'isPublic' | 'poster'>
 {
-  @IsOptional()
   @IsBoolean()
   isPublic: boolean;
 
-  @IsOptional()
   @IsString()
   poster: string;
 
-  @IsOptional()
   @Length(3, 32)
   @IsString()
   title: string;

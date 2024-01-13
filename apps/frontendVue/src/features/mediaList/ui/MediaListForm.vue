@@ -4,8 +4,10 @@ import UiInput from "~/components/ui/UiInput.vue";
 import UiSwitch from "~/components/ui/UiSwitch.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import { useI18n, watch } from "#imports";
 
 interface MediaListFormProps {
+  isSystem?: boolean;
   initialValue: MediaListUpdateApiTypes;
   saveButtonText?: string;
   isLoading?: boolean;
@@ -17,23 +19,46 @@ const emit = defineEmits<{
   (e: "onClickSave", settings: MediaListUpdateApiTypes): void;
 }>();
 
+const { t } = useI18n();
 const currentSettings = ref({
   isPublic: props.initialValue.isPublic,
   title: props.initialValue.title,
   poster: props.initialValue.poster
 });
+
+const errors = ref({
+  title: ""
+});
+
+watch(currentSettings, () => {
+  errors.value.title = "";
+}, { deep: true });
+
+const handleSubmit = () => {
+  if (!props.isSystem && (currentSettings.value.title || "").length < 3) {
+    errors.value.title = t("mediaList.errors.titleLength");
+    return;
+  }
+
+  emit("onClickSave", {
+    isPublic: currentSettings.value.isPublic,
+    poster: currentSettings.value.poster,
+    ...(props.isSystem ? {} : { title: currentSettings.value.title })
+  });
+};
 </script>
 
 <template>
   <form
     :class="$style.wrapper"
-    @submit.prevent="emit('onClickSave', currentSettings)"
+    @submit.prevent="handleSubmit"
   >
     <label>
       {{ $t("mediaList.settingsForm.title") }}
       <UiInput
         v-model="currentSettings.title"
-        :disabled="props.isLoading"
+        :disabled="props.isLoading || props.isSystem"
+        :error="errors.title"
         :placeholder="$t('mediaList.settingsForm.titlePlaceholder')"
         maxlength="32"
         variant="boxed"

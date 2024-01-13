@@ -60,6 +60,7 @@ const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
             isPublic: props.list.isPublic,
             poster: props.list.poster
           }"
+          :is-system="props.list.isSystem"
           :is-loading="isUpdatingMediaList"
           @on-click-save="handleUpdateList"
           @on-click-cancel="closeModal"
@@ -71,7 +72,7 @@ const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
       :class="$style.removeBtn"
       :description="$t('mediaList.confirmDeleteDescription')"
       :disabled="props.list.isSystem"
-      :title="$t('mediaList.confirmDeleteTitle', { title: props.list.title || $t('mediaList.nameNotSet') })"
+      :title="$t('mediaList.confirmDeleteTitle', { title: props.list.title})"
       button-color-scheme="danger"
       @on-confirm="deleteList(props.list.id)"
     >

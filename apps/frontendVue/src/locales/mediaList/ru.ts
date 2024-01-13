@@ -8,10 +8,12 @@ export default {
     empty: "Данный список пуст",
     private: "Данный список является приватным",
     favorites: "Избранное",
-    nameNotSet: "Без имени",
     confirmDeleteTitle: "Вы уверены, что хотите удалить список «{title}»?",
     confirmDeleteDescription: "Вы не сможете восстановить этот список и всё его содержимое.",
     create: "Создать список",
+    errors: {
+      titleLength: "Минимальная длина названия 3 символа",
+    },
     settingsForm: {
       title: "Название списка",
       titlePlaceholder: "Введите название",
