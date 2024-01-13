@@ -13,5 +13,9 @@ export const useAuth = () => {
     return logoutStatus.value === "pending";
   })
 
-  return { profile, isAuthorized, isLoadingProfile, isProfileSuccess, handleLogout, isProcessingLogout };
+  const isNotAuthorized = computed(() => {
+    return !isAuthorized.value && !isLoadingProfile
+  })
+
+  return { profile, isAuthorized, isLoadingProfile, isProfileSuccess, handleLogout, isProcessingLogout, isNotAuthorized };
 };

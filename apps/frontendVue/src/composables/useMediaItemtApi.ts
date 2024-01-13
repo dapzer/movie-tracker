@@ -1,6 +1,12 @@
 import { MediaItemQueryKeys } from "~/constants/queryKeys";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { createMediaItemApi, deleteMediaItemApi, getMediaItemsApi, updateMediaItemApi } from "~/api/mediaItemApi";
+import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
+import {
+  createMediaItemApi,
+  deleteMediaItemApi,
+  getMediaItemsApi,
+  getMediaItemsByMediaListIdApi,
+  updateMediaItemApi
+} from "~/api/mediaItemApi";
 import type { MediaItemType,MediaItemTrackingDataType } from "@movie-tracker/types";
 import type { MediaItemCreateApiTypes } from "~/types/mediaItemApiTypes";
 
@@ -8,6 +14,12 @@ export const useGetMediaItemsApi = () => useQuery({
   queryKey: [MediaItemQueryKeys.GET_ALL],
   queryFn: async () => await getMediaItemsApi(),
   retry: false
+});
+
+export const useGetMediaItemsByMediaListIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => useQuery({
+  queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID, mediaListId],
+  queryFn: async () => await getMediaItemsByMediaListIdApi(mediaListId),
+  ...options
 });
 
 

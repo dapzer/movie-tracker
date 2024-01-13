@@ -1,6 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient,type UseQueryOptions } from "@tanstack/vue-query";
 import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
-import { createMediaListsApi, deleteMediaListsApi, getMediaListsApi, updateMediaListsApi } from "~/api/mediaListApi";
+import {
+  createMediaListsApi,
+  deleteMediaListsApi,
+  getMediaListsApi,
+  getMediaListsByIdApi,
+  updateMediaListsApi
+} from "~/api/mediaListApi";
 import type { MediaListType, MediaItemType } from "@movie-tracker/types";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
@@ -8,6 +14,12 @@ export const useGetMediaListsApi = () => useQuery({
   queryKey: [MediaListQueryKeys.GET_ALL],
   queryFn: async () => await getMediaListsApi(),
   retry: false
+});
+
+export const useGetMediaListsByIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => useQuery({
+  queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
+  queryFn: async () => await getMediaListsByIdApi(mediaListId),
+  ...options
 });
 
 export const useCreateMediaListApi = () => {

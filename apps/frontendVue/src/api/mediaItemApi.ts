@@ -15,6 +15,16 @@ export const getMediaItemsApi = async () => {
 
   throw new Error(`Error when getting media items. Code: ${data.statusCode}`);
 }
+export const getMediaItemsByMediaListIdApi = async (mediaListId: string) => {
+  const response = await fetchWihCredentials(getApiUrl(`/mediaItem/mediaList/${mediaListId}`));
+  const data = await response.json();
+
+  if (response.ok) {
+    return data as MediaItemType[];
+  }
+
+  throw new Error(`Error when getting media items by media list id. Code: ${data.statusCode}`);
+}
 
 export const createMediaItemApi = async (body: MediaItemCreateApiTypes) => {
   const response = await fetchWihCredentials(getApiUrl("/mediaItem"), {

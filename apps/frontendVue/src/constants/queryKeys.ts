@@ -7,6 +7,7 @@ export const AuthQueryKeys = {
 
 export const  MediaListQueryKeys = {
   GET_ALL: "mediaList/getAll",
+  GET_BY_ID: "mediaList/getById",
   CREATE: "mediaList/create",
   DELETE: "mediaList/delete",
   UPDATE: "mediaList/update",
@@ -15,6 +16,7 @@ export const  MediaListQueryKeys = {
 
 export const  MediaItemQueryKeys = {
   GET_ALL: "mediaItem/getAll",
+  GET_BY_MEDIA_LIST_ID: "mediaItem/getByMediaListId",
   CREATE: "mediaItem/create",
   DELETE: "mediaItem/delete",
   UPDATE: "mediaItem/update",

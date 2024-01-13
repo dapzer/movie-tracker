@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaListType } from "@movie-tracker/types";
-import MediaListCardHeader from "~/features/mediaList/ui/MediaListCardHeader.vue";
-import MediaListCardControls from "~/features/mediaList/ui/MediaListCardControls.vue";
+import MediaListCardHeader from "~/features/mediaList/ui/card/MediaListCardHeader.vue";
+import MediaListCardControls from "~/features/mediaList/ui/card/MediaListCardControls.vue";
 
 interface MediaListCardProps {
   list: MediaListType;
