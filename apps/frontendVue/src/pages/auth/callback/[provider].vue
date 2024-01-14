@@ -51,7 +51,10 @@ onMounted(async () => {
       >
         {{ $t("auth.authInProgress") }}...
       </UiTypography>
-      <UiLoadingIndicator :size="64" />
+      <UiLoadingIndicator
+        :size="64"
+        :thickness="5"
+      />
     </template>
 
     <template v-else-if="isError">

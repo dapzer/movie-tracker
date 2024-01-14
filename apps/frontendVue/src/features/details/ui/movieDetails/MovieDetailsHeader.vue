@@ -11,6 +11,7 @@ import { getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
 import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
+import { MediaListSelectorModal } from "~/features/mediaListSelector";
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
@@ -49,6 +50,16 @@ const title = computed(() => {
     :image="getTmdbImageUrl(props.details?.poster_path)"
     :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`)})` : ''"
   >
+    <template
+      v-if="props.details && props.mediaType"
+      #posterFooter
+    >
+      <MediaListSelectorModal
+        :media-id="props.details?.id"
+        :media-type="props.mediaType"
+      />
+    </template>
+
     <UiTypography
       v-if="props.details?.vote_average"
       as="li"

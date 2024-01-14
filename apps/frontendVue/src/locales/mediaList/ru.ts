@@ -1,5 +1,6 @@
 export default {
   mediaList: {
+    addToList: "Добавить в список",
     unauthorizedDescription: "для отображения ваших списков",
     unauthorizedTitle: "Войдите",
     yourLists: "Ваши списки",

@@ -8,14 +8,13 @@ interface UiLoadingIndicatorProps {
 
 const props = withDefaults(
   defineProps<UiLoadingIndicatorProps>(), {
-    size: 48,
-    thickness: 5
+    thickness: 3
   }
 );
 
 const computedStyle = computed(() => {
   return {
-    size: `${props.size}px`,
+    size: props.size ? `${props.size}px` : "inherit",
     thickness: `${props.thickness}px`
   }
 })
@@ -28,9 +27,11 @@ const computedStyle = computed(() => {
 <style lang="scss" module>
 .body {
   width: 100%;
-  max-width: v-bind('computedStyle.size');
-  min-width: v-bind('computedStyle.size');
-  height: v-bind('computedStyle.size');
+  max-width: 1em;
+  min-width: 1em;
+  height: 1em;
+  font-size: v-bind('computedStyle.size');
+  line-height: 1;
   border: v-bind('computedStyle.thickness') solid var(--c-secondary);
   border-bottom-color: transparent;
   border-radius: 50%;

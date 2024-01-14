@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import UiModal from "~/components/ui/UiModal/UiModal.vue";
+import UiModal, { type UiModalProps } from "~/components/ui/UiModal/UiModal.vue";
 import type { ButtonVariant } from "~/components/ui/UiButton.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import { signInMethods } from "~/features/signIn/model/signInMethods";
@@ -10,11 +10,9 @@ import { ref } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
 import { AuthQueryKeys } from "~/constants/queryKeys";
 
-interface LoginModalProps {
-  isHideTrigger?: boolean;
-  externalOpenedState?: boolean;
+interface LoginModalProps extends Partial<Pick<UiModalProps, "buttonVariant" | "buttonColorScheme" | "externalOpenedState"
+  | "isHideTrigger">> {
   btnTitle?: string;
-  buttonVariant?: ButtonVariant;
 }
 
 const props = defineProps<LoginModalProps>();
@@ -36,6 +34,7 @@ const onSignIn = async (provider: string) => {
     const interval = setInterval(() => {
       if (win?.closed) {
         handleVisible(false);
+        emits("additionalHandler", false);
         queryClient.invalidateQueries({ queryKey: [AuthQueryKeys.USER_PROFILE] });
         clearInterval(interval);
       }
@@ -54,11 +53,12 @@ const handleVisible = (value: boolean) => {
     :buttonVariant="props.buttonVariant"
     :externalOpenedState="isModalVisible"
     :isHideTrigger="props.isHideTrigger"
+    :buttonColorScheme="props.buttonColorScheme"
     :maxWidth="350"
     :title="$t('auth.signIn')"
     isFullWidth
     v-bind="$attrs"
-    @additionalHandler="handleVisible"
+    @additional-handler="handleVisible"
   >
     <template #trigger>
       {{ props.btnTitle || $t('auth.signIn') }}

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { ref } from "vue";
 
@@ -9,11 +9,11 @@ interface UiInfoHeaderProps {
 }
 
 const props = defineProps<UiInfoHeaderProps>();
-const imageSrc = ref(props.image)
+const imageSrc = ref(props.image);
 
 const handleImageLoadingError = () => {
-  imageSrc.value = '/defaultPoster.svg'
-}
+  imageSrc.value = "/defaultPoster.svg";
+};
 </script>
 
 <template>
@@ -37,12 +37,14 @@ const handleImageLoadingError = () => {
     <div :class="$style.poster">
       <div>
         <NuxtImg
+          :height="405"
           :src="imageSrc"
           :width="270"
-          :height="405"
           @error="handleImageLoadingError"
         />
       </div>
+
+      <slot name="posterFooter" />
     </div>
 
     <div :class="$style.content">
@@ -68,7 +70,7 @@ const handleImageLoadingError = () => {
   </section>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
 @import "~/styles/variables";
 
 .wrapper {
@@ -84,6 +86,9 @@ const handleImageLoadingError = () => {
   .poster {
     width: 100%;
     max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 
     img {
       object-fit: contain;

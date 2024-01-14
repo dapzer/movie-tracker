@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
+
 export type ButtonVariant = "default" | "clear" | "outlined";
 export type ButtonColorScheme = "danger" | "success" | "afterSuccess";
 export type ButtonSize = "small";
@@ -7,6 +9,8 @@ interface UiButtonProps {
   variant?: ButtonVariant;
   colorScheme?: ButtonColorScheme;
   size?: ButtonSize;
+  isLoading?: boolean;
+  loadingIndicatorThickness?: number;
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
@@ -20,6 +24,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       $style.body,
       $style.default,
       {
+        [$style.loading]: props.isLoading,
         [$style.danger]: props.colorScheme === 'danger',
         [$style.success]: props.colorScheme === 'success',
         [$style.afterSuccess]: props.colorScheme === 'afterSuccess',
@@ -29,6 +34,10 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       },
     ]"
   >
+    <UiLoadingIndicator
+      v-if="props.isLoading"
+      :thickness="props.loadingIndicatorThickness"
+    />
     <slot />
   </button>
 </template>
@@ -44,6 +53,11 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   transition-property: color, border;
   transition-duration: 0.2s;
   transition-timing-function: linear;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 
   &:disabled {
     cursor: default;
@@ -87,5 +101,9 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
 
 .small {
   padding: 4px 8px;
+}
+
+.loading {
+  pointer-events: none;
 }
 </style>

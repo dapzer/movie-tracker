@@ -5,6 +5,10 @@ interface UiSwitchProps {
 
 const props = defineProps<UiSwitchProps>();
 const inputModel = defineModel();
+
+defineOptions({
+  inheritAttrs: false
+})
 </script>
 
 <template>
@@ -15,6 +19,7 @@ const inputModel = defineModel();
   >
     <input
       v-model="inputModel"
+      v-bind="$attrs"
       :disabled="props.isDisabled"
       type="checkbox"
     >

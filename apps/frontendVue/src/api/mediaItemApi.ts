@@ -29,6 +29,9 @@ export const getMediaItemsByMediaListIdApi = async (mediaListId: string) => {
 export const createMediaItemApi = async (body: MediaItemCreateApiTypes) => {
   const response = await fetchWihCredentials(getApiUrl("/mediaItem"), {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(body),
   });
   const data = await response.json();
