@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   transition-duration: 0.2s;
   transition-timing-function: linear;
 
-  display: flex;
+  display: inline-flex;
   gap: 10px;
   align-items: center;
   justify-content: center;

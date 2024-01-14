@@ -12,7 +12,9 @@ interface UiConfirmationModalEmits extends UiModalEmits {
   (event: "onConfirm"): void;
 }
 
-const props = defineProps<UiConfirmationModalProps>();
+const props = withDefaults(defineProps<UiConfirmationModalProps>(), {
+  externalOpenedState: undefined
+});
 const emits = defineEmits<UiConfirmationModalEmits>();
 
 </script>
@@ -21,7 +23,7 @@ const emits = defineEmits<UiConfirmationModalEmits>();
   <UiModal
     :button-color-scheme="props.buttonColorScheme"
     :button-variant="props.buttonVariant"
-    :external-opened-state="props.externalOpenedState"
+    :external-opened-state="props.externalOpenedState ?? undefined"
     :is-full-width="props.isFullWidth"
     :is-hide-trigger="props.isHideTrigger"
     :max-width="props.maxWidth"
