@@ -4,11 +4,11 @@ import { useGetMediaListsApi } from "~/composables/useMediaListApi";
 import { UiModal } from "~/components/ui/UiModal";
 import MediaListSelectorItem from "~/features/mediaListSelector/ui/MediaListSelectorItem.vue";
 import type { UiModalProps } from "~/components/ui/UiModal/UiModal.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useAuth } from "~/composables/useAuth";
 import { SignInModal } from "~/features/signIn";
-import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
-import { ListIcon } from "~/components/ui/icons";
+import { ListCheckedIcon, ListIcon } from "~/components/ui/icons";
+import { useGetMediaItemsApi } from "~/composables/useMediaItemtApi";
 
 interface MediaListSelectorModalProps extends Omit<UiModalProps, "title"> {
   mediaId: number;
@@ -18,10 +18,16 @@ interface MediaListSelectorModalProps extends Omit<UiModalProps, "title"> {
 const props = defineProps<MediaListSelectorModalProps>();
 
 const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
+const { data: mediaItems } = useGetMediaItemsApi();
 const { isAuthorized, isLoadingProfile } = useAuth();
 
 const isShowAuthModal = ref(false);
 const isShowSelectModal = ref(false);
+
+const isAlreadyInList = computed(() => {
+  return mediaItems?.value?.some(item => item.mediaId === props.mediaId && item.mediaType ===
+    MediaTypeEnum[props.mediaType.toUpperCase() as keyof typeof MediaTypeEnum]);
+})
 
 const handleMediaListSelectorModalOpen = () => {
   if (!isAuthorized.value) {
@@ -30,23 +36,23 @@ const handleMediaListSelectorModalOpen = () => {
     isShowSelectModal.value = !isShowSelectModal.value;
   }
 };
-
 </script>
 
 <template>
   <UiModal
-    :is-loading="isLoadingMediaLists || isLoadingProfile"
-    :class="$style.button"
     :button-color-scheme="props.buttonColorScheme"
     :button-size="props.buttonSize"
     :button-variant="props.buttonVariant"
+    :class="$style.button"
     :external-opened-state="isShowSelectModal"
+    :is-loading="isLoadingMediaLists || isLoadingProfile"
     :max-width="500"
     :title="$t('mediaList.addToList')"
     @additional-handler="handleMediaListSelectorModalOpen"
   >
     <template #trigger>
-      <ListIcon v-if="!isLoadingMediaLists && !isLoadingProfile" />
+      <ListIcon v-if="!isLoadingMediaLists && !isLoadingProfile && !isAlreadyInList" />
+      <ListCheckedIcon v-if="!isLoadingMediaLists && !isLoadingProfile && isAlreadyInList" />
       {{ $t("mediaList.addToList") }}
     </template>
 

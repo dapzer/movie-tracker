@@ -1,19 +1,20 @@
 <script lang="ts" setup>
-import type { TmdbSearchResponseResultItemType, TmdbPersonCastType } from "@movie-tracker/types";
+import type { TmdbPersonCastType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
+import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { UiCard } from "~/components/ui/UiCard";
 import { computed, useI18n } from "#imports";
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
 import { useLocalePath } from "#i18n";
 import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
 import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
+import { MediaListSelectorModal } from "~/features/mediaListSelector";
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType | TmdbPersonCastType;
-  width?: number
-  isHorizontal?: boolean
-  isSmall?: boolean
-  isHideScore?: boolean
+  width?: number;
+  isHorizontal?: boolean;
+  isSmall?: boolean;
+  isHideScore?: boolean;
 }
 
 const props = defineProps<MovieCardProps>();
@@ -30,14 +31,20 @@ const releaseDate =
     :class="[$style.wrapper, {
       [$style.wrapperWithScore]: !props.isHideScore
     }]"
-    :width="props.width"
-    :is-horizontal="props.isHorizontal"
-    :is-small="props.isSmall"
     :description="`${$t('details.releaseDate')}: ${releaseDate}`"
     :image="getTmdbImageUrl(image)"
+    :is-horizontal="props.isHorizontal"
+    :is-small="props.isSmall"
     :link="localePath(`/details/${movie.media_type}/${movie.id}`)"
     :title="movie.title || movie.name || movie.original_name"
+    :width="props.width"
   >
+    <div :class="$style.mediaListSelector">
+      <MediaListSelectorModal
+        :media-id="movie.id"
+        :media-type="movie.media_type as TmdbMediaTypeEnum"
+      />
+    </div>
     <UiScoreCircle
       v-if="!props.isHideScore"
       :class="$style.score"
@@ -52,6 +59,8 @@ const releaseDate =
 </template>
 
 <style lang="scss" module>
+@import '~/styles/mixins';
+
 .wrapper {
   position: relative;
 
@@ -59,6 +68,19 @@ const releaseDate =
     position: absolute;
     top: -10px;
     left: -10px;
+  }
+
+  .mediaListSelector {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    & > button {
+      pointer-events: all;
+      @include slideFromRight(31px)
+    }
   }
 
   &.wrapperWithScore {
