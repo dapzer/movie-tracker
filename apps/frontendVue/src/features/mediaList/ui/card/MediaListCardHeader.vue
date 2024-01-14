@@ -28,10 +28,6 @@ const title = computed(() => {
     value = props.list.title ?? "";
   }
 
-  if (value.length > 12) {
-    return `${value.slice(0, 12)}...`;
-  }
-
   return value;
 });
 </script>
@@ -77,7 +73,9 @@ const title = computed(() => {
     border-radius: var(--s-border-radius);
 
     p {
-      word-break: break-all;
+      padding: 0 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       text-align: center;
     }
   }

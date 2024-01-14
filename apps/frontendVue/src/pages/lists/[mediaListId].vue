@@ -82,6 +82,7 @@ const title = computed(() => {
         v-if="!isLoadingProfile && !isLoadingMediaLists && !isLoadingExternalMediaList"
         as="h1"
         variant="title2"
+        :class="$style.title"
       >
         {{ title }}
       </UiTypography>
@@ -115,5 +116,9 @@ const title = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  .title {
+    word-break: break-all;
+  }
 }
 </style>
