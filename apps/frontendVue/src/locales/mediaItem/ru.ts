@@ -1,6 +1,8 @@
 export default {
   mediaItem: {
     addedDate: "Дата добавления",
+    changeStatus: "Изменить статус",
+    removeFromList: "Удалить из списка",
     status: {
       VIEWED: "Просмотрено",
       WATCHING_NOW: "Смотрю сейчас",

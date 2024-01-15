@@ -6,10 +6,10 @@ export enum MediaTypeEnum {
 }
 
 export enum MediaItemStatusNameEnum {
-  VIEWED = "VIEWED",
   WATCHING_NOW = "WATCHING_NOW",
   NOT_VIEWED = "NOT_VIEWED",
   WAIT_NEW_PART = "WAIT_NEW_PART",
+  VIEWED = "VIEWED",
 }
 
 export interface MediaItemType {

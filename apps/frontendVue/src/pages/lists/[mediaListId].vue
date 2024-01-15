@@ -103,6 +103,7 @@ const title = computed(() => {
         <MediaItemsStatusedCategory
           v-for="status in MediaItemStatusNameEnum"
           :key="status"
+          :is-list-owner="isUserListOwner"
           :items="currentMediaItems"
           :status="status"
         />

@@ -18,14 +18,20 @@
 }
 
 @mixin slideFromRight ($defaultShowedWidth) {
-  gap: 6px;
-  padding: 5px 10px;
-  font-size: var(--fs-span);
   transition: all .5s;
   transform: translateX(calc(100% - $defaultShowedWidth));
-  border-radius: var(--s-border-radius) 0 0 var(--s-border-radius);
 
   &:hover {
     transform: translateX(0);
   }
+}
+
+@mixin cardSideButton () {
+  border-radius: var(--s-border-radius) 0 0 var(--s-border-radius);
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: var(--fs-span);
+  background: var(--c-accent);
+  font-weight: var(--fw-light);
+  line-height: 1;
 }

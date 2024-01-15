@@ -13,3 +13,4 @@ export { default as ListCheckedIcon } from "~/assets/svg/icons/listChecked.svg";
 export { default as ShareIcon } from "~/assets/svg/icons/share.svg";
 export { default as SettingsIcon } from "~/assets/svg/icons/settings.svg";
 export { default as TrashIcon } from "~/assets/svg/icons/trash.svg";
+export { default as ChartCandleIcon } from "~/assets/svg/icons/chart-candle.svg";

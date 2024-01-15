@@ -1,11 +1,19 @@
 <script setup lang="ts">
+interface UiDropdownProps {
+ wrapperClass?: string
+}
+
+const props = withDefaults(defineProps<UiDropdownProps>(), {
+  wrapperClass: ''
+})
+
 defineOptions({
   inheritAttrs: false
 })
 </script>
 
 <template>
-  <div :class="$style.wrapper">
+  <div :class="[$style.wrapper, props.wrapperClass]">
     <slot name="trigger" />
     <div :class="$style.contentWrapper">
       <div

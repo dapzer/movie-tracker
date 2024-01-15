@@ -9,6 +9,7 @@ import MediaItemCard from "~/features/mediaItem/ui/card/MediaItemCard.vue";
 interface MediaItemsStatusedCategoryProps {
   items: MediaItemType[];
   status: MediaItemStatusNameEnum;
+  isListOwner?: boolean;
   title?: string;
 }
 
@@ -35,6 +36,7 @@ const mediaItems = computed(() => {
       <template #default="{ item }">
         <MediaItemCard
           :key="item.id"
+          :is-hide-controls="!isListOwner"
           :media-item="item"
         />
       </template>

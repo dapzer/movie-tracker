@@ -83,7 +83,8 @@ const releaseDate =
 
     & > button {
       pointer-events: all;
-      @include slideFromRight(31px)
+      @include slideFromRight(31px);
+      @include cardSideButton();
     }
   }
 
