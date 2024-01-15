@@ -15,6 +15,7 @@ interface MovieCardProps {
   isHorizontal?: boolean;
   isSmall?: boolean;
   isHideScore?: boolean;
+  isHideMediaListSelector?: boolean;
 }
 
 const props = defineProps<MovieCardProps>();
@@ -39,7 +40,10 @@ const releaseDate =
     :title="movie.title || movie.name || movie.original_name"
     :width="props.width"
   >
-    <div :class="$style.mediaListSelector">
+    <div
+      v-if="!props.isHideMediaListSelector"
+      :class="$style.mediaListSelector"
+    >
       <MediaListSelectorModal
         :media-id="movie.id"
         :media-type="movie.media_type as TmdbMediaTypeEnum"

@@ -62,10 +62,10 @@ const { data: popular, isLoading: isPopularLoading } = useTmdbGetPopularList(que
           :key="movie.id"
           :movie="{...movie, media_type: props.mediaType}"
           :is-small="!isFromModal"
+          :is-hide-media-list-selector="!isFromModal"
         />
       </template>
     </UiListWithShowMore>
-    <section />
   </div>
 </template>
 
