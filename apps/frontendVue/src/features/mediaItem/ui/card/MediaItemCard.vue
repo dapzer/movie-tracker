@@ -10,6 +10,8 @@ import UiDropdown from "~/components/ui/UiDropdown.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import { ChartCandleIcon } from "~/components/ui/icons";
 import { MovieCardStatusSelectorMenu } from "~/features/mediaItem";
+import MediaCardTrackingMenu from "~/features/mediaItem/ui/trackingMenu/MediaCardTrackingMenu.vue";
+import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
 
 interface MediaItemCardProps {
   mediaItem: MediaItemType;
@@ -21,7 +23,7 @@ const localePath = useLocalePath();
 const { locale, t } = useI18n();
 
 const currentMediaDetails = computed(() => {
-  return props.mediaItem.mediaDetails?.[locale.value as keyof Pick<MediaDetailsType, "ru" | "en">];
+  return getCurrentMediaDetails(props.mediaItem, locale.value);
 });
 
 const description = computed(() => {
@@ -55,6 +57,8 @@ const description = computed(() => {
       :media-id="mediaItem.mediaId"
       :media-type="mediaItem.mediaType"
     />
+
+    <MediaCardTrackingMenu :media-item="mediaItem" />
   </UiCard>
 </template>
 

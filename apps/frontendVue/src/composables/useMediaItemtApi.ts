@@ -9,6 +9,7 @@ import {
 } from "~/api/mediaItemApi";
 import type { MediaItemType,MediaItemTrackingDataType } from "@movie-tracker/types";
 import type { MediaItemCreateApiTypes } from "~/types/mediaItemApiTypes";
+import { mediaItemMutationStore } from "~/stores/mediaItemMutationStore";
 
 export const useGetMediaItemsApi = () => useQuery({
   queryKey: [MediaItemQueryKeys.GET_ALL],
@@ -55,6 +56,7 @@ export const useUpdateMediaItemApi = () => {
     mutationFn: async (args: { mediaItemId: string, body: MediaItemTrackingDataType }) => await updateMediaItemApi(args.mediaItemId, args.body),
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.map((item) => item.id === data.id ? data : item));
+      mediaItemMutationStore.handleLastEditedItemId(data.id);
     }
   })
 }

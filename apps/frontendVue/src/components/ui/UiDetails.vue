@@ -110,6 +110,8 @@ const handleOpen = () => {
       rotate: 180deg;
       width: 16px;
       height: 16px;
+      display: flex;
+      align-items: center;
 
       &Active {
         rotate: 0deg;

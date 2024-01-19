@@ -3,6 +3,17 @@ export default {
     addedDate: "Дата добавления",
     changeStatus: "Изменить статус",
     removeFromList: "Удалить из списка",
+    trackingMenu: {
+      title: "Меню отслеживания",
+      siteToView: "Cайт для просмотра",
+      addSiteToView: "Добавить сайт для просмотра",
+      currentEpisode: "Текущий эпизод",
+      currentSeason: "Текущий сезон",
+      tabs: {
+        information: "Информация",
+        note: "Заметка",
+      }
+    },
     status: {
       VIEWED: "Просмотрено",
       WATCHING_NOW: "Смотрю сейчас",
