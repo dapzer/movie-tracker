@@ -7,7 +7,7 @@ import { useClipboard } from "@vueuse/core";
 import { UiConfirmationModal, UiModal } from "~/components/ui/UiModal";
 import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
 import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/composables/useMediaListApi";
-import { computed, ref, type VNode } from "vue";
+import { computed, ref } from "vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
 const { copy, copied } = useClipboard({ copiedDuring: 1000 });
@@ -30,12 +30,13 @@ const copyLink = () => {
 const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
   await updateList({ mediaListId: props.list.id, body: value });
   settingsModalRef.value?.handleVisible(false);
-}
+};
 </script>
 
 <template>
   <div :class="$style.wrapper">
     <UiButton
+      :class="$style.copyLink"
       :color-scheme="copied ? 'afterSuccess' : undefined"
       :disabled="!props.list.isPublic"
       @click="copyLink"
@@ -60,8 +61,8 @@ const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
             isPublic: props.list.isPublic,
             poster: props.list.poster
           }"
-          :is-system="props.list.isSystem"
           :is-loading="isUpdatingMediaList"
+          :is-system="props.list.isSystem"
           @on-click-save="handleUpdateList"
           @on-click-cancel="closeModal"
         />
@@ -93,6 +94,13 @@ const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
   button {
     border-radius: var(--s-border-radius);
     padding: 4px 8px;
+  }
+
+  .copyLink {
+      svg {
+        width: 24px;
+        height: 24px;
+      }
   }
 }
 </style>
