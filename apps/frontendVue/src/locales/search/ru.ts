@@ -4,5 +4,6 @@ export default  {
     placeholder: 'Поиск',
     totalResults: 'Найдено результатов',
     notingFound: 'Ничего не найдено',
+    mediaPlaceholder: 'Введите название кинокартины',
   }
 }

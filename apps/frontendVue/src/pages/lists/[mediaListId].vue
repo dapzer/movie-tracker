@@ -1,6 +1,6 @@
 <script lang="ts" setup>import { useRoute } from "vue-router";
 import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/composables/useMediaListApi";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/composables/useMediaItemtApi";
 import { useAuth } from "~/composables/useAuth";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -9,6 +9,7 @@ import { useI18n } from "#imports";
 import { MediaItemsStatusedCategory, MediaItemsStatusedCategorySkeleton } from "~/features/mediaItem";
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
+import MediaListFilters from "~/features/mediaList/ui/MediaListFilters.vue";
 
 const { mediaListId = "" } = useRoute().params;
 const { isNotAuthorized, isLoadingProfile } = useAuth();
@@ -41,16 +42,46 @@ const {
   retry: false
 });
 
+const searchValue = ref("");
+
 const isNotPublicList = computed(() => {
   return errorExternalMediaList.value && checkIsAuthError(errorExternalMediaList.value);
 });
 
 const currentMediaList = computed(() => {
-  return isUserListOwner.value ? mediaLists?.value?.find(list => list.id === mediaListId) : externalMediaList?.value;
+  if (!isUserListOwner.value) {
+    return externalMediaList?.value;
+  }
+
+  return mediaLists?.value?.find(list => list.id === mediaListId);
 });
+
 const currentMediaItems = computed(() => {
-  return isUserListOwner.value ? mediaItems?.value?.filter(item => item.mediaListId === mediaListId) :
-    externalMediaItems?.value;
+  if (!isUserListOwner.value) {
+    return externalMediaItems?.value;
+  }
+
+  return mediaItems?.value?.filter(item => item.mediaListId === mediaListId);
+});
+
+const filteredMediaItems = computed(() => {
+  if (!searchValue.value) {
+    return currentMediaItems?.value;
+  }
+
+  const searchLowerCase = searchValue.value.toLowerCase();
+
+  const filteredBySearchValue = currentMediaItems?.value?.filter(item => {
+    const mediaDetails = item.mediaDetails;
+
+    const isRuTitle = mediaDetails?.ru.title?.toLowerCase().includes(searchLowerCase);
+    const isEnTitle = mediaDetails?.en.title?.toLowerCase().includes(searchLowerCase);
+    const isOriginalTitle = mediaDetails?.en.originalTitle?.toLowerCase().includes(searchLowerCase);
+
+    return isRuTitle || isEnTitle || isOriginalTitle;
+  });
+
+  return filteredBySearchValue;
 });
 
 const title = computed(() => {
@@ -80,9 +111,9 @@ const title = computed(() => {
     <template v-if="!isNotPublicList">
       <UiTypography
         v-if="!isLoadingProfile && !isLoadingMediaLists && !isLoadingExternalMediaList"
+        :class="$style.title"
         as="h1"
         variant="title2"
-        :class="$style.title"
       >
         {{ title }}
       </UiTypography>
@@ -100,13 +131,21 @@ const title = computed(() => {
       />
 
       <template v-else-if="currentMediaItems">
-        <MediaItemsStatusedCategory
-          v-for="status in MediaItemStatusNameEnum"
-          :key="status"
-          :is-list-owner="isUserListOwner"
-          :items="currentMediaItems"
-          :status="status"
-        />
+        <MediaListFilters @on-change-search-value="searchValue = $event" />
+        <template v-if="filteredMediaItems?.length">
+          <MediaItemsStatusedCategory
+            v-for="status in MediaItemStatusNameEnum"
+            :key="status"
+            :is-list-owner="isUserListOwner"
+            :items="filteredMediaItems"
+            :status="status"
+          />
+        </template>
+        <UiTypography
+          v-else
+        >
+          {{ $t("search.notingFound") }}
+        </UiTypography>
       </template>
     </template>
   </UiContainer>

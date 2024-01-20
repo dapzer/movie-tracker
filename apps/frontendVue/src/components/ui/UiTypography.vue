@@ -8,6 +8,7 @@ interface Props {
     | "title"
     | "title2"
     | "title3"
+    | "title4"
     | "link"
     | "linkUnderlined"
     | "textSmall"
@@ -30,6 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
       [$style.title]: variant === 'title',
       [$style.title2]: variant === 'title2',
       [$style.title3]: variant === 'title3',
+      [$style.title4]: variant === 'title4',
       [$style.textSmall]: variant === 'textSmall',
       [$style.link]: variant === 'link',
       [$style.linkUnderlined]: variant === 'linkUnderlined',
@@ -63,6 +65,12 @@ const props = withDefaults(defineProps<Props>(), {
 .title3 {
   color: var(--c-secondary);
   font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+}
+
+.title4 {
+  color: var(--c-secondary);
+  font-size: var(--fs-h4);
   font-weight: var(--fw-medium);
 }
 

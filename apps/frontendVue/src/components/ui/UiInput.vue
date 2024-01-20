@@ -1,12 +1,19 @@
 <script lang="ts" setup>
 
 import UiTypography from "~/components/ui/UiTypography.vue";
+import { CloseIcon } from "~/components/ui/icons";
+import UiButton from "~/components/ui/UiButton.vue";
 
 type Variant = "underlined" | "boxed";
 
 const props = defineProps<{
   variant?: Variant
   error?: string
+  isShowClearButton?: boolean
+}>();
+
+const emit = defineEmits<{
+  (e: "onClickClear"): void
 }>();
 
 const inputModel = defineModel()
@@ -21,14 +28,26 @@ defineOptions({
       [$style.error]: props.error
     }]"
   >
-    <input
-      v-bind="$attrs"
-      v-model="inputModel"
-      :class="[$style.body, {
-        [$style.underlined]: props.variant === 'underlined',
-        [$style.boxed]: props.variant === 'boxed',
-      }]"
-    >
+    <div :class="$style.bodyWrapper">
+      <input
+        v-bind="$attrs"
+        v-model="inputModel"
+        :class="[$style.body, {
+          [$style.underlined]: props.variant === 'underlined',
+          [$style.boxed]: props.variant === 'boxed',
+          [$style.withClearButton]: props.isShowClearButton
+        }]"
+      >
+      <UiButton
+        v-if="props.isShowClearButton"
+        :class="$style.clearIcon"
+        variant="clear"
+        @click="emit('onClickClear')"
+      >
+        <CloseIcon />
+      </UiButton>
+    </div>
+
     <UiTypography
       v-if="props.error"
       :class="$style.errorText"
@@ -60,6 +79,28 @@ defineOptions({
       color: var(--c-danger);
       font-weight: var(--fw-regular);
     }
+  }
+}
+
+.bodyWrapper {
+  width: 100%;
+  position: relative;
+
+  .withClearButton {
+    padding-right: 42px;
+  }
+
+  .clearIcon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--c-text);
   }
 }
 

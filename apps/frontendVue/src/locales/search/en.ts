@@ -4,5 +4,6 @@ export default  {
     placeholder: 'Search',
     totalResults: 'Total results',
     notingFound: 'Nothing found',
+    mediaPlaceholder: 'Enter the title of the film',
   }
 }

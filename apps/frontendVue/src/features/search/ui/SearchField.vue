@@ -85,15 +85,9 @@ watch(() => localSearchValue.value, (value, oldValue, onCleanup) => {
         :class="$style.input"
         :placeholder="$t('search.placeholder')"
         type="text"
+        :is-show-clear-button="!!searchValue"
+        @on-click-clear="clearSearch"
       />
-      <UiButton
-        v-if="searchValue"
-        :class="$style.clearIcon"
-        variant="clear"
-        @click="clearSearch"
-      >
-        <CloseIcon />
-      </UiButton>
     </div>
   </div>
 </template>
@@ -120,19 +114,6 @@ watch(() => localSearchValue.value, (value, oldValue, onCleanup) => {
       transform: translateY(-50%) rotate(90deg);
       width: 25px;
       height: 25px;
-      color: var(--c-text);
-    }
-
-    .clearIcon {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
       color: var(--c-text);
     }
   }
