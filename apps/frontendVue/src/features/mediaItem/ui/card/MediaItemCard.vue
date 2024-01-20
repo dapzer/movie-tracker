@@ -12,6 +12,7 @@ import { ChartCandleIcon } from "~/components/ui/icons";
 import { MovieCardStatusSelectorMenu } from "~/features/mediaItem";
 import MediaCardTrackingMenu from "~/features/mediaItem/ui/trackingMenu/MediaCardTrackingMenu.vue";
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
+import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
 
 interface MediaItemCardProps {
   mediaItem: MediaItemType;
@@ -33,11 +34,17 @@ const description = computed(() => {
 
 <template>
   <UiCard
+    :class="$style.wrapper"
     :title="currentMediaDetails?.title || ''"
     :image="getTmdbImageUrl(currentMediaDetails?.poster || '')"
     :link="localePath(`/details/${mediaItem.mediaType}/${mediaItem.mediaId}`)"
     :description="description"
   >
+    <UiScoreCircle
+      :class="$style.score"
+      :value="mediaItem.mediaDetails?.score || 0"
+    />
+
     <UiDropdown
       v-if="!props.isHideControls"
       :wrapper-class="$style.statusSelector"
@@ -64,6 +71,16 @@ const description = computed(() => {
 
 <style lang="scss" module>
 @import "~/styles/mixins";
+
+.wrapper {
+  margin-top: 10px;
+}
+
+.score {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+}
 
 .statusSelector {
   position: absolute;
