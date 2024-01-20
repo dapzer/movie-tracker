@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { MediaItemType, MediaDetailsType, MediaDetailsInfoType } from "@movie-tracker/types";
-import { MediaItemStatusNameEnum } from "@movie-tracker/types";
+import type { MediaItemType } from "@movie-tracker/types";
 import { computed } from "vue";
 import { getTmdbImageUrl, useI18n } from "#imports";
 import { UiCard } from "~/components/ui/UiCard";
@@ -13,6 +12,9 @@ import { MovieCardStatusSelectorMenu } from "~/features/mediaItem";
 import MediaCardTrackingMenu from "~/features/mediaItem/ui/trackingMenu/MediaCardTrackingMenu.vue";
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
+import { MediaTypeEnum } from "@movie-tracker/types";
+import UiTypography from "~/components/ui/UiTypography.vue";
+import MediaItemCardTvInfo from "~/features/mediaItem/ui/card/MediaItemCardTvInfo.vue";
 
 interface MediaItemCardProps {
   mediaItem: MediaItemType;
@@ -60,12 +62,21 @@ const description = computed(() => {
       </template>
     </UiDropdown>
 
+
+    <MediaItemCardTvInfo
+      v-if="mediaItem.mediaType === MediaTypeEnum.TV && props.isHideControls"
+      :media-item="props.mediaItem"
+    />
+
     <UiLinkToDetails
       :media-id="mediaItem.mediaId"
       :media-type="mediaItem.mediaType"
     />
 
-    <MediaCardTrackingMenu :media-item="mediaItem" />
+    <MediaCardTrackingMenu
+      v-if="!props.isHideControls"
+      :media-item="mediaItem"
+    />
   </UiCard>
 </template>
 
