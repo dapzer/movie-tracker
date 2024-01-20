@@ -17,16 +17,21 @@ const currentMediaDetails = computed(() => {
   return getCurrentMediaDetails(props.mediaItem, locale.value);
 });
 
-const currentValue = ref<MediaItemSeriesInfoType>({
-  currentSeason: props.mediaItem.trackingData?.seriesInfo?.currentSeason || 0,
-  currentEpisode: props.mediaItem.trackingData?.seriesInfo?.currentEpisode || 1
+const currentSeriesInfo = computed(() => {
+  return props.mediaItem.trackingData.seriesInfo
 });
+
+const currentValue = ref<MediaItemSeriesInfoType>({ ...currentSeriesInfo.value });
+
+watch(() => props.mediaItem, () => {
+  currentValue.value = { ...currentSeriesInfo.value };
+}, { deep: true });
 
 watch(() => currentValue.value.currentSeason, () => {
   currentValue.value.currentEpisode = 1;
 });
 
-watch(() => currentValue.value, () => {
+const handleChange = () => {
   updateMediaItemApi.mutateAsync({
     mediaItemId: props.mediaItem.id,
     body: {
@@ -34,7 +39,7 @@ watch(() => currentValue.value, () => {
       seriesInfo: currentValue.value
     }
   });
-}, { deep: true });
+};
 
 </script>
 
@@ -47,6 +52,7 @@ watch(() => currentValue.value, () => {
       {{ $t("mediaItem.trackingMenu.currentSeason") }}: <select
         v-model="currentValue.currentSeason"
         :disabled="updateMediaItemApi.isPending.value"
+        @change="handleChange"
       >
         <option
           v-for="season in currentMediaDetails?.seasons"
@@ -64,6 +70,7 @@ watch(() => currentValue.value, () => {
       {{ $t("mediaItem.trackingMenu.currentEpisode") }}: <select
         v-model="currentValue.currentEpisode"
         :disabled="updateMediaItemApi.isPending.value"
+        @change="handleChange"
       >
         <option
           v-for="episode in currentMediaDetails?.seasons?.[currentValue.currentSeason]?.episode_count"
