@@ -9,7 +9,7 @@ const props = defineProps<{
   error?: string
 }>();
 
-const inputModel = defineModel()
+const inputModel = defineModel<string>()
 defineOptions({
   inheritAttrs: false
 })
@@ -21,14 +21,14 @@ defineOptions({
       [$style.error]: props.error
     }]"
   >
-    <input
+    <textarea
       v-bind="$attrs"
       v-model="inputModel"
       :class="[$style.body, {
         [$style.underlined]: props.variant === 'underlined',
         [$style.boxed]: props.variant === 'boxed',
       }]"
-    >
+    />
     <UiTypography
       v-if="props.error"
       :class="$style.errorText"
@@ -70,9 +70,10 @@ defineOptions({
   border: 1px solid var(--c-text);
   padding: 10px 16px;
   color: var(--c-secondary);
-  font-size: var(--fs-p);
+  font-size: var(--fs-span);
   border-radius: var(--s-border-radius);
   width: 100%;
+  resize: none;
 }
 
 .underlined {

@@ -9,6 +9,7 @@ export default {
     confirmAction: "Подтвердите действие",
     yes: "Да",
     no: "Нет",
+    characters: "Символы",
     actions: {
       create: "Создать",
       save: "Сохранять",

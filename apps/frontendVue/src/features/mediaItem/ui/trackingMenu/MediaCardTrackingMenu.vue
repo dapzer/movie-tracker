@@ -6,6 +6,7 @@ import UiButton from "~/components/ui/UiButton.vue";
 import TrackingMenuSitesToView from "~/features/mediaItem/ui/trackingMenu/TrackingMenuSitesToView.vue";
 import TrackingMenuTvProgress from "~/features/mediaItem/ui/trackingMenu/TrackingMenuTvProgress.vue";
 import { MediaTypeEnum } from "@movie-tracker/types";
+import TrackingMenuNote from "~/features/mediaItem/ui/trackingMenu/TrackingMenuNote.vue";
 
 interface MediaCardTrackingMenuProps {
   mediaItem: MediaItemType
@@ -45,6 +46,10 @@ const activeTab = ref<Tab>('information');
         v-if="props.mediaItem.mediaType === MediaTypeEnum.TV"
         :media-item="props.mediaItem"
       />
+    </template>
+
+    <template v-if="activeTab === 'note'">
+      <TrackingMenuNote :media-item="props.mediaItem" />
     </template>
   </UiDetails>
 </template>

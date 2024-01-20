@@ -9,6 +9,7 @@ export default {
     confirmAction: "Confirm action",
     yes: "Yes",
     no: "No",
+    characters: "Characters",
     actions: {
       create: "Create",
       save: "Save",
