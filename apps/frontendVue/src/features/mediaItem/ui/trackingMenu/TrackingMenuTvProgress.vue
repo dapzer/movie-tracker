@@ -55,9 +55,9 @@ const handleChange = () => {
         @change="handleChange"
       >
         <option
-          v-for="season in currentMediaDetails?.seasons"
+          v-for="(season, index) in currentMediaDetails?.seasons"
           :key="season.id"
-          :value="season.season_number"
+          :value="index"
         >
           {{ season.name }}
         </option>
