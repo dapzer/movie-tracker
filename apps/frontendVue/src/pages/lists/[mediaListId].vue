@@ -10,6 +10,7 @@ import { MediaItemsStatusedCategory, MediaItemsStatusedCategorySkeleton } from "
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import MediaListFilters from "~/features/mediaList/ui/MediaListFilters.vue";
+import { mediaListSortingOptions, type MediaListSortingOptionType } from "~/features/mediaList";
 
 const { mediaListId = "" } = useRoute().params;
 const { isNotAuthorized, isLoadingProfile } = useAuth();
@@ -43,6 +44,7 @@ const {
 });
 
 const searchValue = ref("");
+const sortModel = ref<MediaListSortingOptionType>(mediaListSortingOptions[0]);
 
 const isNotPublicList = computed(() => {
   return errorExternalMediaList.value && checkIsAuthError(errorExternalMediaList.value);
@@ -65,13 +67,24 @@ const currentMediaItems = computed(() => {
 });
 
 const filteredMediaItems = computed(() => {
+  const sortedArray = currentMediaItems?.value?.slice().sort((a, b) => {
+    const aDate = new Date(a[sortModel.value.field]);
+    const bDate = new Date(b[sortModel.value.field]);
+
+    if (sortModel.value.order === "desc") {
+      return bDate < aDate ? 1: -1;
+    } else {
+      return aDate < bDate ? 1 : -1;
+    }
+  })
+
   if (!searchValue.value) {
-    return currentMediaItems?.value;
+    return sortedArray;
   }
 
   const searchLowerCase = searchValue.value.toLowerCase();
 
-  const filteredBySearchValue = currentMediaItems?.value?.filter(item => {
+  const filteredBySearchValue = sortedArray?.filter(item => {
     const mediaDetails = item.mediaDetails;
 
     const isRuTitle = mediaDetails?.ru.title?.toLowerCase().includes(searchLowerCase);
@@ -131,7 +144,10 @@ const title = computed(() => {
       />
 
       <template v-else-if="currentMediaItems">
-        <MediaListFilters @on-change-search-value="searchValue = $event" />
+        <MediaListFilters
+          v-model:sortModel="sortModel"
+          @on-change-search-value="searchValue = $event"
+        />
         <template v-if="filteredMediaItems?.length">
           <MediaItemsStatusedCategory
             v-for="status in MediaItemStatusNameEnum"

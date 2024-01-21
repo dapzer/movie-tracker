@@ -21,6 +21,13 @@ export default {
       poster: "Poster URL",
       posterPlaceholder: "Insert a link to an image or gif",
       publicStatus: "View by public URL",
+    },
+    sort: {
+      title: "Sorting",
+      createdAtAsc: "▲ Date added",
+      createdAtDesc: "▼ Date added",
+      updatedAtAsc: "▲ Last update",
+      updatedAtDesc: "▼ Last update",
     }
   },
 }

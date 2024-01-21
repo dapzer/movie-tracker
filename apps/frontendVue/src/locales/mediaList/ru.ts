@@ -21,6 +21,13 @@ export default {
       poster: "Постер",
       posterPlaceholder: "Вставьте ссылку на изображение или gif",
       publicStatus: "Просмотр по публичному URL"
+    },
+    sort: {
+      title: "Сортировка",
+      createdAtAsc: "▲ Дата добавления",
+      createdAtDesc: "▼ Дата добавления",
+      updatedAtAsc: "▲ Последнее обновление",
+      updatedAtDesc: "▼ Последнее обновление",
     }
   }
 };

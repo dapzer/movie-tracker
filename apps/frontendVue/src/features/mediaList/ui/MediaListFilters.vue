@@ -3,11 +3,10 @@
 import UiInput from "~/components/ui/UiInput.vue";
 import { ref } from "vue";
 import { watch } from "#imports";
-import { CloseIcon } from "~/components/ui/icons";
-import UiButton from "~/components/ui/UiButton.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
+import { mediaListSortingOptions, type MediaListSortingOptionType } from "~/features/mediaList";
 
-// const searchModel = defineModel</**/string>("search");
+const currentSortModel = defineModel<MediaListSortingOptionType>("sortModel");
 const emits = defineEmits<{
   (e: "onChangeSearchValue", value: string): void
 }>();
@@ -30,7 +29,7 @@ const clearSearch = () => {
 
 <template>
   <div :class="$style.wrapper">
-    <div :class="$style.search">
+    <div :class="$style.item">
       <UiTypography
         variant="title4"
       >
@@ -38,11 +37,30 @@ const clearSearch = () => {
       </UiTypography>
       <UiInput
         v-model="localSearchValue"
-        variant="underlined"
-        :placeholder="$t('search.mediaPlaceholder')"
         :is-show-clear-button="!!localSearchValue"
+        :placeholder="$t('search.mediaPlaceholder')"
+        variant="underlined"
         @on-click-clear="clearSearch"
       />
+    </div>
+
+    <div :class="$style.item">
+      <UiTypography
+        variant="title4"
+      >
+        {{ $t("mediaList.sort.title") }}:
+      </UiTypography>
+      <div :class="$style.selectWrapper">
+        <select v-model="currentSortModel">
+          <option
+            v-for="option in mediaListSortingOptions"
+            :key="option.translationKey"
+            :value="option"
+          >
+            {{ $t(option.translationKey) }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
@@ -50,13 +68,32 @@ const clearSearch = () => {
 <style lang="scss" module>
 .wrapper {
   display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-  .search {
+  .item {
     display: flex;
     gap: 6px;
     align-items: center;
     width: 100%;
     max-width: 350px;
+
+    .selectWrapper {
+      border-bottom: 1px solid var(--c-text);
+
+      select {
+        background: none;
+        color: var(--c-secondary);
+        width: 100%;
+        padding: 10px 16px;
+        border: none;
+        border-right: 16px solid transparent;
+
+        option {
+          color: #000;
+        }
+      }
+    }
   }
 }
 </style>
