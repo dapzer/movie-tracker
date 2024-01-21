@@ -10,18 +10,18 @@ import { MediaItemsStatusedCategory, MediaItemsStatusedCategorySkeleton } from "
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import MediaListFilters from "~/features/mediaList/ui/MediaListFilters.vue";
-import { mediaListSortingOptions, type MediaListSortingOptionType } from "~/features/mediaList";
+import { useMediaListSettings } from "~/features/mediaList";
 import { filterMediaListItems } from "~/features/mediaList/model/filterMediaListItems";
 
 const { t } = useI18n();
 const { mediaListId = "" } = useRoute().params;
+const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListId as string);
 const { isLoadingProfile } = useAuth();
+
+const searchValue = ref("");
 
 const mediaListsApi = useGetMediaListsApi();
 const mediaItemsApi = useGetMediaItemsApi();
-
-const searchValue = ref("");
-const sortModel = ref<MediaListSortingOptionType>(mediaListSortingOptions[0]);
 
 const isUserListOwner = computed(() => {
   return mediaListsApi.data.value?.some(list => list.id === mediaListId);
@@ -67,7 +67,7 @@ const filteredMediaItems = computed(() => {
     return [];
   }
 
-  return filterMediaListItems(currentMediaItems.value, searchValue.value, sortModel.value);
+  return filterMediaListItems(currentMediaItems.value, searchValue.value, currentMedaListSettings.value.sortModel);
 });
 
 const isLoading = computed(() => {
@@ -115,7 +115,7 @@ const title = computed(() => {
 
       <template v-if="currentMediaItems?.length">
         <MediaListFilters
-          v-model:sortModel="sortModel"
+          v-model:sortModel="currentMedaListSettings.sortModel"
           @on-change-search-value="searchValue = $event"
         />
 
@@ -126,6 +126,8 @@ const title = computed(() => {
             :is-list-owner="isUserListOwner"
             :items="filteredMediaItems"
             :status="status"
+            :is-opened-default="currentMedaListSettings.categoriesState[status]"
+            @handle-category-state="handleCategoryState"
           />
         </template>
 

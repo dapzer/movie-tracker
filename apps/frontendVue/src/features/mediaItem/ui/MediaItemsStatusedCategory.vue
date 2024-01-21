@@ -12,10 +12,13 @@ interface MediaItemsStatusedCategoryProps {
   status: MediaItemStatusNameEnum;
   isListOwner?: boolean;
   title?: string;
+  isOpenedDefault?: boolean;
 }
 
 const props = defineProps<MediaItemsStatusedCategoryProps>();
-
+const emits = defineEmits<{
+  (e: "handleCategoryState", category: MediaItemStatusNameEnum, value: boolean): void
+}>();
 const mediaItems = computed(() => {
   return props.items.filter(item => item.trackingData.currentStatus === props.status);
 });
@@ -38,9 +41,10 @@ watch(mediaItems, async (newValue) => {
 <template>
   <UiDetails
     v-if="mediaItems.length"
+    :is-opened-default="props.isOpenedDefault"
     :title="$t(`mediaItem.status.${status}`)"
     is-large
-    is-opened-default
+    @on-handle-state="emits('handleCategoryState', status, $event)"
   >
     <MasonryWall
       :column-width="300"
