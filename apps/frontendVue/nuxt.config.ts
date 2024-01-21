@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     langDir: "./locales",
     defaultLocale: "ru",
     locales: ["ru", "en"].map((locale) => {
-      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem"];
+      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts"];
 
       return {
         code: locale,

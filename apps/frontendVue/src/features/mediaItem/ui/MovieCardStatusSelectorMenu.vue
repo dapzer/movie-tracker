@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
+import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { useDeleteMediaItemApi, useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
 import UiButton from "~/components/ui/UiButton.vue";
-import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { computed } from "vue";
+import { toast } from "vue3-toastify";
+import { useI18n } from "#imports";
 
 interface MovieCardStatusSelectorMenuProps {
   mediaItem: MediaItemType;
@@ -16,17 +18,29 @@ const { mutateAsync: deleteMediaItem, status: deleteMediaItemStatus } = useDelet
 
 const isLoading = computed(() => {
   return updateMediaItemStatus.value === "pending" || deleteMediaItemStatus.value === "pending";
-})
+});
 
-const updateStatus = async (status: MediaItemStatusNameEnum) => {
-  await updateMediaItem({
+const { t } = useI18n();
+
+const updateStatus =  (status: MediaItemStatusNameEnum) => {
+  updateMediaItem({
     mediaItemId: props.mediaItem.id,
     body: {
       ...props.mediaItem.trackingData,
-      currentStatus: status,
+      currentStatus: status
     }
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successStatusChanged"))
   })
-}
+};
+
+const handleDeleteMediaItem = () => {
+  deleteMediaItem(props.mediaItem.id).then(() => {
+    toast.success(t("toasts.mediaItem.successRemovedFromCurrentList", {
+      media: t(`details.mediaType.${props.mediaItem.mediaType}`)
+    }));
+  });
+};
 </script>
 
 <template>
@@ -48,9 +62,9 @@ const updateStatus = async (status: MediaItemStatusNameEnum) => {
     :class="$style.button"
     :disabled="isLoading"
     variant="clear"
-    @click="deleteMediaItem(props.mediaItem.id)"
+    @click="handleDeleteMediaItem"
   >
-    {{ $t('mediaItem.removeFromList') }}
+    {{ $t("mediaItem.removeFromList") }}
   </UiButton>
 </template>
 

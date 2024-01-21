@@ -63,3 +63,19 @@ li {
   list-style: none;
   font-size: var(--fs-p);
 }
+
+// Lib
+
+.Toastify__toast-theme--dark {
+  background: var(--c-accent) !important;
+  box-shadow: 0 0 20px rgb(0 0 0 / 20%) !important;
+
+  @media only screen and (max-width: 480px) {
+    margin-right: var(--s-indent);
+    margin-left: var(--s-indent);
+  }
+}
+
+.Toastify__toast-container--top-right {
+  top: calc(10px + var(--s-header-height)) !important;
+}

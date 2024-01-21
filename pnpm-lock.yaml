@@ -265,6 +265,9 @@ importers:
       sass:
         specifier: ^1.69.6
         version: 1.69.6
+      vue3-toastify:
+        specifier: ^0.2.1
+        version: 0.2.1(vue@3.4.3)
     devDependencies:
       '@movie-tracker/types':
         specifier: workspace:*
@@ -14729,6 +14732,18 @@ packages:
       semver: 7.5.4
       typescript: 5.3.3
     dev: true
+
+  /vue3-toastify@0.2.1(vue@3.4.3):
+    resolution: {integrity: sha512-u4i5LCu1q5qs4L4Kbjb4u8NipCS8ox1fCHQ6XFS62676xnA6Q/AJRpZEkAurTMp723LeH6eQX6k9+24bKf1T4Q==}
+    engines: {node: '>=16', npm: '>=7'}
+    peerDependencies:
+      vue: '>=3.2.0'
+    peerDependenciesMeta:
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.4.3(typescript@5.3.3)
+    dev: false
 
   /vue@3.4.3(typescript@5.3.3):
     resolution: {integrity: sha512-GjN+culMAGv/mUbkIv8zMKItno8npcj5gWlXkSxf1SPTQf8eJ4A+YfHIvQFyL1IfuJcMl3soA7SmN1fRxbf/wA==}

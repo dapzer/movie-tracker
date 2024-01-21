@@ -38,6 +38,7 @@
     "@tanstack/vue-query": "^5.17.0",
     "@yeger/vue-masonry-wall": "^5.0.5",
     "nuxt-lazy-load": "^3.0.4",
-    "sass": "^1.69.6"
+    "sass": "^1.69.6",
+    "vue3-toastify": "^0.2.1"
   }
 }

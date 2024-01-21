@@ -48,7 +48,7 @@ const title = computed(() => {
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
     :image="getTmdbImageUrl(props.details?.poster_path)"
-    :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`)})` : ''"
+    :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`).toLowerCase()})` : ''"
   >
     <template
       v-if="props.details && props.mediaType"
@@ -59,6 +59,7 @@ const title = computed(() => {
         :media-type="props.mediaType"
       />
     </template>
+
 
     <UiTypography
       v-if="props.details?.vote_average"

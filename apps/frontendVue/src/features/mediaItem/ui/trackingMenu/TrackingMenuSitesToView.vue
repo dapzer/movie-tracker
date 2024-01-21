@@ -8,12 +8,15 @@ import { computed, ref } from "vue";
 import UiInput from "~/components/ui/UiInput.vue";
 import { useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
 import { isOnlySpaces } from "@movie-tracker/utils";
+import { useI18n } from "#imports";
+import { toast } from "vue3-toastify";
 
 interface TrackingMenuSitesToViewProps {
   mediaItem: MediaItemType;
 }
 
 const props = defineProps<TrackingMenuSitesToViewProps>();
+const { t } = useI18n();
 
 const {
   mutateAsync: updateMediaItem,
@@ -60,6 +63,8 @@ const handleSave = async () => {
       ...props.mediaItem.trackingData,
       sitesToView: finalArray
     }
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successSiteToViewChanged"));
   });
 
   handleEditItem(null, null);

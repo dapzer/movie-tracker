@@ -9,6 +9,8 @@ import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
 import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/composables/useMediaListApi";
 import { computed, ref } from "vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import { toast } from "vue3-toastify";
+import { useI18n } from "#imports";
 
 const { copy, copied } = useClipboard({ copiedDuring: 1000 });
 
@@ -17,6 +19,8 @@ interface MediaListCardControlsProps {
 }
 
 const props = defineProps<MediaListCardControlsProps>();
+const { t } = useI18n()
+
 const { mutateAsync: updateList, status: updateListStatus } = useUpdateMediaListApi();
 const { mutateAsync: deleteList, status: deleteListStatus } = useDeleteMediaListApi();
 
@@ -28,9 +32,17 @@ const copyLink = () => {
 };
 
 const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
-  await updateList({ mediaListId: props.list.id, body: value });
+  await updateList({ mediaListId: props.list.id, body: value }).then(() => {
+    toast.success(t('toasts.mediaList.successUpdated'));
+  })
   settingsModalRef.value?.handleVisible(false);
 };
+
+const handleDeleteList = async () => {
+  await deleteList(props.list.id).then(() => {
+    toast.success(t('toasts.mediaList.successDeleted'));
+  })
+}
 </script>
 
 <template>
@@ -75,7 +87,7 @@ const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
       :disabled="props.list.isSystem"
       :title="$t('mediaList.confirmDeleteTitle', { title: props.list.title})"
       button-color-scheme="danger"
-      @on-confirm="deleteList(props.list.id)"
+      @on-confirm="handleDeleteList"
     >
       <TrashIcon />
     </UiConfirmationModal>

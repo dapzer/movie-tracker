@@ -1,18 +1,21 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
 import { computed, ref } from "vue";
-import { watch } from "#imports";
+import { useI18n, watch } from "#imports";
 import { useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiTextarea from "~/components/ui/UiTextarea.vue";
 import { CheckMarkIcon, CloseIcon } from "~/components/ui/icons";
 import UiButton from "~/components/ui/UiButton.vue";
+import { toast } from "vue3-toastify";
 
 interface TrackingMenuNoteProps {
   mediaItem: MediaItemType;
 }
 
 const props = defineProps<TrackingMenuNoteProps>();
+const { t } = useI18n();
+
 const updateMediaItemApi = useUpdateMediaItemApi();
 
 const maxLength = 250;
@@ -38,7 +41,9 @@ const handleSave = async () => {
       ...props.mediaItem.trackingData,
       note: currentNote.value
     }
-  });
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successNoteChanged"));
+  })
 };
 
 const handleCancel = () => {

@@ -44,9 +44,9 @@ export default {
       "in production": "В производстве"
     },
     mediaType: {
-      movie: 'фильм',
-      tv: 'сериал',
-      person: 'персона',
+      movie: 'Фильм',
+      tv: 'Сериал',
+      person: 'Персона',
     }
   }
 }

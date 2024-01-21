@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import { useCreateMediaListApi, useUpdateMediaListApi } from "#imports";
+import { useCreateMediaListApi, useI18n, useUpdateMediaListApi } from "#imports";
 import { UiModal } from "~/components/ui/UiModal";
 import { computed, ref } from "vue";
 import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import { toast } from "vue3-toastify";
+
+const {t} = useI18n()
 
 const { mutateAsync: createList, status: createListStatus } = useCreateMediaListApi();
 
@@ -11,7 +14,9 @@ const isCreatingMediaList = computed(() => createListStatus.value === "pending")
 const createModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
-  await createList(value);
+  await createList(value).then(() => {
+    toast.success(t('toasts.mediaList.successCreated'));
+  })
   createModalRef.value?.handleVisible(false);
 };
 </script>

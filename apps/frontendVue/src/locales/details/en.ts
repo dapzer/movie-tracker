@@ -44,9 +44,9 @@ export default {
       "in production": "In production"
     },
     mediaType: {
-      movie: 'movie',
-      tv: 'series',
-      person: 'person',
+      movie: 'Movie',
+      tv: 'Series',
+      person: 'Person',
     }
   }
 }
