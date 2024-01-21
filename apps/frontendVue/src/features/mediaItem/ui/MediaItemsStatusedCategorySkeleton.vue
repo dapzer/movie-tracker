@@ -18,6 +18,7 @@ import { UiCardSkeleton } from "~/components/ui/UiCard";
 </template>
 
 <style module lang="scss">
+@import "~/styles/variables";
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -29,6 +30,10 @@ import { UiCardSkeleton } from "~/components/ui/UiCard";
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 20px;
+
+    @media screen and (max-width: $bp-md){
+      grid-template-columns: repeat(auto-fill, 100%);
+    }
   }
 }
 </style>

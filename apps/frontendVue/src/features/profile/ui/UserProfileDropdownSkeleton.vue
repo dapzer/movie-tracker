@@ -6,7 +6,7 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 
 <template>
   <div :class="$style.wrapper">
-    <UiTypography>
+    <UiTypography :class="$style.userName">
       <UiSkeleton
         :width="64"
         isFixedWidth
@@ -22,9 +22,17 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 </template>
 
 <style module lang="scss">
+@import "~/styles/variables";
+
 .wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
+
+  .userName {
+    @media screen and (max-width: $bp-md) {
+      display: none;
+    }
+  }
 }
 </style>

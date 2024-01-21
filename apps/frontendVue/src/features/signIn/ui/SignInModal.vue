@@ -8,7 +8,7 @@ import { useSignInApi } from "~/composables/useAuthApi";
 import { spawnWindowInScreenCenter } from "~/utils/spawnWindowInScreenCenter";
 import { ref } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
-import { AuthQueryKeys } from "~/constants/queryKeys";
+import { AuthQueryKeys, MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 
 interface LoginModalProps extends Partial<Pick<UiModalProps, "buttonVariant" | "buttonColorScheme" | "externalOpenedState"
   | "isHideTrigger">> {
@@ -36,6 +36,8 @@ const onSignIn = async (provider: string) => {
         handleVisible(false);
         emits("additionalHandler", false);
         queryClient.invalidateQueries({ queryKey: [AuthQueryKeys.USER_PROFILE] });
+        queryClient.removeQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] });
+        queryClient.removeQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] });
         clearInterval(interval);
       }
     }, 1000);

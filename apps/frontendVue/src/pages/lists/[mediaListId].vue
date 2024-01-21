@@ -11,90 +11,70 @@ import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import MediaListFilters from "~/features/mediaList/ui/MediaListFilters.vue";
 import { mediaListSortingOptions, type MediaListSortingOptionType } from "~/features/mediaList";
+import { filterMediaListItems } from "~/features/mediaList/model/filterMediaListItems";
 
-const { mediaListId = "" } = useRoute().params;
-const { isNotAuthorized, isLoadingProfile } = useAuth();
-const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
-const { data: mediaItems } = useGetMediaItemsApi();
 const { t } = useI18n();
+const { mediaListId = "" } = useRoute().params;
+const { isLoadingProfile } = useAuth();
+
+const mediaListsApi = useGetMediaListsApi();
+const mediaItemsApi = useGetMediaItemsApi();
+
+const searchValue = ref("");
+const sortModel = ref<MediaListSortingOptionType>(mediaListSortingOptions[0]);
 
 const isUserListOwner = computed(() => {
-  return mediaLists?.value?.some(list => list.id === mediaListId);
+  return mediaListsApi.data.value?.some(list => list.id === mediaListId);
 });
 
 const isUseExternalData = computed(() => {
-  return (!isUserListOwner.value && !isLoadingMediaLists.value) || (isNotAuthorized.value && !isLoadingMediaLists.value);
+  return !isUserListOwner.value && !mediaListsApi.isLoading.value && !isLoadingProfile.value;
 });
 
-const {
-  isLoading: isLoadingExternalMediaList,
-  data: externalMediaList,
-  error: errorExternalMediaList
-} = useGetMediaListsByIdApi(mediaListId as string, {
+const externalMediaListApi = useGetMediaListsByIdApi(mediaListId as string, {
   enabled: isUseExternalData,
   retry: false
 });
-const {
-  isLoading: isLoadingExternalMediaItems,
-  data: externalMediaItems
-} = useGetMediaItemsByMediaListIdApi(mediaListId as
+
+const externalMediaItemsApi = useGetMediaItemsByMediaListIdApi(mediaListId as
   string, {
   enabled: isUseExternalData,
   retry: false
 });
 
-const searchValue = ref("");
-const sortModel = ref<MediaListSortingOptionType>(mediaListSortingOptions[0]);
-
 const isNotPublicList = computed(() => {
-  return errorExternalMediaList.value && checkIsAuthError(errorExternalMediaList.value);
+  return externalMediaListApi.error.value && checkIsAuthError(externalMediaListApi.error.value);
 });
 
 const currentMediaList = computed(() => {
   if (!isUserListOwner.value) {
-    return externalMediaList?.value;
+    return externalMediaListApi.data.value;
   }
 
-  return mediaLists?.value?.find(list => list.id === mediaListId);
+  return mediaListsApi.data.value?.find(list => list.id === mediaListId);
 });
 
 const currentMediaItems = computed(() => {
   if (!isUserListOwner.value) {
-    return externalMediaItems?.value;
+    return externalMediaItemsApi.data.value;
   }
 
-  return mediaItems?.value?.filter(item => item.mediaListId === mediaListId);
+  return mediaItemsApi.data.value?.filter(item => item.mediaListId === mediaListId);
 });
 
 const filteredMediaItems = computed(() => {
-  const sortedArray = currentMediaItems?.value?.slice().sort((a, b) => {
-    const aDate = new Date(a[sortModel.value.field]);
-    const bDate = new Date(b[sortModel.value.field]);
-
-    if (sortModel.value.order === "desc") {
-      return bDate < aDate ? 1: -1;
-    } else {
-      return aDate < bDate ? 1 : -1;
-    }
-  })
-
-  if (!searchValue.value) {
-    return sortedArray;
+  if (!currentMediaItems.value) {
+    return [];
   }
 
-  const searchLowerCase = searchValue.value.toLowerCase();
+  return filterMediaListItems(currentMediaItems.value, searchValue.value, sortModel.value);
+});
 
-  const filteredBySearchValue = sortedArray?.filter(item => {
-    const mediaDetails = item.mediaDetails;
+const isLoading = computed(() => {
+  const isLoadingMediaItems = externalMediaItemsApi.isLoading.value || mediaItemsApi.isLoading.value;
+  const isLoadingMediaList = externalMediaListApi.isLoading.value || mediaListsApi.isLoading.value;
 
-    const isRuTitle = mediaDetails?.ru.title?.toLowerCase().includes(searchLowerCase);
-    const isEnTitle = mediaDetails?.en.title?.toLowerCase().includes(searchLowerCase);
-    const isOriginalTitle = mediaDetails?.en.originalTitle?.toLowerCase().includes(searchLowerCase);
-
-    return isRuTitle || isEnTitle || isOriginalTitle;
-  });
-
-  return filteredBySearchValue;
+  return (isLoadingMediaItems || isLoadingMediaList || isLoadingProfile.value) && !currentMediaItems.value?.length;
 });
 
 const title = computed(() => {
@@ -102,28 +82,23 @@ const title = computed(() => {
     title: currentMediaList?.value?.title || t("mediaList.favorites")
   });
 });
-
 </script>
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <UiTypography
-      v-if="isLoadingProfile"
-      variant="title2"
-    >
-      {{ $t("auth.authInProgress") }}...
-    </UiTypography>
+    <MediaItemsStatusedCategorySkeleton
+      v-if="isLoading"
+    />
 
     <UiTypography
-      v-if="isNotPublicList"
+      v-else-if="isNotPublicList"
       variant="title2"
     >
       {{ $t("mediaList.private") }}
     </UiTypography>
 
-    <template v-if="!isNotPublicList">
+    <template v-else>
       <UiTypography
-        v-if="!isLoadingProfile && !isLoadingMediaLists && !isLoadingExternalMediaList"
         :class="$style.title"
         as="h1"
         variant="title2"
@@ -132,23 +107,19 @@ const title = computed(() => {
       </UiTypography>
 
       <UiTypography
-        v-if="!isLoadingProfile && !isLoadingMediaLists && !isLoadingExternalMediaList && !currentMediaItems?.length"
+        v-if="!currentMediaItems?.length"
         variant="title3"
       >
         {{ $t("mediaList.empty") }}
       </UiTypography>
 
-      <MediaItemsStatusedCategorySkeleton
-        v-if="(isLoadingExternalMediaList || isLoadingMediaLists) &&
-          !isLoadingProfile && !currentMediaItems?.length"
-      />
-
-      <template v-else-if="currentMediaItems">
+      <template v-if="currentMediaItems?.length">
         <MediaListFilters
           v-model:sortModel="sortModel"
           @on-change-search-value="searchValue = $event"
         />
-        <template v-if="filteredMediaItems?.length">
+
+        <template v-if="filteredMediaItems.length">
           <MediaItemsStatusedCategory
             v-for="status in MediaItemStatusNameEnum"
             :key="status"
@@ -157,6 +128,7 @@ const title = computed(() => {
             :status="status"
           />
         </template>
+
         <UiTypography
           v-else
         >

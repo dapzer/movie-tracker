@@ -22,6 +22,8 @@ export const useLogoutApi = () => {
       await queryClient.resetQueries({ queryKey: [AuthQueryKeys.USER_PROFILE] });
       await queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_ALL] });
       await queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
+      await queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] });
+      await queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] });
     }
   });
 };
