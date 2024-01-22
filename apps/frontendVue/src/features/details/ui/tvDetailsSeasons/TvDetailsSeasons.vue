@@ -2,7 +2,7 @@
 
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { useTmdbGetMovieDetails, useTmdbGetTvSeriesDetails } from "~/composables/useTmdbApi";
-import { computed, useI18n } from "#imports";
+import { computed, useI18n, useSeoMeta } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { minsToTimeConverter } from "@movie-tracker/utils";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -15,7 +15,7 @@ interface TvDetailsSeasonsProps {
 }
 
 const props = defineProps<TvDetailsSeasonsProps>();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 const localePath = useLocalePath();
 
 const queries = computed(() => ({
@@ -31,6 +31,19 @@ await Promise.all([
   suspenseSeasons(),
   suspenseDetails()
 ]);
+
+useSeoMeta({
+  titleTemplate: (titleChunk) => {
+    return `${titleChunk} | ${details.value?.title || details.value?.name || details.value?.original_title ||
+    details.value?.original_name} | ${t("details.episodesList")}`;
+  },
+  ogTitle: () => {
+    return `%s | ${details.value?.title || details.value?.name || details.value?.original_title ||
+    details.value?.original_name} | ${t("details.episodesList")}`;
+  },
+  description: `${t("details.listOfEpisodes")} «${details.value?.title || details.value?.name}»`,
+  ogDescription: `${t("details.listOfEpisodes")} «${details.value?.title || details.value?.name}`
+});
 
 const totalDuration = computed(() => {
   return minsToTimeConverter(

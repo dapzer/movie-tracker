@@ -7,7 +7,7 @@ import {
 } from "~/composables/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { arrayToString } from "@movie-tracker/utils";
-import { computed, useI18n } from "#imports";
+import { computed, useI18n, useSeoMeta } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -22,7 +22,7 @@ interface MovieDetailsProps {
 }
 
 const props = defineProps<MovieDetailsProps>();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
@@ -56,13 +56,24 @@ await Promise.all([
   suspenseVideos()
 ]);
 
+useSeoMeta({
+  titleTemplate: (titleChunk) => {
+    return `${titleChunk} | ${details.value?.title || details.value?.name || details.value?.original_title || details.value?.original_name}`;
+  },
+  ogTitle: () => {
+    return `%s | ${details.value?.title || details.value?.name || details.value?.original_title || details.value?.original_name}`;
+  },
+  description: details.value?.overview || t("seo.description"),
+  ogDescription: details.value?.overview || t("seo.description")
+});
+
 const videosList = computed(() => {
   if (!videos.value?.results.length) {
     return [];
   }
 
-  return [...videos.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1))
-})
+  return [...videos.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
+});
 </script>
 
 <template>
@@ -126,10 +137,10 @@ const videosList = computed(() => {
         {{ $t(`details.castTitle`) }}
       </UiTypography>
       <UiListWithShowMore
-        variant="tripleColumns"
         :items="credits?.cast"
         :items-to-show="5"
         :title="$t('details.castTitle')"
+        variant="tripleColumns"
       >
         <template #card="{ item: person, isFromModal }">
           <PersonCard
@@ -139,10 +150,10 @@ const videosList = computed(() => {
             :person="person"
           >
             <UiTypography v-if="person.total_episode_count">
-              {{ $t('details.inNumberOfEpisodes', {episodes: person.total_episode_count}) }}
+              {{ $t("details.inNumberOfEpisodes", { episodes: person.total_episode_count }) }}
             </UiTypography>
             <UiTypography v-if="person.character || !!person?.roles?.length">
-              {{ $t('details.role') }}: {{ person.character || arrayToString(person.roles, "character") }}
+              {{ $t("details.role") }}: {{ person.character || arrayToString(person.roles, "character") }}
             </UiTypography>
           </PersonCard>
         </template>
@@ -160,16 +171,16 @@ const videosList = computed(() => {
         {{ $t(`details.recommendationsTitle`) }}
       </UiTypography>
       <UiListWithShowMore
-        variant="tripleColumns"
         :items="recommendations?.results"
         :items-to-show="5"
         :title="$t('details.recommendationsTitle')"
+        variant="tripleColumns"
       >
         <template #card="{ item: movie, isFromModal }">
           <MovieCard
             :key="movie.id"
-            :is-horizontal="!isFromModal"
             :is-hide-score="!isFromModal"
+            :is-horizontal="!isFromModal"
             :movie="movie"
           />
         </template>

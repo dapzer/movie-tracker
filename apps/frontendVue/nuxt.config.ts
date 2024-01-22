@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   srcDir: "./src",
   app: {
     head: {
+      title: "Movie Tracker",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1"
     }
@@ -26,14 +27,16 @@ export default defineNuxtConfig({
   ],
   i18n: {
     lazy: true,
+    baseUrl: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000",
     langDir: "./locales",
     defaultLocale: "ru",
-    locales: ["ru", "en"].map((locale) => {
-      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts"];
+    locales: [{ code: "ru", iso: "ru-RU" }, { code: "en", iso: "en-US" }].map((locale) => {
+      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts", "seo"];
 
       return {
-        code: locale,
-        files: foldersWithLocale.map((folder) => `${folder}/${locale}.ts`)
+        code: locale.code,
+        files: foldersWithLocale.map((folder) => `${folder}/${locale.code}.ts`),
+        iso: locale.iso
       };
     })
   },

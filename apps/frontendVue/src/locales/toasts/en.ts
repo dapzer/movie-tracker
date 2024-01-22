@@ -1,7 +1,7 @@
 export default {
   toasts: {
     mediaItem: {
-      successAddedToList: "{{media}} added to the list «{listName}»",
+      successAddedToList: "{media} added to the list «{listName}»",
       successRemovedFromList: "{media} removed from the list «{listName}»",
       successRemovedFromCurrentList: "{media} removed from the current list",
       successSiteToViewChanged: "The list of sites to view has been successfully updated",

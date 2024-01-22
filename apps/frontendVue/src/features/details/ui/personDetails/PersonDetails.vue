@@ -3,7 +3,7 @@
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { useTmdbGetPersonCredits, useTmdbGetPersonDetails } from "~/composables/useTmdbApi";
 import { computed } from "vue";
-import { useI18n } from "#imports";
+import { useI18n, useSeoMeta } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -15,7 +15,7 @@ interface PersonDetailsProps {
 }
 
 const props = defineProps<PersonDetailsProps>();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const personQueries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.PERSON,
@@ -44,6 +44,16 @@ await Promise.all([
   suspenseDetails(),
   suspenseCredits()
 ]);
+
+useSeoMeta({
+  titleTemplate: (titleChunk) => {
+    return `${titleChunk} | ${details.value?.name}`;
+  },
+  ogTitle: `%s | ${details.value?.name}`,
+  description: details.value?.biography || t("seo.description"),
+  ogDescription: details.value?.biography || t("seo.description"),
+});
+
 </script>
 
 <template>

@@ -5,7 +5,7 @@ import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/composa
 import { useAuth } from "~/composables/useAuth";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
-import { useI18n } from "#imports";
+import { getShortText, useI18n, useSeoMeta } from "#imports";
 import { MediaItemsStatusedCategory, MediaItemsStatusedCategorySkeleton } from "~/features/mediaItem";
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
@@ -81,6 +81,14 @@ const title = computed(() => {
   return t(isUseExternalData.value ? "mediaList.userList" : "mediaList.yourList", {
     title: currentMediaList?.value?.title || t("mediaList.favorites")
   });
+});
+
+useSeoMeta({
+  titleTemplate: (titleChunk) => {
+    return `${titleChunk} | ${t("mediaList.userList", { title: getShortText(currentMediaList?.value?.title, 12) ||
+        t("mediaList.favorites") })}`;
+  },
+  ogTitle: () => `%s | ${t("mediaList.userList", { title: getShortText(currentMediaList?.value?.title, 12) || t("mediaList.favorites") })}`
 });
 </script>
 

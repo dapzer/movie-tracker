@@ -6,9 +6,19 @@ import { useAuth } from "~/composables/useAuth";
 import { SignInModal } from "~/features/signIn";
 import { useGetMediaListsApi } from "~/composables/useMediaListApi";
 import { MediaListCard, MediaListCardSkeleton, MediaListCreateModal } from "~/features/mediaList";
+import { useI18n, useSeoMeta } from "#imports";
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
+
+const { t } = useI18n();
+
+useSeoMeta({
+  titleTemplate: (titleChunk) => {
+    return `${titleChunk} | ${t("mediaList.yourLists")}`;
+  },
+  ogTitle: () => `%s | ${t("mediaList.yourLists")}`
+});
 </script>
 
 <template>
