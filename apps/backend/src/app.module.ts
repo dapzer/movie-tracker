@@ -8,6 +8,7 @@ import { PrismaModule } from '@/services/prisma/prisma.module';
 import { AuthModule } from '@/routes/auth/auth.module';
 import { MediaDetailsModule } from '@/routes/mediaDetails/mediaDetails.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { TmdbModule } from '@/routes/tmdb/tmdb.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     PrismaModule,
     AuthModule,
     MediaDetailsModule,
+    TmdbModule,
   ],
   controllers: [],
   providers: [],
