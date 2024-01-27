@@ -23,8 +23,25 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxt/image",
     "nuxt-lazy-load",
-    "@vueuse/nuxt"
+    "@vueuse/nuxt",
+    "@nuxtjs/sitemap"
   ],
+  site: {
+    url: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  },
+  sitemap: {
+    cacheMaxAgeSeconds: 24 * 60 * 60,
+    defaultSitemapsChunkSize: 2000,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    sitemaps: {
+      index: [
+        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/tv/sitemap-index.xml.gz` },
+        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/movie/sitemap-index.xml.gz` },
+        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/person/sitemap-index.xml.gz` },
+      ]
+    }
+  },
   i18n: {
     lazy: true,
     baseUrl: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000",

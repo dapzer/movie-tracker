@@ -26,6 +26,7 @@ dist/
 # misc
 .DS_Store
 *.pem
+apps/backend/sitemaps
 
 # debug
 logs
