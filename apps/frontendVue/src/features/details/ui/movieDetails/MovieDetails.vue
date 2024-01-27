@@ -179,8 +179,10 @@ const videosList = computed(() => {
         <template #card="{ item: movie, isFromModal }">
           <MovieCard
             :key="movie.id"
+            :class="{ [$style.card]: !isFromModal }"
             :is-hide-score="!isFromModal"
             :is-horizontal="!isFromModal"
+            :is-hide-media-list-selector="!isFromModal"
             :movie="movie"
           />
         </template>
