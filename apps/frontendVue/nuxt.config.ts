@@ -24,7 +24,8 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "nuxt-lazy-load",
     "@vueuse/nuxt",
-    "@nuxtjs/sitemap"
+    "@nuxtjs/sitemap",
+    "nuxt-simple-robots",
   ],
   site: {
     url: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000"
