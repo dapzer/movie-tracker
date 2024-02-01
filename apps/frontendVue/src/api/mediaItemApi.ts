@@ -58,7 +58,7 @@ export const deleteMediaItemApi = async (mediaItemId: string) => {
 
 
 
-export const updateMediaItemApi = async (mediaItemId: string, body: MediaItemTrackingDataType) => {
+export const updateMediaItemTrackingDataApi = async (mediaItemId: string, body: MediaItemTrackingDataType) => {
   const response = await fetchWihCredentials(getApiUrl(`/mediaItem/${mediaItemId}`), {
     method: "PATCH",
     headers: {
@@ -69,7 +69,7 @@ export const updateMediaItemApi = async (mediaItemId: string, body: MediaItemTra
   const data = await response.json();
 
   if (response.ok) {
-    return data as MediaItemType;
+    return data as MediaItemTrackingDataType;
   }
 
   throw new Error(`Error when updating media item. Code: ${data.statusCode}`);

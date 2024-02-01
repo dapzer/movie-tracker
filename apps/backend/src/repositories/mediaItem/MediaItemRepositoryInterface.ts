@@ -23,7 +23,7 @@ export interface MediaItemRepositoryInterface {
   updateMediaItemTrackingData: (
     id: string,
     trackingData: MediaItemTrackingDataType,
-  ) => Promise<MediaItemType>;
+  ) => Promise<MediaItemTrackingDataType>;
 
   updateMediaItem: (
     id: string,

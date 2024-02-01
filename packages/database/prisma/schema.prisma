@@ -4,13 +4,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB_URI")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Session {
-  objId     String   @id @default(auto()) @map("_id") @db.ObjectId
-  id        String   @unique
+  id        String   @id
   sid       String   @unique
   data      String
   expiresAt DateTime
@@ -19,16 +18,16 @@ model Session {
 }
 
 model Account {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @db.ObjectId
+  id                String   @id @default(uuid())
+  userId            String   @map("user_id")
   type              String
   provider          String
-  providerAccountId String
-  refresh_token     String?  @db.String
-  access_token      String?  @db.String
-  expires_at        Int?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt()
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?  @map("refresh_token")
+  access_token      String?  @map("access_token")
+  expires_at        Int?     @map("expires_at")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt() @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -37,14 +36,14 @@ model Account {
 }
 
 model User {
-  id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  // userName   String?     @unique
+  id         String         @id @default(uuid())
+  // userName     String?     @unique
   name       String?
   email      String         @unique
   image      String?
   roles      UserRoleEnum[] @default([USER])
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt()
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @updatedAt() @map("updated_at")
   mediaLists MediaList[]
   accounts   Account[]
 
@@ -52,85 +51,70 @@ model User {
 }
 
 model MediaList {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String      @db.ObjectId
+  id         String      @id @default(uuid())
+  userId     String      @map("user_id")
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   title      String?
   poster     String?
-  isSystem   Boolean     @default(false)
-  isPublic   Boolean     @default(false)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt()
+  isSystem   Boolean     @default(false) @map("is_system")
+  isPublic   Boolean     @default(false) @map("is_public")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt() @map("updated_at")
   mediaItems MediaItem[]
 
   @@map("mediaLists")
 }
 
 model MediaItem {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
-  mediaListId    String        @db.ObjectId
+  id        String        @id @default(uuid())
+  mediaId   Int           @map("media_id")
+  mediaType MediaTypeEnum @map("media_type")
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt() @map("updated_at")
+
+  mediaListId    String        @map("media_list_id")
   mediaList      MediaList     @relation(fields: [mediaListId], references: [id], onDelete: Cascade)
-  mediaDetailsId String?       @db.ObjectId
+  mediaDetailsId String?       @map("media_details_id")
   mediaDetails   MediaDetails? @relation(fields: [mediaDetailsId], references: [id], onDelete: Cascade)
-  mediaId        Int
-  mediaType      MediaTypeEnum
-  trackingData   TrackingData
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt()
+  trackingData   TrackingData?
 
   @@unique([mediaId, mediaType, mediaListId])
   @@map("mediaItems")
 }
 
+model TrackingData {
+  id String @id @default(uuid())
+
+  currentStatus StatusNameEnum @default(NOT_VIEWED)
+  note          String         @default("")
+  score         Int?
+  sitesToView   Json           @default("[]") @map("sites_to_view")
+  tvProgress    Json           @map("tv_progress")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt() @default(now()) @map("updated_at")
+
+  mediaItem   MediaItem @relation(fields: [mediaItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaItemId String    @unique @map("media_item_id")
+
+  @@map("trackingData")
+}
+
 model MediaDetails {
-  id        String           @id @default(auto()) @map("_id") @db.ObjectId
-  mediaId   Int
-  mediaType MediaTypeEnum
+  id        String        @id @default(uuid())
+  mediaId   Int           @map("media_id")
+  mediaType MediaTypeEnum @map("media_type")
   score     Int?
-  en        MediaDetailsInfo
-  ru        MediaDetailsInfo
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt()
-  MediaItem MediaItem[]
+  en        Json
+  ru        Json
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt() @map("updated_at")
+
+  mediaItem MediaItem[]
 
   @@unique([mediaId, mediaType])
   @@map("mediaDetails")
 }
 
-type MediaDetailsInfo {
-  title         String?
-  originalTitle String?
-  poster        String?
-  seasons       MediaDetailsSeason[]
-}
-
-type MediaDetailsSeason {
-  air_date      String?
-  episode_count Int
-  id            Int
-  name          String?
-  overview      String?
-  poster_path   String?
-  season_number Int
-  vote_average  Int?
-}
-
-type TrackingData {
-  currentStatus StatusNameEnum
-  note          String
-  score         Int?
-  sitesToView   SiteToView[]
-  seriesInfo    SeriesInfo
-}
-
-type SeriesInfo {
-  currentSeason  Int
-  currentEpisode Int
-}
-
-type SiteToView {
-  url String
-}
 
 enum StatusNameEnum {
   VIEWED

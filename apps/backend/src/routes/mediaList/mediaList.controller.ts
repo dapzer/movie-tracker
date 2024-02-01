@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MediaListService } from '@/routes/mediaList/mediaList.service';
-import { MongoDbIdDto } from '@/shared/dto/mongoDbId.dto';
+import { UuidDto } from '@/shared/dto/uuid.dto';
 import { UpdateMediaListDto } from '@/routes/mediaList/dto/updateMediaList.dto';
 import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { User } from '@/routes/user/users.decorator';
@@ -39,7 +39,7 @@ export class MediaListController {
 
   @Get(':id')
   async getMedialListById(
-    @Param() params: MongoDbIdDto,
+    @Param() params: UuidDto,
     @User() user: UserDto,
   ) {
     return this.mediaListService.getMedialListById(params.id, user?.id);
@@ -57,7 +57,7 @@ export class MediaListController {
   @Patch(':id')
   @UseGuards(AuthGuard)
   async updateMediaList(
-    @Param() params: MongoDbIdDto,
+    @Param() params: UuidDto,
     @Body() body: UpdateMediaListDto,
     @User() user: UserDto,
   ) {
@@ -66,7 +66,7 @@ export class MediaListController {
 
   @Delete(':id')
   @UseGuards(AuthGuard)
-  async deleteMediaList(@Param() params: MongoDbIdDto, @User() user: UserDto) {
+  async deleteMediaList(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaListService.deleteMediaList(params.id, user?.id);
   }
 }

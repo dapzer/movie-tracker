@@ -1,11 +1,11 @@
-import { IsDateString, IsInt, IsMongoId, IsString } from 'class-validator';
-import { AccountType } from '@/repositories/account/AccountRepositoryInterface';
+import { IsDateString, IsInt, IsString, IsUUID } from "class-validator";
+import { AccountType } from "@/repositories/account/AccountRepositoryInterface";
 
 export class AccountDto implements AccountType {
-  @IsMongoId()
+  @IsUUID()
   id: string;
 
-  @IsMongoId()
+  @IsUUID()
   userId: string;
 
   @IsString()

@@ -110,7 +110,7 @@ export class MediaItemService {
     trackingData: MediaItemTrackingDataType,
     userId: string,
   ) {
-    const isMediaItemOwner = await this.isMediaItemOwner(id, userId);
+    const isMediaItemOwner = await this.isMediaItemOwner(trackingData.mediaItemId, userId);
 
     if (!isMediaItemOwner) {
       throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);

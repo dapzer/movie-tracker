@@ -85,6 +85,7 @@ export default defineNuxtConfig({
     strict: true
   },
   vite: {
+    clearScreen: false,
     css: {
       modules: {
         generateScopedName: (name, filename, css) => {

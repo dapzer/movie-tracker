@@ -6,7 +6,7 @@ import { AddIcon, CheckMarkIcon, CloseIcon, EditIcon } from "~/components/ui/ico
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { computed, ref } from "vue";
 import UiInput from "~/components/ui/UiInput.vue";
-import { useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
+import { useUpdateMediaItemTrackingDataApi } from "~/composables/useMediaItemtApi";
 import { isOnlySpaces } from "@movie-tracker/utils";
 import { useI18n } from "#imports";
 import { toast } from "vue3-toastify";
@@ -19,10 +19,9 @@ const props = defineProps<TrackingMenuSitesToViewProps>();
 const { t } = useI18n();
 
 const {
-  mutateAsync: updateMediaItem,
-  status: updateMediaItemStatus,
-  isPending: isUpdateMediaItemPending
-} = useUpdateMediaItemApi();
+  mutateAsync: updateMediaItemTrackingData,
+  isPending: isUpdateMediaItemTrackingDataPending
+} = useUpdateMediaItemTrackingDataApi();
 
 const currentEditItemIndex = ref<number | null>(null);
 const currentEditItemUrl = ref<string | null>(null);
@@ -57,8 +56,8 @@ const handleSave = async () => {
     };
   }
 
-  await updateMediaItem({
-    mediaItemId: props.mediaItem.id,
+  await updateMediaItemTrackingData({
+    trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
       sitesToView: finalArray
@@ -92,7 +91,7 @@ const handleSave = async () => {
           </UiTypography>
 
           <UiButton
-            :disabled="isUpdateMediaItemPending"
+            :disabled="isUpdateMediaItemTrackingDataPending"
             variant="clear"
             @click="handleEditItem(index, site.url)"
           >
@@ -126,12 +125,12 @@ const handleSave = async () => {
       >
         <UiInput
           v-model="currentEditItemUrl"
-          :disabled="isUpdateMediaItemPending"
+          :disabled="isUpdateMediaItemTrackingDataPending"
           variant="underlined"
         />
 
         <UiButton
-          :disabled="isUpdateMediaItemPending || isDisableActiveSaveButton"
+          :disabled="isUpdateMediaItemTrackingDataPending || isDisableActiveSaveButton"
           color-scheme="success"
           @click="handleSave"
         >
@@ -139,7 +138,7 @@ const handleSave = async () => {
         </UiButton>
 
         <UiButton
-          :disabled="isUpdateMediaItemPending"
+          :disabled="isUpdateMediaItemTrackingDataPending"
           color-scheme="danger"
           @click="handleEditItem(null, null)"
         >

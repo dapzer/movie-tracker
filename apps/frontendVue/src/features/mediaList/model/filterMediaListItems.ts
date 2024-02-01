@@ -3,8 +3,8 @@ import type { MediaListSortingOptionType } from "~/features/mediaList";
 
 export const filterMediaListItems = (mediaItems: MediaItemType[], searchValue: string, sortModel: MediaListSortingOptionType) => {
   const sortedArray = [...mediaItems].sort((a, b) => {
-    const aDate = new Date(a[sortModel.field]);
-    const bDate = new Date(b[sortModel.field]);
+    const aDate = new Date(a.trackingData[sortModel.field]);
+    const bDate = new Date(b.trackingData[sortModel.field]);
 
     if (sortModel.order === "desc") {
       return bDate < aDate ? 1 : -1;

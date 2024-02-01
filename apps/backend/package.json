@@ -2,7 +2,7 @@
   "name": "backend",
   "private": true,
   "scripts": {
-    "dev": "nest start --watch",
+    "dev": "nest start --watch --preserveWatchOutput",
     "build": "nest build",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",

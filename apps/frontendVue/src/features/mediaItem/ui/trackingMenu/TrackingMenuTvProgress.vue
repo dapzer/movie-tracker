@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { MediaItemSeriesInfoType, MediaItemType } from "@movie-tracker/types";
-import { useI18n, useUpdateMediaItemApi, watch } from "#imports";
+import type { MediaItemTvProgressType, MediaItemType } from "@movie-tracker/types";
+import { useI18n, useUpdateMediaItemTrackingDataApi, watch } from "#imports";
 import { computed, ref } from "vue";
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -11,20 +11,20 @@ interface TrackingMenuTvProgressProps {
 
 const props = defineProps<TrackingMenuTvProgressProps>();
 const { locale } = useI18n();
-const updateMediaItemApi = useUpdateMediaItemApi();
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
 
 const currentMediaDetails = computed(() => {
   return getCurrentMediaDetails(props.mediaItem, locale.value);
 });
 
-const currentSeriesInfo = computed(() => {
-  return props.mediaItem.trackingData.seriesInfo
+const currentTvProgress = computed(() => {
+  return props.mediaItem.trackingData.tvProgress
 });
 
-const currentValue = ref<MediaItemSeriesInfoType>({ ...currentSeriesInfo.value });
+const currentValue = ref<MediaItemTvProgressType>({ ...currentTvProgress.value });
 
 watch(() => props.mediaItem, () => {
-  currentValue.value = { ...currentSeriesInfo.value };
+  currentValue.value = { ...currentTvProgress.value };
 }, { deep: true });
 
 watch(() => currentValue.value.currentSeason, () => {
@@ -32,11 +32,11 @@ watch(() => currentValue.value.currentSeason, () => {
 });
 
 const handleChange = () => {
-  updateMediaItemApi.mutateAsync({
-    mediaItemId: props.mediaItem.id,
+  updateMediaItemTrackingDataApi.mutateAsync({
+    trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
-      seriesInfo: currentValue.value
+      tvProgress: currentValue.value
     }
   });
 };
@@ -51,7 +51,7 @@ const handleChange = () => {
     >
       {{ $t("mediaItem.trackingMenu.currentSeason") }}: <select
         v-model="currentValue.currentSeason"
-        :disabled="updateMediaItemApi.isPending.value"
+        :disabled="updateMediaItemTrackingDataApi.isPending.value"
         @change="handleChange"
       >
         <option
@@ -69,7 +69,7 @@ const handleChange = () => {
     >
       {{ $t("mediaItem.trackingMenu.currentEpisode") }}: <select
         v-model="currentValue.currentEpisode"
-        :disabled="updateMediaItemApi.isPending.value"
+        :disabled="updateMediaItemTrackingDataApi.isPending.value"
         @change="handleChange"
       >
         <option

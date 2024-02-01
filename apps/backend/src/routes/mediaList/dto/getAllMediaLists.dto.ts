@@ -1,7 +1,7 @@
-import { IsMongoId, IsOptional } from 'class-validator';
+import { IsOptional, IsUUID } from "class-validator";
 
 export class GetAllMediaListsDto {
   @IsOptional()
-  @IsMongoId()
+  @IsUUID()
   userId: string;
 }

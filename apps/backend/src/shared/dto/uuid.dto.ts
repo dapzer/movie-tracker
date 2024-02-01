@@ -1,6 +1,6 @@
 import { IsUUID } from "class-validator";
 
-export class MediaItemListIdDto {
+export class UuidDto {
   @IsUUID()
-  mediaListId: string;
+  id: string;
 }

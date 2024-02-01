@@ -5,9 +5,9 @@ import {
   deleteMediaItemApi,
   getMediaItemsApi,
   getMediaItemsByMediaListIdApi,
-  updateMediaItemApi
+  updateMediaItemTrackingDataApi
 } from "~/api/mediaItemApi";
-import type { MediaItemType,MediaItemTrackingDataType } from "@movie-tracker/types";
+import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types";
 import type { MediaItemCreateApiTypes } from "~/types/mediaItemApiTypes";
 
 export const useGetMediaItemsApi = () => useQuery({
@@ -32,8 +32,8 @@ export const useCreateMediaItemApi = () => {
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data]);
     }
-  })
-}
+  });
+};
 
 export const useDeleteMediaItemApi = () => {
   const queryClient = useQueryClient();
@@ -44,17 +44,23 @@ export const useDeleteMediaItemApi = () => {
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.filter((item) => item.id !== data.id));
     }
-  })
-}
+  });
+};
 
-export const useUpdateMediaItemApi = () => {
+export const useUpdateMediaItemTrackingDataApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: [MediaItemQueryKeys.UPDATE],
-    mutationFn: async (args: { mediaItemId: string, body: MediaItemTrackingDataType }) => await updateMediaItemApi(args.mediaItemId, args.body),
+    mutationFn: async (args: {
+      trackingDataId: string,
+      body: MediaItemTrackingDataType
+    }) => await updateMediaItemTrackingDataApi(args.trackingDataId, args.body),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.map((item) => item.id === data.id ? data : item));
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.map((item) => item.id !== data.mediaItemId ? item : {
+        ...item,
+        trackingData: data
+      }));
     }
-  })
-}
+  });
+};

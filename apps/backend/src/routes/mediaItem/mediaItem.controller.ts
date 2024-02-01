@@ -11,7 +11,7 @@ import {
 import { MediaItemService } from '@/routes/mediaItem/mediaItem.service';
 import { CreateMediaItemDto } from '@/routes/mediaItem/dto/createMediaItem.dto';
 import { MediaItemTrackingDataDto } from '@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto';
-import { MongoDbIdDto } from '@/shared/dto/mongoDbId.dto';
+import { UuidDto } from '@/shared/dto/uuid.dto';
 import { MediaItemListIdDto } from '@/shared/dto/mediaItemListId.dto';
 import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { User } from '@/routes/user/users.decorator';
@@ -54,14 +54,14 @@ export class MediaItemController {
 
   @Delete(':id')
   @UseGuards(AuthGuard)
-  async deleteMediaItem(@Param() params: MongoDbIdDto, @User() user: UserDto) {
+  async deleteMediaItem(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaItemService.deleteMediaItem(params.id, user?.id);
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard)
   async updateMediaItemTrackingData(
-    @Param() param: MongoDbIdDto,
+    @Param() param: UuidDto,
     @Body() body: MediaItemTrackingDataDto,
     @User() user: UserDto,
   ) {

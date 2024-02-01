@@ -23,7 +23,7 @@ const props = defineProps<MediaItemCardTvInfoProps>();
         variant="listItem"
         as="span"
       >
-        {{ props.mediaItem.trackingData.seriesInfo?.currentSeason || 1 }}
+        {{ props.mediaItem.trackingData.tvProgress?.currentSeason || 1 }}
       </UiTypography>
     </UiTypography>
     <UiTypography
@@ -35,7 +35,7 @@ const props = defineProps<MediaItemCardTvInfoProps>();
         variant="listItem"
         as="span"
       >
-        {{ props.mediaItem.trackingData.seriesInfo?.currentEpisode || 1 }}
+        {{ props.mediaItem.trackingData.tvProgress?.currentEpisode || 1 }}
       </UiTypography>
     </UiTypography>
   </ul>

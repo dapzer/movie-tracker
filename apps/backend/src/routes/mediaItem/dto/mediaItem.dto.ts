@@ -1,19 +1,13 @@
-import {
-  IsDateString,
-  IsEnum,
-  IsMongoId,
-  IsNumber,
-  ValidateNested,
-} from 'class-validator';
-import { MediaItemTrackingDataDto } from '@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto';
-import { Type } from 'class-transformer';
-import { MediaItemType, MediaTypeEnum } from '@movie-tracker/types';
+import { IsDateString, IsEnum, IsNumber, IsUUID, ValidateNested } from "class-validator";
+import { MediaItemTrackingDataDto } from "@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto";
+import { Type } from "class-transformer";
+import { MediaItemType, MediaTypeEnum } from "@movie-tracker/types";
 
 export class MediaItemDto implements MediaItemType {
-  @IsMongoId()
+  @IsUUID()
   id: string;
 
-  @IsMongoId()
+  @IsUUID()
   mediaDetailsId: string;
 
   @IsNumber()
@@ -22,7 +16,7 @@ export class MediaItemDto implements MediaItemType {
   @IsEnum(MediaTypeEnum)
   mediaType: MediaTypeEnum;
 
-  @IsMongoId()
+  @IsUUID()
   mediaListId: string;
 
   @ValidateNested()

@@ -34,7 +34,7 @@ export class PrismaClientErrorFilter implements ExceptionFilter {
     let message = 'Unexpected error';
 
     if (exception.code === this.exceptions.conflict.code) {
-      const nonUniqueFields = (exception.meta.target as string).split('_');
+      const nonUniqueFields = (exception.meta.target as string || '').split('_');
       message = `Field(s) '${nonUniqueFields
         .slice(1, -1)
         .join(', ')}' must be unique.`;

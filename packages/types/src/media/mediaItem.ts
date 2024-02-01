@@ -25,14 +25,18 @@ export interface MediaItemType {
 }
 
 export interface MediaItemTrackingDataType {
+  id: string;
+  mediaItemId: string;
   currentStatus: MediaItemStatusNameEnum;
   note: string;
   score: number | null;
-  seriesInfo: MediaItemSeriesInfoType;
+  tvProgress: MediaItemTvProgressType;
   sitesToView: Array<MediaItemSiteToViewType>;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface MediaItemSeriesInfoType {
+export interface MediaItemTvProgressType {
   currentSeason: number;
   currentEpisode: number;
 }

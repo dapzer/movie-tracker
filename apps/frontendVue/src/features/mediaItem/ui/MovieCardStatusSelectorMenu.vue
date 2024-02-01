@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
-import { useDeleteMediaItemApi, useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
+import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/composables/useMediaItemtApi";
 import UiButton from "~/components/ui/UiButton.vue";
 import { computed } from "vue";
 import { toast } from "vue3-toastify";
@@ -13,18 +13,18 @@ interface MovieCardStatusSelectorMenuProps {
 
 const props = defineProps<MovieCardStatusSelectorMenuProps>();
 
-const { mutateAsync: updateMediaItem, status: updateMediaItemStatus } = useUpdateMediaItemApi();
+const { mutateAsync: updateMediaItemTrackingData, status: updateMediaItemTrackingDataStatus } = useUpdateMediaItemTrackingDataApi();
 const { mutateAsync: deleteMediaItem, status: deleteMediaItemStatus } = useDeleteMediaItemApi();
 
 const isLoading = computed(() => {
-  return updateMediaItemStatus.value === "pending" || deleteMediaItemStatus.value === "pending";
+  return updateMediaItemTrackingDataStatus.value === "pending" || deleteMediaItemStatus.value === "pending";
 });
 
 const { t } = useI18n();
 
 const updateStatus =  (status: MediaItemStatusNameEnum) => {
-  updateMediaItem({
-    mediaItemId: props.mediaItem.id,
+  updateMediaItemTrackingData({
+    trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
       currentStatus: status

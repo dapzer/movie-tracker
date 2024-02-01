@@ -6,7 +6,7 @@ import {
   MediaDetailsType,
   MediaTypeEnum,
 } from '@movie-tracker/types';
-import { MediaDetails } from '@movie-tracker/database';
+import { MediaDetails, Prisma } from "@movie-tracker/database";
 
 @Injectable()
 export class PrismaMediaDetailsRepository
@@ -20,8 +20,8 @@ export class PrismaMediaDetailsRepository
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType],
       score: data.score,
-      en: data.en,
-      ru: data.ru,
+      en: data.en as unknown as MediaDetailsInfoType,
+      ru: data.ru as unknown as MediaDetailsInfoType,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     };
@@ -38,8 +38,8 @@ export class PrismaMediaDetailsRepository
       data: {
         mediaId,
         mediaType,
-        ru: mediaDetailsInfoRu,
-        en: mediaDetailsInfoEn,
+        ru: mediaDetailsInfoRu as unknown as Prisma.JsonArray,
+        en: mediaDetailsInfoEn as unknown as Prisma.JsonArray,
         score,
       },
     });
@@ -62,8 +62,8 @@ export class PrismaMediaDetailsRepository
         },
       },
       data: {
-        ru: mediaDetailsInfoRu,
-        en: mediaDetailsInfoEn,
+        ru: mediaDetailsInfoRu as unknown as Prisma.JsonArray,
+        en: mediaDetailsInfoEn as unknown as Prisma.JsonArray,
         score,
       },
     });

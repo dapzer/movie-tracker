@@ -2,7 +2,7 @@
 import type { MediaItemType } from "@movie-tracker/types";
 import { computed, ref } from "vue";
 import { useI18n, watch } from "#imports";
-import { useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
+import { useUpdateMediaItemTrackingDataApi } from "~/composables/useMediaItemtApi";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiTextarea from "~/components/ui/UiTextarea.vue";
 import { CheckMarkIcon, CloseIcon } from "~/components/ui/icons";
@@ -16,7 +16,8 @@ interface TrackingMenuNoteProps {
 const props = defineProps<TrackingMenuNoteProps>();
 const { t } = useI18n();
 
-const updateMediaItemApi = useUpdateMediaItemApi();
+const updateMediaItemTrackingDataApi
+  = useUpdateMediaItemTrackingDataApi();
 
 const maxLength = 250;
 
@@ -27,7 +28,7 @@ const note = computed(() => {
 });
 
 const isActiveControls = computed(() => {
-  return !updateMediaItemApi.isPending.value && note.value !== currentNote.value;
+  return !updateMediaItemTrackingDataApi.isPending.value && note.value !== currentNote.value;
 });
 
 watch(note, () => {
@@ -35,8 +36,8 @@ watch(note, () => {
 }, { immediate: true });
 
 const handleSave = async () => {
-  await updateMediaItemApi.mutateAsync({
-    mediaItemId: props.mediaItem.id,
+  await updateMediaItemTrackingDataApi.mutateAsync({
+    trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
       note: currentNote.value

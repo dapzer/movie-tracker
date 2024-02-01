@@ -1,11 +1,11 @@
-import { IsBoolean, IsDateString, IsMongoId, IsString } from 'class-validator';
-import { MediaListType } from '@movie-tracker/types';
+import { IsBoolean, IsDateString, IsString, IsUUID } from "class-validator";
+import { MediaListType } from "@movie-tracker/types";
 
 export class MediaListDto implements MediaListType {
-  @IsMongoId()
+  @IsUUID()
   id: string;
 
-  @IsMongoId()
+  @IsUUID()
   userId: string;
 
   @IsBoolean()
