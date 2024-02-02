@@ -85,13 +85,13 @@ model MediaItem {
 model TrackingData {
   id String @id @default(uuid())
 
-  currentStatus StatusNameEnum @default(NOT_VIEWED)
+  currentStatus StatusNameEnum @default(NOT_VIEWED) @map("current_status")
   note          String         @default("")
   score         Int?
   sitesToView   Json           @default("[]") @map("sites_to_view")
   tvProgress    Json           @map("tv_progress")
   createdAt     DateTime       @default(now()) @map("created_at")
-  updatedAt     DateTime       @updatedAt() @default(now()) @map("updated_at")
+  updatedAt     DateTime       @default(now()) @updatedAt() @map("updated_at")
 
   mediaItem   MediaItem @relation(fields: [mediaItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   mediaItemId String    @unique @map("media_item_id")
@@ -114,7 +114,6 @@ model MediaDetails {
   @@unique([mediaId, mediaType])
   @@map("mediaDetails")
 }
-
 
 enum StatusNameEnum {
   VIEWED
