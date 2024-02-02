@@ -1,5 +1,6 @@
 export interface MediaListType {
   id: string;
+  humanFriendlyId: string;
   userId: string;
   title?: string;
   poster?: string;

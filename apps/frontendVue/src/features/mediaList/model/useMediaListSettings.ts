@@ -20,13 +20,13 @@ const initialSettings: MediaListSettingsType = {
   }
 };
 
-export const useMediaListSettings = (mediaListId: string) => {
+export const useMediaListSettings = (humanFriendlyId: string) => {
   const currentMedaListSettings = ref<MediaListSettingsType>(initialSettings);
   const storedMediaListSettings = useLocalStorage<MediaListSettingsType>("medaListSettings", initialSettings);
   const mediaListsApi = useGetMediaListsApi();
 
   const isUserListOwner = computed(() => {
-    return mediaListsApi.data.value?.some(list => list.id === mediaListId);
+    return mediaListsApi.data.value?.some(list => list.humanFriendlyId === humanFriendlyId);
   });
 
   watch(isUserListOwner, () => {

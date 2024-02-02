@@ -1,22 +1,23 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { UpdateMediaListDto } from '@/routes/mediaList/dto/updateMediaList.dto';
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto";
 import {
   MediaListRepositoryInterface,
-  MediaListRepositorySymbol,
-} from '@/repositories/mediaList/MediaListRepositoryInterface';
-import { MediaListType } from '@movie-tracker/types';
+  MediaListRepositorySymbol
+} from "@/repositories/mediaList/MediaListRepositoryInterface";
+import { MediaListType } from "@movie-tracker/types";
 
 @Injectable()
 export class MediaListService {
   constructor(
     @Inject(MediaListRepositorySymbol)
-    private readonly mediaListRepository: MediaListRepositoryInterface,
-  ) {}
+    private readonly mediaListRepository: MediaListRepositoryInterface
+  ) {
+  }
 
   private async isListOwner(
     id: string,
     userId: string,
-    mediaListBase?: MediaListType,
+    mediaListBase?: MediaListType
   ) {
     const mediaList =
       mediaListBase ?? (await this.mediaListRepository.getMedialListById(id));
@@ -24,7 +25,7 @@ export class MediaListService {
     if (!mediaList) {
       throw new HttpException(
         `Media list with id '${id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
+        HttpStatus.NOT_FOUND
       );
     }
 
@@ -35,12 +36,14 @@ export class MediaListService {
     return this.mediaListRepository.getAllMedialLists(isPublicOnly);
   }
 
-  async getMedialListById(id: string, userId: string) {
-    const mediaList = await this.mediaListRepository.getMedialListById(id);
+  async getMedialListById(id: string, userId: string, byHumanFriendlyId = false) {
+    const mediaList = byHumanFriendlyId ?
+      await this.mediaListRepository.getMedialListByHumanFriendlyId(id) :
+      await this.mediaListRepository.getMedialListById(id);
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
     if (!isListOwner && !mediaList.isPublic) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED);
     }
 
     return mediaList;
@@ -50,12 +53,12 @@ export class MediaListService {
     const isPublicOnly = userId !== currentUserId;
 
     if (!userId) {
-      throw new HttpException('User ID is required.', HttpStatus.BAD_REQUEST);
+      throw new HttpException("User ID is required.", HttpStatus.BAD_REQUEST);
     }
 
     return this.mediaListRepository.getMedialListsByUserId(
       userId,
-      isPublicOnly,
+      isPublicOnly
     );
   }
 
@@ -67,7 +70,7 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, userId);
 
     if (!isListOwner) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED);
     }
 
     return this.mediaListRepository.updateMediaList(id, body);
@@ -78,13 +81,13 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
     if (!isListOwner) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED);
     }
 
     if (mediaList.isSystem) {
       throw new HttpException(
-        'System media list cannot be deleted.',
-        HttpStatus.BAD_REQUEST,
+        "System media list cannot be deleted.",
+        HttpStatus.BAD_REQUEST
       );
     }
 

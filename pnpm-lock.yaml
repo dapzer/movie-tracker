@@ -50,6 +50,9 @@ importers:
       '@nestjs/swagger':
         specifier: ^7.1.14
         version: 7.1.16(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
+      '@paralleldrive/cuid2':
+        specifier: ^2.2.2
+        version: 2.2.2
       '@quixo3/prisma-session-store':
         specifier: ^3.1.13
         version: 3.1.13(@prisma/client@5.6.0)(express-session@1.17.3)

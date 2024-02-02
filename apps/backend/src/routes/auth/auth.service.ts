@@ -1,19 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { ProvidersService } from '@/routes/auth/providers/providers.service';
-import { AllowedProvider } from '@/routes/auth/dto/allowedProvider';
-import {
-  UserRepositoryInterface,
-  UserRepositorySymbol,
-} from '@/repositories/user/UserRepositoryInterface';
-import {
-  AccountRepositoryInterface,
-  AccountRepositorySymbol,
-} from '@/repositories/account/AccountRepositoryInterface';
+import { Inject, Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { ProvidersService } from "@/routes/auth/providers/providers.service";
+import { AllowedProvider } from "@/routes/auth/dto/allowedProvider";
+import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface";
+import { AccountRepositoryInterface, AccountRepositorySymbol } from "@/repositories/account/AccountRepositoryInterface";
 import {
   MediaListRepositoryInterface,
-  MediaListRepositorySymbol,
-} from '@/repositories/mediaList/MediaListRepositoryInterface';
+  MediaListRepositorySymbol
+} from "@/repositories/mediaList/MediaListRepositoryInterface";
 
 @Injectable()
 export class AuthService {
@@ -25,8 +19,9 @@ export class AuthService {
     @Inject(AccountRepositorySymbol)
     private readonly accountRepository: AccountRepositoryInterface,
     @Inject(MediaListRepositorySymbol)
-    private readonly mediaListRepository: MediaListRepositoryInterface,
-  ) {}
+    private readonly mediaListRepository: MediaListRepositoryInterface
+  ) {
+  }
 
   async extractProfileFromCode(provider: AllowedProvider, code: string) {
     const providerInstance = this.providersService.findService(provider);
@@ -34,23 +29,25 @@ export class AuthService {
 
     const account = await this.accountRepository.getAccountByProvider(
       profile.provider,
-      profile.id,
+      profile.id
     );
 
     let user = account?.userId
       ? await this.usersRepository.getUserById(account?.userId)
       : null;
 
-    if (user) {
-      user = await this.usersRepository.updateUser(user.id, {
+    if (user && account) {
+      return this.usersRepository.updateUser(user.id, {
         name: profile.name,
-        image: profile.avatarUrl,
+        image: profile.avatarUrl
       });
-    } else {
+    }
+
+    if (!user) {
       user = await this.usersRepository.createUser({
         email: profile.email,
         name: profile.name,
-        image: profile.avatarUrl,
+        image: profile.avatarUrl
       });
 
       await this.mediaListRepository.createMediaList(user.id, true);
@@ -59,12 +56,12 @@ export class AuthService {
     if (!account) {
       await this.accountRepository.createAccount({
         userId: user.id,
-        type: 'oauth',
+        type: "oauth",
         provider: profile.provider,
         providerAccountId: profile.id,
         refresh_token: profile.refresh_token,
         access_token: profile.access_token,
-        expires_at: profile.expires_at,
+        expires_at: profile.expires_at
       });
     }
 

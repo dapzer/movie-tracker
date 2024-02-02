@@ -1,5 +1,8 @@
 <script lang="ts" setup>import { useRoute } from "vue-router";
-import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/composables/useMediaListApi";
+import {
+  useGetMediaListsApi,
+  useGetMediaListsByIdApi
+} from "~/composables/useMediaListApi";
 import { computed, ref } from "vue";
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/composables/useMediaItemtApi";
 import { useAuth } from "~/composables/useAuth";
@@ -14,8 +17,8 @@ import { useMediaListSettings } from "~/features/mediaList";
 import { filterMediaListItems } from "~/features/mediaList/model/filterMediaListItems";
 
 const { t } = useI18n();
-const { mediaListId = "" } = useRoute().params;
-const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListId as string);
+const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;
+const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListHumanFriendlyId as string);
 const { isLoadingProfile } = useAuth();
 
 const searchValue = ref("");
@@ -24,19 +27,19 @@ const mediaListsApi = useGetMediaListsApi();
 const mediaItemsApi = useGetMediaItemsApi();
 
 const isUserListOwner = computed(() => {
-  return mediaListsApi.data.value?.some(list => list.id === mediaListId);
+  return mediaListsApi.data.value?.some(list => list.humanFriendlyId === mediaListHumanFriendlyId);
 });
 
 const isUseExternalData = computed(() => {
   return !isUserListOwner.value && !mediaListsApi.isLoading.value && !isLoadingProfile.value;
 });
 
-const externalMediaListApi = useGetMediaListsByIdApi(mediaListId as string, {
+const externalMediaListApi = useGetMediaListsByIdApi(mediaListHumanFriendlyId as string, {
   enabled: isUseExternalData,
   retry: false
 });
 
-const externalMediaItemsApi = useGetMediaItemsByMediaListIdApi(mediaListId as
+const externalMediaItemsApi = useGetMediaItemsByMediaListIdApi(mediaListHumanFriendlyId as
   string, {
   enabled: isUseExternalData,
   retry: false
@@ -51,7 +54,7 @@ const currentMediaList = computed(() => {
     return externalMediaListApi.data.value;
   }
 
-  return mediaListsApi.data.value?.find(list => list.id === mediaListId);
+  return mediaListsApi.data.value?.find(list => list.humanFriendlyId === mediaListHumanFriendlyId);
 });
 
 const currentMediaItems = computed(() => {
@@ -59,7 +62,7 @@ const currentMediaItems = computed(() => {
     return externalMediaItemsApi.data.value;
   }
 
-  return mediaItemsApi.data.value?.filter(item => item.mediaListId === mediaListId);
+  return mediaItemsApi.data.value?.filter(item => item.mediaListId === currentMediaList.value?.id);
 });
 
 const filteredMediaItems = computed(() => {
@@ -85,8 +88,10 @@ const title = computed(() => {
 
 useSeoMeta({
   titleTemplate: (titleChunk) => {
-    return `${titleChunk} | ${t("mediaList.userList", { title: getShortText(currentMediaList?.value?.title, 12) ||
-        t("mediaList.favorites") })}`;
+    return `${titleChunk} | ${t("mediaList.userList", {
+      title: getShortText(currentMediaList?.value?.title, 12) ||
+        t("mediaList.favorites")
+    })}`;
   },
   ogTitle: () => `%s | ${t("mediaList.userList", { title: getShortText(currentMediaList?.value?.title, 12) || t("mediaList.favorites") })}`
 });
@@ -132,9 +137,9 @@ useSeoMeta({
             v-for="status in MediaItemStatusNameEnum"
             :key="status"
             :is-list-owner="isUserListOwner"
+            :is-opened-default="currentMedaListSettings.categoriesState[status]"
             :items="filteredMediaItems"
             :status="status"
-            :is-opened-default="currentMedaListSettings.categoriesState[status]"
             @handle-category-state="handleCategoryState"
           />
         </template>

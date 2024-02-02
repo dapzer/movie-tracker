@@ -34,7 +34,7 @@ const title = computed(() => {
 
 <template>
   <div :class="$style.wrapper">
-    <NuxtLink :to="localePath(`/lists/${props.list.id}`)">
+    <NuxtLink :to="localePath(`/lists/${props.list.humanFriendlyId}`)">
       <div :class="$style.imageWrapper">
         <NuxtImg
           v-if="props.list.poster && isPosterLoaded"

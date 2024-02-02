@@ -5,6 +5,9 @@ export class MediaListDto implements MediaListType {
   @IsUUID()
   id: string;
 
+  @IsString()
+  humanFriendlyId: string;
+
   @IsUUID()
   userId: string;
 

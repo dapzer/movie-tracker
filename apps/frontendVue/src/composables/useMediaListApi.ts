@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient,type UseQueryOptions } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
 import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 import {
   createMediaListsApi,
@@ -7,7 +7,7 @@ import {
   getMediaListsByIdApi,
   updateMediaListsApi
 } from "~/api/mediaListApi";
-import type { MediaListType, MediaItemType } from "@movie-tracker/types";
+import type { MediaItemType, MediaListType } from "@movie-tracker/types";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
 export const useGetMediaListsApi = () => useQuery({
@@ -53,7 +53,10 @@ export const useUpdateMediaListApi = () => {
 
   return useMutation({
     mutationKey: [MediaListQueryKeys.UPDATE],
-    mutationFn: async (args: { mediaListId: string, body: MediaListUpdateApiTypes }) => await updateMediaListsApi(args.mediaListId, args.body),
+    mutationFn: async (args: {
+      mediaListId: string,
+      body: MediaListUpdateApiTypes
+    }) => await updateMediaListsApi(args.mediaListId, args.body),
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => oldData.map((listItem) => listItem.id === data.id ? data : listItem));
     }

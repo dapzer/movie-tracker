@@ -1,6 +1,6 @@
 import { IsString } from "class-validator";
 
-export class MediaItemListIdDto {
+export class GetMedialListByIdDto {
   @IsString()
-  mediaListId: string;
+  id: string;
 }

@@ -1,70 +1,63 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
-import { MediaListService } from '@/routes/mediaList/mediaList.service';
-import { UuidDto } from '@/shared/dto/uuid.dto';
-import { UpdateMediaListDto } from '@/routes/mediaList/dto/updateMediaList.dto';
-import { AuthGuard } from '@/routes/auth/guards/auth.guard';
-import { User } from '@/routes/user/users.decorator';
-import { UserDto } from '@/routes/auth/dto/user.dto';
-import { GetAllMediaListsDto } from '@/routes/mediaList/dto/getAllMediaLists.dto';
-import { CreateMediaListDto } from '@/routes/mediaList/dto/createMediaList.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { MediaListService } from "@/routes/mediaList/mediaList.service";
+import { UuidDto } from "@/shared/dto/uuid.dto";
+import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto";
+import { AuthGuard } from "@/routes/auth/guards/auth.guard";
+import { User } from "@/routes/user/users.decorator";
+import { UserDto } from "@/routes/auth/dto/user.dto";
+import { GetAllMediaListsDto } from "@/routes/mediaList/dto/getAllMediaLists.dto";
+import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto";
+import { isCuid } from "@paralleldrive/cuid2";
+import { GetMedialListByIdDto } from "@/routes/mediaList/dto/getMedialListById.dto";
 
-@Controller('mediaList')
+@Controller("mediaList")
 export class MediaListController {
-  constructor(private readonly mediaListService: MediaListService) {}
+  constructor(private readonly mediaListService: MediaListService) {
+  }
 
   @Get()
   async getMedialListByUserId(
     @Query() queries: GetAllMediaListsDto,
-    @User() user: UserDto,
+    @User() user: UserDto
   ) {
     if (queries.userId) {
       return this.mediaListService.getMedialListByUserId(
         queries.userId,
-        user?.id,
+        user?.id
       );
     }
 
     return this.mediaListService.getMedialListByUserId(user?.id, user?.id);
   }
 
-  @Get(':id')
+  @Get(":id")
   async getMedialListById(
-    @Param() params: UuidDto,
-    @User() user: UserDto,
+    @Param() params: GetMedialListByIdDto,
+    @User() user: UserDto
   ) {
-    return this.mediaListService.getMedialListById(params.id, user?.id);
+    return this.mediaListService.getMedialListById(params.id, user?.id, isCuid(params.id));
   }
 
   @Post()
   @UseGuards(AuthGuard)
   async createMediaList(
     @User() user: UserDto,
-    @Body() body: CreateMediaListDto,
+    @Body() body: CreateMediaListDto
   ) {
     return this.mediaListService.createMediaList(user?.id, body);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(AuthGuard)
   async updateMediaList(
     @Param() params: UuidDto,
     @Body() body: UpdateMediaListDto,
-    @User() user: UserDto,
+    @User() user: UserDto
   ) {
     return this.mediaListService.updateMediaList(params.id, body, user?.id);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteMediaList(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaListService.deleteMediaList(params.id, user?.id);

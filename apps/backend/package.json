@@ -20,6 +20,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/schedule": "^4.0.0",
     "@nestjs/swagger": "^7.1.14",
+    "@paralleldrive/cuid2": "^2.2.2",
     "@quixo3/prisma-session-store": "^3.1.13",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
