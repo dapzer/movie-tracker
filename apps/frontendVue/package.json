@@ -14,7 +14,7 @@
     "@movie-tracker/utils": "workspace:*",
     "@nuxt/devtools": "latest",
     "@nuxtjs/i18n": "~8.0.0",
-    "@nuxtjs/sitemap": "^5.0.5",
+    "@nuxtjs/sitemap": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "@vueuse/core": "^10.7.2",

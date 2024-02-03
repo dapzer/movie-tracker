@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     "nuxt-lazy-load",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
-    "nuxt-simple-robots",
+    "nuxt-simple-robots"
   ],
   site: {
     url: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000"
@@ -33,13 +33,11 @@ export default defineNuxtConfig({
   sitemap: {
     cacheMaxAgeSeconds: 24 * 60 * 60,
     defaultSitemapsChunkSize: 2000,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     sitemaps: {
       index: [
         { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/tv/sitemap-index.xml.gz` },
         { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/movie/sitemap-index.xml.gz` },
-        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/person/sitemap-index.xml.gz` },
+        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/person/sitemap-index.xml.gz` }
       ]
     }
   },
