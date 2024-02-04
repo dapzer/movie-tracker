@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build --filter=frontendVue --filter=backend",
+    "build": "turbo run build --filter=backend",
     "dev": "turbo run dev --filter=frontendVue --filter=backend",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

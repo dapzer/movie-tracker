@@ -1,26 +1,44 @@
 version: '3'
 
 services:
-  caddy:
-    image: caddy:2
-    container_name: caddy
+  postgres:
+    image: postgres:14-alpine
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: spaceman
+      POSTGRES_PASSWORD: spaceman
+      POSTGRES_DB: movietracker
+#  caddy:
+#    image: caddy:2
+#    container_name: caddy
+#    restart: unless-stopped
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#      - "443:443/udp"
+#    volumes:
+#      - ./Caddyfile:/etc/caddy/Caddyfile
   frontend:
-    image: danilavoronkov/movie-tracker-frontend
     container_name: frontend
     restart: unless-stopped
     ports:
       - 3000:3000
     build:
-      context: ./apps/frontend
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./apps/frontendVue/Dockerfile
+    env_file: ./apps/frontendVue/.env
+  backend:
+    container_name: backend
+    restart: unless-stopped
+    ports:
+      - 1337:1337
+    build:
+      dockerfile: ./apps/backend/Dockerfile
+    env_file: ./apps/backend/.env
 
 volumes:
   caddy_data:
   caddy_config:
+  postgres-data:

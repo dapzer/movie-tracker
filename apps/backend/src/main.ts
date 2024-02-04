@@ -49,7 +49,7 @@ async function bootstrap() {
 
   const PORT = configService.get('APP_PORT') || 5000;
 
-  await app.listen(PORT);
+  await app.listen(PORT, '0.0.0.0');
 }
 
 bootstrap();
