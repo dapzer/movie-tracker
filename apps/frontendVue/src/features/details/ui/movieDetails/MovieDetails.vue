@@ -57,10 +57,10 @@ await Promise.all([
 ]);
 
 useSeoMeta({
-  titleTemplate: (titleChunk) => {
+  titleTemplate(titleChunk) {
     return `${titleChunk} | ${details.value?.title || details.value?.name || details.value?.original_title || details.value?.original_name}`;
   },
-  ogTitle: () => {
+  ogTitle() {
     return `%s | ${details.value?.title || details.value?.name || details.value?.original_title || details.value?.original_name}`;
   },
   description: details.value?.overview || t("seo.description"),

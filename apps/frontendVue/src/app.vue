@@ -4,12 +4,18 @@ import { useI18n, useSeoMeta } from "#imports";
 const { t } = useI18n();
 
 useSeoMeta({
-  titleTemplate: (titleChunk) => {
-    return titleChunk ?? "Title not defined";
+  titleTemplate(titleChunk) {
+    return titleChunk || "Title not defined";
   },
-  ogTitle: () => t("seo.title"),
-  description: () => t("seo.description"),
-  ogDescription: () => t("seo.description")
+  ogTitle() {
+    return t("seo.title");
+  },
+  description() {
+    return t("seo.description");
+  },
+  ogDescription() {
+    return t("seo.description");
+  }
 });
 </script>
 

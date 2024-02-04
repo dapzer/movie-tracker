@@ -1,5 +1,5 @@
-FROM node:18-alpine AS base
 
+FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
@@ -10,8 +10,7 @@ RUN npm install -g turbo
 
 COPY . .
 
-RUN turbo prune --scope=backend --docker
-
+RUN turbo prune --scope=frontendVue --docker
 
 FROM base as installer
 WORKDIR /app
@@ -21,24 +20,25 @@ RUN npm install -g turbo
 
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-
-RUN pnpm install
-
 COPY --from=builder /app/out/full/ .
 COPY tsconfig.json tsconfig.json
 COPY turbo.json turbo.json
 
-RUN turbo run build --filter=backend
+WORKDIR /app/apps/frontendVue
+
+RUN pnpm install
+
+RUN turbo run build --filter=frontendVue
 
 FROM base AS runner
 WORKDIR /app
 
 RUN npm install -g pnpm
 
-RUN addgroup --system --gid 1001 backend
-RUN adduser --system --uid 1001 backend
+RUN addgroup --system --gid 1001 frontend
+RUN adduser --system --uid 1001 frontend
 
-USER backend
+USER frontend
 COPY --from=installer /app .
 
-CMD ["pnpm", "--filter=backend", "run", "start:prod"]
+CMD ["node", "apps/frontendVue/.output/server/index.mjs"]

@@ -46,7 +46,7 @@ await Promise.all([
 ]);
 
 useSeoMeta({
-  titleTemplate: (titleChunk) => {
+  titleTemplate(titleChunk){
     return `${titleChunk} | ${details.value?.name}`;
   },
   ogTitle: `%s | ${details.value?.name}`,

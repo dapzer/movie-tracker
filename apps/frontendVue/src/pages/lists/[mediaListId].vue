@@ -1,8 +1,5 @@
 <script lang="ts" setup>import { useRoute } from "vue-router";
-import {
-  useGetMediaListsApi,
-  useGetMediaListsByIdApi
-} from "~/composables/useMediaListApi";
+import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/composables/useMediaListApi";
 import { computed, ref } from "vue";
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/composables/useMediaItemtApi";
 import { useAuth } from "~/composables/useAuth";
@@ -87,13 +84,18 @@ const title = computed(() => {
 });
 
 useSeoMeta({
-  titleTemplate: (titleChunk) => {
+  titleTemplate(titleChunk) {
     return `${titleChunk} | ${t("mediaList.userList", {
       title: getShortText(currentMediaList?.value?.title, 12) ||
         t("mediaList.favorites")
     })}`;
   },
-  ogTitle: () => `%s | ${t("mediaList.userList", { title: getShortText(currentMediaList?.value?.title, 12) || t("mediaList.favorites") })}`
+  ogTitle() {
+    return `%s | ${t("mediaList.userList", {
+      title: getShortText(currentMediaList?.value?.title, 12) ||
+        t("mediaList.favorites")
+    })}`;
+  }
 });
 </script>
 

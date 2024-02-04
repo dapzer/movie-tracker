@@ -14,10 +14,12 @@ const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi
 const { t } = useI18n();
 
 useSeoMeta({
-  titleTemplate: (titleChunk) => {
+  titleTemplate(titleChunk) {
     return `${titleChunk} | ${t("mediaList.yourLists")}`;
   },
-  ogTitle: () => `%s | ${t("mediaList.yourLists")}`
+  ogTitle() {
+    return `%s | ${t("mediaList.yourLists")}`;
+  }
 });
 </script>
 
