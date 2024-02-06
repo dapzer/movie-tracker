@@ -11,13 +11,6 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  runtimeConfig: {
-    public: {
-      API_URL: process.env.NUXT_API_URL,
-      TMDB_API_URL: process.env.NUXT_TMDB_API_URL,
-      TMDB_API_KEY: process.env.NUXT_TMDB_API_KEY
-    }
-  },
   modules: [
     "nuxt-svgo",
     "@nuxtjs/i18n",
@@ -28,7 +21,7 @@ export default defineNuxtConfig({
     "nuxt-simple-robots"
   ],
   site: {
-    url: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000"
+    url: process.env.VITE_BASE_URL || "http://localhost:3000"
   },
   sitemap: {
     cacheMaxAgeSeconds: 24 * 60 * 60,
@@ -43,7 +36,7 @@ export default defineNuxtConfig({
   },
   i18n: {
     lazy: true,
-    baseUrl: process.env.NUXT_PUBLIC_BASE_URL || "http://localhost:3000",
+    baseUrl: process.env.VITE_BASE_URL || "http://localhost:3000",
     langDir: "./locales",
     defaultLocale: "ru",
     locales: [{ code: "ru", iso: "ru-RU" }, { code: "en", iso: "en-US" }].map((locale) => {

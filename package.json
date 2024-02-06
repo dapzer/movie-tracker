@@ -8,12 +8,12 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build --filter=backend",
-    "dev": "turbo run dev --filter=frontendVue --filter=backend",
+    "build": "dotenv -- turbo run build --filter=backend",
+    "dev": "dotenv -- turbo run dev --filter=frontendVue --filter=backend",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "postbuild": "turbo run postbuild",
-    "db:push": "turbo db:push"
+    "postbuild": "dotenv -- turbo run postbuild",
+    "db:push": "dotenv -- turbo db:push"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
@@ -21,5 +21,8 @@
     "turbo": "latest",
     "typescript": "^5.1.6"
   },
-  "packageManager": "pnpm@8.9.0"
+  "packageManager": "pnpm@8.9.0",
+  "dependencies": {
+    "dotenv-cli": "^7.3.0"
+  }
 }

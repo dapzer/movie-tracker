@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/frontendVue/Dockerfile
-    env_file: ./apps/frontendVue/.env
+    env_file: ./.env
   backend:
     container_name: backend
     restart: unless-stopped
@@ -37,7 +37,7 @@ services:
       - 1337:1337
     build:
       dockerfile: ./apps/backend/Dockerfile
-    env_file: ./apps/backend/.env
+    env_file: ./.env
 
 volumes:
   caddy_data:
