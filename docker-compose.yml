@@ -38,8 +38,12 @@ services:
     build:
       dockerfile: ./apps/backend/Dockerfile
     env_file: ./.env
+    volumes:
+      - sitemaps:/app/apps/backend/sitemaps
+
 
 volumes:
   caddy_data:
   caddy_config:
   postgres-data:
+  sitemaps:

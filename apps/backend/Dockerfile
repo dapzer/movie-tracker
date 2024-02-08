@@ -35,10 +35,6 @@ WORKDIR /app
 
 RUN npm install -g pnpm
 
-RUN addgroup --system --gid 1001 backend
-RUN adduser --system --uid 1001 backend
-
-USER backend
 COPY --from=installer /app .
 
 CMD ["pnpm", "--filter=backend", "run", "start:prod"]
