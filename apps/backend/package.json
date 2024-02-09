@@ -9,7 +9,7 @@
     "start:prod": "node dist/main",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "prestart:prod": "pnpm --filter=./packages/database run migrate"
+    "prestart:prod": "pnpm --filter=database run migrate"
   },
   "dependencies": {
     "@movie-tracker/database": "workspace:*",

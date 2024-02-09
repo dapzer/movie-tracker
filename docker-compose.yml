@@ -8,8 +8,8 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: spaceman
-      POSTGRES_PASSWORD: spaceman
+      POSTGRES_USER: ${DATABASE_USER:-spaceman}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-spaceman}
       POSTGRES_DB: movietracker
   caddy:
     image: caddy:2
@@ -22,6 +22,7 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
   frontend:
+    image: danilavoronkov/movie-tracker-frontend
     container_name: frontend
     restart: unless-stopped
     ports:
@@ -36,6 +37,7 @@ services:
         - VITE_TMDB_API_KEY=${VITE_TMDB_API_KEY}
     env_file: ./.env
   backend:
+    image: danilavoronkov/movie-tracker-backend
     container_name: backend
     restart: unless-stopped
     ports:
@@ -45,7 +47,6 @@ services:
     env_file: ./.env
     volumes:
       - sitemaps:/app/apps/backend/sitemaps
-
 
 volumes:
   caddy_data:
