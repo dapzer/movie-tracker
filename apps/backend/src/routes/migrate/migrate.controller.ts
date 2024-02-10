@@ -55,9 +55,6 @@ export class MigrateController {
   }
 
   @Get('')
-  @UseGuards(AuthGuard)
-  @Roles([UserRoleEnum.ADMIN])
-  @UseGuards(RolesGuard)
   async migrate() {
     let count = 0;
     let duplicates = 0;

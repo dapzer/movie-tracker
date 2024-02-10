@@ -11,6 +11,10 @@ services:
       POSTGRES_USER: ${DATABASE_USER:-spaceman}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-spaceman}
       POSTGRES_DB: movietracker
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
   caddy:
     image: caddy:2
     container_name: caddy
