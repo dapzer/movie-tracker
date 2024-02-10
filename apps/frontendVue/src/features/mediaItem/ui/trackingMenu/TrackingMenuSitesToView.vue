@@ -86,6 +86,7 @@ const handleSave = async () => {
             :as="NuxtLink"
             :to="site.url"
             variant="link"
+            target="_blank"
           >
             {{ $t(`mediaItem.trackingMenu.siteToView`) }} #{{ index + 1 }}
           </UiTypography>
