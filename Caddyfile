@@ -6,3 +6,11 @@
 movie-tracker.dapzer.ru {
     reverse_proxy frontend:3000
 }
+
+api.movie-tracker.dapzer.ru {
+    reverse_proxy backend:1337
+}
+
+adminer.movie-tracker.dapzer.ru {
+    reverse_proxy adminer:8080
+}
