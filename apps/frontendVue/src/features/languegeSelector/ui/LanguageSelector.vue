@@ -1,11 +1,13 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import { allowedLanguages } from "~/features/languegeSelector/model/languages";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { useSwitchLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
+import { useI18n } from "#imports";
 
-const switchLocalePath = useSwitchLocalePath()
+const switchLocalePath = useSwitchLocalePath();
+const { locale } = useI18n();
 </script>
 
 <template>
@@ -15,11 +17,12 @@ const switchLocalePath = useSwitchLocalePath()
       :key="language"
     >
       <UiTypography
-        :class="$style.language"
-        variant="link"
         :as="NuxtLink"
+        :class="[$style.language, {
+          [$style.active]: locale === language
+        }]"
         :to="switchLocalePath(language)"
-        :activeClass="$style.active"
+        variant="link"
       >
         {{ language }}
       </UiTypography>
@@ -31,7 +34,7 @@ const switchLocalePath = useSwitchLocalePath()
   </div>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
 .wrapper {
   display: flex;
   gap: 8px;
