@@ -52,6 +52,6 @@ const { locale } = useI18n();
 }
 
 .active {
-  color: var(--c-highlight);
+  color: var(--c-highlight) !important;
 }
 </style>
