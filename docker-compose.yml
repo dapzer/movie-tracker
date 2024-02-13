@@ -54,7 +54,6 @@ services:
       - "443:443"
       - "443:443/udp"
     networks:
-      - movie-tracker
       - caddy-public
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
