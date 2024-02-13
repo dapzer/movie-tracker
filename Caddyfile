@@ -20,5 +20,5 @@ adminer.movie-tracker.app {
 }
 
 umami.movie-tracker.app {
-    reverse_proxy umami:3001
+    reverse_proxy umami:3000
 }
