@@ -24,6 +24,7 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
       fit="contain"
       height="32"
       width="32"
+      alt="Avatar"
     />
   </div>
 </template>

@@ -41,6 +41,7 @@ const handleImageLoadingError = () => {
           :src="imageSrc"
           :width="270"
           @error="handleImageLoadingError"
+          :alt="props.title"
         />
       </div>
 

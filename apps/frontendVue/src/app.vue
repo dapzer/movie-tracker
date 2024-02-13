@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-import { useI18n, useSeoMeta } from "#imports";
+import { useHead, useI18n, useSeoMeta } from "#imports";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+
+useHead({
+  htmlAttrs: {
+    lang() {
+      return locale.value;
+    },
+  }
+})
 
 useSeoMeta({
   titleTemplate(titleChunk) {
