@@ -4,17 +4,21 @@
 
 
 movie-tracker.dapzer.ru {
-    redir https://movietracker.ru{uri}
+    redir https://movie-tracker.app{uri}
 }
 
-movietracker.ru {
+movie-tracker.app {
     reverse_proxy frontend:3000
 }
 
-api.movietracker.ru {
+api.movie-tracker.app {
     reverse_proxy backend:1337
 }
 
-adminer.movietracker.ru {
+adminer.movie-tracker.app {
     reverse_proxy adminer:8080
+}
+
+umami.movie-tracker.app {
+    reverse_proxy umami:3001
 }
