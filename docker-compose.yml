@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - movie-tracker
     environment:
       POSTGRES_USER: ${DATABASE_USER:-spaceman}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-spaceman}
@@ -17,6 +19,9 @@ services:
     restart: always
     ports:
       - 8080:8080
+    networks:
+      - movie-tracker
+      - caddy-public
   backup:
     image: schickling/postgres-backup-s3
     container_name: backup
@@ -24,6 +29,8 @@ services:
       - postgres
     links:
       - postgres
+    networks:
+      - movie-tracker
     environment:
       SCHEDULE: '@every 8h'
       S3_REGION: ${S3_REGION}
@@ -46,6 +53,9 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    networks:
+      - movie-tracker
+      - caddy-public
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
   frontend:
@@ -54,6 +64,9 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
+    networks:
+      - movie-tracker
+      - caddy-public
     build:
       context: .
       dockerfile: ./apps/frontendVue/Dockerfile
@@ -69,6 +82,9 @@ services:
     restart: unless-stopped
     ports:
       - 1337:1337
+    networks:
+      - movie-tracker
+      - caddy-public
     build:
       dockerfile: ./apps/backend/Dockerfile
     env_file: ./.env
@@ -80,3 +96,10 @@ volumes:
   caddy_config:
   postgres-data:
   sitemaps:
+
+networks:
+  movie-tracker:
+    name: movie-tracker
+    external: true
+  caddy-public:
+    external: true
