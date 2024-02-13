@@ -35,7 +35,7 @@ watch(isProfileSuccess, () => {
   <div :class="$style.wrapper">
     <DefaultHeaderNavigationLinks :class="$style.list" />
     <UserProfileDropdownSkeleton v-if="isLoadingProfile" />
-    <SignInModal v-if="!profile && !isLoadingProfile" />
+    <SignInModal :class="$style.signInBtn" v-if="!profile && !isLoadingProfile" />
     <UserProfileDropdown v-else />
     <UiButton
       :class="[$style.mobileMenuHandler, {
@@ -56,6 +56,11 @@ watch(isProfileSuccess, () => {
   display: flex;
   align-items: center;
   gap: 20px;
+
+  .signInBtn {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
 
   .mobileMenuHandler {
     position: relative;
