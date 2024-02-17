@@ -7,7 +7,14 @@ export default defineNuxtConfig({
     head: {
       title: "Movie Tracker",
       charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1"
+      viewport: "width=device-width, initial-scale=1",
+      script: [
+        {
+          async: true,
+          src: "https://umami.movie-tracker.app/script.js",
+          'data-website-id': '43c97acf-6163-4049-bca2-df93a5122d9b'
+        }
+      ]
     }
   },
   devtools: { enabled: true },
