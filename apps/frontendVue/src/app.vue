@@ -23,6 +23,11 @@ useSeoMeta({
   },
   ogDescription() {
     return t("seo.description");
+  },
+  applicationName: "Movie Tracker",
+  ogSiteName: "Movie Tracker",
+  keywords() {
+    return t("seo.keywords");
   }
 });
 </script>

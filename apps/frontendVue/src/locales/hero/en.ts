@@ -1,7 +1,7 @@
 export default {
   hero: {
-    title: "Welcome to the Movie Tracking Site!",
-    aboutService: "Here you can search for movies, series, and people and add them to your list of favorites.\nIn the list of favorites you can choose the status for each movie, add a link to the site for viewing and a note about the movie or series.\nFor TV series you can choose the series and season you're on.",
+    title: "Welcome to the world of cinema and TV series!",
+    aboutService: "Movie Tracker is a universal service for movie and TV series lovers. Here you can easily find films, TV series and actors, and also create your own lists, which you can share with friends via a link. In the lists you can track the current series and season, change the status of films and share your impressions of the works you watched.",
 
     social: {
       title: "Social",
