@@ -14,7 +14,7 @@ Movie Tracker - это сервис поиска и отслеживания п�
 - TypeScript
 - Vue Js
 - Nuxt
-- TanStacQuery
+- TanStac Query
 - Nest Js
 - PostgreSQL
 - Prisma
