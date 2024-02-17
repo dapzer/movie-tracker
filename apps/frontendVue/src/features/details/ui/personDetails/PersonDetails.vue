@@ -97,6 +97,7 @@ useSeoMeta({
             :class="{ [$style.card]: !isFromModal }"
             :is-horizontal="!isFromModal"
             :is-hide-score="!isFromModal"
+            :is-hide-media-list-selector="!isFromModal"
             :movie="movie"
           >
             <UiTypography v-if="movie.character">
