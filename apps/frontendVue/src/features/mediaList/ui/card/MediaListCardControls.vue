@@ -28,7 +28,7 @@ const isUpdatingMediaList = computed(() => updateListStatus.value === "pending")
 const settingsModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const copyLink = () => {
-  copy(`${window.location.origin}/lists/${props.list.id}`);
+  copy(`${window.location.origin}/lists/${props.list.humanFriendlyId}`);
 };
 
 const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
