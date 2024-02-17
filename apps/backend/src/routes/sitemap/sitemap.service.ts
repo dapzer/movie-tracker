@@ -1,18 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { GenerateDetailsSitemapService } from '@/routes/sitemap/generateDetailsSitemap/generateDetailsSitemap.service';
 import { join } from 'path';
 import { createReadStream, statSync } from 'fs';
 import { createGunzip } from 'zlib';
 import { ConfigService } from '@nestjs/config';
 import { Interval } from '@nestjs/schedule';
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
+import { Worker } from 'worker_threads';
+import { resolve } from 'path';
 
 @Injectable()
 export class SitemapService {
-  constructor(
-    private readonly generateDetailsSitemapService: GenerateDetailsSitemapService,
-    private readonly configService: ConfigService,
-  ) {}
+  worker = new Worker(resolve(__dirname, 'sitemapWorker.js'));
+
+  constructor(private readonly configService: ConfigService) {}
 
   @Interval(getMillisecondsFromHours(24))
   autoGenerate() {
@@ -22,7 +22,7 @@ export class SitemapService {
   }
 
   async generate() {
-    return this.generateDetailsSitemapService.generate();
+    this.worker.postMessage('generate');
   }
 
   async readFile(fileLocation: string) {
