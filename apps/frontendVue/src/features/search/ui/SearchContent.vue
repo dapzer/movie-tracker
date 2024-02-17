@@ -50,20 +50,22 @@ const handleCurrentPage = (page: number) => {
 </script>
 
 <template>
-  <UiContainer :class="$style.wrapper">
-    <SearchField ref="searchFieldRef" />
-    <SearchResult
-      v-if="searchTerm && !isOnlySpaces(searchTerm)"
-      :is-loading="isLoadingSearch"
-      :search-result="searchResultData"
-    />
-    <UiPagination
-      v-if="!isLoadingSearch && !!searchResultData?.total_results"
-      :current-page="currentPage"
-      :options="{ pageToShow: 5, pagesOnSides: 2 }"
-      :total-pages="searchResultData?.total_pages || 0"
-      @changePage="handleCurrentPage"
-    />
+  <UiContainer as="section">
+    <div :class="$style.wrapper">
+      <SearchField ref="searchFieldRef" />
+      <SearchResult
+        v-if="searchTerm && !isOnlySpaces(searchTerm)"
+        :is-loading="isLoadingSearch"
+        :search-result="searchResultData"
+      />
+      <UiPagination
+        v-if="!isLoadingSearch && !!searchResultData?.total_results"
+        :current-page="currentPage"
+        :options="{ pageToShow: 5, pagesOnSides: 2 }"
+        :total-pages="searchResultData?.total_pages || 0"
+        @changePage="handleCurrentPage"
+      />
+    </div>
   </UiContainer>
 </template>
 

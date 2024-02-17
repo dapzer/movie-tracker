@@ -6,18 +6,17 @@ import UiContainer from "~/components/ui/UiContainer.vue";
 </script>
 
 <template>
-  <UiContainer
-    as="section"
-    :class="$style.wrapper"
-  >
-    <PopularList
-      :media-type="TmdbMediaTypeEnum.MOVIE"
-      :title="$t('ui.popularMovies')"
-    />
-    <PopularList
-      :media-type="TmdbMediaTypeEnum.TV"
-      :title="$t('ui.popularTv')"
-    />
+  <UiContainer as="section">
+    <div :class="$style.wrapper">
+      <PopularList
+        :media-type="TmdbMediaTypeEnum.MOVIE"
+        :title="$t('ui.popularMovies')"
+      />
+      <PopularList
+        :media-type="TmdbMediaTypeEnum.TV"
+        :title="$t('ui.popularTv')"
+      />
+    </div>
   </UiContainer>
 </template>
 
