@@ -25,3 +25,7 @@ export const MediaItemQueryKeys = {
 export const SitemapQueryKeys = {
   GENERATE: "sitemap/generate"
 } as const;
+
+export const DetailsQueryKeys = {
+  INITIALIZE: "details/initialize"
+}
