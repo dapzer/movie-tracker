@@ -51,7 +51,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
           id: data.mediaDetails.id,
           mediaType: MediaTypeEnum[data.mediaDetails.mediaType.toUpperCase()],
           mediaId: data.mediaDetails.mediaId,
-          score: data.mediaDetails.score,
+          score: data.mediaDetails.score.toNumber(),
           ru: data.mediaDetails.ru as unknown as MediaDetailsInfoType,
           en: data.mediaDetails.en as unknown as MediaDetailsInfoType,
           createdAt: data.mediaDetails.createdAt,

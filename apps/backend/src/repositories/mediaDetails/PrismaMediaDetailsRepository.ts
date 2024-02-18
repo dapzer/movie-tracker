@@ -19,7 +19,7 @@ export class PrismaMediaDetailsRepository
       id: data.id,
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType],
-      score: data.score,
+      score: data.score.toNumber(),
       en: data.en as unknown as MediaDetailsInfoType,
       ru: data.ru as unknown as MediaDetailsInfoType,
       createdAt: data.createdAt,

@@ -104,7 +104,7 @@ model MediaDetails {
   id        String        @id @default(uuid())
   mediaId   Int           @map("media_id")
   mediaType MediaTypeEnum @map("media_type")
-  score     Int?
+  score     Decimal?
   en        Json
   ru        Json
   createdAt DateTime      @default(now()) @map("created_at")
