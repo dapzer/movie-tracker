@@ -108,7 +108,7 @@ export class GenerateDetailsSitemapService {
       await simpleSitemapAndIndex({
         limit: 40000,
         hostname: this.configService.get("CLIENT_BASE_URL"),
-        sitemapHostname: `${this.configService.get("API_BASE_URL")}/sitemaps/details/${mediaType.type}/`,
+        sitemapHostname: `${this.configService.get("CLIENT_BASE_URL")}/sitemaps/details/${mediaType.type}/`,
         destinationDir: `./sitemaps/details/${mediaType.type}/`,
         sourceData: sitemapItems
       }).then(() => {

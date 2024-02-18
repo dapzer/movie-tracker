@@ -31,13 +31,14 @@ export default defineNuxtConfig({
     url: process.env.VITE_BASE_URL || "http://localhost:3000"
   },
   sitemap: {
+    exclude: ['/dashboard'],
     cacheMaxAgeSeconds: 24 * 60 * 60,
     defaultSitemapsChunkSize: 2000,
     sitemaps: {
       index: [
-        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/tv/sitemap-index.xml.gz` },
-        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/movie/sitemap-index.xml.gz` },
-        { sitemap: `${process.env.VITE_API_URL}/sitemaps/details/person/sitemap-index.xml.gz` }
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/sitemap-index.xml.gz` },
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/sitemap-index.xml.gz` },
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml.gz` }
       ]
     }
   },
@@ -47,7 +48,7 @@ export default defineNuxtConfig({
     langDir: "./locales",
     defaultLocale: "ru",
     locales: [{ code: "ru", iso: "ru-RU" }, { code: "en", iso: "en-US" }].map((locale) => {
-      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts", "seo"];
+      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts", "seo", "dashboard"];
 
       return {
         code: locale.code,

@@ -8,6 +8,11 @@ movie-tracker.dapzer.ru {
 }
 
 movie-tracker.app {
+    handle_path /sitemaps/* {
+        rewrite * /api/sitemaps{path}
+        reverse_proxy backend:1337
+    }
+
     reverse_proxy frontend:3000
 }
 
