@@ -106,7 +106,7 @@ export class GenerateDetailsSitemapService {
 
       this.logger.log(`Start generate sitemap for ${mediaType.type}. Link count: ${sitemapItems.length}.`);
       await simpleSitemapAndIndex({
-        limit: 40000,
+        limit: 25000,
         hostname: this.configService.get("CLIENT_BASE_URL"),
         sitemapHostname: `${this.configService.get("CLIENT_BASE_URL")}/sitemaps/details/${mediaType.type}/`,
         destinationDir: `./sitemaps/details/${mediaType.type}/`,
