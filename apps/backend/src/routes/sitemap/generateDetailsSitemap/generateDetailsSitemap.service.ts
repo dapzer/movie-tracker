@@ -3,13 +3,16 @@ import { ConfigService } from "@nestjs/config";
 import { EnumChangefreq, simpleSitemapAndIndex, SitemapItemLoose } from "sitemap";
 import { promisify } from "node:util";
 import { unzip } from "node:zlib";
+import { resolve } from "path";
+import * as fs from "fs/promises";
+import { statSync } from "fs";
 
 const unzipAsync = promisify(unzip);
 const idRegex = /"id":(\d+)/g;
 
 @Injectable()
 export class GenerateDetailsSitemapService {
-  private readonly logger = new Logger('GenerateDetailsSitemapService');
+  private readonly logger = new Logger("GenerateDetailsSitemapService");
   private readonly mediaTypes = [
     {
       type: "movie",
@@ -44,8 +47,8 @@ export class GenerateDetailsSitemapService {
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
 
-    return `${year}-${month}-${day}`
-  }
+    return `${year}-${month}-${day}`;
+  };
 
   private async getSourceData(baseFileName: string) {
     let tryCount = 0;
@@ -70,6 +73,15 @@ export class GenerateDetailsSitemapService {
     );
   }
 
+  private async clearSitemapFolder() {
+    try {
+      const dirPath = resolve(process.cwd(), "sitemaps", "details");
+      await fs.rm(dirPath, { force: true, recursive: true });
+    } catch (error) {
+      this.logger.error("Failed to clear sitemap folder.", error);
+    }
+  }
+
   async generate() {
     const modifiedDate = this.getLastModifiedDate();
 
@@ -81,7 +93,7 @@ export class GenerateDetailsSitemapService {
       const parsedData = unzippedData.toString();
 
       const matches = parsedData.matchAll(idRegex);
-      const sitemapItems:  SitemapItemLoose[] = [];
+      const sitemapItems: SitemapItemLoose[] = [];
 
       for (const match of matches) {
         const id = match[1];
@@ -115,7 +127,7 @@ export class GenerateDetailsSitemapService {
         this.logger.log(`Finish generate sitemap for ${mediaType.type}!`);
       }).catch(() => {
         this.logger.error(`Failed to generate sitemap for ${mediaType.type}!`);
-      })
+      });
     }
   }
 }
