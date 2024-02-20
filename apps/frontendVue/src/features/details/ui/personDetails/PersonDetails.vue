@@ -45,6 +45,10 @@ await Promise.all([
   suspenseCredits()
 ]);
 
+const filmography = computed(() => {
+  return [...(credits.value?.cast || []), ...(credits.value?.crew || [])]
+});
+
 useSeoMeta({
   titleTemplate(titleChunk){
     return `${titleChunk} | ${details.value?.name}`;
@@ -75,7 +79,7 @@ useSeoMeta({
       </UiTypography>
     </section>
     <section
-      v-if="credits?.cast"
+      v-if="filmography"
       :class="$style.block"
     >
       <UiTypography
@@ -87,7 +91,7 @@ useSeoMeta({
 
       <UiListWithShowMore
         variant="tripleColumns"
-        :items="credits?.cast"
+        :items="filmography"
         :items-to-show="5"
         :title="$t('details.filmography')"
       >
@@ -100,8 +104,11 @@ useSeoMeta({
             :is-hide-media-list-selector="!isFromModal"
             :movie="movie"
           >
-            <UiTypography v-if="movie.character">
+            <UiTypography v-if="'character' in movie && movie.character">
               {{ $t('details.role') }}: {{ movie.character }}
+            </UiTypography>
+            <UiTypography v-else-if="'job' in movie && movie.job">
+              {{ $t('details.role') }}: {{ movie.job }}
             </UiTypography>
           </MovieCard>
         </template>

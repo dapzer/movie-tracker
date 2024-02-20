@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TmdbPersonCastType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
+import type { TmdbPersonCastType, TmdbSearchResponseResultItemType, TmdbPersonCrewType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { UiCard } from "~/components/ui/UiCard";
 import { computed, useI18n } from "#imports";
@@ -10,7 +10,7 @@ import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import { MediaListSelectorModal } from "~/features/mediaListSelector";
 
 interface MovieCardProps {
-  movie: TmdbSearchResponseResultItemType | TmdbPersonCastType;
+  movie: TmdbSearchResponseResultItemType | TmdbPersonCastType | TmdbPersonCrewType;
   width?: number;
   isHorizontal?: boolean;
   isSmall?: boolean;
