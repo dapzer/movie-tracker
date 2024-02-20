@@ -1,21 +1,29 @@
-import { useLogoutApi, useUserProfile } from "~/composables/useAuthApi";
+import { useLogoutApi, useUserProfileApi } from "~/composables/useAuthApi";
 import { computed } from "vue";
 
 export const useAuth = () => {
-  const { data: profile, isLoading: isLoadingProfile, isSuccess: isProfileSuccess } = useUserProfile();
-  const { mutateAsync: handleLogout, status: logoutStatus } = useLogoutApi();
+  const userProfileApi = useUserProfileApi();
+  const logoutApi = useLogoutApi();
 
   const isAuthorized = computed(() => {
-    return !!profile.value;
+    return !!userProfileApi.data.value;
   });
 
   const isProcessingLogout = computed(() => {
-    return logoutStatus.value === "pending";
-  })
+    return logoutApi.status.value === "pending";
+  });
 
   const isNotAuthorized = computed(() => {
-    return !isAuthorized.value && !isLoadingProfile
-  })
+    return !isAuthorized.value && !userProfileApi.isLoading.value;
+  });
 
-  return { profile, isAuthorized, isLoadingProfile, isProfileSuccess, handleLogout, isProcessingLogout, isNotAuthorized };
+  return {
+    profile: userProfileApi.data,
+    isLoadingProfile: userProfileApi.isLoading,
+    isProfileSuccess: userProfileApi.isSuccess,
+    handleLogout: logoutApi.mutateAsync,
+    isAuthorized,
+    isProcessingLogout,
+    isNotAuthorized
+  };
 };

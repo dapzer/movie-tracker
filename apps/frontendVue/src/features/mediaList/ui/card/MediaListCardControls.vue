@@ -21,10 +21,10 @@ interface MediaListCardControlsProps {
 const props = defineProps<MediaListCardControlsProps>();
 const { t } = useI18n()
 
-const { mutateAsync: updateList, status: updateListStatus } = useUpdateMediaListApi();
-const { mutateAsync: deleteList, status: deleteListStatus } = useDeleteMediaListApi();
+const updateMediaListApi = useUpdateMediaListApi();
+const deleteMediaListApi = useDeleteMediaListApi();
 
-const isUpdatingMediaList = computed(() => updateListStatus.value === "pending");
+const isUpdatingMediaList = computed(() => updateMediaListApi.status.value === "pending");
 const settingsModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const copyLink = () => {
@@ -32,14 +32,14 @@ const copyLink = () => {
 };
 
 const handleUpdateList = async (value: MediaListUpdateApiTypes) => {
-  await updateList({ mediaListId: props.list.id, body: value }).then(() => {
+  await updateMediaListApi.mutateAsync({ mediaListId: props.list.id, body: value }).then(() => {
     toast.success(t('toasts.mediaList.successUpdated'));
   })
   settingsModalRef.value?.handleVisible(false);
 };
 
 const handleDeleteList = async () => {
-  await deleteList(props.list.id).then(() => {
+  await deleteMediaListApi.mutateAsync(props.list.id).then(() => {
     toast.success(t('toasts.mediaList.successDeleted'));
   })
 }

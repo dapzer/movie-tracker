@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import UiTypography from "~/components/ui/UiTypography.vue";
-import { useTmdbGetMovieDetails, useTmdbGetTvSeriesDetails } from "~/composables/useTmdbApi";
+import { useTmdbGetMovieDetailsApi, useTmdbGetTvSeriesDetailsApi } from "~/composables/useTmdbApi";
 import { computed, useI18n, useSeoMeta } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { minsToTimeConverter } from "@movie-tracker/utils";
@@ -24,30 +24,31 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
-const { data: seasons, suspense: suspenseSeasons } = useTmdbGetTvSeriesDetails(queries);
-const { data: details, suspense: suspenseDetails } = useTmdbGetMovieDetails(queries);
+const tmdbGetTvSeriesDetailsApi = useTmdbGetTvSeriesDetailsApi(queries);
+const tmdbGetMovieDetailsApi = useTmdbGetMovieDetailsApi(queries);
 
 await Promise.all([
-  suspenseSeasons(),
-  suspenseDetails()
+  tmdbGetTvSeriesDetailsApi.suspense(),
+  tmdbGetMovieDetailsApi.suspense()
 ]);
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${titleChunk} | ${details.value?.title || details.value?.name || details.value?.original_title ||
-    details.value?.original_name} | ${t("details.episodesList")}`;
+    return `${titleChunk} | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
+    tmdbGetMovieDetailsApi.data.value?.original_title ||
+    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")}`;
   },
   ogTitle() {
-    return `%s | ${details.value?.title || details.value?.name || details.value?.original_title ||
-    details.value?.original_name} | ${t("details.episodesList")}`;
+    return `%s | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name || tmdbGetMovieDetailsApi.data.value?.original_title ||
+    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")}`;
   },
-  description: `${t("details.listOfEpisodes")} «${details.value?.title || details.value?.name}»`,
-  ogDescription: `${t("details.listOfEpisodes")} «${details.value?.title || details.value?.name}`
+  description: `${t("details.listOfEpisodes")} «${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name}»`,
+  ogDescription: `${t("details.listOfEpisodes")} «${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name}`
 });
 
 const totalDuration = computed(() => {
   return minsToTimeConverter(
-    seasons?.value?.reduce((acc, season) => {
+    tmdbGetTvSeriesDetailsApi.data?.value?.reduce((acc, season) => {
       season.episodes.forEach((el) => {
         acc += el.runtime;
       });
@@ -73,7 +74,7 @@ const totalDuration = computed(() => {
           :to="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.mediaId}`)"
           variant="linkUnderlined"
         >
-          {{ details?.title || details?.name }}
+          {{ tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name }}
         </UiTypography>
         <span>»</span>
       </UiTypography>
@@ -88,7 +89,7 @@ const totalDuration = computed(() => {
             as="span"
             variant="listItemValue"
           >
-            {{ details?.number_of_seasons }}
+            {{ tmdbGetMovieDetailsApi.data.value?.number_of_seasons }}
           </UiTypography>
         </UiTypography>
 
@@ -101,7 +102,7 @@ const totalDuration = computed(() => {
             as="span"
             variant="listItemValue"
           >
-            {{ details?.number_of_episodes }}
+            {{ tmdbGetMovieDetailsApi.data.value?.number_of_episodes }}
           </UiTypography>
         </UiTypography>
 
@@ -125,7 +126,7 @@ const totalDuration = computed(() => {
 
     <section :class="$style.list">
       <TvDetailsSeasonsItem
-        v-for="season in seasons"
+        v-for="season in tmdbGetTvSeriesDetailsApi.data?.value"
         :key="season._id"
         :season="season"
       />

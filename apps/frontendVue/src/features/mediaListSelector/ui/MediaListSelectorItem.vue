@@ -17,18 +17,18 @@ interface MediaListSelectorItemProps {
 const props = defineProps<MediaListSelectorItemProps>();
 const { t } = useI18n();
 
-const { data: mediaItems } = useGetMediaItemsApi();
-const { mutateAsync: createMediaItem, status: createMediaItemStatus } = useCreateMediaItemApi();
-const { mutateAsync: deleteMediaItem, status: deleteMediaItemStatus } = useDeleteMediaItemApi();
+const getMediaItemsApi = useGetMediaItemsApi();
+const createMediaItemApi = useCreateMediaItemApi();
+const deleteMediaItemApi = useDeleteMediaItemApi();
 
 const isAlreadyInList = ref(false);
 
 const isProccessing = computed(() => {
-  return createMediaItemStatus.value === "pending" || deleteMediaItemStatus.value === "pending";
+  return createMediaItemApi.status.value === "pending" || deleteMediaItemApi.status.value === "pending";
 });
 
 const mediaItem = computed(() => {
-  return mediaItems?.value?.find(item => item.mediaId === props.mediaId && item.mediaType === props.mediaType &&
+  return getMediaItemsApi.data?.value?.find(item => item.mediaId === props.mediaId && item.mediaType === props.mediaType &&
     item.mediaListId === props.mediaList.id);
 });
 
@@ -38,7 +38,7 @@ watch(mediaItem, () => {
 
 const handleMediaItemListState = () => {
   if (!!mediaItem.value) {
-    deleteMediaItem(mediaItem.value.id).then(() => {
+    deleteMediaItemApi.mutateAsync(mediaItem.value.id).then(() => {
       toast.success(t("toasts.mediaItem.successRemovedFromList", {
         listName: getShortText(props.mediaList.title, 15) || t("mediaList.favorites"),
         media: t(`details.mediaType.${props.mediaType}`)
@@ -47,7 +47,7 @@ const handleMediaItemListState = () => {
       isAlreadyInList.value = true;
     });
   } else {
-    createMediaItem({
+    createMediaItemApi.mutateAsync({
       mediaId: props.mediaId,
       mediaType: props.mediaType,
       mediaListId: props.mediaList.id

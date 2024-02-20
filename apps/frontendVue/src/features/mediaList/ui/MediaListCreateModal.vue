@@ -8,13 +8,13 @@ import { toast } from "vue3-toastify";
 
 const {t} = useI18n()
 
-const { mutateAsync: createList, status: createListStatus } = useCreateMediaListApi();
+const createMediaListApi = useCreateMediaListApi();
 
-const isCreatingMediaList = computed(() => createListStatus.value === "pending");
+const isCreatingMediaList = computed(() => createMediaListApi.status.value === "pending");
 const createModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
-  await createList(value).then(() => {
+  await createMediaListApi.mutateAsync(value).then(() => {
     toast.success(t('toasts.mediaList.successCreated'));
   })
   createModalRef.value?.handleVisible(false);

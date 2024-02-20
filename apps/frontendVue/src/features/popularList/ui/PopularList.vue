@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { useTmdbGetPopularList } from "~/composables/useTmdbApi";
+import { useTmdbGetPopularListApi } from "~/composables/useTmdbApi";
 import { computed } from "vue";
 import { useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -23,7 +23,7 @@ const queries = computed(() => {
   };
 });
 
-const { data: popular, isLoading: isPopularLoading } = useTmdbGetPopularList(queries);
+const tmdbGetPopularListApi = useTmdbGetPopularListApi(queries);
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const { data: popular, isLoading: isPopularLoading } = useTmdbGetPopularList(que
     </UiTypography>
 
     <UiListWithShowMore
-      v-if="isPopularLoading"
+      v-if="tmdbGetPopularListApi.isLoading.value"
       variant="smallColumns"
       :title="props.title"
       :items-to-show="6"
@@ -51,11 +51,11 @@ const { data: popular, isLoading: isPopularLoading } = useTmdbGetPopularList(que
     </UiListWithShowMore>
 
     <UiListWithShowMore
-      v-else-if="popular"
+      v-else-if="tmdbGetPopularListApi.data.value"
       variant="smallColumns"
       :title="props.title"
       :items-to-show="5"
-      :items="popular.results"
+      :items="tmdbGetPopularListApi.data.value.results"
     >
       <template #card="{ item: movie, isFromModal }">
         <MovieCard

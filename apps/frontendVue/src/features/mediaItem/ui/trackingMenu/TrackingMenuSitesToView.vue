@@ -18,10 +18,7 @@ interface TrackingMenuSitesToViewProps {
 const props = defineProps<TrackingMenuSitesToViewProps>();
 const { t } = useI18n();
 
-const {
-  mutateAsync: updateMediaItemTrackingData,
-  isPending: isUpdateMediaItemTrackingDataPending
-} = useUpdateMediaItemTrackingDataApi();
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
 
 const currentEditItemIndex = ref<number | null>(null);
 const currentEditItemUrl = ref<string | null>(null);
@@ -56,7 +53,7 @@ const handleSave = async () => {
     };
   }
 
-  await updateMediaItemTrackingData({
+  await updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
@@ -92,7 +89,7 @@ const handleSave = async () => {
           </UiTypography>
 
           <UiButton
-            :disabled="isUpdateMediaItemTrackingDataPending"
+            :disabled="updateMediaItemTrackingDataApi.isPending.value"
             variant="clear"
             @click="handleEditItem(index, site.url)"
           >
@@ -126,12 +123,12 @@ const handleSave = async () => {
       >
         <UiInput
           v-model="currentEditItemUrl"
-          :disabled="isUpdateMediaItemTrackingDataPending"
+          :disabled="updateMediaItemTrackingDataApi.isPending.value"
           variant="underlined"
         />
 
         <UiButton
-          :disabled="isUpdateMediaItemTrackingDataPending || isDisableActiveSaveButton"
+          :disabled="updateMediaItemTrackingDataApi.isPending.value || isDisableActiveSaveButton"
           color-scheme="success"
           @click="handleSave"
         >
@@ -139,7 +136,7 @@ const handleSave = async () => {
         </UiButton>
 
         <UiButton
-          :disabled="isUpdateMediaItemTrackingDataPending"
+          :disabled="updateMediaItemTrackingDataApi.isPending.value"
           color-scheme="danger"
           @click="handleEditItem(null, null)"
         >

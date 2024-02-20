@@ -17,15 +17,15 @@ interface MediaListSelectorModalProps extends Omit<UiModalProps, "title"> {
 
 const props = defineProps<MediaListSelectorModalProps>();
 
-const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
-const { data: mediaItems } = useGetMediaItemsApi();
+const getMediaListsApi = useGetMediaListsApi();
+const getMediaItemsApi = useGetMediaItemsApi();
 const { isAuthorized, isLoadingProfile } = useAuth();
 
 const isShowAuthModal = ref(false);
 const isShowSelectModal = ref(false);
 
 const isAlreadyInList = computed(() => {
-  return mediaItems?.value?.some(item => item.mediaId === props.mediaId && item.mediaType ===
+  return getMediaItemsApi.data.value?.some(item => item.mediaId === props.mediaId && item.mediaType ===
     MediaTypeEnum[props.mediaType.toUpperCase() as keyof typeof MediaTypeEnum]);
 })
 
@@ -45,24 +45,24 @@ const handleMediaListSelectorModalOpen = () => {
     :button-variant="props.buttonVariant"
     :class="$style.button"
     :external-opened-state="isShowSelectModal"
-    :is-loading="isLoadingMediaLists || isLoadingProfile"
+    :is-loading="getMediaListsApi.isLoading.value || isLoadingProfile"
     :max-width="500"
     :title="$t('mediaList.addToList')"
     @additional-handler="handleMediaListSelectorModalOpen"
   >
     <template #trigger>
-      <ListIcon v-if="!isLoadingMediaLists && !isLoadingProfile && !isAlreadyInList" />
-      <ListCheckedIcon v-if="!isLoadingMediaLists && !isLoadingProfile && isAlreadyInList" />
+      <ListIcon v-if="!getMediaListsApi.isLoading.value && !isLoadingProfile && !isAlreadyInList" />
+      <ListCheckedIcon v-if="!getMediaListsApi.isLoading.value && !isLoadingProfile && isAlreadyInList" />
       {{ $t("mediaList.addToList") }}
     </template>
 
     <template #content>
       <div
-        v-if="mediaLists"
+        v-if="getMediaListsApi.data.value"
         :class="$style.list"
       >
         <MediaListSelectorItem
-          v-for="mediaList in mediaLists"
+          v-for="mediaList in getMediaListsApi.data.value"
           :key="mediaList.id"
           :media-id="props.mediaId"
           :media-list="mediaList"

@@ -1,7 +1,21 @@
 <script lang="ts" setup>
-import { useHead, useI18n, useSeoMeta } from "#imports";
+import { useAuth, useGetMediaItemsApi, useGetMediaListsApi, useHead, useI18n, useSeoMeta, watch } from "#imports";
+import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
+import { useQueryClient } from "@tanstack/vue-query";
 
+const queryClient = useQueryClient();
 const { t, locale } = useI18n();
+
+useGetMediaListsApi();
+useGetMediaItemsApi();
+const { isProfileSuccess } = useAuth();
+
+watch(isProfileSuccess, () => {
+  if (isProfileSuccess) {
+    queryClient.refetchQueries({ queryKey: [MediaListQueryKeys.GET_ALL] });
+    queryClient.refetchQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
+  }
+});
 
 useHead({
   htmlAttrs: {

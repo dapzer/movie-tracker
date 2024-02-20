@@ -13,17 +13,17 @@ interface MovieCardStatusSelectorMenuProps {
 
 const props = defineProps<MovieCardStatusSelectorMenuProps>();
 
-const { mutateAsync: updateMediaItemTrackingData, status: updateMediaItemTrackingDataStatus } = useUpdateMediaItemTrackingDataApi();
-const { mutateAsync: deleteMediaItem, status: deleteMediaItemStatus } = useDeleteMediaItemApi();
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
+const deleteMediaItemApi = useDeleteMediaItemApi();
 
 const isLoading = computed(() => {
-  return updateMediaItemTrackingDataStatus.value === "pending" || deleteMediaItemStatus.value === "pending";
+  return updateMediaItemTrackingDataApi.status.value === "pending" || deleteMediaItemApi.status.value === "pending";
 });
 
 const { t } = useI18n();
 
 const updateStatus =  (status: MediaItemStatusNameEnum) => {
-  updateMediaItemTrackingData({
+  updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
@@ -35,7 +35,7 @@ const updateStatus =  (status: MediaItemStatusNameEnum) => {
 };
 
 const handleDeleteMediaItem = () => {
-  deleteMediaItem(props.mediaItem.id).then(() => {
+  deleteMediaItemApi.mutateAsync(props.mediaItem.id).then(() => {
     toast.success(t("toasts.mediaItem.successRemovedFromCurrentList", {
       media: t(`details.mediaType.${props.mediaItem.mediaType}`)
     }));

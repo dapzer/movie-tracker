@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import {
-  useTmdbGetMovieCredits,
-  useTmdbGetMovieDetails,
-  useTmdbGetRecommendations,
-  useTmdbGetVideos
+  useTmdbGetMovieCreditsApi,
+  useTmdbGetMovieDetailsApi,
+  useTmdbGetRecommendationsApi,
+  useTmdbGetVideosApi
 } from "~/composables/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { arrayToString } from "@movie-tracker/utils";
@@ -30,62 +30,50 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
-const { data: details, isLoading: isDetailsLoading, suspense: suspenseDetails } = useTmdbGetMovieDetails(queries);
-const {
-  data: recommendations,
-  isLoading: recommendationsIsLoading,
-  suspense: suspenseRecommendations
-} = useTmdbGetRecommendations(queries);
-const {
-  data: credits,
-  isLoading: creditsIsLoading,
-  isSuccess: creditsIsSuccess,
-  suspense: suspenseCredits
-} = useTmdbGetMovieCredits(queries);
-const {
-  data: videos,
-  isLoading: videosIsLoading,
-  isSuccess: videosIsSuccess,
-  suspense: suspenseVideos
-} = useTmdbGetVideos(queries);
+const tmdbGetMovieDetails = useTmdbGetMovieDetailsApi(queries);
+const tmdbGetRecommendationsApi = useTmdbGetRecommendationsApi(queries);
+const tmdbGetMovieCreditsApi = useTmdbGetMovieCreditsApi(queries);
+const tmdbGetVideosApi = useTmdbGetVideosApi(queries);
 
 await Promise.all([
-  suspenseDetails(),
-  suspenseRecommendations(),
-  suspenseCredits(),
-  suspenseVideos()
+  tmdbGetMovieDetails.suspense(),
+  tmdbGetRecommendationsApi.suspense(),
+  tmdbGetMovieCreditsApi.suspense(),
+  tmdbGetVideosApi.suspense()
 ]);
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${titleChunk} | ${details.value?.title || details.value?.name || details.value?.original_title || details.value?.original_name}`;
+    return `${titleChunk} | ${tmdbGetMovieDetails.data.value?.title || tmdbGetMovieDetails.data.value?.name ||
+    tmdbGetMovieDetails.data.value?.original_title || tmdbGetMovieDetails.data.value?.original_name}`;
   },
   ogTitle() {
-    return `%s | ${details.value?.title || details.value?.name || details.value?.original_title || details.value?.original_name}`;
+    return `%s | ${tmdbGetMovieDetails.data.value?.title || tmdbGetMovieDetails.data.value?.name ||
+    tmdbGetMovieDetails.data.value?.original_title || tmdbGetMovieDetails.data.value?.original_name}`;
   },
-  description: details.value?.overview || t("seo.description"),
-  ogDescription: details.value?.overview || t("seo.description")
+  description: tmdbGetMovieDetails.data.value?.overview || t("seo.description"),
+  ogDescription: tmdbGetMovieDetails.data.value?.overview || t("seo.description")
 });
 
 const videosList = computed(() => {
-  if (!videos.value?.results.length) {
+  if (!tmdbGetVideosApi.data.value?.results.length) {
     return [];
   }
 
-  return [...videos.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
+  return [...tmdbGetVideosApi.data.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
 });
 </script>
 
 <template>
   <UiContainer :class="$style.wrapper">
     <MovieDetailsHeader
-      :credits="credits"
-      :details="details"
+      :credits="tmdbGetMovieCreditsApi.data.value"
+      :details="tmdbGetMovieDetails.data.value"
       :mediaType="props.mediaType"
     />
 
     <section
-      v-if="details?.overview"
+      v-if="tmdbGetMovieDetails.data.value?.overview"
       :class="$style.block"
     >
       <UiTypography
@@ -95,7 +83,7 @@ const videosList = computed(() => {
         {{ $t(`details.${props.mediaType}Description`) }}
       </UiTypography>
       <UiTypography :class="$style.overviev">
-        {{ details?.overview }}
+        {{ tmdbGetMovieDetails.data.value?.overview }}
       </UiTypography>
     </section>
 
@@ -127,7 +115,7 @@ const videosList = computed(() => {
     </section>
 
     <section
-      v-if="credits?.cast.length"
+      v-if="tmdbGetMovieCreditsApi.data.value?.cast.length"
       :class="$style.block"
     >
       <UiTypography
@@ -137,7 +125,7 @@ const videosList = computed(() => {
         {{ $t(`details.castTitle`) }}
       </UiTypography>
       <UiListWithShowMore
-        :items="credits?.cast"
+        :items="tmdbGetMovieCreditsApi.data.value?.cast"
         :items-to-show="5"
         :title="$t('details.castTitle')"
         variant="tripleColumns"
@@ -161,7 +149,7 @@ const videosList = computed(() => {
     </section>
 
     <section
-      v-if="recommendations?.results.length"
+      v-if="tmdbGetRecommendationsApi.data.value?.results.length"
       :class="$style.block"
     >
       <UiTypography
@@ -171,7 +159,7 @@ const videosList = computed(() => {
         {{ $t(`details.recommendationsTitle`) }}
       </UiTypography>
       <UiListWithShowMore
-        :items="recommendations?.results"
+        :items="tmdbGetRecommendationsApi.data.value?.results"
         :items-to-show="5"
         :title="$t('details.recommendationsTitle')"
         variant="tripleColumns"

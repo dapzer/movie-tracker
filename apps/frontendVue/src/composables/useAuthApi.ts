@@ -28,7 +28,7 @@ export const useLogoutApi = () => {
   });
 };
 
-export const useUserProfile = () => useQuery({
+export const useUserProfileApi = () => useQuery({
   queryKey: [AuthQueryKeys.USER_PROFILE],
   queryFn: async () => await getProfileApi(),
   retry: false

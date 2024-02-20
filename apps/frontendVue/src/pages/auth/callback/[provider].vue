@@ -9,7 +9,7 @@ import UiButton from "~/components/ui/UiButton.vue";
 import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelector.vue";
 
 const { params, query } = useRoute();
-const { mutateAsync: signIn, isPending, isError: isSignInError } = useSignInCallbackApi();
+const signInCallbackApi= useSignInCallbackApi();
 
 definePageMeta({
   layout: "clear-layout"
@@ -28,7 +28,7 @@ onMounted(async () => {
       return;
     }
 
-    await signIn({
+    await signInCallbackApi.mutateAsync({
       provider: params.provider as string,
       code: query.code as string
     });
@@ -44,7 +44,7 @@ onMounted(async () => {
 <template>
   <div :class="$style.wrapper">
     <LanguageSelector :class="$style.languageSelector" />
-    <template v-if="isPending">
+    <template v-if="signInCallbackApi.isPending">
       <UiTypography
         as="span"
         variant="title2"

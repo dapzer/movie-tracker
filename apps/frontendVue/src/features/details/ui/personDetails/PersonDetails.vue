@@ -1,7 +1,7 @@
 
 <script lang="ts" setup>
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { useTmdbGetPersonCredits, useTmdbGetPersonDetails } from "~/composables/useTmdbApi";
+import { useTmdbGetPersonCreditsApi, useTmdbGetPersonDetailsApi } from "~/composables/useTmdbApi";
 import { computed } from "vue";
 import { useI18n, useSeoMeta } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -28,43 +28,34 @@ const creditsQueries = computed(() => ({
   language: locale.value
 }));
 
-const {
-  data: details,
-  isLoading: isDetailsLoading,
-  suspense: suspenseDetails
-} = useTmdbGetPersonDetails(personQueries);
-const {
-  data: credits,
-  isLoading: creditsIsLoading,
-  isSuccess: creditsIsSuccess,
-  suspense: suspenseCredits
-} = useTmdbGetPersonCredits(creditsQueries);
+const tmdbGetPersonDetailsApi = useTmdbGetPersonDetailsApi(personQueries);
+const tmdbGetPersonCreditsApi = useTmdbGetPersonCreditsApi(creditsQueries);
 
 await Promise.all([
-  suspenseDetails(),
-  suspenseCredits()
+  tmdbGetPersonDetailsApi.suspense(),
+  tmdbGetPersonCreditsApi.suspense()
 ]);
 
 const filmography = computed(() => {
-  return [...(credits.value?.cast || []), ...(credits.value?.crew || [])]
+  return [...(tmdbGetPersonCreditsApi.data.value?.cast || []), ...(tmdbGetPersonCreditsApi.data.value?.crew || [])]
 });
 
 useSeoMeta({
   titleTemplate(titleChunk){
-    return `${titleChunk} | ${details.value?.name}`;
+    return `${titleChunk} | ${tmdbGetPersonDetailsApi.data.value?.name}`;
   },
-  ogTitle: `%s | ${details.value?.name}`,
-  description: details.value?.biography || t("seo.description"),
-  ogDescription: details.value?.biography || t("seo.description"),
+  ogTitle: `%s | ${tmdbGetPersonDetailsApi.data.value?.name}`,
+  description: tmdbGetPersonDetailsApi.data.value?.biography || t("seo.description"),
+  ogDescription: tmdbGetPersonDetailsApi.data.value?.biography || t("seo.description"),
 });
 
 </script>
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <PersonDetailsHeader :details="details" />
+    <PersonDetailsHeader :details="tmdbGetPersonDetailsApi.data.value" />
     <section
-      v-if="details?.biography"
+      v-if="tmdbGetPersonDetailsApi.data.value?.biography"
       :class="$style.block"
     >
       <UiTypography
@@ -75,7 +66,7 @@ useSeoMeta({
       </UiTypography>
 
       <UiTypography :class="$style.overviev">
-        {{ details?.biography }}
+        {{ tmdbGetPersonDetailsApi.data.value?.biography }}
       </UiTypography>
     </section>
     <section

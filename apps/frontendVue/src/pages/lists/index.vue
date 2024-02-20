@@ -9,7 +9,7 @@ import { MediaListCard, MediaListCardSkeleton, MediaListCreateModal } from "~/fe
 import { useI18n, useSeoMeta } from "#imports";
 
 const { isLoadingProfile, isAuthorized } = useAuth();
-const { isLoading: isLoadingMediaLists, data: mediaLists } = useGetMediaListsApi();
+const getMediaListsApi = useGetMediaListsApi();
 
 const { t } = useI18n();
 
@@ -53,9 +53,9 @@ useSeoMeta({
       </div>
 
       <div :class="$style.lists">
-        <template v-if="mediaLists && !isLoadingMediaLists">
+        <template v-if="getMediaListsApi.data.value && !getMediaListsApi.isLoading.value">
           <MediaListCard
-            v-for="list in mediaLists"
+            v-for="list in getMediaListsApi.data.value"
             :key="list.id"
             :list="list"
           />

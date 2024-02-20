@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, useI18n, useTmdbGetSearchByTerm, watch } from "#imports";
+import { computed, useI18n, watch } from "#imports";
 import { searchStore } from "~/stores/searcStore";
 import { useRouter } from "vue-router";
 import UiPagination from "~/components/ui/UiPagination.vue";
@@ -7,6 +7,7 @@ import { SearchField, SearchResult } from "~/features/search";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { ref, type VNodeRef } from "vue";
 import { isOnlySpaces } from "@movie-tracker/utils";
+import { useTmdbGetSearchByTermApi } from "~/composables/useTmdbApi";
 
 const searchTerm = computed(() => searchStore.state.searchValue);
 const currentPage = computed(() => searchStore.state.currentPage);
@@ -22,14 +23,10 @@ const searchQueries = computed(() => {
   };
 });
 
-const {
-  data: searchResultData,
-  isLoading: isLoadingSearch,
-  isSuccess: isSearchSuccess
-} = useTmdbGetSearchByTerm(searchQueries);
+const tmdbGetSearchByTermApi = useTmdbGetSearchByTermApi(searchQueries);
 
-watch(() => searchResultData.value, (value, oldValue, onCleanup) => {
-  if (isSearchSuccess.value && searchFieldRef.value && searchResultData.value?.results.length) {
+watch(() => tmdbGetSearchByTermApi.data.value, (value, oldValue, onCleanup) => {
+  if (tmdbGetSearchByTermApi.isSuccess.value && searchFieldRef.value && tmdbGetSearchByTermApi.data.value?.results.length) {
     const timeout = setTimeout(() => {
       searchFieldRef.value.$el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     }, 0);
@@ -55,15 +52,15 @@ const handleCurrentPage = (page: number) => {
       <SearchField ref="searchFieldRef" />
       <SearchResult
         v-if="searchTerm && !isOnlySpaces(searchTerm)"
-        :is-loading="isLoadingSearch"
-        :search-result="searchResultData"
+        :is-loading="tmdbGetSearchByTermApi.isLoading.value"
+        :search-result="tmdbGetSearchByTermApi.data.value"
       />
       <UiPagination
-        v-if="!isLoadingSearch && !!searchResultData?.total_results"
+        v-if="!tmdbGetSearchByTermApi.isLoading.value && !!tmdbGetSearchByTermApi.data?.value?.total_results"
         :current-page="currentPage"
         :options="{ pageToShow: 5, pagesOnSides: 2 }"
-        :total-pages="searchResultData?.total_pages || 0"
-        @changePage="handleCurrentPage"
+        :total-pages="tmdbGetSearchByTermApi.data.value?.total_pages || 0"
+        @change-page="handleCurrentPage"
       />
     </div>
   </UiContainer>
