@@ -12,6 +12,7 @@ import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
 import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import { MediaListSelectorModal } from "~/features/mediaListSelector";
+import { checkIsValidDate } from "~/utils/checkIsValidDate";
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
@@ -30,7 +31,9 @@ const producers = computed(() => {
 
 const releaseDate = computed(() => {
   if (!props.details) return "";
-  return new Date(props.details?.release_date || props.details?.first_air_date).toLocaleDateString(locale.value);
+  const date = new Date(props.details?.release_date || props.details?.first_air_date).toLocaleDateString(locale.value)
+
+  return checkIsValidDate(date) ? date : "";
 });
 
 const isShowOriginalTitle = computed(() => {

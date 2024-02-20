@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TmdbPersonCastType, TmdbSearchResponseResultItemType, TmdbPersonCrewType } from "@movie-tracker/types";
+import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { UiCard } from "~/components/ui/UiCard";
 import { computed, useI18n } from "#imports";
@@ -8,6 +8,7 @@ import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
 import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import { MediaListSelectorModal } from "~/features/mediaListSelector";
+import { checkIsValidDate } from "~/utils/checkIsValidDate";
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType | TmdbPersonCastType | TmdbPersonCrewType;
@@ -22,9 +23,13 @@ const props = defineProps<MovieCardProps>();
 
 const image = computed(() => props.movie.poster_path);
 const localePath = useLocalePath();
-const { locale } = useI18n();
-const releaseDate =
-  computed(() => new Date(props.movie.release_date || props.movie.first_air_date || "").toLocaleDateString(locale.value));
+const { locale, t } = useI18n();
+
+const releaseDate = computed(() => {
+  const date = new Date(props.movie.release_date || props.movie.first_air_date || "").toLocaleDateString(locale.value);
+
+  return checkIsValidDate(date) ? `${t("details.releaseDate")}: ${date}` : "";
+});
 </script>
 
 <template>
@@ -32,7 +37,7 @@ const releaseDate =
     :class="[$style.wrapper, {
       [$style.wrapperWithScore]: !props.isHideScore
     }]"
-    :description="`${$t('details.releaseDate')}: ${releaseDate}`"
+    :description="releaseDate"
     :image="getTmdbImageUrl(image)"
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
