@@ -2,6 +2,7 @@
 import { useAuth, useGetMediaItemsApi, useGetMediaListsApi, useHead, useI18n, useSeoMeta, watch } from "#imports";
 import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 import { useQueryClient } from "@tanstack/vue-query";
+import { useLocaleHead } from "#i18n";
 
 const queryClient = useQueryClient();
 const { t, locale } = useI18n();
@@ -17,13 +18,19 @@ watch(isProfileSuccess, () => {
   }
 });
 
+const i18nHead = useLocaleHead({
+  addDirAttribute: true,
+  addSeoAttributes: true,
+});
+
 useHead({
   htmlAttrs: {
-    lang() {
-      return locale.value;
-    },
-  }
-})
+    lang: () => i18nHead.value.htmlAttrs?.lang,
+    dir: () => i18nHead.value.htmlAttrs?.dir,
+  },
+  link: [...(i18nHead.value.link || [])],
+  meta: [...(i18nHead.value.meta || [])]
+});
 
 useSeoMeta({
   titleTemplate(titleChunk) {
