@@ -9,7 +9,6 @@ import { AuthModule } from '@/routes/auth/auth.module';
 import { MediaDetailsModule } from '@/routes/mediaDetails/mediaDetails.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SitemapModule } from '@/routes/sitemap/sitemap.module';
-import { MigrateModule } from '@/routes/migrate/migrate.module';
 
 @Module({
   imports: [
@@ -23,7 +22,6 @@ import { MigrateModule } from '@/routes/migrate/migrate.module';
     AuthModule,
     MediaDetailsModule,
     SitemapModule,
-    MigrateModule,
   ],
   controllers: [],
   providers: [],
