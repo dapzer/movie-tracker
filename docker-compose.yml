@@ -68,7 +68,7 @@ services:
       - caddy-public
     build:
       context: .
-      dockerfile: ./apps/frontendVue/Dockerfile
+      dockerfile: ./apps/frontend/Dockerfile
       args:
         - VITE_BASE_URL=${VITE_BASE_URL}
         - VITE_API_URL=${VITE_API_URL}

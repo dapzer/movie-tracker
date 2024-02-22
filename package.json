@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "dotenv -- turbo run build",
-    "dev": "dotenv -- turbo run dev --filter=frontendVue --filter=backend",
+    "dev": "dotenv -- turbo run dev --filter=frontend --filter=backend",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postbuild": "dotenv -- turbo run postbuild",

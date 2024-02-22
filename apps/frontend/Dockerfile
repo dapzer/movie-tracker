@@ -1,71 +1,53 @@
-FROM node:alpine AS base
-
-FROM base AS deps
-RUN apk add --no-cache libc6-compat && \
-    npm i -g pnpm@8
-
-WORKDIR /app
-
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-
-RUN pnpm install
+FROM node:21-alpine AS base
+RUN apk add --no-cache libc6-compat
+RUN apk update
 
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
+RUN npm install -g turbo
+
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED 1
+RUN turbo prune --scope=frontend --docker
 
-ARG DOPPLER_TOKEN
-ENV DOPPLER_TOKEN=${DOPPLER_TOKEN}
+FROM base as installer
+WORKDIR /app
 
-RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub && \
-    echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories && \
-    apk add doppler && \
-    npm i -g pnpm@8
+RUN npm install -g pnpm
+RUN npm install -g turbo
 
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/out/full/ .
+COPY tsconfig.json tsconfig.json
+COPY turbo.json turbo.json
 
-RUN doppler run --command="pnpm prisma:generate"
-RUN doppler run --command="pnpm build"
-RUN doppler run --command="pnpm postbuild"
+WORKDIR /app/apps/frontend
+
+RUN pnpm install
+
+ARG VITE_BASE_URL
+ARG VITE_API_URL
+ARG VITE_TMDB_API_URL
+ARG VITE_TMDB_API_KEY
+
+ENV VITE_BASE_URL $VITE_BASE_URL
+ENV VITE_API_URL $VITE_API_URL
+ENV VITE_TMDB_API_URL $VITE_TMDB_API_URL
+ENV VITE_TMDB_API_KEY $VITE_TMDB_API_KEY
+
+RUN turbo run build --filter=frontend
 
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+RUN npm install -g pnpm
 
-ARG DOPPLER_TOKEN
-ENV DOPPLER_TOKEN=${DOPPLER_TOKEN}
-
-RUN addgroup --system --gid 1001 nodejs
+RUN addgroup --system --gid 1001 frontend
 RUN adduser --system --uid 1001 frontend
 
-COPY --from=builder /app/public ./public
-
-# Install Doppler CLI
-RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub && \
-    echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories && \
-    apk add doppler
-
-COPY docker-entrypoint.sh /app
-
-RUN chmod +x docker-entrypoint.sh
-
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
-
-RUN mkdir .next
-RUN chown frontend:nodejs .next
-
-COPY --from=builder --chown=frontend:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=frontend:nodejs /app/.next/static ./.next/static
-
 USER frontend
+COPY --from=installer /app .
 
-EXPOSE 3000
-
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
-
-CMD ["node", "server.js"]
+CMD ["node", "apps/frontend/.output/server/index.mjs"]

@@ -1,8 +1,0 @@
-{
-  "movieSuccessAddedToFavorite": "Movie added to favorites",
-  "tvSuccessAddedToFavorite": "Series added to favorites",
-  "movieSuccessRemovedFromFavorite": "Movie removed from favorites",
-  "tvSuccessRemovedFromFavorite": "The series has been removed from favorites",
-  "statusChanged": "Status changed successfully",
-  "noteSuccessUpdate": "Note successfully updated"
-}

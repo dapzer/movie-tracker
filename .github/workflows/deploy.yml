@@ -29,7 +29,7 @@ jobs:
         with:
           push: true
           context: .
-          file: ./apps/frontendVue/Dockerfile
+          file: ./apps/frontend/Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/movie-tracker-frontend:latest
           build-args: |
             VITE_BASE_URL=${{ secrets.BASE_URL }}
