@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "dotenv -- turbo run build",
-    "dev": "dotenv -- turbo run dev --filter=frontend --filter=backend",
+    "dev": "dotenv -- turbo run dev",
+    "predev": "pnpm --filter=database run migrate",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postbuild": "dotenv -- turbo run postbuild",
