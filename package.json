@@ -16,10 +16,10 @@
     "db:push": "dotenv -- turbo db:push"
   },
   "devDependencies": {
-    "eslint": "^8.48.0",
-    "prettier": "^3.0.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5",
     "turbo": "latest",
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.3"
   },
   "packageManager": "pnpm@8.9.0",
   "dependencies": {
