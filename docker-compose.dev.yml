@@ -19,5 +19,6 @@ services:
     restart: always
     ports:
       - 8085:8080
+
 volumes:
   postgres-data:
