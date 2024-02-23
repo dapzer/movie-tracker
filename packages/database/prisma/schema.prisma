@@ -63,7 +63,7 @@ model MediaList {
   updatedAt       DateTime    @updatedAt() @map("updated_at")
   mediaItems      MediaItem[]
 
-  @@map("mediaLists")
+  @@map("media_lists")
 }
 
 model MediaItem {
@@ -80,7 +80,7 @@ model MediaItem {
   trackingData   TrackingData?
 
   @@unique([mediaId, mediaType, mediaListId])
-  @@map("mediaItems")
+  @@map("media_items")
 }
 
 model TrackingData {
@@ -97,7 +97,7 @@ model TrackingData {
   mediaItem   MediaItem @relation(fields: [mediaItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   mediaItemId String    @unique @map("media_item_id")
 
-  @@map("trackingData")
+  @@map("tracking_data")
 }
 
 model MediaDetails {
@@ -113,7 +113,7 @@ model MediaDetails {
   mediaItem MediaItem[]
 
   @@unique([mediaId, mediaType])
-  @@map("mediaDetails")
+  @@map("media_details")
 }
 
 enum StatusNameEnum {
