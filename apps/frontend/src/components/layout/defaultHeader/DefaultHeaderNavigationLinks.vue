@@ -45,6 +45,6 @@ const emit = defineEmits<{
 }
 
 .active {
-  color: var(--c-highlight);
+  color: var(--c-highlight) !important;
 }
 </style>
