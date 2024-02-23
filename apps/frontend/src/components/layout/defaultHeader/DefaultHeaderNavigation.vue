@@ -15,8 +15,19 @@ const props = defineProps<DefaultHeaderNavigationProps>();
 const emit = defineEmits<{
   (e: "toggleMobileMenu"): void
 }>();
+const queryClient = useQueryClient();
+const { profile, isLoadingProfile, isProfileSuccess } = useAuth();
 
-const { profile, isLoadingProfile } = useAuth();
+useGetMediaListsApi();
+useGetMediaItemsApi();
+
+watch(isProfileSuccess, () => {
+  if (isProfileSuccess) {
+    queryClient.refetchQueries({ queryKey: [MediaListQueryKeys.GET_ALL] });
+    queryClient.refetchQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
+  }
+});
+
 
 </script>
 

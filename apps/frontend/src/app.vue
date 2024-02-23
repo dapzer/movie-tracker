@@ -1,32 +1,18 @@
 <script lang="ts" setup>
-import { useAuth, useGetMediaItemsApi, useGetMediaListsApi, useHead, useI18n, useSeoMeta, watch } from "#imports";
-import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
-import { useQueryClient } from "@tanstack/vue-query";
+import { useHead, useI18n, useSeoMeta } from "#imports";
 import { useLocaleHead } from "#i18n";
 
-const queryClient = useQueryClient();
-const { t, locale } = useI18n();
-
-useGetMediaListsApi();
-useGetMediaItemsApi();
-const { isProfileSuccess } = useAuth();
-
-watch(isProfileSuccess, () => {
-  if (isProfileSuccess) {
-    queryClient.refetchQueries({ queryKey: [MediaListQueryKeys.GET_ALL] });
-    queryClient.refetchQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
-  }
-});
+const { t } = useI18n();
 
 const i18nHead = useLocaleHead({
   addDirAttribute: true,
-  addSeoAttributes: true,
+  addSeoAttributes: true
 });
 
 useHead({
   htmlAttrs: {
     lang: () => i18nHead.value.htmlAttrs?.lang,
-    dir: () => i18nHead.value.htmlAttrs?.dir,
+    dir: () => i18nHead.value.htmlAttrs?.dir
   },
   link: [...(i18nHead.value.link || [])],
   meta: [...(i18nHead.value.meta || [])]
