@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { createReadStream, statSync } from 'fs';
 import { createGunzip } from 'zlib';
 import { ConfigService } from '@nestjs/config';
 import { Interval } from '@nestjs/schedule';
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
 import { Worker } from 'worker_threads';
-import { resolve } from 'path';
 
 @Injectable()
 export class SitemapService {

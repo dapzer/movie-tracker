@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         {
           async: true,
           src: "https://umami.movie-tracker.app/script.js",
-          'data-website-id': '43c97acf-6163-4049-bca2-df93a5122d9b'
+          "data-website-id": "43c97acf-6163-4049-bca2-df93a5122d9b"
         }
       ]
     }
@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     url: process.env.VITE_BASE_URL || "http://localhost:3000"
   },
   sitemap: {
-    exclude: ['/dashboard'],
+    exclude: ["/dashboard"],
     cacheMaxAgeSeconds: 24 * 60 * 60,
     defaultSitemapsChunkSize: 2000,
     sitemaps: {
@@ -85,6 +85,14 @@ export default defineNuxtConfig({
   },
   vite: {
     clearScreen: false,
+    server: {
+      proxy: {
+        "/sitemaps": {
+          target: process.env.VITE_API_URL,
+          changeOrigin: false,
+        }
+      }
+    },
     css: {
       modules: {
         generateScopedName: (name, filename, css) => {
