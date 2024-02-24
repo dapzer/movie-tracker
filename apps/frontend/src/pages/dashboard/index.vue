@@ -6,7 +6,7 @@ import { watchEffect } from "#imports";
 import { navigateTo } from "#app";
 import { UserRoleEnum } from "@movie-tracker/types";
 import UiTypography from "~/components/ui/UiTypography.vue";
-import { DashboardControls } from "~/features/dashboard";
+import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard";
 
 const { isNotAuthorized, profile, isLoadingProfile } = useAuth();
 
@@ -32,11 +32,19 @@ watchEffect(() => {
         {{ $t("dashboard.title") }}
       </UiTypography>
 
-      <DashboardControls />
+      <div :class="$style.body">
+        <DashboardAnalyticsRecords />
+        <DashboardControls />
+      </div>
     </template>
   </UiContainer>
 </template>
 
 <style lang="scss" module>
-
+.body {
+  padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 </style>

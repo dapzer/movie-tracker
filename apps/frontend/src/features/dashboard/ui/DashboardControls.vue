@@ -5,6 +5,7 @@ import { useInitializeSitemapGenerationsApi } from "~/composables/useSitemapsApi
 import { toast } from "vue3-toastify";
 import { useI18n } from "#imports";
 import { useInitializeDetailsGenerationApi } from "~/composables/useDetails";
+import UiContentCard from "~/components/ui/UiContentCard.vue";
 
 const initializeSitemapGenerationsApi = useInitializeSitemapGenerationsApi();
 const initializeDetailsGenerationApi = useInitializeDetailsGenerationApi()
@@ -29,21 +30,16 @@ const generateDetails = async () => {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
+  <UiContentCard :title="$t('dashboard.dataGeneration')">
     <UiButton @click="generateSitemap">
       {{ $t("dashboard.generateSitemap") }}
     </UiButton>
     <UiButton @click="generateDetails">
       {{ $t("dashboard.generateDetails") }}
     </UiButton>
-  </div>
+  </UiContentCard>
 </template>
 
 <style lang="scss" module>
-.wrapper {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
+
 </style>

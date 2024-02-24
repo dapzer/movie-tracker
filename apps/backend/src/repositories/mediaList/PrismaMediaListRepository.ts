@@ -1,14 +1,13 @@
-import { PrismaService } from "@/services/prisma/prisma.service";
-import { MediaListRepositoryInterface } from "@/repositories/mediaList/MediaListRepositoryInterface";
-import { Injectable } from "@nestjs/common";
-import { MediaListType } from "@movie-tracker/types";
-import { MediaList } from "@movie-tracker/database";
-import { init } from "@paralleldrive/cuid2";
+import { PrismaService } from '@/services/prisma/prisma.service';
+import { MediaListRepositoryInterface } from '@/repositories/mediaList/MediaListRepositoryInterface';
+import { Injectable } from '@nestjs/common';
+import { MediaListType } from '@movie-tracker/types';
+import { MediaList } from '@movie-tracker/database';
+import { init } from '@paralleldrive/cuid2';
 
 @Injectable()
 export class PrismaMediaListRepository implements MediaListRepositoryInterface {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   private convertToInterface(data: MediaList): MediaListType {
     return {
@@ -20,15 +19,15 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       title: data.title,
       poster: data.poster,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt
+      updatedAt: data.updatedAt,
     };
   }
 
   async getAllMedialLists(isPublicOnly = false) {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
-        ...(isPublicOnly && { isPublic: true })
-      }
+        ...(isPublicOnly && { isPublic: true }),
+      },
     });
 
     return mediaLists.map(this.convertToInterface);
@@ -37,8 +36,8 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   async getMedialListById(id: string) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     return this.convertToInterface(mediaList);
@@ -47,8 +46,8 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   async getMedialListByHumanFriendlyId(id: string) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
-        humanFriendlyId: id
-      }
+        humanFriendlyId: id,
+      },
     });
 
     return this.convertToInterface(mediaList);
@@ -58,8 +57,8 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
         userId,
-        ...(isPublicOnly && { isPublic: true })
-      }
+        ...(isPublicOnly && { isPublic: true }),
+      },
     });
 
     return mediaLists.map(this.convertToInterface);
@@ -68,7 +67,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   async createMediaList(
     userId: string,
     isSystem = false,
-    body?: Pick<MediaListType, "title" | "poster" | "isPublic">
+    body?: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
   ) {
     const generateCuid = init({ length: 10 });
     const mediaList = await this.prisma.mediaList.create({
@@ -76,8 +75,8 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
         userId,
         humanFriendlyId: generateCuid(),
         isSystem,
-        ...(body ?? {})
-      }
+        ...(body ?? {}),
+      },
     });
 
     return this.convertToInterface(mediaList);
@@ -86,8 +85,8 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   async deleteMediaList(id: string) {
     const mediaList = await this.prisma.mediaList.delete({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     return this.convertToInterface(mediaList);
@@ -95,15 +94,19 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
 
   async updateMediaList(
     id: string,
-    body: Pick<MediaListType, "title" | "poster" | "isPublic">
+    body: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
   ) {
     const mediaList = await this.prisma.mediaList.update({
       where: { id },
       data: {
-        ...body
-      }
+        ...body,
+      },
     });
 
     return this.convertToInterface(mediaList);
+  }
+
+  async getMediaListsCount() {
+    return this.prisma.mediaList.count();
   }
 }

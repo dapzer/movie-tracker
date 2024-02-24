@@ -29,3 +29,7 @@ export const SitemapQueryKeys = {
 export const DetailsQueryKeys = {
   INITIALIZE: "details/initialize"
 }
+
+export const AnalyticsQueryKeys = {
+  GET_RECORDS: "analytics/getRecords"
+}

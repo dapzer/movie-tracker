@@ -27,4 +27,6 @@ export interface MediaDetailsRepositoryInterface {
     mediaId: number,
     mediaType: MediaTypeEnum,
   ) => Promise<MediaDetailsType>;
+
+  getMediaDetailsCount: () => Promise<number>;
 }

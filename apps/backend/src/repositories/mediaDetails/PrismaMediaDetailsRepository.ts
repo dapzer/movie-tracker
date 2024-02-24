@@ -6,7 +6,7 @@ import {
   MediaDetailsType,
   MediaTypeEnum,
 } from '@movie-tracker/types';
-import { MediaDetails, Prisma } from "@movie-tracker/database";
+import { MediaDetails, Prisma } from '@movie-tracker/database';
 
 @Injectable()
 export class PrismaMediaDetailsRepository
@@ -82,5 +82,9 @@ export class PrismaMediaDetailsRepository
     });
 
     return mediaDetails ? this.convertToInterface(mediaDetails) : null;
+  }
+
+  async getMediaDetailsCount() {
+    return this.prismaService.mediaDetails.count();
   }
 }

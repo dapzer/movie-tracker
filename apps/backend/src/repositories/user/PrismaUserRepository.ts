@@ -46,4 +46,8 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
     return this.convertToInterface(user);
   }
+
+  async getUsersCount() {
+    return this.prisma.user.count();
+  }
 }

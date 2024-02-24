@@ -9,6 +9,7 @@ import { AuthModule } from '@/routes/auth/auth.module';
 import { MediaDetailsModule } from '@/routes/mediaDetails/mediaDetails.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SitemapModule } from '@/routes/sitemap/sitemap.module';
+import { AnalyticsModule } from '@/routes/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SitemapModule } from '@/routes/sitemap/sitemap.module';
     AuthModule,
     MediaDetailsModule,
     SitemapModule,
+    AnalyticsModule,
   ],
   controllers: [],
   providers: [],

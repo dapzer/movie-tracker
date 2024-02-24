@@ -6,6 +6,7 @@ interface CardSkeletonProps {
   height?: number;
   isCircle?: boolean;
   isFixedWidth?: boolean;
+  isInline?: boolean;
 }
 
 const props = defineProps<CardSkeletonProps>();
@@ -26,9 +27,11 @@ const styles = computed(() => {
       '--width': styles.width,
       '--minWidth': styles.minWidth,
       '--height': styles.height
+
     }"
     :class="[$style.body, {
-      [$style.circle]: isCircle
+      [$style.circle]: isCircle,
+      [$style.inline]: isInline
     }]"
   >
     &zwnj;
@@ -46,6 +49,10 @@ const styles = computed(() => {
   display: block;
   animation: pulse-bg 1.75s infinite;
   border-radius: var(--s-border-radius);
+
+  &.inline {
+    display: inline-block;
+  }
 
   @keyframes pulse-bg {
     0% {

@@ -26,4 +26,6 @@ export interface MediaListRepositoryInterface {
     id: string,
     body: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
   ) => Promise<MediaListType>;
+
+  getMediaListsCount: () => Promise<number>;
 }

@@ -29,4 +29,6 @@ export interface MediaItemRepositoryInterface {
     id: string,
     data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,
   ) => Promise<MediaItemType>;
+
+  getMediaItemsCount: () => Promise<number>;
 }

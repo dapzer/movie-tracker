@@ -15,4 +15,6 @@ export interface UserRepositoryInterface {
   ) => Promise<UserType>;
 
   deleteUser: (id: string) => Promise<UserType>;
+
+  getUsersCount: () => Promise<number>;
 }
