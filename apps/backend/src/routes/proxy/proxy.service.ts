@@ -8,7 +8,16 @@ import {
 @Injectable()
 export class ProxyService {
   async getResponse(url: string) {
-    const response = await fetch(url);
+    let response: Response | undefined = undefined;
+
+    try {
+      response = await fetch(url);
+    } catch (err) {
+      throw new HttpException(
+        `Failed to get image from ${url}.`,
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
 
     if (!response.ok) {
       throw new HttpException(
