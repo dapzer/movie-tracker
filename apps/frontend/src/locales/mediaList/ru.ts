@@ -12,6 +12,7 @@ export default {
     confirmDeleteTitle: "Вы уверены, что хотите удалить список «{title}»?",
     confirmDeleteDescription: "Вы не сможете восстановить этот список и всё его содержимое.",
     create: "Создать список",
+    createNew: "Создать новый список",
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },

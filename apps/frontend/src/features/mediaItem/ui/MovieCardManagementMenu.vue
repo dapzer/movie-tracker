@@ -6,12 +6,14 @@ import UiButton from "~/components/ui/UiButton.vue";
 import { computed } from "vue";
 import { toast } from "vue3-toastify";
 import { useI18n } from "#imports";
+import UiDivider from "~/components/ui/UiDivider.vue";
+import { MediaItemCreateCopyModal } from "~/features/mediaItem";
 
-interface MovieCardStatusSelectorMenuProps {
+interface MovieCardManagementMenuProps {
   mediaItem: MediaItemType;
 }
 
-const props = defineProps<MovieCardStatusSelectorMenuProps>();
+const props = defineProps<MovieCardManagementMenuProps>();
 
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
 const deleteMediaItemApi = useDeleteMediaItemApi();
@@ -22,7 +24,7 @@ const isLoading = computed(() => {
 
 const { t } = useI18n();
 
-const updateStatus =  (status: MediaItemStatusNameEnum) => {
+const updateStatus = (status: MediaItemStatusNameEnum) => {
   updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
@@ -30,8 +32,8 @@ const updateStatus =  (status: MediaItemStatusNameEnum) => {
       currentStatus: status
     }
   }).then(() => {
-    toast.success(t("toasts.mediaItem.successStatusChanged"))
-  })
+    toast.success(t("toasts.mediaItem.successStatusChanged"));
+  });
 };
 
 const handleDeleteMediaItem = () => {
@@ -58,6 +60,18 @@ const handleDeleteMediaItem = () => {
       {{ $t(`mediaItem.status.${status}`) }}
     </UiButton>
   </template>
+
+  <UiDivider />
+
+  <MediaItemCreateCopyModal
+    :media-details="props.mediaItem.mediaDetails"
+    :media-id="props.mediaItem.mediaId"
+    :media-item-id="props.mediaItem.id"
+    :media-type="props.mediaItem.mediaType"
+  />
+
+  <UiDivider />
+
   <UiButton
     :class="$style.button"
     :disabled="isLoading"

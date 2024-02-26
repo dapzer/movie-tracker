@@ -1,8 +1,17 @@
 export default {
   mediaItem: {
     addedDate: "Дата добавления",
-    changeStatus: "Изменить статус",
+    management: "Управление",
     removeFromList: "Удалить из списка",
+    createCopy: {
+      button: "Скопировать в другие списки",
+      title: "Создание копии",
+      description: "Выберите списки, в которые необходимо скопировать «{title}»",
+      isSaveCreationDate: "Скопировать с текущей датой добавления",
+      noAvailableLists: "Нет доступных списков.",
+      clone: "Клонировать",
+      successfullyCreated: "Кинокартина успешно скопирована в выбранные списки",
+    },
     trackingMenu: {
       title: "Меню отслеживания",
       siteToView: "Cайт для просмотра",

@@ -129,6 +129,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     mediaType: MediaTypeEnum,
     mediaListId: string,
     mediaDetailsId: string,
+    createdAt?: Date,
   ) {
     const mediaItem = await this.prisma.mediaItem.create({
       data: {
@@ -136,6 +137,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
         mediaId,
         mediaType,
         mediaDetailsId,
+        ...(createdAt && { createdAt }),
         trackingData: {
           create: {
             score: null,
@@ -144,6 +146,45 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
               currentSeason: 0,
               currentEpisode: 1,
             },
+            ...(createdAt && { createdAt }),
+          },
+        },
+      },
+      include: {
+        mediaDetails: true,
+        trackingData: true,
+      },
+    });
+
+    return this.convertToInterface(mediaItem);
+  }
+
+  async createMediaItemWithExistedData(
+    mediaId: number,
+    mediaType: MediaTypeEnum,
+    mediaListId: string,
+    mediaDetailsId: string,
+    trackingData: Omit<
+      MediaItemTrackingDataType,
+      'id' | 'updatedAt' | 'createdAt' | 'mediaItemId'
+    >,
+    createdAt?: Date,
+  ) {
+    const mediaItem = await this.prisma.mediaItem.create({
+      data: {
+        mediaListId,
+        mediaId,
+        mediaType,
+        mediaDetailsId,
+        ...(createdAt && { createdAt }),
+        trackingData: {
+          create: {
+            score: trackingData.score,
+            note: trackingData.note,
+            sitesToView:
+              trackingData.sitesToView as unknown as Prisma.JsonArray,
+            tvProgress: trackingData.tvProgress as unknown as Prisma.JsonObject,
+            ...(createdAt && { createdAt }),
           },
         },
       },

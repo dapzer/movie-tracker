@@ -16,6 +16,19 @@ export interface MediaItemRepositoryInterface {
     mediaType: string,
     mediaListId: string,
     mediaDetailsId: string,
+    createdAt?: Date,
+  ) => Promise<MediaItemType>;
+
+  createMediaItemWithExistedData: (
+    mediaId: number,
+    mediaType: string,
+    mediaListId: string,
+    mediaDetailsId: string,
+    trackingData: Omit<
+      MediaItemTrackingDataType,
+      'id' | 'updatedAt' | 'createdAt' | 'mediaItemId'
+    >,
+    createdAt?: Date,
   ) => Promise<MediaItemType>;
 
   deleteMediaItem: (id: string) => Promise<MediaItemType>;

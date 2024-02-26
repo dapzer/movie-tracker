@@ -12,6 +12,7 @@ export default {
     confirmDeleteTitle: "Are you sure you want to delete the list «{title}»?",
     confirmDeleteDescription: "You will not be able to restore this list and all its contents.",
     create: "Create list",
+    createNew: "Create new list",
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },

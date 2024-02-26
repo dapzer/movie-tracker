@@ -14,7 +14,7 @@ const { locale } = useI18n();
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
 
 const currentMediaDetails = computed(() => {
-  return getCurrentMediaDetails(props.mediaItem, locale.value);
+  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value);
 });
 
 const currentTvProgress = computed(() => {

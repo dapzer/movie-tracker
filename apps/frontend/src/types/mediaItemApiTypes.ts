@@ -5,3 +5,11 @@ export interface MediaItemCreateApiTypes {
   mediaType: MediaTypeEnum,
   mediaId: number
 }
+
+
+export interface MediaItemCreateCopyApiTypes {
+  mediaItemId: string,
+  mediaListId: string,
+  isSaveCreationDate: boolean
+}
+

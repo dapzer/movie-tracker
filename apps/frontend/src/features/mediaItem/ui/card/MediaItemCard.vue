@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
+import { MediaTypeEnum } from "@movie-tracker/types";
 import { computed } from "vue";
 import { getTmdbImageUrl, useI18n } from "#imports";
 import { UiCard } from "~/components/ui/UiCard";
@@ -8,12 +9,10 @@ import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
 import UiDropdown from "~/components/ui/UiDropdown.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import { ChartCandleIcon } from "~/components/ui/icons";
-import { MovieCardStatusSelectorMenu } from "~/features/mediaItem";
+import { MovieCardManagementMenu } from "~/features/mediaItem";
 import MediaCardTrackingMenu from "~/features/mediaItem/ui/trackingMenu/MediaCardTrackingMenu.vue";
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
-import { MediaTypeEnum } from "@movie-tracker/types";
-import UiTypography from "~/components/ui/UiTypography.vue";
 import MediaItemCardTvInfo from "~/features/mediaItem/ui/card/MediaItemCardTvInfo.vue";
 
 interface MediaItemCardProps {
@@ -26,21 +25,21 @@ const localePath = useLocalePath();
 const { locale, t } = useI18n();
 
 const currentMediaDetails = computed(() => {
-  return getCurrentMediaDetails(props.mediaItem, locale.value);
+  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value);
 });
 
 const description = computed(() => {
-  return `${t("mediaItem.addedDate")} ${new Date(props.mediaItem.createdAt).toLocaleDateString(locale.value)}`
-})
+  return `${t("mediaItem.addedDate")} ${new Date(props.mediaItem.createdAt).toLocaleDateString(locale.value)}`;
+});
 </script>
 
 <template>
   <UiCard
     :class="$style.wrapper"
-    :title="currentMediaDetails?.title || ''"
+    :description="description"
     :image="getTmdbImageUrl(currentMediaDetails?.poster || '')"
     :link="localePath(`/details/${mediaItem.mediaType}/${mediaItem.mediaId}`)"
-    :description="description"
+    :title="currentMediaDetails?.title || ''"
   >
     <UiScoreCircle
       :class="$style.score"
@@ -54,11 +53,11 @@ const description = computed(() => {
       <template #trigger>
         <UiButton>
           <ChartCandleIcon />
-          {{ $t("mediaItem.changeStatus") }}
+          {{ $t("mediaItem.management") }}
         </UiButton>
       </template>
       <template #content>
-        <MovieCardStatusSelectorMenu :media-item="mediaItem" />
+        <MovieCardManagementMenu :media-item="mediaItem" />
       </template>
     </UiDropdown>
 

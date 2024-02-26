@@ -35,3 +35,9 @@
   font-weight: var(--fw-light);
   line-height: 1;
 }
+
+@mixin ellipsisText () {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

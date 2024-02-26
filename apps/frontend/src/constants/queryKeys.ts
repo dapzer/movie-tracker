@@ -19,7 +19,8 @@ export const MediaItemQueryKeys = {
   GET_BY_MEDIA_LIST_ID: "mediaItem/getByMediaListId",
   CREATE: "mediaItem/create",
   DELETE: "mediaItem/delete",
-  UPDATE: "mediaItem/update"
+  UPDATE: "mediaItem/update",
+  CREATE_COPY: "mediaItem/createCopy"
 } as const;
 
 export const SitemapQueryKeys = {

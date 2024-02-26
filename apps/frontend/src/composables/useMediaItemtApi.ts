@@ -2,6 +2,7 @@ import { MediaItemQueryKeys } from "~/constants/queryKeys";
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
 import {
   createMediaItemApi,
+  createMediaItemCopyApi,
   deleteMediaItemApi,
   getMediaItemsApi,
   getMediaItemsByMediaListIdApi,
@@ -61,6 +62,18 @@ export const useUpdateMediaItemTrackingDataApi = () => {
         ...item,
         trackingData: data
       }));
+    }
+  });
+};
+
+export const useCreateMediaItemCopyApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.CREATE_COPY],
+    mutationFn: createMediaItemCopyApi,
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data]);
     }
   });
 };
