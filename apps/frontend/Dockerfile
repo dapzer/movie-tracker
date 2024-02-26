@@ -50,4 +50,6 @@ RUN adduser --system --uid 1001 frontend
 USER frontend
 COPY --from=installer /app .
 
+ENV NODE_ENV production
+
 CMD ["node", "apps/frontend/.output/server/index.mjs"]

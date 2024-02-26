@@ -9,11 +9,11 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       script: [
-        {
+        (process.env.NODE_ENV === "production" ? {
           async: true,
           src: "https://umami.movie-tracker.app/script.js",
           "data-website-id": "43c97acf-6163-4049-bca2-df93a5122d9b"
-        }
+        } : {})
       ]
     }
   },
@@ -89,7 +89,7 @@ export default defineNuxtConfig({
       proxy: {
         "/sitemaps": {
           target: process.env.VITE_API_URL,
-          changeOrigin: false,
+          changeOrigin: false
         }
       }
     },
