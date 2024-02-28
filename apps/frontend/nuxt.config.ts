@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     lazy: true,
     baseUrl: process.env.VITE_BASE_URL || "http://localhost:3000",
     langDir: "./locales",
+    detectBrowserLanguage: false,
     defaultLocale: "ru",
     locales: [{ code: "ru", iso: "ru-RU" }, { code: "en", iso: "en-US" }].map((locale) => {
       const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts", "seo", "dashboard"];
