@@ -115,7 +115,7 @@ useSeoMeta({
   gap: 20px;
 
   .card {
-    height: 100%;
+    height: 100% !important;
   }
 
   .block {
