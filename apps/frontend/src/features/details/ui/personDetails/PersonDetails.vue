@@ -70,7 +70,7 @@ useSeoMeta({
       </UiTypography>
     </section>
     <section
-      v-if="filmography"
+      v-if="filmography.length"
       :class="$style.block"
     >
       <UiTypography
