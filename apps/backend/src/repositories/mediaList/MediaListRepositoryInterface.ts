@@ -7,6 +7,11 @@ export interface MediaListRepositoryInterface {
 
   getMedialListById: (id: string) => Promise<MediaListType>;
 
+  getMedialListByMediaItemAndUserId: (
+    mediaItemId: string,
+    userId: string,
+  ) => Promise<MediaListType>;
+
   getMedialListByHumanFriendlyId: (id: string) => Promise<MediaListType>;
 
   getMedialListsByUserId: (

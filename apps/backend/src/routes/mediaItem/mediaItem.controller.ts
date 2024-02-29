@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { MediaItemService } from '@/routes/mediaItem/mediaItem.service';
 import { CreateMediaItemDto } from '@/routes/mediaItem/dto/createMediaItem.dto';
-import { MediaItemTrackingDataDto } from '@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto';
 import { UuidDto } from '@/shared/dto/uuid.dto';
 import { MediaItemListIdDto } from '@/shared/dto/mediaItemListId.dto';
 import { AuthGuard } from '@/routes/auth/guards/auth.guard';
@@ -18,6 +17,7 @@ import { User } from '@/routes/user/users.decorator';
 import { UserDto } from '@/routes/auth/dto/user.dto';
 import { isCuid } from '@paralleldrive/cuid2';
 import { CreateMediaItemCopyDto } from '@/routes/mediaItem/dto/createMediaItemCopy.dto';
+import { UpdateMediaItemDto } from '@/routes/mediaItem/dto/updateMediaItem.dto';
 
 @Controller('mediaItem')
 export class MediaItemController {
@@ -63,16 +63,12 @@ export class MediaItemController {
 
   @Patch(':id')
   @UseGuards(AuthGuard)
-  async updateMediaItemTrackingData(
+  async updateMediaItem(
     @Param() param: UuidDto,
-    @Body() body: MediaItemTrackingDataDto,
+    @Body() body: UpdateMediaItemDto,
     @User() user: UserDto,
   ) {
-    return this.mediaItemService.updateMediaItemTrackingData(
-      param.id,
-      body,
-      user?.id,
-    );
+    return this.mediaItemService.updateMediaItem(param.id, user?.id, body);
   }
 
   @Post(':id/copy')

@@ -127,24 +127,18 @@ export class MediaItemService {
     return this.mediaItemRepository.deleteMediaItem(id);
   }
 
-  async updateMediaItemTrackingData(
+  async updateMediaItem(
     id: string,
-    trackingData: MediaItemTrackingDataType,
     userId: string,
+    data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,
   ) {
-    const isMediaItemOwner = await this.isMediaItemOwner(
-      trackingData.mediaItemId,
-      userId,
-    );
+    const isMediaItemOwner = await this.isMediaItemOwner(id, userId);
 
     if (!isMediaItemOwner) {
       throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
     }
 
-    return this.mediaItemRepository.updateMediaItemTrackingData(
-      id,
-      trackingData,
-    );
+    return this.mediaItemRepository.updateMediaItem(id, data);
   }
 
   async createMediaItemCopy(

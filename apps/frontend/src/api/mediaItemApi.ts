@@ -57,8 +57,8 @@ export const deleteMediaItemApi = async (mediaItemId: string) => {
 };
 
 
-export const updateMediaItemTrackingDataApi = async (mediaItemId: string, body: MediaItemTrackingDataType) => {
-  const response = await fetchWihCredentials(getApiUrl(`/mediaItem/${mediaItemId}`), {
+export const updateMediaItemTrackingDataApi = async (trackingDataId: string, body: MediaItemTrackingDataType) => {
+  const response = await fetchWihCredentials(getApiUrl(`/trackingData/${trackingDataId}`), {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json"

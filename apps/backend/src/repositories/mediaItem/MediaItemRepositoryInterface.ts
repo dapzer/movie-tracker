@@ -33,11 +33,6 @@ export interface MediaItemRepositoryInterface {
 
   deleteMediaItem: (id: string) => Promise<MediaItemType>;
 
-  updateMediaItemTrackingData: (
-    id: string,
-    trackingData: MediaItemTrackingDataType,
-  ) => Promise<MediaItemTrackingDataType>;
-
   updateMediaItem: (
     id: string,
     data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,

@@ -10,6 +10,7 @@ import { MediaDetailsModule } from '@/routes/mediaDetails/mediaDetails.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SitemapModule } from '@/routes/sitemap/sitemap.module';
 import { AnalyticsModule } from '@/routes/analytics/analytics.module';
+import { TrackingDataModule } from '@/routes/trackingData/trackingData.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AnalyticsModule } from '@/routes/analytics/analytics.module';
     MediaDetailsModule,
     SitemapModule,
     AnalyticsModule,
+    TrackingDataModule,
   ],
   controllers: [],
   providers: [],

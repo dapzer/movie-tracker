@@ -210,24 +210,6 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem);
   }
 
-  async updateMediaItemTrackingData(
-    id: string,
-    trackingData: MediaItemTrackingDataType,
-  ) {
-    const trackingDataObj = await this.prisma.trackingData.update({
-      where: { id },
-      data: {
-        currentStatus: trackingData.currentStatus,
-        note: trackingData.note,
-        score: trackingData.score,
-        tvProgress: trackingData.tvProgress as unknown as Prisma.JsonObject,
-        sitesToView: trackingData.sitesToView as unknown as Prisma.JsonArray,
-      },
-    });
-
-    return this.convertTrackingDataToInterface(trackingDataObj);
-  }
-
   async updateMediaItem(
     id: string,
     data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,

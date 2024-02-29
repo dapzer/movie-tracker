@@ -64,6 +64,23 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     return mediaLists.map(this.convertToInterface);
   }
 
+  async getMedialListByMediaItemAndUserId(mediaItemId: string, userId: string) {
+    const mediaList = await this.prisma.mediaList.findFirst({
+      where: {
+        userId,
+        AND: {
+          mediaItems: {
+            some: {
+              id: mediaItemId,
+            },
+          },
+        },
+      },
+    });
+
+    return this.convertToInterface(mediaList);
+  }
+
   async createMediaList(
     userId: string,
     isSystem = false,
