@@ -55,6 +55,8 @@ services:
       - "443:443/udp"
     networks:
       - caddy-public
+    cap_add:
+      - NET_ADMIN
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
   frontend:
