@@ -7,9 +7,13 @@ import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
 import { ref } from "vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelector.vue";
+import { useLocalStorage } from "@vueuse/core";
+import { useRouter } from "vue-router";
 
 const { params, query } = useRoute();
-const signInCallbackApi= useSignInCallbackApi();
+const signInCallbackApi = useSignInCallbackApi();
+const authRedirectUrl = useLocalStorage("authRedirectUrl", "");
+const router = useRouter();
 
 definePageMeta({
   layout: "clear-layout"
@@ -33,7 +37,12 @@ onMounted(async () => {
       code: query.code as string
     });
 
-    closeWindow();
+    if (authRedirectUrl.value) {
+      await router.replace(authRedirectUrl.value);
+      authRedirectUrl.value = "";
+    } else {
+      closeWindow();
+    }
   } catch (e) {
     isError.value = true;
     return;

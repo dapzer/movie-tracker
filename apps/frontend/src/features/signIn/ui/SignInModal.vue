@@ -9,6 +9,11 @@ import { spawnWindowInScreenCenter } from "~/utils/spawnWindowInScreenCenter";
 import { ref } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
 import { AuthQueryKeys, MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
+import { getCurrentBrowserName } from "~/utils/getCurrentBrowserName";
+import { BrowserEnum } from "~/types/browserEnum";
+import { useLocalStorage } from "@vueuse/core";
+import { useRouter } from "vue-router";
+import { useRoute } from "#app";
 
 interface LoginModalProps extends Partial<Pick<UiModalProps, "buttonVariant" | "buttonColorScheme" | "externalOpenedState"
   | "isHideTrigger">> {
@@ -24,12 +29,23 @@ const isModalVisible = ref(props.externalOpenedState);
 
 const { mutateAsync } = useSignInApi();
 const queryClient = useQueryClient();
+const router = useRoute();
+const authRedirectUrl = useLocalStorage("authRedirectUrl", "");
+
 
 const onSignIn = async (provider: string) => {
   const response = await mutateAsync(provider);
 
   if (response) {
-    const win = spawnWindowInScreenCenter(response, "Movie Tracker Sign In", window, 800, 600);
+    const currentBrowser = getCurrentBrowserName();
+    let win: Window | null | undefined = null;
+    if (currentBrowser === BrowserEnum.SAFARI) {
+      authRedirectUrl.value = router.fullPath;
+      window.location.replace(response)
+    } else {
+      win = spawnWindowInScreenCenter(response, "Movie Tracker Sign In", window, 800, 600);
+    }
+
     win?.focus();
     const interval = setInterval(() => {
       if (win?.closed) {
@@ -52,10 +68,10 @@ const handleVisible = (value: boolean) => {
 
 <template>
   <UiModal
+    :buttonColorScheme="props.buttonColorScheme"
     :buttonVariant="props.buttonVariant"
     :externalOpenedState="isModalVisible"
     :isHideTrigger="props.isHideTrigger"
-    :buttonColorScheme="props.buttonColorScheme"
     :maxWidth="350"
     :title="$t('auth.signIn')"
     isFullWidth
@@ -63,7 +79,7 @@ const handleVisible = (value: boolean) => {
     @additional-handler="handleVisible"
   >
     <template #trigger>
-      {{ props.btnTitle || $t('auth.signIn') }}
+      {{ props.btnTitle || $t("auth.signIn") }}
     </template>
 
     <template #content>
