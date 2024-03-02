@@ -25,6 +25,6 @@ const { profile } = useAuth();
 
 <style lang="scss" module>
 .content {
-  margin-top: 20px;
+  margin-top: 24px !important;
 }
 </style>
