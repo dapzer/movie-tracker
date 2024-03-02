@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@movie-tracker/database';
 import { HttpAdapterHost } from '@nestjs/core';
+import { isArray } from 'class-validator';
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientErrorFilter implements ExceptionFilter {
@@ -34,10 +35,15 @@ export class PrismaClientErrorFilter implements ExceptionFilter {
     let message = 'Unexpected error';
 
     if (exception.code === this.exceptions.conflict.code) {
-      const nonUniqueFields = (exception.meta.target as string || '').split('_');
-      message = `Field(s) '${nonUniqueFields
-        .slice(1, -1)
-        .join(', ')}' must be unique.`;
+      let nonUniqueFields = [];
+
+      if (isArray(exception.meta.target)) {
+        nonUniqueFields = exception.meta.target;
+      } else {
+        nonUniqueFields = ((exception.meta.target as string) || '').split('_');
+      }
+
+      message = `Field(s) '${nonUniqueFields.join(', ')}' must be unique.`;
     } else if (exception.code === this.exceptions.notFound.code) {
       status = this.exceptions.conflict.status;
       message = 'Not found';

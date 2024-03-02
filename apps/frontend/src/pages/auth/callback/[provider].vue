@@ -4,7 +4,7 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 import { useRoute } from "#app";
 import { definePageMeta, onMounted, useSignInCallbackApi } from "#imports";
 import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelector.vue";
 import { useLocalStorage } from "@vueuse/core";
@@ -20,6 +20,7 @@ definePageMeta({
 });
 
 const isError = ref(false);
+const isPending = computed(() => signInCallbackApi.status.value === "pending");
 
 const closeWindow = () => {
   window.close();
@@ -53,7 +54,7 @@ onMounted(async () => {
 <template>
   <div :class="$style.wrapper">
     <LanguageSelector :class="$style.languageSelector" />
-    <template v-if="signInCallbackApi.isPending">
+    <template v-if="isPending">
       <UiTypography
         as="span"
         variant="title2"
