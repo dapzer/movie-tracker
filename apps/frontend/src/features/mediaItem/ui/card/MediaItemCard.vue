@@ -14,6 +14,7 @@ import MediaCardTrackingMenu from "~/features/mediaItem/ui/trackingMenu/MediaCar
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
 import MediaItemCardTvInfo from "~/features/mediaItem/ui/card/MediaItemCardTvInfo.vue";
+import { MediaListSelectorModal } from "~/features/mediaListSelector";
 
 interface MediaItemCardProps {
   mediaItem: MediaItemType;
@@ -61,6 +62,13 @@ const description = computed(() => {
       </template>
     </UiDropdown>
 
+    <div v-else :class="$style.mediaListSelector">
+      <MediaListSelectorModal
+        :media-id="props.mediaItem.mediaId"
+        :media-type="props.mediaItem.mediaType"
+      />
+    </div>
+
 
     <MediaItemCardTvInfo
       v-if="mediaItem.mediaType === MediaTypeEnum.TV && props.isHideControls"
@@ -104,6 +112,20 @@ const description = computed(() => {
     svg {
       width: 1em;
     }
+  }
+}
+
+.mediaListSelector {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  & > button {
+    pointer-events: all;
+    @include slideFromRight(31px);
+    @include cardSideButton();
   }
 }
 </style>

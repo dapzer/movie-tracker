@@ -12,7 +12,7 @@ import { useGetMediaItemsApi } from "~/composables/useMediaItemtApi";
 
 interface MediaListSelectorModalProps extends Omit<UiModalProps, "title"> {
   mediaId: number;
-  mediaType: TmdbMediaTypeEnum;
+  mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
 }
 
 const props = defineProps<MediaListSelectorModalProps>();
