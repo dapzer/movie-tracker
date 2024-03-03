@@ -5,6 +5,7 @@ import UiSwitch from "~/components/ui/UiSwitch.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 import { useI18n, watch } from "#imports";
+import UiFormActions from "~/components/ui/UiFormActions.vue";
 
 interface MediaListFormProps {
   isSystem?: boolean;
@@ -82,23 +83,13 @@ const handleSubmit = () => {
       />
     </label>
 
-    <div :class="$style.actions">
-      <UiButton
-        :disabled="props.isLoading"
-        color-scheme="success"
-        type="submit"
-      >
-        {{ props.saveButtonText ?? $t("ui.actions.save") }}
-      </UiButton>
-      <UiButton
-        :disabled="props.isLoading"
-        color-scheme="danger"
-        type="button"
-        @click="emit('onClickCancel')"
-      >
-        {{ $t("ui.actions.cancel") }}
-      </UiButton>
-    </div>
+    <UiFormActions
+      :is-confirm-disabled="props.isLoading"
+      :is-cancel-disabled="props.isLoading"
+      :confirm-text="props.saveButtonText ?? $t('ui.actions.save')"
+      @cancel="emit('onClickCancel')"
+      @confirm="handleSubmit"
+    />
   </form>
 </template>
 
@@ -125,13 +116,6 @@ const handleSubmit = () => {
     flex-direction: row;
     align-items: center;
     gap: 12px;
-  }
-
-  .actions {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    padding-top: 20px;
   }
 }
 </style>

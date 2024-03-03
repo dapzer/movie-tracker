@@ -16,6 +16,7 @@ import {
 import { computed, ref } from "vue";
 import { toast } from "vue3-toastify";
 import UiDivider from "~/components/ui/UiDivider.vue";
+import UiFormActions from "~/components/ui/UiFormActions.vue";
 
 interface MediaItemCreateCopyModalFormProps {
   mediaId: number;
@@ -73,7 +74,7 @@ const handleCreateCopy = async () => {
     <UiTypography :class="$style.title">
       {{ $t("mediaItem.createCopy.description", { title: mediaTitle }) }}
     </UiTypography>
-<UiDivider />
+    <UiDivider />
     <div
       v-if="!!availableLists?.length"
       :class="$style.list"
@@ -109,26 +110,17 @@ const handleCreateCopy = async () => {
       />
     </UiTypography>
 
-    <div :class="$style.controls">
-      <UiButton
-        :disabled="isCreatingPending || selectedLists.length === 0"
-        color-scheme="success"
-        @click="() => {
-          handleCreateCopy().then(() => {
-            props.closeModal()
-          })
-        }"
-      >
-        {{ $t("mediaItem.createCopy.clone") }}
-      </UiButton>
-      <UiButton
-        :disabled="isCreatingPending"
-        color-scheme="danger"
-        @click="closeModal"
-      >
-        {{ $t("ui.actions.cancel") }}
-      </UiButton>
-    </div>
+    <UiFormActions
+      :is-confirm-disabled="isCreatingPending || selectedLists.length === 0"
+      :is-cancel-disabled="isCreatingPending"
+      :confirm-text="$t('mediaItem.createCopy.clone')"
+      @cancel="closeModal"
+      @confirm="() => {
+        handleCreateCopy().then(() => {
+          props.closeModal()
+        })
+      }"
+    />
   </div>
 </template>
 
@@ -143,13 +135,6 @@ const handleCreateCopy = async () => {
     color: var(--c-secondary);
     font-weight: var(--fw-bold);
   }
-}
-
-.controls {
-  justify-content: center;
-  display: flex;
-  gap: 8px;
-  margin-top: 14px;
 }
 
 .createListButton {
