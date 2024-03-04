@@ -2,6 +2,7 @@
 interface UiCheckboxProps {
   isDisabled?: boolean;
   size?: number;
+  asRadioInput?: boolean
 }
 
 const props = withDefaults(defineProps<UiCheckboxProps>(), {
@@ -22,7 +23,7 @@ const inputModel = defineModel();
   >
     <input
       v-model="inputModel"
-      type="checkbox"
+      :type="props.asRadioInput ? 'radio' : 'checkbox'"
       v-bind="$attrs"
       :disabled="props.isDisabled"
     >
@@ -59,12 +60,12 @@ const inputModel = defineModel();
   z-index: 100;
 }
 
-.body input[type=checkbox]:checked + div {
+.body input:checked + div {
   left: -10px;
   top: -10px;
 }
 
-.body input[type=checkbox] {
+.body input {
   position: absolute;
   left: 50px;
   visibility: hidden;

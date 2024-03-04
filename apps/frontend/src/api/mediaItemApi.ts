@@ -1,7 +1,11 @@
 import { fetchWihCredentials } from "#imports";
 import { generateApiUrl } from "@movie-tracker/utils";
 import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types";
-import type { MediaItemCreateApiTypes, MediaItemCreateCopyApiTypes } from "~/types/mediaItemApiTypes";
+import type {
+  MediaItemCreateApiTypes,
+  MediaItemCreateCopyApiTypes,
+  MediaItemUpdateApiTypes
+} from "~/types/mediaItemApiTypes";
 
 const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 
@@ -94,3 +98,20 @@ export const createMediaItemCopyApi = async (args: MediaItemCreateCopyApiTypes) 
 
   throw new Error(`Error when creating media item copy. Code: ${data.statusCode}`);
 };
+
+export const updateMediaItemApi = async (mediaItemId: string, body: MediaItemUpdateApiTypes) => {
+  const response = await fetchWihCredentials(getApiUrl(`/mediaItem/${mediaItemId}`), {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  });
+  const data = await response.json();
+
+  if (response.ok) {
+    return data as MediaItemType;
+  }
+
+  throw new Error(`Error when updating media item. Code: ${data.statusCode}`);
+}

@@ -6,3 +6,6 @@ export { default as MovieCardManagementMenu } from "~/features/mediaItem/ui/Movi
 export {
   default as MediaItemCreateCopyModal
 } from "~/features/mediaItem/ui/createCopyModal/MediaItemCreateCopyModal.vue";
+export {
+  default as MediaItemChangeMediaListModal
+}  from "~/features/mediaItem/ui/changeMediaList/MediaItemChangeMediaListModal.vue";

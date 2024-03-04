@@ -6,10 +6,11 @@ import {
   deleteMediaItemApi,
   getMediaItemsApi,
   getMediaItemsByMediaListIdApi,
+  updateMediaItemApi,
   updateMediaItemTrackingDataApi
 } from "~/api/mediaItemApi";
 import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types";
-import type { MediaItemCreateApiTypes } from "~/types/mediaItemApiTypes";
+import type { MediaItemCreateApiTypes, MediaItemUpdateApiTypes } from "~/types/mediaItemApiTypes";
 
 export const useGetMediaItemsApi = () => useQuery({
   queryKey: [MediaItemQueryKeys.GET_ALL],
@@ -43,7 +44,9 @@ export const useDeleteMediaItemApi = () => {
     mutationKey: [MediaItemQueryKeys.DELETE],
     mutationFn: async (id: string) => await deleteMediaItemApi(id),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.filter((item) => item.id !== data.id));
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        return oldData.filter((item) => item.id !== data.id);
+      });
     }
   });
 };
@@ -52,16 +55,18 @@ export const useUpdateMediaItemTrackingDataApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: [MediaItemQueryKeys.UPDATE],
+    mutationKey: [MediaItemQueryKeys.UPDATE_TRACKING_DATA],
     mutationFn: async (args: {
       trackingDataId: string,
       body: MediaItemTrackingDataType
     }) => await updateMediaItemTrackingDataApi(args.trackingDataId, args.body),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.map((item) => item.id !== data.mediaItemId ? item : {
-        ...item,
-        trackingData: data
-      }));
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        return oldData.map((item) => item.id !== data.mediaItemId ? item : {
+          ...item,
+          trackingData: data
+        });
+      });
     }
   });
 };
@@ -76,4 +81,22 @@ export const useCreateMediaItemCopyApi = () => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data]);
     }
   });
+};
+
+export const useUpdateMediaItemApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.UPDATE],
+    mutationFn: (args: {
+      mediaItemId: string,
+      body: MediaItemUpdateApiTypes
+    }) => updateMediaItemApi(args.mediaItemId, args.body),
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        return oldData.map((item) => item.id !== data.id ? item : data);
+      });
+    }
+  });
+
 };

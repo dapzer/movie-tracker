@@ -12,6 +12,14 @@ export default {
       clone: "Клонировать",
       successfullyCreated: "Кинокартина успешно скопирована в выбранные списки",
     },
+    changeMediaList: {
+      button: "Изменить список",
+      title: "Изменение списка",
+      description: "Выберите список, в который необходимо переместить «{title}»",
+      noAvailableLists: "Нет доступных списков.",
+      change: "Переместить",
+      successfullyChanged: "Кинокартина успешно перемещена в выбранный список",
+    },
     trackingMenu: {
       title: "Меню отслеживания",
       siteToView: "Cайт для просмотра",

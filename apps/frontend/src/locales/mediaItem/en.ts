@@ -12,6 +12,14 @@ export default {
       clone: "Copy",
       successfullyCreated: "The movie has been successfully copied to the selected lists",
     },
+    changeMediaList: {
+      button: "Change list",
+      title: "Change list",
+      description: "Select the list to which you want to move «{title}»",
+      noAvailableLists: "No lists available.",
+      change: "Change",
+      successfullyChanged: "The movie has been successfully moved to the selected list",
+    },
     trackingMenu: {
       title: "Меню отслеживания",
       siteToView: "Site to view",

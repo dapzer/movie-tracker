@@ -3,12 +3,13 @@ import { type MediaListType } from "@movie-tracker/types";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiCheckbox from "~/components/ui/UiCheckbox.vue";
 
-interface MediaItemCreateCopyModalItemProps {
+interface MediaItemModalFormItemProps {
   list: MediaListType;
   disabled?: boolean
+  asRadioInput?: boolean
 }
 
-const props = defineProps<MediaItemCreateCopyModalItemProps>();
+const props = defineProps<MediaItemModalFormItemProps>();
 const inputModel = defineModel();
 
 </script>
@@ -19,10 +20,11 @@ const inputModel = defineModel();
       :class="$style.title"
       variant="title3"
     >
-      {{ props.list.title }}
+      {{ props.list.title ?? $t('mediaList.favorites') }}
     </UiTypography>
     <UiCheckbox
       v-model="inputModel"
+      :as-radio-input="props.asRadioInput"
       :disabled="props.disabled"
       :value="list.id"
     />

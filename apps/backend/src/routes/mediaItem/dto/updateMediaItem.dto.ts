@@ -1,8 +1,14 @@
 import { MediaItemType } from '@movie-tracker/types';
+import { IsOptional, IsUUID } from 'class-validator';
 
 export class UpdateMediaItemDto
-  implements Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>
+  implements Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>
 {
-  mediaListId: string;
-  mediaDetailsId: string;
+  @IsOptional()
+  @IsUUID()
+  mediaListId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  mediaDetailsId?: string;
 }

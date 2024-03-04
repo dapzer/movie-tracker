@@ -33,7 +33,7 @@ const isModalVisible = ref<boolean>(Boolean(props.externalOpenedState));
 watch(
   () => props.externalOpenedState,
   (newValue) => {
-  isModalVisible.value = Boolean(newValue);
+    isModalVisible.value = Boolean(newValue);
   }
 );
 

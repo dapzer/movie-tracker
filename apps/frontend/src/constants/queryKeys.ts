@@ -20,6 +20,7 @@ export const MediaItemQueryKeys = {
   CREATE: "mediaItem/create",
   DELETE: "mediaItem/delete",
   UPDATE: "mediaItem/update",
+  UPDATE_TRACKING_DATA: "mediaItem/updateTrackingData",
   CREATE_COPY: "mediaItem/createCopy"
 } as const;
 

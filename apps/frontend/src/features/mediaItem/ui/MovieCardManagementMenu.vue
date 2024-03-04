@@ -7,7 +7,7 @@ import { computed } from "vue";
 import { toast } from "vue3-toastify";
 import { useI18n } from "#imports";
 import UiDivider from "~/components/ui/UiDivider.vue";
-import { MediaItemCreateCopyModal } from "~/features/mediaItem";
+import { MediaItemChangeMediaListModal, MediaItemCreateCopyModal } from "~/features/mediaItem";
 
 interface MovieCardManagementMenuProps {
   mediaItem: MediaItemType;
@@ -62,6 +62,8 @@ const handleDeleteMediaItem = () => {
   </template>
 
   <UiDivider />
+
+  <MediaItemChangeMediaListModal :media-item="props.mediaItem" />
 
   <MediaItemCreateCopyModal
     :media-details="props.mediaItem.mediaDetails"

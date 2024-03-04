@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 
 import UiTypography from "~/components/ui/UiTypography.vue";
-import MediaItemCreateCopyModalItem from "~/features/mediaItem/ui/createCopyModal/MediaItemCreateCopyModalItem.vue";
-import UiButton from "~/components/ui/UiButton.vue";
 import UiSwitch from "~/components/ui/UiSwitch.vue";
 import { MediaListCreateModal } from "~/features/mediaList";
 import { type MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types";
@@ -17,13 +15,14 @@ import { computed, ref } from "vue";
 import { toast } from "vue3-toastify";
 import UiDivider from "~/components/ui/UiDivider.vue";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
+import MediaItemModalFormItem from "~/features/mediaItem/ui/MediaItemModalFormItem.vue";
 
 interface MediaItemCreateCopyModalFormProps {
   mediaId: number;
   mediaType: MediaTypeEnum;
   mediaItemId: string;
   mediaDetails?: MediaDetailsType;
-  closeModal: () => void
+  closeModal: () => void;
 }
 
 const props = defineProps<MediaItemCreateCopyModalFormProps>();
@@ -41,7 +40,7 @@ const isCreatingPending = computed(() => {
 });
 
 const mediaTitle = computed(() => {
-  return getCurrentMediaDetails(props.mediaDetails, locale.value)?.title;
+  return getCurrentMediaDetails(props.mediaDetails, locale.value)?.title ?? t("mediaList.favorites");
 });
 
 const alreadyInList = computed(() => {
@@ -70,7 +69,7 @@ const handleCreateCopy = async () => {
 </script>
 
 <template>
-  <div :class="$style.body">
+  <div :class="$style.wrapper">
     <UiTypography :class="$style.title">
       {{ $t("mediaItem.createCopy.description", { title: mediaTitle }) }}
     </UiTypography>
@@ -79,7 +78,7 @@ const handleCreateCopy = async () => {
       v-if="!!availableLists?.length"
       :class="$style.list"
     >
-      <MediaItemCreateCopyModalItem
+      <MediaItemModalFormItem
         v-for="list in availableLists"
         :key="list.id"
         v-model="selectedLists"
@@ -111,9 +110,9 @@ const handleCreateCopy = async () => {
     </UiTypography>
 
     <UiFormActions
-      :is-confirm-disabled="isCreatingPending || selectedLists.length === 0"
-      :is-cancel-disabled="isCreatingPending"
       :confirm-text="$t('mediaItem.createCopy.clone')"
+      :is-cancel-disabled="isCreatingPending"
+      :is-confirm-disabled="isCreatingPending || selectedLists.length === 0"
       @cancel="closeModal"
       @confirm="() => {
         handleCreateCopy().then(() => {
@@ -125,7 +124,7 @@ const handleCreateCopy = async () => {
 </template>
 
 <style lang="scss" module>
-.body {
+.wrapper {
   display: flex;
   flex-direction: column;
   gap: 12px;
