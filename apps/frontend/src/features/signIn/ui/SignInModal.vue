@@ -41,7 +41,7 @@ const onSignIn = async (provider: string) => {
     let win: Window | null | undefined = null;
     if (currentBrowser === BrowserEnum.SAFARI) {
       authRedirectUrl.value = router.fullPath;
-      window.location.replace(response)
+      window.location.assign(response)
     } else {
       win = spawnWindowInScreenCenter(response, "Movie Tracker Sign In", window, 800, 600);
     }
