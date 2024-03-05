@@ -25,10 +25,12 @@ export default defineNuxtConfig({
     "nuxt-lazy-load",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
-    "nuxt-simple-robots"
+    "nuxt-simple-robots",
+    "nuxt-schema-org"
   ],
   site: {
-    url: process.env.VITE_BASE_URL || "http://localhost:3000"
+    url: process.env.VITE_BASE_URL || "http://localhost:3000",
+    name: "Movie Tracker",
   },
   sitemap: {
     exclude: ["/dashboard"],

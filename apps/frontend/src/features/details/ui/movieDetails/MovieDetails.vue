@@ -6,8 +6,7 @@ import {
   useTmdbGetVideosApi
 } from "~/composables/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { arrayToString } from "@movie-tracker/utils";
-import { computed, useI18n, useSeoMeta } from "#imports";
+import { computed, defineMovie, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -15,6 +14,8 @@ import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { PersonCard } from "~/widgets/personCard";
 import { MovieCard } from "~/widgets/movieCard";
+import { arrayToString, getMovieDirectors } from "@movie-tracker/utils";
+import { useLocalePath } from "#i18n";
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -23,6 +24,7 @@ interface MovieDetailsProps {
 
 const props = defineProps<MovieDetailsProps>();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
@@ -30,13 +32,13 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
-const tmdbGetMovieDetails = useTmdbGetMovieDetailsApi(queries);
+const tmdbGetMovieDetailsApi = useTmdbGetMovieDetailsApi(queries);
 const tmdbGetRecommendationsApi = useTmdbGetRecommendationsApi(queries);
 const tmdbGetMovieCreditsApi = useTmdbGetMovieCreditsApi(queries);
 const tmdbGetVideosApi = useTmdbGetVideosApi(queries);
 
 await Promise.all([
-  tmdbGetMovieDetails.suspense(),
+  tmdbGetMovieDetailsApi.suspense(),
   tmdbGetRecommendationsApi.suspense(),
   tmdbGetMovieCreditsApi.suspense(),
   tmdbGetVideosApi.suspense()
@@ -44,16 +46,49 @@ await Promise.all([
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${titleChunk} | ${tmdbGetMovieDetails.data.value?.title || tmdbGetMovieDetails.data.value?.name ||
-    tmdbGetMovieDetails.data.value?.original_title || tmdbGetMovieDetails.data.value?.original_name}`;
+    return `${titleChunk} | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
+    tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name}`;
   },
   ogTitle() {
-    return `%s | ${tmdbGetMovieDetails.data.value?.title || tmdbGetMovieDetails.data.value?.name ||
-    tmdbGetMovieDetails.data.value?.original_title || tmdbGetMovieDetails.data.value?.original_name}`;
+    return `%s | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
+    tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name}`;
   },
-  description: tmdbGetMovieDetails.data.value?.overview || t("seo.description"),
-  ogDescription: tmdbGetMovieDetails.data.value?.overview || t("seo.description")
+  description: tmdbGetMovieDetailsApi.data.value?.overview || t("seo.description"),
+  ogDescription: tmdbGetMovieDetailsApi.data.value?.overview || t("seo.description")
 });
+
+useSchemaOrg([
+  defineMovie({
+    name: tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
+      tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name || "",
+    alternativeHeadline: tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name || "",
+    alternativeName: tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name || "",
+    dateCreated: tmdbGetMovieDetailsApi.data.value?.release_date || tmdbGetMovieDetailsApi.data.value?.first_air_date,
+    description: tmdbGetMovieDetailsApi.data.value?.overview,
+    url: localePath(`/details/${props.mediaType}/${props.mediaId}`),
+    image: getTmdbImageUrl(tmdbGetMovieDetailsApi.data.value?.poster_path),
+    director: [
+      ...getMovieDirectors(tmdbGetMovieCreditsApi.data.value?.crew || []),
+      ...(tmdbGetMovieDetailsApi.data.value?.created_by || [])
+    ].map((el) => {
+      return {
+        name: el.name,
+        url: localePath(`/details/person/${el.id}`)
+      };
+    }),
+    actor: (tmdbGetMovieCreditsApi.data.value?.cast || []).map((el) => {
+      return {
+        name: el.name,
+        url: localePath(`/details/person/${el.id}`)
+      };
+    }),
+    aggregateRating: {
+      ratingValue: tmdbGetMovieDetailsApi.data.value?.vote_average || 0,
+      bestRating: 10,
+      ratingCount: tmdbGetMovieDetailsApi.data.value?.vote_count || 0
+    }
+  })
+]);
 
 const videosList = computed(() => {
   if (!tmdbGetVideosApi.data.value?.results.length) {
@@ -68,12 +103,12 @@ const videosList = computed(() => {
   <UiContainer :class="$style.wrapper">
     <MovieDetailsHeader
       :credits="tmdbGetMovieCreditsApi.data.value"
-      :details="tmdbGetMovieDetails.data.value"
+      :details="tmdbGetMovieDetailsApi.data.value"
       :mediaType="props.mediaType"
     />
 
     <section
-      v-if="tmdbGetMovieDetails.data.value?.overview"
+      v-if="tmdbGetMovieDetailsApi.data.value?.overview"
       :class="$style.block"
     >
       <UiTypography
@@ -83,7 +118,7 @@ const videosList = computed(() => {
         {{ $t(`details.${props.mediaType}Description`) }}
       </UiTypography>
       <UiTypography :class="$style.overviev">
-        {{ tmdbGetMovieDetails.data.value?.overview }}
+        {{ tmdbGetMovieDetailsApi.data.value?.overview }}
       </UiTypography>
     </section>
 
@@ -168,9 +203,9 @@ const videosList = computed(() => {
           <MovieCard
             :key="movie.id"
             :class="{ [$style.card]: !isFromModal }"
+            :is-hide-media-list-selector="!isFromModal"
             :is-hide-score="!isFromModal"
             :is-horizontal="!isFromModal"
-            :is-hide-media-list-selector="!isFromModal"
             :movie="movie"
           />
         </template>

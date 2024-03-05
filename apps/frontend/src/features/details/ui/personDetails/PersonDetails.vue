@@ -3,12 +3,13 @@
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { useTmdbGetPersonCreditsApi, useTmdbGetPersonDetailsApi } from "~/composables/useTmdbApi";
 import { computed } from "vue";
-import { useI18n, useSeoMeta } from "#imports";
+import { definePerson, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { MovieCard } from "~/widgets/movieCard";
+import { useLocalePath } from "#i18n";
 
 interface PersonDetailsProps {
   mediaId: number;
@@ -16,6 +17,7 @@ interface PersonDetailsProps {
 
 const props = defineProps<PersonDetailsProps>();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 
 const personQueries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.PERSON,
@@ -48,6 +50,15 @@ useSeoMeta({
   description: tmdbGetPersonDetailsApi.data.value?.biography || t("seo.description"),
   ogDescription: tmdbGetPersonDetailsApi.data.value?.biography || t("seo.description"),
 });
+
+useSchemaOrg([
+  definePerson({
+    name: tmdbGetPersonDetailsApi.data.value?.name,
+    url: localePath(`/details/person/${props.mediaId}`),
+    description: tmdbGetPersonDetailsApi.data.value?.biography,
+    image: getTmdbImageUrl(tmdbGetPersonDetailsApi.data.value?.profile_path),
+  })
+])
 
 </script>
 
