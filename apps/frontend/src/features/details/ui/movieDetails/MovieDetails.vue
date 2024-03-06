@@ -16,6 +16,7 @@ import { PersonCard } from "~/widgets/personCard";
 import { MovieCard } from "~/widgets/movieCard";
 import { arrayToString, getMovieDirectors } from "@movie-tracker/utils";
 import { useLocalePath } from "#i18n";
+import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -44,51 +45,7 @@ await Promise.all([
   tmdbGetVideosApi.suspense()
 ]);
 
-useSeoMeta({
-  titleTemplate(titleChunk) {
-    return `${titleChunk} | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
-    tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name}`;
-  },
-  ogTitle() {
-    return `%s | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
-    tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name}`;
-  },
-  description: tmdbGetMovieDetailsApi.data.value?.overview || t("seo.description"),
-  ogDescription: tmdbGetMovieDetailsApi.data.value?.overview || t("seo.description")
-});
-
-useSchemaOrg([
-  defineMovie({
-    name: tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
-      tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name || "",
-    alternativeHeadline: tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name || "",
-    alternativeName: tmdbGetMovieDetailsApi.data.value?.original_title || tmdbGetMovieDetailsApi.data.value?.original_name || "",
-    dateCreated: tmdbGetMovieDetailsApi.data.value?.release_date || tmdbGetMovieDetailsApi.data.value?.first_air_date,
-    description: tmdbGetMovieDetailsApi.data.value?.overview,
-    url: localePath(`/details/${props.mediaType}/${props.mediaId}`),
-    image: getTmdbImageUrl(tmdbGetMovieDetailsApi.data.value?.poster_path),
-    director: [
-      ...getMovieDirectors(tmdbGetMovieCreditsApi.data.value?.crew || []),
-      ...(tmdbGetMovieDetailsApi.data.value?.created_by || [])
-    ].map((el) => {
-      return {
-        name: el.name,
-        url: localePath(`/details/person/${el.id}`)
-      };
-    }),
-    actor: (tmdbGetMovieCreditsApi.data.value?.cast || []).map((el) => {
-      return {
-        name: el.name,
-        url: localePath(`/details/person/${el.id}`)
-      };
-    }),
-    aggregateRating: {
-      ratingValue: tmdbGetMovieDetailsApi.data.value?.vote_average || 0,
-      bestRating: 10,
-      ratingCount: tmdbGetMovieDetailsApi.data.value?.vote_count || 0
-    }
-  })
-]);
+useMovieDetailsSeo(props.mediaId, props.mediaType, tmdbGetMovieDetailsApi.data.value, tmdbGetMovieCreditsApi.data.value);
 
 const videosList = computed(() => {
   if (!tmdbGetVideosApi.data.value?.results.length) {

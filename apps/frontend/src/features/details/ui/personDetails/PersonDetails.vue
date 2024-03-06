@@ -10,6 +10,7 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { MovieCard } from "~/widgets/movieCard";
 import { useLocalePath } from "#i18n";
+import { usePersonDetailsSeo } from "~/features/details/model/usePersonDetailsSeo";
 
 interface PersonDetailsProps {
   mediaId: number;
@@ -42,24 +43,7 @@ const filmography = computed(() => {
   return [...(tmdbGetPersonCreditsApi.data.value?.cast || []), ...(tmdbGetPersonCreditsApi.data.value?.crew || [])]
 });
 
-useSeoMeta({
-  titleTemplate(titleChunk){
-    return `${titleChunk} | ${tmdbGetPersonDetailsApi.data.value?.name}`;
-  },
-  ogTitle: `%s | ${tmdbGetPersonDetailsApi.data.value?.name}`,
-  description: tmdbGetPersonDetailsApi.data.value?.biography || t("seo.description"),
-  ogDescription: tmdbGetPersonDetailsApi.data.value?.biography || t("seo.description"),
-});
-
-useSchemaOrg([
-  definePerson({
-    name: tmdbGetPersonDetailsApi.data.value?.name,
-    url: localePath(`/details/person/${props.mediaId}`),
-    description: tmdbGetPersonDetailsApi.data.value?.biography,
-    image: getTmdbImageUrl(tmdbGetPersonDetailsApi.data.value?.profile_path),
-  })
-])
-
+usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
 </script>
 
 <template>
