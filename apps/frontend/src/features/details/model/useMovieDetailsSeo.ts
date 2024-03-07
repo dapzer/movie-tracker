@@ -1,29 +1,53 @@
 import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { defineMovie, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
-import { getMovieDirectors } from "@movie-tracker/utils";
+import { generateApiUrl, getMovieDirectors } from "@movie-tracker/utils";
 import { useLocalePath } from "#i18n";
+import { computed } from "vue";
 
 export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum, media?: TmdbMediaDetailsType | null, credits?: TmdbCreditsType | null) => {
   const { t } = useI18n();
   const localePath = useLocalePath();
+  const getOgApiUrl =generateApiUrl(import.meta.env.VITE_API_URL || "")
+
+  const title = computed(() => {
+    return media?.title || media?.name || media?.original_title || media?.original_name || "";
+  })
+
+  const originalTitle = computed(() => {
+    return media?.original_title || media?.original_name || "";
+  })
+
+  const ogImage = computed(() => {
+    return getOgApiUrl(`/openGraphImage`, {
+      imageUrl:getTmdbImageUrl(media?.poster_path, true),
+      title: title.value,
+    })
+  })
 
   useSeoMeta({
     titleTemplate(titleChunk) {
-      return `${titleChunk} | ${media?.title || media?.name || media?.original_title || media?.original_name}`;
+      return `${titleChunk} | ${title.value}`;
     },
     ogTitle() {
-      return `%s | ${media?.title || media?.name || media?.original_title || media?.original_name}`;
+      return `%s | ${title.value}`;
     },
     description: media?.overview || t("seo.description"),
-    ogDescription: media?.overview || t("seo.description")
+    ogDescription: media?.overview || t("seo.description"),
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    ogImage: ogImage.value,
+    twitterImage: ogImage.value,
+    twitterCard: "summary_large_image",
+    twitterTitle: `%s | ${title.value}`,
+    twitterDescription: media?.overview || t("seo.description"),
   });
 
   useSchemaOrg([
     defineMovie({
-      name: media?.title || media?.name || media?.original_title || media?.original_name || "",
-      alternativeHeadline: media?.original_title || media?.original_name || "",
-      alternativeName: media?.original_title || media?.original_name || "",
+      name: title.value || "",
+      alternativeHeadline: originalTitle.value,
+      alternativeName: originalTitle.value,
       dateCreated: media?.release_date || media?.first_air_date,
       description: media?.overview,
       url: localePath(`/details/${mediaType}/${mediaId}`),
