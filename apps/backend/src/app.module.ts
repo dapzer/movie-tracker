@@ -11,6 +11,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SitemapModule } from '@/routes/sitemap/sitemap.module';
 import { AnalyticsModule } from '@/routes/analytics/analytics.module';
 import { TrackingDataModule } from '@/routes/trackingData/trackingData.module';
+import { OpenGraphImageModule } from '@/routes/openGraphImage/openGraphImage.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TrackingDataModule } from '@/routes/trackingData/trackingData.module';
     SitemapModule,
     AnalyticsModule,
     TrackingDataModule,
+    OpenGraphImageModule,
   ],
   controllers: [],
   providers: [],

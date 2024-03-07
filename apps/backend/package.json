@@ -26,11 +26,13 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
     "express-session": "^1.18.0",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
-    "sitemap": "^7.1.1" ,
-    "dotenv": "^16.4.5"
+    "satori": "^0.10.13",
+    "sharp": "^0.33.2",
+    "sitemap": "^7.1.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.2",

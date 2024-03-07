@@ -48,7 +48,7 @@ export class MediaDetailsService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    this.createOrUpdateAllMediaItemsDetails();
+    // this.createOrUpdateAllMediaItemsDetails();
   }
 
   @Interval(getMillisecondsFromHours(8))
