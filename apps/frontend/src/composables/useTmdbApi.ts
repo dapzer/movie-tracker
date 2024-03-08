@@ -17,7 +17,7 @@ import type {
   TmdbTrendsQueriesType
 } from "~/types/tmdbApiQueriesTypes";
 import { useQuery } from "@tanstack/vue-query";
-import type { TmdbPersonType, TmdbVideosType } from "@movie-tracker/types";
+import type { TmdbPersonType } from "@movie-tracker/types";
 
 export const useTmdbGetMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
@@ -104,5 +104,5 @@ export const useTmdbGetTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType
       "getTvSeriesDetails",
       queries
     ],
-    queryFn: () => tmdbSeasonsApi(queries.value).then((data) => data?.seasons)
+    queryFn: () => tmdbSeasonsApi(queries.value)
   });

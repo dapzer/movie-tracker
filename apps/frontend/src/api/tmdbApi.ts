@@ -1,15 +1,20 @@
 import { generateApiUrl } from "@movie-tracker/utils";
 import type {
   TmdbCreditsType,
-  TmdbMediaDetailsType,  TmdbPersonCreditsType,
-  TmdbSearchResponseType, TmdbSeasonDetailsType, TmdbSeasonDetailsWithMediaDetailsType, TmdbVideosType,
-  TmdbMediaDetailsSeasonKey
+  TmdbMediaDetailsSeasonKey,
+  TmdbMediaDetailsType,
+  TmdbPersonCreditsType,
+  TmdbSearchResponseType,
+  TmdbSeasonDetailsType,
+  TmdbVideosType
 } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import type {
   TmdbDefaultQueriesType,
   TmdbPersonCreditsQueriesType,
-  TmdbSearchQueriesType, TmdbSeasonsQueriesType, TmdbTrendsQueriesType
+  TmdbSearchQueriesType,
+  TmdbSeasonsQueriesType,
+  TmdbTrendsQueriesType
 } from "~/types/tmdbApiQueriesTypes";
 
 const getApiUrl = generateApiUrl(import.meta.env.VITE_TMDB_API_URL || "", {
@@ -90,18 +95,18 @@ export const tmdbVideosApi = async (queries: TmdbDefaultQueriesType) => {
   return await getResponse<TmdbVideosType>(url);
 };
 
-export const tmdbSeasonsApi = async (queries: TmdbSeasonsQueriesType): Promise<TmdbSeasonDetailsWithMediaDetailsType | null> => {
+export const tmdbSeasonsApi = async (queries: TmdbSeasonsQueriesType): Promise<TmdbSeasonDetailsType[] | null> => {
   let details = {} as TmdbMediaDetailsType;
-  const result: TmdbSeasonDetailsType[] = [];
+  const seasons: TmdbSeasonDetailsType[] = [];
 
   const maxSeasonsInRequest = 20;
   let cursor = 0;
 
   while (true) {
     const start = cursor * maxSeasonsInRequest;
-    const end = Math.min(start + maxSeasonsInRequest);
+    const end = start + maxSeasonsInRequest;
 
-    const seasonQuery = Array.from({ length: maxSeasonsInRequest }, (_, index) => `season/${start + index + 1}`);
+    const seasonQuery = Array.from({ length: maxSeasonsInRequest }, (_, index) => `season/${start + index}`);
 
     const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}`, {
       language: queries.language,
@@ -110,25 +115,17 @@ export const tmdbSeasonsApi = async (queries: TmdbSeasonsQueriesType): Promise<T
     const res = await getResponse<TmdbMediaDetailsType>(url);
 
     if (res) {
-      const seasons: TmdbSeasonDetailsType[] = [];
-
       for (let j = start; j <= end; j++) {
-        const seasonTitle: TmdbMediaDetailsSeasonKey = `season/${j}`;
+        const seasonKey: TmdbMediaDetailsSeasonKey = `season/${j}`;
 
-        if (seasonTitle in res) {
-          seasons.push(res[seasonTitle] as TmdbSeasonDetailsType);
-
-          if (cursor === 0) {
-            delete res[seasonTitle];
-          }
+        if (seasonKey in res) {
+          seasons.push(res[seasonKey] as TmdbSeasonDetailsType);
         }
       }
 
       if (cursor === 0) {
         details = res;
       }
-
-      result.push(...seasons);
     } else {
       return null;
     }
@@ -137,8 +134,5 @@ export const tmdbSeasonsApi = async (queries: TmdbSeasonsQueriesType): Promise<T
     cursor++;
   }
 
-  return {
-    details,
-    seasons: result
-  };
+  return seasons;
 };

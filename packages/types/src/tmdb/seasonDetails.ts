@@ -56,7 +56,3 @@ export interface TmdbSeasonDetailsType {
   vote_average: number;
 }
 
-export interface TmdbSeasonDetailsWithMediaDetailsType {
-  details: TmdbMediaDetailsType;
-  seasons: TmdbSeasonDetailsType[];
-}
