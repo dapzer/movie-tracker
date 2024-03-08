@@ -33,6 +33,7 @@ useSeoMeta({
   },
   applicationName: "Movie Tracker",
   ogSiteName: "Movie Tracker",
+  ogType: "website",
   keywords() {
     return t("seo.keywords");
   }
