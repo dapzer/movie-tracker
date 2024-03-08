@@ -26,6 +26,8 @@ const handleImageLoadingError = () => {
           :alt="props.title"
           width="260"
           height="147"
+          loading="lazy"
+          decoding="async"
           @error="handleImageLoadingError"
         />
         <div :class="$style.overlay">

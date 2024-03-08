@@ -33,6 +33,8 @@ const handleImageLoadingError = () => {
         :alt="props.title"
         width="260"
         height="390"
+        loading="lazy"
+        decoding="async"
         @error="handleImageLoadingError"
       />
     </template>

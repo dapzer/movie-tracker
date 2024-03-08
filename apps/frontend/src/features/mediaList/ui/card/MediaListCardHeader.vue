@@ -38,6 +38,8 @@ const title = computed(() => {
       <div :class="$style.imageWrapper">
         <NuxtImg
           v-if="props.list.poster && isPosterLoaded"
+          loading="lazy"
+          decoding="async"
           :alt="props.list.title"
           :src="props.list.poster"
           @error="isPosterLoaded = false"
