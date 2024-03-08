@@ -23,73 +23,75 @@ const { locale } = useI18n();
     :title="props.season.name"
     is-large
   >
-    <UiCard
-      v-for="episode in props.season.episodes"
-      :key="episode.id"
-      :description="`${$t('details.releaseDate')}: ${new Date(episode.air_date).toLocaleDateString(locale)}`"
-      :image="getTmdbImageUrl(episode?.still_path)"
-      :title="episode.name"
-      is-horizontal
-    >
-      <ul :class="$style.list">
-        <UiTypography
-          v-if="episode.vote_average"
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.userScore") }}:
+    <div :class="$style.wrapper">
+      <UiCard
+        v-for="episode in props.season.episodes"
+        :key="episode.id"
+        :description="`${$t('details.releaseDate')}: ${new Date(episode.air_date).toLocaleDateString(locale)}`"
+        :image="getTmdbImageUrl(episode?.still_path)"
+        :title="episode.name"
+        is-horizontal
+      >
+        <ul :class="$style.list">
           <UiTypography
-            as="span"
-            variant="listItemValue"
+            v-if="episode.vote_average"
+            as="li"
+            variant="listItem"
           >
-            {{ Number(episode.vote_average.toFixed(1)) }}
-          </UiTypography>
-        </UiTypography>
-
-        <UiTypography
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.episodeNumber") }}:
-          <UiTypography
-            as="span"
-            variant="listItemValue"
-          >
-            {{ episode.episode_number }}
-          </UiTypography>
-        </UiTypography>
-
-        <UiTypography
-          v-if="episode.runtime"
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.episodeDuration") }}:
-          <UiTypography
-            as="span"
-            variant="listItemValue"
-          >
-            {{ episode.runtime }} {{ $t("details.runTimeMins") }}
-          </UiTypography>
-        </UiTypography>
-
-        <UiTypography
-          v-if="episode.overview"
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.episodeDescription") }}:
-          <UiSpoilerText>
+            {{ $t("details.userScore") }}:
             <UiTypography
               as="span"
               variant="listItemValue"
             >
-              {{ episode.overview }}
+              {{ Number(episode.vote_average.toFixed(1)) }}
             </UiTypography>
-          </UiSpoilerText>
-        </UiTypography>
-      </ul>
-    </UiCard>
+          </UiTypography>
+
+          <UiTypography
+            as="li"
+            variant="listItem"
+          >
+            {{ $t("details.episodeNumber") }}:
+            <UiTypography
+              as="span"
+              variant="listItemValue"
+            >
+              {{ episode.episode_number }}
+            </UiTypography>
+          </UiTypography>
+
+          <UiTypography
+            v-if="episode.runtime"
+            as="li"
+            variant="listItem"
+          >
+            {{ $t("details.episodeDuration") }}:
+            <UiTypography
+              as="span"
+              variant="listItemValue"
+            >
+              {{ episode.runtime }} {{ $t("details.runTimeMins") }}
+            </UiTypography>
+          </UiTypography>
+
+          <UiTypography
+            v-if="episode.overview"
+            as="li"
+            variant="listItem"
+          >
+            {{ $t("details.episodeDescription") }}:
+            <UiSpoilerText>
+              <UiTypography
+                as="span"
+                variant="listItemValue"
+              >
+                {{ episode.overview }}
+              </UiTypography>
+            </UiSpoilerText>
+          </UiTypography>
+        </ul>
+      </UiCard>
+    </div>
   </UiDetails>
 </template>
 
