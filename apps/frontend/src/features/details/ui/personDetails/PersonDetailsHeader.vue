@@ -1,18 +1,29 @@
-<script setup lang="ts">
-import type { TmdbPersonType } from "@movie-tracker/types";
+<script lang="ts" setup>
+import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types";
 import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import UiInfoHeader from "~/components/ui/UiInfoHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { useI18n } from "#imports";
 import { arrayToString } from "@movie-tracker/utils";
+import { getPersonSocialList } from "~/features/details/model/getPersonSocialList";
+import { computed } from "vue";
+import PersonDetailsSocialList from "~/features/details/ui/personDetails/PersonDetailsSocialList.vue";
 
 interface PersonDetailsHeaderProps {
   details?: TmdbPersonType | null;
+  externalIds?: TmdbPersonExternalIdsType | null;
 }
 
-const props = defineProps<PersonDetailsHeaderProps>()
+const props = defineProps<PersonDetailsHeaderProps>();
 const { locale } = useI18n();
 
+const socialList = computed(() => {
+  if (!props.externalIds) {
+    return [];
+  }
+
+  return getPersonSocialList(props.externalIds);
+})
 </script>
 
 <template>
@@ -89,8 +100,17 @@ const { locale } = useI18n();
         {{ arrayToString(props.details?.also_known_as) }}
       </UiTypography>
     </UiTypography>
+
+    <UiTypography
+      v-if="!!socialList.length"
+      as="li"
+      variant="listItem"
+    >
+      {{ $t("details.socialNetworks") }}:
+      <PersonDetailsSocialList :social-list="socialList" />
+    </UiTypography>
   </UiInfoHeader>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
 </style>

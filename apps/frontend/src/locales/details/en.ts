@@ -37,6 +37,7 @@ export default {
     alsoKnownAs: 'Also known as',
     biography: 'Biography',
     filmography: 'Filmography',
+    socialNetworks: 'Social networks',
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",

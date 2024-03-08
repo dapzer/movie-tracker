@@ -6,7 +6,8 @@ import type {
   TmdbPersonCreditsType,
   TmdbSearchResponseType,
   TmdbSeasonDetailsType,
-  TmdbVideosType
+  TmdbVideosType,
+  TmdbPersonExternalIdsType
 } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import type {
@@ -46,7 +47,7 @@ export const tmdbSearchApi = async (queries: TmdbSearchQueriesType) => {
 
 export const tmdbDetailApi = async <T = TmdbMediaDetailsType>(queries: TmdbDefaultQueriesType) => {
   const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}`, {
-    language: queries.language
+    language: queries.language,
   });
 
   return await getResponse<T>(url);
@@ -67,6 +68,15 @@ export const tmdbPersonCreditsApi = async (queries: TmdbPersonCreditsQueriesType
 
   return await getResponse<TmdbPersonCreditsType>(url);
 };
+
+export const tmdbPersonExternalIdsApi = async (queries: TmdbDefaultQueriesType) => {
+  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/external_ids`, {
+    language: queries.language
+  });
+
+  return await getResponse<TmdbPersonExternalIdsType>(url);
+};
+
 
 export const tmdbTrendsApi = async (queries: TmdbTrendsQueriesType) => {
   const url = getApiUrl(`/${queries.mediaType}/popular`, {

@@ -37,6 +37,7 @@ export default {
     alsoKnownAs: 'Также известно как',
     biography: 'Биография',
     filmography: 'Фильмография',
+    socialNetworks: 'Социальные сети',
     seriesStatusName: {
       "canceled": "Отменён",
       "ended": "Завершён",

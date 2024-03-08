@@ -1,7 +1,11 @@
 
 <script lang="ts" setup>
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { useTmdbGetPersonCreditsApi, useTmdbGetPersonDetailsApi } from "~/composables/useTmdbApi";
+import {
+  useTmdbGetPersonExternalIdsApi,
+  useTmdbGetPersonCreditsApi,
+  useTmdbGetPersonDetailsApi
+} from "~/composables/useTmdbApi";
 import { computed } from "vue";
 import { definePerson, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -17,8 +21,7 @@ interface PersonDetailsProps {
 }
 
 const props = defineProps<PersonDetailsProps>();
-const { locale, t } = useI18n();
-const localePath = useLocalePath();
+const { locale } = useI18n();
 
 const personQueries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.PERSON,
@@ -33,10 +36,12 @@ const creditsQueries = computed(() => ({
 
 const tmdbGetPersonDetailsApi = useTmdbGetPersonDetailsApi(personQueries);
 const tmdbGetPersonCreditsApi = useTmdbGetPersonCreditsApi(creditsQueries);
+const tmdbGetPersonExternalIdsApi = useTmdbGetPersonExternalIdsApi(personQueries);
 
 await Promise.all([
   tmdbGetPersonDetailsApi.suspense(),
-  tmdbGetPersonCreditsApi.suspense()
+  tmdbGetPersonCreditsApi.suspense(),
+  tmdbGetPersonExternalIdsApi.suspense()
 ]);
 
 const filmography = computed(() => {
@@ -48,7 +53,11 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <PersonDetailsHeader :details="tmdbGetPersonDetailsApi.data.value" />
+    <PersonDetailsHeader
+      :details="tmdbGetPersonDetailsApi.data.value"
+      :external-ids="tmdbGetPersonExternalIdsApi.data.value"
+    />
+
     <section
       v-if="tmdbGetPersonDetailsApi.data.value?.biography"
       :class="$style.block"

@@ -1,7 +1,7 @@
 import type { Ref } from "vue";
 import {
   tmdbCreditsApi,
-  tmdbDetailApi,
+  tmdbDetailApi, tmdbPersonExternalIdsApi,
   tmdbPersonCreditsApi,
   tmdbRecommendationsApi,
   tmdbSearchApi,
@@ -57,6 +57,16 @@ export const useTmdbGetPersonCreditsApi = (queries: Ref<TmdbPersonCreditsQueries
       queryFn: () => tmdbPersonCreditsApi(queries.value)
     }
   );
+
+export const useTmdbGetPersonExternalIdsApi = (queries: Ref<TmdbDefaultQueriesType>) => {
+  return useQuery({
+    queryKey: [
+      "getExternalIds",
+      queries
+    ],
+    queryFn: () => tmdbPersonExternalIdsApi(queries.value)
+  });
+}
 
 export const useTmdbGetRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery(
