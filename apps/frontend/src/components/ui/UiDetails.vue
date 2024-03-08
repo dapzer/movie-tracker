@@ -22,6 +22,10 @@ const handleOpen = () => {
   isOpened.value = !isOpened.value;
   emmit("onHandleState", isOpened.value);
 };
+
+defineOptions({
+  inheritAttrs: false
+})
 </script>
 
 <template>
@@ -54,7 +58,10 @@ const handleOpen = () => {
       </div>
     </UiButton>
 
-    <div v-if="isOpened">
+    <div
+      v-if="isOpened"
+      v-bind="$attrs"
+    >
       <slot />
     </div>
   </div>

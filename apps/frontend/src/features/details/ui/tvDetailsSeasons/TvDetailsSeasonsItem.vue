@@ -17,7 +17,8 @@ const { locale } = useI18n();
 
 <template>
   <UiDetails
-    :description="`${ $t('details.episodesCount') }: ${ props.season.episodes.length }`"
+    :class="$style.wrapper"
+    :description="`${$t('details.episodesCount')}: ${ props.season.episodes.length }`"
     :is-opened-default="props.season.season_number === 1"
     :title="props.season.name"
     is-large
@@ -93,6 +94,12 @@ const { locale } = useI18n();
 </template>
 
 <style lang="scss" module>
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .list {
   display: flex;
   flex-direction: column;
