@@ -60,6 +60,8 @@ services:
     networks:
       - movie-tracker
       - caddy-public
+    deploy:
+      replicas: 5
     build:
       context: .
       dockerfile: ./apps/frontend/Dockerfile
@@ -75,6 +77,8 @@ services:
     networks:
       - movie-tracker
       - caddy-public
+    deploy:
+      replicas: 5
     build:
       dockerfile: ./apps/backend/Dockerfile
     env_file: ./.env
