@@ -2,10 +2,9 @@
 
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiInput from "~/components/ui/UiInput.vue";
-import { CloseIcon, SearchIcon } from "~/components/ui/icons";
-import UiButton from "~/components/ui/UiButton.vue";
+import { SearchIcon } from "~/components/ui/icons";
 import { ref } from "vue";
-import { computed, onBeforeMount, onMounted, watch } from "#imports";
+import { computed, onMounted, watch } from "#imports";
 import { useRoute, useRouter } from "vue-router";
 import { isOnlySpaces } from "@movie-tracker/utils";
 import { searchStore } from "~/stores/searcStore";
@@ -67,6 +66,15 @@ watch(() => localSearchValue.value, (value, oldValue, onCleanup) => {
 
   onCleanup(() => clearTimeout(delayDebounceFn));
 });
+
+watch(() => searchValue.value, () => {
+  const oldSearchValue = route.query.search;
+  setTimeout(() => {
+    if (!searchValue.value && !route.query.search && localSearchValue.value === oldSearchValue) {
+      localSearchValue.value = "";
+    }
+  }, 0);
+});
 </script>
 
 <template>
@@ -83,9 +91,9 @@ watch(() => localSearchValue.value, (value, oldValue, onCleanup) => {
       <UiInput
         v-model="localSearchValue"
         :class="$style.input"
+        :is-show-clear-button="!!searchValue"
         :placeholder="$t('search.placeholder')"
         type="text"
-        :is-show-clear-button="!!searchValue"
         @on-click-clear="clearSearch"
       />
     </div>

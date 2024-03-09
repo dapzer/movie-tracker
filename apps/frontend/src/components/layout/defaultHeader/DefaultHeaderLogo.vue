@@ -4,6 +4,9 @@ import { NuxtLink } from "#components";
 import { LanguageSelector } from "~/features/languegeSelector";
 import { useLocalePath } from "#i18n";
 import UiTypography from "~/components/ui/UiTypography.vue";
+import { computed } from "#imports";
+import { searchStore } from "~/stores/searcStore";
+import { useRoute } from "#app";
 
 interface DefaultHeaderLogoProps {
   isMobileMenuOpen: boolean;
@@ -11,6 +14,14 @@ interface DefaultHeaderLogoProps {
 
 const props = defineProps<DefaultHeaderLogoProps>();
 const localePath = useLocalePath();
+const router = useRoute();
+const searchValue = computed(() => searchStore.state.searchValue);
+
+const onClickLogo = () => {
+  if (searchValue.value && router.path == localePath("/")) {
+    searchStore.onChangeSearch("");
+  }
+}
 </script>
 
 <template>
@@ -21,6 +32,7 @@ const localePath = useLocalePath();
       :class="$style.logo"
       :to="localePath('/')"
       variant="title3"
+      @click="onClickLogo"
     >
       Movie Tracker
     </UiTypography>
