@@ -1,7 +1,6 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
+import { Controller, Get, Header, Query, StreamableFile } from '@nestjs/common';
 import { ProxyService } from '@/routes/proxy/proxy.service';
 import { ProxyQueriesDto } from '@/routes/proxy/dto/proxyQueries..dto';
-import { Response } from 'express';
 
 @Controller('proxy')
 export class ProxyController {
@@ -13,14 +12,10 @@ export class ProxyController {
   }
 
   @Get('image')
-  async getImage(@Res() res: Response, @Query() queries: ProxyQueriesDto) {
-    const { stream, contentType } = await this.proxyService.getImage(
-      queries.url,
-    );
+  @Header('Content-Type', 'image/webp')
+  async getImage(@Query() queries: ProxyQueriesDto) {
+    const image = await this.proxyService.getImage(queries.url, queries.size);
 
-    res.setHeader('Content-Type', contentType);
-    res.setHeader('Content-Disposition', 'filename=image.jpg');
-
-    return stream.getStream().pipe(res);
+    return new StreamableFile(image);
   }
 }

@@ -8,22 +8,22 @@ import { computed } from "vue";
 export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum, media?: TmdbMediaDetailsType | null, credits?: TmdbCreditsType | null) => {
   const { t } = useI18n();
   const localePath = useLocalePath();
-  const getOgApiUrl =generateApiUrl(import.meta.env.VITE_API_URL || "")
+  const getOgApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 
   const title = computed(() => {
     return media?.title || media?.name || media?.original_title || media?.original_name || "";
-  })
+  });
 
   const originalTitle = computed(() => {
     return media?.original_title || media?.original_name || "";
-  })
+  });
 
   const ogImage = computed(() => {
     return getOgApiUrl(`/openGraphImage`, {
-      imageUrl:getTmdbImageUrl(media?.poster_path, true),
-      title: title.value,
-    })
-  })
+      imageUrl: getTmdbImageUrl(media?.poster_path, undefined, true),
+      title: title.value
+    });
+  });
 
   useSeoMeta({
     titleTemplate(titleChunk) {
@@ -40,7 +40,7 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
     twitterImage: ogImage.value,
     twitterCard: "summary_large_image",
     twitterTitle: `%s | ${title.value}`,
-    twitterDescription: media?.overview || t("seo.description"),
+    twitterDescription: media?.overview || t("seo.description")
   });
 
   useSchemaOrg([

@@ -1,9 +1,5 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  StreamableFile,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class ProxyService {
@@ -42,7 +38,7 @@ export class ProxyService {
     }
   }
 
-  async getImage(url: string) {
+  async getImage(url: string, size: string = undefined) {
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -63,13 +59,9 @@ export class ProxyService {
 
     try {
       const buffer = await response.arrayBuffer();
-      const file = new Uint8Array(buffer);
-      const stream = new StreamableFile(file);
+      const image = await sharp(buffer).resize(Number(size)).webp().toBuffer();
 
-      return {
-        stream,
-        contentType,
-      };
+      return image;
     } catch (err) {
       throw new HttpException(
         `Failed to process data received from remote server.`,

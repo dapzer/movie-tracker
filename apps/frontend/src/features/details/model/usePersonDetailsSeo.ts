@@ -11,7 +11,7 @@ export const usePersonDetailsSeo = (person?: TmdbPersonType | null) => {
 
   const ogImage = computed(() => {
     return getOgApiUrl(`/openGraphImage`, {
-      imageUrl:getTmdbImageUrl(person?.profile_path, true),
+      imageUrl:getTmdbImageUrl(person?.profile_path, undefined, true),
       title: person!.name!,
     })
   })

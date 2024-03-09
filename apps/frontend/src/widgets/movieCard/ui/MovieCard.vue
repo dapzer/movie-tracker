@@ -38,7 +38,7 @@ const releaseDate = computed(() => {
       [$style.wrapperWithScore]: !props.isHideScore
     }]"
     :description="releaseDate"
-    :image="getTmdbImageUrl(image)"
+    :image="getTmdbImageUrl(image, 260)"
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
     :link="localePath(`/details/${movie.media_type}/${movie.id}`)"

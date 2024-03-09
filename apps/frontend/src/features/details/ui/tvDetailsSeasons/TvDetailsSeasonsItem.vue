@@ -28,7 +28,7 @@ const { locale } = useI18n();
         v-for="episode in props.season.episodes"
         :key="episode.id"
         :description="`${$t('details.releaseDate')}: ${new Date(episode.air_date).toLocaleDateString(locale)}`"
-        :image="getTmdbImageUrl(episode?.still_path)"
+        :image="getTmdbImageUrl(episode?.still_path, 260)"
         :title="episode.name"
         is-horizontal
       >

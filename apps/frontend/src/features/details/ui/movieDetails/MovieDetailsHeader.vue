@@ -50,7 +50,7 @@ const title = computed(() => {
 <template>
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
-    :image="getTmdbImageUrl(props.details?.poster_path)"
+    :image="getTmdbImageUrl(props.details?.poster_path, 350)"
     :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`).toLowerCase()})` : ''"
   >
     <template

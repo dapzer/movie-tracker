@@ -28,7 +28,7 @@ const socialList = computed(() => {
 
 <template>
   <UiInfoHeader
-    :image="getTmdbImageUrl(props.details?.profile_path)"
+    :image="getTmdbImageUrl(props.details?.profile_path, 350)"
     :title="props.details?.name ?? ''"
   >
     <UiTypography

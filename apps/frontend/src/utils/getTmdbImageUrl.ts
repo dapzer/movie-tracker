@@ -1,6 +1,6 @@
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
 
-export const getTmdbImageUrl = (path?: string, withoutProxy = false) => {
+export const getTmdbImageUrl = (path?: string, size?: number, withoutProxy = false) => {
   if (!path) {
     return "/defaultPoster.svg";
   }
@@ -9,5 +9,5 @@ export const getTmdbImageUrl = (path?: string, withoutProxy = false) => {
     return `https://image.tmdb.org/t/p/original${path}`;
   }
 
-  return getProxiedImageUrl(`https://image.tmdb.org/t/p/original${path}`);
+  return getProxiedImageUrl(`https://image.tmdb.org/t/p/original${path}`, size);
 };

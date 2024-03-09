@@ -38,7 +38,7 @@ const description = computed(() => {
   <UiCard
     :class="$style.wrapper"
     :description="description"
-    :image="getTmdbImageUrl(currentMediaDetails?.poster || '')"
+    :image="getTmdbImageUrl(currentMediaDetails?.poster || '', 260)"
     :link="localePath(`/details/${mediaItem.mediaType}/${mediaItem.mediaId}`)"
     :title="currentMediaDetails?.title || ''"
   >

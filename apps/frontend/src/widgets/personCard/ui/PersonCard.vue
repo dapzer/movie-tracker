@@ -25,7 +25,7 @@ const localePath = useLocalePath();
     :width="props.width"
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
-    :image="getTmdbImageUrl(image)"
+    :image="getTmdbImageUrl(image, 260)"
     :link="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${props.person.id}`)"
     :title="props.person.name"
   >
