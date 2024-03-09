@@ -3,9 +3,8 @@ import type { TmdbSeasonDetailsType } from "@movie-tracker/types";
 import UiDetails from "~/components/ui/UiDetails.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { UiCard } from "~/components/ui/UiCard";
-import { useI18n } from "#imports";
+import { getProxiedImageUrl, useI18n } from "#imports";
 import UiSpoilerText from "~/components/ui/UiSpoilerText.vue";
-import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 
 interface TvDetailsSeasonsItemProps {
   season: TmdbSeasonDetailsType;
@@ -28,7 +27,7 @@ const { locale } = useI18n();
         v-for="episode in props.season.episodes"
         :key="episode.id"
         :description="`${$t('details.releaseDate')}: ${new Date(episode.air_date).toLocaleDateString(locale)}`"
-        :image="getTmdbImageUrl(episode?.still_path, 260)"
+        :image="getProxiedImageUrl(episode?.still_path, 260)"
         :title="episode.name"
         is-horizontal
       >

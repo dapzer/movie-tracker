@@ -1,3 +1,7 @@
-export const getProxiedImageUrl = (url: string, size?: number) => {
-  return `${import.meta.env.VITE_API_URL}/proxy/image?url=${url}${size ? `&size=${size}` : ''}`
+export const getProxiedImageUrl = (path?: string, size?: number) => {
+  if (!path) {
+    return "/defaultPoster.svg";
+  }
+
+  return `${import.meta.env.VITE_API_URL}/proxy/image${path}${size ? `?size=${size}` : ''}`
 }

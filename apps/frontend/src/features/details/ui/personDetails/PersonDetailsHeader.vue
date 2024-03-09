@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types";
-import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import UiInfoHeader from "~/components/ui/UiInfoHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
-import { useI18n } from "#imports";
+import { getProxiedImageUrl, useI18n } from "#imports";
 import { arrayToString } from "@movie-tracker/utils";
 import { getPersonSocialList } from "~/features/details/model/getPersonSocialList";
 import { computed } from "vue";
@@ -23,12 +22,12 @@ const socialList = computed(() => {
   }
 
   return getPersonSocialList(props.externalIds);
-})
+});
 </script>
 
 <template>
   <UiInfoHeader
-    :image="getTmdbImageUrl(props.details?.profile_path, 350)"
+    :image="getProxiedImageUrl(props.details?.profile_path, 350)"
     :title="props.details?.name ?? ''"
   >
     <UiTypography

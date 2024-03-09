@@ -18,12 +18,10 @@ import type {
   TmdbTrendsQueriesType
 } from "~/types/tmdbApiQueriesTypes";
 
-const getApiUrl = generateApiUrl(import.meta.env.VITE_TMDB_API_URL || "", {
-  api_key: import.meta.env.VITE_TMDB_API_KEY || ""
-});
+const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 
-export const getResponse = async <T = unknown>(url: string): Promise<T | null> => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/proxy?url=${encodeURIComponent(url)}`);
+export const getResponse = async <T = unknown>(path: string, queries?: Record<string, string | number>): Promise<T | null> => {
+  const response = await fetch(getApiUrl(`/proxy/content${path}`, queries));
   const data = await response.json();
 
   if (response.ok) {
@@ -36,73 +34,56 @@ export const getResponse = async <T = unknown>(url: string): Promise<T | null> =
 export const tmdbSearchApi = async (queries: TmdbSearchQueriesType) => {
   if (queries.searchValue.length === 0) return null;
 
-  const url = getApiUrl("/search/multi", {
+  return getResponse<TmdbSearchResponseType>("/search/multi", {
     query: queries.searchValue,
     page: queries.page,
     language: queries.language
   });
-
-  return await getResponse<TmdbSearchResponseType>(url);
 };
 
 export const tmdbDetailApi = async <T = TmdbMediaDetailsType>(queries: TmdbDefaultQueriesType) => {
-  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}`, {
+  return getResponse<T>(`/${queries.mediaType}/${queries.mediaId}`, {
     language: queries.language,
   });
-
-  return await getResponse<T>(url);
 };
 
 export const tmdbCreditsApi = async (queries: TmdbDefaultQueriesType) => {
-  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/${queries.mediaType === TmdbMediaTypeEnum.TV ? "aggregate_credits" : "credits"}`, {
+  return getResponse<TmdbCreditsType>(`/${queries.mediaType}/${queries.mediaId}/${queries.mediaType === TmdbMediaTypeEnum.TV ? "aggregate_credits" : "credits"}`, {
     language: queries.language
   });
-
-  return await getResponse<TmdbCreditsType>(url);
 };
 
 export const tmdbPersonCreditsApi = async (queries: TmdbPersonCreditsQueriesType) => {
-  const url = getApiUrl(`/person/${queries.personId}/combined_credits`, {
+  return getResponse<TmdbPersonCreditsType>(`/person/${queries.personId}/combined_credits`, {
     language: queries.language
   });
-
-  return await getResponse<TmdbPersonCreditsType>(url);
 };
 
 export const tmdbPersonExternalIdsApi = async (queries: TmdbDefaultQueriesType) => {
-  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/external_ids`, {
+  return getResponse<TmdbPersonExternalIdsType>(`/${queries.mediaType}/${queries.mediaId}/external_ids`, {
     language: queries.language
   });
-
-  return await getResponse<TmdbPersonExternalIdsType>(url);
 };
 
 
 export const tmdbTrendsApi = async (queries: TmdbTrendsQueriesType) => {
-  const url = getApiUrl(`/${queries.mediaType}/popular`, {
+  return getResponse<TmdbSearchResponseType>(`/${queries.mediaType}/popular`, {
     language: queries.language,
     page: 1
   });
-
-  return await getResponse<TmdbSearchResponseType>(url);
 };
 
 export const tmdbRecommendationsApi = async (queries: TmdbDefaultQueriesType) => {
-  const url
-    = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/recommendations`, {
+  return getResponse<TmdbSearchResponseType>(`/${queries.mediaType}/${queries.mediaId}/recommendations`, {
     language: queries.language,
     page: 1
   });
-
-  return await getResponse<TmdbSearchResponseType>(url);
 };
 
 export const tmdbVideosApi = async (queries: TmdbDefaultQueriesType) => {
-  const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}/videos`, {
+  return getResponse<TmdbVideosType>(`/${queries.mediaType}/${queries.mediaId}/videos`, {
     language: queries.language
   });
-
-  return await getResponse<TmdbVideosType>(url);
 };
 
 export const tmdbSeasonsApi = async (queries: TmdbSeasonsQueriesType): Promise<TmdbSeasonDetailsType[] | null> => {
@@ -118,11 +99,10 @@ export const tmdbSeasonsApi = async (queries: TmdbSeasonsQueriesType): Promise<T
 
     const seasonQuery = Array.from({ length: maxSeasonsInRequest }, (_, index) => `season/${start + index}`);
 
-    const url = getApiUrl(`/${queries.mediaType}/${queries.mediaId}`, {
+    const res = await getResponse<TmdbMediaDetailsType>(`/${queries.mediaType}/${queries.mediaId}`, {
       language: queries.language,
       append_to_response: seasonQuery.join(",")
     });
-    const res = await getResponse<TmdbMediaDetailsType>(url);
 
     if (res) {
       for (let j = start; j <= end; j++) {

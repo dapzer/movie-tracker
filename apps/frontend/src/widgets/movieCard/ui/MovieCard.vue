@@ -2,11 +2,10 @@
 import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { UiCard } from "~/components/ui/UiCard";
-import { computed, useI18n } from "#imports";
+import { computed, getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
 import UiScoreCircle from "~/components/ui/UiScoreCircle.vue";
-import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import { MediaListSelectorModal } from "~/features/mediaListSelector";
 import { checkIsValidDate } from "~/utils/checkIsValidDate";
 
@@ -38,7 +37,7 @@ const releaseDate = computed(() => {
       [$style.wrapperWithScore]: !props.isHideScore
     }]"
     :description="releaseDate"
-    :image="getTmdbImageUrl(image, 260)"
+    :image="getProxiedImageUrl(image, 260)"
     :is-horizontal="props.isHorizontal"
     :is-small="props.isSmall"
     :link="localePath(`/details/${movie.media_type}/${movie.id}`)"

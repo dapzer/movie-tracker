@@ -34,8 +34,6 @@ jobs:
           build-args: |
             VITE_BASE_URL=${{ secrets.BASE_URL }}
             VITE_API_URL=${{ secrets.API_URL }}
-            VITE_TMDB_API_URL=${{ secrets.TMDB_API_URL }}
-            VITE_TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
 
   backend:
     runs-on: ubuntu-latest

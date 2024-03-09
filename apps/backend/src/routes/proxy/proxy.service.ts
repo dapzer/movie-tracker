@@ -1,23 +1,31 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as sharp from 'sharp';
+import { generateApiUrl } from '@movie-tracker/utils';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ProxyService {
-  async getResponse(url: string) {
+  getApiUrl = generateApiUrl(this.configService.get('TMDB_API_URL') || '', {
+    api_key: this.configService.get('TMDB_API_KEY') || '',
+  });
+
+  constructor(private readonly configService: ConfigService) {}
+
+  async getResponse(path: string, queries?: Record<string, string>) {
     let response: Response | undefined = undefined;
 
     try {
-      response = await fetch(url);
+      response = await fetch(this.getApiUrl(`/${path}`, queries));
     } catch (err) {
       throw new HttpException(
-        `Failed to get image from ${url}.`,
+        `Failed to get data from remote server.`,
         HttpStatus.BAD_GATEWAY,
       );
     }
 
     if (!response.ok) {
       throw new HttpException(
-        `${response.status}: Failed to get data from ${url}.`,
+        `${response.status}: Failed to get data from remote server.`,
         HttpStatus.BAD_GATEWAY,
       );
     }
@@ -26,9 +34,19 @@ export class ProxyService {
       const contentType = response.headers.get('content-type');
 
       if (contentType && contentType.indexOf('application/json') !== -1) {
-        return await response.json();
+        const res = await response.json();
+
+        return {
+          res,
+          contentType,
+        };
       } else {
-        return await response.text();
+        const res = await response.text();
+
+        return {
+          res,
+          contentType,
+        };
       }
     } catch (err) {
       throw new HttpException(
@@ -38,12 +56,14 @@ export class ProxyService {
     }
   }
 
-  async getImage(url: string, size: string = undefined) {
-    const response = await fetch(url);
+  async getImage(path: string, size: string = undefined) {
+    const response = await fetch(
+      `${this.configService.get('TMDB_IMAGE_API_URL')}/w500/${path}`,
+    );
 
     if (!response.ok) {
       throw new HttpException(
-        `${response.status}: Failed to get image from ${url}.`,
+        `${response.status}: Failed to get image from remote server.`,
         HttpStatus.BAD_GATEWAY,
       );
     }
@@ -59,9 +79,8 @@ export class ProxyService {
 
     try {
       const buffer = await response.arrayBuffer();
-      const image = await sharp(buffer).resize(Number(size)).webp().toBuffer();
 
-      return image;
+      return sharp(buffer).resize(Number(size)).webp().toBuffer();
     } catch (err) {
       throw new HttpException(
         `Failed to process data received from remote server.`,

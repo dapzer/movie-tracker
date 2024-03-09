@@ -68,8 +68,6 @@ services:
       args:
         - VITE_BASE_URL=${VITE_BASE_URL}
         - VITE_API_URL=${VITE_API_URL}
-        - VITE_TMDB_API_URL=${VITE_TMDB_API_URL}
-        - VITE_TMDB_API_KEY=${VITE_TMDB_API_KEY}
     env_file: ./.env
   backend:
     image: danilavoronkov/movie-tracker-backend

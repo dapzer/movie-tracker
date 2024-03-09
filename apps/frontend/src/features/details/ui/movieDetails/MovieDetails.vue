@@ -6,7 +6,7 @@ import {
   useTmdbGetVideosApi
 } from "~/composables/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { computed, defineMovie, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
+import { computed, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -14,7 +14,7 @@ import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { PersonCard } from "~/widgets/personCard";
 import { MovieCard } from "~/widgets/movieCard";
-import { arrayToString, getMovieDirectors } from "@movie-tracker/utils";
+import { arrayToString } from "@movie-tracker/utils";
 import { useLocalePath } from "#i18n";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
 

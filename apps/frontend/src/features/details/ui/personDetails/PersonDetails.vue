@@ -1,19 +1,17 @@
-
 <script lang="ts" setup>
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import {
-  useTmdbGetPersonExternalIdsApi,
   useTmdbGetPersonCreditsApi,
-  useTmdbGetPersonDetailsApi
+  useTmdbGetPersonDetailsApi,
+  useTmdbGetPersonExternalIdsApi
 } from "~/composables/useTmdbApi";
 import { computed } from "vue";
-import { definePerson, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
+import { useI18n } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { MovieCard } from "~/widgets/movieCard";
-import { useLocalePath } from "#i18n";
 import { usePersonDetailsSeo } from "~/features/details/model/usePersonDetailsSeo";
 
 interface PersonDetailsProps {
@@ -45,7 +43,7 @@ await Promise.all([
 ]);
 
 const filmography = computed(() => {
-  return [...(tmdbGetPersonCreditsApi.data.value?.cast || []), ...(tmdbGetPersonCreditsApi.data.value?.crew || [])]
+  return [...(tmdbGetPersonCreditsApi.data.value?.cast || []), ...(tmdbGetPersonCreditsApi.data.value?.crew || [])];
 });
 
 usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
@@ -85,25 +83,25 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
       </UiTypography>
 
       <UiListWithShowMore
-        variant="tripleColumns"
         :items="filmography"
         :items-to-show="5"
         :title="$t('details.filmography')"
+        variant="tripleColumns"
       >
         <template #card="{ item: movie, isFromModal }">
           <MovieCard
             :key="movie.id"
             :class="{ [$style.card]: !isFromModal }"
-            :is-horizontal="!isFromModal"
-            :is-hide-score="!isFromModal"
             :is-hide-media-list-selector="!isFromModal"
+            :is-hide-score="!isFromModal"
+            :is-horizontal="!isFromModal"
             :movie="movie"
           >
             <UiTypography v-if="'character' in movie && movie.character">
-              {{ $t('details.role') }}: {{ movie.character }}
+              {{ $t("details.role") }}: {{ movie.character }}
             </UiTypography>
             <UiTypography v-else-if="'job' in movie && movie.job">
-              {{ $t('details.role') }}: {{ movie.job }}
+              {{ $t("details.role") }}: {{ movie.job }}
             </UiTypography>
           </MovieCard>
         </template>

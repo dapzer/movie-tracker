@@ -1,6 +1,6 @@
 import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { defineMovie, getTmdbImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
+import { defineMovie, getProxiedImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
 import { generateApiUrl, getMovieDirectors } from "@movie-tracker/utils";
 import { useLocalePath } from "#i18n";
 import { computed } from "vue";
@@ -20,7 +20,7 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
 
   const ogImage = computed(() => {
     return getOgApiUrl(`/openGraphImage`, {
-      imageUrl: getTmdbImageUrl(media?.poster_path, undefined, true),
+      imageUrl: getProxiedImageUrl(media?.poster_path),
       title: title.value
     });
   });
@@ -51,7 +51,7 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
       dateCreated: media?.release_date || media?.first_air_date,
       description: media?.overview,
       url: localePath(`/details/${mediaType}/${mediaId}`),
-      image: getTmdbImageUrl(media?.poster_path),
+      image: getProxiedImageUrl(media?.poster_path),
       director: [
         ...getMovieDirectors(credits?.crew || []),
         ...(media?.created_by || [])

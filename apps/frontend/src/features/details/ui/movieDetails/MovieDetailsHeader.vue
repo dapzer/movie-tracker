@@ -10,7 +10,6 @@ import MovieDetailsProducers from "./MovieDetailsProducers.vue";
 import { getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
-import { getTmdbImageUrl } from "~/utils/getTmdbImageUrl";
 import { MediaListSelectorModal } from "~/features/mediaListSelector";
 import { checkIsValidDate } from "~/utils/checkIsValidDate";
 
@@ -31,7 +30,7 @@ const producers = computed(() => {
 
 const releaseDate = computed(() => {
   if (!props.details) return "";
-  const date = new Date(props.details?.release_date || props.details?.first_air_date).toLocaleDateString(locale.value)
+  const date = new Date(props.details?.release_date || props.details?.first_air_date).toLocaleDateString(locale.value);
 
   return checkIsValidDate(date) ? date : "";
 });
@@ -50,7 +49,7 @@ const title = computed(() => {
 <template>
   <UiInfoHeader
     :description="isShowOriginalTitle ? props.details?.original_title || props.details?.original_name : ''"
-    :image="getTmdbImageUrl(props.details?.poster_path, 350)"
+    :image="getProxiedImageUrl(props.details?.poster_path, 350)"
     :title="title ?`${title} (${$t(`details.mediaType.${props.mediaType}`).toLowerCase()})` : ''"
   >
     <template
@@ -213,13 +212,15 @@ const title = computed(() => {
           as="span"
           variant="listItemValue"
         >
-          {{ props.details?.number_of_seasons }} (<UiTypography
+          {{ props.details?.number_of_seasons }} (
+          <UiTypography
             :as="NuxtLink"
-            variant="linkUnderlined"
             :to="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.details?.id}/seasons`)"
+            variant="linkUnderlined"
           >
-            {{ $t('details.episodesList') }}
-          </UiTypography>)
+            {{ $t("details.episodesList") }}
+          </UiTypography>
+          )
         </UiTypography>
       </UiTypography>
 

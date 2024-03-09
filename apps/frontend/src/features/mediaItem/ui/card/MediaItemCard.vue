@@ -2,7 +2,7 @@
 import type { MediaItemType } from "@movie-tracker/types";
 import { MediaTypeEnum } from "@movie-tracker/types";
 import { computed } from "vue";
-import { getTmdbImageUrl, useI18n } from "#imports";
+import { getProxiedImageUrl, useI18n } from "#imports";
 import { UiCard } from "~/components/ui/UiCard";
 import { useLocalePath } from "#i18n";
 import UiLinkToDetails from "~/components/ui/UiLinkToDetails.vue";
@@ -38,7 +38,7 @@ const description = computed(() => {
   <UiCard
     :class="$style.wrapper"
     :description="description"
-    :image="getTmdbImageUrl(currentMediaDetails?.poster || '', 260)"
+    :image="getProxiedImageUrl(currentMediaDetails?.poster || '', 260)"
     :link="localePath(`/details/${mediaItem.mediaType}/${mediaItem.mediaId}`)"
     :title="currentMediaDetails?.title || ''"
   >
