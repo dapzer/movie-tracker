@@ -3,7 +3,6 @@ version: '3'
 services:
   postgres:
     image: postgres:14-alpine
-    container_name: postgres
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -17,14 +16,11 @@ services:
     image: adminer
     container_name: adminer
     restart: always
-    ports:
-      - 8085:8080
     networks:
       - movie-tracker
       - caddy-public
   backup:
     image: schickling/postgres-backup-s3
-    container_name: backup
     depends_on:
       - postgres
     links:
@@ -47,7 +43,6 @@ services:
       POSTGRES_EXTRA_OPTS: "--inserts --data-only"
   caddy:
     image: caddy:2
-    container_name: caddy
     restart: unless-stopped
     ports:
       - "80:80"
@@ -61,10 +56,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
   frontend:
     image: danilavoronkov/movie-tracker-frontend
-    container_name: frontend
     restart: unless-stopped
-    ports:
-      - 3000:3000
     networks:
       - movie-tracker
       - caddy-public
@@ -79,10 +71,7 @@ services:
     env_file: ./.env
   backend:
     image: danilavoronkov/movie-tracker-backend
-    container_name: backend
     restart: unless-stopped
-    ports:
-      - 1337:1337
     networks:
       - movie-tracker
       - caddy-public
