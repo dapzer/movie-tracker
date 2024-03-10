@@ -172,9 +172,6 @@ importers:
       '@yeger/vue-masonry-wall':
         specifier: ^5.0.8
         version: 5.0.8(vue@3.4.19)
-      nuxt-lazy-load:
-        specifier: ^3.0.4
-        version: 3.0.4(rollup@4.12.0)
       sass:
         specifier: ^1.71.1
         version: 1.71.1
@@ -8957,6 +8954,7 @@ packages:
 
   /napi-wasm@1.1.0:
     resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    requiresBuild: true
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -9271,15 +9269,6 @@ packages:
       - vite
       - vue
     dev: true
-
-  /nuxt-lazy-load@3.0.4(rollup@4.12.0):
-    resolution: {integrity: sha512-NlJ/E3RPnbpHIhMigVIDHJwRaTsOHP9dVSPoUH9XhHXvSAgjkywGyoFkI21t+4x5Ug1pv13sFalPE8e75SnY4w==}
-    dependencies:
-      '@nuxt/kit': 3.10.3(rollup@4.12.0)
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: false
 
   /nuxt-schema-org@3.3.4(@nuxt/devtools@1.0.8)(@unhead/shared@1.8.11)(@vue/compiler-core@3.4.19)(nuxt@3.10.3)(postcss@8.4.35)(rollup@4.12.0)(unhead@1.8.10)(vite@5.1.4)(vue@3.4.19)(webpack@5.90.3):
     resolution: {integrity: sha512-wZVFeZxogpFlavRYOvsQXNMNxju8YYfoauXkfZ7qNow9qB90vQVHFUW8rrMU+F/rGPg/eJ79rEV+Lf4mKHggmA==}

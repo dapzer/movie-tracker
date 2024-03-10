@@ -22,7 +22,6 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     "@nuxtjs/i18n",
     "@nuxt/image",
-    "nuxt-lazy-load",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
     "nuxt-simple-robots",
@@ -59,14 +58,6 @@ export default defineNuxtConfig({
         iso: locale.iso
       };
     })
-  },
-  lazyLoad: {
-    images: true,
-    videos: true,
-    audios: true,
-    iframes: true,
-    native: false,
-    directiveOnly: false
   },
   svgo: {
     svgo: true,

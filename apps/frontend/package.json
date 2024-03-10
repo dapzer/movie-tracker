@@ -40,7 +40,6 @@
     "@nuxt/image": "^1.3.0",
     "@tanstack/vue-query": "^5.22.2",
     "@yeger/vue-masonry-wall": "^5.0.8",
-    "nuxt-lazy-load": "^3.0.4",
     "sass": "^1.71.1",
     "vue3-toastify": "^0.2.1"
   }
