@@ -25,7 +25,8 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
     "nuxt-simple-robots",
-    "nuxt-schema-org"
+    "nuxt-schema-org",
+    "nuxt-delay-hydration",
   ],
   site: {
     url: process.env.VITE_BASE_URL || "http://localhost:3000",
@@ -65,6 +66,10 @@ export default defineNuxtConfig({
     svgoConfig: {
       multipass: true
     }
+  },
+  delayHydration: {
+    mode: 'init',
+    debug: process.env.NODE_ENV !== "production"
   },
   css: ["@/styles/global.scss", "@/styles/variables.scss"],
   imports: {

@@ -37,11 +37,14 @@ const handleImageLoadingError = () => {
     <div :class="$style.poster">
       <div>
         <NuxtImg
+          preload
           :height="405"
           :src="imageSrc"
+          loading="eager"
+          fetchpriority="high"
           :width="270"
-          @error="handleImageLoadingError"
           :alt="props.title"
+          @error="handleImageLoadingError"
         />
       </div>
 

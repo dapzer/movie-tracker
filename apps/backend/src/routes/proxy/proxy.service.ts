@@ -79,7 +79,6 @@ export class ProxyService {
 
     try {
       const buffer = await response.arrayBuffer();
-
       return sharp(buffer).resize(Number(size)).webp().toBuffer();
     } catch (err) {
       throw new HttpException(
