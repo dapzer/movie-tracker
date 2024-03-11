@@ -21,7 +21,7 @@ export default {
       successfullyChanged: "The movie has been successfully moved to the selected list",
     },
     trackingMenu: {
-      title: "Меню отслеживания",
+      title: "Tracking menu",
       siteToView: "Site to view",
       addSiteToView: "Add site to view",
       currentEpisode: "Current episode",
