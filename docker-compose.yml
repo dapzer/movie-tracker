@@ -14,7 +14,6 @@ services:
       POSTGRES_DB: movietracker
   adminer:
     image: adminer
-    container_name: adminer
     restart: always
     networks:
       - movie-tracker
