@@ -36,16 +36,12 @@ export class ProxyService {
       if (contentType && contentType.indexOf('application/json') !== -1) {
         const res = await response.json();
 
-        return {
-          res,
-          contentType,
-        };
+        return res;
       } else {
         const res = await response.text();
 
         return {
-          res,
-          contentType,
+          data: res,
         };
       }
     } catch (err) {

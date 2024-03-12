@@ -82,11 +82,20 @@ services:
     env_file: ./.env
     volumes:
       - sitemaps:/app/apps/backend/sitemaps
+  redis:
+    image: redis
+    restart: always
+    networks:
+      - movie-tracker
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
 
 volumes:
   caddy_data:
   caddy_config:
   postgres-data:
+  redis-data:
   sitemaps:
 
 networks:

@@ -17,6 +17,7 @@ The main goal in the creation of this project was the realization of personal li
 - TanStack Query
 - Node.js
 - NestJS
+- Redis
 - PostgreSQL
 - Prisma
 - Docker
@@ -33,7 +34,7 @@ The main goal in the creation of this project was the realization of personal li
 
 1. Clone repository `git clone https://github.com/dapzer/movie-tracker.git`
 2. Create a `.env` file and transfer the data from `.env.development` into it
-3. Run needed services (PostgreSQL, Adminer) `docker compose -f docker-compose.dev.yml up -d`
+3. Run needed services (PostgreSQL, Adminer, Redis) `docker compose -f docker-compose.dev.yml up -d`
 4. Install dependencies `pnpm install`
 5. Run project `pnpm run dev`
 

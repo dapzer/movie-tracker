@@ -4,12 +4,12 @@ import {
   Header,
   Param,
   Query,
-  Res,
   StreamableFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { ProxyService } from '@/routes/proxy/proxy.service';
 import { ProxyQueriesDto } from '@/routes/proxy/dto/proxyQueries..dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('proxy')
 export class ProxyController {
@@ -27,17 +27,11 @@ export class ProxyController {
   }
 
   @Get('content/:everything(*)')
+  @UseInterceptors(CacheInterceptor)
   async getResizedImage(
-    @Res() response: Response,
     @Param('everything') everything: string,
     @Query() queries: Record<string, string>,
   ) {
-    const { res, contentType } = await this.proxyService.getResponse(
-      everything,
-      queries,
-    );
-
-    response.header('Content-Type', contentType);
-    response.send(res);
+    return this.proxyService.getResponse(everything, queries);
   }
 }
