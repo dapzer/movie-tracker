@@ -4,8 +4,8 @@ import { createReadStream, statSync } from 'fs';
 import { createGunzip } from 'zlib';
 import { ConfigService } from '@nestjs/config';
 import { Interval } from '@nestjs/schedule';
-import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
 import { Worker } from 'worker_threads';
+import { getMillisecondsFromDays } from '@/shared/utils/getMillisecondsFromDays';
 
 @Injectable()
 export class SitemapService {
@@ -13,7 +13,7 @@ export class SitemapService {
 
   constructor(private readonly configService: ConfigService) {}
 
-  @Interval(getMillisecondsFromHours(24))
+  @Interval(getMillisecondsFromDays(7))
   autoGenerate() {
     if (this.configService.get('GENERATE_SITEMAP') === 'true') {
       this.generate();
