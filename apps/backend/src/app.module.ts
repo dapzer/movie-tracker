@@ -25,9 +25,8 @@ import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHour
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
         return {
-          store: await redisStore({
-            ttl: getMillisecondsFromHours(4),
-          }),
+          store: redisStore,
+          ttl: getMillisecondsFromHours(4),
           url: configService.get('REDIS_URL')!,
         };
       },

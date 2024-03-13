@@ -26,8 +26,8 @@ export class ProxyController {
     return new StreamableFile(image);
   }
 
-  @Get('content/:everything(*)')
   @UseInterceptors(CacheInterceptor)
+  @Get('content/:everything(*)')
   async getResizedImage(
     @Param('everything') everything: string,
     @Query() queries: Record<string, string>,
