@@ -37,6 +37,21 @@ import UiTypography from "~/components/ui/UiTypography.vue";
             {{ social.value }}
           </UiTypography>
         </UiTypography>
+
+        <UiTypography
+          as="li"
+          variant="listItem"
+        >
+          Film data from:
+          <UiTypography
+            :href="'https://www.themoviedb.org/'"
+            as="a"
+            target="_blank"
+            variant="link"
+          >
+            TMDb
+          </UiTypography>
+        </UiTypography>
       </ul>
     </UiContainer>
   </footer>
