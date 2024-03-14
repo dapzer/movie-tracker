@@ -58,7 +58,9 @@ const releaseDate = computed(() => {
       :class="$style.score"
       :value="movie.vote_average"
     />
-    <slot />
+
+    <slot name="default" />
+
     <UiLinkToDetails
       :media-id="props.movie.id"
       :media-type="props.movie.media_type"

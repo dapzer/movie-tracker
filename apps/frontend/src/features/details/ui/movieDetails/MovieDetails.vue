@@ -129,12 +129,17 @@ const videosList = computed(() => {
             :is-horizontal="!isFromModal"
             :person="person"
           >
-            <UiTypography v-if="person.total_episode_count">
-              {{ $t("details.inNumberOfEpisodes", { episodes: person.total_episode_count }) }}
-            </UiTypography>
-            <UiTypography v-if="person.character || !!person?.roles?.length">
-              {{ $t("details.role") }}: {{ person.character || arrayToString(person.roles, "character") }}
-            </UiTypography>
+            <template
+              v-if="person.total_episode_count || person.character || !!person?.roles?.length"
+              #default
+            >
+              <UiTypography v-if="person.total_episode_count">
+                {{ $t("details.inNumberOfEpisodes", { episodes: person.total_episode_count }) }}
+              </UiTypography>
+              <UiTypography v-if="person.character || !!person?.roles?.length">
+                {{ $t("details.role") }}: {{ person.character || arrayToString(person.roles, "character") }}
+              </UiTypography>
+            </template>
           </PersonCard>
         </template>
       </UiListWithShowMore>

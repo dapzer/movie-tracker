@@ -97,12 +97,22 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
             :is-horizontal="!isFromModal"
             :movie="movie"
           >
-            <UiTypography v-if="'character' in movie && movie.character">
-              {{ $t("details.role") }}: {{ movie.character }}
-            </UiTypography>
-            <UiTypography v-else-if="'job' in movie && movie.job">
-              {{ $t("details.role") }}: {{ movie.job }}
-            </UiTypography>
+            <template
+              v-if="'character' in movie && movie?.character"
+              #default
+            >
+              <UiTypography>
+                {{ $t("details.role") }}: {{ movie.character }}
+              </UiTypography>
+            </template>
+            <template
+              v-else-if="'job' in movie && movie?.job"
+              #default
+            >
+              <UiTypography v-if="'job' in movie && movie?.job">
+                {{ $t("details.role") }}: {{ movie.job }}
+              </UiTypography>
+            </template>
           </MovieCard>
         </template>
       </UiListWithShowMore>

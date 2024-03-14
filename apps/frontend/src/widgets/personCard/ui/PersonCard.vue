@@ -32,7 +32,8 @@ const localePath = useLocalePath();
     :title="props.person.name"
     :width="props.width"
   >
-    <slot />
+    <slot name="default" />
+
     <UiLinkToDetails
       :media-id="props.person.id"
       :media-type="TmdbMediaTypeEnum.PERSON"
