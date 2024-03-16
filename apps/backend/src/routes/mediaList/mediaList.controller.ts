@@ -19,6 +19,7 @@ import { GetAllMediaListsDto } from '@/routes/mediaList/dto/getAllMediaLists.dto
 import { CreateMediaListDto } from '@/routes/mediaList/dto/createMediaList.dto';
 import { isCuid } from '@paralleldrive/cuid2';
 import { GetMedialListByIdDto } from '@/routes/mediaList/dto/getMedialListById.dto';
+import { CreateMediaListCloneDto } from '@/routes/mediaList/dto/createMediaListClone.dto';
 
 @Controller('mediaList')
 export class MediaListController {
@@ -58,6 +59,20 @@ export class MediaListController {
     @Body() body: CreateMediaListDto,
   ) {
     return this.mediaListService.createMediaList(user?.id, body);
+  }
+
+  @Post(':id/clone')
+  @UseGuards(AuthGuard)
+  async createMediaListClone(
+    @Param() params: UuidDto,
+    @User() user: UserDto,
+    @Body() body: CreateMediaListCloneDto,
+  ) {
+    return this.mediaListService.createMediaListClone(
+      params.id,
+      user?.id,
+      body,
+    );
   }
 
   @Patch(':id')
