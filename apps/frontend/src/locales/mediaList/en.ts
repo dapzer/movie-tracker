@@ -16,6 +16,13 @@ export default {
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },
+    createClone: {
+      title: "Clone list",
+      description: "Select movies with a certain status you want to clone",
+      keepStatus: "Keep current status",
+      submit: "Clone",
+      success: "List successfully cloned",
+    },
     settingsForm: {
       title: "List name",
       titlePlaceholder: "Enter the name",

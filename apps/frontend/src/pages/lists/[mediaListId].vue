@@ -10,13 +10,14 @@ import { MediaItemsStatusedCategory, MediaItemsStatusedCategorySkeleton } from "
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import MediaListFilters from "~/features/mediaList/ui/MediaListFilters.vue";
-import { useMediaListSettings } from "~/features/mediaList";
+import { MediaListCreateCloneModal, useMediaListSettings } from "~/features/mediaList";
 import { filterMediaListItems } from "~/features/mediaList/model/filterMediaListItems";
+import { SignInModal } from "~/features/signIn";
 
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;
 const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListHumanFriendlyId as string);
-const { isLoadingProfile } = useAuth();
+const { isLoadingProfile, isNotAuthorized } = useAuth();
 
 const searchValue = ref("");
 
@@ -113,13 +114,26 @@ useSeoMeta({
     </UiTypography>
 
     <template v-else>
-      <UiTypography
-        :class="$style.title"
-        as="h1"
-        variant="title2"
-      >
-        {{ title }}
-      </UiTypography>
+      <div :class="$style.header">
+        <UiTypography
+          :class="$style.title"
+          as="h1"
+          variant="title2"
+        >
+          {{ title }}
+        </UiTypography>
+
+        <SignInModal
+          v-if="isNotAuthorized"
+          :btn-title="$t('mediaList.createClone.title')"
+          button-size="small"
+        />
+        <MediaListCreateCloneModal
+          v-else-if="currentMediaItems?.length"
+          :media-list="currentMediaList"
+          :media-items="currentMediaItems"
+        />
+      </div>
 
       <UiTypography
         v-if="!currentMediaItems?.length"
@@ -164,6 +178,18 @@ useSeoMeta({
 
   .title {
     word-break: break-all;
+  }
+
+  .header {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      height: fit-content;
+    }
   }
 }
 </style>

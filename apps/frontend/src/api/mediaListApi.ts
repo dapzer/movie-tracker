@@ -1,7 +1,7 @@
 import { fetchWihCredentials } from "#imports";
 import { generateApiUrl } from "@movie-tracker/utils";
 import type { MediaListType } from "@movie-tracker/types";
-import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
 const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 
@@ -29,6 +29,23 @@ export const getMediaListsByIdApi = async (mediaListId: string) => {
 
 export const createMediaListsApi = async (body: MediaListUpdateApiTypes) => {
   const response = await fetchWihCredentials(getApiUrl("/mediaList"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await response.json();
+
+  if (response.ok) {
+    return data as MediaListType;
+  }
+
+  throw new Error(`Error when creating list. Code: ${data.statusCode}`);
+}
+
+export const createMediaListsCloneApi = async (id: string, body: MediaListCreateCloneApiTypes) => {
+  const response = await fetchWihCredentials(getApiUrl(`/mediaList/${id}/clone`), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

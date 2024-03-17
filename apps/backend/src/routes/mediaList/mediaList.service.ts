@@ -1,23 +1,29 @@
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
-import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto";
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { UpdateMediaListDto } from '@/routes/mediaList/dto/updateMediaList.dto';
 import {
   MediaListRepositoryInterface,
-  MediaListRepositorySymbol
-} from "@/repositories/mediaList/MediaListRepositoryInterface";
-import { MediaListType } from "@movie-tracker/types";
+  MediaListRepositorySymbol,
+} from '@/repositories/mediaList/MediaListRepositoryInterface';
+import { MediaItemType, MediaListType } from '@movie-tracker/types';
+import {
+  MediaItemRepositoryInterface,
+  MediaItemRepositorySymbol,
+} from '@/repositories/mediaItem/MediaItemRepositoryInterface';
+import { CreateMediaListCloneDto } from '@/routes/mediaList/dto/createMediaListClone.dto';
 
 @Injectable()
 export class MediaListService {
   constructor(
     @Inject(MediaListRepositorySymbol)
-    private readonly mediaListRepository: MediaListRepositoryInterface
-  ) {
-  }
+    private readonly mediaListRepository: MediaListRepositoryInterface,
+    @Inject(MediaItemRepositorySymbol)
+    private readonly mediaItemRepository: MediaItemRepositoryInterface,
+  ) {}
 
   private async isListOwner(
     id: string,
     userId: string,
-    mediaListBase?: MediaListType
+    mediaListBase?: MediaListType,
   ) {
     const mediaList =
       mediaListBase ?? (await this.mediaListRepository.getMedialListById(id));
@@ -25,7 +31,7 @@ export class MediaListService {
     if (!mediaList) {
       throw new HttpException(
         `Media list with id '${id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND
+        HttpStatus.NOT_FOUND,
       );
     }
 
@@ -36,14 +42,18 @@ export class MediaListService {
     return this.mediaListRepository.getAllMedialLists(isPublicOnly);
   }
 
-  async getMedialListById(id: string, userId: string, byHumanFriendlyId = false) {
-    const mediaList = byHumanFriendlyId ?
-      await this.mediaListRepository.getMedialListByHumanFriendlyId(id) :
-      await this.mediaListRepository.getMedialListById(id);
+  async getMedialListById(
+    id: string,
+    userId: string,
+    byHumanFriendlyId = false,
+  ) {
+    const mediaList = byHumanFriendlyId
+      ? await this.mediaListRepository.getMedialListByHumanFriendlyId(id)
+      : await this.mediaListRepository.getMedialListById(id);
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
     if (!isListOwner && !mediaList.isPublic) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
     }
 
     return mediaList;
@@ -53,12 +63,12 @@ export class MediaListService {
     const isPublicOnly = userId !== currentUserId;
 
     if (!userId) {
-      throw new HttpException("User ID is required.", HttpStatus.BAD_REQUEST);
+      throw new HttpException('User ID is required.', HttpStatus.BAD_REQUEST);
     }
 
     return this.mediaListRepository.getMedialListsByUserId(
       userId,
-      isPublicOnly
+      isPublicOnly,
     );
   }
 
@@ -70,7 +80,7 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, userId);
 
     if (!isListOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
     }
 
     return this.mediaListRepository.updateMediaList(id, body);
@@ -81,16 +91,71 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
     if (!isListOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
     }
 
     if (mediaList.isSystem) {
       throw new HttpException(
-        "System media list cannot be deleted.",
-        HttpStatus.BAD_REQUEST
+        'System media list cannot be deleted.',
+        HttpStatus.BAD_REQUEST,
       );
     }
 
     return this.mediaListRepository.deleteMediaList(id);
+  }
+
+  async createMediaListClone(
+    id: string,
+    userId: string,
+    body: CreateMediaListCloneDto,
+  ) {
+    const mediaList = await this.mediaListRepository.getMedialListById(id);
+
+    if (!mediaList) {
+      throw new HttpException(
+        `Media list with id '${id}' doesn't exist.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (!mediaList.isPublic && mediaList.userId !== userId) {
+      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+    }
+
+    const mediaItems = await this.mediaItemRepository.getMediaItemsByListId(id);
+    const newMediaList = await this.mediaListRepository.createMediaList(
+      userId,
+      false,
+      {
+        title: body.title,
+        poster: mediaList.poster,
+        isPublic: false,
+      },
+    );
+
+    const promises: Promise<MediaItemType>[] = [];
+
+    for (const mediaItem of mediaItems) {
+      if (
+        body.selectedStatuses.includes(mediaItem.trackingData.currentStatus)
+      ) {
+        promises.push(
+          this.mediaItemRepository.createMediaItem(
+            mediaItem.mediaId,
+            mediaItem.mediaType,
+            newMediaList.id,
+            mediaItem.mediaDetailsId,
+            undefined,
+            body.isKeepStatus
+              ? mediaItem.trackingData.currentStatus
+              : undefined,
+          ),
+        );
+      }
+    }
+
+    await Promise.all(promises);
+
+    return newMediaList;
   }
 }

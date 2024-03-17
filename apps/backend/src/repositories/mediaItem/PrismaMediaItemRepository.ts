@@ -130,6 +130,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     mediaListId: string,
     mediaDetailsId: string,
     createdAt?: Date,
+    currentStatus?: MediaItemStatusNameEnum,
   ) {
     const mediaItem = await this.prisma.mediaItem.create({
       data: {
@@ -147,6 +148,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
               currentEpisode: 1,
             },
             ...(createdAt && { createdAt }),
+            ...(currentStatus && { currentStatus }),
           },
         },
       },

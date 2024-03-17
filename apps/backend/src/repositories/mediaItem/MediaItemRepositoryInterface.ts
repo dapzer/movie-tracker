@@ -1,4 +1,8 @@
-import { MediaItemTrackingDataType, MediaItemType } from '@movie-tracker/types';
+import {
+  MediaItemStatusNameEnum,
+  MediaItemTrackingDataType,
+  MediaItemType,
+} from '@movie-tracker/types';
 
 export const MediaItemRepositorySymbol = Symbol();
 
@@ -17,6 +21,7 @@ export interface MediaItemRepositoryInterface {
     mediaListId: string,
     mediaDetailsId: string,
     createdAt?: Date,
+    currentStatus?: MediaItemStatusNameEnum,
   ) => Promise<MediaItemType>;
 
   createMediaItemWithExistedData: (
