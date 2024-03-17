@@ -1,14 +1,14 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
 import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 import {
-  createMediaListsApi,
+  createMediaListsApi, createMediaListsCloneApi,
   deleteMediaListsApi,
   getMediaListsApi,
   getMediaListsByIdApi,
   updateMediaListsApi
 } from "~/api/mediaListApi";
 import type { MediaItemType, MediaListType } from "@movie-tracker/types";
-import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 
 export const useGetMediaListsApi = () => useQuery({
   queryKey: [MediaListQueryKeys.GET_ALL],
@@ -30,6 +30,24 @@ export const useCreateMediaListApi = () => {
     mutationFn: async (body: MediaListUpdateApiTypes) => await createMediaListsApi(body),
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => [...oldData, data]);
+    }
+  });
+};
+
+export const useCreateMediaListCloneApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [MediaListQueryKeys.CREATE],
+    mutationFn: async (args: {
+      mediaListId: string,
+      body: MediaListCreateCloneApiTypes
+    }) => await createMediaListsCloneApi(args.mediaListId, args.body),
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => [...oldData, data]);
+      await queryClient.refetchQueries({
+        queryKey: [MediaItemQueryKeys.GET_ALL]
+      });
     }
   });
 };
@@ -62,3 +80,4 @@ export const useUpdateMediaListApi = () => {
     }
   });
 };
+

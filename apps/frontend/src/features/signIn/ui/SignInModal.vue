@@ -16,7 +16,7 @@ import { useRouter } from "vue-router";
 import { useRoute } from "#app";
 
 interface LoginModalProps extends Partial<Pick<UiModalProps, "buttonVariant" | "buttonColorScheme" | "externalOpenedState"
-  | "isHideTrigger">> {
+  | "isHideTrigger" | "buttonSize">> {
   btnTitle?: string;
 }
 
@@ -72,6 +72,7 @@ const handleVisible = (value: boolean) => {
     :buttonVariant="props.buttonVariant"
     :externalOpenedState="isModalVisible"
     :isHideTrigger="props.isHideTrigger"
+    :buttonSize="props.buttonSize"
     :maxWidth="350"
     :title="$t('auth.signIn')"
     isFullWidth

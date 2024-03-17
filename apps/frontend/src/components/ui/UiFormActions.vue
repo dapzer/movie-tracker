@@ -23,7 +23,7 @@ const emits = defineEmits<{
       color-scheme="success"
       @click="emits('confirm')"
     >
-      {{ props.confirmText ?? $t("mediaItem.createCopy.clone") }}
+      {{ props.confirmText ?? $t("ui.actions.save") }}
     </UiButton>
     <UiButton
       :disabled="props.isCancelDisabled"
@@ -40,6 +40,7 @@ const emits = defineEmits<{
 .wrapper {
   justify-content: center;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 14px;
 }

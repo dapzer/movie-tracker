@@ -6,6 +6,7 @@ import UiButton from "~/components/ui/UiButton.vue";
 import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
 import { useI18n, watch } from "#imports";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
+import UiLabel from "~/components/ui/UiLabel.vue";
 
 interface MediaListFormProps {
   isSystem?: boolean;
@@ -54,8 +55,7 @@ const handleSubmit = () => {
     :class="$style.wrapper"
     @submit.prevent="handleSubmit"
   >
-    <label>
-      {{ $t("mediaList.settingsForm.title") }}
+    <UiLabel :title="$t('mediaList.settingsForm.title')">
       <UiInput
         v-model="currentSettings.title"
         :disabled="props.isLoading || props.isSystem"
@@ -64,9 +64,8 @@ const handleSubmit = () => {
         maxlength="32"
         variant="boxed"
       />
-    </label>
-    <label>
-      {{ $t("mediaList.settingsForm.poster") }}
+    </UiLabel>
+    <UiLabel :title="$t('mediaList.settingsForm.poster')">
       <UiInput
         v-model="currentSettings.poster"
         :disabled="props.isLoading"
@@ -74,14 +73,16 @@ const handleSubmit = () => {
         maxlength="256"
         variant="boxed"
       />
-    </label>
-    <label :class="$style.switch">
-      {{ $t("mediaList.settingsForm.publicStatus") }}
+    </UiLabel>
+    <UiLabel
+      :title="$t('mediaList.settingsForm.publicStatus')"
+      :class="$style.switch"
+    >
       <UiSwitch
         v-model="currentSettings.isPublic"
         :is-disabled="props.isLoading"
       />
-    </label>
+    </UiLabel>
 
     <UiFormActions
       :is-confirm-disabled="props.isLoading"
@@ -99,23 +100,14 @@ const handleSubmit = () => {
   flex-direction: column;
   gap: 12px;
 
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: var(--fs-h3);
-    color: var(--c-secondary);
-
-    input {
-      border-radius: unset;
-      padding: 6px 12px;
-    }
-  }
-
   .switch {
     flex-direction: row;
     align-items: center;
     gap: 12px;
+
+    label {
+      display: flex;
+    }
   }
 }
 </style>
