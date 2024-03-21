@@ -36,8 +36,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
           }`
         : 'Unknown error';
 
-    console.log(exception);
-
     const responseBody = {
       statusCode: httpStatus,
       message: errorMessage,

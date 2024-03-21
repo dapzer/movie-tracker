@@ -75,7 +75,7 @@ export class ProxyService {
 
     try {
       const buffer = await response.arrayBuffer();
-      return sharp(buffer).resize(Number(size)).webp().toBuffer();
+      return sharp(buffer).resize(Number(size)).webp();
     } catch (err) {
       throw new HttpException(
         `Failed to process data received from remote server.`,
