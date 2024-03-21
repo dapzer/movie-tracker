@@ -35,11 +35,7 @@ export class SitemapService {
 
       return file.pipe(gunzip);
     } catch (error) {
-      if (error.code === 'ENOENT') {
-        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-      } else {
-        throw error;
-      }
+      throw error;
     }
   }
 }

@@ -1,15 +1,12 @@
 import {
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
+  Header,
   Param,
   Post,
-  Res,
+  StreamableFile,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { SitemapService } from '@/routes/sitemap/sitemap.service';
 import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { Roles } from '@/decorators/roles.decorator';
@@ -21,32 +18,16 @@ export class SitemapController {
   constructor(private readonly sitemapService: SitemapService) {}
 
   @Get(':folder/:subFolder/:fileName')
+  @Header('Content-Type', 'application/xml')
   async getSitemapFile(
     @Param('fileName') fileName: string,
     @Param('subFolder') subFolder: string,
     @Param('folder') folder: string,
-    @Res() res: Response,
   ) {
     const fileLocation = `${folder}/${subFolder}/${fileName}`;
     const stream = await this.sitemapService.readFile(fileLocation);
-    res.header('Content-Type', 'application/xml');
 
-    try {
-      return new Promise((resolve, reject) => {
-        stream
-          .on('error', (error) => {
-            stream.destroy();
-            reject(error);
-          })
-          .pipe(res)
-          .on('finish', () => {
-            stream.destroy();
-            resolve(null);
-          });
-      });
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    return new StreamableFile(stream);
   }
 
   @Post('generate')
