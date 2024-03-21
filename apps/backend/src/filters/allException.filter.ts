@@ -6,7 +6,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { Request, Response } from 'express';
 import { isArray } from 'class-validator';
 
 @Catch()
@@ -17,8 +16,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();
-    const res = ctx.getResponse<Response>();
-    const req = ctx.getRequest<Request>();
 
     const httpStatus =
       exception instanceof HttpException
@@ -38,6 +35,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
               : ''
           }`
         : 'Unknown error';
+
+    console.log(exception);
 
     const responseBody = {
       statusCode: httpStatus,
