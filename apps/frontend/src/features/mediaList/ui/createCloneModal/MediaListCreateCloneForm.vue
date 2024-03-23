@@ -37,6 +37,10 @@ const availableStatuses = computed(() => {
   return [...new Set(props.mediaItems?.map(item => item.trackingData.currentStatus) ?? [])];
 });
 
+const statusList = computed(() => {
+  return Object.values(MediaItemStatusNameEnum).filter(status => availableStatuses.value.includes(status)) ?? [];
+});
+
 const handleCreateClone = async () => {
   if (!props.mediaList) return
 
@@ -76,7 +80,7 @@ watch(availableStatuses, () => {
     <UiDivider />
     <div :class="$style.list">
       <MediaItemCreateCopyModalFormItem
-        v-for="status in availableStatuses"
+        v-for="status in statusList"
         :key="status"
         v-model="selectedStatuses"
         :disabled="isCreatingClonePending"
