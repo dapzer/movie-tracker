@@ -20,8 +20,8 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
 
   const ogImage = computed(() => {
     return getOgApiUrl(`/openGraphImage`, {
-      imageUrl: getProxiedImageUrl(media?.poster_path),
-      title: title.value
+      title: title.value,
+      imageUrl: getProxiedImageUrl(media?.poster_path, undefined, true)
     });
   });
 

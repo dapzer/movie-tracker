@@ -21,10 +21,14 @@ export class ProxyController {
     @Res() res: Response,
     @Param('everything') everything: string,
   ) {
-    const image = await this.proxyService.getImage(everything, queries.size);
-    res.header('Content-Type', 'image/webp');
+    const { stream, contentType } = await this.proxyService.getImage(
+      everything,
+      queries.keepOriginalType,
+      queries.size,
+    );
+    res.header('Content-Type', contentType);
 
-    image.pipe(res);
+    stream.pipe(res);
   }
 
   @UseInterceptors(CacheInterceptor)

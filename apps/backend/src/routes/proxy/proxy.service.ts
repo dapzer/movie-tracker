@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  StreamableFile,
+} from '@nestjs/common';
 import * as sharp from 'sharp';
 import { generateApiUrl } from '@movie-tracker/utils';
 import { ConfigService } from '@nestjs/config';
@@ -52,7 +57,11 @@ export class ProxyService {
     }
   }
 
-  async getImage(path: string, size: string = undefined) {
+  async getImage(
+    path: string,
+    keepOriginalType: boolean = false,
+    size: string = undefined,
+  ) {
     const response = await fetch(
       `${this.configService.get('TMDB_IMAGE_API_URL')}/w500/${path}`,
     );
@@ -76,11 +85,28 @@ export class ProxyService {
     try {
       const buffer = await response.arrayBuffer();
 
-      if (!size) {
-        return sharp(buffer).webp();
+      if (keepOriginalType) {
+        const file = new Uint8Array(buffer);
+        const stream = new StreamableFile(file).getStream();
+
+        return { stream, contentType };
       }
 
-      return sharp(buffer).resize(Number(size)).webp();
+      if (!size) {
+        const stream = sharp(buffer).webp();
+
+        return {
+          stream,
+          contentType: 'image/webp',
+        };
+      }
+
+      const stream = sharp(buffer).resize(Number(size)).webp();
+
+      return {
+        stream,
+        contentType: 'image/webp',
+      };
     } catch (err) {
       throw new HttpException(
         `Failed to process data received from remote server.`,
