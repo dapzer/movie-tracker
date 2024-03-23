@@ -8,6 +8,7 @@ export default {
     productionCompanies: 'Production companies',
     genre: 'Genre',
     budget: 'Budget',
+    revenue: 'Revenue',
     lastAirDate: 'Release date of last episode',
     nextAirDate: 'Release date for next episode',
     seriesStatus: 'Series status',
