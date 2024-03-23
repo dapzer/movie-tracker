@@ -8,6 +8,7 @@ export default {
     productionCompanies: 'Кинокомпании',
     genre: 'Жанр',
     budget: 'Бюджет',
+    revenue: 'Сборы',
     lastAirDate: 'Дата выхода последнего эпизода',
     nextAirDate: 'Дата выхода следующего эпизода',
     seriesStatus: 'Статус сериала',

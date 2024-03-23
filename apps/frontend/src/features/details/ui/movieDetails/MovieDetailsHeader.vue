@@ -161,6 +161,21 @@ const title = computed(() => {
       </UiTypography>
     </UiTypography>
 
+
+    <UiTypography
+      v-if="props.details?.revenue"
+      as="li"
+      variant="listItem"
+    >
+      {{ $t("details.revenue") }}:
+      <UiTypography
+        as="span"
+        variant="listItemValue"
+      >
+        {{ convertNumberToCurrency(props.details.revenue, "USD", locale) }}
+      </UiTypography>
+    </UiTypography>
+
     <UiTypography
       v-if="releaseDate"
       as="li"
