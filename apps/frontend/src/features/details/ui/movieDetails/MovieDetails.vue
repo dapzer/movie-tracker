@@ -6,7 +6,7 @@ import {
   useTmdbGetVideosApi
 } from "~/composables/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { computed, useI18n } from "#imports";
+import { computed, createError, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -25,7 +25,6 @@ interface MovieDetailsProps {
 
 const props = defineProps<MovieDetailsProps>();
 const { locale, t } = useI18n();
-const localePath = useLocalePath();
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
@@ -39,7 +38,14 @@ const tmdbGetMovieCreditsApi = useTmdbGetMovieCreditsApi(queries);
 const tmdbGetVideosApi = useTmdbGetVideosApi(queries);
 
 await Promise.all([
-  tmdbGetMovieDetailsApi.suspense(),
+  tmdbGetMovieDetailsApi.suspense().then((res) => {
+    if (res.data === null) {
+      throw createError({
+        statusCode: 404,
+        message: t("ui.errors.pageNotFound"),
+      });
+    }
+  }),
   tmdbGetRecommendationsApi.suspense(),
   tmdbGetMovieCreditsApi.suspense(),
   tmdbGetVideosApi.suspense()
