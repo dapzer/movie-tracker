@@ -6,7 +6,7 @@ import {
   useTmdbGetPersonExternalIdsApi
 } from "~/composables/useTmdbApi";
 import { computed } from "vue";
-import { useI18n } from "#imports";
+import { createError, useI18n } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -19,7 +19,7 @@ interface PersonDetailsProps {
 }
 
 const props = defineProps<PersonDetailsProps>();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const personQueries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.PERSON,
@@ -37,7 +37,14 @@ const tmdbGetPersonCreditsApi = useTmdbGetPersonCreditsApi(creditsQueries);
 const tmdbGetPersonExternalIdsApi = useTmdbGetPersonExternalIdsApi(personQueries);
 
 await Promise.all([
-  tmdbGetPersonDetailsApi.suspense(),
+  tmdbGetPersonDetailsApi.suspense().then((res) => {
+    if (res.data === null) {
+      throw createError({
+        statusCode: 404,
+        message: t("ui.errors.pageNotFound"),
+      });
+    }
+  }),
   tmdbGetPersonCreditsApi.suspense(),
   tmdbGetPersonExternalIdsApi.suspense()
 ]);

@@ -2,7 +2,7 @@
 
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { useTmdbGetMovieDetailsApi, useTmdbGetTvSeriesDetailsApi } from "~/composables/useTmdbApi";
-import { computed, useI18n, useSeoMeta } from "#imports";
+import { computed, createError, useI18n, useSeoMeta } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { minsToTimeConverter } from "@movie-tracker/utils";
 import UiContainer from "~/components/ui/UiContainer.vue";
@@ -29,7 +29,14 @@ const tmdbGetMovieDetailsApi = useTmdbGetMovieDetailsApi(queries);
 
 await Promise.all([
   tmdbGetTvSeriesDetailsApi.suspense(),
-  tmdbGetMovieDetailsApi.suspense()
+  tmdbGetMovieDetailsApi.suspense().then((res) => {
+    if (res.data === null) {
+      throw createError({
+        statusCode: 404,
+        message: t("ui.errors.pageNotFound"),
+      });
+    }
+  }),
 ]);
 
 useSeoMeta({

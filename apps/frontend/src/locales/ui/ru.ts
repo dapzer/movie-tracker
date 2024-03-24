@@ -10,10 +10,14 @@ export default {
     yes: "Да",
     no: "Нет",
     characters: "Символы",
+    errors: {
+      pageNotFound: "Страница не найдена.",
+    },
     actions: {
       create: "Создать",
       save: "Сохранять",
       cancel: "Отменить",
+      backToMainPage: "Вернуться на главную",
     },
     pagination: {
       toStart: "В начало",
