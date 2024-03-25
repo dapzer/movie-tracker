@@ -8,7 +8,6 @@ export interface MediaItemCreateApiTypes {
 
 export type MediaItemUpdateApiTypes = Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
 
-
 export interface MediaItemCreateCopyApiTypes {
   mediaItemId: string,
   mediaListId: string,

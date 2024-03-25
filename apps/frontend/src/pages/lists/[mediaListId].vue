@@ -1,7 +1,7 @@
 <script lang="ts" setup>import { useRoute } from "vue-router";
-import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/composables/useMediaListApi";
+import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi";
 import { computed, ref } from "vue";
-import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/composables/useMediaItemtApi";
+import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi";
 import { useAuth } from "~/composables/useAuth";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";

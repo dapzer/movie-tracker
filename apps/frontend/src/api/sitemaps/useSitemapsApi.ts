@@ -1,6 +1,6 @@
-import { initializeSitemapGenerationsApi } from "~/api/sitemapsApi";
 import { useMutation } from "@tanstack/vue-query";
-import { SitemapQueryKeys } from "~/constants/queryKeys";
+import { initializeSitemapGenerationsApi } from "~/api/sitemaps/sitemapsApi";
+import { SitemapQueryKeys } from "~/api/sitemaps/sitemapApiQueryKeys";
 
 export const useInitializeSitemapGenerationsApi = () => {
   return useMutation({

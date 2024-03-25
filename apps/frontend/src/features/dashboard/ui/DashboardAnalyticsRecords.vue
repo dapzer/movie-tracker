@@ -2,12 +2,10 @@
 
 import UiContentCard from "~/components/ui/UiContentCard.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
-import { useGetAnalyticsRecordsApi } from "~/composables/useAnalyticsApi";
 import { computed } from "vue";
-import { useI18n } from "#imports";
 import UiSkeleton from "~/components/ui/UiSkeleton.vue";
+import { useGetAnalyticsRecordsApi } from "~/api/analytics/useAnalyticsApi";
 
-const { t } = useI18n()
 const getAnalyticsRecordsApi = useGetAnalyticsRecordsApi();
 
 const records = computed(() => {
@@ -53,8 +51,8 @@ const records = computed(() => {
 
           <UiSkeleton
             v-else
-            is-inline
             :width="80"
+            is-inline
           />
         </UiTypography>
       </UiTypography>

@@ -1,7 +1,7 @@
 import { fetchWihCredentials } from "#imports";
 import { generateApiUrl } from "@movie-tracker/utils";
 import type { MediaListType } from "@movie-tracker/types";
-import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
 
 const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 

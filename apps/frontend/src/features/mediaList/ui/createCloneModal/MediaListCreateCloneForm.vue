@@ -2,7 +2,7 @@
 
 import { MediaItemStatusNameEnum, type MediaItemType, type MediaListType } from "@movie-tracker/types";
 import { computed, ref } from "vue";
-import { useCreateMediaListCloneApi, useI18n, watch } from "#imports";
+import { useI18n, watch } from "#imports";
 import UiDivider from "~/components/ui/UiDivider.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MediaItemCreateCopyModalFormItem
@@ -12,6 +12,7 @@ import UiInput from "~/components/ui/UiInput.vue";
 import UiSwitch from "~/components/ui/UiSwitch.vue";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
 import { toast } from "vue3-toastify";
+import { useCreateMediaListCloneApi } from "~/api/mediaList/useMediaListApi";
 
 interface MediaListCreateCloneFormProps {
   mediaList?: MediaListType;
@@ -42,7 +43,7 @@ const statusList = computed(() => {
 });
 
 const handleCreateClone = async () => {
-  if (!props.mediaList) return
+  if (!props.mediaList) return;
 
   if ((title.value || "").length < 3) {
     errors.value.title = t("mediaList.errors.titleLength");
@@ -59,7 +60,7 @@ const handleCreateClone = async () => {
   }).then(() => {
     props.closeModal();
     toast.success(t("mediaList.createClone.success"));
-  })
+  });
 };
 
 watch(title, () => {
@@ -75,7 +76,7 @@ watch(availableStatuses, () => {
 <template>
   <div :class="$style.wrapper">
     <UiTypography :class="$style.title">
-      {{ $t('mediaList.createClone.description') }}
+      {{ $t("mediaList.createClone.description") }}
     </UiTypography>
     <UiDivider />
     <div :class="$style.list">
@@ -87,7 +88,7 @@ watch(availableStatuses, () => {
         :status="status"
       />
       <div :class="$style.listItem">
-        <UiTypography>{{ $t('mediaList.createClone.keepStatus') }}</UiTypography>
+        <UiTypography>{{ $t("mediaList.createClone.keepStatus") }}</UiTypography>
         <UiSwitch
           v-model="isKeepStatus"
           :is-disabled="isCreatingClonePending"
@@ -100,17 +101,17 @@ watch(availableStatuses, () => {
       <UiInput
         v-model="title"
         :disabled="isCreatingClonePending"
-        maxlength="32"
         :error="errors.title"
         :placeholder="$t('mediaList.settingsForm.titlePlaceholder')"
+        maxlength="32"
         variant="boxed"
       />
     </UiLabel>
 
     <UiFormActions
-      :is-confirm-disabled="isCreatingClonePending || !selectedStatuses.length"
-      :is-cancel-disabled="isCreatingClonePending"
       :confirm-text="$t('mediaList.createClone.submit')"
+      :is-cancel-disabled="isCreatingClonePending"
+      :is-confirm-disabled="isCreatingClonePending || !selectedStatuses.length"
       @cancel="props.closeModal"
       @confirm="handleCreateClone"
     />

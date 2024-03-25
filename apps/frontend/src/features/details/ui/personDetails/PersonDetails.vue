@@ -4,7 +4,7 @@ import {
   useTmdbGetPersonCreditsApi,
   useTmdbGetPersonDetailsApi,
   useTmdbGetPersonExternalIdsApi
-} from "~/composables/useTmdbApi";
+} from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
 import { createError, useI18n } from "#imports";
 import UiContainer from "~/components/ui/UiContainer.vue";

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 
 import UiButton from "~/components/ui/UiButton.vue";
-import { useInitializeSitemapGenerationsApi } from "~/composables/useSitemapsApi";
 import { toast } from "vue3-toastify";
 import { useI18n } from "#imports";
-import { useInitializeDetailsGenerationApi } from "~/composables/useDetails";
 import UiContentCard from "~/components/ui/UiContentCard.vue";
+import { useInitializeSitemapGenerationsApi } from "~/api/sitemaps/useSitemapsApi";
+import { useInitializeDetailsGenerationApi } from "~/api/details/useDetailsApi";
 
 const initializeSitemapGenerationsApi = useInitializeSitemapGenerationsApi();
 const initializeDetailsGenerationApi = useInitializeDetailsGenerationApi()

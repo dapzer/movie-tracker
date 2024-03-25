@@ -1,5 +1,5 @@
-import { useLogoutApi, useUserProfileApi } from "~/composables/useAuthApi";
 import { computed } from "vue";
+import { useLogoutApi, useUserProfileApi } from "~/api/auth/useAuthApi";
 
 export const useAuth = () => {
   const userProfileApi = useUserProfileApi();

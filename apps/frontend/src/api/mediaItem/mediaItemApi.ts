@@ -5,7 +5,7 @@ import type {
   MediaItemCreateApiTypes,
   MediaItemCreateCopyApiTypes,
   MediaItemUpdateApiTypes
-} from "~/types/mediaItemApiTypes";
+} from "~/api/mediaItem/mediaItemApiTypes";
 
 const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 

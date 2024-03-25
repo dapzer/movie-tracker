@@ -16,7 +16,7 @@ import type {
   TmdbSearchQueriesType,
   TmdbSeasonsQueriesType,
   TmdbTrendsQueriesType
-} from "~/types/tmdbApiQueriesTypes";
+} from "~/api/tmdb/tmdbApiTypes";
 
 const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 

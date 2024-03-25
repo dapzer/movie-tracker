@@ -8,21 +8,22 @@ import {
   tmdbSeasonsApi,
   tmdbTrendsApi,
   tmdbVideosApi
-} from "~/api/tmdbApi";
+} from "~/api/tmdb/tmdbApi";
 import type {
   TmdbDefaultQueriesType,
   TmdbPersonCreditsQueriesType,
   TmdbSearchQueriesType,
   TmdbSeasonsQueriesType,
   TmdbTrendsQueriesType
-} from "~/types/tmdbApiQueriesTypes";
+} from "~/api/tmdb/tmdbApiTypes";
 import { useQuery } from "@tanstack/vue-query";
 import type { TmdbPersonType } from "@movie-tracker/types";
+import { TmdbQueryKeys } from "~/api/tmdb/tmdbApiQueryKeys";
 
 export const useTmdbGetMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
     queryKey: [
-      "getDetails",
+      TmdbQueryKeys.GET_DETAILS,
       queries
     ],
     queryFn: () => tmdbDetailApi(queries.value)
@@ -31,7 +32,7 @@ export const useTmdbGetMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) 
 export const useTmdbGetPersonDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
     queryKey: [
-      "getDetails",
+      TmdbQueryKeys.GET_DETAILS,
       queries
     ],
     queryFn: () => tmdbDetailApi<TmdbPersonType>(queries.value)
@@ -40,7 +41,7 @@ export const useTmdbGetPersonDetailsApi = (queries: Ref<TmdbDefaultQueriesType>)
 export const useTmdbGetMovieCreditsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
       queryKey: [
-        "getCredits",
+        TmdbQueryKeys.GET_CREDITS,
         queries
       ],
       queryFn: () => tmdbCreditsApi(queries.value)
@@ -51,7 +52,7 @@ export const useTmdbGetPersonCreditsApi = (queries: Ref<TmdbPersonCreditsQueries
   useQuery(
     {
       queryKey: [
-        "getPersonCredits",
+        TmdbQueryKeys.GET_CREDITS,
         queries
       ],
       queryFn: () => tmdbPersonCreditsApi(queries.value)
@@ -61,7 +62,7 @@ export const useTmdbGetPersonCreditsApi = (queries: Ref<TmdbPersonCreditsQueries
 export const useTmdbGetPersonExternalIdsApi = (queries: Ref<TmdbDefaultQueriesType>) => {
   return useQuery({
     queryKey: [
-      "getExternalIds",
+      TmdbQueryKeys.GET_EXTERNAL_IDS,
       queries
     ],
     queryFn: () => tmdbPersonExternalIdsApi(queries.value)
@@ -72,7 +73,7 @@ export const useTmdbGetRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType
   useQuery(
     {
       queryKey: [
-        "getRecommendations",
+        TmdbQueryKeys.GET_RECOMMENDATIONS,
         queries
       ],
       queryFn: () => tmdbRecommendationsApi(queries.value)
@@ -82,7 +83,7 @@ export const useTmdbGetRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType
 export const useTmdbGetPopularListApi = (queries: Ref<TmdbTrendsQueriesType>) =>
   useQuery({
     queryKey: [
-      "getPopularList",
+      TmdbQueryKeys.GET_TRENDS,
       queries
     ],
     queryFn: () => tmdbTrendsApi(queries.value)
@@ -92,7 +93,7 @@ export const useTmdbGetSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =
   useQuery(
     {
       queryKey: [
-        "getSearchByTerm",
+        TmdbQueryKeys.GET_SEARCH,
         queries
       ],
       queryFn: () => tmdbSearchApi(queries.value)
@@ -102,7 +103,7 @@ export const useTmdbGetSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =
 export const useTmdbGetVideosApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
     queryKey: [
-      "getVideos",
+      TmdbQueryKeys.GET_VIDEOS,
       queries
     ],
     queryFn: () => tmdbVideosApi(queries.value)
@@ -111,7 +112,7 @@ export const useTmdbGetVideosApi = (queries: Ref<TmdbDefaultQueriesType>) =>
 export const useTmdbGetTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType>) =>
   useQuery({
     queryKey: [
-      "getTvSeriesDetails",
+      TmdbQueryKeys.GET_SEASONS,
       queries
     ],
     queryFn: () => tmdbSeasonsApi(queries.value)

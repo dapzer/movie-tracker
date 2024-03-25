@@ -4,7 +4,7 @@ import UiTypography from "~/components/ui/UiTypography.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { useAuth } from "~/composables/useAuth";
 import { SignInModal } from "~/features/signIn";
-import { useGetMediaListsApi } from "~/composables/useMediaListApi";
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
 import { MediaListCard, MediaListCardSkeleton, MediaListCreateModal } from "~/features/mediaList";
 import { useI18n, useSeoMeta } from "#imports";
 

@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { useCreateMediaListApi, useI18n } from "#imports";
+import { useI18n } from "#imports";
 import { UiModal } from "~/components/ui/UiModal";
 import { computed, ref } from "vue";
 import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
-import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
 import { toast } from "vue3-toastify";
 import type { UiModalProps } from "~/components/ui/UiModal/UiModal.vue";
+import { useCreateMediaListApi } from "~/api/mediaList/useMediaListApi";
 
 interface MediaListCreateModalProps extends Pick<UiModalProps, "buttonVariant"> {
   buttonText?: string

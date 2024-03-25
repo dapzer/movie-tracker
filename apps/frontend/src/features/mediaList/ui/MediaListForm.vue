@@ -2,8 +2,7 @@
 import { ref } from "vue";
 import UiInput from "~/components/ui/UiInput.vue";
 import UiSwitch from "~/components/ui/UiSwitch.vue";
-import UiButton from "~/components/ui/UiButton.vue";
-import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
 import { useI18n, watch } from "#imports";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
 import UiLabel from "~/components/ui/UiLabel.vue";

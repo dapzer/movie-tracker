@@ -4,7 +4,7 @@ import {
   useTmdbGetMovieDetailsApi,
   useTmdbGetRecommendationsApi,
   useTmdbGetVideosApi
-} from "~/composables/useTmdbApi";
+} from "~/api/tmdb/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { computed, createError, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";

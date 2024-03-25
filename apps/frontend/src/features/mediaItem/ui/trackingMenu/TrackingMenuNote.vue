@@ -2,7 +2,7 @@
 import type { MediaItemType } from "@movie-tracker/types";
 import { computed, ref } from "vue";
 import { useI18n, watch } from "#imports";
-import { useUpdateMediaItemTrackingDataApi } from "~/composables/useMediaItemtApi";
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiTextarea from "~/components/ui/UiTextarea.vue";
 import { CheckMarkIcon, CloseIcon } from "~/components/ui/icons";

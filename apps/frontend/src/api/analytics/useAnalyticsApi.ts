@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/vue-query";
-import { AnalyticsQueryKeys } from "~/constants/queryKeys";
-import { getAnalyticsRecordsApi } from "~/api/analyticsApi";
+import { AnalyticsQueryKeys } from "~/api/analytics/analyticsApiQueryKeys";
+import { getAnalyticsRecordsApi } from "~/api/analytics/analyticsApi";
 
 export const useGetAnalyticsRecordsApi = () => {
   return useQuery({

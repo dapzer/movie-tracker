@@ -2,7 +2,6 @@
 import type { UserType } from "@movie-tracker/types";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiButton from "~/components/ui/UiButton.vue";
-import { useLogoutApi } from "~/composables/useAuthApi";
 import { useAuth } from "~/composables/useAuth";
 import { UserRoleEnum } from "@movie-tracker/types";
 import { NuxtLink } from "#components";

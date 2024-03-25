@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import UiTypography from "~/components/ui/UiTypography.vue";
-import { useTmdbGetMovieDetailsApi, useTmdbGetTvSeriesDetailsApi } from "~/composables/useTmdbApi";
+import { useTmdbGetMovieDetailsApi, useTmdbGetTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi";
 import { computed, createError, useI18n, useSeoMeta } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { minsToTimeConverter } from "@movie-tracker/utils";
