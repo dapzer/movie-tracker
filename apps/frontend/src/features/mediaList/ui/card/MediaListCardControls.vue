@@ -6,9 +6,9 @@ import type { MediaListType } from "@movie-tracker/types";
 import { useClipboard } from "@vueuse/core";
 import { UiConfirmationModal, UiModal } from "~/components/ui/UiModal";
 import MediaListForm from "~/features/mediaList/ui/MediaListForm.vue";
-import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/composables/useMediaListApi";
+import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaList/useMediaListApi";
 import { computed, ref } from "vue";
-import type { MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
 import { toast } from "vue3-toastify";
 import { useI18n } from "#imports";
 

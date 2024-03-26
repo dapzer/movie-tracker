@@ -2,13 +2,14 @@
 
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { useRoute } from "#app";
-import { definePageMeta, onMounted, useSignInCallbackApi } from "#imports";
+import { definePageMeta, onMounted } from "#imports";
 import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
 import { computed, ref } from "vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelector.vue";
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
+import { useSignInCallbackApi } from "~/api/auth/useAuthApi";
 
 const { params, query } = useRoute();
 const signInCallbackApi = useSignInCallbackApi();

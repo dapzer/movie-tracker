@@ -3,9 +3,13 @@ import SignInModal from "~/features/signIn/ui/SignInModal.vue";
 import { UserProfileDropdown, UserProfileDropdownSkeleton } from "~/features/profile";
 import UiButton from "~/components/ui/UiButton.vue";
 import DefaultHeaderNavigationLinks from "~/components/layout/defaultHeader/DefaultHeaderNavigationLinks.vue";
-import { useAuth, useGetMediaItemsApi, useGetMediaListsApi, watch } from "#imports";
 import { useQueryClient } from "@tanstack/vue-query";
-import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
+import { useAuth } from "~/composables/useAuth";
+import { watch } from "#imports";
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
+import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
+import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys";
+import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 
 interface DefaultHeaderNavigationProps {
   isMobileMenuOpen: boolean;

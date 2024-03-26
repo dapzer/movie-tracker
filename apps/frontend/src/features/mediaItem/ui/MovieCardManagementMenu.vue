@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
-import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/composables/useMediaItemtApi";
+import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
 import UiButton from "~/components/ui/UiButton.vue";
 import { computed } from "vue";
 import { toast } from "vue3-toastify";

@@ -7,7 +7,7 @@ import { SearchField, SearchResult } from "~/features/search";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { ref, type VNodeRef } from "vue";
 import { isOnlySpaces } from "@movie-tracker/utils";
-import { useTmdbGetSearchByTermApi } from "~/composables/useTmdbApi";
+import { useGetTmdbSearchByTermApi } from "~/api/tmdb/useTmdbApi";
 
 const searchTerm = computed(() => searchStore.state.searchValue);
 const currentPage = computed(() => searchStore.state.currentPage);
@@ -23,7 +23,7 @@ const searchQueries = computed(() => {
   };
 });
 
-const tmdbGetSearchByTermApi = useTmdbGetSearchByTermApi(searchQueries);
+const tmdbGetSearchByTermApi = useGetTmdbSearchByTermApi(searchQueries);
 
 watch(() => tmdbGetSearchByTermApi.data.value, (value, oldValue, onCleanup) => {
   if (tmdbGetSearchByTermApi.isSuccess.value && searchFieldRef.value && tmdbGetSearchByTermApi.data.value?.results.length) {

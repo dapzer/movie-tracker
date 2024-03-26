@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { useGetMediaListsApi } from "~/composables/useMediaListApi";
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
 import { UiModal } from "~/components/ui/UiModal";
 import MediaListSelectorItem from "~/features/mediaListSelector/ui/MediaListSelectorItem.vue";
 import type { UiModalProps } from "~/components/ui/UiModal/UiModal.vue";
@@ -8,7 +8,7 @@ import { computed, ref } from "vue";
 import { useAuth } from "~/composables/useAuth";
 import { SignInModal } from "~/features/signIn";
 import { ListCheckedIcon, ListIcon } from "~/components/ui/icons";
-import { useGetMediaItemsApi } from "~/composables/useMediaItemtApi";
+import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
 
 interface MediaListSelectorModalProps extends Omit<UiModalProps, "title"> {
   mediaId: number;

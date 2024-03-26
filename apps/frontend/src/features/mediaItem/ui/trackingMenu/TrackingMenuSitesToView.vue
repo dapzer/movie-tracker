@@ -6,7 +6,7 @@ import { AddIcon, CheckMarkIcon, CloseIcon, EditIcon } from "~/components/ui/ico
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { computed, ref } from "vue";
 import UiInput from "~/components/ui/UiInput.vue";
-import { useUpdateMediaItemTrackingDataApi } from "~/composables/useMediaItemtApi";
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
 import { isOnlySpaces } from "@movie-tracker/utils";
 import { useI18n } from "#imports";
 import { toast } from "vue3-toastify";

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/vue-query";
-import { initializeDetailsGenerationApi } from "~/api/detailsApi";
-import { DetailsQueryKeys } from "~/constants/queryKeys";
+import { initializeDetailsGenerationApi } from "~/api/details/detailsApi";
+import { DetailsQueryKeys } from "~/api/details/detailsApiQueryKeys";
 
 export const useInitializeDetailsGenerationApi = () => {
   return useMutation({

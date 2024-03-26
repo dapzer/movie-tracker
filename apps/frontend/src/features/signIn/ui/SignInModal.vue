@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 
 import UiModal, { type UiModalProps } from "~/components/ui/UiModal/UiModal.vue";
-import type { ButtonVariant } from "~/components/ui/UiButton.vue";
 import UiButton from "~/components/ui/UiButton.vue";
 import { signInMethods } from "~/features/signIn/model/signInMethods";
-import { useSignInApi } from "~/composables/useAuthApi";
+import { useSignInApi } from "~/api/auth/useAuthApi";
 import { spawnWindowInScreenCenter } from "~/utils/spawnWindowInScreenCenter";
 import { ref } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
-import { AuthQueryKeys, MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 import { getCurrentBrowserName } from "~/utils/getCurrentBrowserName";
 import { BrowserEnum } from "~/types/browserEnum";
 import { useLocalStorage } from "@vueuse/core";
-import { useRouter } from "vue-router";
 import { useRoute } from "#app";
+import { AuthQueryKeys } from "~/api/auth/authApiQueryKeys";
+import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys";
+import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 
 interface LoginModalProps extends Partial<Pick<UiModalProps, "buttonVariant" | "buttonColorScheme" | "externalOpenedState"
   | "isHideTrigger" | "buttonSize">> {
@@ -27,23 +27,23 @@ const emits = defineEmits<{
 
 const isModalVisible = ref(props.externalOpenedState);
 
-const { mutateAsync } = useSignInApi();
+const signInApi = useSignInApi();
 const queryClient = useQueryClient();
 const router = useRoute();
 const authRedirectUrl = useLocalStorage("authRedirectUrl", "");
 
 
 const onSignIn = async (provider: string) => {
-  const response = await mutateAsync(provider);
+  const response = await signInApi.mutateAsync(provider);
 
   if (response) {
     const currentBrowser = getCurrentBrowserName();
     let win: Window | null | undefined = null;
     if (currentBrowser === BrowserEnum.SAFARI) {
       authRedirectUrl.value = router.fullPath;
-      window.location.assign(response)
+      window.location.assign(response.url)
     } else {
-      win = spawnWindowInScreenCenter(response, "Movie Tracker Sign In", window, 800, 600);
+      win = spawnWindowInScreenCenter(response.url, "Movie Tracker Sign In", window, 800, 600);
     }
 
     win?.focus();

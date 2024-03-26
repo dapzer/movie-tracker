@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { type MediaListType, MediaTypeEnum } from "@movie-tracker/types";
 import { computed, ref } from "vue";
-import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/composables/useMediaItemtApi";
+import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiSwitch from "~/components/ui/UiSwitch.vue";
 import { useI18n, watch } from "#imports";

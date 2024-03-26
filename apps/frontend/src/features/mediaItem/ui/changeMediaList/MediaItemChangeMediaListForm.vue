@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useGetMediaItemsApi, useUpdateMediaItemApi } from "~/composables/useMediaItemtApi";
+import { useGetMediaItemsApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi";
 import type { MediaItemType } from "@movie-tracker/types";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
 import { computed, ref } from "vue";
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
-import { useGetMediaListsApi } from "~/composables/useMediaListApi";
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
 import { useI18n } from "#imports";
 import MediaItemModalFormItem from "~/features/mediaItem/ui/MediaItemModalFormItem.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";

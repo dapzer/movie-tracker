@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {
-  useTmdbGetMovieCreditsApi,
-  useTmdbGetMovieDetailsApi,
-  useTmdbGetRecommendationsApi,
-  useTmdbGetVideosApi
-} from "~/composables/useTmdbApi";
+  useGetTmdbMovieCreditsApi,
+  useGetTmdbMovieDetailsApi,
+  useGetTmdbRecommendationsApi,
+  useGetTmdbVideosApi
+} from "~/api/tmdb/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { computed, createError, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -32,10 +32,10 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
-const tmdbGetMovieDetailsApi = useTmdbGetMovieDetailsApi(queries);
-const tmdbGetRecommendationsApi = useTmdbGetRecommendationsApi(queries);
-const tmdbGetMovieCreditsApi = useTmdbGetMovieCreditsApi(queries);
-const tmdbGetVideosApi = useTmdbGetVideosApi(queries);
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
+const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries);
+const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries);
+const tmdbGetVideosApi = useGetTmdbVideosApi(queries);
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {

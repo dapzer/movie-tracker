@@ -1,9 +1,10 @@
 import { computed, ref } from "vue";
 import type { MediaListSortingOptionType } from "~/features/mediaList";
 import { mediaListSortingOptions } from "~/features/mediaList";
-import { useGetMediaListsApi, watch } from "#imports";
+import { watch } from "#imports";
 import { MediaItemStatusNameEnum } from "@movie-tracker/types";
 import { useLocalStorage } from "@vueuse/core";
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
 
 export interface MediaListSettingsType {
   sortModel: MediaListSortingOptionType;

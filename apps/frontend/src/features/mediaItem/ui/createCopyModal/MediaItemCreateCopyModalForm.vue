@@ -6,9 +6,6 @@ import { MediaListCreateModal } from "~/features/mediaList";
 import { type MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types";
 import {
   getCurrentMediaDetails,
-  useCreateMediaItemCopyApi,
-  useGetMediaItemsApi,
-  useGetMediaListsApi,
   useI18n
 } from "#imports";
 import { computed, ref } from "vue";
@@ -16,6 +13,8 @@ import { toast } from "vue3-toastify";
 import UiDivider from "~/components/ui/UiDivider.vue";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
 import MediaItemModalFormItem from "~/features/mediaItem/ui/MediaItemModalFormItem.vue";
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
+import { useCreateMediaItemCopyApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
 
 interface MediaItemCreateCopyModalFormProps {
   mediaId: number;

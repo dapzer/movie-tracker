@@ -1,18 +1,19 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
-import { MediaItemQueryKeys, MediaListQueryKeys } from "~/constants/queryKeys";
 import {
   createMediaListsApi, createMediaListsCloneApi,
   deleteMediaListsApi,
   getMediaListsApi,
   getMediaListsByIdApi,
   updateMediaListsApi
-} from "~/api/mediaListApi";
+} from "~/api/mediaList/mediaListApi";
 import type { MediaItemType, MediaListType } from "@movie-tracker/types";
-import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/types/mediaListApiTypes";
+import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
+import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys";
+import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 
 export const useGetMediaListsApi = () => useQuery({
   queryKey: [MediaListQueryKeys.GET_ALL],
-  queryFn: async () => await getMediaListsApi(),
+  queryFn: () => getMediaListsApi(),
   retry: false
 });
 

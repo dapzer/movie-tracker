@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import type { MediaItemTvProgressType, MediaItemType } from "@movie-tracker/types";
-import { useI18n, useUpdateMediaItemTrackingDataApi, watch } from "#imports";
+import { useI18n, watch } from "#imports";
 import { computed, ref } from "vue";
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails";
 import UiTypography from "~/components/ui/UiTypography.vue";
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
 
 interface TrackingMenuTvProgressProps {
   mediaItem: MediaItemType;

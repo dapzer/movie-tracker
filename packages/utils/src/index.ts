@@ -4,3 +4,4 @@ export * from './isOnlySpaces';
 export * from './arrayToString';
 export * from './getMovieDirectors';
 export * from './convertNumberToCurrency';
+export * from './fetchClient';
