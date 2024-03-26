@@ -1,55 +1,23 @@
 import type { UserType } from "@movie-tracker/types";
-import { generateApiUrl } from "@movie-tracker/utils";
-import { fetchWihCredentials } from "~/utils/fetchWihCredentials";
-
-const getApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
+import { api } from "~/api/instance";
+import type { AuthApiSignInTypes } from "~/api/auth/authApiTypes";
 
 export const getProfileApi = async () => {
-  const response = await fetchWihCredentials(getApiUrl("/user"));
-  const data = await response.json();
-
-  if (response.ok) {
-    return data as UserType;
-  }
-
-  throw new Error(`Error when getting profile. Code: ${data.statusCode}`);
+  return api.get<UserType>("user");
 };
 
 export const logoutApi = async () => {
-  const response = await fetchWihCredentials(getApiUrl("/auth/logout"), {
-    method: "POST"
-  });
-  const data = await response.json();
-
-  if (response.ok) {
-    return;
-  }
-
-  throw new Error(`Error when logging out. Code: ${data.statusCode}`);
+  return api.post("auth/logout");
 };
 
 export const signInApi = async (provider: string) => {
-  const response = await fetchWihCredentials(getApiUrl(`/auth/login/${provider}`));
-  const data = await response.json();
-
-  if (response.ok) {
-    return data.url;
-  }
-
-  throw new Error(`Error when signing in. Code: ${data.statusCode}`);
+  return api.get<AuthApiSignInTypes>(`auth/login/${provider}`);
 };
 
-
 export const signInCallbackApi = async (provider: string, code: string) => {
-  const response = await fetchWihCredentials(getApiUrl(`/auth/callback/${provider}`, {
-    code
-  }), { method: "GET" });
-
-  if (response.ok) {
-    return null;
-  }
-
-  const data = await response.json();
-
-  throw new Error(`Error when signing in. Code: ${data.statusCode}`);
+  return api.get(`auth/callback/${provider}`, {
+    params: {
+      code
+    }
+  });
 };

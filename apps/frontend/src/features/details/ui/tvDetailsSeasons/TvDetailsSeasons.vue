@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import UiTypography from "~/components/ui/UiTypography.vue";
-import { useTmdbGetMovieDetailsApi, useTmdbGetTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi";
+import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi";
 import { computed, createError, useI18n, useSeoMeta } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { minsToTimeConverter } from "@movie-tracker/utils";
@@ -24,8 +24,8 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
-const tmdbGetTvSeriesDetailsApi = useTmdbGetTvSeriesDetailsApi(queries);
-const tmdbGetMovieDetailsApi = useTmdbGetMovieDetailsApi(queries);
+const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries);
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
 
 await Promise.all([
   tmdbGetTvSeriesDetailsApi.suspense(),

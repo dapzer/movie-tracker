@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { useTmdbGetPopularListApi } from "~/api/tmdb/useTmdbApi";
+import { useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
 import { useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
@@ -23,7 +23,7 @@ const queries = computed(() => {
   };
 });
 
-const tmdbGetPopularListApi = useTmdbGetPopularListApi(queries);
+const tmdbGetPopularListApi = useGetTmdbPopularListApi(queries);
 </script>
 
 <template>

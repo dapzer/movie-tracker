@@ -1,13 +1,13 @@
 import type { Ref } from "vue";
 import {
-  tmdbCreditsApi,
-  tmdbDetailApi, tmdbPersonExternalIdsApi,
-  tmdbPersonCreditsApi,
-  tmdbRecommendationsApi,
-  tmdbSearchApi,
-  tmdbSeasonsApi,
-  tmdbTrendsApi,
-  tmdbVideosApi
+  getTmdbCreditsApi,
+  getTmdbDetailApi, getTmdbPersonExternalIdsApi,
+  getTmdbPersonCreditsApi,
+  getTmdbRecommendationsApi,
+  getTmdbSearchApi,
+  getTmdbSeasonsApi,
+  getTmdbTrendsApi,
+  getTmdbVideosApi
 } from "~/api/tmdb/tmdbApi";
 import type {
   TmdbDefaultQueriesType,
@@ -20,100 +20,100 @@ import { useQuery } from "@tanstack/vue-query";
 import type { TmdbPersonType } from "@movie-tracker/types";
 import { TmdbQueryKeys } from "~/api/tmdb/tmdbApiQueryKeys";
 
-export const useTmdbGetMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DETAILS,
       queries
     ],
-    queryFn: () => tmdbDetailApi(queries.value)
+    queryFn: () => getTmdbDetailApi(queries.value)
   });
 
-export const useTmdbGetPersonDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbPersonDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DETAILS,
       queries
     ],
-    queryFn: () => tmdbDetailApi<TmdbPersonType>(queries.value)
+    queryFn: () => getTmdbDetailApi<TmdbPersonType>(queries.value)
   });
 
-export const useTmdbGetMovieCreditsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbMovieCreditsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
       queryKey: [
         TmdbQueryKeys.GET_CREDITS,
         queries
       ],
-      queryFn: () => tmdbCreditsApi(queries.value)
+      queryFn: () => getTmdbCreditsApi(queries.value)
     }
   );
 
-export const useTmdbGetPersonCreditsApi = (queries: Ref<TmdbPersonCreditsQueriesType>) =>
+export const useGetTmdbPersonCreditsApi = (queries: Ref<TmdbPersonCreditsQueriesType>) =>
   useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_CREDITS,
         queries
       ],
-      queryFn: () => tmdbPersonCreditsApi(queries.value)
+      queryFn: () => getTmdbPersonCreditsApi(queries.value)
     }
   );
 
-export const useTmdbGetPersonExternalIdsApi = (queries: Ref<TmdbDefaultQueriesType>) => {
+export const useGetTmdbPersonExternalIdsApi = (queries: Ref<TmdbDefaultQueriesType>) => {
   return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_EXTERNAL_IDS,
       queries
     ],
-    queryFn: () => tmdbPersonExternalIdsApi(queries.value)
+    queryFn: () => getTmdbPersonExternalIdsApi(queries.value)
   });
 }
 
-export const useTmdbGetRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_RECOMMENDATIONS,
         queries
       ],
-      queryFn: () => tmdbRecommendationsApi(queries.value)
+      queryFn: () => getTmdbRecommendationsApi(queries.value)
     }
   );
 
-export const useTmdbGetPopularListApi = (queries: Ref<TmdbTrendsQueriesType>) =>
+export const useGetTmdbPopularListApi = (queries: Ref<TmdbTrendsQueriesType>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_TRENDS,
       queries
     ],
-    queryFn: () => tmdbTrendsApi(queries.value)
+    queryFn: () => getTmdbTrendsApi(queries.value)
   });
 
-export const useTmdbGetSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
+export const useGetTmdbSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
   useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_SEARCH,
         queries
       ],
-      queryFn: () => tmdbSearchApi(queries.value)
+      queryFn: () => getTmdbSearchApi(queries.value)
     }
   );
 
-export const useTmdbGetVideosApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbVideosApi = (queries: Ref<TmdbDefaultQueriesType>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_VIDEOS,
       queries
     ],
-    queryFn: () => tmdbVideosApi(queries.value)
+    queryFn: () => getTmdbVideosApi(queries.value)
   });
 
-export const useTmdbGetTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType>) =>
+export const useGetTmdbTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_SEASONS,
       queries
     ],
-    queryFn: () => tmdbSeasonsApi(queries.value)
+    queryFn: () => getTmdbSeasonsApi(queries.value)
   });

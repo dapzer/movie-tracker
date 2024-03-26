@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import {
-  useTmdbGetPersonCreditsApi,
-  useTmdbGetPersonDetailsApi,
-  useTmdbGetPersonExternalIdsApi
+  useGetTmdbPersonCreditsApi,
+  useGetTmdbPersonDetailsApi,
+  useGetTmdbPersonExternalIdsApi
 } from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
 import { createError, useI18n } from "#imports";
@@ -32,9 +32,9 @@ const creditsQueries = computed(() => ({
   language: locale.value
 }));
 
-const tmdbGetPersonDetailsApi = useTmdbGetPersonDetailsApi(personQueries);
-const tmdbGetPersonCreditsApi = useTmdbGetPersonCreditsApi(creditsQueries);
-const tmdbGetPersonExternalIdsApi = useTmdbGetPersonExternalIdsApi(personQueries);
+const tmdbGetPersonDetailsApi = useGetTmdbPersonDetailsApi(personQueries);
+const tmdbGetPersonCreditsApi = useGetTmdbPersonCreditsApi(creditsQueries);
+const tmdbGetPersonExternalIdsApi = useGetTmdbPersonExternalIdsApi(personQueries);
 
 await Promise.all([
   tmdbGetPersonDetailsApi.suspense().then((res) => {
