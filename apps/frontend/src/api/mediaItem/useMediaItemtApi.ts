@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
 import {
   createMediaItemApi,
-  createMediaItemCopyApi,
+  createMediaItemCloneApi,
   deleteMediaItemApi,
   getMediaItemsApi,
   getMediaItemsByMediaListIdApi,
@@ -71,12 +71,12 @@ export const useUpdateMediaItemTrackingDataApi = () => {
   });
 };
 
-export const useCreateMediaItemCopyApi = () => {
+export const useCreateMediaItemCloneApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: [MediaItemQueryKeys.CREATE_COPY],
-    mutationFn: createMediaItemCopyApi,
+    mutationKey: [MediaItemQueryKeys.CREATE_CLONE],
+    mutationFn: createMediaItemCloneApi,
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data]);
     }

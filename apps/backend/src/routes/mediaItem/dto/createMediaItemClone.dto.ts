@@ -1,6 +1,6 @@
 import { IsBoolean, IsUUID } from 'class-validator';
 
-export class CreateMediaItemCopyDto {
+export class CreateMediaItemCloneDto {
   @IsUUID()
   mediaListId: string;
 

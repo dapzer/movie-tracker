@@ -2,16 +2,16 @@
 
 import { UiModal } from "~/components/ui/UiModal";
 import { type MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types";
-import MediaItemCreateCopyModalForm from "~/features/mediaItem/ui/createCopyModal/MediaItemCreateCopyModalForm.vue";
+import MediaItemCreateCloneModalForm from "~/features/mediaItem/ui/createCloneModal/MediaItemCreateCloneModalForm.vue";
 
-interface MediaItemCreateCopyModalProps {
+interface MediaItemCreateCloneModalProps {
   mediaId: number;
   mediaType: MediaTypeEnum;
   mediaItemId: string;
   mediaDetails?: MediaDetailsType;
 }
 
-const props = defineProps<MediaItemCreateCopyModalProps>();
+const props = defineProps<MediaItemCreateCloneModalProps>();
 
 </script>
 
@@ -19,15 +19,15 @@ const props = defineProps<MediaItemCreateCopyModalProps>();
   <UiModal
     :class="$style.button"
     :max-width="500"
-    :title="$t('mediaItem.createCopy.title')"
+    :title="$t('mediaItem.createClone.title')"
     button-variant="clear"
   >
     <template #trigger>
-      {{ $t("mediaItem.createCopy.button") }}
+      {{ $t("mediaItem.createClone.button") }}
     </template>
 
     <template #content="{ closeModal }">
-      <MediaItemCreateCopyModalForm
+      <MediaItemCreateCloneModalForm
         :close-modal="closeModal"
         :media-details="props.mediaDetails"
         :media-id="props.mediaId"

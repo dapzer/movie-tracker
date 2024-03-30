@@ -16,7 +16,7 @@ import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { User } from '@/routes/user/users.decorator';
 import { UserDto } from '@/routes/auth/dto/user.dto';
 import { isCuid } from '@paralleldrive/cuid2';
-import { CreateMediaItemCopyDto } from '@/routes/mediaItem/dto/createMediaItemCopy.dto';
+import { CreateMediaItemCloneDto } from '@/routes/mediaItem/dto/createMediaItemClone.dto';
 import { UpdateMediaItemDto } from '@/routes/mediaItem/dto/updateMediaItem.dto';
 
 @Controller('mediaItem')
@@ -71,14 +71,14 @@ export class MediaItemController {
     return this.mediaItemService.updateMediaItem(param.id, user?.id, body);
   }
 
-  @Post(':id/copy')
+  @Post(':id/clone')
   @UseGuards(AuthGuard)
-  async copyMediaItem(
+  async cloneMediaItem(
     @Param() param: UuidDto,
     @User() user: UserDto,
-    @Body() body: CreateMediaItemCopyDto,
+    @Body() body: CreateMediaItemCloneDto,
   ) {
-    return this.mediaItemService.createMediaItemCopy(
+    return this.mediaItemService.createMediaItemClone(
       param.id,
       user?.id,
       body.mediaListId,

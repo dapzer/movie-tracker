@@ -14,9 +14,9 @@ import UiDivider from "~/components/ui/UiDivider.vue";
 import UiFormActions from "~/components/ui/UiFormActions.vue";
 import MediaItemModalFormItem from "~/features/mediaItem/ui/MediaItemModalFormItem.vue";
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
-import { useCreateMediaItemCopyApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
+import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
 
-interface MediaItemCreateCopyModalFormProps {
+interface MediaItemCreateCloneModalFormProps {
   mediaId: number;
   mediaType: MediaTypeEnum;
   mediaItemId: string;
@@ -24,18 +24,18 @@ interface MediaItemCreateCopyModalFormProps {
   closeModal: () => void;
 }
 
-const props = defineProps<MediaItemCreateCopyModalFormProps>();
+const props = defineProps<MediaItemCreateCloneModalFormProps>();
 const { locale, t } = useI18n();
 
 const getMediaListsApi = useGetMediaListsApi();
 const getMediaItemsApi = useGetMediaItemsApi();
-const createMediaItemCopyApi = useCreateMediaItemCopyApi();
+const createMediaItemCloneApi = useCreateMediaItemCloneApi();
 
 const selectedLists = ref<string[]>([]);
 const isSaveCreationDate = ref(false);
 
 const isCreatingPending = computed(() => {
-  return createMediaItemCopyApi.status.value === "pending";
+  return createMediaItemCloneApi.status.value === "pending";
 });
 
 const mediaTitle = computed(() => {
@@ -56,13 +56,13 @@ const availableLists = computed(() => {
 
 const handleCreateCopy = async () => {
   for (const listId of selectedLists.value) {
-    await createMediaItemCopyApi.mutateAsync({
+    await createMediaItemCloneApi.mutateAsync({
       mediaListId: listId,
       isSaveCreationDate: isSaveCreationDate.value,
       mediaItemId: props.mediaItemId
     });
   }
-  toast.success(t("mediaItem.createCopy.successfullyCreated"));
+  toast.success(t("mediaItem.createClone.successfullyCreated"));
 };
 
 </script>
@@ -70,7 +70,7 @@ const handleCreateCopy = async () => {
 <template>
   <div :class="$style.wrapper">
     <UiTypography :class="$style.title">
-      {{ $t("mediaItem.createCopy.description", { title: mediaTitle }) }}
+      {{ $t("mediaItem.createClone.description", { title: mediaTitle }) }}
     </UiTypography>
     <UiDivider />
     <div
@@ -87,7 +87,7 @@ const handleCreateCopy = async () => {
 
       <div :class="$style.listItem">
         <UiTypography>
-          {{ $t("mediaItem.createCopy.isSaveCreationDate") }}
+          {{ $t("mediaItem.createClone.isSaveCreationDate") }}
         </UiTypography>
         <UiSwitch
           v-model="isSaveCreationDate"
@@ -100,7 +100,7 @@ const handleCreateCopy = async () => {
       v-else
       :class="$style.noLists"
     >
-      {{ $t("mediaItem.createCopy.noAvailableLists") }}
+      {{ $t("mediaItem.createClone.noAvailableLists") }}
       <MediaListCreateModal
         :button-text="`${$t('mediaList.createNew')}?`"
         :class="$style.createListButton"
@@ -109,7 +109,7 @@ const handleCreateCopy = async () => {
     </UiTypography>
 
     <UiFormActions
-      :confirm-text="$t('mediaItem.createCopy.clone')"
+      :confirm-text="$t('mediaItem.createClone.clone')"
       :is-cancel-disabled="isCreatingPending"
       :is-confirm-disabled="isCreatingPending || selectedLists.length === 0"
       @cancel="closeModal"

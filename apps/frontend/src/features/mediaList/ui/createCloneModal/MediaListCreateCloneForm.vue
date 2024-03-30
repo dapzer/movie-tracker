@@ -6,7 +6,7 @@ import { useI18n, watch } from "#imports";
 import UiDivider from "~/components/ui/UiDivider.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MediaItemCreateCopyModalFormItem
-  from "~/features/mediaItem/ui/createCopyModal/MediaItemCreateCopyModalFormItem.vue";
+  from "~/features/mediaItem/ui/createCloneModal/MediaItemCreateCloneModalFormItem.vue";
 import UiLabel from "~/components/ui/UiLabel.vue";
 import UiInput from "~/components/ui/UiInput.vue";
 import UiSwitch from "~/components/ui/UiSwitch.vue";
