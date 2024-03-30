@@ -3,14 +3,14 @@ export default {
     addedDate: "Added Date",
     management: "Management",
     removeFromList: "Remove from list",
-    createCopy: {
+    createClone: {
       button: "Copy to other lists",
-      title: "Making a copy",
-      description: "Specify the lists to copy to «{title}»",
-      isSaveCreationDate: "Copy with current date added",
+      title: "Making a clone",
+      description: "Specify the lists to clone to «{title}»",
+      isSaveCreationDate: "Clone with current date added",
       noAvailableLists: "No lists available.",
-      clone: "Copy",
-      successfullyCreated: "The movie has been successfully copied to the selected lists",
+      clone: "Clone",
+      successfullyCreated: "The movie has been successfully cloned to the selected lists",
     },
     changeMediaList: {
       button: "Change list",

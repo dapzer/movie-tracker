@@ -1,7 +1,7 @@
 import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types";
 import type {
   MediaItemCreateApiTypes,
-  MediaItemCreateCopyApiTypes,
+  MediaItemCreateCloneApiTypes,
   MediaItemUpdateApiTypes
 } from "~/api/mediaItem/mediaItemApiTypes";
 import { api } from "~/api/instance";
@@ -26,8 +26,8 @@ export const updateMediaItemTrackingDataApi = async (trackingDataId: string, bod
 };
 
 
-export const createMediaItemCopyApi = async (args: MediaItemCreateCopyApiTypes) => {
-  return api.post<MediaItemType>(`mediaItem/${args.mediaItemId}/copy`, {
+export const createMediaItemCloneApi = async (args: MediaItemCreateCloneApiTypes) => {
+  return api.post<MediaItemType>(`mediaItem/${args.mediaItemId}/clone`, {
     mediaListId: args.mediaListId,
     isSaveCreationDate: args.isSaveCreationDate
   });

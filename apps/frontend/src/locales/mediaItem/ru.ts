@@ -3,14 +3,14 @@ export default {
     addedDate: "Дата добавления",
     management: "Управление",
     removeFromList: "Удалить из списка",
-    createCopy: {
-      button: "Скопировать в другие списки",
-      title: "Создание копии",
-      description: "Выберите списки, в которые необходимо скопировать «{title}»",
-      isSaveCreationDate: "Скопировать с текущей датой добавления",
+    createClone: {
+      button: "Клонировать в другие списки",
+      title: "Клонирование кинокартины",
+      description: "Выберите списки, в которые необходимо клонировать «{title}»",
+      isSaveCreationDate: "Клонировать с текущей датой добавления",
       noAvailableLists: "Нет доступных списков.",
       clone: "Клонировать",
-      successfullyCreated: "Кинокартина успешно скопирована в выбранные списки",
+      successfullyCreated: "Кинокартина успешно клонирована в выбранные списки",
     },
     changeMediaList: {
       button: "Изменить список",

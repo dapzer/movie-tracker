@@ -141,7 +141,7 @@ export class MediaItemService {
     return this.mediaItemRepository.updateMediaItem(id, data);
   }
 
-  async createMediaItemCopy(
+  async createMediaItemClone(
     id: string,
     userId: string,
     mediaListId: string,

@@ -8,7 +8,7 @@ export interface MediaItemCreateApiTypes {
 
 export type MediaItemUpdateApiTypes = Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
 
-export interface MediaItemCreateCopyApiTypes {
+export interface MediaItemCreateCloneApiTypes {
   mediaItemId: string,
   mediaListId: string,
   isSaveCreationDate: boolean
