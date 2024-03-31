@@ -35,7 +35,10 @@ export class SitemapService {
 
       return file.pipe(gunzip);
     } catch (error) {
-      throw error;
+      throw new HttpException(
+        `File ${fileLocation} not found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }

@@ -11,6 +11,7 @@ import { getMillisecondsFromDays } from '@/shared/utils/getMillisecondsFromDays'
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
+import { HttpExceptionFilter } from '@/filters/httpException.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });
@@ -26,6 +27,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('/api');
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter));
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.use(cookieParser(configService.get('COOKIE_SECRET')));
