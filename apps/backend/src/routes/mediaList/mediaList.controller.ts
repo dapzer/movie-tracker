@@ -75,6 +75,18 @@ export class MediaListController {
     );
   }
 
+  @Post(':id/like')
+  @UseGuards(AuthGuard)
+  async createMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.mediaListService.createMediaListLike(params.id, user?.id);
+  }
+
+  @Delete(':id/like')
+  @UseGuards(AuthGuard)
+  async deleteMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.mediaListService.deleteMediaListLike(params.id, user?.id);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard)
   async updateMediaList(

@@ -1,15 +1,27 @@
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { MediaListRepositoryInterface } from '@/repositories/mediaList/MediaListRepositoryInterface';
 import { Injectable } from '@nestjs/common';
-import { MediaListType } from '@movie-tracker/types';
-import { MediaList } from '@movie-tracker/database';
+import { MediaListLikeType, MediaListType } from '@movie-tracker/types';
+import { MediaList, MediaListLike } from '@movie-tracker/database';
 import { init } from '@paralleldrive/cuid2';
 
 @Injectable()
 export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
 
-  private convertToInterface(data: MediaList): MediaListType {
+  private convertLikeToInterface(data: MediaListLike): MediaListLikeType {
+    return {
+      id: data.id,
+      mediaListId: data.mediaListId,
+      userId: data.userId,
+      createdAt: data.createdAt,
+    };
+  }
+
+  private convertToInterface(
+    data: MediaList & { likes: MediaListLike[] },
+    userId?: string,
+  ): MediaListType {
     return {
       id: data.id,
       humanFriendlyId: data.humanFriendlyId,
@@ -18,39 +30,54 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       isPublic: data.isPublic,
       title: data.title,
       poster: data.poster,
+      likesCount: data.likes.length,
+      isLiked: userId
+        ? data.likes.some((like) => like.userId === userId)
+        : false,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     };
   }
 
-  async getAllMedialLists(isPublicOnly = false) {
+  async getAllMedialLists(isPublicOnly = false, userId?: string) {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
         ...(isPublicOnly && { isPublic: true }),
       },
+      include: {
+        likes: true,
+      },
     });
 
-    return mediaLists.map(this.convertToInterface);
+    return mediaLists.map((el) => {
+      return this.convertToInterface(el, userId);
+    });
   }
 
-  async getMedialListById(id: string) {
+  async getMedialListById(id: string, userId?: string) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
         id,
       },
+      include: {
+        likes: true,
+      },
     });
 
-    return this.convertToInterface(mediaList);
+    return this.convertToInterface(mediaList, userId);
   }
 
-  async getMedialListByHumanFriendlyId(id: string) {
+  async getMedialListByHumanFriendlyId(id: string, userId?: string) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
         humanFriendlyId: id,
       },
+      include: {
+        likes: true,
+      },
     });
 
-    return this.convertToInterface(mediaList);
+    return this.convertToInterface(mediaList, userId);
   }
 
   async getMedialListsByUserId(userId: string, isPublicOnly = false) {
@@ -59,9 +86,14 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
         userId,
         ...(isPublicOnly && { isPublic: true }),
       },
+      include: {
+        likes: true,
+      },
     });
 
-    return mediaLists.map(this.convertToInterface);
+    return mediaLists.map((el) => {
+      return this.convertToInterface(el, userId);
+    });
   }
 
   async getMedialListByMediaItemAndUserId(mediaItemId: string, userId: string) {
@@ -76,9 +108,12 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
           },
         },
       },
+      include: {
+        likes: true,
+      },
     });
 
-    return this.convertToInterface(mediaList);
+    return this.convertToInterface(mediaList, userId);
   }
 
   async createMediaList(
@@ -94,6 +129,9 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
         isSystem,
         ...(body ?? {}),
       },
+      include: {
+        likes: true,
+      },
     });
 
     return this.convertToInterface(mediaList);
@@ -103,6 +141,9 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     const mediaList = await this.prisma.mediaList.delete({
       where: {
         id,
+      },
+      include: {
+        likes: true,
       },
     });
 
@@ -118,6 +159,9 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       data: {
         ...body,
       },
+      include: {
+        likes: true,
+      },
     });
 
     return this.convertToInterface(mediaList);
@@ -125,5 +169,29 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
 
   async getMediaListsCount() {
     return this.prisma.mediaList.count();
+  }
+
+  async createMediaListLike(mediaListId: string, userId: string) {
+    const mediaListLike = await this.prisma.mediaListLike.create({
+      data: {
+        mediaListId,
+        userId,
+      },
+    });
+
+    return this.convertLikeToInterface(mediaListLike);
+  }
+
+  async deleteMediaListLike(mediaListId: string, userId: string) {
+    const mediaListLike = await this.prisma.mediaListLike.delete({
+      where: {
+        mediaListId_userId: {
+          mediaListId,
+          userId,
+        },
+      },
+    });
+
+    return this.convertLikeToInterface(mediaListLike);
   }
 }

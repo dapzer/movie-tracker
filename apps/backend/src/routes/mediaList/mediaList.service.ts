@@ -38,8 +38,8 @@ export class MediaListService {
     return mediaList.userId === userId;
   }
 
-  async getAllMedialLists(isPublicOnly = false) {
-    return this.mediaListRepository.getAllMedialLists(isPublicOnly);
+  async getAllMedialLists(isPublicOnly = false, userId?: string) {
+    return this.mediaListRepository.getAllMedialLists(isPublicOnly, userId);
   }
 
   async getMedialListById(
@@ -48,8 +48,11 @@ export class MediaListService {
     byHumanFriendlyId = false,
   ) {
     const mediaList = byHumanFriendlyId
-      ? await this.mediaListRepository.getMedialListByHumanFriendlyId(id)
-      : await this.mediaListRepository.getMedialListById(id);
+      ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
+          id,
+          userId,
+        )
+      : await this.mediaListRepository.getMedialListById(id, userId);
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
     if (!isListOwner && !mediaList.isPublic) {
@@ -157,5 +160,31 @@ export class MediaListService {
     await Promise.all(promises);
 
     return newMediaList;
+  }
+
+  async createMediaListLike(mediaListId: string, userId: string) {
+    const isListOwner = await this.isListOwner(mediaListId, userId);
+
+    if (isListOwner) {
+      throw new HttpException(
+        'You cannot like your own media list.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return this.mediaListRepository.createMediaListLike(mediaListId, userId);
+  }
+
+  async deleteMediaListLike(mediaListId: string, userId: string) {
+    const isListOwner = await this.isListOwner(mediaListId, userId);
+
+    if (isListOwner) {
+      throw new HttpException(
+        'You cannot dislike your own media list.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return this.mediaListRepository.deleteMediaListLike(mediaListId, userId);
   }
 }

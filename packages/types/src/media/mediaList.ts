@@ -4,8 +4,17 @@ export interface MediaListType {
   userId: string;
   title?: string;
   poster?: string;
+  likesCount?: number;
+  isLiked?: boolean;
   isSystem: boolean;
   isPublic: boolean;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface MediaListLikeType {
+  id: string;
+  mediaListId: string;
+  userId: string;
+  createdAt: Date;
 }
