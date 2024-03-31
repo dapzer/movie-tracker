@@ -1,18 +1,24 @@
-import { MediaListType } from '@movie-tracker/types';
+import { MediaListType, MediaListLikeType } from '@movie-tracker/types';
 
 export const MediaListRepositorySymbol = Symbol();
 
 export interface MediaListRepositoryInterface {
-  getAllMedialLists: (isPublicOnly?: boolean) => Promise<MediaListType[]>;
+  getAllMedialLists: (
+    isPublicOnly?: boolean,
+    userId?: string,
+  ) => Promise<MediaListType[]>;
 
-  getMedialListById: (id: string) => Promise<MediaListType>;
+  getMedialListById: (id: string, userId?: string) => Promise<MediaListType>;
 
   getMedialListByMediaItemAndUserId: (
     mediaItemId: string,
     userId: string,
   ) => Promise<MediaListType>;
 
-  getMedialListByHumanFriendlyId: (id: string) => Promise<MediaListType>;
+  getMedialListByHumanFriendlyId: (
+    id: string,
+    userId?: string,
+  ) => Promise<MediaListType>;
 
   getMedialListsByUserId: (
     userId: string,
@@ -33,4 +39,14 @@ export interface MediaListRepositoryInterface {
   ) => Promise<MediaListType>;
 
   getMediaListsCount: () => Promise<number>;
+
+  createMediaListLike: (
+    mediaListId: string,
+    userId: string,
+  ) => Promise<MediaListLikeType>;
+
+  deleteMediaListLike: (
+    mediaListId: string,
+    userId: string,
+  ) => Promise<MediaListLikeType>;
 }

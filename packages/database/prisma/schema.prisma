@@ -46,6 +46,7 @@ model User {
   updatedAt  DateTime       @updatedAt() @map("updated_at")
   mediaLists MediaList[]
   accounts   Account[]
+  mediaListLikes MediaListLike[]
 
   @@map("users")
 }
@@ -62,8 +63,22 @@ model MediaList {
   createdAt       DateTime    @default(now()) @map("created_at")
   updatedAt       DateTime    @updatedAt() @map("updated_at")
   mediaItems      MediaItem[]
+  likes           MediaListLike[]
 
   @@map("media_lists")
+}
+
+model MediaListLike {
+  id          String  @id @default(uuid())
+  mediaListId String  @map("media_list_id")
+  mediaList   MediaList @relation(fields: [mediaListId], references: [id], onDelete: Cascade)
+  userId      String  @map("user_id")
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([mediaListId, userId])
+  @@map("media_list_likes")
 }
 
 model MediaItem {
