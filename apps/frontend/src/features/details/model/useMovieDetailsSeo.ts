@@ -1,6 +1,6 @@
 import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { defineMovie, getProxiedImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
+import { defineBreadcrumb, defineMovie, getProxiedImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports";
 import { generateApiUrl, getMovieDirectors } from "@movie-tracker/utils";
 import { useLocalePath } from "#i18n";
 import { computed } from "vue";
@@ -74,7 +74,12 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
           ratingCount: media?.vote_count || 0
         }
       })
-    })
+    }),
+    ...(!!media?.number_of_seasons ? [defineBreadcrumb({
+      itemListElement: [
+        { name: t("details.episodesList"), href: localePath(`/details/${mediaType}/${mediaId}/seasons`) }
+      ]
+    })] : [])
   ]);
 
 };
