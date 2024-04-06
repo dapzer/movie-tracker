@@ -31,13 +31,13 @@ export const usePersonDetailsSeo = (person?: TmdbPersonType | null) => {
     twitterDescription: person?.biography || t("seo.description")
   });
 
-  useSchemaOrg([
-    definePerson({
-      name: person?.name,
-      url: localePath(`/details/person/${person?.id}`),
-      description: person?.biography,
-      image: getProxiedImageUrl(person?.profile_path)
-    })
-  ]);
+  // useSchemaOrg([
+  //   definePerson({
+  //     name: person?.name,
+  //     url: localePath(`/details/person/${person?.id}`),
+  //     description: person?.biography,
+  //     image: getProxiedImageUrl(person?.profile_path)
+  //   })
+  // ]);
 
 };
