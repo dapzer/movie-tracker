@@ -50,15 +50,18 @@ export default defineNuxtConfig({
     langDir: "./locales",
     detectBrowserLanguage: false,
     defaultLocale: "ru",
-    locales: [{ code: "ru", iso: "ru-RU" }, { code: "en", iso: "en-US" }].map((locale) => {
-      const foldersWithLocale = ["navigation", "auth", "hero", "search", "ui", "details", "mediaList", "mediaItem", "toasts", "seo", "dashboard"];
-
-      return {
-        code: locale.code,
-        files: foldersWithLocale.map((folder) => `${folder}/${locale.code}.ts`),
-        iso: locale.iso
-      };
-    })
+    locales: [
+      {
+        code: "en",
+        iso: "en-US",
+        file: "en.ts"
+      },
+      {
+        code: "ru",
+        iso: "ru-RU",
+        file: "ru.ts"
+      }
+    ]
   },
   svgo: {
     svgo: true,
