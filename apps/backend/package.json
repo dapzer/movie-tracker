@@ -12,9 +12,11 @@
     "prestart:prod": "pnpm --filter=database run migrate"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.554.0",
     "@movie-tracker/database": "workspace:*",
     "@movie-tracker/types": "workspace:*",
     "@movie-tracker/utils": "workspace:*",
+    "@nestjs-modules/mailer": "^1.11.2",
     "@nestjs/cache-manager": "^2.2.1",
     "@nestjs/common": "^10.3.3",
     "@nestjs/config": "^3.2.0",
@@ -24,6 +26,7 @@
     "@nestjs/swagger": "^7.3.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@quixo3/prisma-session-store": "^3.1.13",
+    "@types/nodemailer": "^6.4.14",
     "cache-manager": "^5.4.0",
     "cache-manager-redis-yet": "^4.1.2",
     "class-transformer": "^0.5.1",
@@ -31,6 +34,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "express-session": "^1.18.0",
+    "nodemailer": "^6.9.13",
     "redis": "^4.6.13",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
