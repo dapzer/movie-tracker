@@ -6,4 +6,4 @@ import { MailController } from '@/routes/mail/mail,.controller';
   providers: [],
   exports: [],
 })
-export class MailModule {}
+export class EmailModule {}

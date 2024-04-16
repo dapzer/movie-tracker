@@ -15,36 +15,13 @@ import { OpenGraphImageModule } from '@/routes/openGraphImage/openGraphImage.mod
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
-import { MailModule } from '@/routes/mail/mail.module';
-import { MailerModule } from '@nestjs-modules/mailer';
-import * as ses from '@aws-sdk/client-ses';
-import { createTransport } from 'nodemailer';
+import { EmailModule } from '@/routes/mail/emailModule';
+import { MailModule } from '@/services/mail/mail.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
-    MailerModule.forRootAsync({
-      inject: [ConfigService],
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        transport: createTransport({
-          SES: {
-            ses: new ses.SESClient({
-              region: configService.get('SES_REGION'),
-              credentials: {
-                accessKeyId: configService.get('SES_ACCESS_KEY_ID')!,
-                secretAccessKey: configService.get('SES_SECRET_ACCESS_KEY')!,
-              },
-            }),
-            aws: ses,
-          },
-        }).transporter,
-        defaults: {
-          from: `Movies Tracker Support <${configService.get('SUPPORT_EMAIL_ADDRESS')}>`,
-        },
-      }),
-    }),
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
@@ -68,6 +45,7 @@ import { createTransport } from 'nodemailer';
     AnalyticsModule,
     TrackingDataModule,
     OpenGraphImageModule,
+    EmailModule,
     MailModule,
   ],
   controllers: [],
