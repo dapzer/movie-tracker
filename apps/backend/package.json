@@ -14,6 +14,7 @@
   "dependencies": {
     "@aws-sdk/client-ses": "^3.554.0",
     "@movie-tracker/database": "workspace:*",
+    "@movie-tracker/email-templates": "workspace:*",
     "@movie-tracker/types": "workspace:*",
     "@movie-tracker/utils": "workspace:*",
     "@nestjs-modules/mailer": "^1.11.2",
@@ -26,6 +27,7 @@
     "@nestjs/swagger": "^7.3.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@quixo3/prisma-session-store": "^3.1.13",
+    "@react-email/render": "^0.0.12",
     "@types/nodemailer": "^6.4.14",
     "cache-manager": "^5.4.0",
     "cache-manager-redis-yet": "^4.1.2",

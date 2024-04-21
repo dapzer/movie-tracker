@@ -1,5 +1,7 @@
 import { Controller, Post } from '@nestjs/common';
 import { MailService } from '@/services/mail/mail.service';
+import { ConfirmEmail } from '@movie-tracker/email-templates';
+import { render } from '@react-email/render';
 
 @Controller('mail')
 export class MailController {
@@ -10,8 +12,19 @@ export class MailController {
     return this.mailService.send({
       subject: 'Hello',
       to: 'danilavoronkov2002@gmail.com',
-      text: 'Cock', // plaintext body
-      html: '<b>welcome</b>', // HTML body content
+      text: render(
+        ConfirmEmail({
+          username: 'Danil',
+          url: 'https://movie-tracker.app/dashboard',
+        }),
+        { plainText: true },
+      ),
+      html: render(
+        ConfirmEmail({
+          username: 'Danil',
+          url: 'https://movie-tracker.app/dashboard',
+        }),
+      ),
     });
   }
 }
