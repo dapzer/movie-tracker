@@ -5,8 +5,13 @@ export const UserRepositorySymbol = Symbol();
 export interface UserRepositoryInterface {
   getUserById: (id: string) => Promise<UserType>;
 
+  getUserByEmail: (email: string) => Promise<UserType>;
+
   createUser: (
-    body: Pick<UserType, 'email' | 'name' | 'image'>,
+    body: Pick<
+      UserType,
+      'email' | 'name' | 'image' | 'password' | 'isEmailVerified'
+    >,
   ) => Promise<UserType>;
 
   updateUser: (

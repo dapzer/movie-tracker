@@ -8,12 +8,18 @@ import { User } from '@movie-tracker/database';
 export class PrismaUserRepository implements UserRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
 
-  private convertToInterface(user: User): UserType {
+  private convertToInterface(user: User | null): UserType | null {
+    if (!user) {
+      return null;
+    }
+
     return {
       id: user.id,
       name: user.name,
       email: user.email,
       image: user.image,
+      isEmailVerified: user.isEmailVerified,
+      password: user.password,
       roles: user.roles.map((el) => UserRoleEnum[el]),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
@@ -26,7 +32,18 @@ export class PrismaUserRepository implements UserRepositoryInterface {
     return this.convertToInterface(user);
   }
 
-  async createUser(body: Pick<UserType, 'email' | 'name' | 'image'>) {
+  async getUserByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    return this.convertToInterface(user);
+  }
+
+  async createUser(
+    body: Pick<
+      UserType,
+      'email' | 'name' | 'image' | 'password' | 'isEmailVerified'
+    >,
+  ) {
     const user = await this.prisma.user.create({ data: body });
 
     return this.convertToInterface(user);

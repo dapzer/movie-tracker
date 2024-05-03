@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ProvidersService } from '@/routes/auth/providers/providers.service';
 import { AllowedProvider } from '@/routes/auth/dto/allowedProvider';
@@ -14,6 +14,9 @@ import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from '@/repositories/mediaList/MediaListRepositoryInterface';
+import * as bcrypt from 'bcrypt';
+import { SignUpDto } from '@/routes/auth/dto/signUp.dto';
+import { SignInDto } from '@/routes/auth/dto/signIn.dto';
 
 @Injectable()
 export class AuthService {
@@ -53,6 +56,7 @@ export class AuthService {
         email: profile.email,
         name: profile.name,
         image: profile.avatarUrl,
+        isEmailVerified: true,
       });
 
       await this.mediaListRepository.createMediaList(user.id, true);
@@ -68,6 +72,46 @@ export class AuthService {
         access_token: profile.access_token,
         expires_at: profile.expires_at,
       });
+    }
+
+    return user;
+  }
+
+  async signUp(body: SignUpDto) {
+    const user = await this.usersRepository.getUserByEmail(body.email);
+
+    if (user) {
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+    }
+
+    const passwordHash = await bcrypt.hash(body.password, 10);
+
+    return this.usersRepository.createUser({
+      email: body.email,
+      name: body.name,
+      image: body.image,
+      password: passwordHash,
+      isEmailVerified: false,
+    });
+  }
+
+  async signIn(body: SignInDto) {
+    const user = await this.usersRepository.getUserByEmail(body.email);
+
+    if (!user) {
+      throw new HttpException(
+        'Email or password not valid',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    const passwordMatch = await bcrypt.compare(body.password, user.password);
+
+    if (!passwordMatch) {
+      throw new HttpException(
+        'Email or password not valid',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     return user;
