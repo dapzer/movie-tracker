@@ -9,6 +9,7 @@ export const getUserWithoutPassword = (
     email: user.email,
     image: user.image,
     roles: user.roles,
+    signUpMethod: user.signUpMethod,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
     isEmailVerified: user.isEmailVerified,

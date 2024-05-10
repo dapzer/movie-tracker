@@ -10,13 +10,13 @@ export interface UserRepositoryInterface {
   createUser: (
     body: Pick<
       UserType,
-      'email' | 'name' | 'image' | 'password' | 'isEmailVerified'
+      'email' | 'name' | 'image' | 'password' | 'isEmailVerified' | "signUpMethod"
     >,
   ) => Promise<UserType>;
 
   updateUser: (
     id: string,
-    body: Partial<Pick<UserType, 'name' | 'image'>>,
+    body: Partial<Pick<UserType, 'name' | 'image' | 'isEmailVerified'>>,
   ) => Promise<UserType>;
 
   deleteUser: (id: string) => Promise<UserType>;

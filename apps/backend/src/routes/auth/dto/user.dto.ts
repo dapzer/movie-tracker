@@ -9,7 +9,7 @@ import {
   IsUUID,
   Length,
 } from 'class-validator';
-import { UserRoleEnum, UserType } from '@movie-tracker/types';
+import { SignUpMethodEnum, UserRoleEnum, UserType } from '@movie-tracker/types';
 
 export class UserDto implements UserType {
   @IsUUID()
@@ -41,6 +41,10 @@ export class UserDto implements UserType {
 
   @IsEnum(UserRoleEnum, { each: true })
   roles: UserRoleEnum[];
+
+  @IsEnum(SignUpMethodEnum)
+  signUpMethod: SignUpMethodEnum;
+
 
   @IsDateString()
   createdAt: Date;

@@ -15,13 +15,33 @@ import { OpenGraphImageModule } from '@/routes/openGraphImage/openGraphImage.mod
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
-import { EmailModule } from '@/routes/mail/emailModule';
 import { MailModule } from '@/services/mail/mail.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import { ThrottlerBehindProxyGuard } from '@/guards/throttlerBehindProxy.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return {
+          throttlers: [
+            {
+              ttl: 60,
+              limit: 10000,
+            },
+          ],
+          storage: new ThrottlerStorageRedisService(
+            configService.get('REDIS_URL')!,
+          ),
+        };
+      },
+      inject: [ConfigService],
+    }),
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
@@ -45,10 +65,14 @@ import { MailModule } from '@/services/mail/mail.module';
     AnalyticsModule,
     TrackingDataModule,
     OpenGraphImageModule,
-    EmailModule,
     MailModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerBehindProxyGuard,
+    },
+  ],
 })
 export class AppModule {}

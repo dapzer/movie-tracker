@@ -3,6 +3,14 @@ export enum UserRoleEnum {
   ADMIN = "ADMIN",
 }
 
+export enum SignUpMethodEnum {
+  EMAIL = "EMAIL",
+  GOOGLE = "GOOGLE",
+  GITHUB = "GITHUB",
+  VK = "VK",
+  YANDEX = "YANDEX",
+}
+
 export interface UserType {
   id: string;
   // userName: string;
@@ -10,6 +18,7 @@ export interface UserType {
   email?: string;
   image?: string;
   isEmailVerified: boolean;
+  signUpMethod: SignUpMethodEnum;
   password?: string;
   roles: UserRoleEnum[];
   createdAt: Date;

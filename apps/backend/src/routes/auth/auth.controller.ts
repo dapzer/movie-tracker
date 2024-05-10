@@ -19,6 +19,11 @@ import { AllowedProvider } from '@/routes/auth/dto/allowedProvider';
 import { SignUpDto } from '@/routes/auth/dto/signUp.dto';
 import { SignInDto } from '@/routes/auth/dto/signIn.dto';
 import { getUserWithoutPassword } from '@/shared/utils/getUserWithoutPassword';
+import { User } from '@/routes/user/users.decorator';
+import { UserDto } from '@/routes/auth/dto/user.dto';
+import { ConfirmEmailDto } from '@/routes/auth/dto/confirmEmail.dto';
+import { Throttle } from '@nestjs/throttler';
+import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
 
 @Controller('auth')
 export class AuthController {
@@ -51,7 +56,11 @@ export class AuthController {
   }
 
   @Post('/signIn')
-  async signIn(@Req() req: Request, @Body() body: SignInDto) {
+  async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: UserDto) {
+    if (currentUser) {
+      throw new HttpException('Already authenticated', HttpStatus.FORBIDDEN);
+    }
+
     const user = await this.authService.signIn(body);
 
     req.session.user = getUserWithoutPassword(user);
@@ -60,7 +69,33 @@ export class AuthController {
     return;
   }
 
-  @Get('/callback/:provider')
+  @Throttle({
+    default: {
+      limit: 1,
+      ttl: getMillisecondsFromMins(15),
+    },
+  })
+  @Get('/confirmEmail')
+  async getConfirmEmail(@User() user: UserDto) {
+    return this.authService.requestEmailConfirmation(user.email);
+  }
+
+  @Post('/confirmEmail')
+  @UseGuards(AuthGuard)
+  async confirmEmail(
+    @Req() req: Request,
+    @User() user: UserDto,
+    @Body() body: ConfirmEmailDto,
+  ) {
+    await this.authService.confirmEmail(user.email, body.token);
+
+    req.session.user.isEmailVerified = true;
+    await this.saveSession(req);
+
+    return;
+  }
+
+  @Get('/oauth/callback/:provider')
   @UseGuards(AuthProviderGuard)
   async callBack(
     @Req() req: Request,
@@ -76,12 +111,9 @@ export class AuthController {
     return;
   }
 
-  @Get('/connect/:provider')
+  @Get('/oauth/connect/:provider')
   @UseGuards(AuthProviderGuard)
-  async connect(
-    @Req() req: Request,
-    @Param('provider') provider: AllowedProvider,
-  ) {
+  async connect(@Param('provider') provider: AllowedProvider,) {
     const providerInstance = this.providersService.findService(provider);
 
     return {

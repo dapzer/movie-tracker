@@ -11,11 +11,11 @@ export const logoutApi = async () => {
 };
 
 export const signInApi = async (provider: string) => {
-  return api.get<AuthApiSignInTypes>(`auth/login/${provider}`);
+  return api.get<AuthApiSignInTypes>(`auth/oauth/connect/${provider}`);
 };
 
 export const signInCallbackApi = async (provider: string, code: string) => {
-  return api.get(`auth/callback/${provider}`, {
+  return api.get(`auth/oauth/callback/${provider}`, {
     params: {
       code
     }

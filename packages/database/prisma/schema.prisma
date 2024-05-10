@@ -36,21 +36,22 @@ model Account {
 }
 
 model User {
-  id              String          @id @default(uuid())
+  id              String           @id @default(uuid())
   // userName     String?     @unique
   name            String?
-  email           String?         @unique
+  email           String?          @unique
   image           String?
-  isEmailVerified Boolean         @default(false) @map("is_email_verified")
+  isEmailVerified Boolean          @default(false) @map("is_email_verified")
+  signUpMethod    SignUpMethodEnum @map("sign_up_method")
   password        String?
 
-  roles           UserRoleEnum[]  @default([USER])
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt() @map("updated_at")
+  roles     UserRoleEnum[] @default([USER])
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt() @map("updated_at")
 
-  mediaLists      MediaList[]
-  accounts        Account[]
-  mediaListLikes  MediaListLike[]
+  mediaLists     MediaList[]
+  accounts       Account[]
+  mediaListLikes MediaListLike[]
 
   @@map("users")
 }
@@ -150,4 +151,12 @@ enum MediaTypeEnum {
 enum UserRoleEnum {
   ADMIN
   USER
+}
+
+enum SignUpMethodEnum {
+  EMAIL
+  GOOGLE
+  GITHUB
+  VK
+  YANDEX
 }

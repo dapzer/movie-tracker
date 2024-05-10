@@ -1,1 +1,1 @@
-export * from './emails/confirm-email';
+export * from './emails/welcome-email';
