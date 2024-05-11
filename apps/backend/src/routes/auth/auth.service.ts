@@ -23,9 +23,13 @@ import { render } from '@react-email/render';
 import { WelcomeEmail } from '@movie-tracker/email-templates';
 import ConfirmationEmail from '@movie-tracker/email-templates/dist/emails/confirmation-email';
 import { SignUpMethodEnum, UserType } from '@movie-tracker/types';
+import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
+import PasswordRecoveryEmail from '@movie-tracker/email-templates/dist/emails/password-recovery-email';
 
 @Injectable()
 export class AuthService {
+  private saltRounds = Number(this.configService.get<number>('SALT_ROUNDS'));
+
   private async createConfirmationToken(email: string) {
     const token = crypto.randomBytes(32).toString('hex');
 
@@ -41,7 +45,7 @@ export class AuthService {
   private async getEmailConfirmationLink(email: string) {
     const token = await this.createConfirmationToken(email);
 
-    return `${this.config.get('CLIENT_BASE_URL')}/auth/confirmEmail?token=${token}`;
+    return `${this.configService.get('CLIENT_BASE_URL')}/auth/confirmEmail?token=${token}`;
   }
 
   private async checkEmailConfirmation(email: string, token: string) {
@@ -87,7 +91,7 @@ export class AuthService {
   }
 
   constructor(
-    private readonly config: ConfigService,
+    private readonly configService: ConfigService,
     private readonly mailService: MailService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly providersService: ProvidersService,
@@ -158,7 +162,7 @@ export class AuthService {
       throw new HttpException('User already exists', HttpStatus.CONFLICT);
     }
 
-    const passwordHash = await bcrypt.hash(body.password, 10);
+    const passwordHash = await bcrypt.hash(body.password, this.saltRounds);
 
     const newUser = await this.usersRepository.createUser({
       email: body.email,
@@ -198,7 +202,7 @@ export class AuthService {
     return user;
   }
 
-  async requestEmailConfirmation(email: string) {
+  async sendConfirmationEmail(email: string) {
     const user = await this.usersRepository.getUserByEmail(email);
 
     if (!user) {
@@ -254,5 +258,79 @@ export class AuthService {
     });
 
     return;
+  }
+
+  async sendPasswordRecoveryEmail(email: string) {
+    const user = await this.usersRepository.getUserByEmail(email);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token, this.saltRounds);
+
+    await this.cacheManager.set(
+      `passwordRecover:${hashedToken}`,
+      user.id,
+      getMillisecondsFromMins(15),
+    );
+
+    await this.mailService.send({
+      to: user.email,
+      subject: 'Password recovery',
+      html: render(
+        PasswordRecoveryEmail({
+          url: `${this.configService.get('CLIENT_BASE_URL')}/auth/passwordRecovery?token=${token}`,
+        }),
+      ),
+      text: render(
+        PasswordRecoveryEmail({
+          url: `${this.configService.get('CLIENT_BASE_URL')}/auth/passwordRecovery?token=${token}`,
+        }),
+        { plainText: true },
+      ),
+    });
+
+    return;
+  }
+
+  async recoverPasswordByToken(token: string, password: string) {
+    let recordKey: string | null = null;
+
+    const recoveryKeys = await this.cacheManager.store.keys(
+      `passwordRecover:*`,
+    );
+
+    for (const key of recoveryKeys) {
+      const value = await bcrypt.compare(token, key.split(":")[1]);
+
+      if (value) {
+        recordKey = key;
+        break;
+      }
+    }
+
+    const userId = await this.cacheManager.get(recordKey);
+
+    if (!userId) {
+      throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);
+    }
+
+    const user = await this.usersRepository.getUserById(userId as string);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const passwordHash = await bcrypt.hash(password, this.saltRounds);
+
+    await this.usersRepository.updateUser(user.id, {
+      password: passwordHash,
+    });
+
+    await this.cacheManager.del(recordKey);
+
+    return user;
   }
 }

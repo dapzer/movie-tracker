@@ -24,6 +24,8 @@ import { UserDto } from '@/routes/auth/dto/user.dto';
 import { ConfirmEmailDto } from '@/routes/auth/dto/confirmEmail.dto';
 import { Throttle } from '@nestjs/throttler';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
+import { GetRecoverPasswordEmailDto } from '@/routes/auth/dto/getRecoverPasswordEmail.dto';
+import { RecoverPasswordByTokenDto } from '@/routes/auth/dto/recoverPasswordByToken.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -77,7 +79,31 @@ export class AuthController {
   })
   @Get('/confirmEmail')
   async getConfirmEmail(@User() user: UserDto) {
-    return this.authService.requestEmailConfirmation(user.email);
+    return this.authService.sendConfirmationEmail(user.email);
+  }
+
+  @Throttle({
+    default: {
+      limit: 3,
+      ttl: getMillisecondsFromMins(30),
+    },
+  })
+  @Post('/password/recovery/request')
+  async getRecoverPasswordEmail(@Body() body: GetRecoverPasswordEmailDto) {
+    return this.authService.sendPasswordRecoveryEmail(body.email);
+  }
+
+  @Post('/password/recovery/confirm')
+  async recoverPasswordByToken(
+    @Req() req: Request,
+    @Body() body: RecoverPasswordByTokenDto
+  ) {
+    const user = await this.authService.recoverPasswordByToken(body.token, body.password)
+
+    req.session.user = getUserWithoutPassword(user);
+    await this.saveSession(req);
+
+    return;
   }
 
   @Post('/confirmEmail')
@@ -102,7 +128,7 @@ export class AuthController {
     @Query('code') code: string,
     @Param('provider') provider: AllowedProvider,
   ) {
-    if (!code) throw new HttpException('No code provided', 400);
+    if (!code) throw new HttpException('No code provided', HttpStatus.BAD_REQUEST);
     const user = await this.authService.extractProfileFromCode(provider, code);
 
     req.session.user = getUserWithoutPassword(user);

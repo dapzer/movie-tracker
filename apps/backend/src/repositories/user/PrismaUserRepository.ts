@@ -52,7 +52,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
   async updateUser(
     id: string,
-    body: Partial<Pick<UserType, 'name' | 'image' | 'isEmailVerified'>>,
+    body: Partial<Pick<UserType, 'name' | 'image' | 'isEmailVerified' | "password">>,
   ) {
     const user = await this.prisma.user.update({ where: { id }, data: body });
 
