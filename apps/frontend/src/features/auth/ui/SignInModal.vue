@@ -18,6 +18,8 @@ import { useHandleResetUserData } from '~/composables/useHandleResetUserData';
 import SignInByProvider from '~/features/auth/ui/SignInByProvider.vue';
 import { NuxtLink } from '#components';
 import { SignUpLocalStorageKey } from '~/features/auth';
+import UiForm from '~/components/ui/UiForm.vue';
+import { emailValidationSchema, passwordValidationSchema } from '~/features/auth/model/authValidationSchemas';
 
 interface LoginModalProps extends Partial<Pick<UiModalProps, 'buttonVariant' | 'buttonColorScheme' | 'externalOpenedState'
   | 'isHideTrigger' | 'buttonSize'>> {
@@ -32,7 +34,6 @@ const emits = defineEmits<{
 
 const signInApi = useSignInApi();
 
-const { t } = useI18n();
 const route = useRoute();
 const isModalVisible = ref(props.externalOpenedState);
 const formValue = ref<AuthApiSignInTypes>({ email: '', password: '' });
@@ -46,8 +47,8 @@ watch(formValue.value, () => {
 });
 
 const validationSchema = object().shape({
-  email: string().email(t('auth.errors.emailNotValid')).required(t('errors.required')),
-  password: string().required(t('errors.required')).min(8, t('auth.errors.passwordNotValid')).max(32, t('auth.errors.passwordNotValid')),
+  email: emailValidationSchema(),
+  password: passwordValidationSchema(),
 });
 
 const onSignIn = () => {
@@ -91,7 +92,7 @@ const onClickSignUpLink = async () => {
 
     <template #content>
       <div :class="$style.wrapper">
-        <form @submit.prevent="onSignIn">
+        <UiForm @submit.prevent="onSignIn">
           <UiLabel :title="$t('auth.email')">
             <UiInput
               v-model="formValue.email"
@@ -114,16 +115,25 @@ const onClickSignUpLink = async () => {
           </UiLabel>
 
           <UiTypography
+            :as="NuxtLink"
+            :class="$style.resetPasswordLink"
+            to="/recover-password"
+            variant="linkUnderlined"
+            @click="handleVisible(false)"
+          >
+            {{ $t('auth.recoverPassword') }}?
+          </UiTypography>
+
+          <UiTypography
             v-if="signInApi.isError.value"
-            :class="$style.errorText"
             as="span"
-            variant="textSmall"
+            variant="errorText"
           >
             {{ $t(`auth.errors.${signInApi.error.value?.message}`) }}
           </UiTypography>
 
           <UiButton
-            :class="$style.submitButton"
+            type="submit"
             :disabled="signInApi.isPending.value"
             color-scheme="success"
           >
@@ -142,7 +152,7 @@ const onClickSignUpLink = async () => {
               {{ $t('auth.signUp') }}
             </UiTypography>
           </UiTypography>
-        </form>
+        </UiForm>
 
         <UiDivider>
           <UiTypography>
@@ -164,22 +174,15 @@ const onClickSignUpLink = async () => {
   justify-content: space-between;
 
   form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    .errorText {
-      color: var(--c-danger);
-      font-weight: var(--fw-regular);
-    }
-
-    .submitButton {
-      margin-top: 14px;
-    }
-
     .signUpLink {
       font-size: inherit;
+    }
+
+    .resetPasswordLink {
+      text-align: right;
+      margin-left: auto;
+      width: fit-content;
+      font-size: var(--fs-span);
     }
   }
 }

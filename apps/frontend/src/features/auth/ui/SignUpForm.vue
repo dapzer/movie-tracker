@@ -9,8 +9,8 @@ import { useSignUpApi } from '~/api/auth/useAuthApi';
 import { ref } from 'vue';
 import type { AuthApiSignUpTypes } from '~/api/auth/authApiTypes';
 import type { ValidationErrorsType } from '~/types/ValidationErrorsType';
-import { useAuth, useI18n, useSeoMeta, validateAndSave, watch } from '#imports';
-import { object, string } from 'yup';
+import { useAuth, validateAndSave, watch } from '#imports';
+import { object } from 'yup';
 import { useRouter } from 'vue-router';
 import { useLocalStorage } from '@vueuse/core';
 import { FetchError } from '@movie-tracker/utils';
@@ -18,10 +18,15 @@ import { useHandleResetUserData } from '~/composables/useHandleResetUserData';
 import SignInByProvider from '~/features/auth/ui/SignInByProvider.vue';
 import UiDivider from '~/components/ui/UiDivider.vue';
 import { SignUpLocalStorageKey } from '~/features/auth';
+import UiForm from '~/components/ui/UiForm.vue';
+import {
+  emailValidationSchema,
+  nameValidationSchema,
+  passwordValidationSchema,
+} from '~/features/auth/model/authValidationSchemas';
 
 const signUpsApi = useSignUpApi();
 
-const { t } = useI18n();
 const router = useRouter();
 const { isAuthorized } = useAuth();
 const { handleResetUserStates } = useHandleResetUserData();
@@ -33,18 +38,9 @@ const isShowResetPasswordLink = ref(false);
 
 watch(isAuthorized, (isAuthorized) => {
   if (isAuthorized) {
-    router.push(signUpRedirectUrl.value || "/");
+    router.push(signUpRedirectUrl.value || '/');
     signUpRedirectUrl.value = '';
   }
-});
-
-useSeoMeta({
-  titleTemplate(titleChunk) {
-    return `${titleChunk} | ${t('auth.createAccount')}`;
-  },
-  ogTitle() {
-    return `%s | ${t('auth.createAccount')}`;
-  },
 });
 
 watch(formValue.value, () => {
@@ -54,9 +50,9 @@ watch(formValue.value, () => {
 });
 
 const validationSchema = object().shape({
-  name: string().required(t('errors.required')).min(1, t('auth.errors.nameInvalid')).max(32, t('auth.errors.nameInvalid')),
-  email: string().email(t('auth.errors.emailNotValid')).required(t('errors.required')),
-  password: string().required(t('errors.required')).min(8, t('auth.errors.passwordNotValid')).max(32, t('auth.errors.passwordNotValid')),
+  name: nameValidationSchema(),
+  email: emailValidationSchema(),
+  password: passwordValidationSchema(),
 });
 
 const onSignUp = () => {
@@ -87,7 +83,7 @@ const onSignUp = () => {
     >
       {{ $t('auth.createAccount') }}
     </UiTypography>
-    <form @submit.prevent="onSignUp">
+    <UiForm @submit.prevent="onSignUp">
       <UiLabel :title="$t('auth.name')">
         <UiInput
           v-model="formValue.name"
@@ -120,16 +116,15 @@ const onSignUp = () => {
 
       <UiTypography
         v-if="signUpsApi.isError.value"
-        :class="$style.errorText"
         as="span"
-        variant="textSmall"
+        variant="errorText"
       >
         {{ $t(`auth.errors.${signUpsApi.error.value?.message}`) }}.
         <UiTypography
           v-if="isShowResetPasswordLink"
           :as="NuxtLink"
           :class="$style.resetPasswordLink"
-          :to="`/reset-password?email=${formValue.email}`"
+          :to="`/recover-password?email=${formValue.email}`"
           variant="linkUnderlined"
         >
           {{ $t('auth.recoverPassword') }}?
@@ -140,10 +135,11 @@ const onSignUp = () => {
         :class="$style.submitButton"
         :disabled="signUpsApi.isPending.value"
         color-scheme="success"
+        type="submit"
       >
         {{ $t('auth.signUp') }}
       </UiButton>
-    </form>
+    </UiForm>
 
     <UiDivider>
       <UiTypography>
@@ -163,20 +159,6 @@ const onSignUp = () => {
   gap: 24px;
 
   form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-
-    .errorText {
-      color: var(--c-danger);
-      font-weight: var(--fw-regular);
-    }
-
-    .submitButton {
-      margin-top: 14px;
-    }
-
     .resetPasswordLink {
       display: inline;
       font-size: inherit;

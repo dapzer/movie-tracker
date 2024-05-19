@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import {
   getProfileApi,
   logoutApi,
+  recoverPasswordApi,
+  resetPasswordApi,
   signInApi,
   signInByProviderApi,
   signInCallbackApi,
@@ -56,3 +58,12 @@ export const useSignUpApi = () => useMutation({
   mutationFn: signUpApi
 });
 
+export const useRecoverPasswordApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.RECOVER_PASSWORD],
+  mutationFn: recoverPasswordApi
+});
+
+export const useResetPasswordApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.RESET_PASSWORD],
+  mutationFn: resetPasswordApi
+});

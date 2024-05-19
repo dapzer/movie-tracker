@@ -218,23 +218,28 @@ export class AuthService {
 
     const confirmationUrl = await this.getEmailConfirmationLink(user.email);
 
-    await this.mailService.send({
-      to: user.email,
-      subject: 'Email confirmation',
-      html: render(
-        ConfirmationEmail({
-          url: confirmationUrl,
-          username: user.name,
-        }),
-      ),
-      text: render(
-        ConfirmationEmail({
-          url: confirmationUrl,
-          username: user.name,
-        }),
-        { plainText: true },
-      ),
-    });
+    try {
+      await this.mailService.send({
+        to: user.email,
+        subject: 'Email confirmation',
+        html: render(
+          ConfirmationEmail({
+            url: confirmationUrl,
+            username: user.name,
+          }),
+        ),
+        text: render(
+          ConfirmationEmail({
+            url: confirmationUrl,
+            username: user.name,
+          }),
+          { plainText: true },
+        ),
+      });
+    } catch (e) {
+      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
     return;
   }
@@ -279,26 +284,36 @@ export class AuthService {
       getMillisecondsFromMins(15),
     );
 
-    await this.mailService.send({
-      to: user.email,
-      subject: 'Password recovery',
-      html: render(
-        PasswordRecoveryEmail({
-          url: `${this.configService.get('CLIENT_BASE_URL')}/auth/passwordRecovery?token=${token}`,
-        }),
-      ),
-      text: render(
-        PasswordRecoveryEmail({
-          url: `${this.configService.get('CLIENT_BASE_URL')}/auth/passwordRecovery?token=${token}`,
-        }),
-        { plainText: true },
-      ),
-    });
+    try {
+      const url = `${this.configService.get('CLIENT_BASE_URL')}/reset-password?token=${token}`
+
+      await this.mailService.send({
+        to: user.email,
+        subject: 'Password recovery',
+        html: render(
+          PasswordRecoveryEmail({
+            url,
+          }),
+        ),
+        text: render(
+          PasswordRecoveryEmail({
+            url,
+          }),
+          { plainText: true },
+        ),
+      });
+    } catch (error) {
+      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     return;
   }
 
-  async recoverPasswordByToken(token: string, password: string) {
+  async resetPasswordByToken(token: string, password: string) {
+    if (!token) {
+      throw new HttpException('No token provided', HttpStatus.BAD_REQUEST);
+    }
+
     let recordKey: string | null = null;
 
     const recoveryKeys = await this.cacheManager.store.keys(
@@ -306,12 +321,17 @@ export class AuthService {
     );
 
     for (const key of recoveryKeys) {
-      const value = await bcrypt.compare(token, key.split(':')[1]);
+      const storedToken = key.split(':')[1];
+      const value = await bcrypt.compare(token, storedToken);
 
       if (value) {
         recordKey = key;
         break;
       }
+    }
+
+    if (!recordKey) {
+      throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);
     }
 
     const userId = await this.cacheManager.get(recordKey);

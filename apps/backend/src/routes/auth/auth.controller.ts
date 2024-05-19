@@ -25,7 +25,7 @@ import { ConfirmEmailDto } from '@/routes/auth/dto/confirmEmail.dto';
 import { Throttle } from '@nestjs/throttler';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
 import { GetRecoverPasswordEmailDto } from '@/routes/auth/dto/getRecoverPasswordEmail.dto';
-import { RecoverPasswordByTokenDto } from '@/routes/auth/dto/recoverPasswordByToken.dto';
+import { ResetPasswordByTokenDto } from '@/routes/auth/dto/resetPasswordByToken.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -88,17 +88,17 @@ export class AuthController {
       ttl: getMillisecondsFromMins(30),
     },
   })
-  @Post('/password/recovery/request')
+  @Post('/recover-password')
   async getRecoverPasswordEmail(@Body() body: GetRecoverPasswordEmailDto) {
     return this.authService.sendPasswordRecoveryEmail(body.email);
   }
 
-  @Post('/password/recovery/confirm')
-  async recoverPasswordByToken(
+  @Post('/reset-password')
+  async resetPasswordByToken(
     @Req() req: Request,
-    @Body() body: RecoverPasswordByTokenDto
+    @Body() body: ResetPasswordByTokenDto
   ) {
-    const user = await this.authService.recoverPasswordByToken(body.token, body.password)
+    const user = await this.authService.resetPasswordByToken(body.token, body.password)
 
     req.session.user = getUserWithoutPassword(user);
     await this.saveSession(req);

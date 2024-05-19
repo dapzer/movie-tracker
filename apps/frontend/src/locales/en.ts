@@ -19,11 +19,22 @@ export default  {
     signUp: "Sign up",
     createAccount: "Account creation",
     recoverPassword: "Recover password",
+    passwordRecovery: "Password recovery",
+    resetPassword: "Reset password",
+    resetPasswordProcess: "Password reset",
+    passwordRecoverySuccess: "An email has been sent to your email address with instructions on how to reset your password. If you do not receive it within a few minutes, please make sure you have provided an email address for your account and try again or contact us for assistance.",
     errors: {
       "Email or password not valid": "Invalid email or password",
       "User already exists": "A user with this email already exists",
+      "User not found": "User not found",
+      "ThrottlerException: Too Many Requests": "Too many requests, try again later",
+      "Failed to send an email": "Failed to send an email, try again or contact an administrator",
+      "Invalid token": "Invalid token",
+      passwordTooWeak: "Password must contain at least 1 digit or 1 special character",
       passwordNotValid: "Password must be between 8 and 32 characters",
       emailNotValid: "Incorrect email format",
+      nameInvalid: "Name must be between 1 and 32 characters",
+      passwordNotMatch: "Passwords do not match",
     }
   },
   dashboard: {
@@ -220,6 +231,7 @@ export default  {
     no: "No",
     or: "Or",
     characters: "Characters",
+    emailSent: "Email sent",
     errors: {
       pageNotFound: "Page not found.",
     },
@@ -228,6 +240,7 @@ export default  {
       save: "Save",
       cancel: "Cancel",
       backToMainPage: "Back to main page",
+      continue: "Continue",
     },
     pagination: {
       toStart: "Begin",

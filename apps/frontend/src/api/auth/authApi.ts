@@ -1,6 +1,11 @@
 import type { UserType } from "@movie-tracker/types";
 import { api } from "~/api/instance";
-import type { AuthApiSignInByProviderTypes, AuthApiSignInTypes, AuthApiSignUpTypes } from '~/api/auth/authApiTypes';
+import type {
+  AuthApiRecoverPasswordTypes, AuthApiResetPasswordTypes,
+  AuthApiSignInByProviderTypes,
+  AuthApiSignInTypes,
+  AuthApiSignUpTypes,
+} from '~/api/auth/authApiTypes';
 
 export const getProfileApi = async () => {
   return api.get<UserType>("user");
@@ -27,4 +32,12 @@ export const signInCallbackApi = async (provider: string, code: string) => {
 
 export const signUpApi = async (body: AuthApiSignUpTypes) => {
   return api.post("auth/signup", body);
+}
+
+export const recoverPasswordApi = async (body: AuthApiRecoverPasswordTypes) => {
+  return api.post("auth/recover-password", body);
+}
+
+export const resetPasswordApi = async (body: AuthApiResetPasswordTypes) => {
+  return api.post("auth/reset-password", body);
 }
