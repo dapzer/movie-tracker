@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ProvidersService } from '@/routes/auth/providers/providers.service';
 import { AllowedProvider } from '@/routes/auth/dto/allowedProvider';
@@ -29,6 +29,7 @@ import PasswordRecoveryEmail from '@movie-tracker/email-templates/dist/emails/pa
 @Injectable()
 export class AuthService {
   private saltRounds = Number(this.configService.get<number>('SALT_ROUNDS'));
+  private readonly logger = new Logger('AuthService');
 
   private async createConfirmationToken(email: string) {
     const token = crypto.randomBytes(32).toString('hex');
@@ -70,24 +71,27 @@ export class AuthService {
 
   private async sendWelcomeEmail(user: UserType) {
     const confirmationUrl = await this.getEmailConfirmationLink(user.email);
-
-    return this.mailService.send({
-      to: user.email,
-      subject: 'Welcome to Movie Tracker!',
-      html: render(
-        WelcomeEmail({
-          url: confirmationUrl,
-          username: user.name,
-        }),
-      ),
-      text: render(
-        WelcomeEmail({
-          url: confirmationUrl,
-          username: user.name,
-        }),
-        { plainText: true },
-      ),
-    });
+    try {
+      await this.mailService.send({
+        to: user.email,
+        subject: 'Welcome to Movie Tracker!',
+        html: render(
+          WelcomeEmail({
+            url: confirmationUrl,
+            username: user.name,
+          }),
+        ),
+        text: render(
+          WelcomeEmail({
+            url: confirmationUrl,
+            username: user.name,
+          }),
+          { plainText: true },
+        ),
+      });
+    } catch (e) {
+      this.logger.error(`Failed to send welcome email. ${e}`);
+    }
   }
 
   constructor(
@@ -167,7 +171,6 @@ export class AuthService {
     const newUser = await this.usersRepository.createUser({
       email: body.email,
       name: body.name,
-      image: body.image,
       password: passwordHash,
       isEmailVerified: false,
       signUpMethod: SignUpMethodEnum.EMAIL,
@@ -186,7 +189,7 @@ export class AuthService {
     if (!user) {
       throw new HttpException(
         'Email or password not valid',
-        HttpStatus.UNAUTHORIZED,
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -195,7 +198,7 @@ export class AuthService {
     if (!passwordMatch) {
       throw new HttpException(
         'Email or password not valid',
-        HttpStatus.UNAUTHORIZED,
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -303,7 +306,7 @@ export class AuthService {
     );
 
     for (const key of recoveryKeys) {
-      const value = await bcrypt.compare(token, key.split(":")[1]);
+      const value = await bcrypt.compare(token, key.split(':')[1]);
 
       if (value) {
         recordKey = key;

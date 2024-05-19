@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SignInModal from "~/features/signIn/ui/SignInModal.vue";
+import { SignInModal } from "~/features/auth";
 import { UserProfileDropdown, UserProfileDropdownSkeleton } from "~/features/profile";
 import UiButton from "~/components/ui/UiButton.vue";
 import DefaultHeaderNavigationLinks from "~/components/layout/defaultHeader/DefaultHeaderNavigationLinks.vue";

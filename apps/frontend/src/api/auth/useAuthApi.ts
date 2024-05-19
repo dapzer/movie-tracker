@@ -1,12 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { getProfileApi, logoutApi, signInApi, signInCallbackApi } from "~/api/auth/authApi";
+import {
+  getProfileApi,
+  logoutApi,
+  signInApi,
+  signInByProviderApi,
+  signInCallbackApi,
+  signUpApi,
+} from '~/api/auth/authApi';
 import { AuthQueryKeys } from "~/api/auth/authApiQueryKeys";
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys";
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
+import type { AuthApiSignInTypes } from '~/api/auth/authApiTypes';
 
 export const useSignInApi = () => useMutation({
   mutationKey: [AuthQueryKeys.SIGN_IN],
-  mutationFn: async (provider: string) => await signInApi(provider)
+  mutationFn: async (body: AuthApiSignInTypes) => await signInApi(body)
+});
+
+export const useSignInByProviderApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.SIGN_IN_BY_PROVIDER],
+  mutationFn: async (provider: string) => await signInByProviderApi(provider)
 });
 
 export const useSignInCallbackApi = () => useMutation({
@@ -33,6 +46,13 @@ export const useLogoutApi = () => {
 export const useUserProfileApi = () => useQuery({
   queryKey: [AuthQueryKeys.USER_PROFILE],
   queryFn: () => getProfileApi(),
-  retry: false
+  retry: false,
+  refetchOnWindowFocus: false,
+});
+
+
+export const useSignUpApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.SIGN_UP],
+  mutationFn: signUpApi
 });
 

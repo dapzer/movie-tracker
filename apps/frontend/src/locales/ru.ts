@@ -7,6 +7,25 @@ export default {
     authErrorHint: "Выберите другой способ авторизации или попробуйте авторизоваться позже",
     login: "Вход",
     closeLoginWindow: "Закрыть окно авторизации",
+    email: "Почта",
+    emailPlaceholder: "Введите почту",
+    password: "Пароль",
+    passwordPlaceholder: "Введите пароль",
+    name: "Имя",
+    namePlaceholder: "Введите имя",
+    haveNoAccount: "Нет аккаунта?",
+    image: "Фото профиля",
+    imagePlaceholder: "Вставьте ссылку на изображение или gif",
+    signUp: "Зарегистрироваться",
+    createAccount: "Создание аккаунта",
+    recoverPassword: "Восстановить пароль",
+    errors: {
+      "Email or password not valid": "Неверная почта или пароль",
+      "User already exists": "Пользователь с такой почтой уже существует",
+      passwordNotValid: "Пароль должен содержать от 8 до 32 символов",
+      emailNotValid: "Некорректный формат почты",
+      nameInvalid: "Имя должно содержать от 1 до 32 символов",
+    }
   },
   dashboard: {
     title: "Панель управления",
@@ -200,13 +219,14 @@ export default {
     confirmAction: "Подтвердите действие",
     yes: "Да",
     no: "Нет",
+    or: "Или",
     characters: "Символы",
     errors: {
       pageNotFound: "Страница не найдена.",
     },
     actions: {
       create: "Создать",
-      save: "Сохранять",
+      save: "Сохранить",
       cancel: "Отменить",
       backToMainPage: "Вернуться на главную",
     },
@@ -219,5 +239,8 @@ export default {
       shortHour: "ч.",
       shortMin: "м."
     }
+  },
+  errors: {
+    required: "Поле обязательно для заполнения",
   }
 }

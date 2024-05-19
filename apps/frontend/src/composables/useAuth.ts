@@ -1,5 +1,5 @@
-import { computed } from "vue";
-import { useLogoutApi, useUserProfileApi } from "~/api/auth/useAuthApi";
+import { computed } from 'vue';
+import { useLogoutApi, useUserProfileApi } from '~/api/auth/useAuthApi';
 
 export const useAuth = () => {
   const userProfileApi = useUserProfileApi();
@@ -10,7 +10,7 @@ export const useAuth = () => {
   });
 
   const isProcessingLogout = computed(() => {
-    return logoutApi.status.value === "pending";
+    return logoutApi.isPending.value;
   });
 
   const isNotAuthorized = computed(() => {
@@ -24,6 +24,6 @@ export const useAuth = () => {
     handleLogout: logoutApi.mutateAsync,
     isAuthorized,
     isProcessingLogout,
-    isNotAuthorized
+    isNotAuthorized,
   };
 };

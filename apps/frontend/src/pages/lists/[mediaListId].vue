@@ -12,7 +12,7 @@ import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import MediaListFilters from "~/features/mediaList/ui/MediaListFilters.vue";
 import { MediaListCreateCloneModal, useMediaListSettings } from "~/features/mediaList";
 import { filterMediaListItems } from "~/features/mediaList/model/filterMediaListItems";
-import { SignInModal } from "~/features/signIn";
+import { SignInModal } from "~/features/auth";
 
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;

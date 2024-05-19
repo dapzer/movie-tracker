@@ -7,6 +7,24 @@ export default  {
     authErrorHint: "Choose a different login method or try logging in later",
     login: "Login",
     closeLoginWindow: "Close the authorization window",
+    email: "Email",
+    emailPlaceholder: "Enter email",
+    password: "Password",
+    passwordPlaceholder: "Enter password",
+    name: "Name",
+    namePlaceholder: "Enter name",
+    haveNoAccount: "Don't have an account?",
+    image: "Profile photo",
+    imagePlaceholder: "Insert a link to an image or gif",
+    signUp: "Sign up",
+    createAccount: "Account creation",
+    recoverPassword: "Recover password",
+    errors: {
+      "Email or password not valid": "Invalid email or password",
+      "User already exists": "A user with this email already exists",
+      passwordNotValid: "Password must be between 8 and 32 characters",
+      emailNotValid: "Incorrect email format",
+    }
   },
   dashboard: {
     title: "Dashboard",
@@ -200,6 +218,7 @@ export default  {
     confirmAction: "Confirm action",
     yes: "Yes",
     no: "No",
+    or: "Or",
     characters: "Characters",
     errors: {
       pageNotFound: "Page not found.",
@@ -219,5 +238,8 @@ export default  {
       shortHour: "h.",
       shortMin: "m.",
     }
+  },
+  errors: {
+    required: "This field is required",
   }
 }

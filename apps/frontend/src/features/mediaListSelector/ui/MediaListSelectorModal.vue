@@ -6,7 +6,7 @@ import MediaListSelectorItem from "~/features/mediaListSelector/ui/MediaListSele
 import type { UiModalProps } from "~/components/ui/UiModal/UiModal.vue";
 import { computed, ref } from "vue";
 import { useAuth } from "~/composables/useAuth";
-import { SignInModal } from "~/features/signIn";
+import { SignInModal } from "~/features/auth";
 import { ListCheckedIcon, ListIcon } from "~/components/ui/icons";
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi";
 

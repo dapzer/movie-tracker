@@ -8,7 +8,7 @@ type Variant = "underlined" | "boxed";
 
 const props = defineProps<{
   variant?: Variant
-  error?: string
+  error?: string | string[]
   isShowClearButton?: boolean
 }>();
 
@@ -54,7 +54,7 @@ defineOptions({
       variant="textSmall"
       as="span"
     >
-      {{ error }}
+      {{ Array.isArray(props.error) ? props.error.join('. ') : props.error }}
     </UiTypography>
   </div>
 </template>
