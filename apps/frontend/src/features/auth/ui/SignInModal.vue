@@ -9,17 +9,15 @@ import UiLabel from '~/components/ui/UiLabel.vue';
 import UiInput from '~/components/ui/UiInput.vue';
 import UiDivider from '~/components/ui/UiDivider.vue';
 import UiTypography from '~/components/ui/UiTypography.vue';
-import { object, string } from 'yup';
-import type { ValidationErrorsType } from '~/types/ValidationErrorsType';
+import { object } from 'yup';
 import type { AuthApiSignInTypes } from '~/api/auth/authApiTypes';
-import { validateAndSave } from '~/utils/validateAndSave';
-import { useI18n, watch } from '#imports';
+import { useForm, useI18n, watch } from '#imports';
 import { useHandleResetUserData } from '~/composables/useHandleResetUserData';
 import SignInByProvider from '~/features/auth/ui/SignInByProvider.vue';
 import { NuxtLink } from '#components';
 import { SignUpLocalStorageKey } from '~/features/auth';
 import UiForm from '~/components/ui/UiForm.vue';
-import { emailValidationSchema, passwordValidationSchema } from '~/features/auth/model/authValidationSchemas';
+import { emailValidationSchema, passwordValidationSchema } from '~/shared/lib';
 
 interface LoginModalProps extends Partial<Pick<UiModalProps, 'buttonVariant' | 'buttonColorScheme' | 'externalOpenedState'
   | 'isHideTrigger' | 'buttonSize'>> {
@@ -36,30 +34,32 @@ const signInApi = useSignInApi();
 
 const route = useRoute();
 const isModalVisible = ref(props.externalOpenedState);
-const formValue = ref<AuthApiSignInTypes>({ email: '', password: '' });
-const errors = ref<ValidationErrorsType>(undefined);
+const { t } = useI18n();
 
 const { handleResetUserStates } = useHandleResetUserData();
+
+const { formValue, errors, onFormSubmit } = useForm<AuthApiSignInTypes>({
+  initialValue: {
+    email: '',
+    password: '',
+  },
+  validationSchema: object().shape({
+    email: emailValidationSchema(t),
+    password: passwordValidationSchema(t),
+  }),
+  onSubmit: (formValue) => {
+    signInApi.mutateAsync(formValue).then(() => {
+      handleVisible(false);
+      emits('additionalHandler', false);
+      handleResetUserStates();
+    });
+  },
+});
 
 watch(formValue.value, () => {
   errors.value = undefined;
   signInApi.reset();
 });
-
-const validationSchema = object().shape({
-  email: emailValidationSchema(),
-  password: passwordValidationSchema(),
-});
-
-const onSignIn = () => {
-  validateAndSave(formValue.value, validationSchema, errors, () => {
-    signInApi.mutateAsync(formValue.value).then(() => {
-      handleVisible(false);
-      emits('additionalHandler', false);
-      handleResetUserStates();
-    });
-  });
-};
 
 const handleVisible = (value: boolean) => {
   emits('additionalHandler', value);
@@ -92,7 +92,7 @@ const onClickSignUpLink = async () => {
 
     <template #content>
       <div :class="$style.wrapper">
-        <UiForm @submit.prevent="onSignIn">
+        <UiForm @submit.prevent="onFormSubmit">
           <UiLabel :title="$t('auth.email')">
             <UiInput
               v-model="formValue.email"
@@ -133,9 +133,9 @@ const onClickSignUpLink = async () => {
           </UiTypography>
 
           <UiButton
-            type="submit"
             :disabled="signInApi.isPending.value"
             color-scheme="success"
+            type="submit"
           >
             {{ $t('auth.signIn') }}
           </UiButton>

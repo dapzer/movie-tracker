@@ -1,5 +1,6 @@
 import { computed } from 'vue';
-import { useLogoutApi, useUserProfileApi } from '~/api/auth/useAuthApi';
+import { useLogoutApi } from '~/api/auth/useAuthApi';
+import { useUserProfileApi } from '~/api/user/useUserApi';
 
 export const useAuth = () => {
   const userProfileApi = useUserProfileApi();
@@ -22,6 +23,7 @@ export const useAuth = () => {
     isLoadingProfile: userProfileApi.isLoading,
     isProfileSuccess: userProfileApi.isSuccess,
     handleLogout: logoutApi.mutateAsync,
+    handleRefetchProfile: userProfileApi.refetch,
     isAuthorized,
     isProcessingLogout,
     isNotAuthorized,

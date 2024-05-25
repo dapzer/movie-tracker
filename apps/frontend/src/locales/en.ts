@@ -191,6 +191,7 @@ export default  {
   navigation: {
     home: "Search",
     lists: "My lists",
+    accountSettings: 'Account settings',
   },
   search: {
     title: 'Find a movie, series, person...',
@@ -254,5 +255,6 @@ export default  {
   },
   errors: {
     required: "This field is required",
+    urlNotValid: "Incorrect link",
   }
 }

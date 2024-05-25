@@ -3,12 +3,18 @@
 import UiTypography from "~/components/ui/UiTypography.vue";
 import type { UserType } from "@movie-tracker/types";
 import { UserIcon } from "~/components/ui/icons";
+import { ref, watch } from 'vue';
 
 interface UserProfileDropdownTriggerProps {
   profile: UserType;
 }
 
 const props = defineProps<UserProfileDropdownTriggerProps>();
+const isShowPlaceholder = ref(false);
+
+watch(() => props.profile, () => {
+  isShowPlaceholder.value = false
+})
 </script>
 
 <template>
@@ -22,7 +28,7 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
 
     <div :class="$style.imageWrapper">
       <NuxtImg
-        v-if="props.profile.image"
+        v-if="props.profile.image && !isShowPlaceholder"
         :class="$style.avatar"
         :src="props.profile.image"
         fit="contain"
@@ -31,6 +37,7 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
         loading="lazy"
         decoding="async"
         alt="Avatar"
+        @error="isShowPlaceholder = true"
       />
       <UserIcon v-else />
     </div>

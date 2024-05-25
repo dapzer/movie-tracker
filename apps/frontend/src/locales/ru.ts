@@ -193,6 +193,7 @@ export default {
   navigation: {
     home: 'Поиск',
     lists: 'Мои списки',
+    accountSettings: 'Настройки пользователя',
   },
   search: {
     title: 'Найти фильм, сериал, персону...',
@@ -220,6 +221,9 @@ export default {
       successUpdated: 'Список успешно обновлен',
       successDeleted: 'Список успешно удален',
     },
+    user: {
+      profileUpdated: 'Профиль успешно обновлен',
+    }
   },
   ui: {
     loading: 'Загрузка',
@@ -256,5 +260,6 @@ export default {
   },
   errors: {
     required: 'Поле обязательно для заполнения',
+    urlNotValid: 'Некорректная ссылка',
   },
 };

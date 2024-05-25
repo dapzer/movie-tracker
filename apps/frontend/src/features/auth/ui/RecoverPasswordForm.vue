@@ -5,38 +5,41 @@ import UiTypography from '~/components/ui/UiTypography.vue';
 import UiInput from '~/components/ui/UiInput.vue';
 import UiLabel from '~/components/ui/UiLabel.vue';
 import type { AuthApiRecoverPasswordTypes } from '~/api/auth/authApiTypes';
-import { ref } from 'vue';
-import type { ValidationErrorsType } from '~/types/ValidationErrorsType';
+import { computed, ref } from 'vue';
 import UiButton from '~/components/ui/UiButton.vue';
 import { useRecoverPasswordApi } from '~/api/auth/useAuthApi';
 import { object } from 'yup';
-import { validateAndSave, watch } from '#imports';
+import { useForm, useI18n, watch } from '#imports';
 import { useRoute } from 'vue-router';
-import { emailValidationSchema } from '~/features/auth/model/authValidationSchemas';
+import { emailValidationSchema } from '~/shared/lib';
 
 const recoverPasswordApi = useRecoverPasswordApi();
 const route = useRoute();
-
-const formValue = ref<AuthApiRecoverPasswordTypes>({ email: route.query.email as string || '' });
-const errors = ref<ValidationErrorsType>(undefined);
+const { t } = useI18n();
 const isEmailSent = ref(false);
+
+const initialValue = computed(() => {
+  return {
+    email: route.query.email as string || '',
+  };
+});
+
+const { formValue, errors, onFormSubmit } = useForm<AuthApiRecoverPasswordTypes>({
+  initialValue,
+  validationSchema: object().shape({
+    email: emailValidationSchema(t),
+  }),
+  onSubmit: () => {
+    recoverPasswordApi.mutateAsync(formValue.value).then(() => {
+      isEmailSent.value = true;
+    });
+  },
+});
 
 watch(formValue.value, () => {
   errors.value = undefined;
   recoverPasswordApi.reset();
 });
-
-const validationSchema = object().shape({
-  email: emailValidationSchema(),
-});
-
-const onRecoverPassword = () => {
-  validateAndSave(formValue.value, validationSchema, errors, () => {
-    recoverPasswordApi.mutateAsync(formValue.value).then(() => {
-      isEmailSent.value = true;
-    });
-  });
-};
 </script>
 
 <template>
@@ -49,7 +52,7 @@ const onRecoverPassword = () => {
     </UiTypography>
     <UiForm
       v-if="!isEmailSent"
-      @submit.prevent="onRecoverPassword"
+      @submit.prevent="onFormSubmit"
     >
       <UiLabel :title="$t('auth.email')">
         <UiInput

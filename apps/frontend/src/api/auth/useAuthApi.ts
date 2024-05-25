@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import {
-  getProfileApi,
   logoutApi,
   recoverPasswordApi,
   resetPasswordApi,
@@ -13,6 +12,7 @@ import { AuthQueryKeys } from "~/api/auth/authApiQueryKeys";
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys";
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 import type { AuthApiSignInTypes } from '~/api/auth/authApiTypes';
+import { UserQueryKeys } from '~/api/user/userApiQueryKeys';
 
 export const useSignInApi = () => useMutation({
   mutationKey: [AuthQueryKeys.SIGN_IN],
@@ -36,7 +36,7 @@ export const useLogoutApi = () => {
     mutationKey: [AuthQueryKeys.LOGOUT],
     mutationFn: () => logoutApi(),
     onSuccess: async () => {
-      await queryClient.resetQueries({ queryKey: [AuthQueryKeys.USER_PROFILE] });
+      await queryClient.resetQueries({ queryKey: [UserQueryKeys.PROFILE] });
       await queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_ALL] });
       await queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
       await queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] });
@@ -45,12 +45,6 @@ export const useLogoutApi = () => {
   });
 };
 
-export const useUserProfileApi = () => useQuery({
-  queryKey: [AuthQueryKeys.USER_PROFILE],
-  queryFn: () => getProfileApi(),
-  retry: false,
-  refetchOnWindowFocus: false,
-});
 
 
 export const useSignUpApi = () => useMutation({

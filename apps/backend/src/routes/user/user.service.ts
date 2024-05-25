@@ -4,6 +4,7 @@ import {
   UserRepositorySymbol,
 } from '@/repositories/user/UserRepositoryInterface';
 import { getUserWithoutPassword } from '@/shared/utils/getUserWithoutPassword';
+import { UpdateUserDto } from '@/routes/user/dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -26,5 +27,11 @@ export class UserService {
     const deletedUser = await this.userRepository.deleteUser(id);
 
     return getUserWithoutPassword(deletedUser);
+  }
+
+  async updateUser(id: string, body: UpdateUserDto) {
+    const updatedUser = await this.userRepository.updateUser(id, body);
+
+    return getUserWithoutPassword(updatedUser);
   }
 }

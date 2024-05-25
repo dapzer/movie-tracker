@@ -8,8 +8,7 @@ import UiButton from '~/components/ui/UiButton.vue';
 import { useSignUpApi } from '~/api/auth/useAuthApi';
 import { ref } from 'vue';
 import type { AuthApiSignUpTypes } from '~/api/auth/authApiTypes';
-import type { ValidationErrorsType } from '~/types/ValidationErrorsType';
-import { useAuth, validateAndSave, watch } from '#imports';
+import { useAuth, useForm, useI18n, watch } from '#imports';
 import { object } from 'yup';
 import { useRouter } from 'vue-router';
 import { useLocalStorage } from '@vueuse/core';
@@ -19,22 +18,41 @@ import SignInByProvider from '~/features/auth/ui/SignInByProvider.vue';
 import UiDivider from '~/components/ui/UiDivider.vue';
 import { SignUpLocalStorageKey } from '~/features/auth';
 import UiForm from '~/components/ui/UiForm.vue';
-import {
-  emailValidationSchema,
-  nameValidationSchema,
-  passwordValidationSchema,
-} from '~/features/auth/model/authValidationSchemas';
+import { emailValidationSchema, nameValidationSchema, passwordValidationSchema } from '~/shared/lib';
 
 const signUpsApi = useSignUpApi();
 
 const router = useRouter();
 const { isAuthorized } = useAuth();
 const { handleResetUserStates } = useHandleResetUserData();
+const { t } = useI18n();
 
 const signUpRedirectUrl = useLocalStorage(SignUpLocalStorageKey.SIGN_UP_REDIRECT_URL, '');
-const formValue = ref<AuthApiSignUpTypes>({ email: '', password: '', name: '' });
-const errors = ref<ValidationErrorsType>(undefined);
 const isShowResetPasswordLink = ref(false);
+
+const { formValue, errors, onFormSubmit } = useForm<AuthApiSignUpTypes>({
+  initialValue: {
+    email: '',
+    password: '',
+    name: '',
+  },
+  validationSchema: object().shape({
+    name: nameValidationSchema(t),
+    email: emailValidationSchema(t),
+    password: passwordValidationSchema(t),
+  }),
+  onSubmit: (formValue) => {
+    signUpsApi.mutateAsync(formValue).then(() => {
+      handleResetUserStates();
+    }).catch((err) => {
+      if (err instanceof FetchError) {
+        if (err.statusCode === 409) {
+          isShowResetPasswordLink.value = true;
+        }
+      }
+    });
+  },
+});
 
 watch(isAuthorized, (isAuthorized) => {
   if (isAuthorized) {
@@ -48,31 +66,6 @@ watch(formValue.value, () => {
   isShowResetPasswordLink.value = false;
   signUpsApi.reset();
 });
-
-const validationSchema = object().shape({
-  name: nameValidationSchema(),
-  email: emailValidationSchema(),
-  password: passwordValidationSchema(),
-});
-
-const onSignUp = () => {
-  validateAndSave(
-    formValue.value,
-    validationSchema,
-    errors,
-    () => {
-      signUpsApi.mutateAsync(formValue.value).then(() => {
-        handleResetUserStates();
-      }).catch((err) => {
-        if (err instanceof FetchError) {
-          if (err.statusCode === 409) {
-            isShowResetPasswordLink.value = true;
-          }
-        }
-      });
-    },
-  );
-};
 </script>
 
 <template>
@@ -83,7 +76,7 @@ const onSignUp = () => {
     >
       {{ $t('auth.createAccount') }}
     </UiTypography>
-    <UiForm @submit.prevent="onSignUp">
+    <UiForm @submit.prevent="onFormSubmit">
       <UiLabel :title="$t('auth.name')">
         <UiInput
           v-model="formValue.name"
