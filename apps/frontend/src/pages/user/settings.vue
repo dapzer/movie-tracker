@@ -1,10 +1,20 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import UiContainer from '~/components/ui/UiContainer.vue';
-import UserProfileSettingsForm from '~/features/profile/ui/UserProfileSettingsForm.vue';
-import { useI18n, useSeoMeta } from '#imports';
+import { UserProfileSettingsForm } from '~/features/profile';
+import { useAuth, useI18n, useSeoMeta, watch } from '#imports';
+import { AccountSettingsForm } from '~/features/account';
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n();
+const { isNotAuthorized, isLoadingProfile } = useAuth();
+const router = useRouter();
+
+watch([isNotAuthorized, isLoadingProfile], () => {
+  if (isNotAuthorized.value && !isLoadingProfile.value) {
+    router.push('/');
+  }
+});
 
 useSeoMeta({
   titleTemplate(titleChunk) {
@@ -17,12 +27,19 @@ useSeoMeta({
 </script>
 
 <template>
-  <UiContainer>
+  <UiContainer :class="$style.container">
     <UserProfileSettingsForm :class="$style.wrapper" />
+    <AccountSettingsForm :class="$style.wrapper" />
   </UiContainer>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .wrapper {
   margin: 0 auto;
   max-width: 460px;

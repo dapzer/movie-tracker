@@ -20,7 +20,7 @@ import * as crypto from 'crypto';
 import { getMillisecondsFromDays } from '@/shared/utils/getMillisecondsFromDays';
 import { MailService } from '@/services/mail/mail.service';
 import { render } from '@react-email/render';
-import { WelcomeEmail } from '@movie-tracker/email-templates';
+import { ConfirmEmailChangingEmail, WelcomeEmail } from '@movie-tracker/email-templates';
 import ConfirmationEmail from '@movie-tracker/email-templates/dist/emails/confirmation-email';
 import { SignUpMethodEnum, UserType } from '@movie-tracker/types';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
@@ -46,7 +46,7 @@ export class AuthService {
   private async getEmailConfirmationLink(email: string) {
     const token = await this.createConfirmationToken(email);
 
-    return `${this.configService.get('CLIENT_BASE_URL')}/auth/confirmEmail?token=${token}`;
+    return `${this.configService.get('CLIENT_BASE_URL')}/auth/confirm-email?token=${token}`;
   }
 
   private async checkEmailConfirmation(email: string, token: string) {
@@ -72,26 +72,40 @@ export class AuthService {
   private async sendWelcomeEmail(user: UserType) {
     const confirmationUrl = await this.getEmailConfirmationLink(user.email);
     try {
+      const content = WelcomeEmail({
+        url: confirmationUrl,
+        username: user.name,
+      });
+
       await this.mailService.send({
         to: user.email,
         subject: 'Welcome to Movie Tracker!',
-        html: render(
-          WelcomeEmail({
-            url: confirmationUrl,
-            username: user.name,
-          }),
-        ),
-        text: render(
-          WelcomeEmail({
-            url: confirmationUrl,
-            username: user.name,
-          }),
-          { plainText: true },
-        ),
+        html: render(content),
+        text: render(content, { plainText: true }),
       });
     } catch (e) {
       this.logger.error(`Failed to send welcome email. ${e}`);
     }
+  }
+
+  private async getCacheRecordKeyByCryptedToken(key: string, token: string): Promise<string | null> {
+    let recordKey: string | null = null;
+
+    const recoveryKeys = await this.cacheManager.store.keys(
+      `${key}:*`,
+    );
+
+    for (const key of recoveryKeys) {
+      const storedToken = key.split(':')[1];
+      const value = await bcrypt.compare(token, storedToken);
+
+      if (value) {
+        recordKey = key;
+        break;
+      }
+    }
+
+    return recordKey;
   }
 
   constructor(
@@ -122,24 +136,24 @@ export class AuthService {
       : null;
 
     if (user && account) {
-      return this.usersRepository.updateUser(user.id, {
-        name: profile.name,
-        image: profile.avatarUrl,
-      });
+      return user;
     }
 
     if (!user) {
+      const signUpMethod = SignUpMethodEnum[profile.provider.toUpperCase()];
+      const isEmailVerified = [SignUpMethodEnum.YANDEX, SignUpMethodEnum.GOOGLE].some(signUpMethod);
+
       user = await this.usersRepository.createUser({
         email: profile.email,
         name: profile.name,
         image: profile.avatarUrl,
-        isEmailVerified: false,
-        signUpMethod: SignUpMethodEnum[profile.provider.toUpperCase()],
+        isEmailVerified: isEmailVerified,
+        signUpMethod: signUpMethod,
       });
 
       await this.mediaListRepository.createMediaList(user.id, true);
 
-      if (user.email) {
+      if (user.email && !isEmailVerified) {
         await this.sendWelcomeEmail(user);
       }
     }
@@ -193,6 +207,13 @@ export class AuthService {
       );
     }
 
+    if (!user.password) {
+      throw new HttpException(
+        'Email or password not valid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const passwordMatch = await bcrypt.compare(body.password, user.password);
 
     if (!passwordMatch) {
@@ -219,29 +240,93 @@ export class AuthService {
     const confirmationUrl = await this.getEmailConfirmationLink(user.email);
 
     try {
+      const content = ConfirmationEmail({
+        url: confirmationUrl,
+        username: user.name,
+      });
       await this.mailService.send({
         to: user.email,
         subject: 'Email confirmation',
-        html: render(
-          ConfirmationEmail({
-            url: confirmationUrl,
-            username: user.name,
-          }),
-        ),
-        text: render(
-          ConfirmationEmail({
-            url: confirmationUrl,
-            username: user.name,
-          }),
-          { plainText: true },
+        html: render(content),
+        text: render(content, { plainText: true },
         ),
       });
     } catch (e) {
-      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException('Failed to send an email', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    return;
+  }
+
+  async requestChangeEmail(id: string, email: string) {
+    const user = await this.usersRepository.getUserById(id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const userByEmail = await this.usersRepository.getUserByEmail(email);
+
+    if (userByEmail || user.email === email) {
+      throw new HttpException('Email already in use', HttpStatus.BAD_REQUEST);
+    }
+
+    if (user.isEmailVerified) {
+      throw new HttpException('Email already confirmed', HttpStatus.BAD_REQUEST);
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token, this.saltRounds);
+
+    await this.cacheManager.set(`changeEmail:${hashedToken}`, {
+      userId: user.id,
+      email: email,
+    }, getMillisecondsFromMins(15));
+
+    const confirmationUrl = `${this.configService.get('CLIENT_BASE_URL')}/auth/change-email?token=${token}`;
+
+    try {
+      const content = ConfirmEmailChangingEmail({
+        url: confirmationUrl,
+        email: user.email,
+        username: user.name,
+      });
+
+      await this.mailService.send({
+        to: email,
+        subject: 'Email changing',
+        html: render(content),
+        text: render(content, { plainText: true },
+        ),
+      });
+    } catch (e) {
+      throw new HttpException('Failed to send an email', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     return;
+  }
+
+  async confirmEmailChanging(token: string) {
+    const recordKey = await this.getCacheRecordKeyByCryptedToken('changeEmail', token);
+
+    if (!recordKey) {
+      throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);
+    }
+
+    const { userId, email } = await this.cacheManager.get<{ userId: string, email: string }>(recordKey);
+
+    if (!userId || !email) {
+      throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);
+    }
+
+    const user = await this.usersRepository.updateUser(userId, {
+      email: email,
+      isEmailVerified: true,
+    });
+
+    await this.cacheManager.del(recordKey);
+
+    return user;
   }
 
   async confirmEmail(email: string, token: string) {
@@ -285,25 +370,19 @@ export class AuthService {
     );
 
     try {
-      const url = `${this.configService.get('CLIENT_BASE_URL')}/reset-password?token=${token}`
-
+      const url = `${this.configService.get('CLIENT_BASE_URL')}/reset-password?token=${token}`;
+      const content = PasswordRecoveryEmail({
+        url,
+      });
       await this.mailService.send({
         to: user.email,
         subject: 'Password recovery',
-        html: render(
-          PasswordRecoveryEmail({
-            url,
-          }),
-        ),
-        text: render(
-          PasswordRecoveryEmail({
-            url,
-          }),
-          { plainText: true },
+        html: render(content),
+        text: render(content, { plainText: true },
         ),
       });
     } catch (error) {
-      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException('Failed to send an email', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return;
@@ -314,21 +393,9 @@ export class AuthService {
       throw new HttpException('No token provided', HttpStatus.BAD_REQUEST);
     }
 
-    let recordKey: string | null = null;
-
-    const recoveryKeys = await this.cacheManager.store.keys(
-      `passwordRecover:*`,
+    const recordKey = await this.getCacheRecordKeyByCryptedToken(
+      `passwordRecover`, token,
     );
-
-    for (const key of recoveryKeys) {
-      const storedToken = key.split(':')[1];
-      const value = await bcrypt.compare(token, storedToken);
-
-      if (value) {
-        recordKey = key;
-        break;
-      }
-    }
 
     if (!recordKey) {
       throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);

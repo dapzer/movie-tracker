@@ -16,7 +16,7 @@ export interface UserRepositoryInterface {
 
   updateUser: (
     id: string,
-    body: Partial<Pick<UserType, 'name' | 'image' | 'isEmailVerified' | "password">>,
+    body: Partial<Pick<UserType, 'name' | 'image' | 'isEmailVerified' | "password" | "email">>,
   ) => Promise<UserType>;
 
   deleteUser: (id: string) => Promise<UserType>;

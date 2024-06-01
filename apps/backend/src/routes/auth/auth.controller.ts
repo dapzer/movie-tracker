@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -26,6 +27,9 @@ import { Throttle } from '@nestjs/throttler';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
 import { GetRecoverPasswordEmailDto } from '@/routes/auth/dto/getRecoverPasswordEmail.dto';
 import { ResetPasswordByTokenDto } from '@/routes/auth/dto/resetPasswordByToken.dto';
+import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
+import { RequestChangeEmailDto } from '@/routes/auth/dto/requestChangeEmail.dto';
+import { ConfirmChangeEmailDto } from '@/routes/auth/dto/confirmChangeEmail.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -45,7 +49,8 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly providersService: ProvidersService,
-  ) {}
+  ) {
+  }
 
   @Post('/signUp')
   async signUp(@Req() req: Request, @Body() body: SignUpDto) {
@@ -73,17 +78,6 @@ export class AuthController {
 
   @Throttle({
     default: {
-      limit: 1,
-      ttl: getMillisecondsFromMins(15),
-    },
-  })
-  @Get('/confirmEmail')
-  async getConfirmEmail(@User() user: UserDto) {
-    return this.authService.sendConfirmationEmail(user.email);
-  }
-
-  @Throttle({
-    default: {
       limit: 3,
       ttl: getMillisecondsFromMins(30),
     },
@@ -96,9 +90,9 @@ export class AuthController {
   @Post('/reset-password')
   async resetPasswordByToken(
     @Req() req: Request,
-    @Body() body: ResetPasswordByTokenDto
+    @Body() body: ResetPasswordByTokenDto,
   ) {
-    const user = await this.authService.resetPasswordByToken(body.token, body.password)
+    const user = await this.authService.resetPasswordByToken(body.token, body.password);
 
     req.session.user = getUserWithoutPassword(user);
     await this.saveSession(req);
@@ -106,7 +100,41 @@ export class AuthController {
     return;
   }
 
-  @Post('/confirmEmail')
+  @Throttle({
+    default: {
+      limit: 3,
+      ttl: getMillisecondsFromHours(12),
+    },
+  })
+  @UseGuards(AuthGuard)
+  @Post('/change-email')
+  async requestChangeEmail(@User() user: UserDto, @Body() body: RequestChangeEmailDto) {
+    return this.authService.requestChangeEmail(user.id, body.email);
+  }
+
+  @Patch('/change-email')
+  @UseGuards(AuthGuard)
+  async confirmEmailChanging(@Req() req: Request, @User() user: UserDto, @Body() body: ConfirmChangeEmailDto) {
+    const updatedUser = await this.authService.confirmEmailChanging(body.token);
+
+    req.session.user = getUserWithoutPassword(updatedUser);
+    await this.saveSession(req);
+
+    return;
+  }
+
+  @Throttle({
+    default: {
+      limit: 1,
+      ttl: getMillisecondsFromMins(15),
+    },
+  })
+  @Get('/confirm-email')
+  async getConfirmEmail(@User() user: UserDto) {
+    return this.authService.sendConfirmationEmail(user.email);
+  }
+
+  @Patch('/confirm-email')
   @UseGuards(AuthGuard)
   async confirmEmail(
     @Req() req: Request,
@@ -139,7 +167,7 @@ export class AuthController {
 
   @Get('/oauth/connect/:provider')
   @UseGuards(AuthProviderGuard)
-  async connect(@Param('provider') provider: AllowedProvider,) {
+  async connect(@Param('provider') provider: AllowedProvider) {
     const providerInstance = this.providersService.findService(provider);
 
     return {

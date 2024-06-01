@@ -25,6 +25,11 @@ export default {
     resetPassword: 'Сбросить пароль',
     resetPasswordProcess: 'Сброс пароля',
     passwordRecoverySuccess: 'На ваш адрес электронной почты было отправлено письмо с инструкциями о том, как сбросить пароль. Если вы не получите его в течение нескольких минут, убедитесь, что вы указали адрес электронной почты для своей учётной записи, и повторите попытку или обратитесь к нам за помощью.',
+    emailNotVerified: 'Почта не подтверждена',
+    emailVerified: 'Почта подтверждена',
+    verifyEmail: 'Подтвердить почту',
+    emailSuccessfullyVerified: 'Почта успешно подтверждена',
+    emailSuccessfullyChanged: 'Почта успешно изменена',
     errors: {
       'Email or password not valid': 'Неверная почта или пароль',
       'User already exists': 'Пользователь с такой почтой уже существует',
@@ -32,11 +37,16 @@ export default {
       'ThrottlerException: Too Many Requests': 'Слишком много запросов, попробуйте позже',
       'Failed to send an email': 'Не удалось отправить письмо, попробуйте позже или обратитесь к администратору',
       'Invalid token': 'Неверный токен',
+      'Bad Request Exception': 'Некорректный запрос',
+      "Unknown error": "Неизвестная ошибка",
+      "Unauthorized": "Не авторизован",
       passwordTooWeak: 'Пароль должен содержать как минимум 1 цифру или 1 специальный символ',
       passwordNotValid: 'Пароль должен содержать от 8 до 32 символов',
       emailNotValid: 'Некорректный формат почты',
       nameInvalid: 'Имя должно содержать от 1 до 32 символов',
       passwordNotMatch: 'Пароли не совпадают',
+      emailConfirmation: 'Произошла ошибка при подтверждении почты',
+      emailChanging: 'Произошла ошибка при изменении почты',
     },
   },
   dashboard: {
@@ -193,7 +203,8 @@ export default {
   navigation: {
     home: 'Поиск',
     lists: 'Мои списки',
-    accountSettings: 'Настройки пользователя',
+    userSettings: 'Настройки пользователя',
+    accountSettings: 'Настройки аккаунта',
   },
   search: {
     title: 'Найти фильм, сериал, персону...',
@@ -223,7 +234,10 @@ export default {
     },
     user: {
       profileUpdated: 'Профиль успешно обновлен',
-    }
+      confirmationEmailSent: 'Письмо для подтверждения почты успешно отправлено',
+      newEmailConfirmationEmailSent: 'Проверьте свой новый адрес электронной почты для подтверждения',
+      requestEmailConfirmation: 'Произошла ошибка при запросе подтверждения почты',
+    },
   },
   ui: {
     loading: 'Загрузка',

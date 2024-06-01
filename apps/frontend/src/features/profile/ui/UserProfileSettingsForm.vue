@@ -50,7 +50,7 @@ watch(() => formValue.value, () => {
       as="h1"
       variant="title2"
     >
-      {{ $t('navigation.accountSettings') }}
+      {{ $t('navigation.userSettings') }}
     </UiTypography>
 
     <UiForm @submit.prevent>

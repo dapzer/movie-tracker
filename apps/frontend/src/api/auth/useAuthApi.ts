@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import {
+  confirmChangeEmailApi, confirmEmailApi,
   logoutApi,
-  recoverPasswordApi,
+  recoverPasswordApi, requestChangeEmailApi, requestEmailConfirmationApi,
   resetPasswordApi,
   signInApi,
   signInByProviderApi,
@@ -45,8 +46,6 @@ export const useLogoutApi = () => {
   });
 };
 
-
-
 export const useSignUpApi = () => useMutation({
   mutationKey: [AuthQueryKeys.SIGN_UP],
   mutationFn: signUpApi
@@ -60,4 +59,24 @@ export const useRecoverPasswordApi = () => useMutation({
 export const useResetPasswordApi = () => useMutation({
   mutationKey: [AuthQueryKeys.RESET_PASSWORD],
   mutationFn: resetPasswordApi
+});
+
+export const useRequestChangeEmailApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.REQUEST_CHANGE_EMAIL],
+  mutationFn: requestChangeEmailApi
+});
+
+export const useConfirmChangeEmailApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.CONFIRM_CHANGE_EMAIL],
+  mutationFn:  confirmChangeEmailApi
+});
+
+export const useRequestEmailConfirmationApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.REQUEST_EMAIL_CONFIRMATION],
+  mutationFn: requestEmailConfirmationApi
+});
+
+export const useConfirmEmailApi = () => useMutation({
+  mutationKey: [AuthQueryKeys.CONFIRM_EMAIL],
+  mutationFn: confirmEmailApi
 });

@@ -20,7 +20,7 @@ const emit = defineEmits<{
   (e: "toggleMobileMenu"): void
 }>();
 const queryClient = useQueryClient();
-const { profile, isLoadingProfile, isProfileSuccess } = useAuth();
+const { profile, isInitialLoadingProfile, isProfileSuccess } = useAuth();
 
 useGetMediaListsApi();
 useGetMediaItemsApi();
@@ -31,16 +31,14 @@ watch(isProfileSuccess, () => {
     queryClient.refetchQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] });
   }
 });
-
-
 </script>
 
 <template>
   <div :class="$style.wrapper">
     <DefaultHeaderNavigationLinks :class="$style.list" />
-    <UserProfileDropdownSkeleton v-if="isLoadingProfile" />
+    <UserProfileDropdownSkeleton v-if="isInitialLoadingProfile" />
     <SignInModal
-      v-if="!profile && !isLoadingProfile"
+      v-if="!profile && !isInitialLoadingProfile"
       :class="$style.signInBtn"
     />
     <UserProfileDropdown v-else />

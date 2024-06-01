@@ -23,6 +23,10 @@ export default  {
     resetPassword: "Reset password",
     resetPasswordProcess: "Password reset",
     passwordRecoverySuccess: "An email has been sent to your email address with instructions on how to reset your password. If you do not receive it within a few minutes, please make sure you have provided an email address for your account and try again or contact us for assistance.",
+    emailNotVerified: "Email not verified",
+    emailVerified: "Email verified",
+    verifyEmail: "Verify email",
+    emailSuccessfullyVerified: "Email successfully verified",
     errors: {
       "Email or password not valid": "Invalid email or password",
       "User already exists": "A user with this email already exists",
@@ -30,11 +34,16 @@ export default  {
       "ThrottlerException: Too Many Requests": "Too many requests, try again later",
       "Failed to send an email": "Failed to send an email, try again or contact an administrator",
       "Invalid token": "Invalid token",
+      "Bad Request Exception": "Bad request",
+      "Unknown error": "Unknown error",
+      "Unauthorized": "Unauthorized",
       passwordTooWeak: "Password must contain at least 1 digit or 1 special character",
       passwordNotValid: "Password must be between 8 and 32 characters",
       emailNotValid: "Incorrect email format",
       nameInvalid: "Name must be between 1 and 32 characters",
       passwordNotMatch: "Passwords do not match",
+      emailConfirmation: "An error occurred during email confirmation",
+      emailChanging: 'An error occurred while changing mail',
     }
   },
   dashboard: {
@@ -191,6 +200,7 @@ export default  {
   navigation: {
     home: "Search",
     lists: "My lists",
+    userSettings: 'User settings',
     accountSettings: 'Account settings',
   },
   search: {
@@ -218,6 +228,12 @@ export default  {
       successCreated: "List created successfully",
       successUpdated: "List updated successfully",
       successDeleted: "List deleted successfully",
+    },
+    user: {
+      profileUpdated: 'Profile successfully updated',
+      confirmationEmailSent: 'Email confirmation email sent successfully',
+      newEmailConfirmationEmailSent: 'Check your new email for confirmation',
+      requestEmailConfirmation: 'An error occurred while requesting email confirmation',
     }
   },
   ui: {

@@ -37,3 +37,25 @@ export const recoverPasswordApi = async (body: AuthApiRecoverPasswordTypes) => {
 export const resetPasswordApi = async (body: AuthApiResetPasswordTypes) => {
   return api.post('auth/reset-password', body);
 };
+
+export const requestChangeEmailApi = async (email: string) => {
+  return api.post('auth/change-email', {
+    email,
+  });
+}
+
+export const confirmChangeEmailApi = async (token: string) => {
+  return api.patch('auth/change-email', {
+    token,
+  });
+};
+
+export const requestEmailConfirmationApi = async () => {
+  return api.get('auth/confirm-email');
+}
+
+export const confirmEmailApi = async (token: string) => {
+  return api.patch('auth/confirm-email', {
+    token,
+  });
+}

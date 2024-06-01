@@ -6,7 +6,6 @@ export const useUserProfileApi = () => useQuery({
   queryKey: [UserQueryKeys.PROFILE],
   queryFn: () => getUserProfileApi(),
   retry: false,
-  refetchOnWindowFocus: false,
 });
 
 export const useUpdateUserProfileApi = () => useMutation({

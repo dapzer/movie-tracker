@@ -18,9 +18,18 @@ export const useAuth = () => {
     return !isAuthorized.value && !userProfileApi.isLoading.value;
   });
 
+  const isLoadingProfile = computed(() => {
+    return userProfileApi.isPending.value
+  });
+
+  const isInitialLoadingProfile = computed(() => {
+    return userProfileApi.isPending.value && userProfileApi.errorUpdateCount.value === 0;
+  });
+
   return {
     profile: userProfileApi.data,
-    isLoadingProfile: userProfileApi.isLoading,
+    isLoadingProfile,
+    isInitialLoadingProfile,
     isProfileSuccess: userProfileApi.isSuccess,
     handleLogout: logoutApi.mutateAsync,
     handleRefetchProfile: userProfileApi.refetch,
