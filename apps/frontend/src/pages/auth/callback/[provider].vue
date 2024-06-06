@@ -10,10 +10,11 @@ import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelector.vu
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useSignInCallbackApi } from "~/api/auth/useAuthApi";
+import { SignUpLocalStorageKey } from '~/features/auth';
 
 const { params, query } = useRoute();
 const signInCallbackApi = useSignInCallbackApi();
-const authRedirectUrl = useLocalStorage("authRedirectUrl", "");
+const authRedirectUrl = useLocalStorage(SignUpLocalStorageKey.CALLBACK_REDIRECT_URL, "");
 const router = useRouter();
 
 definePageMeta({

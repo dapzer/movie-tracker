@@ -13,7 +13,8 @@ interface Props {
     | "linkUnderlined"
     | "textSmall"
     | "listItem"
-    | "listItemValue";
+    | "listItemValue"
+    | "errorText";
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -37,6 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
       [$style.linkUnderlined]: variant === 'linkUnderlined',
       [$style.listItem]: variant === 'listItem',
       [$style.listItemValue]: variant === 'listItemValue',
+      [$style.errorText]: variant === 'errorText',
     }"
   >
     <slot />
@@ -84,6 +86,12 @@ const props = withDefaults(defineProps<Props>(), {
   color: var(--c-text);
   font-size: var(--fs-span);
   font-weight: var(--fw-light);
+}
+
+.errorText {
+  color: var(--c-danger);
+  font-size: var(--fs-span);
+  font-weight: var(--fw-regular);
 }
 
 .linkUnderlined,

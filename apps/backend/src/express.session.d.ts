@@ -1,8 +1,8 @@
-import { UserDto } from '@/routes/auth/dto/user.dto';
+import { UserType } from '@movie-tracker/types';
 
 declare module 'express-session' {
   interface SessionData {
-    user?: UserDto;
+    user?: Omit<UserType, 'password'>;
   }
 }
 

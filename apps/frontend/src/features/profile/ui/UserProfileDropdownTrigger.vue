@@ -2,12 +2,19 @@
 
 import UiTypography from "~/components/ui/UiTypography.vue";
 import type { UserType } from "@movie-tracker/types";
+import { UserIcon } from "~/components/ui/icons";
+import { ref, watch } from 'vue';
 
 interface UserProfileDropdownTriggerProps {
   profile: UserType;
 }
 
 const props = defineProps<UserProfileDropdownTriggerProps>();
+const isShowPlaceholder = ref(false);
+
+watch(() => props.profile, () => {
+  isShowPlaceholder.value = false
+})
 </script>
 
 <template>
@@ -18,16 +25,22 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
     <UiTypography :class="$style.userName">
       {{ props.profile.name.split(" ")[0] }}
     </UiTypography>
-    <NuxtImg
-      :class="$style.avatar"
-      :src="props.profile.image"
-      fit="contain"
-      height="32"
-      width="32"
-      loading="lazy"
-      decoding="async"
-      alt="Avatar"
-    />
+
+    <div :class="$style.imageWrapper">
+      <NuxtImg
+        v-if="props.profile.image && !isShowPlaceholder"
+        :class="$style.avatar"
+        :src="props.profile.image"
+        fit="contain"
+        height="32"
+        width="32"
+        loading="lazy"
+        decoding="async"
+        alt="Avatar"
+        @error="isShowPlaceholder = true"
+      />
+      <UserIcon v-else />
+    </div>
   </div>
 </template>
 
@@ -48,9 +61,25 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
     }
   }
 
-  .avatar {
-    max-width: 32px;
-    border-radius: 50%;
+  .imageWrapper {
+    color: var(--c-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--c-background);
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &,
+    .avatar {
+      max-width: 32px;
+      border-radius: 50%;
+    }
   }
 }
 </style>
