@@ -12,7 +12,6 @@
     "prestart:prod": "pnpm --filter=database run migrate"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.554.0",
     "@movie-tracker/database": "workspace:*",
     "@movie-tracker/email-templates": "workspace:*",
     "@movie-tracker/types": "workspace:*",
