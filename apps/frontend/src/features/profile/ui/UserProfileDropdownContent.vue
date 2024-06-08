@@ -46,6 +46,15 @@ const isAdmin = computed(() => {
       {{ $t("dashboard.title") }}
     </UiTypography>
 
+    <UiTypography
+      variant="link"
+      :class="$style.link"
+      :as="NuxtLink"
+      :to="localePath('/user/settings')"
+    >
+      {{ $t("navigation.accountSettings") }}
+    </UiTypography>
+
     <UiButton
       :class="$style.signOut"
       color-scheme="danger"
