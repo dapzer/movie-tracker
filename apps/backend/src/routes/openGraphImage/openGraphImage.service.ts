@@ -15,6 +15,8 @@ export class OpenGraphImageService {
     ]);
 
     const svg = await satori(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       {
         type: 'div',
         props: {

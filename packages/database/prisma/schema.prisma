@@ -36,32 +36,37 @@ model Account {
 }
 
 model User {
-  id         String         @id @default(uuid())
+  id              String           @id @default(uuid())
   // userName     String?     @unique
-  name       String?
-  email      String?         @unique
-  image      String?
-  roles      UserRoleEnum[] @default([USER])
-  createdAt  DateTime       @default(now()) @map("created_at")
-  updatedAt  DateTime       @updatedAt() @map("updated_at")
-  mediaLists MediaList[]
-  accounts   Account[]
+  name            String?
+  email           String?          @unique
+  image           String?
+  isEmailVerified Boolean          @default(false) @map("is_email_verified")
+  signUpMethod    SignUpMethodEnum @map("sign_up_method")
+  password        String?
+
+  roles     UserRoleEnum[] @default([USER])
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt() @map("updated_at")
+
+  mediaLists     MediaList[]
+  accounts       Account[]
   mediaListLikes MediaListLike[]
 
   @@map("users")
 }
 
 model MediaList {
-  id              String      @id @default(uuid())
-  humanFriendlyId String      @unique @map("human_friendly_id")
-  userId          String      @map("user_id")
-  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String          @id @default(uuid())
+  humanFriendlyId String          @unique @map("human_friendly_id")
+  userId          String          @map("user_id")
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   title           String?
   poster          String?
-  isSystem        Boolean     @default(false) @map("is_system")
-  isPublic        Boolean     @default(false) @map("is_public")
-  createdAt       DateTime    @default(now()) @map("created_at")
-  updatedAt       DateTime    @updatedAt() @map("updated_at")
+  isSystem        Boolean         @default(false) @map("is_system")
+  isPublic        Boolean         @default(false) @map("is_public")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt() @map("updated_at")
   mediaItems      MediaItem[]
   likes           MediaListLike[]
 
@@ -69,13 +74,13 @@ model MediaList {
 }
 
 model MediaListLike {
-  id          String  @id @default(uuid())
-  mediaListId String  @map("media_list_id")
+  id          String    @id @default(uuid())
+  mediaListId String    @map("media_list_id")
   mediaList   MediaList @relation(fields: [mediaListId], references: [id], onDelete: Cascade)
-  userId      String  @map("user_id")
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @map("user_id")
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@unique([mediaListId, userId])
   @@map("media_list_likes")
@@ -146,4 +151,12 @@ enum MediaTypeEnum {
 enum UserRoleEnum {
   ADMIN
   USER
+}
+
+enum SignUpMethodEnum {
+  EMAIL
+  GOOGLE
+  GITHUB
+  VK
+  YANDEX
 }

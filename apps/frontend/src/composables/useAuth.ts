@@ -1,5 +1,6 @@
-import { computed } from "vue";
-import { useLogoutApi, useUserProfileApi } from "~/api/auth/useAuthApi";
+import { computed } from 'vue';
+import { useLogoutApi } from '~/api/auth/useAuthApi';
+import { useUserProfileApi } from '~/api/user/useUserApi';
 
 export const useAuth = () => {
   const userProfileApi = useUserProfileApi();
@@ -10,20 +11,30 @@ export const useAuth = () => {
   });
 
   const isProcessingLogout = computed(() => {
-    return logoutApi.status.value === "pending";
+    return logoutApi.isPending.value;
   });
 
   const isNotAuthorized = computed(() => {
     return !isAuthorized.value && !userProfileApi.isLoading.value;
   });
 
+  const isLoadingProfile = computed(() => {
+    return userProfileApi.isPending.value
+  });
+
+  const isInitialLoadingProfile = computed(() => {
+    return userProfileApi.isPending.value && userProfileApi.errorUpdateCount.value === 0;
+  });
+
   return {
     profile: userProfileApi.data,
-    isLoadingProfile: userProfileApi.isLoading,
+    isLoadingProfile,
+    isInitialLoadingProfile,
     isProfileSuccess: userProfileApi.isSuccess,
     handleLogout: logoutApi.mutateAsync,
+    handleRefetchProfile: userProfileApi.refetch,
     isAuthorized,
     isProcessingLogout,
-    isNotAuthorized
+    isNotAuthorized,
   };
 };
