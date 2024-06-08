@@ -1,4 +1,5 @@
 import { RequestOptions, SearchParams } from "./fetchClientTypes";
+import { FetchError } from './featchError';
 
 export class FetchClient {
   private baseUrl: string;
@@ -64,7 +65,8 @@ export class FetchClient {
     const response: Response = await fetch(url, config);
 
     if (!response.ok) {
-      throw new Error(response.statusText);
+      const error = await response.json() as { message: string } | undefined;
+      throw new FetchError(response.status, error?.message || response.statusText);
     }
 
     if (response.headers.get("Content-Type")?.includes("application/json")) {

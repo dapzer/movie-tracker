@@ -3,6 +3,8 @@ import {
   UserRepositoryInterface,
   UserRepositorySymbol,
 } from '@/repositories/user/UserRepositoryInterface';
+import { getUserWithoutPassword } from '@/shared/utils/getUserWithoutPassword';
+import { UpdateUserDto } from '@/routes/user/dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -12,7 +14,9 @@ export class UserService {
   ) {}
 
   async getUser(id: string) {
-    return this.userRepository.getUserById(id);
+    const user = await this.userRepository.getUserById(id);
+
+    return getUserWithoutPassword(user);
   }
 
   async deleteUser(id: string, currentUserId: string) {
@@ -20,6 +24,14 @@ export class UserService {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
-    return this.userRepository.deleteUser(id);
+    const deletedUser = await this.userRepository.deleteUser(id);
+
+    return getUserWithoutPassword(deletedUser);
+  }
+
+  async updateUser(id: string, body: UpdateUserDto) {
+    const updatedUser = await this.userRepository.updateUser(id, body);
+
+    return getUserWithoutPassword(updatedUser);
   }
 }
