@@ -10,7 +10,7 @@ export const usePersonDetailsSeo = (person?: TmdbPersonType | null) => {
   const getOgApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "");
 
   const ogImage = computed(() => {
-    return getOgApiUrl(`/openGraphImage`, {
+    return getOgApiUrl(`/open-graph-image`, {
       title: person?.name || "",
       imageUrl: getProxiedImageUrl(person?.profile_path, undefined, true),
     });

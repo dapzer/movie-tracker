@@ -6,7 +6,7 @@ import { UserDto } from '@/routes/auth/dto/user.dto';
 import { UuidDto } from '@/shared/dto/uuid.dto';
 import { MediaItemTrackingDataDto } from '@/routes/trackingData/dto/updateTrackingData.dto';
 
-@Controller('trackingData')
+@Controller('tracking-data')
 export class TrackingDataController {
   constructor(private readonly trackingDataService: TrackingDataService) {}
 

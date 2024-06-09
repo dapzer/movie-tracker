@@ -19,7 +19,7 @@ import { isCuid } from '@paralleldrive/cuid2';
 import { CreateMediaItemCloneDto } from '@/routes/mediaItem/dto/createMediaItemClone.dto';
 import { UpdateMediaItemDto } from '@/routes/mediaItem/dto/updateMediaItem.dto';
 
-@Controller('mediaItem')
+@Controller('media-item')
 export class MediaItemController {
   constructor(private readonly mediaItemService: MediaItemService) {}
 
@@ -43,7 +43,7 @@ export class MediaItemController {
     return this.mediaItemService.getMediaItemsByUserId(user?.id);
   }
 
-  @Get('/mediaList/:mediaListId')
+  @Get('/media-list/:mediaListId')
   async getMediaItemsByListId(
     @Param() param: MediaItemListIdDto,
     @User() user: UserDto,
