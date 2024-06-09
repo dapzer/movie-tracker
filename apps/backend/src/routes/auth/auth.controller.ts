@@ -52,7 +52,7 @@ export class AuthController {
   ) {
   }
 
-  @Post('/signUp')
+  @Post('/sign-up')
   async signUp(@Req() req: Request, @Body() body: SignUpDto) {
     const user = await this.authService.signUp(body);
 
@@ -62,7 +62,7 @@ export class AuthController {
     return;
   }
 
-  @Post('/signIn')
+  @Post('/sign-in')
   async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: UserDto) {
     if (currentUser) {
       throw new HttpException('Already authenticated', HttpStatus.FORBIDDEN);

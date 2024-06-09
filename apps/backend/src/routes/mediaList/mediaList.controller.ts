@@ -21,7 +21,7 @@ import { isCuid } from '@paralleldrive/cuid2';
 import { GetMedialListByIdDto } from '@/routes/mediaList/dto/getMedialListById.dto';
 import { CreateMediaListCloneDto } from '@/routes/mediaList/dto/createMediaListClone.dto';
 
-@Controller('mediaList')
+@Controller('media-list')
 export class MediaListController {
   constructor(private readonly mediaListService: MediaListService) {}
 

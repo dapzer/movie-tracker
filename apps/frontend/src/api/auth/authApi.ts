@@ -12,7 +12,7 @@ export const logoutApi = async () => {
 };
 
 export const signInApi = async (body: AuthApiSignInTypes) => {
-  return api.post('auth/signIn', body);
+  return api.post('auth/sign-in', body);
 };
 export const signInByProviderApi = async (provider: string) => {
   return api.get<AuthApiSignInByProviderTypes>(`auth/oauth/connect/${provider}`);
@@ -27,7 +27,7 @@ export const signInCallbackApi = async (provider: string, code: string) => {
 };
 
 export const signUpApi = async (body: AuthApiSignUpTypes) => {
-  return api.post('auth/signup', body);
+  return api.post('auth/sign-up', body);
 };
 
 export const recoverPasswordApi = async (body: AuthApiRecoverPasswordTypes) => {
