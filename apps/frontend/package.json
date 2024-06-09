@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "story:dev": "histoire dev",
+    "story:dev": "histoire dev"
   },
   "devDependencies": {
     "@histoire/plugin-nuxt": "^0.17.17",
