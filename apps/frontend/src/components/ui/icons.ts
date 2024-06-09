@@ -14,3 +14,8 @@ export { default as ShareIcon } from "~/assets/svg/icons/share.svg";
 export { default as SettingsIcon } from "~/assets/svg/icons/settings.svg";
 export { default as TrashIcon } from "~/assets/svg/icons/trash.svg";
 export { default as ChartCandleIcon } from "~/assets/svg/icons/chart-candle.svg";
+export { default as GoogleIcon } from "~/assets/svg/icons/google.svg";
+export { default as VkIcon } from "~/assets/svg/icons/vk.svg";
+export { default as GithubIcon } from "~/assets/svg/icons/github.svg";
+export { default as YandexIcon } from "~/assets/svg/icons/yandex.svg";
+

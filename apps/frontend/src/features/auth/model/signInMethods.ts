@@ -1,22 +1,24 @@
+import { GithubIcon, GoogleIcon, VkIcon, YandexIcon } from '~/components/ui/icons';
+
 export const signInMethods = [
   {
-    title: 'Google',
     provider: 'google',
     color: '#D92929',
+    icon: GoogleIcon,
   },
   {
-    title: 'Yandex',
     provider: 'yandex',
     color: '#FFCC00',
+    icon: YandexIcon,
   },
   {
-    title: 'Vkontakte',
     provider: 'vk',
     color: '#0077FF',
+    icon: VkIcon,
   },
   {
-    title: 'GitHub',
     provider: 'github',
     color: '#444',
+    icon: GithubIcon,
   },
 ]

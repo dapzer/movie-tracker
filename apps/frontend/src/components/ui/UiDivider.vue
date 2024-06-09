@@ -6,13 +6,20 @@ interface UiDividerProps {
 const props = withDefaults(defineProps<UiDividerProps>(), {
   height: 1
 })
+
+const slot = defineSlots()
 </script>
 
 <template>
-  <hr
-    :class="$style.body"
+  <div
+    :class="{
+      [$style.withText]: slot.default,
+      [$style.body]: !slot.default
+    }"
     :style="{ '--height': `${props.height}px` }"
   >
+    <slot />
+  </div>
 </template>
 
 <style module lang="scss">
@@ -23,5 +30,29 @@ const props = withDefaults(defineProps<UiDividerProps>(), {
   background: var(--c-text);
   opacity: var(--s-disabled-opacity);
   border-radius: var(--s-border-radius);
+}
+
+.withText {
+  display: flex;
+  flex-direction: row;
+
+  & > * {
+    line-height: 1;
+  }
+
+  &::after, &::before {
+    content: "";
+    flex: 1 1;
+    border-bottom: var(--height) solid var(--c-text);
+    margin: auto;
+  }
+
+  &::before {
+    margin-right: 8px;
+  }
+
+  &::after {
+    margin-left: 8px;
+  }
 }
 </style>
