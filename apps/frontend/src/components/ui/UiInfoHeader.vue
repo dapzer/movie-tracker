@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { ref } from "vue";
+import { useBreakpoints } from '@vueuse/core';
 
 interface UiInfoHeaderProps {
   title: string;
@@ -11,6 +12,13 @@ interface UiInfoHeaderProps {
 const props = defineProps<UiInfoHeaderProps>();
 const imageSrc = ref(props.image);
 
+
+const breakpoints = useBreakpoints({
+  mobile: 700
+})
+
+const isMobile = breakpoints.smaller("mobile");
+
 const handleImageLoadingError = () => {
   imageSrc.value = "/defaultPoster.svg";
 };
@@ -18,7 +26,10 @@ const handleImageLoadingError = () => {
 
 <template>
   <section :class="$style.wrapper">
-    <div :class="[$style.titleBlock, $style.mobileOnly]">
+    <div
+      v-if="isMobile"
+      :class="[$style.titleBlock, $style.mobileOnly]"
+    >
       <UiTypography
         as="h1"
         variant="title2"
@@ -27,7 +38,7 @@ const handleImageLoadingError = () => {
       </UiTypography>
       <UiTypography
         v-if="props.description"
-        as="h2"
+        as="span"
         variant="title3"
       >
         {{ props.description }}
@@ -52,7 +63,10 @@ const handleImageLoadingError = () => {
     </div>
 
     <div :class="$style.content">
-      <div :class="$style.titleBlock">
+      <div
+        v-if="!isMobile"
+        :class="$style.titleBlock"
+      >
         <UiTypography
           as="h1"
           variant="title2"
@@ -60,7 +74,7 @@ const handleImageLoadingError = () => {
           {{ props.title }}
         </UiTypography>
         <UiTypography
-          as="h2"
+          as="span"
           variant="title3"
         >
           {{ props.description }}
@@ -81,8 +95,9 @@ const handleImageLoadingError = () => {
   display: flex;
   gap: 50px;
 
+  .mobileOnly,
   .titleBlock {
-    h2 {
+    span {
       color: var(--c-text);
     }
   }
