@@ -41,13 +41,13 @@ await Promise.all([
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${titleChunk} | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
+    return `${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
     tmdbGetMovieDetailsApi.data.value?.original_title ||
-    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")}`;
+    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")} | ${titleChunk}`;
   },
   ogTitle() {
-    return `%s | ${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name || tmdbGetMovieDetailsApi.data.value?.original_title ||
-    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")}`;
+    return `${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name || tmdbGetMovieDetailsApi.data.value?.original_title ||
+    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")} | %s`;
   },
   description: `${t("details.listOfEpisodes")} «${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name}»`,
   ogDescription: `${t("details.listOfEpisodes")} «${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name}`
