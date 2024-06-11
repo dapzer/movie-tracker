@@ -27,7 +27,7 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
 
   useSeoMeta({
     titleTemplate(titleChunk) {
-      return `${titleChunk} | ${title.value}`;
+      return `${title.value} | ${t(`details.mediaType.${mediaType}`)} | ${titleChunk}`;
     },
     ogTitle() {
       return `%s | ${title.value}`;
@@ -75,11 +75,6 @@ export const useMovieDetailsSeo = (mediaId: number, mediaType: TmdbMediaTypeEnum
         }
       })
     }),
-    ...(!!media?.number_of_seasons ? [defineBreadcrumb({
-      itemListElement: [
-        { name: t("details.episodesList"), href: localePath(`/details/${mediaType}/${mediaId}/seasons`) }
-      ]
-    })] : [])
   ]);
 
 };

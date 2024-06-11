@@ -53,12 +53,12 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "en",
-        iso: "en-US",
+        iso: "en",
         file: "en.ts"
       },
       {
         code: "ru",
-        iso: "ru-RU",
+        iso: "ru",
         file: "ru.ts"
       }
     ]

@@ -69,7 +69,11 @@ export default  {
       movie: 'Movie',
       tv: 'Series',
       person: 'Person',
-    }
+    },
+    knowFor: {
+      'Acting': 'Actor',
+      'Directing': 'Director',
+    },
   },
   hero: {
     title: "Welcome to the world of cinema and TV series!",
