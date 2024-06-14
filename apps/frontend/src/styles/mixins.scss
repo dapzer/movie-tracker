@@ -1,23 +1,31 @@
-@mixin fullWidthBg ($background) {
+@mixin fullWidthBg($background) {
   box-shadow: 0 0 0 100vmax $background;
   clip-path: inset(0 -100vmax);
   background: $background;
 }
 
-@mixin card () {
+@mixin card() {
   width: 100%;
   height: fit-content;
   max-width: 300px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  gap: 14px;
+  padding: 8px;
+  gap: 16px;
   position: relative;
-  box-shadow: var(--sd-default);
   border-radius: var(--s-border-radius);
+  background: var(--c-main-background);
+
+  @media screen and (max-width: 360px) {
+    background: var(--c-card-background);
+  }
+
+  &:hover {
+    background: var(--c-card-background-hovered);
+  }
 }
 
-@mixin slideFromRight ($defaultShowedWidth) {
+@mixin slideFromRight($defaultShowedWidth) {
   transition: all .5s;
   transform: translateX(calc(100% - $defaultShowedWidth));
 
@@ -26,7 +34,7 @@
   }
 }
 
-@mixin cardSideButton () {
+@mixin cardSideButton() {
   border-radius: var(--s-border-radius) 0 0 var(--s-border-radius);
   gap: 6px;
   padding: 5px 10px;
@@ -36,7 +44,7 @@
   line-height: 1;
 }
 
-@mixin ellipsisText () {
+@mixin ellipsisText() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
