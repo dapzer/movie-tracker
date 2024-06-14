@@ -49,3 +49,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@mixin multiLineEllipsis($lineCount) {
+  @include ellipsisText();
+  white-space: unset;
+  display: -webkit-box;
+  line-clamp: $lineCount;
+  -webkit-line-clamp: $lineCount;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}

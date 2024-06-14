@@ -3,6 +3,7 @@
 import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
 import { UiMediaCard } from '~/components/newUi/UiCard/mediaCard';
+import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
 </script>
 
 <template>
@@ -30,9 +31,19 @@ import { UiMediaCard } from '~/components/newUi/UiCard/mediaCard';
         title="MediaCard"
       >
         <UiMediaCard
-          image="https://via.placeholder.com/179x277"
+          imageSrc="https://via.placeholder.com/179x277"
           description="Jan 07 2024, USA"
           title="Movie Title"
+        />
+      </Variant>
+
+      <Variant
+        title="VideoCard"
+      >
+        <UiVideoCard
+          preview-src="https://via.placeholder.com/279x157"
+          description="Jan 07 2024"
+          title="Video Title"
         />
       </Variant>
     </template>

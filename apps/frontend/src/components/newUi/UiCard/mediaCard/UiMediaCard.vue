@@ -2,10 +2,10 @@
 
 import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
-import { ref } from 'vue';
+import { UiImage } from '~/components/newUi/UiImage';
 
 interface UiMediaCardProps {
-  image?: string
+  imageSrc?: string
   title?: string
   description?: string
   width?: number
@@ -15,11 +15,6 @@ interface UiMediaCardProps {
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
   width: 195,
 })
-const imageSrc = ref(props.image ?? '/defaultPoster.svg')
-
-const handleImageLoadingError = () => {
-  imageSrc.value = '/defaultPoster.svg'
-}
 </script>
 
 <template>
@@ -28,14 +23,11 @@ const handleImageLoadingError = () => {
     :link="props.link"
   >
     <template #image>
-      <NuxtImg
+      <UiImage
         :class="$style.image"
-        :src="imageSrc"
+        :src="props.imageSrc"
         width="179"
         height="277"
-        loading="lazy"
-        decoding="async"
-        @error="handleImageLoadingError"
       />
     </template>
 
@@ -88,13 +80,8 @@ const handleImageLoadingError = () => {
 
   .title {
     @include ellipsisText();
-    white-space: unset;
-    line-clamp: 2;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    @include multiLineEllipsis(2);
     height: calc(var(--lh-card-title) * 2);
-    word-break: break-word;
   }
 
   .footer {

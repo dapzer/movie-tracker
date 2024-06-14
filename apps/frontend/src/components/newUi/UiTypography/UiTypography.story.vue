@@ -34,7 +34,6 @@ const variants: TypographyVariant[] = [
           {{ text }}
         </UiTypography>
       </Variant>
-      \
     </template>
 
 
