@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     "nuxt-simple-robots",
     "nuxt-schema-org",
     "nuxt-delay-hydration",
+    '@nuxt/fonts'
   ],
   site: {
     url: process.env.VITE_BASE_URL || "http://localhost:3000",
