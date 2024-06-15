@@ -16,6 +16,11 @@ const props = withDefaults(defineProps<UiAvatarProps>(), {
 });
 const placeholdersStorage = useLocalStorage<Record<string, string>>('avatarPlaceholders', {})
 const placeholder = ref<string | undefined>(undefined);
+const avatarSrc = ref<string | undefined>(props.src);
+
+watchEffect(() => {
+  avatarSrc.value = props.src;
+});
 
 const placeholderColors = [
   "linear-gradient(180deg, #73E5BC 0%, #23A628 100%)",
@@ -45,6 +50,10 @@ watchEffect(() => {
     placeholder.value = getPlaceholder();
   }
 });
+
+const handleImageLoadingError = () => {
+  avatarSrc.value = undefined;
+};
 </script>
 
 <template>
@@ -55,11 +64,12 @@ watchEffect(() => {
     }"
   >
     <UiImage
-      v-if="props.src"
-      :src="props.src"
+      v-if="avatarSrc"
+      :src="avatarSrc"
       :width="props.size"
       :height="props.size"
       :alt="props.alt"
+      @error="handleImageLoadingError"
     />
 
     <div
