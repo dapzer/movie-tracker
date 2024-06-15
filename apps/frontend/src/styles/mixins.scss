@@ -59,3 +59,21 @@
   -webkit-box-orient: vertical;
   word-break: break-word;
 }
+
+@mixin mobileDevice() {
+  @media screen and (max-width: $bp-sm) {
+    @content;
+  }
+}
+
+@mixin tabletDevice() {
+  @media screen and (max-width: $bp-md) {
+    @content;
+  }
+}
+
+@mixin desktopDevice() {
+  @media screen and (min-width: $bp-md) {
+    @content;
+  }
+}

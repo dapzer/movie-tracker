@@ -15,6 +15,7 @@ import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
         <UiCardBase>
           <template #image>
             <img
+              :class="$style.image"
               alt="placeholder"
               src="https://via.placeholder.com/179x277"
             >
@@ -51,5 +52,8 @@ import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
 </template>
 
 <style lang="scss" module>
-
+.image {
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
 </style>

@@ -1,33 +1,33 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
 import { UiImage } from '~/components/newUi/UiImage';
 
 interface UiMediaCardProps {
-  imageSrc?: string
-  title?: string
-  description?: string
-  width?: number
-  link?: string
+  imageSrc?: string;
+  title?: string;
+  description?: string;
+  width?: number;
+  link?: string;
 }
 
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
   width: 195,
-})
+});
 </script>
 
 <template>
   <UiCardBase
-    :width="props.width"
     :link="props.link"
+    :width="props.width"
   >
     <template #image>
       <UiImage
         :class="$style.image"
         :src="props.imageSrc"
-        width="179"
         height="277"
+        width="179"
       />
     </template>
 
@@ -56,21 +56,13 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 </template>
 
 
-<style module lang="scss">
+<style lang="scss" module>
 @import '~/styles/mixins';
 @import '~/styles/variables';
 
 .image {
-  border-radius: var(--s-border-radius-small);
-  height: 277px;
-
-  @media screen and (max-width: $bp-md) {
-    height: 219px;
-  }
-
-  @media screen and (max-width: $bp-sm) {
-    height: 220px;
-  }
+  aspect-ratio: 2/3;
+  object-fit: cover;  
 }
 
 .content {
@@ -81,13 +73,12 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
   .title {
     @include ellipsisText();
     @include multiLineEllipsis(2);
-    height: calc(var(--lh-card-title) * 2);
   }
 
   .footer {
     display: flex;
     justify-content: space-between;
-    gap: 5px;
+    gap: 4px;
 
     .description {
       @include ellipsisText();

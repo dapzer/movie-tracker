@@ -6,18 +6,21 @@ import { PlayIcon } from '~/components/ui/icons';
 import { UiTypography } from '~/components/newUi/UiTypography';
 
 interface UiVideoCardProps {
+  width?: number;
   previewSrc: string;
   description: string;
   title: string;
 }
 
-const props = defineProps<UiVideoCardProps>();
+const props = withDefaults(defineProps<UiVideoCardProps>(), {
+  width: 295,
+});
 </script>
 
 <template>
   <UiCardBase
     :class="$style.wrapper"
-    :width="295"
+    :width="props.width"
   >
     <template #image>
       <div :class="$style.previewWrapper">
@@ -66,7 +69,6 @@ const props = defineProps<UiVideoCardProps>();
     .title {
       @include ellipsisText();
       @include multiLineEllipsis(2);
-      height: calc(var(--lh-card-title) * 2);
     }
   }
 
@@ -76,15 +78,10 @@ const props = defineProps<UiVideoCardProps>();
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 157px;
-
-    @media screen and (max-width: $bp-sm) {
-      height: 92px;
-    }
 
     img {
-      width: 100%;
-      height: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
     }
 
     img,
