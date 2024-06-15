@@ -39,6 +39,7 @@ const props = defineProps<UiCardBaseProps>()
   max-width: var(--maxWidth);
 
   .imageWrapper {
+    display: flex;
     width: 100%;
     border-radius: var(--s-border-radius-small);
     height: fit-content;
@@ -46,7 +47,7 @@ const props = defineProps<UiCardBaseProps>()
 
     img {
       border-radius: var(--s-border-radius-small);
-      object-fit: contain;
+      object-fit: cover;
     }
   }
 
