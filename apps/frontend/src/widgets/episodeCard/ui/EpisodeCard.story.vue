@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import EpisodeCard from '~/widgets/episodeCard/ui/EpisodeCard.vue';
+import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import EpisodeCard from '~/widgets/episodeCard/ui/EpisodeCard.vue';
         :season="1"
         :episode="1"
         description="Rick and Morty"
-        image-src="https://via.placeholder.com/250x157"
+        :image-src="getPlaceholderImageUrl(250, 157)"
       />
     </template>
   </Story>
