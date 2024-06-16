@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { NuxtLink } from "#components";
-import UiTypography from "~/components/ui/UiTypography.vue";
 
 interface UiCardBaseProps {
   width?: number;
-  link?: string;
+  linkUrl?: string;
 }
 
 const props = defineProps<UiCardBaseProps>()
@@ -18,9 +17,9 @@ const props = defineProps<UiCardBaseProps>()
     }"
   >
     <component
-      :is="link ? NuxtLink : 'div'"
+      :is="!!props.linkUrl ? NuxtLink : 'div'"
       :class="$style.imageWrapper"
-      :href="props.link ?? ''"
+      :href="props.linkUrl ?? ''"
     >
       <slot name="image" />
     </component>

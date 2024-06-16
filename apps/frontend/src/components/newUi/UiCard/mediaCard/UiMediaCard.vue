@@ -9,7 +9,7 @@ interface UiMediaCardProps {
   title?: string;
   description?: string;
   width?: number;
-  link?: string;
+  linkUrl: string;
 }
 
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 
 <template>
   <UiCardBase
-    :link="props.link"
+    :linkUrl:="props.linkUrl"
     :width="props.width"
   >
     <template #image>
@@ -62,7 +62,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 
 .image {
   aspect-ratio: 2/3;
-  object-fit: cover;  
+  object-fit: cover;
 }
 
 .content {

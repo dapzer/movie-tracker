@@ -4,6 +4,8 @@ import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
 import { UiMediaCard } from '~/components/newUi/UiCard/mediaCard';
 import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
+import { UiListCard } from '~/components/newUi/UiCard/listCard';
+import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
 </script>
 
 <template>
@@ -17,7 +19,7 @@ import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
             <img
               :class="$style.image"
               alt="placeholder"
-              src="https://via.placeholder.com/179x277"
+              :src="getPlaceholderImageUrl(179, 277)"
             >
           </template>
           <template #content>
@@ -32,7 +34,7 @@ import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
         title="MediaCard"
       >
         <UiMediaCard
-          imageSrc="https://via.placeholder.com/179x277"
+          :imageSrc="getPlaceholderImageUrl(179, 277)"
           description="Jan 07 2024, USA"
           title="Movie Title"
         />
@@ -42,10 +44,39 @@ import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
         title="VideoCard"
       >
         <UiVideoCard
-          preview-src="https://via.placeholder.com/279x157"
+          :preview-src="getPlaceholderImageUrl(279, 157)"
           description="Jan 07 2024"
           title="Video Title"
         />
+      </Variant>
+
+      <Variant
+        title="ListCard"
+      >
+        <UiListCard
+          :user-avatar-src="getPlaceholderImageUrl(32, 32)"
+          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) =>'1'+ getPlaceholderImageUrl(179, 277))"
+          user-name="UserName"
+          user-url="/"
+        >
+          <UiTypography variant="listTitle">
+            Title
+          </UiTypography>
+        </UiListCard>
+      </Variant>
+
+      <Variant
+        title="ListCardWithoutImages"
+      >
+        <UiListCard
+          :user-avatar-src="getPlaceholderImageUrl(32, 32)"
+          user-name="UserName"
+          user-url="/"
+        >
+          <UiTypography variant="listTitle">
+            Title
+          </UiTypography>
+        </UiListCard>
       </Variant>
     </template>
   </Story>
