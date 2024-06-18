@@ -66,6 +66,19 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
       </Variant>
 
       <Variant
+        title="ListCardWithoutUser"
+      >
+        <UiListCard
+          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) =>getPlaceholderImageUrl(179, 277))"
+          :user-avatar-src="getPlaceholderImageUrl(32, 32)"
+        >
+          <UiTypography variant="listTitle">
+            Title
+          </UiTypography>
+        </UiListCard>
+      </Variant>
+
+      <Variant
         title="ListCardWithoutImages"
       >
         <UiListCard

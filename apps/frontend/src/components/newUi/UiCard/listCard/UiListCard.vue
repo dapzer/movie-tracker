@@ -106,12 +106,13 @@ const handleImageLoadingError = (index: number) => {
   .contentWrapper {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
 
     .content {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      margin-top: 4px;
     }
   }
 }
