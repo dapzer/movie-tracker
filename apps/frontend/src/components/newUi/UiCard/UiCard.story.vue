@@ -55,7 +55,7 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
       >
         <UiListCard
           :user-avatar-src="getPlaceholderImageUrl(32, 32)"
-          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) =>'1'+ getPlaceholderImageUrl(179, 277))"
+          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) =>getPlaceholderImageUrl(179, 277))"
           user-name="UserName"
           user-url="/"
         >
