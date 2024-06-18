@@ -58,17 +58,17 @@ $bp-sm: 568px;
 
   @include mobileDevice() {
     --fs-h1: 1.5rem; /* 24px */
-    --fs-h2: 1.375rem; /* 22px */
-    --fs-h3: 1.125rem; /* 18px */
-    --fs-h4: 1.5rem; /* 24px */
+    --fs-h2: 1.5rem; /* 24px */
+    --fs-h3: 1.313rem; /* 21px */
+    --fs-h4: 1.125rem; /* 18px */
     --fs-subheading: 0.875rem; /* 14px */
     --fs-p: 0.875rem; /* 14px */
     --fs-label: 1rem; /* 16px */
-    --fs-list-title: 1.125rem; /* 18px */
+    --fs-list-title: 1rem; /* 10px */
     --fs-card-title: 1rem; /* 16px */
     --fs-description: 0.75rem; /* 12px */
     --fs-badge: 0.75rem; /* 12px */
-    --fs-input: 1.875rem; /* 30px */
+    --fs-input: 0.875rem; /* 14px */
   }
 
   /* Line heights */

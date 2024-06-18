@@ -2,16 +2,16 @@
 import type { Component, VNode } from 'vue';
 
 export type TypographyVariant = 'text'
-  | 'title'
-  | 'title2'
-  | 'title3'
-  | 'title4'
-  | 'subheading'
-  | 'label'
-  | 'listTitle'
-  | 'cardTitle'
-  | 'description'
-  | 'badge'
+    | 'title'
+    | 'title2'
+    | 'title3'
+    | 'title4'
+    | 'subheading'
+    | 'label'
+    | 'listTitle'
+    | 'cardTitle'
+    | 'description'
+    | 'badge'
 
 interface TypographyProps {
   as?: Component | VNode | keyof HTMLElementTagNameMap;
@@ -47,7 +47,6 @@ const props = withDefaults(defineProps<TypographyProps>(), {
 
 <style lang="scss" module>
 .title {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-h1);
   line-height: var(--lh-h1);
@@ -55,7 +54,6 @@ const props = withDefaults(defineProps<TypographyProps>(), {
 }
 
 .title2 {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-h2);
   font-weight: var(--fw-bold);
@@ -63,7 +61,6 @@ const props = withDefaults(defineProps<TypographyProps>(), {
 }
 
 .title3 {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
@@ -71,7 +68,6 @@ const props = withDefaults(defineProps<TypographyProps>(), {
 }
 
 .title4 {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-h4);
   line-height: var(--lh-h4);
@@ -79,50 +75,43 @@ const props = withDefaults(defineProps<TypographyProps>(), {
 }
 
 .subheading {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-subheading);
   line-height: var(--lh-subheading);
   font-weight: var(--fw-medium);
-  font-family: var(--ff-inter);
 }
 
 .text {
-  //color: var(--c-text);
+  color: var(--c-text-secondary);
   font-size: var(--fs-p);
   line-height: var(--lh-p);
   font-weight: var(--fw-medium);
-  font-family: var(--ff-inter);
+
 }
 
 .label {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-label);
   line-height: var(--lh-label);
   font-weight: var(--fw-medium);
+  font-family: var(--ff-inter);
 }
 
 .listTitle {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-list-title);
   line-height: var(--lh-list-title);
   font-weight: var(--fw-medium);
-  font-family: var(--ff-inter);
 }
 
 .cardTitle {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-card-title);
   line-height: var(--lh-card-title);
   font-weight: var(--fw-medium);
-  font-family: var(--ff-inter);
 }
 
 .description {
-  // TODO: Change color
   color: var(--c-description);
   font-size: var(--fs-description);
   line-height: var(--lh-description);
@@ -131,7 +120,6 @@ const props = withDefaults(defineProps<TypographyProps>(), {
 }
 
 .badge {
-  // TODO: Change color
   color: var(--c-text);
   font-size: var(--fs-badge);
   line-height: var(--lh-badge);
