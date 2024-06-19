@@ -16,10 +16,6 @@
   border-radius: var(--s-border-radius);
   background: var(--c-main-background);
 
-  @media screen and (max-width: 360px) {
-    background: var(--c-card-background);
-  }
-
   &:hover {
     background: var(--c-card-background-hovered);
   }

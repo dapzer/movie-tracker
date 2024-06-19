@@ -3,6 +3,7 @@
 import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
 import { UiImage } from '~/components/newUi/UiImage';
+import { NuxtLink } from "#components"
 
 interface UiMediaCardProps {
   imageSrc?: string;
@@ -36,6 +37,8 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
         <UiTypography
           :class="$style.title"
           variant="cardTitle"
+          :as="NuxtLink"
+          :to="props.linkUrl"
         >
           {{ props.title }}
         </UiTypography>
