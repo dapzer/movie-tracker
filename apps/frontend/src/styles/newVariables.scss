@@ -14,9 +14,14 @@ $bp-sm: 568px;
   --c-card-background-hovered: #1D1D1D;
   --c-text: #FFFFFF;
   --c-text-secondary: #D9D9D9;
-  --c-button-primary: #1475E6;
-  --c-button-secondary: #1C2631;
+  --c-button-background-primary: #1475E6;
+  --c-button-background-primary-hovered: #0061D2;
+  --c-button-background-secondary: #1C2631;
+  --c-button-background-secondary-hovered: #26303B;
+  --c-button-background-tertiary: rgba(198, 70, 70, 0.1);
+  --c-button-background-tertiary-hovered: rgba(198, 70, 70, 0.15);
   --c-label-secondary: #60A7FB;
+  --c-label-tertiary: #C64646;
   --c-description: #9F9F9F;
 
   /* Font Family */
@@ -129,7 +134,9 @@ $bp-sm: 568px;
   --s-container: calc(1200px + (var(--s-indent) * 2));
   --s-header-height: 68px;
   --s-border-radius: 8px;
+  --s-border-radius-medium: 6px;
   --s-border-radius-small: 4px;
+  --s-disabled-opacity: 0.5;
 
   /* Indexes */
 
