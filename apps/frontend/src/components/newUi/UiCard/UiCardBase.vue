@@ -32,6 +32,7 @@ const props = defineProps<UiCardBaseProps>()
 
 <style lang="scss" module>
 @import "~/styles/mixins";
+@import "~/styles/newVariables";
 
 .wrapper {
   @include card();

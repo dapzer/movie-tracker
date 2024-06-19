@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 
 <style lang="scss" module>
 @import '~/styles/mixins';
-@import '~/styles/variables';
+@import '~/styles/newVariables';
 
 .image {
   aspect-ratio: 2/3;

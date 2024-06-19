@@ -4,23 +4,6 @@
   background: $background;
 }
 
-@mixin card() {
-  width: 100%;
-  height: fit-content;
-  max-width: 300px;
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  gap: 16px;
-  position: relative;
-  border-radius: var(--s-border-radius);
-  background: var(--c-main-background);
-
-  &:hover {
-    background: var(--c-card-background-hovered);
-  }
-}
-
 @mixin slideFromRight($defaultShowedWidth) {
   transition: all .5s;
   transform: translateX(calc(100% - $defaultShowedWidth));
@@ -71,5 +54,26 @@
 @mixin desktopDevice() {
   @media screen and (min-width: $bp-md) {
     @content;
+  }
+}
+
+@mixin card() {
+  width: 100%;
+  height: fit-content;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 16px;
+  position: relative;
+  border-radius: var(--s-border-radius);
+  background: var(--c-main-background);
+
+  &:hover {
+    background: var(--c-card-background-hovered);
+  }
+
+  @include mobileDevice() {
+    gap: 12px;
   }
 }

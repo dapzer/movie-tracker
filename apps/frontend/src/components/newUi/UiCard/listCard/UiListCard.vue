@@ -39,14 +39,14 @@ const handleImageLoadingError = (index: number) => {
     <template #image>
       <div :class="$style.images">
         <div
-          v-for="num in 6"
-          :key="num"
+          v-for="number in 6"
+          :key="number"
           :class="$style.imagesItem"
         >
           <UiImage
-            v-if="imagesSrc?.[num - 1]"
-            :src="imagesSrc[num - 1]"
-            @error="handleImageLoadingError(num)"
+            v-if="imagesSrc?.[number - 1]"
+            :src="imagesSrc[number - 1]"
+            @error="handleImageLoadingError(number)"
           />
         </div>
       </div>
@@ -56,6 +56,7 @@ const handleImageLoadingError = (index: number) => {
       <div :class="$style.contentWrapper">
         <UiUserProfileLink
           v-if="props.userName && props.userUrl"
+          :class="$style.userProfileLink"
           :user-name="props.userName"
           :user-url="props.userUrl"
           :user-avatar-src="props.userUrl"
@@ -70,9 +71,24 @@ const handleImageLoadingError = (index: number) => {
 </template>
 
 <style lang="scss" module>
+@import '~/styles/mixins';
+@import '~/styles/newVariables';
+
 .wrapper {
   padding: 16px;
-  gap: 12px;
+  gap: 0;
+
+  @include mobileDevice {
+    padding: 10px;
+  }
+
+  .userProfileLink {
+    margin-top: 10px;
+
+    @include mobileDevice {
+      margin-top: 8px;
+    }
+  }
 
   .images {
     width: 100%;
@@ -106,13 +122,16 @@ const handleImageLoadingError = (index: number) => {
   .contentWrapper {
     display: flex;
     flex-direction: column;
-    gap: 12px;
 
     .content {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-top: 4px;
+      margin-top: 16px;
+
+      @include mobileDevice {
+        margin-top: 12px;
+      }
     }
   }
 }
