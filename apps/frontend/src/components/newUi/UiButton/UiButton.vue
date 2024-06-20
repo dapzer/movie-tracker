@@ -1,21 +1,34 @@
 <script setup lang="ts">
-export type UiButtonVariant = "primary" | "secondary" | "tertiary"
+export type UiButtonType = "boxed" | "outlined" | "text"
+export type UiButtonSize = "small" | "medium" | "large"
+export type UiButtonScheme = "primary" | "secondary" | "tertiary" | "link"
 
 interface UiButtonProps {
-  variant?: UiButtonVariant
+  type?: UiButtonType
+  size?: UiButtonSize
+  scheme?: UiButtonScheme
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
-  variant: "primary"
+  type: "boxed",
+  scheme: "primary",
+  size: "medium"
 })
 </script>
 
 <template>
   <button
     :class="[$style.default, {
-      [$style.primary]: props.variant === 'primary',
-      [$style.secondary]: props.variant === 'secondary',
-      [$style.tertiary]: props.variant === 'tertiary',
+      [$style.primary]: props.scheme === 'primary',
+      [$style.secondary]: props.scheme === 'secondary',
+      [$style.tertiary]: props.scheme === 'tertiary',
+      [$style.link]: props.scheme === 'link',
+      [$style.boxed]: props.type === 'boxed',
+      [$style.text]: props.type === 'text',
+      [$style.outlined]: props.type === 'outlined',
+      [$style.small]: props.size ==='small',
+      [$style.medium]: props.size ==='medium',
+      [$style.large]: props.size ==='large',
     }]"
   >
     <slot />
@@ -39,39 +52,95 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   }
 }
 
-.primary {
-  color: var(--c-text);
-  background: var(--c-button-background-primary);
-  padding: 12px 24px;
-  border-radius: var(--s-border-radius-medium);
+.boxed {
+  &.primary {
+    color: var(--c-text);
+    background: var(--c-button-background-primary);
 
-  &:active,
-  &:hover {
-    background: var(--c-button-background-primary-hovered);
+    &:active,
+    &:hover {
+      background: var(--c-button-background-primary-hovered);
+    }
+  }
+
+  &.secondary {
+    color: var(--c-label-secondary);
+    background: var(--c-button-background-secondary);
+
+    &:active,
+    &:hover {
+      background: var(--c-button-background-secondary-hovered);
+    }
+  }
+
+  &.tertiary {
+    color: var(--c-label-tertiary);
+    background: var(--c-button-background-tertiary);
+
+    &:active,
+    &:hover {
+      background: var(--c-button-background-tertiary-hovered);
+    }
+  }
+
+  &.large {
+    padding: 12px 24px;
+    border-radius: var(--s-border-radius-medium);
+  }
+
+  &.medium {
+    padding: 8px 12px;
+    border-radius: var(--s-border-radius-medium);
+  }
+
+  &.small {
+    padding: 8px 20px;
+    border-radius: var(--s-border-radius-medium);
   }
 }
 
-.secondary {
-  color: var(--c-label-secondary);
-  background: var(--c-button-background-secondary);
-  padding: 8px 12px;
-  border-radius: var(--s-border-radius-medium);
+.text {
+  &.primary {
+    color: var(--c-text);
 
-  &:active,
-  &:hover {
-    background: var(--c-button-background-secondary-hovered);
+    &:active,
+    &:hover {
+    }
+  }
+
+  &.secondary {
+    color: var(--c-label-secondary);
+
+    &:active,
+    &:hover {
+    }
+  }
+
+  &.tertiary {
+    color: var(--c-label-tertiary);
+
+    &:active,
+    &:hover {
+    }
+  }
+
+  &.link {
+    color: var(--c-label-link);
+
+    &:active,
+    &:hover {
+      color: var(--c-label-lihk-hovered);
+    }
+  }
+
+  &.large {
+  }
+
+  &.medium {
+  }
+
+  &.small {
   }
 }
 
-.tertiary {
-  color: var(--c-label-tertiary);
-  background: var(--c-button-background-tertiary);
-  padding: 8px 20px;
-  border-radius: var(--s-border-radius-medium);
-
-  &:active,
-  &:hover {
-    background: var(--c-button-background-tertiary-hovered);
-  }
-}
 </style>

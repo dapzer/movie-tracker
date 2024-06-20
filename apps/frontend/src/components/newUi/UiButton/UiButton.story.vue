@@ -1,46 +1,70 @@
 <script setup lang="ts">
 
-import UiButton from "~/components/newUi/UiButton/UiButton.vue"
+import UiButton, {
+  type UiButtonScheme,
+  type UiButtonSize,
+  type UiButtonType
+} from "~/components/newUi/UiButton/UiButton.vue"
 import { ref } from "vue"
 
+interface Option {
+  value: string
+  label: string
+}
+
 const disabled = ref(false)
+const typeOptions = (["boxed", "outlined", "text"] as UiButtonType[]).map((el) => {
+  return {
+    value: el,
+    label: el,
+  }
+})
+const type = ref<UiButtonType>("boxed")
+const sizeOptions: Option[] = (["small", "medium", "large"] as UiButtonSize[]).map((el) => {
+  return {
+    value: el,
+    label: el,
+  }
+})
+const size = ref<UiButtonSize>("medium")
+const schemeOptions: Option[] = (["primary", "secondary", "tertiary", 'link'] as UiButtonScheme[]).map((el) => {
+  return {
+    value: el,
+    label: el,
+  }
+})
+const schema = ref<UiButtonScheme>("primary")
 </script>
 
 <template>
-  <Story
-    title="UiButton"
-    :layout="{ type: 'grid', width: 150 }"
-  >
+  <Story title="UiButton">
     <template #default>
-      <Variant title="Primary">
-        <UiButton
-          variant="primary"
-          :disabled="disabled"
-        >
-          Button
-        </UiButton>
-      </Variant>
-
-      <Variant title="Secondary">
-        <UiButton
-          variant="secondary"
-          :disabled="disabled"
-        >
-          Button
-        </UiButton>
-      </variant>
-
-      <Variant title="Tertiary">
-        <UiButton
-          variant="tertiary"
-          :disabled="disabled"
-        >
-          Button
-        </UiButton>
-      </Variant>
+      <UiButton
+        :type="type"
+        :scheme="schema"
+        :size="size"
+        :disabled="disabled"
+      >
+        Button
+      </UiButton>
     </template>
 
     <template #controls>
+      <HstSelect
+        v-model="type"
+        title="Type"
+        :options="typeOptions"
+      />
+      <HstSelect
+        v-model="size"
+        title="Size"
+        :options="sizeOptions"
+      />
+      <HstSelect
+        v-model="schema"
+        title="Type"
+        :options="schemeOptions"
+      />
       <HstCheckbox
         v-model="disabled"
         title="Disabled"
