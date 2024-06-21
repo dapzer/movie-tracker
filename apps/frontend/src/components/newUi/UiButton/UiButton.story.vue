@@ -6,6 +6,7 @@ import UiButton, {
   type UiButtonType
 } from "~/components/newUi/UiButton/UiButton.vue"
 import { ref } from "vue"
+import { EyeIcon } from "~/components/ui/icons"
 
 interface Option {
   value: string
@@ -13,7 +14,7 @@ interface Option {
 }
 
 const disabled = ref(false)
-const typeOptions = (["boxed", "outlined", "text"] as UiButtonType[]).map((el) => {
+const typeOptions = (["boxed", "outlined", "text", "icon"] as UiButtonType[]).map((el) => {
   return {
     value: el,
     label: el,
@@ -39,14 +40,26 @@ const schema = ref<UiButtonScheme>("primary")
 <template>
   <Story title="UiButton">
     <template #default>
-      <UiButton
-        :type="type"
-        :scheme="schema"
-        :size="size"
-        :disabled="disabled"
-      >
-        Button
-      </UiButton>
+      <Variant title="Basic">
+        <UiButton
+          :type="type"
+          :scheme="schema"
+          :size="size"
+          :disabled="disabled"
+        >
+          Button
+        </UiButton>
+      </Variant>
+      <Variant title="Icon">
+        <UiButton
+          type="icon"
+          :scheme="schema"
+          :size="size"
+          :disabled="disabled"
+        >
+          <EyeIcon />
+        </UiButton>
+      </Variant>
     </template>
 
     <template #controls>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-export type UiButtonType = "boxed" | "outlined" | "text"
+export type UiButtonType = "boxed" | "outlined" | "text" | "icon"
 export type UiButtonSize = "small" | "medium" | "large"
 export type UiButtonScheme = "primary" | "secondary" | "tertiary" | "link"
 
@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.boxed]: props.type === 'boxed',
       [$style.text]: props.type === 'text',
       [$style.outlined]: props.type === 'outlined',
+      [$style.icon]: props.type === 'icon',
       [$style.small]: props.size ==='small',
       [$style.medium]: props.size ==='medium',
       [$style.large]: props.size ==='large',
@@ -99,6 +100,47 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   }
 }
 
+.outlined {
+  &.primary {
+    color: var(--c-text-secondary);
+    border: 1px solid var(--c-stroke);
+    background: transparent;
+
+    &:active,
+    &:hover {
+      background: var(--c-stroke);
+    }
+  }
+
+  &.secondary {
+    color: var(--c-label-link);
+    border: 1px solid var(--c-button-link-border);
+    background: transparent;
+
+
+    &:active,
+    &:hover {
+      background: var(--c-button-background-secondary-hovered);
+    }
+  }
+
+  &.tertiary {
+  }
+
+  &.large {
+    padding: 8px 16px;
+    border-radius: var(--s-border-radius-medium);
+  }
+
+  &.medium {
+    padding: 6px 14px;
+    border-radius: var(--s-border-radius-medium);
+  }
+
+  &.small {
+  }
+}
+
 .text {
   &.primary {
     color: var(--c-text);
@@ -140,6 +182,34 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   }
 
   &.small {
+  }
+}
+
+.icon {
+  aspect-ratio: 1 / 1;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.primary {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+
+    color: var(--c-text-secondary);
+    border: 1px solid var(--c-stroke);
+    background: transparent;
+
+    &:hover {
+      background: var(--c-stroke);
+    }
+
+    &:active {
+      background: var(--c-button-background-secondary-hovered);
+      border-color: var(--c-button-background-secondary-hovered);
+      color: var(--c-label-secondary);
+    }
   }
 }
 
