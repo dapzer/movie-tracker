@@ -47,6 +47,7 @@
     "@tanstack/vue-query": "^5.41.0",
     "@yeger/vue-masonry-wall": "^5.0.10",
     "sass": "^1.77.4",
+    "vue-multiselect": "^3.0.0",
     "vue3-toastify": "^0.2.1",
     "yup": "^1.4.0"
   }

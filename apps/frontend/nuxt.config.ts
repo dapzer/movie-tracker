@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import * as path from "node:path"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -75,7 +76,7 @@ export default defineNuxtConfig({
     mode: 'init',
     debug: process.env.NODE_ENV !== "production"
   },
-  css: ["@/styles/global.scss", "@/styles/variables.scss"],
+  css: ["@/styles/global.scss", "@/styles/variables.scss", path.resolve(__dirname, 'node_modules/vue-multiselect/dist/vue-multiselect.ssr.css')],
   imports: {
     autoImport: false
   },

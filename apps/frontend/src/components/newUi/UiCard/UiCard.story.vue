@@ -37,6 +37,7 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
           :imageSrc="getPlaceholderImageUrl(179, 277)"
           description="Jan 07 2024, USA"
           title="Movie Title"
+          link-url=""
         />
       </Variant>
 
