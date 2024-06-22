@@ -138,4 +138,8 @@ z
   }
 }
 
+.multiselect--disabled {
+  background: transparent;
+  opacity: var(--s-disabled-opacity);
+}
 </style>

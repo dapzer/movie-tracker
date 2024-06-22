@@ -70,6 +70,7 @@ const options = [
   },
 ] satisfies OptionType[]
 const value = ref(options[0])
+const disabled = ref(false)
 </script>
 
 <template>
@@ -78,6 +79,14 @@ const value = ref(options[0])
       <UiSelect
         v-model="value"
         :options="options"
+        :disabled="disabled"
+      />
+    </template>
+
+    <template #controls>
+      <HstCheckbox
+        v-model="disabled"
+        title="Disabled"
       />
     </template>
   </Story>
