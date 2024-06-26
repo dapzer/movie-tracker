@@ -15,3 +15,4 @@ export { default as SettingsIcon } from "~/assets/svg/icons/settings.svg";
 export { default as TrashIcon } from "~/assets/svg/icons/trash.svg";
 export { default as ChartCandleIcon } from "~/assets/svg/icons/chart-candle.svg";
 export { default as EyeIcon } from "~/assets/svg/icons/eye.svg"
+export { default as ArrowRightIcon } from "~/assets/svg/icons/arrowRight.svg"

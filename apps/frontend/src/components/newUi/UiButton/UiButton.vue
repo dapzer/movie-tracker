@@ -1,5 +1,5 @@
 <script setup lang="ts">
-export type UiButtonType = "boxed" | "outlined" | "text" | "icon"
+export type UiButtonType = "boxed" | "outlined" | "text" | "icon" | "rounded"
 export type UiButtonSize = "small" | "medium" | "large"
 export type UiButtonScheme = "primary" | "secondary" | "tertiary" | "link"
 
@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.boxed]: props.type === 'boxed',
       [$style.text]: props.type === 'text',
       [$style.outlined]: props.type === 'outlined',
+      [$style.rounded]: props.type === 'rounded',
       [$style.icon]: props.type === 'icon',
       [$style.small]: props.size ==='small',
       [$style.medium]: props.size ==='medium',
@@ -193,10 +194,6 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   justify-content: center;
 
   &.primary {
-    width: 32px;
-    height: 32px;
-    padding: 7px;
-
     color: var(--c-text-secondary);
     border: 1px solid var(--c-stroke);
     background: transparent;
@@ -210,6 +207,34 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       border-color: var(--c-button-background-secondary-hovered);
       color: var(--c-label-secondary);
     }
+  }
+
+  &.medium {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+  }
+}
+
+.rounded {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.primary {
+    color: var(--c-white-80);
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--c-white-12);
+
+    &:active,
+    &:hover {
+      background: var(--c-gray-40);
+    }
+  }
+
+  &.medium {
+    padding: 30px 10px;
+    border-radius: 30px;
   }
 }
 
