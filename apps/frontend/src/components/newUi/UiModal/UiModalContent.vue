@@ -61,7 +61,7 @@ onUnmounted(() => {
           </UiTypography>
           <UiButton
             :class="$style.closeButton"
-            type="text"
+            variant="text"
             @click="emits('handleClose')"
           >
             <CrossIcon />

@@ -3,7 +3,7 @@
 import UiButton, {
   type UiButtonScheme,
   type UiButtonSize,
-  type UiButtonType
+  type UiButtonVariant
 } from "~/components/newUi/UiButton/UiButton.vue"
 import { ref } from "vue"
 import { ArrowRightIcon, EyeIcon } from "~/components/ui/icons"
@@ -14,13 +14,13 @@ interface Option {
 }
 
 const disabled = ref(false)
-const typeOptions = (["boxed", "outlined", "text", "icon"] as UiButtonType[]).map((el) => {
+const typeOptions = (["boxed", "outlined", "text", "icon"] as UiButtonVariant[]).map((el) => {
   return {
     value: el,
     label: el,
   }
 })
-const type = ref<UiButtonType>("boxed")
+const type = ref<UiButtonVariant>("boxed")
 const sizeOptions: Option[] = (["small", "medium", "large"] as UiButtonSize[]).map((el) => {
   return {
     value: el,
@@ -42,7 +42,7 @@ const schema = ref<UiButtonScheme>("primary")
     <template #default>
       <Variant title="Basic">
         <UiButton
-          :type="type"
+          :variant="type"
           :scheme="schema"
           :size="size"
           :disabled="disabled"
@@ -52,7 +52,7 @@ const schema = ref<UiButtonScheme>("primary")
       </Variant>
       <Variant title="Icon">
         <UiButton
-          type="icon"
+          variant="icon"
           :scheme="schema"
           :size="size"
           :disabled="disabled"
@@ -63,7 +63,7 @@ const schema = ref<UiButtonScheme>("primary")
 
       <Variant title="Rounded">
         <UiButton
-          type="rounded"
+          variant="rounded"
           :scheme="schema"
           :size="size"
           :disabled="disabled"

@@ -67,7 +67,7 @@ const onNextButtonClick = () => {
         <UiButton
           v-if="!prevBtnDisabled"
           class="embla__button-prev"
-          type="rounded"
+          variant="rounded"
           @click="onPrevButtonClick"
         >
           <ArrowRightIcon />
@@ -75,7 +75,7 @@ const onNextButtonClick = () => {
         <UiButton
           v-if="!nextBtnDisabled"
           class="embla__button-next"
-          type="rounded"
+          variant="rounded"
           @click="onNextButtonClick"
         >
           <ArrowRightIcon />

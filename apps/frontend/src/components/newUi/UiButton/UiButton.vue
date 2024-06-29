@@ -1,17 +1,16 @@
 <script setup lang="ts">
-export type UiButtonType = "boxed" | "outlined" | "text" | "icon" | "rounded"
+export type UiButtonVariant = "boxed" | "outlined" | "text" | "icon" | "rounded"
 export type UiButtonSize = "small" | "medium" | "large"
 export type UiButtonScheme = "primary" | "secondary" | "tertiary" | "link"
 
 interface UiButtonProps {
-  // TODO: Rename to variant
-  type?: UiButtonType
+  variant?: UiButtonVariant
   size?: UiButtonSize
   scheme?: UiButtonScheme
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
-  type: "boxed",
+  variant: "boxed",
   scheme: "primary",
   size: "medium"
 })
@@ -24,11 +23,11 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.secondary]: props.scheme === 'secondary',
       [$style.tertiary]: props.scheme === 'tertiary',
       [$style.link]: props.scheme === 'link',
-      [$style.boxed]: props.type === 'boxed',
-      [$style.text]: props.type === 'text',
-      [$style.outlined]: props.type === 'outlined',
-      [$style.rounded]: props.type === 'rounded',
-      [$style.icon]: props.type === 'icon',
+      [$style.boxed]: props.variant === 'boxed',
+      [$style.text]: props.variant === 'text',
+      [$style.outlined]: props.variant === 'outlined',
+      [$style.rounded]: props.variant === 'rounded',
+      [$style.icon]: props.variant === 'icon',
       [$style.small]: props.size ==='small',
       [$style.medium]: props.size ==='medium',
       [$style.large]: props.size ==='large',
@@ -59,7 +58,8 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &.primary {
     color: var(--c-text);
     background: var(--c-button-background-primary);
-    // TODO: Add focus
+
+    &:focus,
     &:active,
     &:hover {
       background: var(--c-button-background-primary-hovered);
@@ -70,6 +70,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     color: var(--c-label-secondary);
     background: var(--c-button-background-secondary);
 
+    &:focus,
     &:active,
     &:hover {
       background: var(--c-button-background-secondary-hovered);
@@ -80,6 +81,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     color: var(--c-label-tertiary);
     background: var(--c-button-background-tertiary);
 
+    &:focus,
     &:active,
     &:hover {
       background: var(--c-button-background-tertiary-hovered);
@@ -108,6 +110,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     border: 1px solid var(--c-stroke);
     background: transparent;
 
+    &:focus,
     &:active,
     &:hover {
       background: var(--c-stroke);
@@ -119,7 +122,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     border: 1px solid var(--c-button-link-border);
     background: transparent;
 
-
+    &:focus,
     &:active,
     &:hover {
       background: var(--c-button-background-secondary-hovered);
@@ -147,6 +150,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &.primary {
     color: var(--c-text);
 
+    &:focus,
     &:active,
     &:hover {
     }
@@ -155,6 +159,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &.secondary {
     color: var(--c-label-secondary);
 
+    &:focus,
     &:active,
     &:hover {
     }
@@ -163,6 +168,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &.tertiary {
     color: var(--c-label-tertiary);
 
+    &:focus,
     &:active,
     &:hover {
     }
@@ -171,6 +177,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &.link {
     color: var(--c-label-link);
 
+    &:focus,
     &:active,
     &:hover {
       color: var(--c-label-lihk-hovered);
@@ -199,6 +206,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     border: 1px solid var(--c-stroke);
     background: transparent;
 
+    &:focus,
     &:hover {
       background: var(--c-stroke);
     }
@@ -227,6 +235,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid var(--c-white-12);
 
+    &:focus,
     &:active,
     &:hover {
       background: var(--c-gray-40);
