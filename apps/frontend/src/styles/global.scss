@@ -32,23 +32,10 @@ html {
 
 // Scroll
 
-*::-webkit-scrollbar {
-  display: block;
-  width: 8px;
-  height: 6px;
-  cursor: pointer;
-  position: unset;
+* {
+  @include scrollbar();
 }
 
-*::-webkit-scrollbar-track {
-  border-radius: 2px;
-  background: var(--c-primary)
-}
-
-*::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: var(--c-highlight)
-}
 
 img {
   width: 100%;

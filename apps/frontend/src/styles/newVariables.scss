@@ -12,6 +12,7 @@ $bp-sm: 568px;
   --c-main-background: #0D0D0D;
   --c-card-background: #121212;
   --c-card-background-hovered: #1D1D1D;
+  --c-black-90: rgba(3, 3, 3, 0.9);
   --c-white-12: rgba(255, 255, 255, 0.12);
   --c-white-80: rgba(255, 255, 255, 0.8);
   --c-gray-40: rgba(50, 50, 50, 0.4);
@@ -162,6 +163,7 @@ $bp-sm: 568px;
   --s-indent: 24px;
   --s-container: calc(1200px + (var(--s-indent) * 2));
   --s-header-height: 68px;
+  --s-border-radius-huge: 12px;
   --s-border-radius: 8px;
   --s-border-radius-medium: 6px;
   --s-border-radius-small: 4px;
@@ -175,6 +177,7 @@ $bp-sm: 568px;
   /* Indexes */
 
   --i-dropdown: 50;
+  --i-modal: 100;
 
   /* Lib */
 

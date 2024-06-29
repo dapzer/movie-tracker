@@ -80,6 +80,7 @@
 
 @mixin scrollbar() {
   &::-webkit-scrollbar {
+    width: 8px;
     display: block;
     height: 4px;
     position: unset;

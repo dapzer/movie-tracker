@@ -4,6 +4,7 @@ export type UiButtonSize = "small" | "medium" | "large"
 export type UiButtonScheme = "primary" | "secondary" | "tertiary" | "link"
 
 interface UiButtonProps {
+  // TODO: Rename to variant
   type?: UiButtonType
   size?: UiButtonSize
   scheme?: UiButtonScheme
@@ -58,7 +59,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &.primary {
     color: var(--c-text);
     background: var(--c-button-background-primary);
-
+    // TODO: Add focus
     &:active,
     &:hover {
       background: var(--c-button-background-primary-hovered);
