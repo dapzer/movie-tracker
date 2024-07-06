@@ -18,6 +18,8 @@ const variants: TypographyVariant[] = [
   'description',
   'badge',
 ];
+
+const schema = ref(undefined);
 </script>
 
 <template>
@@ -29,6 +31,7 @@ const variants: TypographyVariant[] = [
         :title="variant"
       >
         <UiTypography
+          :schema="schema"
           :variant="variant"
         >
           {{ text }}
@@ -41,6 +44,14 @@ const variants: TypographyVariant[] = [
       <HstText
         v-model="text"
         title="default slot"
+      />
+      <HstSelect
+        v-model="schema"
+        :options="[{
+          value: undefined,
+          label: 'default',
+        },'link']"
+        title="schema"
       />
     </template>
   </Story>

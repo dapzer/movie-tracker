@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
 
+export type TypographySchema = 'link'
 export type TypographyVariant = 'text'
     | 'title'
     | 'title2'
@@ -16,6 +17,7 @@ export type TypographyVariant = 'text'
 interface TypographyProps {
   as?: ComponentOrTag;
   variant?: TypographyVariant;
+  schema?: TypographySchema;
 }
 
 const props = withDefaults(defineProps<TypographyProps>(), {
@@ -39,6 +41,8 @@ const props = withDefaults(defineProps<TypographyProps>(), {
       [$style.cardTitle]: variant === 'cardTitle',
       [$style.description]: variant === 'description',
       [$style.badge]: variant === 'badge',
+      [$style.badge]: variant === 'badge',
+      [$style.link]: schema === 'link',
     }"
   >
     <slot />
@@ -127,19 +131,14 @@ const props = withDefaults(defineProps<TypographyProps>(), {
   font-family: var(--ff-inter);
 }
 
-//.linkUnderlined,
-//.link {
-//  color: var(--c-text);
-//  font-size: var(--fs-p);
-//  font-weight: var(--fw-regular);
-//  cursor: pointer;
-//  text-decoration: none;
-//  height: fit-content;
-//  line-height: 1;
-//
-//  &:hover {
-//    color: var(--c-highlight);
-//    border-color: var(--c-highlight) !important;
-//  }
-//}
+.link {
+  color: var(--c-label-link);
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: var(--c-label-lihk-hovered);
+  }
+}
 </style>
