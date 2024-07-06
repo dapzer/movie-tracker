@@ -22,7 +22,7 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
           :side="side"
         >
           <template #trigger>
-            <UiTypography>Hover me</UiTypography>
+            <UiTypography>Click me</UiTypography>
           </template>
 
           <template #content>
