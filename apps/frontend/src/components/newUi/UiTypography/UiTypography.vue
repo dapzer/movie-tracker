@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Component, VNode } from 'vue';
+import type { ComponentOrTag } from "~/types/ComponentOrTag"
 
 export type TypographyVariant = 'text'
     | 'title'
@@ -14,7 +14,7 @@ export type TypographyVariant = 'text'
     | 'badge'
 
 interface TypographyProps {
-  as?: Component | VNode | keyof HTMLElementTagNameMap;
+  as?: ComponentOrTag;
   variant?: TypographyVariant;
 }
 

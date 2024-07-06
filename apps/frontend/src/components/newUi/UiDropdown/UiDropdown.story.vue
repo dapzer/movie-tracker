@@ -1,0 +1,77 @@
+<script setup lang="ts">
+
+import { UiDropdown } from "~/components/newUi/UiDropdown"
+import { UiTypography } from "~/components/newUi/UiTypography"
+import UiContainer from "~/components/ui/UiContainer.vue"
+import UiDropdownGroup from "~/components/newUi/UiDropdown/UiDropdownGroup.vue"
+import UiDropdownItem from "~/components/newUi/UiDropdown/UiDropdownItem.vue"
+import UiDropdownSeparator from "~/components/newUi/UiDropdown/UiDropdownSeparator.vue"
+import { ref } from "vue"
+
+const align = ref<'start' | 'center' | 'end'>('start')
+const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
+</script>
+
+<template>
+  <Story title="UiDropdown">
+    <template #default>
+      <UiContainer>
+        <UiDropdown
+          :align="align"
+          :indent="24"
+          :side="side"
+        >
+          <template #trigger>
+            <UiTypography>Hover me</UiTypography>
+          </template>
+
+          <template #content>
+            <UiDropdownGroup>
+              <UiDropdownItem>
+                <template #content>
+                  First item
+                </template>
+              </UiDropdownItem>
+              <UiDropdownItem>
+                <template #content>
+                  Second item
+                </template>
+              </UiDropdownItem>
+              <UiDropdownItem>
+                <template #content>
+                  Third item
+                </template>
+              </UiDropdownItem>
+            </UiDropdownGroup>
+            <UiDropdownSeparator />
+
+            <UiTypography>
+              Basic text, not dropdown item
+            </UiTypography>
+          </template>
+        </UiDropdown>
+      </UiContainer>
+    </template>
+
+    <template #controls>
+      <HstSelect
+        v-model="align"
+        title="Align"
+        :options="['start', 'center', 'end']"
+      />
+      <HstSelect
+        v-model="side"
+        title="Side"
+        :options="['top', 'right', 'bottom', 'left']"
+      />
+    </template>
+  </Story>
+</template>
+
+<style module lang="scss">
+.right {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
