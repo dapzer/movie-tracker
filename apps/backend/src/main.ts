@@ -26,9 +26,9 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('/api');
-  // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
-  // app.useGlobalFilters(new HttpExceptionFilter());
-  // app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter));
+  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter));
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.use(cookieParser(configService.get('COOKIE_SECRET')));
   app.use(

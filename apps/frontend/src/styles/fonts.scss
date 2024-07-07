@@ -1,0 +1,155 @@
+/* Bold */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Bold.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Bold.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Bold.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Extra Light */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraLight.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraLight.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraLight.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraLight.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+/* Light */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Light.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Light.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Light.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Light.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Medium */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Medium.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Medium.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Medium.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Medium.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Regular */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Regular.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Regular.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Regular.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Thin */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Thin.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Thin.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Thin.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Thin.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* Extra Bold */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraBold.eot');
+  src: url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraBold.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraBold.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraBold.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnicaPro/NeueHaasUnica-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-Thin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-ExtraLight.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-ExtraBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../public/fonts/inter/Inter-Black.woff2") format("woff2");
+}

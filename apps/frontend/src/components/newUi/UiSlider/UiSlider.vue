@@ -7,7 +7,7 @@ import emblaCarouselVue from "embla-carousel-vue"
 
 interface UiSliderProps<T> {
   data: T[]
-  maxWidth: number
+  maxWidth?: number
 }
 
 const props = defineProps<UiSliderProps<T>>()
@@ -52,7 +52,7 @@ const onNextButtonClick = () => {
         :key="index"
         class="embla__slide"
         :style="{
-          '--max-width': `${props.maxWidth}px`,
+          '--max-width': props.maxWidth ? `${props.maxWidth}px`: '100%',
 
         }"
       >

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-export type UiButtonVariant = "boxed" | "outlined" | "text" | "icon" | "rounded"
+export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded"
 export type UiButtonSize = "small" | "medium" | "large"
-export type UiButtonScheme = "primary" | "secondary" | "tertiary" | "link"
+export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link"
 
 interface UiButtonProps {
   variant?: UiButtonVariant

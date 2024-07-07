@@ -14,7 +14,7 @@ interface Option {
 }
 
 const disabled = ref(false)
-const typeOptions = (["boxed", "outlined", "text", "icon"] as UiButtonVariant[]).map((el) => {
+const typeOptions = (["default", "boxed", "outlined", "text", "icon"] as UiButtonVariant[]).map((el) => {
   return {
     value: el,
     label: el,
@@ -28,7 +28,7 @@ const sizeOptions: Option[] = (["small", "medium", "large"] as UiButtonSize[]).m
   }
 })
 const size = ref<UiButtonSize>("medium")
-const schemeOptions: Option[] = (["primary", "secondary", "tertiary", 'link'] as UiButtonScheme[]).map((el) => {
+const schemeOptions: Option[] = (["default", "primary", "secondary", "tertiary", 'link'] as UiButtonScheme[]).map((el) => {
   return {
     value: el,
     label: el,

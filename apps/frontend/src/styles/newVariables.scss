@@ -14,6 +14,7 @@ $bp-sm: 568px;
   --c-card-background-hovered: #1D1D1D;
   --c-black-90: rgba(3, 3, 3, 0.9);
   --c-white-12: rgba(255, 255, 255, 0.12);
+  --c-white-15: rgba(255, 255, 255, 0.15);
   --c-white-80: rgba(255, 255, 255, 0.8);
   --c-white-35: rgba(255, 255, 255, 0.35);
   --c-gray-40: rgba(50, 50, 50, 0.4);
@@ -28,6 +29,8 @@ $bp-sm: 568px;
   --c-text-secondary: #D9D9D9;
   --c-error: #FF9288;
   --c-error-2: #D4382B;
+  --c-blue: #78B6FF;
+  --c-blue-15: rgba(20, 117, 230, 0.15);
   --c-stroke: #3D3D3D;
   --c-stroke-2: #272727;
   --c-button-background-primary: #1475E6;
@@ -47,7 +50,7 @@ $bp-sm: 568px;
 
   --ff-fallback: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
   Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --ff-neue-haas: 'Neue Haas Unica Pro', sans-serif;
+  --ff-neue-haas: 'NeueHaasUnica', sans-serif;
   --ff-inter: 'Inter', sans-serif;
 
   /* Font Sizes */
@@ -59,6 +62,7 @@ $bp-sm: 568px;
   --fs-subheading: 1.25rem; /* 20px */
   --fs-p: 1rem; /* 16px */
   --fs-label: 1rem; /* 16px */
+  --fs-label-small: 0.875rem; /* 14px */
   --fs-list-title: 1.125rem; /* 18px */
   --fs-card-title: 1rem; /* 16px */
   --fs-description: 0.875rem; /* 14px */
@@ -75,6 +79,7 @@ $bp-sm: 568px;
     --fs-subheading: 1.125rem; /* 18px */
     --fs-p: 1rem; /* 16px */
     --fs-label: 1rem; /* 16px */
+    --fs-label-small: 0.875rem; /* 14px */
     --fs-list-title: 1.125rem; /* 18px */
     --fs-card-title: 1rem; /* 16px */
     --fs-description: 0.875rem; /* 14px */
@@ -92,6 +97,7 @@ $bp-sm: 568px;
     --fs-subheading: 0.875rem; /* 14px */
     --fs-p: 0.875rem; /* 14px */
     --fs-label: 1rem; /* 16px */
+    --fs-label-small: 0.875rem; /* 14px */
     --fs-list-title: 1rem; /* 10px */
     --fs-card-title: 1rem; /* 16px */
     --fs-description: 0.75rem; /* 12px */
@@ -110,6 +116,7 @@ $bp-sm: 568px;
   --lh-subheading: 1.75rem;
   --lh-p: 1.5rem;
   --lh-label: 1.25rem;
+  --lh-label-small: 1.25rem;
   --lh-list-title: 1.25rem;
   --lh-card-title: 1.25rem;
   --lh-description: 1.125rem;
@@ -126,6 +133,7 @@ $bp-sm: 568px;
     --lh-subheading: 1.375rem;
     --lh-p: 1.5rem;
     --lh-label: 1.5rem;
+    --lh-label-small: 1.25rem;
     --lh-list-title: 1.25rem;
     --lh-card-title: 1.25rem;
     --lh-description: 1.125rem;
@@ -143,6 +151,7 @@ $bp-sm: 568px;
     --lh-subheading: 1.375rem;
     --lh-p: 1.25rem;
     --lh-label: 1.25rem;
+    --lh-label-small: 1.25rem;
     --lh-list-title: 1.375rem;
     --lh-card-title: 1.25rem;
     --lh-description: 1.125rem;
