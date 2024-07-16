@@ -2,8 +2,12 @@
 import { NuxtLink } from "#components";
 
 interface UiCardBaseProps {
-  width?: number;
+  width?: number | string;
+  height?: number | string;
   linkUrl?: string;
+  // For horizontal card only
+  imageWidth?: number | string;
+  horizontal?: boolean;
 }
 
 const props = defineProps<UiCardBaseProps>()
@@ -11,9 +15,13 @@ const props = defineProps<UiCardBaseProps>()
 
 <template>
   <div
-    :class="[$style.wrapper]"
+    :class="[$style.wrapper, {
+      [$style.horizontal]: props.horizontal
+    }]"
     :style="{
-      '--maxWidth': Number.isInteger(props.width) ? `${props.width}px` : (props.width || 'unset')
+      '--maxWidth': Number.isInteger(props.width) ? `${props.width}px` : (props.width || 'unset'),
+      '--maxHeight': Number.isInteger(props.height) ? `${props.height}px` : (props.height || 'unset'),
+      '--imageMaxWidth': Number.isInteger(props.imageWidth) ? `${props.imageWidth}px` : (props.imageWidth || 'unset')
     }"
   >
     <component
@@ -37,6 +45,16 @@ const props = defineProps<UiCardBaseProps>()
 .wrapper {
   @include card();
   max-width: var(--maxWidth);
+  max-height: var(--maxHeight);
+
+  &.horizontal {
+    flex-direction: row;
+    align-items: flex-start;
+
+    .imageWrapper {
+      max-width: var(--imageMaxWidth);
+    }
+  }
 
   .imageWrapper {
     display: flex;

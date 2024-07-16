@@ -31,6 +31,32 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
       </Variant>
 
       <Variant
+        title="BaseHorizontal"
+      >
+        <UiCardBase
+          horizontal
+          :image-width="89"
+          :height="149"
+        >
+          <template #image>
+            <img
+              :class="$style.image"
+              alt="placeholder"
+              :src="getPlaceholderImageUrl(89, 133)"
+            >
+          </template>
+          <template #content>
+            <UiTypography variant="cardTitle">
+              Card Title
+            </UiTypography>
+            <UiTypography variant="text">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
+            </UiTypography>
+          </template>
+        </UiCardBase>
+      </Variant>
+
+      <Variant
         title="MediaCard"
       >
         <UiMediaCard
