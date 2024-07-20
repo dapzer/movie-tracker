@@ -223,6 +223,9 @@ importers:
       sass:
         specifier: ^1.77.4
         version: 1.77.4
+      vaul-vue:
+        specifier: ^0.2.0
+        version: 0.2.0(radix-vue@1.8.5)(vue@3.4.27)
       vue-multiselect:
         specifier: ^3.0.0
         version: 3.0.0
@@ -18147,6 +18150,19 @@ packages:
   /vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+
+  /vaul-vue@0.2.0(radix-vue@1.8.5)(vue@3.4.27):
+    resolution: {integrity: sha512-YV0zqxc8NiVzr1z/Awwbaty0UDDchxj5BfhFbLiYu+Uz0rCfSaDK2zwmuXZvejBJKLGbWw9I5GLHJRse14lQew==}
+    peerDependencies:
+      radix-vue: ^1.4.0
+      vue: ^3.3.0
+    dependencies:
+      '@vueuse/core': 10.10.0(vue@3.4.27)
+      radix-vue: 1.8.5(vue@3.4.27)
+      vue: 3.4.27(typescript@5.4.5)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
 
   /vite-hot-client@0.2.3(vite@5.2.13):
     resolution: {integrity: sha512-rOGAV7rUlUHX89fP2p2v0A2WWvV3QMX2UYq0fRqsWSvFvev4atHWqjwGoKaZT1VTKyLGk533ecu3eyd0o59CAg==}

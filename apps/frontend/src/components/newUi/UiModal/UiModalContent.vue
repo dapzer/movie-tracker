@@ -113,6 +113,10 @@ onUnmounted(() => {
         padding: 4px;
         line-height: 0;
 
+        svg {
+          width: 12px;
+        }
+
         &:active,
         &:focus,
         &:hover {

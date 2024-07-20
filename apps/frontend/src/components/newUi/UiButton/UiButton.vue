@@ -223,6 +223,12 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     height: 32px;
     padding: 7px;
   }
+
+  &.small {
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+  }
 }
 
 .rounded {

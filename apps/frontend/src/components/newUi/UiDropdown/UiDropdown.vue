@@ -25,7 +25,7 @@ defineOptions({
     >
       <slot name="trigger" />
     </DropdownMenuTrigger>
-    <DropdownMenuPortal :style="{background: 'red'}">
+    <DropdownMenuPortal>
       <DropdownMenuContent
         :class="$style.contentWrapper"
         :align="props.align"
