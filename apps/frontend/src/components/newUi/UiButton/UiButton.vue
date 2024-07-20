@@ -46,6 +46,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   font-family: var(--ff-inter);
   font-size: var(--fs-label);
   line-height: var(--lh-label);
+  font-weight: var(--fw-medium);
   width: fit-content;
 
   &:disabled {
