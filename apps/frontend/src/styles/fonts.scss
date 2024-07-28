@@ -10,6 +10,18 @@
   font-style: normal;
 }
 
+/* Bold */
+@font-face {
+  font-family: 'NeueHaasUnica';
+  src: url('../public/fonts/NeueHaasUnica/NeueHaasUnica-Black.eot');
+  src: url('../public/fonts/NeueHaasUnica/NeueHaasUnica-Black.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/NeueHaasUnica/NeueHaasUnica-Black.woff2') format('woff2'),
+  url('../public/fonts/NeueHaasUnica/NeueHaasUnica-Black.woff') format('woff'),
+  url('../public/fonts/NeueHaasUnica/NeueHaasUnica-Black.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
 /* Extra Light */
 @font-face {
   font-family: 'NeueHaasUnica';

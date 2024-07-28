@@ -15,7 +15,7 @@
   min-height: 100%;
 
   main {
-    padding: calc(var(--s-header-height) + 16px) 0;
+    padding: calc(var(--s-header-height)) 0;
     flex: 1 1 auto;
 
     @media screen and (max-width: var(--bp-md)) {
