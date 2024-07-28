@@ -165,7 +165,17 @@ export default {
   },
   navigation: {
     home: 'Поиск',
-    lists: 'Мои списки',
+    lists: 'Списки',
+    myLists: 'Мои списки',
+    accountSettings: 'Настройки аккаунта',
+    about: "О сервисе",
+    faq: "FAQ",
+    features: "Возможности",
+  },
+  footer: {
+    copyright: 'Copyright © 2024 Movie Tracker. Все права защищены.',
+    dataSource: 'Источник данных для всех фильмов',
+    description: `Будьте в курсе всех ваших любимых игр, создавайте персонализированные \nсписки наблюдения и ищите новые впечатления.`,
   },
   search: {
     title: 'Найти фильм, сериал, персону...',

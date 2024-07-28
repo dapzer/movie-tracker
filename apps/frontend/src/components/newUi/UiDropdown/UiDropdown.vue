@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<UiDropdown>(), {
   indent: 0,
   align: "start"
 })
+const model = defineModel<boolean>()
 
 defineOptions({
   inheritAttrs: false
@@ -19,7 +20,7 @@ defineOptions({
 </script>
 
 <template>
-  <DropdownMenuRoot>
+  <DropdownMenuRoot v-model:open="model">
     <DropdownMenuTrigger
       :class="$style.trigger"
     >

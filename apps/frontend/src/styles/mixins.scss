@@ -45,6 +45,12 @@
   }
 }
 
+@mixin mobilePlusDevice() {
+  @media screen and (max-width: $bp-sm-plus) {
+    @content;
+  }
+}
+
 @mixin tabletDevice() {
   @media screen and (max-width: $bp-md) {
     @content;

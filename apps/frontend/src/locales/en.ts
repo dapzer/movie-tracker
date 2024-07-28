@@ -1,5 +1,5 @@
-export default  {
-  auth:{
+export default {
+  auth: {
     signIn: "Sign in",
     signOut: "Sign out",
     authInProgress: "Authorization in progress",
@@ -165,7 +165,17 @@ export default  {
   },
   navigation: {
     home: "Search",
-    lists: "My lists",
+    lists: "Lists",
+    myLists: "My lists",
+    accountSettings: "Account settings",
+    about: "About",
+    faq: "FAQ",
+    features: "Features",
+  },
+  footer: {
+    copyright: 'Copyright © 2024 Movie Tracker. All rights reserved.',
+    dataSource: 'Data source for all movies',
+    description: `Stay up-to-date with all your favorite titles, craft personalized \nwatchlists, and explore for new experiences.`,
   },
   search: {
     title: 'Find a movie, series, person...',

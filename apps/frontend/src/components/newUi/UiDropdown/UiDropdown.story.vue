@@ -7,7 +7,9 @@ import UiDropdownGroup from "~/components/newUi/UiDropdown/UiDropdownGroup.vue"
 import UiDropdownItem from "~/components/newUi/UiDropdown/UiDropdownItem.vue"
 import UiDropdownSeparator from "~/components/newUi/UiDropdown/UiDropdownSeparator.vue"
 import { ref } from "vue"
+import UiDropdownTriggerWithArrow from "~/components/newUi/UiDropdown/UiDropdownTriggerWithArrow.vue"
 
+const isOpen = ref(false)
 const align = ref<'start' | 'center' | 'end'>('start')
 const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
 </script>
@@ -15,42 +17,85 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
 <template>
   <Story title="UiDropdown">
     <template #default>
-      <UiContainer>
-        <UiDropdown
-          :align="align"
-          :indent="24"
-          :side="side"
-        >
-          <template #trigger>
-            <UiTypography>Click me</UiTypography>
-          </template>
+      <Variant title="Default">
+        <UiContainer>
+          <UiDropdown
+            :align="align"
+            :indent="24"
+            :side="side"
+          >
+            <template #trigger>
+              <UiTypography>Click me</UiTypography>
+            </template>
 
-          <template #content>
-            <UiDropdownGroup>
-              <UiDropdownItem>
-                <template #content>
-                  First item
-                </template>
-              </UiDropdownItem>
-              <UiDropdownItem>
-                <template #content>
-                  Second item
-                </template>
-              </UiDropdownItem>
-              <UiDropdownItem>
-                <template #content>
-                  Third item
-                </template>
-              </UiDropdownItem>
-            </UiDropdownGroup>
-            <UiDropdownSeparator />
+            <template #content>
+              <UiDropdownGroup>
+                <UiDropdownItem>
+                  <template #content>
+                    First item
+                  </template>
+                </UiDropdownItem>
+                <UiDropdownItem>
+                  <template #content>
+                    Second item
+                  </template>
+                </UiDropdownItem>
+                <UiDropdownItem>
+                  <template #content>
+                    Third item
+                  </template>
+                </UiDropdownItem>
+              </UiDropdownGroup>
+              <UiDropdownSeparator />
 
-            <UiTypography>
-              Basic text, not dropdown item
-            </UiTypography>
-          </template>
-        </UiDropdown>
-      </UiContainer>
+              <UiTypography>
+                Basic text, not dropdown item
+              </UiTypography>
+            </template>
+          </UiDropdown>
+        </UiContainer>
+      </Variant>
+      <Variant title="WithArrowInTrigger">
+        <UiContainer>
+          <UiDropdown
+            v-model="isOpen"
+            :align="align"
+            :indent="24"
+            :side="side"
+          >
+            <template #trigger>
+              <UiDropdownTriggerWithArrow :is-open="isOpen">
+                <UiTypography>Click me</UiTypography>
+              </UiDropdownTriggerWithArrow>
+            </template>
+
+            <template #content>
+              <UiDropdownGroup>
+                <UiDropdownItem>
+                  <template #content>
+                    First item
+                  </template>
+                </UiDropdownItem>
+                <UiDropdownItem>
+                  <template #content>
+                    Second item
+                  </template>
+                </UiDropdownItem>
+                <UiDropdownItem>
+                  <template #content>
+                    Third item
+                  </template>
+                </UiDropdownItem>
+              </UiDropdownGroup>
+              <UiDropdownSeparator />
+
+              <UiTypography>
+                Basic text, not dropdown item
+              </UiTypography>
+            </template>
+          </UiDropdown>
+        </UiContainer>
+      </Variant>
     </template>
 
     <template #controls>

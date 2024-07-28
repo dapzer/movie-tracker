@@ -6,7 +6,7 @@ import { definePageMeta, onMounted } from "#imports";
 import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
 import { computed, ref } from "vue";
 import UiButton from "~/components/ui/UiButton.vue";
-import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelector.vue";
+import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelectorDropdown.vue";
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useSignInCallbackApi } from "~/api/auth/useAuthApi";

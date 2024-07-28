@@ -8,6 +8,7 @@ interface UiDropdownItemProps {
 }
 
 const props = defineProps<UiDropdownItemProps>()
+const slots = defineSlots()
 </script>
 
 <template>
@@ -15,9 +16,17 @@ const props = defineProps<UiDropdownItemProps>()
     :as="props.as"
     :class="$style.wrapper"
   >
-    <slot name="iconStart" />
+    <div
+      v-if="slots.iconStart"
+      :class="$style.icon"
+    >
+      <slot name="iconStart" />
+    </div>
     <slot name="content" />
-    <div :class="$style.iconEnd">
+    <div
+      v-if="slots.iconEnd"
+      :class="[$style.iconEnd, $style.icon]"
+    >
       <slot name="iconEnd" />
     </div>
   </DropdownMenuItem>
@@ -36,6 +45,14 @@ const props = defineProps<UiDropdownItemProps>()
   align-items: center;
   gap: 6px;
   outline: none;
+
+  .icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .iconEnd {
     justify-self: flex-end;

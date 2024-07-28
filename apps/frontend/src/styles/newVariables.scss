@@ -4,20 +4,25 @@
 
 $bp-lg: 1440px;
 $bp-md: 1024px;
+$bp-sm-plus: 700px;
 $bp-sm: 568px;
 
 :root {
   /* Colors */
 
   --c-main-background: #0D0D0D;
+  --c-header-footer-background: #101010;
   --c-card-background: #121212;
   --c-card-background-hovered: #1D1D1D;
   --c-black-90: rgba(3, 3, 3, 0.9);
   --c-white-08: rgba(255, 255, 255, 0.08);
   --c-white-12: rgba(255, 255, 255, 0.12);
   --c-white-15: rgba(255, 255, 255, 0.15);
-  --c-white-80: rgba(255, 255, 255, 0.8);
   --c-white-35: rgba(255, 255, 255, 0.35);
+  --c-white-50: rgba(255, 255, 255, 0.50);
+  --c-white-60: rgba(255, 255, 255, 0.60);
+  --c-white-75: rgba(255, 255, 255, 0.75);
+  --c-white-80: rgba(255, 255, 255, 0.8);
   --c-gray-40: rgba(50, 50, 50, 0.4);
   --c-green-15: rgba(84, 220, 97, 0.15);
   --c-green: #54DC61;
@@ -61,6 +66,7 @@ $bp-sm: 568px;
   --fs-h3: 1.875rem; /* 30px */
   --fs-h4: 1.25rem; /* 20px */
   --fs-subheading: 1.25rem; /* 20px */
+  --fs-logo: 1.063rem; /* 17px */
   --fs-p: 1rem; /* 16px */
   --fs-label: 1rem; /* 16px */
   --fs-label-small: 0.875rem; /* 14px */
@@ -78,6 +84,7 @@ $bp-sm: 568px;
     --fs-h3: 1.875rem; /* 30px */
     --fs-h4: 1.5rem; /* 24px */
     --fs-subheading: 1.125rem; /* 18px */
+    --fs-logo: 1.063rem; /* 17px */
     --fs-p: 1rem; /* 16px */
     --fs-label: 1rem; /* 16px */
     --fs-label-small: 0.875rem; /* 14px */
@@ -96,6 +103,7 @@ $bp-sm: 568px;
     --fs-h3: 1.313rem; /* 21px */
     --fs-h4: 1.125rem; /* 18px */
     --fs-subheading: 0.875rem; /* 14px */
+    --fs-logo: 1.063rem; /* 17px */
     --fs-p: 0.875rem; /* 14px */
     --fs-label: 1rem; /* 16px */
     --fs-label-small: 0.875rem; /* 14px */
@@ -186,9 +194,7 @@ $bp-sm: 568px;
   --i-header: 100;
   --i-ui-details: 90;
 
-  /* Indexes */
-
-  --i-dropdown: 50;
+  --i-dropdown: 150;
   --i-hover-card: 40;
   --i-modal: 100;
 

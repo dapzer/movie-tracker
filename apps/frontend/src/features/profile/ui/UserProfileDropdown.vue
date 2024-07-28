@@ -1,6 +1,7 @@
+=
 <script lang="ts" setup>
 
-import UiDropdown from "~/components/ui/UiDropdown.vue";
+import { UiDropdown } from "~/components/newUi/UiDropdown";
 import UserProfileDropdownTrigger from "~/features/profile/ui/UserProfileDropdownTrigger.vue";
 import UserProfileDropdownContent from "~/features/profile/ui/UserProfileDropdownContent.vue";
 import { useAuth } from "~/composables/useAuth";
@@ -11,7 +12,8 @@ const { profile } = useAuth();
 <template>
   <UiDropdown
     v-if="profile"
-    :class="$style.content"
+    align="end"
+    :indent="32"
   >
     <template #trigger>
       <UserProfileDropdownTrigger :profile="profile" />
@@ -24,7 +26,4 @@ const { profile } = useAuth();
 </template>
 
 <style lang="scss" module>
-.content {
-  margin-top: 24px !important;
-}
 </style>

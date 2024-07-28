@@ -19,3 +19,13 @@ export { default as ArrowRightIcon } from "~/assets/svg/icons/arrowRight.svg"
 export { default as CrossIcon } from "~/assets/svg/icons/cross.svg"
 export { default as CheckIcon } from "~/assets/svg/icons/check.svg"
 export { default as CardArrowTopIcon } from "assets/svg/icons/cardArrowTop.svg"
+export { default as LogoIcon } from "assets/svg/icons/logo.svg"
+export { default as PlanetIcon } from "assets/svg/icons/planet.svg"
+export { default as LogoutIcon } from "assets/svg/icons/logout.svg"
+export { default as BurgerMenuIcon } from "assets/svg/icons/burgerMenu.svg"
+export { default as DiscordIcon } from "assets/svg/icons/discord.svg"
+export { default as TelegramIcon } from "assets/svg/icons/telegram.svg"
+export { default as GithubIcon } from "assets/svg/icons/github.svg"
+export { default as TmdbLogoIcon } from "assets/svg/icons/tmdbLogo.svg"
+
+

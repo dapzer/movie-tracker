@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-import { useHead, useI18n, useSeoMeta } from "#imports";
+import { useAuth, useHead, useI18n, useSeoMeta } from "#imports";
 import { useLocaleHead } from "#i18n";
+import { ConfigProvider } from "radix-vue"
+import { useId } from "#app"
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 
 const { t } = useI18n();
 
@@ -9,7 +13,12 @@ const i18nHead = useLocaleHead({
   addSeoAttributes: true
 });
 
-console.log(i18nHead.value.link);
+const useIdFunction = () => useId()
+const { suspenseProfile } = useAuth()
+
+await suspenseProfile()
+useGetMediaListsApi()
+useGetMediaItemsApi()
 
 useHead({
   htmlAttrs: {
@@ -17,7 +26,7 @@ useHead({
     dir: () => i18nHead.value.htmlAttrs?.dir
   },
   link: [...(i18nHead.value.link.filter((el: { hid: string, href: string, rel: string }) => el.rel !== "canonical")
-    || [])],
+      || [])],
   meta: [...(i18nHead.value.meta || [])]
 });
 
@@ -44,7 +53,9 @@ useSeoMeta({
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <ConfigProvider :use-id="useIdFunction">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </ConfigProvider>
 </template>
