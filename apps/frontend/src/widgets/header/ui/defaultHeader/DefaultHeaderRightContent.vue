@@ -3,12 +3,11 @@
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
 import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
 import { UiButton } from "~/components/newUi/UiButton"
-import { useLocalePath } from "#i18n"
 import { useAuth } from "#imports"
 import { UserProfileDropdown } from "~/features/profile"
+import { SignInLink } from "~/features/auth"
 
 const { profile } = useAuth();
-const localePath = useLocalePath();
 </script>
 
 <template>
@@ -20,14 +19,11 @@ const localePath = useLocalePath();
       <LanguageSelectorDropdown />
     </div>
     <!--    <SignInModal />-->
-    <NuxtLink
-      v-if="!profile"
-      :to="localePath('/sign-in')"
-    >
+    <SignInLink v-if="!profile">
       <UiButton>
         {{ $t('auth.signIn') }}
       </UiButton>
-    </NuxtLink>
+    </SignInLink>
     <UserProfileDropdown v-else />
   </div>
 </template>

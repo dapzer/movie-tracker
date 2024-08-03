@@ -8,7 +8,7 @@ export const useUserProfileApi = () => {
 
   return useQuery({
     queryKey: [UserQueryKeys.PROFILE],
-    queryFn: () => getUserProfileApi(headers),
+    queryFn: () => getUserProfileApi({ headers }),
     retry: false,
   })
 };

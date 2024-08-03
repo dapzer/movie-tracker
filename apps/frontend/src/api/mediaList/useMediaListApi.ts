@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
 import {
-  createMediaListsApi, createMediaListsCloneApi,
+  createMediaListsApi,
+  createMediaListsCloneApi,
   deleteMediaListsApi,
   getMediaListsApi,
   getMediaListsByIdApi,
@@ -10,12 +11,17 @@ import type { MediaItemType, MediaListType } from "@movie-tracker/types";
 import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys";
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
+import { useRequestHeaders } from "#app"
 
-export const useGetMediaListsApi = () => useQuery({
-  queryKey: [MediaListQueryKeys.GET_ALL],
-  queryFn: () => getMediaListsApi(),
-  retry: false
-});
+export const useGetMediaListsApi = () => {
+  const headers = useRequestHeaders(["cookie", "connect.sid"]);
+
+  return useQuery({
+    queryKey: [MediaListQueryKeys.GET_ALL],
+    queryFn: () => getMediaListsApi({ headers }),
+    retry: false
+  })
+};
 
 export const useGetMediaListsByIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => useQuery({
   queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],

@@ -1,10 +1,11 @@
 import type { MediaListType } from "@movie-tracker/types";
 import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes";
 import { api } from "~/api/instance";
+import { type RequestOptions } from "@movie-tracker/utils"
 
 
-export const getMediaListsApi = async () => {
-  return api.get<MediaListType[]>("media-list");
+export const getMediaListsApi = async (options?: RequestOptions) => {
+  return api.get<MediaListType[]>("media-list", options);
 }
 
 export const getMediaListsByIdApi = async (mediaListId: string) => {

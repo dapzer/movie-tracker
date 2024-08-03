@@ -27,5 +27,10 @@ export { default as DiscordIcon } from "assets/svg/icons/discord.svg"
 export { default as TelegramIcon } from "assets/svg/icons/telegram.svg"
 export { default as GithubIcon } from "assets/svg/icons/github.svg"
 export { default as TmdbLogoIcon } from "assets/svg/icons/tmdbLogo.svg"
+export { default as VkontakteIcon } from "assets/svg/icons/vkontakte.svg"
+export { default as YandexIcon } from "assets/svg/icons/yandex.svg"
+export { default as GoogleIcon } from "assets/svg/icons/google.svg"
+export { default as GithubProviderIcon } from "assets/svg/icons/githubProvider.svg"
+
 
 

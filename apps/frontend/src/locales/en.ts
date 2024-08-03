@@ -2,11 +2,13 @@ export default {
   auth: {
     signIn: "Sign in",
     signOut: "Sign out",
+    signInWith: "Sign in with {provider}",
     authInProgress: "Authorization in progress",
     authError: "An error occurred during authorization",
     authErrorHint: "Choose a different login method or try logging in later",
     login: "Login",
     closeLoginWindow: "Close the authorization window",
+    signInAgreeTerms: "By signing in, I agree to the Movie Tracker’s",
   },
   dashboard: {
     title: "Dashboard",
@@ -210,6 +212,9 @@ export default {
     yes: "Yes",
     no: "No",
     characters: "Characters",
+    termsOfUse: "Terms Of Use",
+    privacyPolicy: "Privacy Policy",
+    and: "and",
     errors: {
       pageNotFound: "Page not found.",
     },

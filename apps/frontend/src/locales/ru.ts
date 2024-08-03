@@ -2,11 +2,13 @@ export default {
   auth: {
     signIn: 'Войти',
     signOut: 'Выйти',
+    signInWith: "Войти используя {provider}",
     authInProgress: 'Выполняется авторизация',
     authError: 'Произошла ошибка при авторизации',
     authErrorHint: 'Выберите другой способ авторизации или попробуйте авторизоваться позже',
     login: 'Вход',
     closeLoginWindow: 'Закрыть окно авторизации',
+    signInAgreeTerms: "Выполняя вход, я принимаю",
   },
   dashboard: {
     title: 'Панель управления',
@@ -210,6 +212,9 @@ export default {
     yes: 'Да',
     no: 'Нет',
     characters: 'Символы',
+    termsOfUse: "Условия использования",
+    privacyPolicy: "Политику конфиденциальности",
+    and: "и",
     errors: {
       pageNotFound: 'Страница не найдена.',
     },

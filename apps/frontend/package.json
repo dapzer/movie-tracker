@@ -44,7 +44,7 @@
   "dependencies": {
     "@nuxt/fonts": "^0.7.0",
     "@nuxt/image": "^1.7.0",
-    "@tanstack/vue-query": "^5.41.0",
+    "@tanstack/vue-query": "^5.51.17",
     "@yeger/vue-masonry-wall": "^5.0.10",
     "embla-carousel-vue": "^8.1.5",
     "radix-vue": "^1.8.5",

@@ -15,10 +15,15 @@ const i18nHead = useLocaleHead({
 
 const useIdFunction = () => useId()
 const { suspenseProfile } = useAuth()
+const getMediaListsApi = useGetMediaListsApi()
+const getMediaItemsApi = useGetMediaItemsApi()
 
-await suspenseProfile()
-useGetMediaListsApi()
-useGetMediaItemsApi()
+
+await Promise.all([
+  suspenseProfile(),
+  getMediaItemsApi.suspense(),
+  getMediaListsApi.suspense()
+])
 
 useHead({
   htmlAttrs: {

@@ -1,7 +1,9 @@
+import { LanguagesEnum } from "~/types/languagesEnum"
+
 export const allowedLanguages = [{
-  value: "en",
+  value: LanguagesEnum.EN,
   originalName: "English"
 }, {
-  value: "ru",
+  value: LanguagesEnum.RU,
   originalName: "Русский"
 }]

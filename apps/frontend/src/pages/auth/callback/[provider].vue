@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 
-import UiTypography from "~/components/ui/UiTypography.vue";
+import { UiTypography } from "~/components/newUi/UiTypography";
 import { useRoute } from "#app";
-import { definePageMeta, onMounted } from "#imports";
-import UiLoadingIndicator from "~/components/ui/UiLoadingIndicator.vue";
+import { definePageMeta, getCurrentBrowserName, onMounted } from "#imports";
+import { UiLoadingIndicator } from "~/components/newUi/UiLoadingIndicator";
 import { computed, ref } from "vue";
-import UiButton from "~/components/ui/UiButton.vue";
-import LanguageSelector from "~/features/languegeSelector/ui/LanguageSelectorDropdown.vue";
+import { UiButton } from "~/components/newUi/UiButton";
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useSignInCallbackApi } from "~/api/auth/useAuthApi";
+import { BrowserEnum } from "~/types/browserEnum"
+import { UiContainer } from "~/components/newUi/UiContainer"
 
 const { params, query } = useRoute();
 const signInCallbackApi = useSignInCallbackApi();
@@ -17,7 +18,7 @@ const authRedirectUrl = useLocalStorage("authRedirectUrl", "");
 const router = useRouter();
 
 definePageMeta({
-  layout: "clear-layout"
+  layout: "auth-layout"
 });
 
 const isError = ref(false);
@@ -39,7 +40,9 @@ onMounted(async () => {
       code: query.code as string
     });
 
-    if (authRedirectUrl.value) {
+    const currentBrowser = getCurrentBrowserName();
+
+    if (authRedirectUrl.value && currentBrowser === BrowserEnum.SAFARI) {
       await router.replace(authRedirectUrl.value);
       authRedirectUrl.value = "";
     } else {
@@ -53,8 +56,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <LanguageSelector :class="$style.languageSelector" />
+  <UiContainer :class="$style.wrapper">
     <template v-if="isPending">
       <UiTypography
         as="span"
@@ -69,10 +71,7 @@ onMounted(async () => {
     </template>
 
     <template v-else-if="isError">
-      <UiTypography
-        as="span"
-        variant="title2"
-      >
+      <UiTypography variant="title2">
         {{ $t("auth.authError") }}
       </UiTypography>
       <UiTypography>
@@ -82,26 +81,22 @@ onMounted(async () => {
         {{ $t("auth.closeLoginWindow") }}
       </UiButton>
     </template>
-  </div>
+  </UiContainer>
 </template>
 
 <style lang="scss" module>
 .wrapper {
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
-  gap: 16px;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - var(--s-header-height));
+  gap: 16px;
   align-items: center;
   justify-content: center;
   text-align: center;
 
-  .languageSelector {
-    position: absolute;
-    top: 16px;
-    left: var(--s-indent);
-    z-index: 1;
+  button {
+    margin-top: 8px;
   }
 }
 </style>

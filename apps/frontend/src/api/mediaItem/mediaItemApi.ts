@@ -5,10 +5,12 @@ import type {
   MediaItemUpdateApiTypes
 } from "~/api/mediaItem/mediaItemApiTypes";
 import { api } from "~/api/instance";
+import type { RequestOptions } from "@movie-tracker/utils"
 
-export const getMediaItemsApi = async () => {
-  return api.get<MediaItemType[]>("media-item");
+export const getMediaItemsApi = async (options?: RequestOptions) => {
+  return api.get<MediaItemType[]>("media-item", options);
 };
+
 export const getMediaItemsByMediaListIdApi = async (mediaListId: string) => {
   return api.get<MediaItemType[]>(`media-item/media-list/${mediaListId}`);
 };

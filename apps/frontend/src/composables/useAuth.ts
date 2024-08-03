@@ -2,9 +2,9 @@ import { computed } from 'vue';
 import { useLogoutApi } from '~/api/auth/useAuthApi';
 import { useUserProfileApi } from '~/api/user/useUserApi';
 import { useQueryClient } from "@tanstack/vue-query"
-import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
+import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
 
 export const useAuth = () => {
   const userProfileApi = useUserProfileApi();
@@ -33,15 +33,13 @@ export const useAuth = () => {
 
   const handleLogout = async () => {
     await logoutApi.mutateAsync()
-    await queryClient.resetQueries({
-      queryKey: [
-        UserQueryKeys.PROFILE,
-        MediaListQueryKeys.GET_ALL,
-        MediaItemQueryKeys.GET_ALL,
-        MediaListQueryKeys.GET_BY_ID,
-        MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID,
-      ]
-    })
+    await Promise.all([
+      queryClient.resetQueries({ queryKey: [UserQueryKeys.PROFILE] }),
+      queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_ALL] }),
+      queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] }),
+      queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] }),
+      queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] }),
+    ])
   }
 
   return {
