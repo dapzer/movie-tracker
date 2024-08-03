@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
-    "nuxt-simple-robots",
+    "@nuxtjs/robots",
     "nuxt-schema-org",
     "nuxt-delay-hydration",
     '@nuxt/fonts',

@@ -17,13 +17,13 @@
     "db:push": "dotenv -- turbo db:push"
   },
   "devDependencies": {
-    "eslint": "^8.56.0",
-    "prettier": "^3.2.5",
-    "turbo": "latest",
-    "typescript": "^5.3.3"
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "turbo": "^2.0.11",
+    "typescript": "^5.5.4"
   },
-  "packageManager": "pnpm@8.9.0",
   "dependencies": {
-    "dotenv-cli": "^7.3.0"
-  }
+    "dotenv-cli": "^7.4.2"
+  },
+  "packageManager": "pnpm@9.2.0"
 }

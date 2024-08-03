@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<UiListWithShowMoreProps<T>>(), {
           <template #default="{ item }">
             <slot
               :is-from-modal="true"
-              :item="item"
+              :item="item as T"
               name="card"
             />
           </template>

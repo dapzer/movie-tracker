@@ -15,7 +15,6 @@ import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { PersonCard } from "~/widgets/personCard";
 import { MovieCard } from "~/widgets/movieCard";
 import { arrayToString } from "@movie-tracker/utils";
-import { useLocalePath } from "#i18n";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
 
 interface MovieDetailsProps {
@@ -123,7 +122,7 @@ const videosList = computed(() => {
         {{ $t(`details.castTitle`) }}
       </UiTypography>
       <UiListWithShowMore
-        :items="tmdbGetMovieCreditsApi.data.value?.cast"
+        :items="tmdbGetMovieCreditsApi.data.value!.cast"
         :items-to-show="5"
         :title="$t('details.castTitle')"
         variant="tripleColumns"
