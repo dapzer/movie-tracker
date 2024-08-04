@@ -34,6 +34,7 @@ const releaseDate = computed(() => {
     :image-src="getProxiedImageUrl(props.movie.poster_path, 360)"
     :link-url="localePath(`/details/${movie.media_type}/${movie.id}`)"
     :width="props.width"
+    fallback-image-src="/defaultMoviePoster.svg"
   >
     <template #content>
       <UiRating
