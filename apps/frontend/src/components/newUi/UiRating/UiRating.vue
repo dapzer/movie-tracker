@@ -60,10 +60,15 @@ const currentColor = computed(() => {
   padding: 2px 6px;
   border-radius: var(--s-border-radius-small);
   width: fit-content;
+  display: flex;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
 
   .value {
     font-weight: var(--fw-semi-bold);
     font-size: var(--fs-score);
+    height: var(--fs-score);
     line-height: var(--lh-score);
     color: var(--c-text);
   }

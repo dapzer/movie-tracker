@@ -52,6 +52,10 @@ export default defineConfig({
         id: "features",
       },
       {
+        title: "Entities",
+        id: "entities",
+      },
+      {
         title: 'Others',
         include: file => true,
       },

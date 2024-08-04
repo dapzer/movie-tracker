@@ -25,7 +25,7 @@ export interface TmdbSearchResponseResultItemType {
   vote_average: number;
   profile_path?: string;
   vote_count: number;
-  known_for: TmdbSearchResponseKnownForType[];
+  known_for?: TmdbSearchResponseKnownForType[];
 }
 
 export interface TmdbSearchResponseKnownForType {

@@ -11,6 +11,7 @@ interface UiMediaCardProps {
   description?: string;
   width?: number;
   linkUrl: string;
+  fallbackImageSrc?: string;
 }
 
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
@@ -20,13 +21,14 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 
 <template>
   <UiCardBase
-    :linkUrl:="props.linkUrl"
+    :link-url="props.linkUrl"
     :width="props.width"
   >
     <template #image>
       <UiImage
         :class="$style.image"
         :src="props.imageSrc"
+        :fallback-src="props.fallbackImageSrc"
         height="277"
         width="179"
       />
@@ -42,6 +44,8 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
         >
           {{ props.title }}
         </UiTypography>
+
+        <slot name="content" />
 
         <div :class="$style.footer">
           <UiTypography
