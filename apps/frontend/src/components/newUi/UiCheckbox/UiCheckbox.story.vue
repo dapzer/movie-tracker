@@ -8,7 +8,10 @@ const checked = ref(false)
 </script>
 
 <template>
-  <Story title="UiCheckbox">
+  <Story
+    group="ui-kit"
+    title="UiCheckbox"
+  >
     <template #default>
       <UiCheckbox
         v-model="checked"

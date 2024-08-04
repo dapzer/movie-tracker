@@ -37,4 +37,24 @@ export default defineConfig({
       contrastColor: '#0D0D0D'
     },
   ],
+  tree: {
+    groups: [
+      {
+        title: 'Ui Kit',
+        id: 'ui-kit',
+      },
+      {
+        title: "Widgets",
+        id: "widgets",
+      },
+      {
+        title: "Features",
+        id: "features",
+      },
+      {
+        title: 'Others',
+        include: file => true,
+      },
+    ]
+  }
 })

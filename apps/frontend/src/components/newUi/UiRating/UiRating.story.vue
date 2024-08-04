@@ -5,6 +5,7 @@ import UiScore from "~/components/newUi/UiRating/UiRating.vue"
 
 <template>
   <Story
+    group="ui-kit"
     title="UiRating"
     :layout="{
       type: 'grid',

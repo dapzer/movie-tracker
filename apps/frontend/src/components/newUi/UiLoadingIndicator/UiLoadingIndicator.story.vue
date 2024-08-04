@@ -4,7 +4,10 @@ import UiLoadingIndicator from "~/components/newUi/UiLoadingIndicator/UiLoadingI
 </script>
 
 <template>
-  <Story title="UiLoadingIndicator">
+  <Story
+    group="ui-kit"
+    title="UiLoadingIndicator"
+  >
     <template #default>
       <UiLoadingIndicator />
     </template>

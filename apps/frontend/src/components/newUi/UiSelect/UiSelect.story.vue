@@ -74,7 +74,10 @@ const disabled = ref(false)
 </script>
 
 <template>
-  <Story title="UiSelect">
+  <Story
+    group="ui-kit"
+    title="UiSelect"
+  >
     <template #default>
       <UiSelect
         v-model="value"

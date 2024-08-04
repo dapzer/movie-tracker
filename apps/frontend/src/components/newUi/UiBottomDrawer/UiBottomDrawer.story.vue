@@ -6,7 +6,10 @@ import { UiButton } from "~/components/newUi/UiButton"
 </script>
 
 <template>
-  <Story title="UiBottomDrawer">
+  <Story
+    group="ui-kit"
+    title="UiBottomDrawer"
+  >
     <template #default>
       <UiBottomDrawer title="Some test title">
         <template #trigger>

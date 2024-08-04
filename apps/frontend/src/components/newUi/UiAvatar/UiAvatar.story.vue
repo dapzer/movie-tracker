@@ -5,7 +5,10 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
 </script>
 
 <template>
-  <Story title="UiAvatar">
+  <Story
+    group="ui-kit"
+    title="UiAvatar"
+  >
     <template #default>
       <Variant title="Randomised">
         <UiAvatar />

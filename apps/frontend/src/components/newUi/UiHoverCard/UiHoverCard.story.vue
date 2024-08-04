@@ -10,7 +10,10 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
 </script>
 
 <template>
-  <Story title="UiHoverCord">
+  <Story
+    group="ui-kit"
+    title="UiHoverCord"
+  >
     <template #default>
       <UiHoverCard
         :align="align"

@@ -4,7 +4,10 @@ import UiLayoutWrapper from "~/components/newUi/UiLayoutWrapper/UiLayoutWrapper.
 </script>
 
 <template>
-  <Story title="UiLayoutWrapper">
+  <Story
+    group="ui-kit"
+    title="UiLayoutWrapper"
+  >
     <template #default>
       <UiLayoutWrapper>
         <header :class="$style.header">

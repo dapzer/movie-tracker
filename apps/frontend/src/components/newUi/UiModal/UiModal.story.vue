@@ -9,7 +9,10 @@ const visible = ref(false)
 </script>
 
 <template>
-  <Story title="UiModal">
+  <Story
+    group="ui-kit"
+    title="UiModal"
+  >
     <template #default>
       <Variant title="With external state">
         <UiModal
@@ -31,7 +34,7 @@ const visible = ref(false)
           </template>
         </UiModal>
       </Variant>
-      
+
       <Variant title="Without external state">
         <UiModal
           title="Modal title"

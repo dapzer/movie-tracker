@@ -10,7 +10,10 @@ const error = ref<string>("Some input error")
 </script>
 
 <template>
-  <Story title="UiInput">
+  <Story
+    group="ui-kit"
+    title="UiInput"
+  >
     <template #default>
       <Variant title="Empty">
         <UiInput

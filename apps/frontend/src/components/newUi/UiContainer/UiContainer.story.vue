@@ -4,7 +4,10 @@ import UiContainer from "~/components/newUi/UiContainer/UiContainer.vue"
 </script>
 
 <template>
-  <Story title="UiContainer">
+  <Story
+    group="ui-kit"
+    title="UiContainer"
+  >
     <template #default>
       <UiContainer>
         <div :class="$style.content" />

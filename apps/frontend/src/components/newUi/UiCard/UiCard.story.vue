@@ -9,7 +9,10 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
 </script>
 
 <template>
-  <Story title="UiCard">
+  <Story
+    group="ui-kit"
+    title="UiCard"
+  >
     <template #default>
       <Variant
         title="Base"

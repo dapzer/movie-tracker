@@ -6,7 +6,10 @@ const currentLocation = window?.location.href;
 </script>
 
 <template>
-  <Story title="UiUserProfileLink">
+  <Story
+    group="ui-kit"
+    title="UiUserProfileLink"
+  >
     <template #default>
       <UiUserProfileLink
         user-name="UserName"

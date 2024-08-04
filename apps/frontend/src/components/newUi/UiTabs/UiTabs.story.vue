@@ -6,7 +6,10 @@ import UiTypography from "~/components/ui/UiTypography.vue"
 </script>
 
 <template>
-  <Story title="UiTabs">
+  <Story
+    group="ui-kit"
+    title="UiTabs"
+  >
     <template #default>
       <Variant title="Tabs">
         <UiTabs

@@ -7,7 +7,10 @@ const currentPage = ref(1)
 </script>
 
 <template>
-  <Story title="UiPagination">
+  <Story
+    group="ui-kit"
+    title="UiPagination"
+  >
     <template #default>
       <UiPagination
         v-model="currentPage"

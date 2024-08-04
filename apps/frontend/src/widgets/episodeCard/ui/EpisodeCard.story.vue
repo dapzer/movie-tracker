@@ -5,7 +5,10 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
 </script>
 
 <template>
-  <Story title="EpisodeCard">
+  <Story
+    group="widgets"
+    title="EpisodeCard"
+  >
     <template #default>
       <EpisodeCard
         title="Episode name"

@@ -23,7 +23,10 @@ const schema = ref(undefined);
 </script>
 
 <template>
-  <Story>
+  <Story
+    group="ui-kit"
+    title="UiTypography"
+  >
     <template #default>
       <Variant
         v-for="variant in variants"

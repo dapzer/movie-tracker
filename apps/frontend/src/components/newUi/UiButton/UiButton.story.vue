@@ -38,7 +38,10 @@ const schema = ref<UiButtonScheme>("primary")
 </script>
 
 <template>
-  <Story title="UiButton">
+  <Story
+    group="ui-kit"
+    title="UiButton"
+  >
     <template #default>
       <Variant title="Basic">
         <UiButton

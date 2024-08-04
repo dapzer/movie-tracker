@@ -6,7 +6,10 @@ import UiSlider from "~/components/newUi/UiSlider/UiSlider.vue"
 </script>
 
 <template>
-  <Story title="UiSlider">
+  <Story
+    group="ui-kit"
+    title="UiSlider"
+  >
     <template #default>
       <UiSlider :data="Array(12).fill(0)">
         <template #slide>

@@ -5,7 +5,10 @@ import UiTypography from "~/components/ui/UiTypography.vue"
 </script>
 
 <template>
-  <Story title="UiDetails">
+  <Story
+    group="ui-kit"
+    title="UiDetails"
+  >
     <template #default>
       <UiDetails title="Click to open">
         <UiTypography>Content</UiTypography>

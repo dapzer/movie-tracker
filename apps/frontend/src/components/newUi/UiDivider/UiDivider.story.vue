@@ -4,7 +4,10 @@ import UiDivider from "~/components/newUi/UiDivider/UiDivider.vue"
 </script>
 
 <template>
-  <Story title="UiDivider">
+  <Story
+    group="ui-kit"
+    title="UiDivider"
+  >
     <template #default>
       <div :class="$style.wrapper">
         <UiDivider />

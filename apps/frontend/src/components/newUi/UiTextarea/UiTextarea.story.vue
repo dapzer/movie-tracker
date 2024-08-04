@@ -10,7 +10,10 @@ const description = ref("")
 </script>
 
 <template>
-  <Story title="UiTextarea">
+  <Story
+    group="ui-kit"
+    title="UiTextarea"
+  >
     <template #default>
       <UiTextarea
         v-model="value"

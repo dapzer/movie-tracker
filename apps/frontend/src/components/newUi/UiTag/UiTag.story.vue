@@ -5,6 +5,7 @@ import UiTag from "~/components/newUi/UiTag/UiTag.vue"
 
 <template>
   <Story
+    group="ui-kit"
     title="UiTag"
     :layout="{
       type: 'grid',

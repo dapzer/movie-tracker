@@ -15,7 +15,10 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
 </script>
 
 <template>
-  <Story title="UiDropdown">
+  <Story
+    group="ui-kit"
+    title="UiDropdown"
+  >
     <template #default>
       <Variant title="Default">
         <UiContainer>
