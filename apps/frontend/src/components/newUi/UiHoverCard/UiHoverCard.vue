@@ -60,7 +60,8 @@ defineOptions({
 
 <style module lang="scss">
 .trigger {
-  width: max-content;
+  width: 100%;
+  max-width: max-content;
 }
 
 .contentWrapper {

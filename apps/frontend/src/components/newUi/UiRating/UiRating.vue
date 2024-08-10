@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { UiTypography } from "~/components/newUi/UiTypography"
 import { computed } from "#imports"
+import { getColorByRating } from "~/utils/getColorByRating"
 
 interface UiRatingProps {
   value?: number
@@ -10,31 +11,8 @@ const props = withDefaults(defineProps<UiRatingProps>(), {
   value: 0
 })
 
-const ratingRanges = [
-  {
-    color: "red",
-    min: 0,
-    max: 3
-  },
-  {
-    color: "orange",
-    min: 3,
-    max: 6
-  },
-  {
-    color: "green",
-    min: 6,
-    max: 10
-  },
-];
-
 const currentColor = computed(() => {
-  for (let range of ratingRanges) {
-    if (range.min <= props.value && props.value <= range.max) {
-      return range.color;
-    }
-  }
-  return ""
+  return getColorByRating(props.value);
 });
 </script>
 

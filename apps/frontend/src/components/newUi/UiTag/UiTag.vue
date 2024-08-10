@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { UiTypography } from "~/components/newUi/UiTypography"
 
-export type TagColor = 'green' | 'orange'
+export type TagColor = 'gray' | 'green' | 'orange'
 
 interface UiTagProps {
   color: TagColor
 }
 
 const props = withDefaults(defineProps<UiTagProps>(), {
-  color: 'orange',
+  color: 'gray',
 })
 </script>
 
@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<UiTagProps>(), {
     :class="[$style.wrapper, {
       [$style.green]: props.color === 'green',
       [$style.orange]: props.color === 'orange',
+      [$style.gray]: props.color === 'gray',
     }]"
   >
     <UiTypography
@@ -48,6 +49,14 @@ const props = withDefaults(defineProps<UiTagProps>(), {
 
     .value {
       color: var(--c-orange);
+    }
+  }
+
+  &.gray {
+    background-color: var(--c-white-06);
+
+    .value {
+      color: var(--c-white-75);
     }
   }
 }

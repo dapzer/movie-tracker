@@ -9,6 +9,7 @@ export type TypographyVariant = 'text'
     | 'title4'
     | 'subheading'
     | 'label'
+    | 'labelSmall'
     | 'listTitle'
     | 'cardTitle'
     | 'description'
@@ -37,6 +38,7 @@ const props = withDefaults(defineProps<TypographyProps>(), {
       [$style.title4]: variant === 'title4',
       [$style.subheading]: variant === 'subheading',
       [$style.label]: variant === 'label',
+      [$style.labelSmall]: variant === 'labelSmall',
       [$style.listTitle]: variant === 'listTitle',
       [$style.cardTitle]: variant === 'cardTitle',
       [$style.description]: variant === 'description',
@@ -97,6 +99,14 @@ const props = withDefaults(defineProps<TypographyProps>(), {
   color: var(--c-text);
   font-size: var(--fs-label);
   line-height: var(--lh-label);
+  font-weight: var(--fw-medium);
+  font-family: var(--ff-inter);
+}
+
+.labelSmall {
+  color: var(--c-text);
+  font-size: var(--fs-label-small);
+  line-height: var(--lh-label-small);
   font-weight: var(--fw-medium);
   font-family: var(--ff-inter);
 }

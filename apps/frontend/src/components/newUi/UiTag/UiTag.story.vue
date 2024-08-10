@@ -12,6 +12,11 @@ import UiTag from "~/components/newUi/UiTag/UiTag.vue"
       width: 150,
     }"
   >
+    <Variant title="Gray">
+      <UiTag color="gray">
+        Tag text
+      </UiTag>
+    </Variant>
     <Variant title="Orange">
       <UiTag color="orange">
         Tag text
