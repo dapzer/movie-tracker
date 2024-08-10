@@ -76,6 +76,8 @@ export default {
     knowFor: {
       'Acting': 'Актёр',
       'Directing': 'Режиссёр',
+      "Camera": "Оператор",
+      'Writing': 'Сценарист',
     },
     genres: {
       movie: {

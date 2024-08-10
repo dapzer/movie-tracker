@@ -31,7 +31,7 @@ useHead({
     dir: () => i18nHead.value.htmlAttrs?.dir
   },
   link: [...(i18nHead.value.link.filter((el: { hid: string, href: string, rel: string }) => el.rel !== "canonical")
-      || [])],
+    || [])],
   meta: [...(i18nHead.value.meta || [])]
 });
 
