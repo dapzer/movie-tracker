@@ -239,13 +239,13 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
 
   &.primary {
     color: var(--c-white-80);
-    background: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(90deg, rgba(13, 13, 13, 0.9) 0%, rgba(23, 23, 23, 0.9) 100%);
     border: 1px solid var(--c-white-12);
 
     &:focus,
     &:active,
     &:hover {
-      background: var(--c-gray-40);
+      background: linear-gradient(90deg, rgba(23, 23, 23, 0.9) 0%, rgba(33, 33, 33, 0.9) 100%);
     }
   }
 

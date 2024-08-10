@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import MovieCardWithHoverMenu from "~/widgets/movieCard/ui/withHoverMenu/MovieCardWithHoverMenu.vue"
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import MovieCardWithHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardWithHoverMenu.vue"
 
 const movie = {
   "backdrop_path": "/xJHokMbljvjADYdit5fK5VQsXEG.jpg",
@@ -28,7 +28,7 @@ const movie = {
 
 <template>
   <Story
-    group="widgets"
+    group="feature"
     title="MovieCardWithHoverMenu"
   >
     <template #default>

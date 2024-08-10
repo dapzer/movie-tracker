@@ -3,7 +3,7 @@
 import { UiHoverCard } from "~/components/newUi/UiHoverCard"
 import { MovieCard } from "~/entities/movieCard"
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-import MovieCardHoverMenu from "~/widgets/movieCard/ui/withHoverMenu/MovieCardHoverMenu.vue"
+import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
 
 interface MovieCardWithHoverMenuProps {
   movie: TmdbSearchResponseResultItemType;
@@ -20,7 +20,10 @@ const props = defineProps<MovieCardWithHoverMenuProps>();
     side="right"
   >
     <template #trigger>
-      <MovieCard :movie="props.movie" />
+      <MovieCard
+        v-bind="$attrs"
+        :movie="props.movie"
+      />
     </template>
 
     <template #content>

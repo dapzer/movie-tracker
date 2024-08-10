@@ -126,6 +126,10 @@ export default {
     aboutService: "Movie Tracker is a universal service for movie and TV series lovers. Here you can easily find films, TV series and actors, and also create your own lists, which you can share with friends via a link. In the lists you can track the current series and season, change the status of films and share your impressions of the works you watched.",
     button: "Start exploring",
   },
+  feed: {
+    popularMovies: "Popular movies",
+    popularTv: "Popular TV shows",
+  },
   mediaItem: {
     addedDate: "Added Date",
     management: "Management",
@@ -247,8 +251,6 @@ export default {
   },
   ui: {
     loading: "Loading",
-    popularMovies: "Popular movies",
-    popularTv: "Popular TV shows",
     detailed: "Details",
     fullList: "Full list",
     settings: "Settings",

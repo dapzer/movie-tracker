@@ -4,7 +4,7 @@ import { UiTypography } from "~/components/newUi/UiTypography"
 export type TagColor = 'gray' | 'green' | 'orange'
 
 interface UiTagProps {
-  color: TagColor
+  color?: TagColor
 }
 
 const props = withDefaults(defineProps<UiTagProps>(), {

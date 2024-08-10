@@ -8,12 +8,13 @@ import emblaCarouselVue from "embla-carousel-vue"
 interface UiSliderProps<T> {
   data: T[]
   maxWidth?: number
+  withShadow?: boolean
 }
 
 const props = defineProps<UiSliderProps<T>>()
 
 const [emblaRef, emblaApi] = emblaCarouselVue()
-const prevBtnDisabled = ref(false)
+const prevBtnDisabled = ref(true)
 const nextBtnDisabled = ref(false)
 
 const onSlideChange = () => {
@@ -44,7 +45,10 @@ const onNextButtonClick = () => {
 <template>
   <div
     ref="emblaRef"
-    class="embla"
+    :class="['embla', {
+      'embla__shadow-left': props.withShadow && !prevBtnDisabled,
+      'embla__shadow-right': props.withShadow && !nextBtnDisabled
+    }]"
   >
     <div class="embla__container">
       <div
@@ -92,9 +96,53 @@ const onNextButtonClick = () => {
 .embla {
   position: relative;
   max-width: var(--s-container);
+  overflow: hidden;
   --slide-height: auto;
   --slide-spacing: 6px;
   --slide-size: 100%;
+
+  &:before,
+  &:after {
+    content: '';
+    z-index: 1;
+    display: none;
+    position: absolute;
+    width: 197px;
+    height: 100%;
+    left: -100px;
+    top: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #0D0D0D 55.14%, rgba(13, 13, 13, 0) 100%);
+
+    @include mobileDevice() {
+      width: 50px;
+      left: -25px;
+    }
+  }
+
+  &:after {
+    right: -100px;
+    left: auto;
+    background: linear-gradient(270deg, #0D0D0D 55.14%, rgba(13, 13, 13, 0) 100%);
+  }
+
+  @include mobileDevice() {
+    &:after {
+      right: -25px;
+    }
+  }
+
+  &.embla__shadow-left {
+    &:before {
+      display: block;
+    }
+  }
+
+  &.embla__shadow-right {
+    &:after {
+      display: block;
+    }
+  }
 }
 
 .embla__viewport {
@@ -125,6 +173,7 @@ const onNextButtonClick = () => {
   position: absolute;
   width: 100%;
   top: 50%;
+  z-index: 2;
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;

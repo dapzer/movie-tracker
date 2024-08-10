@@ -2,6 +2,7 @@
 import { computed } from '#imports';
 import { searchStore } from '~/stores/searcStore';
 import { Hero } from "~/widgets/hero"
+import { Feed } from "~/widgets/feed"
 
 const searchTerm = computed(() => searchStore.state.searchValue);
 </script>
@@ -9,7 +10,11 @@ const searchTerm = computed(() => searchStore.state.searchValue);
 <template>
   <Hero />
   <!--  <SearchContent />-->
-  <!--  <PopularLists v-if="!searchTerm || isOnlySpaces(searchTerm)" />-->
+  <Feed :class="$style.feed" />
 </template>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.feed {
+  margin-top: 60px;
+}
+</style>

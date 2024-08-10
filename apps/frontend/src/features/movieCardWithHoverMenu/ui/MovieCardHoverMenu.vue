@@ -3,7 +3,7 @@ import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { UiTypography } from "~/components/newUi/UiTypography"
 import { ListIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
-import MovieCardHoverMenuHeader from "~/widgets/movieCard/ui/withHoverMenu/MovieCardHoverMenuHeader.vue"
+import MovieCardHoverMenuHeader from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuHeader.vue"
 
 interface MovieCardHoverMenuProps {
   movie: TmdbSearchResponseResultItemType;
