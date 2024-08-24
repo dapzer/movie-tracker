@@ -15,6 +15,6 @@ const searchTerm = computed(() => searchStore.state.searchValue);
 
 <style lang="scss" module>
 .feed {
-  margin-top: 60px;
+  margin-top: 60px !important;
 }
 </style>

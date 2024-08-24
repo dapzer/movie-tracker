@@ -44,28 +44,32 @@ const onNextButtonClick = () => {
 
 <template>
   <div
-    ref="emblaRef"
     :class="['embla', {
       'embla__shadow-left': props.withShadow && !prevBtnDisabled,
       'embla__shadow-right': props.withShadow && !nextBtnDisabled
     }]"
   >
-    <div class="embla__container">
-      <div
-        v-for="(item, index) in props.data"
-        :key="index"
-        class="embla__slide"
-        :style="{
-          '--max-width': props.maxWidth ? `${props.maxWidth}px`: '100%',
-
-        }"
-      >
-        <slot
-          name="slide"
-          :item="item"
-        />
+    <div
+      ref="emblaRef"
+      class="embla__viewport"
+    >
+      <div class="embla__container">
+        <div
+          v-for="(item, index) in props.data"
+          :key="index"
+          class="embla__slide"
+          :style="{
+            '--max-width': props.maxWidth ? `${props.maxWidth}px`: '100%',
+          }"
+        >
+          <slot
+            name="slide"
+            :item="item"
+          />
+        </div>
       </div>
     </div>
+
     <div class="embla__controls">
       <div class="embla__buttons">
         <UiButton
@@ -96,6 +100,7 @@ const onNextButtonClick = () => {
 .embla {
   position: relative;
   max-width: var(--s-container);
+  width: 100%;
   overflow: hidden;
   --slide-height: auto;
   --slide-spacing: 6px;
@@ -150,23 +155,17 @@ const onNextButtonClick = () => {
 }
 
 .embla__container {
-  backface-visibility: hidden;
   display: flex;
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
 }
 
 .embla__slide {
+  transform: translate3d(0, 0, 0);
   flex: 0 0 var(--slide-size);
-  //max-width: var(--max-width);
   max-width: var(--max-width);
-  aspect-ratio: var(--slide-ar);
   min-width: 0;
-  padding-left: var(--slide-spacing);
-}
-
-.embla__controls {
-
+  margin-left: var(--slide-spacing);
 }
 
 .embla__buttons {
@@ -195,9 +194,6 @@ const onNextButtonClick = () => {
   @include mobileDevice() {
     display: none;
   }
-}
-
-.embla__button {
 }
 
 .embla__button:disabled {
