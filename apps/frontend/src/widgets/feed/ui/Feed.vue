@@ -72,7 +72,7 @@ await Promise.all([
   gap: 70px;
 
   .card {
-    height: 100%
+    height: 100%;
   }
 }
 </style>

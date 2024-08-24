@@ -1,20 +1,21 @@
 import type { Ref } from "vue";
 import {
   getTmdbCreditsApi,
-  getTmdbDetailApi, getTmdbPersonExternalIdsApi,
+  getTmdbDetailApi,
   getTmdbPersonCreditsApi,
+  getTmdbPersonExternalIdsApi,
+  getTmdbPopularApi,
   getTmdbRecommendationsApi,
   getTmdbSearchApi,
   getTmdbSeasonsApi,
-  getTmdbTrendsApi,
   getTmdbVideosApi
 } from "~/api/tmdb/tmdbApi";
 import type {
   TmdbDefaultQueriesType,
   TmdbPersonCreditsQueriesType,
+  TmdbPopularQueriesType,
   TmdbSearchQueriesType,
-  TmdbSeasonsQueriesType,
-  TmdbTrendsQueriesType
+  TmdbSeasonsQueriesType
 } from "~/api/tmdb/tmdbApiTypes";
 import { useQuery } from "@tanstack/vue-query";
 import type { TmdbPersonType } from "@movie-tracker/types";
@@ -80,13 +81,13 @@ export const useGetTmdbRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType
     }
   );
 
-export const useGetTmdbPopularListApi = (queries: Ref<TmdbTrendsQueriesType>) =>
+export const useGetTmdbPopularListApi = (queries: Ref<TmdbPopularQueriesType>) =>
   useQuery({
     queryKey: [
-      TmdbQueryKeys.GET_TRENDS,
+      TmdbQueryKeys.GET_POPULAR,
       queries
     ],
-    queryFn: () => getTmdbTrendsApi(queries.value)
+    queryFn: () => getTmdbPopularApi(queries.value)
   });
 
 export const useGetTmdbSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>

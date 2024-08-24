@@ -15,14 +15,13 @@ export interface TmdbPersonCreditsQueriesType {
   personId: MediaId;
 }
 
-export interface TmdbTrendsQueriesType {
+export interface TmdbPopularQueriesType {
   language: Language;
   mediaType: MediaType;
   timeWindow?: string;
 }
 
-export interface TmdbSeasonsQueriesType extends TmdbDefaultQueriesType {
-}
+export type TmdbSeasonsQueriesType = TmdbDefaultQueriesType
 
 export interface TmdbDefaultQueriesType {
   language: Language;

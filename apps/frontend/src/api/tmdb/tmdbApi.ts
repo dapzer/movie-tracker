@@ -12,9 +12,9 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import type {
   TmdbDefaultQueriesType,
   TmdbPersonCreditsQueriesType,
+  TmdbPopularQueriesType,
   TmdbSearchQueriesType,
-  TmdbSeasonsQueriesType,
-  TmdbTrendsQueriesType
+  TmdbSeasonsQueriesType
 } from "~/api/tmdb/tmdbApiTypes";
 import { contentApi } from "~/api/instance";
 
@@ -63,7 +63,7 @@ export const getTmdbPersonExternalIdsApi = async (queries: TmdbDefaultQueriesTyp
 };
 
 
-export const getTmdbTrendsApi = async (queries: TmdbTrendsQueriesType) => {
+export const getTmdbPopularApi = async (queries: TmdbPopularQueriesType) => {
   return contentApi.get<TmdbSearchResponseType>(`${queries.mediaType}/popular`, {
     params: {
       language: queries.language,
