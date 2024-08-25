@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from "#imports"
 import { ref, type VNodeRef } from "vue"
-import UiContainer from "~/components/ui/UiContainer.vue"
+import { UiContainer } from "~/components/newUi/UiContainer"
 import { UiButton } from "~/components/newUi/UiButton"
 import { CrossIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/newUi/UiTypography"
