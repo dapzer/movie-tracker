@@ -12,6 +12,7 @@ interface UiMediaCardProps {
   width?: number;
   linkUrl: string;
   fallbackImageSrc?: string;
+  fullHeight?: boolean;
 }
 
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 
 <template>
   <UiCardBase
+    :full-height="props.fullHeight"
     :link-url="props.linkUrl"
     :width="props.width"
   >

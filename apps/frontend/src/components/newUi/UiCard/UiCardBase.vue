@@ -5,6 +5,7 @@ interface UiCardBaseProps {
   width?: number | string;
   height?: number | string;
   linkUrl?: string;
+  fullHeight?: boolean;
   // For horizontal card only
   imageWidth?: number | string;
   horizontal?: boolean;
@@ -16,7 +17,8 @@ const props = defineProps<UiCardBaseProps>()
 <template>
   <div
     :class="[$style.wrapper, {
-      [$style.horizontal]: props.horizontal
+      [$style.horizontal]: props.horizontal,
+      [$style.fullHeight]: props.fullHeight
     }]"
     :style="{
       '--maxWidth': Number.isInteger(props.width) ? `${props.width}px` : (props.width || 'unset'),
@@ -54,6 +56,10 @@ const props = defineProps<UiCardBaseProps>()
     .imageWrapper {
       max-width: var(--imageMaxWidth);
     }
+  }
+
+  &.fullHeight {
+    height: 100%;
   }
 
   .imageWrapper {
