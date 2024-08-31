@@ -20,6 +20,7 @@ export interface TmdbPopularQueriesType {
   language: Language;
   mediaType: MediaType;
   timeWindow?: string;
+  page: Page;
 }
 
 export interface TmdbUpcomingMoviesQueriesType {

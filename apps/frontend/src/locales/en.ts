@@ -262,6 +262,7 @@ export default {
     confirmAction: "Confirm action",
     yes: "Yes",
     no: "No",
+    back: "Back",
     characters: "Characters",
     termsOfUse: "Terms Of Use",
     privacyPolicy: "Privacy Policy",

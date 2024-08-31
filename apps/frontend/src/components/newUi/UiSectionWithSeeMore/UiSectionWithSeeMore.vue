@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
         variant="label"
         schema="link"
       >
-        {{ props.seeMoreText ?? $t("ui.seeMore") }}{{ " " }}
+        {{ props.seeMoreText ?? $t("ui.seeMore") }}
         <ArrowRightBoldIcon />
       </UiTypography>
     </div>
@@ -66,6 +66,7 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
     .link {
       display: flex;
       align-items: center;
+      gap: 8px;
 
       svg {
         width: 20px;

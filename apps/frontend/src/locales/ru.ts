@@ -263,6 +263,7 @@ export default {
     confirmAction: 'Подтвердите действие',
     yes: 'Да',
     no: 'Нет',
+    back: 'Назад',
     characters: 'Символы',
     termsOfUse: "Условия использования",
     privacyPolicy: "Политику конфиденциальности",

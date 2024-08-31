@@ -18,6 +18,7 @@ const localePath = useLocalePath()
 const movieQueries = computed(() => {
   return {
     language: locale.value,
+    page: 1,
     mediaType: MediaTypeEnum.MOVIE,
     timeWindow: 'week'
   };
@@ -26,6 +27,7 @@ const movieQueries = computed(() => {
 const tvQueries = computed(() => {
   return {
     language: locale.value,
+    page: 1,
     mediaType: MediaTypeEnum.TV,
     timeWindow: 'week'
   };
@@ -89,7 +91,7 @@ await Promise.all([
     >
       <template #slide="{item}">
         <MovieCard
-          :class="$style.card"
+          full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
         />
@@ -103,7 +105,7 @@ await Promise.all([
     >
       <template #slide="{item}">
         <MovieCard
-          :class="$style.card"
+          full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"
         />
@@ -118,7 +120,7 @@ await Promise.all([
     >
       <template #slide="{item}">
         <MovieCard
-          :class="$style.card"
+          full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
         />
@@ -133,7 +135,7 @@ await Promise.all([
     >
       <template #slide="{item}">
         <MovieCard
-          :class="$style.card"
+          full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"
         />
@@ -148,7 +150,7 @@ await Promise.all([
     >
       <template #slide="{item}">
         <MovieCard
-          :class="$style.card"
+          full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"
         />
@@ -162,9 +164,5 @@ await Promise.all([
   display: flex;
   flex-direction: column;
   gap: 70px;
-
-  .card {
-    height: 100%;
-  }
 }
 </style>

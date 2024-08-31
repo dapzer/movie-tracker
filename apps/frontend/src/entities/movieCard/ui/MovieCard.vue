@@ -9,6 +9,7 @@ import { UiRating } from "~/components/newUi/UiRating"
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType;
   width?: number;
+  fullHeight?: boolean;
 }
 
 const props = defineProps<MovieCardProps>();
@@ -34,6 +35,7 @@ const releaseDate = computed(() => {
     :image-src="getProxiedImageUrl(props.movie.poster_path, 360)"
     :link-url="localePath(`/details/${movie.media_type}/${movie.id}`)"
     :width="props.width"
+    :full-height="props.fullHeight"
     fallback-image-src="/defaultMoviePoster.svg"
   >
     <template #content>

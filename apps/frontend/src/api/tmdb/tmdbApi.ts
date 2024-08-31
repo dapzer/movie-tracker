@@ -73,7 +73,7 @@ export const getTmdbPopularApi = async (queries: TmdbPopularQueriesType) => {
   return contentApi.get<TmdbSearchResponseType>(`${queries.mediaType}/popular`, {
     params: {
       language: queries.language,
-      page: 1,
+      page: queries.page,
       time_window: queries.timeWindow
     }
   });
