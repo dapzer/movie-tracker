@@ -26,6 +26,7 @@ const props = defineProps<UiBackLinkProps>()
 
 <style module lang="scss">
 .body {
+  width: fit-content;
   display: flex;
   align-items: center;
   gap: 8px;
