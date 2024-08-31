@@ -2,7 +2,7 @@
 
 import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
-import { UiMediaCard } from '~/components/newUi/UiCard/mediaCard';
+import { UiMediaCard, UiMediaCardSkeleton } from '~/components/newUi/UiCard/mediaCard';
 import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
 import { UiListCard } from '~/components/newUi/UiCard/listCard';
 import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
@@ -68,6 +68,12 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
           title="Movie Title"
           link-url=""
         />
+      </Variant>
+
+      <Variant
+        title="MediaCardSkeleton"
+      >
+        <UiMediaCardSkeleton />
       </Variant>
 
       <Variant
