@@ -46,7 +46,7 @@
     "@nuxt/image": "^1.7.0",
     "@tanstack/vue-query": "^5.51.21",
     "@yeger/vue-masonry-wall": "^5.0.12",
-    "embla-carousel-vue": "^8.1.8 ",
+    "embla-carousel-vue": "^8.2.0",
     "radix-vue": "^1.9.2",
     "sass": "^1.77.4",
     "vaul-vue": "^0.2.0",

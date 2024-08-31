@@ -129,6 +129,11 @@ export default {
   feed: {
     popularMovies: "Popular movies",
     popularTv: "Popular TV shows",
+    futureReleases: 'Future releases',
+    upcomingMovies: 'Upcoming movies',
+    latestReleases: 'Latest releases',
+    newEpisodes: 'New episodes',
+    futureTv: 'Future TV shows',
   },
   mediaItem: {
     addedDate: "Added Date",
@@ -261,6 +266,7 @@ export default {
     termsOfUse: "Terms Of Use",
     privacyPolicy: "Privacy Policy",
     and: "and",
+    seeMore: "See more",
     errors: {
       pageNotFound: "Page not found.",
     },

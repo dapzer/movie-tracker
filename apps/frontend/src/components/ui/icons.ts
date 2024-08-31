@@ -16,6 +16,7 @@ export { default as TrashIcon } from "~/assets/svg/icons/trash.svg";
 export { default as ChartCandleIcon } from "~/assets/svg/icons/chart-candle.svg";
 export { default as EyeIcon } from "~/assets/svg/icons/eye.svg"
 export { default as ArrowRightIcon } from "~/assets/svg/icons/arrowRight.svg"
+export { default as ArrowRightBoldIcon } from "~/assets/svg/icons/arrowRightBold.svg"
 export { default as CrossIcon } from "~/assets/svg/icons/cross.svg"
 export { default as CheckIcon } from "~/assets/svg/icons/check.svg"
 export { default as CardArrowTopIcon } from "assets/svg/icons/cardArrowTop.svg"

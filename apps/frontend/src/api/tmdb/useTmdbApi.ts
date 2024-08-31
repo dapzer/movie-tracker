@@ -2,20 +2,30 @@ import type { Ref } from "vue";
 import {
   getTmdbCreditsApi,
   getTmdbDetailApi,
+  getTmdbDiscoverMovieApi,
+  getTmdbDiscoverTvApi,
   getTmdbPersonCreditsApi,
   getTmdbPersonExternalIdsApi,
   getTmdbPopularApi,
   getTmdbRecommendationsApi,
   getTmdbSearchApi,
   getTmdbSeasonsApi,
+  getTmdbTvAiringTodayApi,
+  getTmdbTvOnTheAirApi,
+  getTmdbUpcomingMoviesApi,
   getTmdbVideosApi
 } from "~/api/tmdb/tmdbApi";
 import type {
   TmdbDefaultQueriesType,
+  TmdbDiscoverMovieQueriesType,
+  TmdbDiscoverTvQueriesType,
   TmdbPersonCreditsQueriesType,
   TmdbPopularQueriesType,
   TmdbSearchQueriesType,
-  TmdbSeasonsQueriesType
+  TmdbSeasonsQueriesType,
+  TmdbTvAiringTodayQueriesType,
+  TmdbTvOnTheAirQueriesType,
+  TmdbUpcomingMoviesQueriesType
 } from "~/api/tmdb/tmdbApiTypes";
 import { useQuery } from "@tanstack/vue-query";
 import type { TmdbPersonType } from "@movie-tracker/types";
@@ -118,3 +128,51 @@ export const useGetTmdbTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType
     ],
     queryFn: () => getTmdbSeasonsApi(queries.value)
   });
+
+export const useGetTmdbUpcomingMoviesApi = (queries: Ref<TmdbUpcomingMoviesQueriesType>) =>
+  useQuery({
+    queryKey: [
+      TmdbQueryKeys.GET_UPCOMING_MOVIES,
+      queries
+    ],
+    queryFn: () => getTmdbUpcomingMoviesApi(queries.value)
+  });
+
+export const useGetTmdbTvOnTheAirApi = (queries: Ref<TmdbTvOnTheAirQueriesType>) =>
+  useQuery({
+    queryKey: [
+      TmdbQueryKeys.GET_TV_ON_THE_AIR,
+      queries
+    ],
+    queryFn: () => getTmdbTvOnTheAirApi(queries.value)
+  });
+
+export const useGetTmdbTvAiringTodayApi = (queries: Ref<TmdbTvAiringTodayQueriesType>) => {
+  return useQuery({
+    queryKey: [
+      TmdbQueryKeys.GET_TV_AIRING_TODAY,
+      queries
+    ],
+    queryFn: () => getTmdbTvAiringTodayApi(queries.value)
+  });
+}
+
+export const useGetTmdbDiscoverMovieApi = (queries: Ref<TmdbDiscoverMovieQueriesType>) => {
+  return useQuery({
+    queryKey: [
+      TmdbQueryKeys.GET_DISCOVER_MOVIE,
+      queries
+    ],
+    queryFn: () => getTmdbDiscoverMovieApi(queries.value)
+  });
+}
+
+export const useGetTmdbDiscoverTvApi = (queries: Ref<TmdbDiscoverTvQueriesType>) => {
+  return useQuery({
+    queryKey: [
+      TmdbQueryKeys.GET_DISCOVER_TV,
+      queries
+    ],
+    queryFn: () => getTmdbDiscoverTvApi(queries.value)
+  });
+}

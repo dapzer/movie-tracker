@@ -13,7 +13,9 @@ interface UiSliderProps<T> {
 
 const props = defineProps<UiSliderProps<T>>()
 
-const [emblaRef, emblaApi] = emblaCarouselVue()
+const [emblaRef, emblaApi] = emblaCarouselVue({
+  align: 'start',
+})
 const prevBtnDisabled = ref(true)
 const nextBtnDisabled = ref(false)
 

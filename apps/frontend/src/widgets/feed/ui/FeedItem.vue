@@ -1,13 +1,12 @@
 <script generic="T" setup lang="ts">
-import { type TagColor, UiTag } from "~/components/newUi/UiTag"
-import { UiTypography } from "~/components/newUi/UiTypography"
 import { UiSlider } from "~/components/newUi/UiSlider"
+import { UiCardsGrid } from "~/components/newUi/UiCardsGrid"
+import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
 
 interface FeedItemProps<T> {
   data: T[] | undefined;
   title: string;
-  tagText?: string;
-  tagColor?: TagColor;
+  seeMoreUrl: string;
   slideWidth?: number;
   sliderWithShadow?: boolean;
 }
@@ -17,27 +16,14 @@ const props = defineProps<FeedItemProps<T>>()
 </script>
 
 <template>
-  <section
-    v-if="data"
+  <UiSectionWithSeeMore
+    :title="props.title"
     :class="$style.wrapper"
+    see-more-align="end"
+    :see-more-url="props.seeMoreUrl"
   >
-    <div :class="$style.header">
-      <UiTypography
-        variant="title3"
-        as="h2"
-      >
-        {{ props.title }}
-      </UiTypography>
-
-      <UiTag
-        v-if="props.tagText"
-        :color="props.tagColor"
-      >
-        {{ props.tagText }}
-      </UiTag>
-    </div>
-
     <UiSlider
+      :class="$style.slider"
       :data="props.data as T[]"
       :maxWidth="props.slideWidth"
       :withShadow="props.sliderWithShadow"
@@ -49,19 +35,34 @@ const props = defineProps<FeedItemProps<T>>()
         />
       </template>
     </UiSlider>
-  </section>
+
+    <UiCardsGrid :class="$style.grid">
+      <slot
+        v-for="item in props.data as T[]"
+        name="slide"
+        :item="item"
+      />
+    </UiCardsGrid>
+  </UiSectionWithSeeMore>
 </template>
 
 <style module lang="scss">
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+@import "~/styles/mixins";
+@import "~/styles/newVariables";
 
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.wrapper {
+  .grid {
+    display: none;
+  }
+
+  @include mobileDevice {
+    .slider {
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+    }
   }
 }
 </style>

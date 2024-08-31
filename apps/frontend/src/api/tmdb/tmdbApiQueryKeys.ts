@@ -6,5 +6,10 @@ export const TmdbQueryKeys = {
   GET_POPULAR: "tmdb/getPopular",
   GET_SEARCH: "tmdb/getSearch",
   GET_VIDEOS: "tmdb/getVideos",
-  GET_SEASONS: "tmdb/getSeasons"
+  GET_SEASONS: "tmdb/getSeasons",
+  GET_UPCOMING_MOVIES: "tmdb/getUpcomingMovies",
+  GET_TV_ON_THE_AIR: "tmdb/getTvOnTheAir",
+  GET_TV_AIRING_TODAY: "tmdb/getTvAiringToday",
+  GET_DISCOVER_MOVIE: "tmdb/getDiscoverMovie",
+  GET_DISCOVER_TV: "tmdb/getDiscoverTv",
 } as const

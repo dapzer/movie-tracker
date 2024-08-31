@@ -129,6 +129,12 @@ export default {
   feed: {
     popularMovies: 'Популярные фильмы',
     popularTv: 'Популярные сериалы',
+    futureReleases: 'Будущие релизы',
+    upcomingMovies: 'Новые фильмы',
+    latestReleases: 'Последние релизы',
+    newEpisodes: 'Новые эпизоды',
+    onTheAir: 'В эфире',
+    futureTv: 'Будущие сериалы',
   },
   mediaItem: {
     addedDate: 'Дата добавления',
@@ -261,6 +267,7 @@ export default {
     termsOfUse: "Условия использования",
     privacyPolicy: "Политику конфиденциальности",
     and: "и",
+    seeMore: "Показать всё",
     errors: {
       pageNotFound: 'Страница не найдена.',
     },
