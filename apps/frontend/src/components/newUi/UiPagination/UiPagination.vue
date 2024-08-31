@@ -13,7 +13,7 @@ import { ArrowIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/newUi/UiTypography"
 
 interface UiPaginationProps {
-  totalPages: number;
+  totalItems: number;
   pagesOnSides: number;
   itemsPerPage: number;
 }
@@ -25,7 +25,7 @@ const currentPage = defineModel<number>();
 <template>
   <PaginationRoot
     v-model:page="currentPage"
-    :total="props.totalPages"
+    :total="props.totalItems"
     :items-per-page="props.itemsPerPage"
     :sibling-count="props.pagesOnSides"
     show-edges

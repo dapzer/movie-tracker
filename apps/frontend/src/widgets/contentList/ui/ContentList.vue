@@ -43,7 +43,7 @@ const currentPage = defineModel<number>("currentPage")
         v-model="currentPage"
         :pages-on-sides="1"
         :items-per-page="20"
-        :total-pages="props.totalPages"
+        :total-items="props.totalPages * 20"
       />
     </template>
   </UiContainer>

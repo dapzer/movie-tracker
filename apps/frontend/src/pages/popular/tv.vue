@@ -7,12 +7,13 @@ import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
+import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 
 const { locale, t } = useI18n();
 const currentPage = ref(1)
 const localePath = useLocalePath()
 
-const tvQueries = computed(() => {
+const queries = computed(() => {
   return {
     language: locale.value,
     mediaType: MediaTypeEnum.TV,
@@ -30,12 +31,8 @@ useSeoMeta({
   },
 })
 
-const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(tvQueries);
+const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(queries);
 await getTmdbMoviePopularListApi.suspense();
-
-const totalPages = computed(() => {
-  return (getTmdbMoviePopularListApi.data?.value?.total_pages ?? 0) / 20;
-})
 </script>
 
 <template>
@@ -43,7 +40,7 @@ const totalPages = computed(() => {
     v-model:current-page="currentPage"
     :title="$t('feed.popularTv')"
     :back-button-url="localePath('/')"
-    :total-pages="totalPages"
+    :total-pages="getTmdbTotalPages(getTmdbMoviePopularListApi.data?.value?.total_pages)"
   >
     <template v-if="!getTmdbMoviePopularListApi.isFetching.value">
       <MovieCard

@@ -16,7 +16,7 @@ const currentPage = ref(1)
         v-model="currentPage"
         :pages-on-sides="1"
         :items-per-page="10"
-        :total-pages="100"
+        :total-items="100"
       />
     </template>
 

@@ -8,11 +8,9 @@ import FeedItem from "~/widgets/feed/ui/FeedItem.vue"
 import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { MovieCard } from "~/entities/movieCard"
 import { useLocalePath } from "#i18n"
+import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
 
 const { locale } = useI18n();
-
-const today = new Date().toISOString().split('T')[0];
-const nextMonth = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0];
 const localePath = useLocalePath()
 
 const movieQueries = computed(() => {
@@ -37,8 +35,8 @@ const upcomingMoviesQueries = computed<TmdbDiscoverMovieQueriesType>(() => {
   return {
     language: locale.value,
     page: 1,
-    "primary_release_date.gte": today,
-    "primary_release_date.lte": nextMonth,
+    "primary_release_date.gte": todayWithoutTime,
+    "primary_release_date.lte": nextThirtyDaysWithoutTime,
     sort_by: 'popularity.desc',
   }
 })
@@ -47,8 +45,8 @@ const tvOnTheAirQueries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
     language: locale.value,
     page: 1,
-    "first_air_date.gte": today,
-    "first_air_date.lte": nextMonth,
+    "first_air_date.gte": todayWithoutTime,
+    "first_air_date.lte": nextThirtyDaysWithoutTime,
     without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
       TmdbTvGenresEnum.REALITY].join(','),
   }
@@ -59,8 +57,8 @@ const tvAiringTodayQueries = computed<TmdbDiscoverTvQueriesType>(() => {
     language: locale.value,
     page: 1,
     sort_by: 'popularity.desc',
-    "air_date.gte": today,
-    "air_date.lte": today,
+    "air_date.gte": todayWithoutTime,
+    "air_date.lte": todayWithoutTime,
     without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
       TmdbTvGenresEnum.REALITY].join(','),
   }
