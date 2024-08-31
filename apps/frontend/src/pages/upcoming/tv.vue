@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useGetTmdbDiscoverMovieApi } from "~/api/tmdb/useTmdbApi"
+import { useGetTmdbDiscoverTvApi } from "~/api/tmdb/useTmdbApi"
 import { computed, useI18n, useSeoMeta } from "#imports"
-import { MediaTypeEnum } from "@movie-tracker/types"
+import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { MovieCard } from "~/entities/movieCard"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
-import type { TmdbDiscoverMovieQueriesType } from "~/api/tmdb/tmdbApiTypes"
+import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 
@@ -15,43 +15,44 @@ const { locale, t } = useI18n();
 const currentPage = ref(1)
 const localePath = useLocalePath()
 
-const queries = computed<TmdbDiscoverMovieQueriesType>(() => {
+const queries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
     language: locale.value,
     page: currentPage.value,
-    "primary_release_date.gte": todayWithoutTime,
-    "primary_release_date.lte": nextThirtyDaysWithoutTime,
-    sort_by: 'popularity.desc',
+    "first_air_date.gte": todayWithoutTime,
+    "first_air_date.lte": nextThirtyDaysWithoutTime,
+    without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
+      TmdbTvGenresEnum.REALITY].join(','),
   }
 })
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${t("feed.futureReleases")} | ${titleChunk}`;
+    return `${t("feed.futureTv")} | ${titleChunk}`;
   },
   ogTitle() {
-    return `%s | ${t("feed.futureReleases")}`;
+    return `%s | ${t("feed.futureTv")}`;
   },
 })
 
-const getTmdbUpcomingMoviesApi = useGetTmdbDiscoverMovieApi(queries);
-await getTmdbUpcomingMoviesApi.suspense();
+const getTmdbTvOnTheAirApi = useGetTmdbDiscoverTvApi(queries);
+await getTmdbTvOnTheAirApi.suspense();
 </script>
 
 <template>
   <ContentList
     v-model:current-page="currentPage"
-    :title="$t('feed.futureReleases')"
+    :title="$t('feed.futureTv')"
     :back-button-url="localePath('/')"
-    :total-pages="getTmdbTotalPages(getTmdbUpcomingMoviesApi.data?.value?.total_pages)"
+    :total-pages="getTmdbTotalPages(getTmdbTvOnTheAirApi.data?.value?.total_pages)"
   >
-    <template v-if="!getTmdbUpcomingMoviesApi.isFetching.value">
+    <template v-if="!getTmdbTvOnTheAirApi.isFetching.value">
       <MovieCard
-        v-for="item in getTmdbUpcomingMoviesApi.data?.value?.results"
+        v-for="item in getTmdbTvOnTheAirApi.data?.value?.results"
         :key="item.id"
         full-height
         :width="195"
-        :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
+        :movie="{...item, media_type: MediaTypeEnum.TV}"
       />
     </template>
     <template v-else>
