@@ -98,10 +98,17 @@ const onSignIn = async (provider: string) => {
       flex-shrink: 0;
     }
 
+    &:hover,
+    &:active,
+    &:focus {
+      background: var(--c-stroke) !important;
+    }
+
 
     span {
       max-width: 208px;
       width: 100%;
+      height: 1em;
 
       &.titleEn {
         max-width: 165px;
