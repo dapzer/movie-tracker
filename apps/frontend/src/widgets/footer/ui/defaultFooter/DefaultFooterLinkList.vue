@@ -20,6 +20,7 @@ const localePath = useLocalePath();
     <UiTypography
       v-for="link in props.links"
       :key="link.title"
+      variant="label"
       :as="NuxtLink"
       :to="localePath(link.href)"
     >
@@ -38,8 +39,10 @@ const localePath = useLocalePath();
   grid-template-columns: 1fr 1fr;
 
   a {
-    font-size: var(--fs-label-small);
+    //font-size: var(--fs-label-small);
     color: var(--c-white-60);
+    line-height: var(--lh-input);
+    font-weight: var(--fw-regular);
   }
 
   @include mobileDevice() {

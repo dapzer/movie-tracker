@@ -88,11 +88,9 @@ const localePath = useLocalePath()
         }
 
         .title {
-          font-size: var(--fs-label-small);
         }
 
         .description {
-          font-size: var(--fs-label-small);
           white-space: pre-wrap;
         }
       }
