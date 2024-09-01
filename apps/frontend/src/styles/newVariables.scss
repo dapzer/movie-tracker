@@ -134,6 +134,7 @@ $bp-sm: 568px;
   --lh-input: 1.5rem;
   --lh-input-error: 1.125rem;
   --lh-score: 1rem;
+  --lh-logo: 1.5rem;
 
   @include tabletDevice() {
     --lh-h1: 2.75rem;
@@ -151,6 +152,7 @@ $bp-sm: 568px;
     --lh-input: 1.5rem;
     --lh-input-error: 1.125rem;
     --lh-score: 1rem;
+    --lh-logo: 1.5rem;
   }
 
   @include mobileDevice() {
@@ -169,6 +171,7 @@ $bp-sm: 568px;
     --lh-input: 1.5rem;
     --lh-input-error: 1.125rem;
     --lh-score: 1rem;
+    --lh-logo: 1.5rem;
   }
 
   /* Font Weights */

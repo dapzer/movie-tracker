@@ -26,6 +26,7 @@ const onClickLogo = () => {
   >
     <LogoIcon />
     <UiTypography
+      as="span"
       :class="$style.title"
     >
       Movie Tracker
@@ -39,12 +40,15 @@ const onClickLogo = () => {
   display: flex;
   align-items: center;
   gap: 12px;
+  vertical-align: middle;
 
   .title {
     color: var(--c-text);
     font-family: var(--ff-neue-haas);
     font-weight: var(--fw-medium);
     font-size: var(--fs-logo);
+    line-height: var(--lh-logo);
+    height: 20px;
   }
 }
 </style>
