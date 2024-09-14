@@ -14,6 +14,7 @@ import { UiContainer } from "~/components/newUi/UiContainer"
 <style lang="scss" module>
 .wrapper {
   width: 100%;
+  padding-right: var(--scrollbar-width);
   background: var(--c-header-footer-background);
   min-height: var(--s-header-height);
   border-bottom: 1px solid var(--c-stroke);
