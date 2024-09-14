@@ -7,6 +7,7 @@ interface UiInfoHeaderProps {
   title: string;
   description?: string;
   image?: string;
+  fallbackImage: string;
   overview?: string;
 }
 
@@ -15,19 +16,25 @@ const props = defineProps<UiInfoHeaderProps>();
 
 <template>
   <section :class="$style.wrapper">
+    <div
+      :class="$style.backgroundCircle"
+      :style="{
+        '--background-color': `url(${props.image || props.fallbackImage})`
+      }"
+    />
+
     <div :class="$style.poster">
       <div :class="$style.imageWrapper">
         <UiImage
           preload
           :src="props.image"
-          fallback-src="/defaultMoviePoster.svg"
+          :fallback-src="props.fallbackImage"
           loading="eager"
           fetchpriority="high"
           :width="256"
           :alt="props.title"
         />
       </div>
-
 
       <div
         aria-hidden="true"
@@ -99,6 +106,42 @@ const props = defineProps<UiInfoHeaderProps>();
   gap: 32px;
   padding: 20px;
   background-color: var(--c-main-background-20);
+  position: relative;
+  overflow: visible;
+
+  .backgroundCircle {
+    position: absolute;
+    top: -232px;
+    left: -120px;
+    width: 100%;
+    max-width: 700px;
+    height: 600px;
+    opacity: .4;
+    filter: blur(250px);
+    background: var(--background-color);
+    z-index: -1;
+    transition: opacity .3s ease-in-out;
+
+    @include tabletDevice {
+      top: -169px;
+      left: -80px;
+      max-width: 473px;
+      height: 425px;
+    }
+
+    @include mobileDevice {
+      margin: 0 auto;
+
+      top: -87px;
+      left: 0;
+      right: 0;
+      max-width: 342px;
+      height: 257px;
+      filter: blur(150px);
+      opacity: .75;
+    }
+  }
+
 
   .poster {
     width: 100%;

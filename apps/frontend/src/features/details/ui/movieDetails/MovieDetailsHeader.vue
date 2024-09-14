@@ -52,7 +52,8 @@ const title = computed(() => {
 <template>
   <UiInfoHeader
     :description="$t(`details.mediaType.${props.mediaType}`)"
-    :image="getProxiedImageUrl(props.details?.poster_path, 350)"
+    :image="props.details?.poster_path && getProxiedImageUrl(props.details?.poster_path, 350)"
+    fallback-image="/defaultMoviePoster.svg"
     :title="title"
     :overview="props.overview"
   >
