@@ -80,7 +80,8 @@ const videosList = computed(() => {
     />
 
     <UiSectionWithSeeMore
-      title="Videos"
+      v-if="videosList.length"
+      :title="$t(`details.videosTitle`)"
       hide-see-more
     >
       <UiSlider
@@ -98,33 +99,6 @@ const videosList = computed(() => {
         </template>
       </UiSlider>
     </UiSectionWithSeeMore>
-
-    <!--    <section-->
-    <!--      v-if="videosList.length"-->
-    <!--      :class="$style.block"-->
-    <!--    >-->
-    <!--      <UiTypography-->
-    <!--        as="h2"-->
-    <!--        variant="title2"-->
-    <!--      >-->
-    <!--        {{ $t(`details.videosTitle`) }}-->
-    <!--      </UiTypography>-->
-    <!--      <UiListWithShowMore-->
-    <!--        :items="videosList"-->
-    <!--        :items-to-show="3"-->
-    <!--        :title="$t('details.videosTitle')"-->
-    <!--      >-->
-    <!--        <template #card="{ item: video }">-->
-    <!--          <VideoCardWithPlayer-->
-    <!--            :key="video.id"-->
-    <!--            :description="`${$t('details.releaseDate')}: ${new Date(video.published_at).toLocaleDateString(locale)}`"-->
-    <!--            :preview-url="`https://i.ytimg.com/vi/${video.key}/hq720.jpg`"-->
-    <!--            :title="video.name"-->
-    <!--            :video-url="`https://www.youtube.com/embed/${video.key}?autoplay=1`"-->
-    <!--          />-->
-    <!--        </template>-->
-    <!--      </UiListWithShowMore>-->
-    <!--    </section>-->
 
     <section
       v-if="tmdbGetMovieCreditsApi.data.value?.cast.length"
