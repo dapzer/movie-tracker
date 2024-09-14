@@ -8,7 +8,7 @@ interface UiSectionWithSeeMoreProps {
   title: string;
   seeMoreText?: string;
   hideSeeMore?: boolean;
-  seeMoreUrl: string;
+  seeMoreUrl?: string;
   seeMoreAlign?: 'start' | 'end';
 }
 
@@ -33,6 +33,7 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
       </UiTypography>
 
       <UiTypography
+        v-if="!props.hideSeeMore"
         :class="$style.link"
         :as="NuxtLink"
         :to="props.seeMoreUrl"

@@ -10,6 +10,7 @@ interface UiVideoCardProps {
   previewSrc: string;
   description: string;
   title: string;
+  fullHeight?: boolean;
 }
 
 const props = withDefaults(defineProps<UiVideoCardProps>(), {
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
   <UiCardBase
     :class="$style.wrapper"
     :width="props.width"
+    :fullHeight="props.fullHeight"
   >
     <template #image>
       <div :class="$style.previewWrapper">

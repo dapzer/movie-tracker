@@ -10,12 +10,14 @@ import { computed, createError, useI18n } from "#imports";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
-import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
+import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { PersonCard } from "~/widgets/personCard";
 import { MovieCard } from "~/widgets/movieCard";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
-import { arrayToString } from "@movie-tracker/utils"
+import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
+import { UiSlider } from "~/components/newUi/UiSlider"
+import { LanguagesEnum } from "~/types/languagesEnum"
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -31,10 +33,17 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
+const getVideosQueries = computed(() => ({
+  mediaType: props.mediaType,
+  mediaId: props.mediaId,
+  language: locale.value,
+  includeVideoLanguage: locale.value === LanguagesEnum.RU ? [LanguagesEnum.EN, LanguagesEnum.RU].join(",") : undefined
+}));
+
 const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
 const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries);
 const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries);
-const tmdbGetVideosApi = useGetTmdbVideosApi(queries);
+const tmdbGetVideosApi = useGetTmdbVideosApi(getVideosQueries);
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -69,33 +78,53 @@ const videosList = computed(() => {
       :mediaType="props.mediaType"
       :overview="tmdbGetMovieDetailsApi.data.value?.overview"
     />
-    
-    <section
-      v-if="videosList.length"
-      :class="$style.block"
+
+    <UiSectionWithSeeMore
+      title="Videos"
+      hide-see-more
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
+      <UiSlider
+        :data="videosList"
+        :max-width="295"
       >
-        {{ $t(`details.videosTitle`) }}
-      </UiTypography>
-      <UiListWithShowMore
-        :items="videosList"
-        :items-to-show="3"
-        :title="$t('details.videosTitle')"
-      >
-        <template #card="{ item: video }">
+        <template #slide="{item}">
           <VideoCardWithPlayer
-            :key="video.id"
-            :description="`${$t('details.releaseDate')}: ${new Date(video.published_at).toLocaleDateString(locale)}`"
-            :preview-url="`https://i.ytimg.com/vi/${video.key}/hq720.jpg`"
-            :title="video.name"
-            :video-url="`https://www.youtube.com/embed/${video.key}?autoplay=1`"
+            full-height
+            :title="item.name"
+            :description="`${$t('details.releaseDate')}: ${new Date(item.published_at).toLocaleDateString(locale)}`"
+            :preview-src="`https://i.ytimg.com/vi/${item.key}/hq720.jpg`"
+            :video-url="`https://www.youtube.com/embed/${item.key}?autoplay=1`"
           />
         </template>
-      </UiListWithShowMore>
-    </section>
+      </UiSlider>
+    </UiSectionWithSeeMore>
+
+    <!--    <section-->
+    <!--      v-if="videosList.length"-->
+    <!--      :class="$style.block"-->
+    <!--    >-->
+    <!--      <UiTypography-->
+    <!--        as="h2"-->
+    <!--        variant="title2"-->
+    <!--      >-->
+    <!--        {{ $t(`details.videosTitle`) }}-->
+    <!--      </UiTypography>-->
+    <!--      <UiListWithShowMore-->
+    <!--        :items="videosList"-->
+    <!--        :items-to-show="3"-->
+    <!--        :title="$t('details.videosTitle')"-->
+    <!--      >-->
+    <!--        <template #card="{ item: video }">-->
+    <!--          <VideoCardWithPlayer-->
+    <!--            :key="video.id"-->
+    <!--            :description="`${$t('details.releaseDate')}: ${new Date(video.published_at).toLocaleDateString(locale)}`"-->
+    <!--            :preview-url="`https://i.ytimg.com/vi/${video.key}/hq720.jpg`"-->
+    <!--            :title="video.name"-->
+    <!--            :video-url="`https://www.youtube.com/embed/${video.key}?autoplay=1`"-->
+    <!--          />-->
+    <!--        </template>-->
+    <!--      </UiListWithShowMore>-->
+    <!--    </section>-->
 
     <section
       v-if="tmdbGetMovieCreditsApi.data.value?.cast.length"
@@ -174,7 +203,7 @@ const videosList = computed(() => {
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 70px;
   padding-top: 50px !important;
 
   @include mobileDevice() {

@@ -106,6 +106,10 @@ export interface TmdbDiscoverTvQueriesType {
 
 export type TmdbSeasonsQueriesType = TmdbDefaultQueriesType
 
+export type TmdbVideosQueriesType = TmdbDefaultQueriesType & {
+  includeVideoLanguage?: string
+}
+
 export interface TmdbDefaultQueriesType {
   language: Language;
   mediaType: MediaType;

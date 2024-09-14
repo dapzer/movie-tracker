@@ -20,7 +20,8 @@ import type {
   TmdbSeasonsQueriesType,
   TmdbTvAiringTodayQueriesType,
   TmdbTvOnTheAirQueriesType,
-  TmdbUpcomingMoviesQueriesType
+  TmdbUpcomingMoviesQueriesType,
+  TmdbVideosQueriesType
 } from "~/api/tmdb/tmdbApiTypes";
 import { contentApi } from "~/api/instance";
 
@@ -132,10 +133,11 @@ export const getTmdbRecommendationsApi = async (queries: TmdbDefaultQueriesType)
   });
 };
 
-export const getTmdbVideosApi = async (queries: TmdbDefaultQueriesType) => {
+export const getTmdbVideosApi = async (queries: TmdbVideosQueriesType) => {
   return contentApi.get<TmdbVideosType>(`${queries.mediaType}/${queries.mediaId}/videos`, {
     params: {
-      language: queries.language
+      language: queries.language,
+      include_video_language: queries.includeVideoLanguage
     }
   });
 };

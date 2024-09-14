@@ -82,7 +82,7 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   background: var(--c-black-90);
-  z-index: var(--i-moda);
+  z-index: var(--i-modal);
   width: 100%;
   height: 100%;
   display: flex;

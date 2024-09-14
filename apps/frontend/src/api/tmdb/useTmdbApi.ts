@@ -25,7 +25,8 @@ import type {
   TmdbSeasonsQueriesType,
   TmdbTvAiringTodayQueriesType,
   TmdbTvOnTheAirQueriesType,
-  TmdbUpcomingMoviesQueriesType
+  TmdbUpcomingMoviesQueriesType,
+  TmdbVideosQueriesType
 } from "~/api/tmdb/tmdbApiTypes";
 import { useQuery } from "@tanstack/vue-query";
 import type { TmdbPersonType } from "@movie-tracker/types";
@@ -111,7 +112,7 @@ export const useGetTmdbSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =
     }
   );
 
-export const useGetTmdbVideosApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbVideosApi = (queries: Ref<TmdbVideosQueriesType>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_VIDEOS,

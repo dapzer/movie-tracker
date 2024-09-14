@@ -7,9 +7,7 @@ export interface UiModalProps {
   title: string
 }
 
-const props = withDefaults(defineProps<UiModalProps>(), {
-  maxWidth: 495
-})
+const props = defineProps<UiModalProps>()
 const model = defineModel<boolean>()
 
 const visible = ref(model.value ?? false)
