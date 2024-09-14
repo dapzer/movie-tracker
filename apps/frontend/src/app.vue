@@ -2,9 +2,9 @@
 import { useAuth, useHead, useI18n, useSeoMeta } from "#imports";
 import { useLocaleHead } from "#i18n";
 import { ConfigProvider } from "radix-vue"
-import { useId } from "#app"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import { useId } from "#app"
 
 const { t } = useI18n();
 
@@ -13,7 +13,7 @@ const i18nHead = useLocaleHead({
   addSeoAttributes: true
 });
 
-const useIdFunction = () => useId()
+const useIdFunction = () => useId()!
 const { suspenseProfile } = useAuth()
 const getMediaListsApi = useGetMediaListsApi()
 const getMediaItemsApi = useGetMediaItemsApi()
