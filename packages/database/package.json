@@ -18,9 +18,9 @@
     "migrate": "dotenv -e ../../.env prisma migrate deploy"
   },
   "dependencies": {
-    "@prisma/client": "^5.17.0"
+    "@prisma/client": "^5.19.1"
   },
   "devDependencies": {
-    "prisma": "^5.17.0"
+    "prisma": "^5.19.1"
   }
 }

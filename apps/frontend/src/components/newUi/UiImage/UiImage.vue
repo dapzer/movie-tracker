@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { NuxtImg } from '#components';
-import { imgProps } from '#image/components/nuxt-img';
+import { imgProps } from "#image/components/NuxtImg.vue"
 
 const props = defineProps({
   ...imgProps,
