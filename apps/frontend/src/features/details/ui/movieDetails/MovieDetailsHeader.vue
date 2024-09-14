@@ -157,6 +157,6 @@ const title = computed(() => {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  font-size: var(--fs-label-small);
+  font-size: var(--fs-label-small) !important;
 }
 </style>

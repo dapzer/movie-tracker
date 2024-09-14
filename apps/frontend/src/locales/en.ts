@@ -270,6 +270,8 @@ export default {
     privacyPolicy: "Privacy Policy",
     and: "and",
     seeMore: "See more",
+    showMore: "Show more",
+    showLess: "Show less",
     errors: {
       pageNotFound: "Page not found.",
     },

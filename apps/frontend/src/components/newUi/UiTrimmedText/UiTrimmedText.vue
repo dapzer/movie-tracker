@@ -48,7 +48,7 @@ defineOptions({
       scheme="link"
       @click="showMore = !showMore"
     >
-      {{ showMore ? "Show less" : "Show more" }}
+      {{ showMore ? $t("ui.showLess") : $t("ui.showMore") }}
       <ArrowRightBoldIcon />
     </UiButton>
   </div>

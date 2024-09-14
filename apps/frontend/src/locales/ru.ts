@@ -271,6 +271,8 @@ export default {
     privacyPolicy: "Политику конфиденциальности",
     and: "и",
     seeMore: "Показать всё",
+    showMore: "Показать больше",
+    showLess: "Показать меньше",
     errors: {
       pageNotFound: 'Страница не найдена.',
     },
