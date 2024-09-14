@@ -121,17 +121,35 @@ const props = defineProps<UiInfoHeaderProps>();
     background: var(--background-color);
     z-index: -1;
     transition: opacity .3s ease-in-out;
+    animation: fadeIn .3s ease-in-out;
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: .4;
+
+        @include tabletDevice {
+          opacity: .5;
+        }
+
+        @include mobileDevice {
+          opacity: .75;
+        }
+      }
+    }
 
     @include tabletDevice {
       top: -169px;
       left: -80px;
       max-width: 473px;
       height: 425px;
+      opacity: .5;
     }
 
     @include mobileDevice {
       margin: 0 auto;
-
       top: -87px;
       left: 0;
       right: 0;
