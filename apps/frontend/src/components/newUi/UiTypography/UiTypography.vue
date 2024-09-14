@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
 
-export type TypographySchema = 'link'
-export type TypographyVariant = 'text'
+export type UiTypographySchema = 'link'
+export type UiTypographyVariant = 'text'
     | 'title'
     | 'title2'
     | 'title3'
@@ -15,13 +15,13 @@ export type TypographyVariant = 'text'
     | 'description'
     | 'badge'
 
-interface TypographyProps {
+export interface UiTypographyProps {
   as?: ComponentOrTag;
-  variant?: TypographyVariant;
-  schema?: TypographySchema;
+  variant?: UiTypographyVariant;
+  schema?: UiTypographySchema;
 }
 
-const props = withDefaults(defineProps<TypographyProps>(), {
+const props = withDefaults(defineProps<UiTypographyProps>(), {
   as: 'p',
   variant: 'text',
 });
@@ -92,7 +92,6 @@ const props = withDefaults(defineProps<TypographyProps>(), {
   font-size: var(--fs-p);
   line-height: var(--lh-p);
   font-weight: var(--fw-medium);
-
 }
 
 .label {

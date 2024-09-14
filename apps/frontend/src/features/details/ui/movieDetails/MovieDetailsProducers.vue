@@ -2,7 +2,6 @@
 import type { TmdbCreditsCastType, TmdbMediaDetailsCreatedByType } from "@movie-tracker/types";
 import { NuxtLink } from "#components";
 import { useLocalePath } from "#i18n";
-import UiTypography from "~/components/ui/UiTypography.vue";
 
 interface MovieDetailsProducersProps {
   producers: TmdbCreditsCastType[] | TmdbMediaDetailsCreatedByType[];
@@ -18,13 +17,12 @@ const localePath = useLocalePath()
     v-for="(producer, index) in props.producers"
     :key="producer.id"
   >
-    <UiTypography
-      :as="NuxtLink"
+    <NuxtLink
       :to="localePath(`/details/person/${producer.id}`)"
       variant="linkUnderlined"
     >
       {{ producer.name }}
-    </UiTypography>
+    </NuxtLink>
     {{ index !== props.producers.length - 1 ? ', ' : '' }}
   </template>
 </template>

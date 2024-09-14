@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue';
-import UiTypography, { type TypographyVariant } from './UiTypography.vue';
+import UiTypography, { type UiTypographyVariant } from './UiTypography.vue';
 
 const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
 
-const variants: TypographyVariant[] = [
+const variants: UiTypographyVariant[] = [
   'text',
   'title',
   'title2',

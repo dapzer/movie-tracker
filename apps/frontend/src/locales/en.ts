@@ -22,6 +22,7 @@ export default {
     detailsGenerationFinished: "Details generation finished",
   },
   details: {
+    title: 'Title',
     releaseDate: 'Release date',
     userScore: 'User score',
     scores: 'Scores',
@@ -62,6 +63,7 @@ export default {
     biography: 'Biography',
     filmography: 'Filmography',
     socialNetworks: 'Social networks',
+    director: 'Director',
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",

@@ -22,6 +22,7 @@ export default {
     detailsGenerationFinished: 'Генерация информации по медиа завершена',
   },
   details: {
+    title: 'Название',
     releaseDate: 'Дата выхода',
     userScore: 'Оценка пользователей',
     scores: 'Оценки',
@@ -62,6 +63,7 @@ export default {
     biography: 'Биография',
     filmography: 'Фильмография',
     socialNetworks: 'Социальные сети',
+    director: 'Режиссёр',
     seriesStatusName: {
       'canceled': 'Отменён',
       'ended': 'Завершён',

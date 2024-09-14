@@ -14,8 +14,8 @@ import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
 import { PersonCard } from "~/widgets/personCard";
 import { MovieCard } from "~/widgets/movieCard";
-import { arrayToString } from "@movie-tracker/utils";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
+import { arrayToString } from "@movie-tracker/utils"
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -67,23 +67,9 @@ const videosList = computed(() => {
       :credits="tmdbGetMovieCreditsApi.data.value"
       :details="tmdbGetMovieDetailsApi.data.value"
       :mediaType="props.mediaType"
+      :overview="tmdbGetMovieDetailsApi.data.value?.overview"
     />
-
-    <section
-      v-if="tmdbGetMovieDetailsApi.data.value?.overview"
-      :class="$style.block"
-    >
-      <UiTypography
-        as="h2"
-        variant="title2"
-      >
-        {{ $t(`details.${props.mediaType}Description`) }}
-      </UiTypography>
-      <UiTypography :class="$style.overviev">
-        {{ tmdbGetMovieDetailsApi.data.value?.overview }}
-      </UiTypography>
-    </section>
-
+    
     <section
       v-if="videosList.length"
       :class="$style.block"
@@ -182,10 +168,18 @@ const videosList = computed(() => {
 </template>
 
 <style lang="scss" module>
+@import "~/styles/newVariables";
+@import "~/styles/mixins";
+
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-top: 50px !important;
+
+  @include mobileDevice() {
+    padding-top: 24px !important;
+  }
 
   .card {
     height: 100% !important;
