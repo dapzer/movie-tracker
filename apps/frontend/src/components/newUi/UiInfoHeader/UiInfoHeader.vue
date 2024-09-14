@@ -120,23 +120,33 @@ const props = defineProps<UiInfoHeaderProps>();
     filter: blur(250px);
     background: var(--background-color);
     z-index: -1;
-    transition: opacity .3s ease-in-out;
-    animation: fadeIn .3s ease-in-out;
+    transition: opacity .3s ease-in;
+    animation: fadeInDefault .3s ease-in;
 
-    @keyframes fadeIn {
+    @keyframes fadeInDefault {
       from {
         opacity: 0;
       }
       to {
-        opacity: .4;
+        opacity: 0.4;
+      }
+    }
 
-        @include tabletDevice {
-          opacity: .5;
-        }
+    @keyframes fadeInTablet {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 0.5;
+      }
+    }
 
-        @include mobileDevice {
-          opacity: .75;
-        }
+    @keyframes fadeInMobile {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 0.75;
       }
     }
 
@@ -146,6 +156,7 @@ const props = defineProps<UiInfoHeaderProps>();
       max-width: 473px;
       height: 425px;
       opacity: .5;
+      animation-name: fadeInTablet;
     }
 
     @include mobileDevice {
@@ -157,6 +168,7 @@ const props = defineProps<UiInfoHeaderProps>();
       height: 257px;
       filter: blur(150px);
       opacity: .75;
+      animation-name: fadeInMobile;
     }
   }
 
