@@ -213,6 +213,10 @@ const props = defineProps<UiInfoHeaderProps>();
         align-items: center;
         text-align: center;
       }
+
+      .posterFooter {
+        margin-top: -8px;
+      }
     }
   }
 
