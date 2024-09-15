@@ -6,18 +6,17 @@ import {
   useGetTmdbVideosApi
 } from "~/api/tmdb/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { computed, createError, useI18n } from "#imports";
-import UiTypography from "~/components/ui/UiTypography.vue";
+import { computed, createError, getProxiedImageUrl, useI18n } from "#imports";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer";
-import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
-import { PersonCard } from "~/widgets/personCard";
-import { MovieCard } from "~/widgets/movieCard";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
 import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
 import { UiSlider } from "~/components/newUi/UiSlider"
 import { LanguagesEnum } from "~/types/languagesEnum"
+import { arrayToString } from "@movie-tracker/utils"
+import { PersonWithDescription } from "~/widgets/personWithDescription"
+import { useLocalePath } from "#i18n"
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -26,6 +25,7 @@ interface MovieDetailsProps {
 
 const props = defineProps<MovieDetailsProps>();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
@@ -59,7 +59,12 @@ await Promise.all([
   tmdbGetVideosApi.suspense()
 ]);
 
-useMovieDetailsSeo(props.mediaId, props.mediaType, tmdbGetMovieDetailsApi.data.value, tmdbGetMovieCreditsApi.data.value);
+useMovieDetailsSeo({
+  credits: tmdbGetMovieCreditsApi.data.value,
+  mediaId: props.mediaId,
+  mediaType: props.mediaType,
+  media: tmdbGetMovieDetailsApi.data.value,
+});
 
 const videosList = computed(() => {
   if (!tmdbGetVideosApi.data.value?.results.length) {
@@ -68,6 +73,14 @@ const videosList = computed(() => {
 
   return [...tmdbGetVideosApi.data.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
 });
+
+const castList = computed(() => {
+  if (!tmdbGetMovieCreditsApi.data.value?.cast.length) {
+    return [];
+  }
+
+  return tmdbGetMovieCreditsApi.data.value.cast.slice(0, 12);
+})
 </script>
 
 <template>
@@ -100,73 +113,52 @@ const videosList = computed(() => {
       </UiSlider>
     </UiSectionWithSeeMore>
 
-    <section
-      v-if="tmdbGetMovieCreditsApi.data.value?.cast.length"
-      :class="$style.block"
+    <UiSectionWithSeeMore
+      v-if="castList.length"
+      :title="$t(`details.castTitle`)"
+      :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/cast`)"
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
-      >
-        {{ $t(`details.castTitle`) }}
-      </UiTypography>
-      <UiListWithShowMore
-        :items="tmdbGetMovieCreditsApi.data.value!.cast"
-        :items-to-show="5"
-        :title="$t('details.castTitle')"
-        variant="tripleColumns"
-      >
-        <template #card="{ item: person, isFromModal }">
-          <PersonCard
-            :key="person.id"
-            :class="{ [$style.card]: !isFromModal }"
-            :is-horizontal="!isFromModal"
-            :person="person"
-          >
-            <template
-              v-if="person.total_episode_count || person.character || !!person?.roles?.length"
-              #default
-            >
-              <UiTypography v-if="person.total_episode_count">
-                {{ $t("details.inNumberOfEpisodes", { episodes: person.total_episode_count }) }}
-              </UiTypography>
-              <UiTypography v-if="person.character || !!person?.roles?.length">
-                {{ $t("details.role") }}: {{ person.character || arrayToString(person.roles, "character") }}
-              </UiTypography>
-            </template>
-          </PersonCard>
-        </template>
-      </UiListWithShowMore>
-    </section>
+      <div :class="$style.castList">
+        <PersonWithDescription
+          v-for="person in castList"
+          :key="person.id"
+          :class="$style.castItem"
+          :name="person.name"
+          :description="person.character || arrayToString(person.roles, 'character')"
+          :person-page-url="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${person.id}`)"
+          :image-src="getProxiedImageUrl(person.profile_path, 260)"
+        />
+      </div>
+    </UiSectionWithSeeMore>
 
-    <section
-      v-if="tmdbGetRecommendationsApi.data.value?.results.length"
-      :class="$style.block"
-    >
-      <UiTypography
-        as="h2"
-        variant="title2"
-      >
-        {{ $t(`details.recommendationsTitle`) }}
-      </UiTypography>
-      <UiListWithShowMore
-        :items="tmdbGetRecommendationsApi.data.value?.results"
-        :items-to-show="5"
-        :title="$t('details.recommendationsTitle')"
-        variant="tripleColumns"
-      >
-        <template #card="{ item: movie, isFromModal }">
-          <MovieCard
-            :key="movie.id"
-            :class="{ [$style.card]: !isFromModal }"
-            :is-hide-media-list-selector="!isFromModal"
-            :is-hide-score="!isFromModal"
-            :is-horizontal="!isFromModal"
-            :movie="movie"
-          />
-        </template>
-      </UiListWithShowMore>
-    </section>
+    <!--    <section-->
+    <!--      v-if="tmdbGetRecommendationsApi.data.value?.results.length"-->
+    <!--      :class="$style.block"-->
+    <!--    >-->
+    <!--      <UiTypography-->
+    <!--        as="h2"-->
+    <!--        variant="title2"-->
+    <!--      >-->
+    <!--        {{ $t(`details.recommendationsTitle`) }}-->
+    <!--      </UiTypography>-->
+    <!--      <UiListWithShowMore-->
+    <!--        :items="tmdbGetRecommendationsApi.data.value?.results"-->
+    <!--        :items-to-show="5"-->
+    <!--        :title="$t('details.recommendationsTitle')"-->
+    <!--        variant="tripleColumns"-->
+    <!--      >-->
+    <!--        <template #card="{ item: movie, isFromModal }">-->
+    <!--          <MovieCard-->
+    <!--            :key="movie.id"-->
+    <!--            :class="{ [$style.card]: !isFromModal }"-->
+    <!--            :is-hide-media-list-selector="!isFromModal"-->
+    <!--            :is-hide-score="!isFromModal"-->
+    <!--            :is-horizontal="!isFromModal"-->
+    <!--            :movie="movie"-->
+    <!--          />-->
+    <!--        </template>-->
+    <!--      </UiListWithShowMore>-->
+    <!--    </section>-->
   </UiContainer>
 </template>
 
@@ -182,6 +174,34 @@ const videosList = computed(() => {
 
   @include mobileDevice() {
     padding-top: 24px !important;
+  }
+
+  .castList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 40px;
+    column-gap: 72px;
+    width: 100%;
+
+    @include tabletDevice() {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 48px;
+      row-gap: 30px;
+
+      .castItem:nth-child(n+10) {
+        display: none;
+      }
+    }
+
+    @include mobileDevice() {
+      grid-template-columns: repeat(1, 1fr);
+      column-gap: 48px;
+      row-gap: 30px;
+
+      .castItem:nth-child(n+7) {
+        display: none;
+      }
+    }
   }
 
   .card {
