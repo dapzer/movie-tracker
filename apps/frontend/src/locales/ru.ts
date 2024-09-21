@@ -80,6 +80,7 @@ export default {
       'Directing': 'Режиссёр',
       "Camera": "Оператор",
       'Writing': 'Сценарист',
+      "Crew": "Съемочная группа",
     },
     genres: {
       movie: {

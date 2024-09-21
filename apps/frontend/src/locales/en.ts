@@ -80,6 +80,7 @@ export default {
       'Directing': 'Director',
       'Camera': 'Camera',
       'Writing': 'Writer',
+      "Crew": "Crew",
     },
     genres: {
       movie: {

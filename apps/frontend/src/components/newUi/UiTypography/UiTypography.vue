@@ -19,6 +19,7 @@ export interface UiTypographyProps {
   as?: ComponentOrTag;
   variant?: UiTypographyVariant;
   schema?: UiTypographySchema;
+  ellipsis?: boolean;
 }
 
 const props = withDefaults(defineProps<UiTypographyProps>(), {
@@ -45,6 +46,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
       [$style.badge]: variant === 'badge',
       [$style.badge]: variant === 'badge',
       [$style.link]: schema === 'link',
+      [$style.ellipsis]: props.ellipsis,
     }"
   >
     <slot />
@@ -52,6 +54,8 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
 </template>
 
 <style lang="scss" module>
+@import '~/styles/mixins';
+
 .title {
   color: var(--c-text);
   font-size: var(--fs-h1);
@@ -149,5 +153,9 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
   &:hover {
     color: var(--c-label-lihk-hovered);
   }
+}
+
+.ellipsis {
+  @include ellipsisText();
 }
 </style>
