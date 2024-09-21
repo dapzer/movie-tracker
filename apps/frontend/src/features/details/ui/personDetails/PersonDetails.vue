@@ -7,7 +7,7 @@ import {
 } from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
 import { createError, useI18n } from "#imports";
-import UiContainer from "~/components/ui/UiContainer.vue";
+import { UiContainer } from "~/components/newUi/UiContainer";
 import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
@@ -64,21 +64,6 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
     />
 
     <section
-      v-if="tmdbGetPersonDetailsApi.data.value?.biography"
-      :class="$style.block"
-    >
-      <UiTypography
-        as="h2"
-        variant="title2"
-      >
-        {{ $t("details.biography") }}
-      </UiTypography>
-
-      <UiTypography :class="$style.overviev">
-        {{ tmdbGetPersonDetailsApi.data.value?.biography }}
-      </UiTypography>
-    </section>
-    <section
       v-if="filmography.length"
       :class="$style.block"
     >
@@ -128,10 +113,18 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
 </template>
 
 <style lang="scss" module>
+@import "~/styles/newVariables";
+@import "~/styles/mixins";
+
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 70px;
+  padding-top: 50px !important;
+
+  @include mobileDevice() {
+    padding-top: 24px !important;
+  }
 
   .card {
     height: 100% !important;
@@ -141,10 +134,6 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-
-  .overview {
-    white-space: pre-wrap;
   }
 }
 </style>

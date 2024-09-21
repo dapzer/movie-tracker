@@ -65,6 +65,13 @@ export default {
     filmography: 'Фильмография',
     socialNetworks: 'Социальные сети',
     director: 'Режиссёр',
+    gender: {
+      title: 'Пол',
+      0: 'Неизвестно',
+      1: 'Женский',
+      2: 'Мужской',
+      3: 'Другой',
+    },
     seriesStatusName: {
       'canceled': 'Отменён',
       'ended': 'Завершён',
@@ -275,6 +282,9 @@ export default {
     seeMore: "Показать всё",
     showMore: "Показать больше",
     showLess: "Показать меньше",
+    year: 'год',
+    years: 'лет',
+    manyYears: 'года',
     errors: {
       pageNotFound: 'Страница не найдена.',
     },

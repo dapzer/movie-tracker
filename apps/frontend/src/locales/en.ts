@@ -65,6 +65,13 @@ export default {
     filmography: 'Filmography',
     socialNetworks: 'Social networks',
     director: 'Director',
+    gender: {
+      title: "Gender",
+      0: "Not specified",
+      1: "Female",
+      2: "Male",
+      3: "Non-binary",
+    },
     seriesStatusName: {
       "canceled": "Canceled",
       "ended": "Ended",
@@ -274,6 +281,9 @@ export default {
     seeMore: "See more",
     showMore: "Show more",
     showLess: "Show less",
+    year: 'year old',
+    years: 'years old',
+    manyYears: 'years old',
     errors: {
       pageNotFound: "Page not found.",
     },

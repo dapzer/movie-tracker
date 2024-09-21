@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { PersonSocialType } from "~/features/details/model/PersonSocialType";
 import { NuxtLink } from "#components";
-import UiTypography from "~/components/ui/UiTypography.vue";
 
 interface PersonDetailsSocialListProps {
   socialList: PersonSocialType[]
@@ -12,22 +11,30 @@ const props = defineProps<PersonDetailsSocialListProps>();
 </script>
 
 <template>
-  <template
-    v-for="(social, index) in props.socialList"
-    :key="social"
-  >
-    <UiTypography
-      :as="NuxtLink"
+  <div :class="$style.wrapper">
+    <NuxtLink
+      v-for="(social) in props.socialList"
+      :key="social.url"
       :to="social.url"
       target="_blank"
-      variant="linkUnderlined"
     >
-      {{ social.name }}
-    </UiTypography>
-    {{ index !== props.socialList.length - 1 ? ', ' : '' }}
-  </template>
+      <component :is="social.icon" />
+    </NuxtLink>
+  </div>
 </template>
 
 <style module lang="scss">
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
+  a {
+    color: var(--c-description);
+
+    &:hover {
+      color: var(--c-label-lihk-hovered);
+    }
+  }
+}
 </style>

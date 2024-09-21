@@ -33,6 +33,9 @@ export { default as YandexIcon } from "assets/svg/icons/yandex.svg"
 export { default as GoogleIcon } from "assets/svg/icons/google.svg"
 export { default as GithubProviderIcon } from "assets/svg/icons/githubProvider.svg"
 export { default as StarIcon } from "assets/svg/icons/star.svg"
+export { default as FacebookIcon } from "assets/svg/icons/facebook.svg"
+export { default as InstagramIcon } from "assets/svg/icons/instagram.svg"
+export { default as TiktokIcon } from "assets/svg/icons/tiktok.svg"
 
 
 
