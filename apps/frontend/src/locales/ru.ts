@@ -39,6 +39,7 @@ export default {
     seasonsCount: 'Количество сезонов',
     episodesCount: 'Количество серий',
     episodeRunTime: 'Длительность серий',
+    latestEpisodes: 'Последние эпизоды',
     runTime: 'Длительность',
     runTimeMins: 'мин.',
     movieDescription: 'Описание фильма',

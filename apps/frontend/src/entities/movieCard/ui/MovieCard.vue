@@ -2,9 +2,9 @@
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { computed, getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
-import { checkIsValidDate } from "~/utils/checkIsValidDate";
 import { UiMediaCard } from "~/components/newUi/UiCard"
 import { UiRating } from "~/components/newUi/UiRating"
+import { formatDate } from "~/utils/formatDate"
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType;
@@ -18,12 +18,7 @@ const localePath = useLocalePath();
 const { locale } = useI18n();
 
 const releaseDate = computed(() => {
-  const date =
-      new Date(props.movie.release_date || props.movie.first_air_date || "").toLocaleDateString(locale.value, {
-        month: "short", day: "numeric", year: "numeric"
-      });
-
-  return checkIsValidDate(date) ? date : "";
+  return formatDate(props.movie.release_date || props.movie.first_air_date, locale.value);
 });
 </script>
 
