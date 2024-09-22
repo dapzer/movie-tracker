@@ -2,7 +2,7 @@
 
 import UiCardBase from '~/components/newUi/UiCard/UiCardBase.vue';
 import { UiTypography } from '~/components/newUi/UiTypography';
-import { UiMediaCard, UiMediaCardSkeleton } from '~/components/newUi/UiCard/mediaCard';
+import { UiMediaCard, UiMediaCardHorizontal, UiMediaCardSkeleton } from '~/components/newUi/UiCard/mediaCard';
 import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
 import { UiListCard } from '~/components/newUi/UiCard/listCard';
 import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
@@ -68,6 +68,28 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
           title="Movie Title"
           link-url=""
         />
+      </Variant>
+
+      <Variant
+        title="MediaCardHorizontal"
+      >
+        <UiMediaCardHorizontal
+          :imageSrc="getPlaceholderImageUrl(179, 277)"
+          sub-description="Jan 07 2024, USA"
+          title="Movie Title"
+          link-url=""
+        >
+          <template #title>
+            <UiTypography variant="cardTitle">
+              Card Title
+            </UiTypography>
+          </template>
+          <template #description>
+            <UiTypography variant="description">
+              Card description
+            </UiTypography>
+          </template>
+        </UiMediaCardHorizontal>
       </Variant>
 
       <Variant

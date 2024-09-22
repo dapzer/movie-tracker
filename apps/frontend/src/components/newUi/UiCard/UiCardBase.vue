@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { NuxtLink } from "#components";
 
-interface UiCardBaseProps {
+export interface UiCardBaseProps {
   width?: number | string;
   height?: number | string;
   linkUrl?: string;
@@ -12,6 +12,7 @@ interface UiCardBaseProps {
 }
 
 const props = defineProps<UiCardBaseProps>()
+const slots = defineSlots()
 </script>
 
 <template>
@@ -26,6 +27,10 @@ const props = defineProps<UiCardBaseProps>()
       '--imageMaxWidth': Number.isInteger(props.imageWidth) ? `${props.imageWidth}px` : (props.imageWidth || 'unset')
     }"
   >
+    <template v-if="slots.precontent">
+      <slot name="precontent" />`
+    </template>
+
     <component
       :is="!!props.linkUrl ? NuxtLink : 'div'"
       :class="$style.imageWrapper"
