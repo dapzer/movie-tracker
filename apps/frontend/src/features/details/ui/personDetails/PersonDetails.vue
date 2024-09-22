@@ -73,9 +73,9 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
     <UiSectionWithSeeMore
       v-if="knowFor.length"
       :title="$t(`details.knowFor.title`)"
-      hide-see-more
     >
       <UiSlider
+        :class="$style.slider"
         :data="knowFor"
         :max-width="294"
       >
@@ -97,6 +97,25 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
           </MovieCardHorizontal>
         </template>
       </UiSlider>
+
+      <div :class="$style.knowForMobile">
+        <MovieCardHorizontal
+          v-for="item in knowFor.slice(0, 6)"
+          :key="item.id"
+          :movie="item"
+          :image-width="80"
+          :sub-description="formatDate(item.release_date || item.first_air_date, locale)"
+        >
+          <template #description>
+            <UiTypography
+              ellipsis
+              variant="description"
+            >
+              {{ item.character }}
+            </UiTypography>
+          </template>
+        </MovieCardHorizontal>
+      </div>
     </UiSectionWithSeeMore>
   </UiContainer>
 </template>
@@ -115,14 +134,19 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
     padding-top: 24px !important;
   }
 
-  .card {
-    height: 100% !important;
+  .slider {
+    @include mobileDevice() {
+      display: none;
+    }
   }
 
-  .block {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .knowForMobile {
+    display: none;
+
+    @include mobileDevice() {
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 </style>

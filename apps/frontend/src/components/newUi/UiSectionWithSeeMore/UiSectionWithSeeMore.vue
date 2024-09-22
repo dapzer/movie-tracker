@@ -9,6 +9,7 @@ interface UiSectionWithSeeMoreProps {
   seeMoreText?: string;
   hideSeeMore?: boolean;
   seeMoreUrl?: string;
+  seeMoreMobileOnly?: boolean;
   seeMoreAlign?: 'start' | 'end';
 }
 
@@ -34,7 +35,9 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
 
       <UiTypography
         v-if="!props.hideSeeMore"
-        :class="$style.link"
+        :class="[$style.link, {
+          [$style.seeMoreMobileOnly]: props.seeMoreMobileOnly
+        }]"
         :as="NuxtLink"
         :to="props.seeMoreUrl"
         variant="label"
@@ -50,6 +53,8 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
 </template>
 
 <style module lang="scss">
+@import "~/styles/mixins";
+@import "~/styles/newVariables";
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -68,6 +73,14 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
       display: flex;
       align-items: center;
       gap: 8px;
+
+      &.seeMoreMobileOnly {
+        display: none;
+
+        @include mobileDevice() {
+          display: flex;
+        }
+      }
 
       svg {
         width: 20px;
