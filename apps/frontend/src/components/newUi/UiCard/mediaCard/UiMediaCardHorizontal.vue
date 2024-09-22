@@ -10,7 +10,6 @@ export type UiMediaCardHorizontalSize = 'small' | 'medium';
 export interface UiMediaCardHorizontalProps extends Omit<UiCardBaseProps, "horizontal">{
   imageSrc?: string;
   title?: string;
-  description?: string;
   subDescription?: string;
   size?: UiMediaCardHorizontalSize;
   fallbackImageSrc?: string;

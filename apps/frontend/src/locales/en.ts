@@ -84,6 +84,7 @@ export default {
       person: 'Person',
     },
     knowFor: {
+      title: 'Known for',
       'Acting': 'Actor',
       'Directing': 'Director',
       'Camera': 'Camera',

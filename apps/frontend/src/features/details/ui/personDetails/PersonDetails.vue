@@ -6,13 +6,14 @@ import {
   useGetTmdbPersonExternalIdsApi
 } from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
-import { createError, useI18n } from "#imports";
+import { createError, formatDate, useI18n } from "#imports";
 import { UiContainer } from "~/components/newUi/UiContainer";
 import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
-import UiTypography from "~/components/ui/UiTypography.vue";
-import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
-import { MovieCard } from "~/widgets/movieCard";
 import { usePersonDetailsSeo } from "~/features/details/model/usePersonDetailsSeo";
+import { UiSlider } from "~/components/newUi/UiSlider"
+import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
+import { MovieCardHorizontal } from "~/entities/movieCard"
+import { UiTypography } from "~/components/newUi/UiTypography"
 
 interface PersonDetailsProps {
   mediaId: number;
@@ -53,6 +54,12 @@ const filmography = computed(() => {
   return [...(tmdbGetPersonCreditsApi.data.value?.cast || []), ...(tmdbGetPersonCreditsApi.data.value?.crew || [])];
 });
 
+const knowFor = computed(() => {
+  if (!tmdbGetPersonCreditsApi.data.value) return [];
+
+  return [...tmdbGetPersonCreditsApi.data.value.cast].sort((a, b) => b.vote_count - a.vote_count).slice(0, 20);
+});
+
 usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
 </script>
 
@@ -63,52 +70,34 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
       :external-ids="tmdbGetPersonExternalIdsApi.data.value"
     />
 
-    <section
-      v-if="filmography.length"
-      :class="$style.block"
+    <UiSectionWithSeeMore
+      v-if="knowFor.length"
+      :title="$t(`details.knowFor.title`)"
+      hide-see-more
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
+      <UiSlider
+        :data="knowFor"
+        :max-width="294"
       >
-        {{ $t("details.filmography") }}
-      </UiTypography>
-
-      <UiListWithShowMore
-        :items="filmography"
-        :items-to-show="5"
-        :title="$t('details.filmography')"
-        variant="tripleColumns"
-      >
-        <template #card="{ item: movie, isFromModal }">
-          <MovieCard
-            :key="movie.id"
-            :class="{ [$style.card]: !isFromModal }"
-            :is-hide-media-list-selector="!isFromModal"
-            :is-hide-score="!isFromModal"
-            :is-horizontal="!isFromModal"
-            :movie="movie"
+        <template #slide="{item}">
+          <MovieCardHorizontal
+            full-height
+            :movie="item"
+            :image-width="89"
+            :sub-description="formatDate(item.release_date || item.first_air_date, locale)"
           >
-            <template
-              v-if="'character' in movie && movie?.character"
-              #default
-            >
-              <UiTypography>
-                {{ $t("details.role") }}: {{ movie.character }}
+            <template #description>
+              <UiTypography
+                ellipsis
+                variant="description"
+              >
+                {{ item.character }}
               </UiTypography>
             </template>
-            <template
-              v-else-if="'job' in movie && movie?.job"
-              #default
-            >
-              <UiTypography v-if="'job' in movie && movie?.job">
-                {{ $t("details.role") }}: {{ movie.job }}
-              </UiTypography>
-            </template>
-          </MovieCard>
+          </MovieCardHorizontal>
         </template>
-      </UiListWithShowMore>
-    </section>
+      </UiSlider>
+    </UiSectionWithSeeMore>
   </UiContainer>
 </template>
 
