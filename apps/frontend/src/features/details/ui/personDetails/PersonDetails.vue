@@ -50,10 +50,6 @@ await Promise.all([
   tmdbGetPersonExternalIdsApi.suspense()
 ]);
 
-const filmography = computed(() => {
-  return [...(tmdbGetPersonCreditsApi.data.value?.cast || []), ...(tmdbGetPersonCreditsApi.data.value?.crew || [])];
-});
-
 const knowFor = computed(() => {
   if (!tmdbGetPersonCreditsApi.data.value) return [];
 
@@ -73,6 +69,7 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
     <UiSectionWithSeeMore
       v-if="knowFor.length"
       :title="$t(`details.knowFor.title`)"
+      hide-see-more
     >
       <UiSlider
         :class="$style.slider"
