@@ -36,6 +36,6 @@ export { default as StarIcon } from "assets/svg/icons/star.svg"
 export { default as FacebookIcon } from "assets/svg/icons/facebook.svg"
 export { default as InstagramIcon } from "assets/svg/icons/instagram.svg"
 export { default as TiktokIcon } from "assets/svg/icons/tiktok.svg"
-
+export { default as SelectArrowIcon } from "assets/svg/icons/selectArrow.svg"
 
 
