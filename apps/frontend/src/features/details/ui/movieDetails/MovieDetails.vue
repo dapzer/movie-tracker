@@ -104,8 +104,8 @@ const latestEpisodes = computed(() => {
   for (let i = lastEpisodeToAir.season_number; i >= 0; i--) {
     const season = seasons[i];
 
-    for (let j = season.episodes.length - 1; j >= 0; j--) {
-      const episode = season.episodes[j];
+    for (let j = season?.episodes.length - 1; j >= 0; j--) {
+      const episode = season?.episodes[j];
 
       if (episodes.length > 0 || episode?.air_date && new Date(episode?.air_date) < today) {
         episodes.push(episode);
