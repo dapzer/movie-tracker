@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TmdbMediaTypeEnum, type TmdbPersonCastType, type TmdbPersonCrewType } from "@movie-tracker/types"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { getMediaTypeDeclensionTranslationKey, useI18n } from "#imports"
 import { UiButton } from "~/components/newUi/UiButton"
 import { UiTypography } from "~/components/newUi/UiTypography"
@@ -22,6 +22,10 @@ const filters = ref({
 })
 const currentPage = ref(1)
 
+watch(() => filters.value, () => {
+  currentPage.value = 1
+}, { deep: true })
+
 const data = computed(() => {
   const result = new Map()
 
@@ -33,7 +37,7 @@ const data = computed(() => {
       mediaTypes: item.media_type,
       movie: item,
       releaseDate: item.release_date || item.first_air_date,
-      jobs: [...(currentRecord?.jobs || []), item.job],
+      jobs: [...(currentRecord?.jobs || []), t(`details.job.${item.job}`)],
       departments: [...(currentRecord?.departments || []), item.department],
     })
   })
@@ -71,7 +75,7 @@ const mediaTypes = computed(() => {
   const result = new Set<string>()
 
   for (const item of data.value) {
-      result.add(item.movie.media_type)
+    result.add(item.movie.media_type)
   }
 
   return Array.from(result).map((item) => ({ value: item, label: t(`details.mediaType.${item}`) }))
@@ -98,7 +102,6 @@ const filteredData = computed(() => {
     )
   }).sort((a, b) => b.releaseDate ? new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime() : -1)
 })
-
 
 const clearFilters = () => {
   filters.value = {
@@ -148,9 +151,11 @@ const clearFilters = () => {
     >
       {{ t("details.participatedIn") }}
       {{ inMediaCounts.movie }} {{
-        $t(getMediaTypeDeclensionTranslationKey(inMediaCounts.movie, TmdbMediaTypeEnum.MOVIE)) }},
+        $t(getMediaTypeDeclensionTranslationKey(inMediaCounts.movie, TmdbMediaTypeEnum.MOVIE))
+      }},
       {{ inMediaCounts.tv }} {{
-        $t(getMediaTypeDeclensionTranslationKey(inMediaCounts.tv, TmdbMediaTypeEnum.TV)) }}
+        $t(getMediaTypeDeclensionTranslationKey(inMediaCounts.tv, TmdbMediaTypeEnum.TV))
+      }}
     </UiTypography>
     <div :class="$style.content">
       <template
@@ -173,12 +178,13 @@ const clearFilters = () => {
             <UiTypography
               variant="description"
             >
-              {{ item.jobs?.join(', ') }}
-            </UiTypography>
-            <UiTypography
-              variant="description"
-            >
-              {{ item.characters?.join(', ') }}
+              {{
+                item.jobs ? [...item.jobs, ...(item.characters ? [item.characters] : [])].join(', ') :
+                [...item.departments
+                   .map((department: string) => t(`details.department.${department}`)),
+                 ...(item.characters ? [item.characters] : [])]
+                  .join(', ')
+              }}
             </UiTypography>
           </template>
         </MovieCardHorizontal>
