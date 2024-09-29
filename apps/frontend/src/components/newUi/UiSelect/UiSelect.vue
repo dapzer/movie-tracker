@@ -123,6 +123,7 @@ const selectModel = defineModel<string>()
   border-top: unset;
   border-bottom-right-radius: var(--s-border-radius);
   border-bottom-left-radius: var(--s-border-radius);
+  z-index: var(--i-select);
 
   .viewport {
     overflow: auto;

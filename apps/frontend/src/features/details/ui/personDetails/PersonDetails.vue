@@ -14,6 +14,7 @@ import { UiSlider } from "~/components/newUi/UiSlider"
 import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
 import { MovieCardHorizontal } from "~/entities/movieCard"
 import { UiTypography } from "~/components/newUi/UiTypography"
+import PersonDetailsActing from "~/features/details/ui/personDetails/PersonDetailsActing.vue"
 
 interface PersonDetailsProps {
   mediaId: number;
@@ -114,6 +115,12 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
         </MovieCardHorizontal>
       </div>
     </UiSectionWithSeeMore>
+
+    <PersonDetailsActing
+      v-if="tmdbGetPersonCreditsApi.data.value?.crew?.length || tmdbGetPersonCreditsApi.data?.value?.cast.length"
+      :crew="tmdbGetPersonCreditsApi.data.value.crew"
+      :cast="tmdbGetPersonCreditsApi.data.value.cast"
+    />
   </UiContainer>
 </template>
 

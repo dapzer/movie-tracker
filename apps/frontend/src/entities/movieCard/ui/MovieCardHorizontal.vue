@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
+import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { getProxiedImageUrl } from "#imports";
 import { useLocalePath } from "#i18n";
 import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "~/components/newUi/UiCard"
@@ -7,7 +7,7 @@ import { UiTypography } from "~/components/newUi/UiTypography"
 import { UiRating } from "~/components/newUi/UiRating"
 
 interface MovieCardProps {
-  movie: TmdbSearchResponseResultItemType;
+  movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType;
   width?: number;
   fullHeight?: boolean;
   imageWidth?: number;
@@ -37,7 +37,7 @@ const slots = defineSlots()
       v-if="slots.precontent"
       #precontent
     >
-      <slot name="precontent" />`
+      <slot name="precontent" />
     </template>
 
     <template #title>

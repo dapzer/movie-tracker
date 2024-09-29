@@ -65,6 +65,12 @@ export default {
     filmography: 'Filmography',
     socialNetworks: 'Social networks',
     director: 'Director',
+    participatedIn: 'Participated in',
+    singleMovie: 'movies',
+    multipleMovie: 'movies',
+    singleTv: 'TV series',
+    multipleTv: 'TV series',
+    acting: "Acting",
     gender: {
       title: "Gender",
       0: "Not specified",
@@ -80,7 +86,7 @@ export default {
     },
     mediaType: {
       movie: 'Movie',
-      tv: 'Series',
+      tv: 'TV Show',
       person: 'Person',
     },
     knowFor: {
@@ -90,6 +96,21 @@ export default {
       'Camera': 'Camera',
       'Writing': 'Writer',
       "Crew": "Crew",
+    },
+    department: {
+      title: 'Department',
+      "Camera": "Camera",
+      "Lighting": "Lighting",
+      "Costume & Make-Up": "Costume & Make-Up",
+      "Writing": "Writing",
+      "Editing": "Editing",
+      "Crew": "Crew",
+      "Directing": "Directing",
+      "Visual Effects": "Visual Effects",
+      "Art": "Art",
+      'Actors': 'Actors',
+      "Sound": "Sound",
+      "Production": "Production",
     },
     genres: {
       movie: {
@@ -282,6 +303,8 @@ export default {
     seeMore: "See more",
     showMore: "Show more",
     showLess: "Show less",
+    clear: "Clear",
+    all: "All",
     year: 'year old',
     years: 'years old',
     manyYears: 'years old',

@@ -36,7 +36,7 @@ const slots = defineSlots()
       v-if="slots.precontent"
       #precontent
     >
-      <slot name="precontent" />`
+      <slot name="precontent" />
     </template>
 
     <template #image>
