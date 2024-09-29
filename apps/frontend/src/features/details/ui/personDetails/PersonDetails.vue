@@ -53,8 +53,27 @@ await Promise.all([
 
 const knowFor = computed(() => {
   if (!tmdbGetPersonCreditsApi.data.value) return [];
+  const result = new Map()
 
-  return [...tmdbGetPersonCreditsApi.data.value.cast].sort((a, b) => b.vote_count - a.vote_count).slice(0, 20);
+  tmdbGetPersonCreditsApi.data.value.cast.forEach((item) => {
+    const currentRecord = result.get(item.id)
+    const characters = []
+
+    if (currentRecord?.character) {
+      characters.push(currentRecord.character)
+    }
+
+    if (item.character) {
+      characters.push(item.character)
+    }
+
+    result.set(item.id, {
+      ...item,
+      character: characters.join(", "),
+    })
+  })
+
+  return Array.from(result.values()).sort((a, b) => b.vote_count - a.vote_count).slice(0, 20);
 });
 
 usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
