@@ -25,16 +25,24 @@ const props = defineProps<UiInfoHeaderProps>();
 
     <div :class="$style.poster">
       <div :class="$style.imageWrapper">
-        <UiImage
-          preload
-          :src="props.image"
-          :fallback-src="props.fallbackImage"
-          loading="eager"
-          fetchpriority="high"
-          :width="256"
-          :alt="props.title"
+        <div
+          :class="$style.backgroundCircle"
+          :style="{
+            '--background-color': `url(${props.image || props.fallbackImage})`
+          }"
         />
+        <div :class="$style.imageBody">
+          <UiImage
+            :src="props.image"
+            :fallback-src="props.fallbackImage"
+            loading="eager"
+            fetchpriority="high"
+            :width="256"
+            :alt="props.title"
+          />
+        </div>
       </div>
+
 
       <div
         aria-hidden="true"
@@ -160,12 +168,13 @@ const props = defineProps<UiInfoHeaderProps>();
     }
 
     @include mobileDevice {
+      display: none;
       margin: 0 auto;
-      top: -87px;
+      top: -35px;
       left: 0;
       right: 0;
-      max-width: 342px;
-      height: 257px;
+      max-width: 360px;
+      height: 236px;
       filter: blur(150px);
       opacity: .75;
       animation-name: fadeInMobile;
@@ -186,11 +195,9 @@ const props = defineProps<UiInfoHeaderProps>();
 
     .posterFooter {
       width: 100%;
-      display: flex;
-      align-items: center;
     }
 
-    .imageWrapper,
+    .imageBody,
     img {
       width: 100%;
       max-width: 256px;
@@ -220,6 +227,7 @@ const props = defineProps<UiInfoHeaderProps>();
     flex-direction: column;
     padding: unset;
     background: unset;
+    gap: 24px;
 
     .titleBlock {
       display: none;
@@ -231,8 +239,23 @@ const props = defineProps<UiInfoHeaderProps>();
       align-items: center;
 
       .imageWrapper {
-        &, img {
-          max-width: 124px;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: clip;
+        overflow-x: visible;
+
+        .backgroundCircle {
+          display: flex;
+        }
+
+        .imageBody {
+          &, img {
+            max-width: 160px;
+          }
         }
       }
 
@@ -240,8 +263,6 @@ const props = defineProps<UiInfoHeaderProps>();
       .titleBlock {
         display: flex;
         gap: 4px;
-        align-items: center;
-        text-align: center;
       }
 
       .posterFooter {
@@ -256,10 +277,19 @@ const props = defineProps<UiInfoHeaderProps>();
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 32px;
 
     .overview {
+      margin-top: 8px;
       white-space: pre-wrap !important;
+    }
+
+    @include mobileDevice {
+      gap: 24px;
+
+      .overview {
+        margin-top: 0;
+      }
     }
   }
 

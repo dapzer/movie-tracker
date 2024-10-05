@@ -211,6 +211,9 @@ importers:
       '@tanstack/vue-query':
         specifier: ^5.56.2
         version: 5.56.2(vue@3.5.5(typescript@5.6.2))
+      '@types/sharp':
+        specifier: ^0.32.0
+        version: 0.32.0
       '@yeger/vue-masonry-wall':
         specifier: ^5.0.12
         version: 5.0.12(vue@3.5.5(typescript@5.6.2))
@@ -223,6 +226,9 @@ importers:
       sass:
         specifier: ^1.77.4
         version: 1.77.8
+      sharp:
+        specifier: ^0.33.5
+        version: 0.33.5
       vaul-vue:
         specifier: ^0.2.0
         version: 0.2.0(radix-vue@1.9.5(vue@3.5.5(typescript@5.6.2)))(vue@3.5.5(typescript@5.6.2))
@@ -3241,6 +3247,10 @@ packages:
 
   '@types/serve-static@1.15.7':
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
+
+  '@types/sharp@0.32.0':
+    resolution: {integrity: sha512-OOi3kL+FZDnPhVzsfD37J88FNeZh6gQsGcLc95NbeURRGvmSjeXiDcyWzF2o3yh/gQAUn2uhh/e+CPCa5nwAxw==}
+    deprecated: This is a stub types definition. sharp provides its own type definitions, so you do not need this installed.
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -12295,6 +12305,10 @@ snapshots:
       '@types/http-errors': 2.0.4
       '@types/node': 22.1.0
       '@types/send': 0.17.4
+
+  '@types/sharp@0.32.0':
+    dependencies:
+      sharp: 0.33.5
 
   '@types/stack-utils@2.0.3': {}
 

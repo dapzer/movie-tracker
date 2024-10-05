@@ -154,7 +154,7 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
   padding-top: 50px !important;
 
   @include mobileDevice() {
-    padding-top: 24px !important;
+    padding-top: 0 !important;
   }
 
   .slider {

@@ -225,7 +225,7 @@ const latestEpisodes = computed(() => {
   padding-top: 50px !important;
 
   @include mobileDevice() {
-    padding-top: 24px !important;
+    padding-top: 0 !important;
   }
 
   .castList {
