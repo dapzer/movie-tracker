@@ -316,8 +316,9 @@ const props = defineProps<UiInfoHeaderProps>();
         min-width: 120px;
 
         @include mobileDevice {
-          min-width: 0;
-          white-space: pre-wrap;
+          min-width: 200px;
+          white-space: unset;
+          word-break: break-word;
         }
       }
 
