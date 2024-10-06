@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
-import UiTypography from "~/components/ui/UiTypography.vue";
 import type { UserType } from "@movie-tracker/types";
+import { UiImage } from "~/components/newUi/UiImage"
 
 interface UserProfileDropdownTriggerProps {
   profile: UserType;
@@ -15,17 +15,13 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
     v-if="!!profile"
     :class="$style.wrapper"
   >
-    <UiTypography :class="$style.userName">
-      {{ props.profile.name.split(" ")[0] }}
-    </UiTypography>
-    <NuxtImg
+    <UiImage
       :class="$style.avatar"
       :src="props.profile.image"
       fit="contain"
-      height="32"
-      width="32"
-      loading="lazy"
-      decoding="async"
+      fallback-src="/avatar.svg"
+      height="36"
+      width="36"
       alt="Avatar"
     />
   </div>
@@ -49,7 +45,8 @@ const props = defineProps<UserProfileDropdownTriggerProps>();
   }
 
   .avatar {
-    max-width: 32px;
+    height: 36px;
+    width: 36px;
     border-radius: 50%;
   }
 }

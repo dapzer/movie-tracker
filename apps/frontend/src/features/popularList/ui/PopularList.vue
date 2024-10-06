@@ -19,7 +19,8 @@ const { locale } = useI18n();
 const queries = computed(() => {
   return {
     language: locale.value,
-    mediaType: props.mediaType
+    mediaType: props.mediaType,
+    page: 1,
   };
 });
 

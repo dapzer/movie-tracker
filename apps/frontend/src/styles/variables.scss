@@ -1,70 +1,70 @@
-:root {
-  /* Colors */
-
-  --c-text: #9ca8b1;
-  --c-background: #1f242d;
-  --c-primary: #4F5D75;
-  --c-secondary: #FFFFFF;
-  --c-highlight: #0073fa;
-  --c-accent: #282f43;
-  --c-loader-accent: #323952;
-  --c-danger: #ff0000;
-  --c-danger-hovered: #c82333;
-  --c-success: #00b400;
-
-  /* Font Sizes */
-
-  --fs-h1: 3rem;
-  --fs-h2: 2rem;
-  --fs-h3: 1.5rem;
-  --fs-h4: 1.35rem;
-  --fs-p: 1.25rem;
-  --fs-small-p: 1.1rem;
-  --fs-span: 1rem;
-  --fs-logo: 1.875rem;
-
-  --fs-m-h1: 2.5rem;
-  --fs-m-h2: 1.75rem;
-  --fs-m-h3: 1.5rem;
-  --fs-m-p: 1.25rem;
-  --fs-m-span: 1rem;
-  --fs-m-logo: 1.5rem;
-
-  /* Font Weights */
-
-  --fw-light: 300;
-  --fw-regular: 400;
-  --fw-medium: 500;
-  --fw-bold: 700;
-
-  /* Sizes */
-
-  --s-indent: 24px;
-  --s-container: calc(1400px + (var(--s-indent) * 2));
-  --s-header-height: 63.2px;
-  --s-border-radius: 10px;
-  --s-disabled-opacity: 0.65;
-
-  /* Shadows */
-
-  --sd-default: 0 0 20px rgba(0, 0, 0, 0.2);
-
-  /* Indexes */
-
-  --i-header: 100;
-  --i-ui-details: 90;
-
-  /* Indexes */
-
-  --i-dropdown: 50;
-
-  /* Lib */
-
-  --toastify-color-dark: var(--c-accent);
-}
-
-/* Breakpoints */
-
+//:root {
+//  /* Colors */
+//
+//  --c-text: #9ca8b1;
+//  --c-background: #1f242d;
+//  --c-primary: #4F5D75;
+//  --c-secondary: #FFFFFF;
+//  --c-highlight: #0073fa;
+//  --c-accent: #282f43;
+//  --c-loader-accent: #323952;
+//  --c-danger: #ff0000;
+//  --c-danger-hovered: #c82333;
+//  --c-success: #00b400;
+//
+//  /* Font Sizes */
+//
+//  --fs-h1: 3rem;
+//  --fs-h2: 2rem;
+//  --fs-h3: 1.5rem;
+//  --fs-h4: 1.35rem;
+//  --fs-p: 1.25rem;
+//  --fs-small-p: 1.1rem;
+//  --fs-span: 1rem;
+//  --fs-logo: 1.875rem;
+//
+//  --fs-m-h1: 2.5rem;
+//  --fs-m-h2: 1.75rem;
+//  --fs-m-h3: 1.5rem;
+//  --fs-m-p: 1.25rem;
+//  --fs-m-span: 1rem;
+//  --fs-m-logo: 1.5rem;
+//
+//  /* Font Weights */
+//
+//  --fw-light: 300;
+//  --fw-regular: 400;
+//  --fw-medium: 500;
+//  --fw-bold: 700;
+//
+//  /* Sizes */
+//
+//  --s-indent: 24px;
+//  --s-container: calc(1400px + (var(--s-indent) * 2));
+//  --s-header-height: 63.2px;
+//  --s-border-radius: 10px;
+//  --s-disabled-opacity: 0.65;
+//
+//  /* Shadows */
+//
+//  --sd-default: 0 0 20px rgba(0, 0, 0, 0.2);
+//
+//  /* Indexes */
+//
+//  --i-header: 100;
+//  --i-ui-details: 90;
+//
+//  /* Indexes */
+//
+//  --i-dropdown: 50;
+//
+//  /* Lib */
+//
+//  --toastify-color-dark: var(--c-accent);
+//}
+//
+///* Breakpoints */
+//
 $bp-xl: 1440px;
 $bp-lg: 1250px;
 $bp-slg: 825px;

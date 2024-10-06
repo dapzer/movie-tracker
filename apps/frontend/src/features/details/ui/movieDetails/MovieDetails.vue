@@ -3,20 +3,24 @@ import {
   useGetTmdbMovieCreditsApi,
   useGetTmdbMovieDetailsApi,
   useGetTmdbRecommendationsApi,
+  useGetTmdbTvSeriesDetailsApi,
   useGetTmdbVideosApi
 } from "~/api/tmdb/useTmdbApi";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { computed, createError, useI18n } from "#imports";
-import UiTypography from "~/components/ui/UiTypography.vue";
+import { computed, createError, getProxiedImageUrl, useI18n } from "#imports";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
-import UiContainer from "~/components/ui/UiContainer.vue";
-import { VideoCardWithPlayer } from "~/features/videoCardWithPlayer";
-import UiListWithShowMore from "~/components/ui/UiListWithShowMore.vue";
-import { PersonCard } from "~/widgets/personCard";
-import { MovieCard } from "~/widgets/movieCard";
-import { arrayToString } from "@movie-tracker/utils";
-import { useLocalePath } from "#i18n";
+import { UiContainer } from "~/components/newUi/UiContainer";
+import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
+import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
+import { UiSlider } from "~/components/newUi/UiSlider"
+import { LanguagesEnum } from "~/types/languagesEnum"
+import { arrayToString } from "@movie-tracker/utils"
+import { PersonWithDescription } from "~/widgets/personWithDescription"
+import { useLocalePath } from "#i18n"
+import { MovieCard } from "~/entities/movieCard"
+import { EpisodeCard } from "~/widgets/episodeCard"
+import { formatDate } from "~/utils/formatDate"
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -25,6 +29,7 @@ interface MovieDetailsProps {
 
 const props = defineProps<MovieDetailsProps>();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
@@ -32,10 +37,20 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
+const getVideosQueries = computed(() => ({
+  mediaType: props.mediaType,
+  mediaId: props.mediaId,
+  language: locale.value,
+  includeVideoLanguage: locale.value === LanguagesEnum.RU ? [LanguagesEnum.EN, LanguagesEnum.RU].join(",") : undefined
+}));
+
+const isTv = computed(() => props.mediaType === TmdbMediaTypeEnum.TV);
+
 const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
 const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries);
 const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries);
-const tmdbGetVideosApi = useGetTmdbVideosApi(queries);
+const tmdbGetVideosApi = useGetTmdbVideosApi(getVideosQueries);
+const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries, isTv);
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -48,10 +63,16 @@ await Promise.all([
   }),
   tmdbGetRecommendationsApi.suspense(),
   tmdbGetMovieCreditsApi.suspense(),
-  tmdbGetVideosApi.suspense()
+  tmdbGetVideosApi.suspense(),
+  (isTv.value && tmdbGetTvSeriesDetailsApi.suspense()),
 ]);
 
-useMovieDetailsSeo(props.mediaId, props.mediaType, tmdbGetMovieDetailsApi.data.value, tmdbGetMovieCreditsApi.data.value);
+useMovieDetailsSeo({
+  credits: tmdbGetMovieCreditsApi.data.value,
+  mediaId: props.mediaId,
+  mediaType: props.mediaType,
+  media: tmdbGetMovieDetailsApi.data.value,
+});
 
 const videosList = computed(() => {
   if (!tmdbGetVideosApi.data.value?.results.length) {
@@ -59,6 +80,46 @@ const videosList = computed(() => {
   }
 
   return [...tmdbGetVideosApi.data.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
+});
+
+const castList = computed(() => {
+  if (!tmdbGetMovieCreditsApi.data.value?.cast.length) {
+    return [];
+  }
+
+  return tmdbGetMovieCreditsApi.data.value.cast.slice(0, 12);
+})
+
+const latestEpisodes = computed(() => {
+  const seasons = tmdbGetTvSeriesDetailsApi.data.value;
+  const lastEpisodeToAir = tmdbGetMovieDetailsApi.data.value?.last_episode_to_air;
+
+  if (!seasons?.length || !lastEpisodeToAir) {
+    return [];
+  }
+
+  const episodes = []
+  const today = new Date();
+
+  for (let i = lastEpisodeToAir.season_number; i >= 0; i--) {
+    const season = seasons[i];
+
+    for (let j = season?.episodes.length - 1; j >= 0; j--) {
+      const episode = season?.episodes[j];
+
+      if (episodes.length > 0 || episode?.air_date && new Date(episode?.air_date) < today) {
+        episodes.push(episode);
+      }
+      if (episodes.length >= 20) {
+        break;
+      }
+    }
+    if (episodes.length >= 20) {
+      break;
+    }
+  }
+
+  return episodes;
 });
 </script>
 
@@ -68,138 +129,131 @@ const videosList = computed(() => {
       :credits="tmdbGetMovieCreditsApi.data.value"
       :details="tmdbGetMovieDetailsApi.data.value"
       :mediaType="props.mediaType"
+      :overview="tmdbGetMovieDetailsApi.data.value?.overview"
     />
 
-    <section
-      v-if="tmdbGetMovieDetailsApi.data.value?.overview"
-      :class="$style.block"
+    <UiSectionWithSeeMore
+      v-if="latestEpisodes.length"
+      :title="$t(`details.latestEpisodes`)"
+      :see-more-url="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.mediaId}/seasons`)"
+      :see-more-text="$t(`details.episodesList`)"
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
+      <UiSlider
+        :data="latestEpisodes"
+        :max-width="295"
       >
-        {{ $t(`details.${props.mediaType}Description`) }}
-      </UiTypography>
-      <UiTypography :class="$style.overviev">
-        {{ tmdbGetMovieDetailsApi.data.value?.overview }}
-      </UiTypography>
-    </section>
+        <template #slide="{item}">
+          <EpisodeCard
+            full-height
+            :episode="item.episode_number"
+            :season="item.season_number"
+            :image-src="getProxiedImageUrl(item.still_path, 250)"
+            :title="item.name"
+            :description="formatDate(item.air_date, locale)"
+          />
+        </template>
+      </UiSlider>
+    </UiSectionWithSeeMore>
 
-    <section
+    <UiSectionWithSeeMore
       v-if="videosList.length"
-      :class="$style.block"
+      :title="$t(`details.videosTitle`)"
+      hide-see-more
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
+      <UiSlider
+        :data="videosList"
+        :max-width="295"
       >
-        {{ $t(`details.videosTitle`) }}
-      </UiTypography>
-      <UiListWithShowMore
-        :items="videosList"
-        :items-to-show="3"
-        :title="$t('details.videosTitle')"
-      >
-        <template #card="{ item: video }">
+        <template #slide="{item}">
           <VideoCardWithPlayer
-            :key="video.id"
-            :description="`${$t('details.releaseDate')}: ${new Date(video.published_at).toLocaleDateString(locale)}`"
-            :preview-url="`https://i.ytimg.com/vi/${video.key}/hq720.jpg`"
-            :title="video.name"
-            :video-url="`https://www.youtube.com/embed/${video.key}?autoplay=1`"
+            full-height
+            :title="item.name"
+            :description="formatDate(item.published_at, locale)"
+            :preview-src="`https://i.ytimg.com/vi/${item.key}/hq720.jpg`"
+            :video-url="`https://www.youtube.com/embed/${item.key}?autoplay=1`"
           />
         </template>
-      </UiListWithShowMore>
-    </section>
+      </UiSlider>
+    </UiSectionWithSeeMore>
 
-    <section
-      v-if="tmdbGetMovieCreditsApi.data.value?.cast.length"
-      :class="$style.block"
+    <UiSectionWithSeeMore
+      v-if="castList.length"
+      :title="$t(`details.castTitle`)"
+      :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/cast`)"
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
-      >
-        {{ $t(`details.castTitle`) }}
-      </UiTypography>
-      <UiListWithShowMore
-        :items="tmdbGetMovieCreditsApi.data.value?.cast"
-        :items-to-show="5"
-        :title="$t('details.castTitle')"
-        variant="tripleColumns"
-      >
-        <template #card="{ item: person, isFromModal }">
-          <PersonCard
-            :key="person.id"
-            :class="{ [$style.card]: !isFromModal }"
-            :is-horizontal="!isFromModal"
-            :person="person"
-          >
-            <template
-              v-if="person.total_episode_count || person.character || !!person?.roles?.length"
-              #default
-            >
-              <UiTypography v-if="person.total_episode_count">
-                {{ $t("details.inNumberOfEpisodes", { episodes: person.total_episode_count }) }}
-              </UiTypography>
-              <UiTypography v-if="person.character || !!person?.roles?.length">
-                {{ $t("details.role") }}: {{ person.character || arrayToString(person.roles, "character") }}
-              </UiTypography>
-            </template>
-          </PersonCard>
-        </template>
-      </UiListWithShowMore>
-    </section>
+      <div :class="$style.castList">
+        <PersonWithDescription
+          v-for="person in castList"
+          :key="person.id"
+          :class="$style.castItem"
+          :name="person.name"
+          :description="person.character || arrayToString(person.roles, 'character')"
+          :person-page-url="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${person.id}`)"
+          :image-src="getProxiedImageUrl(person.profile_path, 260)"
+        />
+      </div>
+    </UiSectionWithSeeMore>
 
-    <section
+    <UiSectionWithSeeMore
       v-if="tmdbGetRecommendationsApi.data.value?.results.length"
-      :class="$style.block"
+      :title="$t(`details.recommendationsTitle`)"
+      hide-see-more
     >
-      <UiTypography
-        as="h2"
-        variant="title2"
+      <UiSlider
+        :data="tmdbGetRecommendationsApi.data.value?.results"
+        :max-width="195"
       >
-        {{ $t(`details.recommendationsTitle`) }}
-      </UiTypography>
-      <UiListWithShowMore
-        :items="tmdbGetRecommendationsApi.data.value?.results"
-        :items-to-show="5"
-        :title="$t('details.recommendationsTitle')"
-        variant="tripleColumns"
-      >
-        <template #card="{ item: movie, isFromModal }">
+        <template #slide="{item}">
           <MovieCard
-            :key="movie.id"
-            :class="{ [$style.card]: !isFromModal }"
-            :is-hide-media-list-selector="!isFromModal"
-            :is-hide-score="!isFromModal"
-            :is-horizontal="!isFromModal"
-            :movie="movie"
+            full-height
+            :movie="item"
           />
         </template>
-      </UiListWithShowMore>
-    </section>
+      </UiSlider>
+    </UiSectionWithSeeMore>
   </UiContainer>
 </template>
 
 <style lang="scss" module>
+@import "~/styles/newVariables";
+@import "~/styles/mixins";
+
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 70px;
+  padding-top: 50px !important;
 
-  .card {
-    height: 100% !important;
+  @include mobileDevice() {
+    padding-top: 0 !important;
   }
 
-  .block {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .castList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 40px;
+    column-gap: 72px;
+    width: 100%;
 
-  .overview {
-    white-space: pre-wrap;
+    @include tabletDevice() {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 48px;
+      row-gap: 30px;
+
+      .castItem:nth-child(n+10) {
+        display: none;
+      }
+    }
+
+    @include mobileDevice() {
+      grid-template-columns: repeat(1, 1fr);
+      column-gap: 48px;
+      row-gap: 30px;
+
+      .castItem:nth-child(n+7) {
+        display: none;
+      }
+    }
   }
 }
 </style>
