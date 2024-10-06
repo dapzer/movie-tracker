@@ -144,16 +144,9 @@ const title = computed(() => {
 </template>
 
 <style lang="scss" module>
-.addToListButton {
-  width: 100% !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  font-size: var(--fs-label-small) !important;
-}
-
 .actions {
-  width: 100%;
+  button {
+    width: 100%;
+  }
 }
 </style>
