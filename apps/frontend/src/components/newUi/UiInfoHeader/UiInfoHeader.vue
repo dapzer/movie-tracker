@@ -188,7 +188,8 @@ const props = defineProps<UiInfoHeaderProps>();
     flex-direction: column;
     gap: 20px;
     max-width: 256px;
-
+    
+    .backgroundCircle,
     .titleBlock {
       display: none;
     }
