@@ -121,7 +121,7 @@ export const useGetTmdbVideosApi = (queries: Ref<TmdbVideosQueriesType>) =>
     queryFn: () => getTmdbVideosApi(queries.value)
   });
 
-export const useGetTmdbTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType>, enabled: Ref<boolean>) =>
+export const useGetTmdbTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType>, enabled?: Ref<boolean>) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_SEASONS,

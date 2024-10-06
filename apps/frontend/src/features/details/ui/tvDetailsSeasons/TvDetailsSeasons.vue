@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 
-import UiTypography from "~/components/ui/UiTypography.vue";
 import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi";
-import { computed, createError, useI18n, useSeoMeta } from "#imports";
+import { computed, createError, useI18n } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { minsToTimeConverter } from "@movie-tracker/utils";
 import UiContainer from "~/components/ui/UiContainer.vue";
-import { NuxtLink } from "#components";
 import TvDetailsSeasonsItem from "./TvDetailsSeasonsItem.vue";
 import { useLocalePath } from "#i18n";
+import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo"
+import TvDetailsSeasonsHeader from "~/features/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
 
 interface TvDetailsSeasonsProps {
   mediaId: number;
@@ -39,97 +38,22 @@ await Promise.all([
   }),
 ]);
 
-useSeoMeta({
-  titleTemplate(titleChunk) {
-    return `${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name ||
-    tmdbGetMovieDetailsApi.data.value?.original_title ||
-    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")} | ${titleChunk}`;
-  },
-  ogTitle() {
-    return `${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name || tmdbGetMovieDetailsApi.data.value?.original_title ||
-    tmdbGetMovieDetailsApi.data.value?.original_name} | ${t("details.episodesList")} | %s`;
-  },
-  description: `${t("details.listOfEpisodes")} «${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name}»`,
-  ogDescription: `${t("details.listOfEpisodes")} «${tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name}`
-});
-
-const totalDuration = computed(() => {
-  return minsToTimeConverter(
-    tmdbGetTvSeriesDetailsApi.data?.value?.reduce((acc, season) => {
-      season.episodes.forEach((el) => {
-        acc += el.runtime;
-      });
-
-      return acc;
-    }, 0) ?? 0
-  );
+useMovieDetailsSeo({
+  mediaType: TmdbMediaTypeEnum.TV,
+  mediaId: props.mediaId,
+  withoutSchema: true,
+  media: tmdbGetMovieDetailsApi.data.value,
+  getTitle: (title, titleChink) => `${title} | ${t("details.episodesList")}${titleChink? ` | ${titleChink}` : ""}`,
 });
 </script>
 
 <template>
-  <UiContainer>
-    <section>
-      <UiTypography
-        as="h1"
-        variant="title2"
-      >
-        {{ $t("details.listOfEpisodes") }}
-        <span>«</span>
-        <UiTypography
-          :as="NuxtLink"
-          :class="$style.linkToTv"
-          :to="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.mediaId}`)"
-          variant="linkUnderlined"
-        >
-          {{ tmdbGetMovieDetailsApi.data.value?.title || tmdbGetMovieDetailsApi.data.value?.name }}
-        </UiTypography>
-        <span>»</span>
-      </UiTypography>
-
-      <ul :class="$style.infoList">
-        <UiTypography
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.seasonsCount") }}:
-          <UiTypography
-            as="span"
-            variant="listItemValue"
-          >
-            {{ tmdbGetMovieDetailsApi.data.value?.number_of_seasons }}
-          </UiTypography>
-        </UiTypography>
-
-        <UiTypography
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.episodesCount") }}:
-          <UiTypography
-            as="span"
-            variant="listItemValue"
-          >
-            {{ tmdbGetMovieDetailsApi.data.value?.number_of_episodes }}
-          </UiTypography>
-        </UiTypography>
-
-        <UiTypography
-          v-if="!!totalDuration.days || !!totalDuration.hours || !!totalDuration.minutes"
-          as="li"
-          variant="listItem"
-        >
-          {{ $t("details.totalViewingTime") }}:
-          <UiTypography
-            as="span"
-            variant="listItemValue"
-          >
-            {{ totalDuration.days ? `${totalDuration.days} ${$t("ui.time.shortDay")}` : "" }}
-            {{ totalDuration.hours ? `${totalDuration.hours} ${$t("ui.time.shortHour")}` : "" }}
-            {{ totalDuration.minutes ? `${totalDuration.minutes} ${$t("ui.time.shortMin")}` : "" }}
-          </UiTypography>
-        </UiTypography>
-      </ul>
-    </section>
+  <UiContainer :class="$style.wrapper">
+    <TvDetailsSeasonsHeader
+      v-if="tmdbGetMovieDetailsApi.data.value && tmdbGetTvSeriesDetailsApi.data.value"
+      :details="tmdbGetMovieDetailsApi.data.value"
+      :series-details="tmdbGetTvSeriesDetailsApi.data.value"
+    />
 
     <section :class="$style.list">
       <TvDetailsSeasonsItem
@@ -142,6 +66,20 @@ const totalDuration = computed(() => {
 </template>
 
 <style lang="scss" module>
+@import "~/styles/newVariables";
+@import "~/styles/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  padding-top: 50px !important;
+
+  @include mobileDevice() {
+    padding-top: 0 !important;
+  }
+}
+
 .linkToTv {
   font-size: inherit;
   font-weight: inherit;

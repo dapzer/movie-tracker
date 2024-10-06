@@ -10,9 +10,8 @@ import { getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
 import { checkIsValidDate } from "~/utils/checkIsValidDate";
-import { ListIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
 import { UiRating } from "~/components/newUi/UiRating"
+import MovieDetailsActions from "~/features/details/ui/MovieDetailsActions.vue"
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
@@ -61,13 +60,7 @@ const title = computed(() => {
       v-if="props.details && props.mediaType"
       #posterFooter
     >
-      <UiButton
-        :class="$style.addToListButton"
-        variant="boxed"
-      >
-        <ListIcon />
-        {{ $t('mediaList.addToList') }}
-      </UiButton>
+      <MovieDetailsActions :class="$style.actions" />
     </template>
 
     <template
@@ -158,5 +151,9 @@ const title = computed(() => {
   justify-content: center;
   gap: 2px;
   font-size: var(--fs-label-small) !important;
+}
+
+.actions {
+  width: 100%;
 }
 </style>

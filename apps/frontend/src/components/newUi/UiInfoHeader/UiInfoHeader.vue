@@ -9,9 +9,11 @@ interface UiInfoHeaderProps {
   image?: string;
   fallbackImage: string;
   overview?: string;
+  posterSize?: 'small';
 }
 
 const props = defineProps<UiInfoHeaderProps>();
+const slots = defineSlots();
 </script>
 
 <template>
@@ -23,7 +25,11 @@ const props = defineProps<UiInfoHeaderProps>();
       }"
     />
 
-    <div :class="$style.poster">
+    <div
+      :class="[$style.poster, {
+        [$style.small]: props.posterSize === 'small'
+      }]"
+    >
       <div :class="$style.imageWrapper">
         <div
           :class="$style.backgroundCircle"
@@ -31,7 +37,9 @@ const props = defineProps<UiInfoHeaderProps>();
             '--background-color': `url(${props.image || props.fallbackImage})`
           }"
         />
-        <div :class="$style.imageBody">
+        <div
+          :class="$style.imageBody"
+        >
           <UiImage
             :src="props.image"
             :fallback-src="props.fallbackImage"
@@ -65,9 +73,11 @@ const props = defineProps<UiInfoHeaderProps>();
         </UiTypography>
       </div>
 
-      <div :class="$style.posterFooter">
+      <template
+        v-if="slots.posterFooter"
+      >
         <slot name="posterFooter" />
-      </div>
+      </template>
     </div>
 
     <div :class="$style.content">
@@ -101,6 +111,10 @@ const props = defineProps<UiInfoHeaderProps>();
         :max-lines="6"
         :max-chars-in-line="99"
       />
+
+      <template v-if="slots.content">
+        <slot name="content" />
+      </template>
     </div>
   </section>
 </template>
@@ -188,14 +202,18 @@ const props = defineProps<UiInfoHeaderProps>();
     flex-direction: column;
     gap: 20px;
     max-width: 256px;
-    
+
+    &.small {
+      max-width: 180px;
+    }
+
     .backgroundCircle,
     .titleBlock {
       display: none;
     }
 
-    .posterFooter {
-      width: 100%;
+    .imageBody {
+      display: flex;
     }
 
     .imageBody,
@@ -221,6 +239,10 @@ const props = defineProps<UiInfoHeaderProps>();
   @include tabletDevice {
     .poster {
       max-width: 200px;
+
+      &.small {
+        max-width: 180px;
+      }
     }
   }
 
@@ -238,6 +260,10 @@ const props = defineProps<UiInfoHeaderProps>();
       max-width: 100%;
       flex-direction: column;
       align-items: center;
+
+      &.small {
+        max-width: 100%;
+      }
 
       .imageWrapper {
         position: relative;
@@ -264,12 +290,7 @@ const props = defineProps<UiInfoHeaderProps>();
       .titleBlock {
         display: flex;
         gap: 4px;
-      }
-
-      .posterFooter {
-        margin-top: -8px;
-
-        justify-content: center;
+        margin-bottom: -8px;
       }
     }
   }
