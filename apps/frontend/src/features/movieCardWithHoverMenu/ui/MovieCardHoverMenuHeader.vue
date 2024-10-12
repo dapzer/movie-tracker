@@ -1,22 +1,16 @@
 <script setup lang="ts">
 
-import { getFormatedNumber } from "~/utils/getFormatedNumber"
-import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-import { computed } from "#imports"
-import { getColorByRating } from "~/utils/getColorByRating"
+import { type TmdbMediaDetailsType, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { UiTypography } from "~/components/newUi/UiTypography"
-import { StarIcon } from "~/components/ui/icons"
 import { UiTag } from "~/components/newUi/UiTag"
+import { UiVoteWithRuntime } from "~/components/newUi/UiVoteWithRuntime"
 
 interface MovieCardHoverMenuHeaderProps {
-  movie: TmdbSearchResponseResultItemType;
+  movie: TmdbMediaDetailsType;
+  mediaType: TmdbMediaTypeEnum;
 }
 
 const props = defineProps<MovieCardHoverMenuHeaderProps>();
-
-const currentRatingColor = computed(() => {
-  return getColorByRating(props.movie.vote_average);
-});
 </script>
 
 <template>
@@ -26,40 +20,22 @@ const currentRatingColor = computed(() => {
         {{ props.movie.title || props.movie.name || props.movie.original_name }}
       </UiTypography>
 
-      <div :class="$style.subtitle">
-        <div
-          :class="[$style.rating, {
-            [$style.red]: currentRatingColor === 'red',
-            [$style.orange]: currentRatingColor === 'orange',
-            [$style.green]: currentRatingColor === 'green'
-          }]"
-        >
-          <StarIcon />
-          <UiTypography
-            variant="labelSmall"
-          >
-            {{ Number(props.movie.vote_average.toFixed(1)) }}
-          </UiTypography>
-        </div>
-
-        <UiTypography
-          :class="$style.voteCount"
-          variant="badge"
-        >
-          ({{ getFormatedNumber(props.movie.vote_count, 1) }} {{ $t('details.scores').toLowerCase() }})
-        </UiTypography>
-      </div>
+      <UiVoteWithRuntime
+        :vote-average="props.movie.vote_average"
+        :vote-count="props.movie.vote_count"
+        :runtime="props.movie.runtime"
+      />
     </div>
 
     <div
-      v-if="props.movie.genre_ids.length"
+      v-if="props.movie.genres.length"
       :class="$style.genres"
     >
       <UiTag
-        v-for="genreId in props.movie.genre_ids"
-        :key="genreId"
+        v-for="genre in props.movie.genres"
+        :key="genre.id"
       >
-        {{ $t(`details.genres.${props.movie.media_type}.${genreId}`) }}
+        {{ $t(`details.genres.${props.mediaType}.${genre.id}`) }}
       </UiTag>
     </div>
   </div>
@@ -75,38 +51,6 @@ const currentRatingColor = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 4px;
-  }
-
-  .rating,
-  .subtitle {
-    display: flex;
-    gap: 2px;
-    align-items: flex-end;
-
-    .voteCount {
-      color: var(--c-white-60);
-    }
-  }
-
-  .rating {
-    align-items: center;
-    height: fit-content;
-
-    &.green {
-      color: var(--c-green-2);
-    }
-
-    &.orange {
-      color: var(--c-orange-2);
-    }
-
-    &.red {
-      color: var(--c-red);
-    }
-
-    p {
-      color: inherit;
-    }
   }
 
   .genres {

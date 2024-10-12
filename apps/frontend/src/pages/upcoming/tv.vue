@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useGetTmdbDiscoverTvApi } from "~/api/tmdb/useTmdbApi"
 import { computed, useI18n, useSeoMeta } from "#imports"
-import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
-import { MovieCard } from "~/entities/movieCard"
+import { TmdbTvGenresEnum } from "@movie-tracker/types"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
@@ -10,6 +9,7 @@ import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
 import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 
 const { locale, t } = useI18n();
 const currentPage = ref(1)
@@ -47,7 +47,7 @@ await getTmdbTvOnTheAirApi.suspense();
     :total-pages="getTmdbTotalPages(getTmdbTvOnTheAirApi.data?.value?.total_pages)"
   >
     <template v-if="!getTmdbTvOnTheAirApi.isFetching.value">
-      <MovieCard
+      <MovieCardWithHoverMenu
         v-for="item in getTmdbTvOnTheAirApi.data?.value?.results"
         :key="item.id"
         full-height

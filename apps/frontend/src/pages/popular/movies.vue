@@ -2,12 +2,12 @@
 import { useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
 import { computed, useI18n, useSeoMeta } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
-import { MovieCard } from "~/entities/movieCard"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 
 const { locale, t } = useI18n();
 const currentPage = ref(1)
@@ -43,7 +43,7 @@ await getTmdbMoviePopularListApi.suspense();
     :total-pages="getTmdbTotalPages(getTmdbMoviePopularListApi.data?.value?.total_pages)"
   >
     <template v-if="!getTmdbMoviePopularListApi.isFetching.value">
-      <MovieCard
+      <MovieCardWithHoverMenu
         v-for="item in getTmdbMoviePopularListApi.data?.value?.results"
         :key="item.id"
         full-height

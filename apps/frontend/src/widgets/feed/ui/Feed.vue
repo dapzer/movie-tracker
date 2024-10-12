@@ -6,9 +6,9 @@ import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
 import FeedItem from "~/widgets/feed/ui/FeedItem.vue"
 import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
-import { MovieCard } from "~/entities/movieCard"
 import { useLocalePath } from "#i18n"
 import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 
 const { locale } = useI18n();
 const localePath = useLocalePath()
@@ -88,7 +88,7 @@ await Promise.all([
       :slide-width="195"
     >
       <template #slide="{item}">
-        <MovieCard
+        <MovieCardWithHoverMenu
           full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
@@ -103,7 +103,7 @@ await Promise.all([
       :slide-width="195"
     >
       <template #slide="{item}">
-        <MovieCard
+        <MovieCardWithHoverMenu
           full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"
@@ -118,7 +118,7 @@ await Promise.all([
       :slide-width="195"
     >
       <template #slide="{item}">
-        <MovieCard
+        <MovieCardWithHoverMenu
           full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
@@ -133,7 +133,7 @@ await Promise.all([
       :slide-width="195"
     >
       <template #slide="{item}">
-        <MovieCard
+        <MovieCardWithHoverMenu
           full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"
@@ -148,7 +148,7 @@ await Promise.all([
       :slide-width="195"
     >
       <template #slide="{item}">
-        <MovieCard
+        <MovieCardWithHoverMenu
           full-height
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"

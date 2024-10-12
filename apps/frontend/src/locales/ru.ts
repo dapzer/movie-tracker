@@ -28,6 +28,7 @@ export default {
     scores: 'Оценки',
     productionCountry: 'Страна производства',
     producer: 'Режиссёр',
+    directedBy: 'Режиссер',
     creator: 'Создатель(и)',
     productionCompanies: 'Кинокомпании',
     genre: 'Жанр',

@@ -65,6 +65,7 @@ export default {
     filmography: 'Filmography',
     socialNetworks: 'Social networks',
     director: 'Director',
+    directedBy: 'Directed by',
     participatedIn: 'Participated in',
     singleMovie: 'movies',
     multipleMovie: 'movies',

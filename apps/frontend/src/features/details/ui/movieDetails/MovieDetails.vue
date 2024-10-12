@@ -18,9 +18,9 @@ import { LanguagesEnum } from "~/types/languagesEnum"
 import { arrayToString } from "@movie-tracker/utils"
 import { PersonWithDescription } from "~/widgets/personWithDescription"
 import { useLocalePath } from "#i18n"
-import { MovieCard } from "~/entities/movieCard"
 import { EpisodeCard } from "~/entities/episodeCard"
 import { formatDate } from "~/utils/formatDate"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 
 interface MovieDetailsProps {
   mediaId: number;
@@ -204,7 +204,7 @@ const latestEpisodes = computed(() => {
         :max-width="195"
       >
         <template #slide="{item}">
-          <MovieCard
+          <MovieCardWithHoverMenu
             full-height
             :movie="item"
           />

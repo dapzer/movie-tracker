@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useGetTmdbDiscoverMovieApi } from "~/api/tmdb/useTmdbApi"
 import { computed, useI18n, useSeoMeta } from "#imports"
-import { MediaTypeEnum } from "@movie-tracker/types"
-import { MovieCard } from "~/entities/movieCard"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
@@ -46,7 +44,7 @@ await getTmdbUpcomingMoviesApi.suspense();
     :total-pages="getTmdbTotalPages(getTmdbUpcomingMoviesApi.data?.value?.total_pages)"
   >
     <template v-if="!getTmdbUpcomingMoviesApi.isFetching.value">
-      <MovieCard
+      <MovieCardWithHoverMenu
         v-for="item in getTmdbUpcomingMoviesApi.data?.value?.results"
         :key="item.id"
         full-height

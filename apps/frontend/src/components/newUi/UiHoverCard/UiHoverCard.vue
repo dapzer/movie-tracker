@@ -86,6 +86,30 @@ defineOptions({
       visibility: visible !important;
     }
   }
+
+  //&[data-side="top"][data-align="start"],
+  //&[data-side="bottom"][data-align="start"] {
+  //  & > span {
+  //    left: 8px !important;
+  //    visibility: visible !important;
+  //  }
+  //}
+  //
+  //&[data-side="bottom"][data-align="end"],
+  //&[data-side="top"][data-align="end"] {
+  //  & > span {
+  //    right: 8px !important;
+  //    visibility: visible !important;
+  //  }
+  //}
+  //
+  //&[data-side="bottom"][data-align="center"],
+  //&[data-side="top"][data-align="center"] {
+  //  & > span {
+  //    margin: 0 auto;
+  //    visibility: visible !important;
+  //  }
+  //}
 }
 
 .content {
