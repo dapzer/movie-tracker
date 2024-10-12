@@ -6,15 +6,22 @@ import type {
   TmdbPersonExternalIdsType,
   TmdbSearchResponseType,
   TmdbSeasonDetailsType,
+  TmdbUpcomingMoviesResponseType,
   TmdbVideosType
 } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import type {
   TmdbDefaultQueriesType,
+  TmdbDiscoverMovieQueriesType,
+  TmdbDiscoverTvQueriesType,
   TmdbPersonCreditsQueriesType,
+  TmdbPopularQueriesType,
   TmdbSearchQueriesType,
   TmdbSeasonsQueriesType,
-  TmdbTrendsQueriesType
+  TmdbTvAiringTodayQueriesType,
+  TmdbTvOnTheAirQueriesType,
+  TmdbUpcomingMoviesQueriesType,
+  TmdbVideosQueriesType
 } from "~/api/tmdb/tmdbApiTypes";
 import { contentApi } from "~/api/instance";
 
@@ -63,14 +70,59 @@ export const getTmdbPersonExternalIdsApi = async (queries: TmdbDefaultQueriesTyp
 };
 
 
-export const getTmdbTrendsApi = async (queries: TmdbTrendsQueriesType) => {
+export const getTmdbPopularApi = async (queries: TmdbPopularQueriesType) => {
   return contentApi.get<TmdbSearchResponseType>(`${queries.mediaType}/popular`, {
     params: {
       language: queries.language,
-      page: 1
+      page: queries.page,
+      time_window: queries.timeWindow
     }
   });
 };
+
+export const getTmdbUpcomingMoviesApi = async (queries: TmdbUpcomingMoviesQueriesType) => {
+  return contentApi.get<TmdbUpcomingMoviesResponseType>("movie/upcoming", {
+    params: {
+      language: queries.language,
+      page: queries.page,
+      region: queries.region
+    }
+  })
+}
+
+export const getTmdbTvOnTheAirApi = async (queries: TmdbTvOnTheAirQueriesType) => {
+  return contentApi.get<TmdbSearchResponseType>("tv/on_the_air", {
+    params: {
+      language: queries.language,
+      page: queries.page,
+    }
+  })
+}
+
+export const getTmdbTvAiringTodayApi = async (queries: TmdbTvAiringTodayQueriesType) => {
+  return contentApi.get<TmdbSearchResponseType>("tv/airing_today", {
+    params: {
+      language: queries.language,
+      page: queries.page,
+    }
+  })
+}
+
+export const getTmdbDiscoverMovieApi = async (queries: TmdbDiscoverMovieQueriesType) => {
+  return contentApi.get<TmdbSearchResponseType>("discover/movie", {
+    params: {
+      ...queries
+    }
+  })
+}
+
+export const getTmdbDiscoverTvApi = async (queries: TmdbDiscoverTvQueriesType) => {
+  return contentApi.get<TmdbSearchResponseType>("discover/tv", {
+    params: {
+      ...queries
+    }
+  })
+}
 
 export const getTmdbRecommendationsApi = async (queries: TmdbDefaultQueriesType) => {
   return contentApi.get<TmdbSearchResponseType>(`${queries.mediaType}/${queries.mediaId}/recommendations`, {
@@ -81,10 +133,11 @@ export const getTmdbRecommendationsApi = async (queries: TmdbDefaultQueriesType)
   });
 };
 
-export const getTmdbVideosApi = async (queries: TmdbDefaultQueriesType) => {
+export const getTmdbVideosApi = async (queries: TmdbVideosQueriesType) => {
   return contentApi.get<TmdbVideosType>(`${queries.mediaType}/${queries.mediaId}/videos`, {
     params: {
-      language: queries.language
+      language: queries.language,
+      include_video_language: queries.includeVideoLanguage
     }
   });
 };

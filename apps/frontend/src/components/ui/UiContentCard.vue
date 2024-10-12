@@ -35,6 +35,7 @@ const props = defineProps<UiContentCardProps>()
 
 <style lang="scss" module>
 @import "~/styles/mixins";
+@import "~/styles/newVariables";
 
 .wrapper {
   @include card;

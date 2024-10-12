@@ -1,13 +1,5 @@
-import type {
-  DehydratedState,
-  VueQueryPluginOptions,
-} from '@tanstack/vue-query'
-import {
-  VueQueryPlugin,
-  QueryClient,
-  hydrate,
-  dehydrate,
-} from '@tanstack/vue-query'
+import type { DehydratedState, VueQueryPluginOptions, } from '@tanstack/vue-query'
+import { dehydrate, hydrate, QueryClient, VueQueryPlugin, } from '@tanstack/vue-query'
 // Nuxt 3 app aliases
 import { defineNuxtPlugin, useState } from "#app";
 
@@ -18,7 +10,7 @@ export default defineNuxtPlugin((nuxt) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 5000 } },
   })
-  const options: VueQueryPluginOptions = { queryClient }
+  const options: VueQueryPluginOptions = { queryClient, enableDevtoolsV6Plugin: true }
 
   nuxt.vueApp.use(VueQueryPlugin, options)
 

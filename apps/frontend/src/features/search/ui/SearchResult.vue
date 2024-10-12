@@ -39,6 +39,7 @@ const props = defineProps<SearchResultProps>();
       :ssr-columns="4"
     >
       <template #default="{ item }">
+        <!-- @vue-skip -->
         <MovieCard
           v-if="item.media_type === MediaTypeEnum.MOVIE || item.media_type === MediaTypeEnum.TV"
           :movie="item"
