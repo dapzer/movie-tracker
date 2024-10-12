@@ -1,0 +1,103 @@
+<script setup lang="ts">
+
+import { type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
+import { UiSelect } from "~/components/newUi/UiSelect"
+import { UiListHeader } from "~/components/newUi/UiListHeader"
+import { computed, ref } from "vue"
+import EpisodeCardHorizontal from "~/entities/episodeCard/ui/EpisodeCardHorizontal.vue"
+import { UiDivider } from "~/components/newUi/UiDivider"
+import { useI18n } from "#imports"
+
+interface TvDetailsSeasonsHeaderProps {
+  details: TmdbMediaDetailsType;
+  seasons: TmdbSeasonDetailsType[];
+}
+
+const props = defineProps<TvDetailsSeasonsHeaderProps>();
+const { t } = useI18n();
+const selectedSeasonNumber = ref<string>('1');
+
+const seasonsOptions = computed(() => {
+  return props.seasons.map((season) => ({
+    label: season.name,
+    value: season.season_number.toString(),
+  }));
+});
+
+const selectedSeason = computed(() => {
+  return props.seasons.find((season) => season.season_number === Number(selectedSeasonNumber.value));
+})
+
+const subtitle = computed(() => {
+  if (!props.seasons.length) return t('details.noSeasons');
+  if (!selectedSeason.value?.episodes.length) return t('details.noEpisodes')
+
+  return `${t('details.episodesCount')}: ${ selectedSeason.value?.episodes.length }`;
+})
+</script>
+
+<template>
+  <section>
+    <UiListHeader
+      :class="$style.header"
+      :title="`${$t('details.listOfEpisodes')} ‘${props.details.title || props.details.name}’`"
+      :subtitle="subtitle"
+    >
+      <template
+        v-if="props.seasons.length"
+        #filters
+      >
+        <UiSelect
+          v-model="selectedSeasonNumber"
+          :width="200"
+          :options="seasonsOptions"
+          :placeholder="$t('details.department.title')"
+        />
+      </template>
+    </UiListHeader>
+
+    <div
+      v-if="selectedSeason?.episodes.length"
+      :class="$style.list"
+    >
+      <template
+        v-for="(episode, index) in selectedSeason?.episodes"
+        :key="episode.id"
+      >
+        <EpisodeCardHorizontal
+          :episode="episode"
+        />
+        <UiDivider
+          v-if="index !== selectedSeason?.episodes.length - 1"
+          :class="$style.line"
+        />
+      </template>
+    </div>
+  </section>
+</template>
+
+<style module lang="scss">
+@import '~/styles/mixins';
+@import '~/styles/newVariables';
+
+.header {
+  margin-bottom: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  & > div:not(:hover) {
+    background: none;
+  }
+
+  @include mobileDevice() {
+    gap: 16px;
+
+    .line {
+      display: none;}
+  }
+}
+</style>

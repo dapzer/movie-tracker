@@ -37,5 +37,4 @@ export { default as FacebookIcon } from "assets/svg/icons/facebook.svg"
 export { default as InstagramIcon } from "assets/svg/icons/instagram.svg"
 export { default as TiktokIcon } from "assets/svg/icons/tiktok.svg"
 export { default as SelectArrowIcon } from "assets/svg/icons/selectArrow.svg"
-
-
+export { default as ClocksIcon } from "assets/svg/icons/clocks.svg"

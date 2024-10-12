@@ -2,70 +2,70 @@
 @import "./newVariables";
 @import "./fonts";
 
-html,
-body {
-  font-size: 16px;
-}
-
-* {
-  font-family: var(--ff-fallback);
-  font-family: var(--ff-neue-haas);
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-html,
-body,
-body > div:first-of-type {
-  height: 100% !important;
-}
-
-body {
-  font-size: 16px;
-  background: var(--c-main-background);
-  background-size: cover;
-}
-
-html {
-  scroll-padding-top: calc(10px + var(--s-header-height));
-}
-
-// Scroll
-
-* {
-  @include scrollbar();
-}
-
-
-img {
-  width: 100%;
-  height: 100%;
-}
-
-a {
-  outline: none;
-  text-decoration: none;
-}
-
-
-li {
-  list-style: none;
-  font-size: var(--fs-p);
-}
-
-// Lib
-
-.Toastify__toast-theme--dark {
-  background: var(--c-accent) !important;
-  box-shadow: 0 0 20px rgb(0 0 0 / 20%) !important;
-
-  @media only screen and (max-width: 480px) {
-    margin-right: var(--s-indent);
-    margin-left: var(--s-indent);
+@layer global {
+  html,
+  body {
+    font-size: 16px;
   }
-}
 
-.Toastify__toast-container--top-right {
-  top: calc(10px + var(--s-header-height)) !important;
+  * {
+    font-family: var(--ff-fallback);
+    font-family: var(--ff-neue-haas);
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html,
+  body,
+  body > div:first-of-type {
+    height: 100% !important;
+  }
+
+  body {
+    font-size: 16px;
+    background: var(--c-main-background);
+    background-size: cover;
+  }
+
+  html {
+    scroll-padding-top: calc(10px + var(--s-header-height));
+  }
+
+  // Scroll
+  * {
+    @include scrollbar();
+  }
+
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  a {
+    outline: none;
+    text-decoration: none;
+  }
+
+
+  li {
+    list-style: none;
+    font-size: var(--fs-p);
+  }
+
+  // Lib
+  .Toastify__toast-theme--dark {
+    background: var(--c-accent) !important;
+    box-shadow: 0 0 20px rgb(0 0 0 / 20%) !important;
+
+    @media only screen and (max-width: 480px) {
+      margin-right: var(--s-indent);
+      margin-left: var(--s-indent);
+    }
+  }
+
+  .Toastify__toast-container--top-right {
+    top: calc(10px + var(--s-header-height)) !important;
+  }
 }

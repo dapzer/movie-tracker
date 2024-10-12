@@ -49,40 +49,45 @@ const slots = defineSlots()
 @import "~/styles/mixins";
 @import "~/styles/newVariables";
 
-.wrapper {
-  @include card();
-  max-width: var(--maxWidth);
-  max-height: var(--maxHeight);
+@layer global, default;
 
-  &.horizontal {
-    flex-direction: row;
-    align-items: flex-start;
+@layer default {
+  .wrapper {
+    @include card();
+    max-width: var(--maxWidth);
+    max-height: var(--maxHeight);
+
+    &.horizontal {
+      flex-direction: row;
+      align-items: flex-start;
+
+      .imageWrapper {
+        max-width: var(--imageMaxWidth);
+      }
+    }
+
+    &.fullHeight {
+      height: 100%;
+    }
 
     .imageWrapper {
-      max-width: var(--imageMaxWidth);
-    }
-  }
-
-  &.fullHeight {
-    height: 100%;
-  }
-
-  .imageWrapper {
-    display: flex;
-    width: 100%;
-    border-radius: var(--s-border-radius-small);
-    height: fit-content;
-    position: relative;
-
-    img {
+      display: flex;
+      width: 100%;
       border-radius: var(--s-border-radius-small);
-      object-fit: cover;
-    }
-  }
+      height: fit-content;
+      position: relative;
 
-  .info {
-    width: 100%;
+      img {
+        border-radius: var(--s-border-radius-small);
+        object-fit: cover;
+      }
+    }
+
+    .info {
+      width: 100%;
+    }
   }
 }
 
 </style>
+

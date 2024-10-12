@@ -19,7 +19,7 @@ import { arrayToString } from "@movie-tracker/utils"
 import { PersonWithDescription } from "~/widgets/personWithDescription"
 import { useLocalePath } from "#i18n"
 import { MovieCard } from "~/entities/movieCard"
-import { EpisodeCard } from "~/widgets/episodeCard"
+import { EpisodeCard } from "~/entities/episodeCard"
 import { formatDate } from "~/utils/formatDate"
 
 interface MovieDetailsProps {

@@ -4,10 +4,10 @@ import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/t
 import { computed, createError, useI18n } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import UiContainer from "~/components/ui/UiContainer.vue";
-import TvDetailsSeasonsItem from "./TvDetailsSeasonsItem.vue";
 import { useLocalePath } from "#i18n";
 import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo"
 import TvDetailsSeasonsHeader from "~/features/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
+import TvDetailsSeasonsEpisodeList from "~/features/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
 
 interface TvDetailsSeasonsProps {
   mediaId: number;
@@ -55,13 +55,11 @@ useMovieDetailsSeo({
       :series-details="tmdbGetTvSeriesDetailsApi.data.value"
     />
 
-    <section :class="$style.list">
-      <TvDetailsSeasonsItem
-        v-for="season in tmdbGetTvSeriesDetailsApi.data?.value"
-        :key="season._id"
-        :season="season"
-      />
-    </section>
+    <TvDetailsSeasonsEpisodeList
+      v-if="tmdbGetMovieDetailsApi.data.value && tmdbGetTvSeriesDetailsApi.data.value"
+      :details="tmdbGetMovieDetailsApi.data.value"
+      :seasons="tmdbGetTvSeriesDetailsApi.data.value"
+    />
   </UiContainer>
 </template>
 

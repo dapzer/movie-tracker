@@ -71,6 +71,8 @@ export default {
     singleTv: 'сериале',
     multipleTv: 'сериалах',
     acting: "Актёрское искусство",
+    noSeasons: 'Данный сериал не имеет эпизодов',
+    noEpisodes: 'В выбранном сезоне нет эпизодов',
     gender: {
       title: 'Пол',
       0: 'Неизвестно',

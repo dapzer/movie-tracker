@@ -8,6 +8,7 @@ import { UiSelect } from "~/components/newUi/UiSelect"
 import { MovieCardHorizontal } from "~/entities/movieCard"
 import { UiDivider } from "~/components/newUi/UiDivider"
 import { UiPagination } from "~/components/newUi/UiPagination"
+import { UiListHeader } from "~/components/newUi/UiListHeader"
 
 interface PersonDetailsActingProps {
   crew: TmdbPersonCrewType[];
@@ -114,15 +115,12 @@ const clearFilters = () => {
 
 <template>
   <div :class="$style.wrapper">
-    <div :class="$style.header">
-      <UiTypography
-        :class="$style.title"
-        as="h3"
-        variant="title3"
-      >
-        {{ t("details.acting") }}
-      </UiTypography>
-      <div :class="$style.filters">
+    <UiListHeader
+      :title="$t('details.acting')"
+      :subtitle="`${$t('details.participatedIn')} ${inMediaCounts.movie} ${$t(getMediaTypeDeclensionTranslationKey(inMediaCounts.movie,
+                                                                                                                   TmdbMediaTypeEnum.MOVIE))}, ${inMediaCounts.tv} ${$t(getMediaTypeDeclensionTranslationKey(inMediaCounts.tv, TmdbMediaTypeEnum.TV))}`"
+    >
+      <template #filters>
         <UiButton
           variant="text"
           scheme="link"
@@ -142,21 +140,8 @@ const clearFilters = () => {
           :options="departments"
           :placeholder="$t('details.department.title')"
         />
-      </div>
-    </div>
-    <UiDivider />
-    <UiTypography
-      :class="$style.subheading"
-      variant="subheading"
-    >
-      {{ t("details.participatedIn") }}
-      {{ inMediaCounts.movie }} {{
-        $t(getMediaTypeDeclensionTranslationKey(inMediaCounts.movie, TmdbMediaTypeEnum.MOVIE))
-      }},
-      {{ inMediaCounts.tv }} {{
-        $t(getMediaTypeDeclensionTranslationKey(inMediaCounts.tv, TmdbMediaTypeEnum.TV))
-      }}
-    </UiTypography>
+      </template>
+    </UiListHeader>
     <div :class="$style.content">
       <template
         v-for="(item, index) in filteredData.slice((currentPage - 1) * 10, currentPage * 10)"
@@ -210,41 +195,6 @@ const clearFilters = () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-
-    .title {
-      white-space: nowrap;
-      width: max-content;
-      @include ellipsisText();
-    }
-
-    @include mobileDevice() {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .filters {
-      display: flex;
-      gap: 20px;
-      flex: 1 1 auto;
-      max-height: max-content;
-      justify-content: flex-end;
-
-      @include mobileDevice() {
-        width: 100%;
-      }
-    }
-  }
-
-  .subheading {
-    color: var(--c-description);
-
-  }
 
   .content {
     display: flex;

@@ -71,6 +71,8 @@ export default {
     singleTv: 'TV series',
     multipleTv: 'TV series',
     acting: "Acting",
+    noSeasons: 'This series has no episodes',
+    noEpisodes: 'There are no episodes in the selected season',
     gender: {
       title: "Gender",
       0: "Not specified",
