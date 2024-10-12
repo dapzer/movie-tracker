@@ -4,7 +4,7 @@ import { type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tr
 import { UiSelect } from "~/components/newUi/UiSelect"
 import { UiListHeader } from "~/components/newUi/UiListHeader"
 import { computed, ref } from "vue"
-import EpisodeCardHorizontal from "~/entities/episodeCard/ui/EpisodeCardHorizontal.vue"
+import { EpisodeCardHorizontal } from "~/entities/episodeCard"
 import { UiDivider } from "~/components/newUi/UiDivider"
 import { useI18n } from "#imports"
 
