@@ -2,10 +2,11 @@
 
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
 import { UiInfoHeader } from "~/components/newUi/UiInfoHeader"
-import { type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
+import { MediaTypeEnum, type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
 import { computed } from "#imports"
 import { minsToTimeConverter } from "@movie-tracker/utils"
 import MovieDetailsActions from "~/features/details/ui/MovieDetailsActions.vue"
+import { useLocalePath } from "#i18n"
 
 interface TvDetailsSeasonsHeaderProps {
   details: TmdbMediaDetailsType;
@@ -13,6 +14,7 @@ interface TvDetailsSeasonsHeaderProps {
 }
 
 const props = defineProps<TvDetailsSeasonsHeaderProps>();
+const localePath = useLocalePath()
 
 const totalDuration = computed(() => {
   return minsToTimeConverter(
@@ -34,6 +36,8 @@ const totalDuration = computed(() => {
     :image="props.details?.poster_path && getProxiedImageUrl(props.details?.poster_path, 350)"
     fallback-image="/defaultMoviePoster.svg"
     :title="props.details.title || props.details.name"
+    :back-button-text="$t('details.backToTvPage')"
+    :back-button-url="localePath(`/details/${MediaTypeEnum.TV}/${props.details.id}`)"
   >
     <template #posterFooter>
       <MovieDetailsActions

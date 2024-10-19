@@ -2,6 +2,8 @@
 import { UiTypography } from "~/components/newUi/UiTypography";
 import { UiImage } from "~/components/newUi/UiImage"
 import { UiTrimmedText } from "~/components/newUi/UiTrimmedText"
+import { NuxtLink } from "#components"
+import { BackArrowMediumIcon, BackArrowSmallIcon } from "~/components/ui/icons"
 
 interface UiInfoHeaderProps {
   title: string;
@@ -9,6 +11,8 @@ interface UiInfoHeaderProps {
   image?: string;
   fallbackImage: string;
   overview?: string;
+  backButtonText?: string;
+  backButtonUrl?: string;
   posterSize?: 'small';
 }
 
@@ -18,103 +22,119 @@ const slots = defineSlots();
 
 <template>
   <section :class="$style.wrapper">
-    <div
-      :class="$style.backgroundCircle"
-      :style="{
-        '--background-color': `url(${props.image || props.fallbackImage})`
-      }"
-    />
-
-    <div
-      :class="[$style.poster, {
-        [$style.small]: props.posterSize === 'small'
-      }]"
+    <UiTypography
+      v-if="props.backButtonUrl && props.backButtonText"
+      :class="$style.backButton"
+      :as="NuxtLink"
+      :to="props.backButtonUrl"
+      variant="label"
     >
-      <div :class="$style.imageWrapper">
-        <div
-          :class="$style.backgroundCircle"
-          :style="{
-            '--background-color': `url(${props.image || props.fallbackImage})`
-          }"
-        />
-        <div
-          :class="$style.imageBody"
-        >
-          <UiImage
-            :src="props.image"
-            :fallback-src="props.fallbackImage"
-            loading="eager"
-            fetchpriority="high"
-            :width="256"
-            :alt="props.title"
-          />
-        </div>
-      </div>
+      <BackArrowSmallIcon :class="$style.backArrowSmall" />
+      <BackArrowMediumIcon :class="$style.backArrowMedium" />
+      <span>
+        {{ props.backButtonText }}
+      </span>
+    </UiTypography>
 
-
+    <div :class="$style.body">
       <div
-        aria-hidden="true"
-        :class="$style.titleBlock"
-      >
-        <UiTypography
-          aria-hidden="true"
-          as="p"
-          variant="title2"
-        >
-          {{ props.title }}
-        </UiTypography>
-        <UiTypography
-          aria-hidden="true"
-          :class="$style.description"
-          as="span"
-          variant="subheading"
-        >
-          {{ props.description }}
-        </UiTypography>
-      </div>
-
-      <template
-        v-if="slots.posterFooter"
-      >
-        <slot name="posterFooter" />
-      </template>
-    </div>
-
-    <div :class="$style.content">
-      <div :class="$style.titleBlock">
-        <UiTypography
-          as="h1"
-          variant="title2"
-        >
-          {{ props.title }}
-        </UiTypography>
-        <UiTypography
-          :class="$style.description"
-          as="span"
-          variant="subheading"
-        >
-          {{ props.description }}
-        </UiTypography>
-      </div>
-
-
-      <table :class="$style.table">
-        <tbody>
-          <slot name="tableItems" />
-        </tbody>
-      </table>
-
-      <UiTrimmedText
-        v-if="props.overview"
-        :class="$style.overview"
-        :text="props.overview.replace(/\r\s*/g, '\n\n')"
-        :max-lines="6"
-        :max-chars-in-line="99"
+        :class="$style.backgroundCircle"
+        :style="{
+          '--background-color': `url(${props.image || props.fallbackImage})`
+        }"
       />
 
-      <template v-if="slots.content">
-        <slot name="content" />
-      </template>
+      <div
+        :class="[$style.poster, {
+          [$style.small]: props.posterSize === 'small'
+        }]"
+      >
+        <div :class="$style.imageWrapper">
+          <div
+            :class="$style.backgroundCircle"
+            :style="{
+              '--background-color': `url(${props.image || props.fallbackImage})`
+            }"
+          />
+          <div
+            :class="$style.imageBody"
+          >
+            <UiImage
+              :src="props.image"
+              :fallback-src="props.fallbackImage"
+              loading="eager"
+              fetchpriority="high"
+              :width="256"
+              :alt="props.title"
+            />
+          </div>
+        </div>
+
+
+        <div
+          aria-hidden="true"
+          :class="$style.titleBlock"
+        >
+          <UiTypography
+            aria-hidden="true"
+            as="p"
+            variant="title2"
+          >
+            {{ props.title }}
+          </UiTypography>
+          <UiTypography
+            aria-hidden="true"
+            :class="$style.description"
+            as="span"
+            variant="subheading"
+          >
+            {{ props.description }}
+          </UiTypography>
+        </div>
+
+        <template
+          v-if="slots.posterFooter"
+        >
+          <slot name="posterFooter" />
+        </template>
+      </div>
+
+      <div :class="$style.content">
+        <div :class="$style.titleBlock">
+          <UiTypography
+            as="h1"
+            variant="title2"
+          >
+            {{ props.title }}
+          </UiTypography>
+          <UiTypography
+            :class="$style.description"
+            as="span"
+            variant="subheading"
+          >
+            {{ props.description }}
+          </UiTypography>
+        </div>
+
+
+        <table :class="$style.table">
+          <tbody>
+            <slot name="tableItems" />
+          </tbody>
+        </table>
+
+        <UiTrimmedText
+          v-if="props.overview"
+          :class="$style.overview"
+          :text="props.overview.replace(/\r\s*/g, '\n\n')"
+          :max-lines="6"
+          :max-chars-in-line="99"
+        />
+
+        <template v-if="slots.content">
+          <slot name="content" />
+        </template>
+      </div>
     </div>
   </section>
 </template>
@@ -124,6 +144,63 @@ const slots = defineSlots();
 @import "~/styles/mixins";
 
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+
+  .backButton {
+    display: flex;
+    align-items: center;
+    color: var(--c-description);
+    width: fit-content;
+
+    svg {
+      color: var(--c-text);
+    }
+
+    &:hover {
+      &, svg {
+        color: var(--c-label-lihk-hovered);
+      }
+    }
+
+    span {
+      font-family: inherit;
+      line-height: inherit;
+    }
+
+    .backArrowMedium {
+      display: none;
+    }
+
+    @include mobileDevice {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
+      top: 12px;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-white-15);
+      z-index: 1;
+
+      .backArrowSmall {
+        display: none;
+      }
+
+      .backArrowMedium {
+        display: block;
+      }
+
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+.body {
   display: flex;
   gap: 32px;
   padding: 20px;
