@@ -44,6 +44,9 @@ const props = defineProps<MovieCardWithHoverMenuProps>();
 </template>
 
 <style module lang="scss">
+@import "~/styles/newVariables";
+@import "~/styles/mixins";
+
 .trigger {
   cursor: pointer;
   position: absolute;
@@ -51,6 +54,7 @@ const props = defineProps<MovieCardWithHoverMenuProps>();
   width: fit-content;
   right: 16px;
   z-index: 1;
+  mix-blend-mode: difference;
 
   svg {
     margin-top: 8px;
@@ -58,6 +62,10 @@ const props = defineProps<MovieCardWithHoverMenuProps>();
 
   &:not(:hover) {
     opacity: 0.5;
+  }
+
+  @include mobileDevice() {
+    display: none;
   }
 }
 </style>
