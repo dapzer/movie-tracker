@@ -17,10 +17,14 @@ interface UiBottomDrawerProps {
 }
 
 const props = defineProps<UiBottomDrawerProps>()
+const model = defineModel<boolean>()
 </script>
 
 <template>
-  <DrawerRoot ref="drawerRef">
+  <DrawerRoot
+    ref="drawerRef"
+    v-model:open="model"
+  >
     <DrawerTrigger as="div">
       <slot name="trigger" />
     </DrawerTrigger>

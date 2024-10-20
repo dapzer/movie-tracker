@@ -168,6 +168,9 @@ const filteredMediaLists = computed(() => {
 </template>
 
 <style module lang="scss">
+@import "~/styles/mixins";
+@import "~/styles/newVariables";
+
 .wrapper {
   flex-direction: column;
   display: flex;
@@ -191,6 +194,9 @@ const filteredMediaLists = computed(() => {
     display: flex;
     justify-content: flex-end;
 
+    @include mobileDevice {
+      justify-content: center;
+    }
   }
 
   .nothingFound {
