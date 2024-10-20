@@ -75,6 +75,9 @@ export default {
     noSeasons: 'This series has no episodes',
     noEpisodes: 'There are no episodes in the selected season',
     backToTvPage: "Back to the TV series page",
+    multipleElements: 'elements',
+    manyElements: 'elements',
+    singleElements: 'element',
     gender: {
       title: "Gender",
       0: "Not specified",
@@ -1144,6 +1147,7 @@ export default {
   },
   mediaList: {
     addToList: "Add to list",
+    addToListTitle: 'Add ‘{title}’ to lists',
     unauthorizedDescription: "to display your lists",
     unauthorizedTitle: "Sign in",
     yourLists: "Your lists",
@@ -1208,6 +1212,8 @@ export default {
     keywords: "movie movies search film film poster reviews today in movies soon box office movie theaters actor actress director writer photo poster tracking listings tracking"
   },
   toasts: {
+    changesSuccessfullySaved: 'Changes saved successfully',
+    changesUnsuccessfullySaved: 'An error occurred while saving changes',
     mediaItem: {
       successAddedToList: "{media} added to the list «{listName}»",
       successRemovedFromList: "{media} removed from the list «{listName}»",
@@ -1244,6 +1250,7 @@ export default {
     years: 'years old',
     manyYears: 'years old',
     errors: {
+      nothingFound: "Nothing found",
       pageNotFound: "Page not found.",
     },
     actions: {

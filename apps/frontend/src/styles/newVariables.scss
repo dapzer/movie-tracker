@@ -16,6 +16,7 @@ $bp-sm: 568px;
   --c-card-background: #121212;
   --c-card-background-hovered: #1D1D1D;
   --c-black-90: rgba(3, 3, 3, 0.9);
+  --c-white-05: rgba(255, 255, 255, 0.05);
   --c-white-06: rgba(255, 255, 255, 0.06);
   --c-white-08: rgba(255, 255, 255, 0.08);
   --c-white-12: rgba(255, 255, 255, 0.12);
@@ -77,6 +78,7 @@ $bp-sm: 568px;
   --fs-description: 0.875rem; /* 14px */
   --fs-badge: 0.75rem; /* 12px */
   --fs-input: 1rem; /* 16px */
+  --fs-input-small: 0.875rem; /* 14px */
   --fs-input-error: 0, 75rem; /* 12px */
   --fs-score: 0.875rem;
 
@@ -133,6 +135,7 @@ $bp-sm: 568px;
   --lh-description: 1.125rem;
   --lh-badge: 1rem;
   --lh-input: 1.5rem;
+  --lh-input-small: 1.25rem;
   --lh-input-error: 1.125rem;
   --lh-score: 1rem;
   --lh-logo: 1.5rem;

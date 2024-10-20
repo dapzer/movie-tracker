@@ -60,7 +60,11 @@ const title = computed(() => {
       v-if="props.details && props.mediaType"
       #posterFooter
     >
-      <MovieDetailsActions :class="$style.actions" />
+      <MovieDetailsActions
+        :class="$style.actions"
+        :media-id="props.details.id"
+        :media-type="props.mediaType"
+      />
     </template>
 
     <template

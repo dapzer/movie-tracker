@@ -1,18 +1,22 @@
 <script setup lang="ts">
 
-import { ListIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
+import { MediaListSelectorModal } from "~/entities/mediaList"
+import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
+
+interface MovieDetailsActionsProps {
+  mediaId: number;
+  mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
+}
+
+const props = defineProps<MovieDetailsActionsProps>();
 </script>
 
 <template>
   <div :class="$style.wrapper">
-    <UiButton
-      :class="$style.addToListButton"
-      variant="boxed"
-    >
-      <ListIcon />
-      {{ $t('mediaList.addToList') }}
-    </UiButton>
+    <MediaListSelectorModal
+      :media-id="props.mediaId"
+      :media-type="props.mediaType"
+    />
   </div>
 </template>
 
@@ -31,12 +35,5 @@ import { UiButton } from "~/components/newUi/UiButton"
     }
   }
 
-  .addToListButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    font-size: var(--fs-label-small) !important;
-  }
 }
 </style>

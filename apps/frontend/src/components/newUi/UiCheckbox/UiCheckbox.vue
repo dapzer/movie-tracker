@@ -1,18 +1,15 @@
 <script setup lang="ts">
-import { useAttrs } from "#imports"
 import { CheckIcon } from "~/components//ui/icons"
 
-const inputModel = defineModel<boolean>();
-const attrs = useAttrs()
+const inputModel = defineModel();
+
+defineOptions({
+  inheritAttrs: false
+})
 </script>
 
 <template>
-  <label
-    :class="[$style.body, {
-      [$style.disabled]: attrs.disabled,
-      [$style.checked]: inputModel
-    }]"
-  >
+  <label :class="$style.body">
     <input
       v-model="inputModel"
       v-bind="$attrs"
@@ -29,6 +26,7 @@ const attrs = useAttrs()
   display: block;
   cursor: pointer;
   width: 20px;
+  min-width: 20px;
   height: 20px;
   border: 1.5px solid var(--c-white-35);
   border-radius: 50%;
@@ -39,11 +37,14 @@ const attrs = useAttrs()
     display: none;
   }
 
-  &.checked {
+  &:has(input:active),
+  &:has(input:focus),
+  &:has(input:checked) {
     border-color: var(--c-label-secondary);
+    outline: none;
   }
 
-  &.disabled {
+  &:has(input:disabled)  {
     opacity: var(--s-disabled-opacity);
     pointer-events: none;
   }
@@ -65,9 +66,8 @@ const attrs = useAttrs()
 
 .body input {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  visibility: hidden;
+  width:  0;
+  height: 0;
 }
 
 </style>

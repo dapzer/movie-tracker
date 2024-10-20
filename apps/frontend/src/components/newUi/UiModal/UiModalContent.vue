@@ -28,7 +28,6 @@ const closeModalOnKeypress = (event: KeyboardEvent) => {
 onMounted(() => {
   document.addEventListener('keydown', closeModalOnKeypress);
   document.body.style.overflow = 'hidden';
-  console.log(bodyRef.value)
   if (bodyRef.value) {
     bodyRef.value.focus();
   }

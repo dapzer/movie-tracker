@@ -20,10 +20,13 @@ const handleVisible = (value: boolean) => {
   visible.value = value
   model.value = value
 }
+
+const slots = defineSlots()
 </script>
 
 <template>
   <div
+    v-if="slots.trigger"
     v-bind="$attrs"
     :class="$style.triggerWrapper"
     @click="handleVisible(true)"

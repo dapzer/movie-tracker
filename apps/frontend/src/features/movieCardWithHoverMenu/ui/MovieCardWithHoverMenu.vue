@@ -5,6 +5,8 @@ import { MovieCard } from "~/entities/movieCard"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
 import { DetailsIcon } from "~/components/ui/icons"
+import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
+import { ref } from "vue"
 
 interface MovieCardWithHoverMenuProps {
   fullHeight?: boolean;
@@ -13,6 +15,7 @@ interface MovieCardWithHoverMenuProps {
 }
 
 const props = defineProps<MovieCardWithHoverMenuProps>();
+const isOpenModal = ref(false);
 </script>
 
 <template>
@@ -36,11 +39,18 @@ const props = defineProps<MovieCardWithHoverMenuProps>();
           <MovieCardHoverMenu
             :media-type="props.movie.media_type as TmdbMediaTypeEnum"
             :media-id="props.movie.id"
+            @on-add-to-list-click="isOpenModal = true"
           />
         </template>
       </UiHoverCard>
     </template>
   </MovieCard>
+  
+  <AddMediaItemToListsModal
+    v-model="isOpenModal"
+    :media-id="props.movie.id"
+    :media-type="props.movie.media_type"
+  />
 </template>
 
 <style module lang="scss">

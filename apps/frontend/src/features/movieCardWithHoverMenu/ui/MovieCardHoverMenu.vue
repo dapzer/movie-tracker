@@ -25,19 +25,24 @@ const queries = computed(() => ({
   mediaId: props.mediaId,
   language: locale.value
 }));
+const emits = defineEmits<{
+  (event: 'onAddToListClick'): void;
+}>();
 
 const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
 const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries);
 
 const producers = computed(() => {
   if (!tmdbGetMovieCreditsApi.data.value?.crew) return [];
-  return getMovieDirectors(tmdbGetMovieCreditsApi.data.value?.crew );
+  return getMovieDirectors(tmdbGetMovieCreditsApi.data.value?.crew);
 });
 </script>
 
 <template>
   <div :class="$style.wrapper">
-    <MovieCardHoverMenuSkeleton v-if="tmdbGetMovieCreditsApi.isLoading.value || tmdbGetMovieDetailsApi.isLoading.value" />
+    <MovieCardHoverMenuSkeleton
+      v-if="tmdbGetMovieCreditsApi.isLoading.value || tmdbGetMovieDetailsApi.isLoading.value"
+    />
 
     <template v-else>
       <MovieCardHoverMenuHeader
@@ -51,7 +56,7 @@ const producers = computed(() => {
           :class="$style.directedBy"
           variant="description"
         >
-          {{ $t('details.directedBy') }} 
+          {{ $t('details.directedBy') }}
           <template
             v-for="(producer, index) in producers"
             :key="producer.id"
@@ -83,6 +88,7 @@ const producers = computed(() => {
         :class="$style.addToListButton"
         variant="outlined"
         scheme="secondary"
+        @click="emits('onAddToListClick')"
       >
         <ListIcon />
         {{ $t('mediaList.addToList') }}
@@ -99,7 +105,7 @@ const producers = computed(() => {
   flex-direction: column;
   gap: 16px;
 
-width: 300px;
+  width: 300px;
 
   .directedBy {
     a {

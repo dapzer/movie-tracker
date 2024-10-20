@@ -42,11 +42,15 @@ const totalDuration = computed(() => {
     <template #posterFooter>
       <MovieDetailsActions
         :class="$style.actionsMobile"
+        :media-id="props.details.id"
+        :media-type="MediaTypeEnum.TV"
       />
     </template>
     <template #content>
       <MovieDetailsActions
         :class="$style.actionsPc"
+        :media-id="props.details.id"
+        :media-type="MediaTypeEnum.TV"
       />
     </template>
 

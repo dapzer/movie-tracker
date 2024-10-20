@@ -75,6 +75,9 @@ export default {
     noSeasons: 'Данный сериал не имеет эпизодов',
     noEpisodes: 'В выбранном сезоне нет эпизодов',
     backToTvPage: "Вернуться на страницу сериала",
+    multipleElements: 'элементов',
+    manyElements: 'элемента',
+    singleElements: 'элемент',
     gender: {
       title: 'Пол',
       0: 'Неизвестно',
@@ -1145,6 +1148,7 @@ export default {
   },
   mediaList: {
     addToList: 'Добавить в список',
+    addToListTitle: 'Добавить ‘{title}’ в списки',
     unauthorizedDescription: 'для отображения ваших списков',
     unauthorizedTitle: 'Войдите',
     yourLists: 'Ваши списки',
@@ -1209,6 +1213,8 @@ export default {
     keywords: 'фильм фильмы поиск кино обои афиша обзоры сегодня в кино скоро кассовые сборы кинотеатры актер актеры актриса режиссер сценарист фото фотография постер отслеживание списки трекинг',
   },
   toasts: {
+    changesSuccessfullySaved: 'Изменения успешно сохранены',
+    changesUnsuccessfullySaved: 'Произошла ошибка при сохранении изменений',
     mediaItem: {
       successAddedToList: '{media} добавлен в список «{listName}»',
       successRemovedFromList: '{media} удален из списка «{listName}»',
@@ -1245,11 +1251,12 @@ export default {
     years: 'лет',
     manyYears: 'года',
     errors: {
+      nothingFound: 'Ничего не найдено',
       pageNotFound: 'Страница не найдена.',
     },
     actions: {
       create: 'Создать',
-      save: 'Сохранять',
+      save: 'Сохранить',
       cancel: 'Отменить',
       backToMainPage: 'Вернуться на главную',
     },
