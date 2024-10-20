@@ -7,12 +7,14 @@ import { navigateTo } from "#app";
 import { UserRoleEnum } from "@movie-tracker/types";
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard";
+import { useLocalePath } from "#i18n"
 
 const { isNotAuthorized, profile, isLoadingProfile } = useAuth();
+const localePath = useLocalePath()
 
 watchEffect(() => {
   if ((isNotAuthorized.value || !profile.value?.roles.includes(UserRoleEnum.ADMIN)) && !isLoadingProfile.value) {
-    navigateTo("/");
+    navigateTo(localePath("/"));
   }
 });
 

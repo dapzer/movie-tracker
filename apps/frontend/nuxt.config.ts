@@ -24,9 +24,11 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
-    "nuxt-simple-robots",
+    "@nuxtjs/robots",
     "nuxt-schema-org",
     "nuxt-delay-hydration",
+    '@nuxt/fonts',
+    "radix-vue/nuxt",
   ],
   site: {
     url: process.env.VITE_BASE_URL || "http://localhost:3000",

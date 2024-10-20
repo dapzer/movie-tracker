@@ -5,3 +5,5 @@ export * from "./mediaDetails";
 export * from "./seasonDetails";
 export * from "./videos";
 export * from "./mediaTypes";
+export * from "./upcomingMovies";
+export * from "./genres";

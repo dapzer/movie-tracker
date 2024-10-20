@@ -1,0 +1,126 @@
+<script lang="ts" setup>
+import { UiCardBase } from '~/components/newUi/UiCard';
+import { UiImage } from '~/components/newUi/UiImage';
+import { UiTypography } from '~/components/newUi/UiTypography';
+import { computed } from 'vue';
+import type { TmdbSeasonDetailsEpisodeType } from "@movie-tracker/types"
+import { UiVoteWithRuntime } from "~/components/newUi/UiVoteWithRuntime"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { formatDate, useI18n } from "#imports"
+import { UiSpoilerText } from "~/components/newUi/UiSpoilerText"
+
+interface EpisodeCardHorizontalProps {
+  width?: number;
+  episode: TmdbSeasonDetailsEpisodeType;
+}
+
+const props = withDefaults(defineProps<EpisodeCardHorizontalProps>(), {});
+const { locale } = useI18n()
+
+const episodeTitle = computed(() =>
+    `S${props.episode.season_number}.E${props.episode.episode_number} ∙ ${props.episode.name}`);
+</script>
+
+<template>
+  <UiCardBase
+    horizontal
+    :class="$style.wrapper"
+    :width="props.width"
+    :image-width="180"
+  >
+    <template #image>
+      <UiImage
+        :class="$style.image"
+        :src="getProxiedImageUrl(props.episode?.still_path, 300)"
+        fallback-src="/defaultMoviePoster.svg"
+        height="183"
+        width="300"
+      />
+    </template>
+
+    <template #content>
+      <div :class="$style.content">
+        <div :class="$style.header">
+          <UiTypography
+            :class="$style.title"
+            variant="cardTitle"
+          >
+            {{ episodeTitle }}
+          </UiTypography>
+          <UiTypography
+            :class="$style.date"
+            variant="description"
+          >
+            {{ formatDate(props.episode.air_date, locale) }}
+          </UiTypography>
+        </div>
+
+        <div :class="$style.details">
+          <UiVoteWithRuntime
+            :vote-average="props.episode.vote_average"
+            :vote-count="props.episode.vote_count"
+            :runtime="props.episode.runtime"
+          />
+        </div>
+
+        <UiSpoilerText>
+          <UiTypography
+            :class="$style.description"
+            variant="description"
+          >
+            {{ props.episode.overview }}
+          </UiTypography>
+        </UiSpoilerText>
+      </div>
+    </template>
+  </UiCardBase>
+</template>
+
+<style lang="scss" module>
+@import '~/styles/mixins';
+@import '~/styles/newVariables';
+
+.wrapper {
+  & > div:nth-child(2) {
+    min-width: 0;
+  }
+
+  .image {
+    flex: 1 1 auto;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+  }
+
+  .content {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    min-width: 0;
+
+    .header {
+      display: flex;
+      min-width: 0;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .title {
+      @include ellipsisText;
+    }
+
+    .date {
+      white-space: nowrap;
+    }
+
+    .description {
+      margin-top: 6px;
+    }
+  }
+
+  @include mobileDevice() {
+    flex-direction: column;
+    --imageMaxWidth: 100% !important;
+  }
+}
+
+</style>

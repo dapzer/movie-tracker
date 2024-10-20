@@ -46,6 +46,7 @@ watch(mediaItems, async (newValue) => {
     is-large
     @on-handle-state="emits('handleCategoryState', status, $event)"
   >
+    <!-- @vue-skip -->
     <MasonryWall
       :column-width="300"
       :gap="20"
