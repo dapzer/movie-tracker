@@ -135,6 +135,7 @@ const clearFilters = () => {
           :placeholder="$t('ui.all')"
         />
         <UiSelect
+          v-if="departments.length"
           v-model="filters.department"
           :width="200"
           :options="departments"
