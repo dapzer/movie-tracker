@@ -13,13 +13,15 @@ import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 interface MediaListSelectorItemProps {
   mediaId: number;
   mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
+  hideTrigger?: boolean;
 }
 
 const props = defineProps<MediaListSelectorItemProps>();
 const { isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
+const model = defineModel<boolean>()
 
-const isOpenModal = ref(false);
+const isOpenModal = ref(model);
 const isOpenCreateModal = ref(false);
 
 watch(() => isOpenCreateModal.value, (value) => {
@@ -49,6 +51,7 @@ const onOpenButtonClicked = () => {
 
 <template>
   <UiButton
+    v-if="!props.hideTrigger"
     :class="$style.addToListButton"
     variant="boxed"
     @click="onOpenButtonClicked"

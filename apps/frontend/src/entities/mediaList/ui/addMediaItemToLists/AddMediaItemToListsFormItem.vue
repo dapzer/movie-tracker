@@ -40,7 +40,7 @@ defineOptions({
         {{ props.mediaList.title ?? $t("mediaList.favorites") }}
       </UiTypography>
     </div>
-    <div>
+    <div :class="$style.state">
       <UiTypography variant="description">
         {{ titlesInListCount }} {{ $t(getElementDeclensionTranslationKey(titlesInListCount)) }}
       </UiTypography>
@@ -81,7 +81,10 @@ defineOptions({
     gap: 10px;
     align-items: center;
     min-width: 0;
+  }
 
+  .state svg {
+    width: 20px;
   }
 }
 </style>

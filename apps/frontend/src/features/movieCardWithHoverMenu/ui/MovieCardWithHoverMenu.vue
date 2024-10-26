@@ -5,10 +5,10 @@ import { MovieCard } from "~/entities/movieCard"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
 import { DetailsIcon } from "~/components/ui/icons"
-import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { ref } from "vue"
 import { useAuth } from "~/composables/useAuth"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
+import { MediaListSelectorModal } from "~/entities/mediaList"
 
 interface MovieCardWithHoverMenuProps {
   fullHeight?: boolean;
@@ -59,8 +59,9 @@ const onOpenButtonClicked = () => {
     </template>
   </MovieCard>
 
-  <AddMediaItemToListsModal
+  <MediaListSelectorModal
     v-model="isOpenModal"
+    hide-trigger
     :media-id="props.movie.id"
     :media-type="props.movie.media_type as TmdbMediaTypeEnum"
   />
