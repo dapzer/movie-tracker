@@ -7,6 +7,8 @@ import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHo
 import { DetailsIcon } from "~/components/ui/icons"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { ref } from "vue"
+import { useAuth } from "~/composables/useAuth"
+import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 
 interface MovieCardWithHoverMenuProps {
   fullHeight?: boolean;
@@ -16,6 +18,17 @@ interface MovieCardWithHoverMenuProps {
 
 const props = defineProps<MovieCardWithHoverMenuProps>();
 const isOpenModal = ref(false);
+const { isAuthorized } = useAuth()
+const { navigateToSignInPage } = useNavigateToSignInPage()
+
+const onOpenButtonClicked = () => {
+  if (!isAuthorized.value) {
+    navigateToSignInPage();
+    return;
+  }
+
+  isOpenModal.value = true;
+}
 </script>
 
 <template>
@@ -39,17 +52,17 @@ const isOpenModal = ref(false);
           <MovieCardHoverMenu
             :media-type="props.movie.media_type as TmdbMediaTypeEnum"
             :media-id="props.movie.id"
-            @on-add-to-list-click="isOpenModal = true"
+            @on-add-to-list-click="onOpenButtonClicked"
           />
         </template>
       </UiHoverCard>
     </template>
   </MovieCard>
-  
+
   <AddMediaItemToListsModal
     v-model="isOpenModal"
     :media-id="props.movie.id"
-    :media-type="props.movie.media_type"
+    :media-type="props.movie.media_type as TmdbMediaTypeEnum"
   />
 </template>
 

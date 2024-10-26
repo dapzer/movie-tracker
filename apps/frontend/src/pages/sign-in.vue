@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { definePageMeta, useAuth, watchEffect } from "#imports"
+import { definePageMeta, useAuth } from "#imports"
 import { UiContainer } from "~/components/newUi/UiContainer"
 import { SignInForm } from "~/features/auth"
 import { navigateTo } from "#app"
 import { useLocalePath } from "#i18n"
+import { useLocalStorage } from "@vueuse/core"
+import { watch } from "vue"
+import { LocalStorageEnum } from "~/types/localStorageEnum"
 
 definePageMeta({
   layout: "auth-layout"
@@ -11,12 +14,14 @@ definePageMeta({
 
 const { isNotAuthorized, isLoadingProfile } = useAuth();
 const localePath = useLocalePath()
+const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, '');
 
-watchEffect(() => {
-  if (!isNotAuthorized.value && !isLoadingProfile.value) {
+watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedirectUrl.value], () => {
+  if (!isNotAuthorized.value && !isLoadingProfile.value && !authRedirectUrl.value) {
     navigateTo(localePath("/"));
   }
 });
+
 </script>
 
 <template>

@@ -7,7 +7,8 @@ import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToList
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import { PlusIcon } from "~/components/ui/icons.js"
-import { nextTick } from "#imports"
+import { nextTick, useAuth } from "#imports"
+import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 
 interface MediaListSelectorItemProps {
   mediaId: number;
@@ -15,6 +16,8 @@ interface MediaListSelectorItemProps {
 }
 
 const props = defineProps<MediaListSelectorItemProps>();
+const { isAuthorized } = useAuth()
+const { navigateToSignInPage } = useNavigateToSignInPage()
 
 const isOpenModal = ref(false);
 const isOpenCreateModal = ref(false);
@@ -33,13 +36,22 @@ const onOpenCreateModal = () => {
     isOpenCreateModal.value = true;
   });
 }
+
+const onOpenButtonClicked = () => {
+  if (!isAuthorized.value) {
+    navigateToSignInPage();
+    return;
+  }
+
+  isOpenModal.value = true;
+}
 </script>
 
 <template>
   <UiButton
     :class="$style.addToListButton"
     variant="boxed"
-    @click="isOpenModal = true"
+    @click="onOpenButtonClicked"
   >
     <ListIcon />
     {{ $t('mediaList.addToList') }}

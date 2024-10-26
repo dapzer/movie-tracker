@@ -13,15 +13,18 @@ import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
 import { useRouter } from "vue-router"
-import { useI18n } from "#imports"
+import { onUnmounted, useI18n } from "#imports"
 import { LanguagesEnum } from "~/types/languagesEnum"
+import { useLocalePath } from "#i18n"
+import { LocalStorageEnum } from "~/types/localStorageEnum"
 
 const signInByProviderApi = useSignInByProviderApi();
 const queryClient = useQueryClient();
 const route = useRoute();
 const router = useRouter()
-const authRedirectUrl = useLocalStorage('authRedirectUrl', '');
+const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, '');
 const { locale } = useI18n();
+const localePath = useLocalePath()
 
 const onSignIn = async (provider: string) => {
   const response = await signInByProviderApi.mutateAsync(provider);
@@ -42,13 +45,16 @@ const onSignIn = async (provider: string) => {
         queryClient.invalidateQueries({ queryKey: [UserQueryKeys.PROFILE] });
         queryClient.removeQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] });
         queryClient.removeQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] });
-        router.push(authRedirectUrl.value);
-        authRedirectUrl.value = ""
+        router.push(localePath(authRedirectUrl.value))
         clearInterval(interval);
       }
     }, 1000);
   }
 };
+
+onUnmounted(() => {
+  localStorage.removeItem(LocalStorageEnum.AUTH_REDIRECT_URL );
+});
 </script>
 
 <template>
