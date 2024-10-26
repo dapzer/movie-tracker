@@ -7,6 +7,7 @@ interface UiButtonProps {
   variant?: UiButtonVariant
   size?: UiButtonSize
   scheme?: UiButtonScheme
+  withIcon?: boolean
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
@@ -31,6 +32,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.small]: props.size ==='small',
       [$style.medium]: props.size ==='medium',
       [$style.large]: props.size ==='large',
+      [$style.withIcon]: props.withIcon
     }]"
   >
     <slot />
@@ -255,4 +257,14 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   }
 }
 
+.withIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  svg {
+    min-width: max-content;
+    min-height: max-content;
+  }
+}
 </style>

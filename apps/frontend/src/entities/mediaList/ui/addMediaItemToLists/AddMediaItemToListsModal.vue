@@ -14,7 +14,7 @@ interface AddMediaItemToListsModalProps {
 
 const props = defineProps<AddMediaItemToListsModalProps>();
 const model = defineModel<boolean>()
-const { locale, t } = useI18n();
+const { locale } = useI18n();
 const { isMobile } = useIsMobile()
 
 const queries = computed(() => ({
@@ -23,7 +23,7 @@ const queries = computed(() => ({
   language: locale.value
 }));
 
-const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries, model.value);
 </script>
 
 <template>
@@ -39,7 +39,11 @@ const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
           :media-id="props.mediaId"
           :media-type="props.mediaType"
           @on-after-save="model = false"
-        />
+        >
+          <template #action>
+            <slot name="action" />
+          </template>
+        </AddMediaItemToListsForm>
       </template>
     </UiModal>
     <UiBottomDrawer
@@ -52,7 +56,11 @@ const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
           :media-id="props.mediaId"
           :media-type="props.mediaType"
           @on-after-save="model = false"
-        />
+        >
+          <template #action>
+            <slot name="action" />
+          </template>
+        </AddMediaItemToListsForm>
       </template>
     </UiBottomDrawer>
   </ClientOnly>

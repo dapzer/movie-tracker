@@ -1173,6 +1173,7 @@ export default {
     settingsForm: {
       title: "List name",
       titlePlaceholder: "Enter the name",
+      description: 'Description',
       poster: "Poster URL",
       posterPlaceholder: "Insert a link to an image or gif",
       publicStatus: "View by public URL",
@@ -1224,6 +1225,7 @@ export default {
     },
     mediaList: {
       successCreated: "List created successfully",
+      unsuccessfullyCreated: 'An error occurred while creating the list',
       successUpdated: "List updated successfully",
       successDeleted: "List deleted successfully",
     }

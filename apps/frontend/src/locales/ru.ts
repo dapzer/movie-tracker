@@ -1173,6 +1173,7 @@ export default {
     },
     settingsForm: {
       title: 'Название списка',
+      description: 'Описание',
       titlePlaceholder: 'Введите название',
       poster: 'Постер',
       posterPlaceholder: 'Вставьте ссылку на изображение или gif',
@@ -1225,6 +1226,7 @@ export default {
     },
     mediaList: {
       successCreated: 'Список успешно создан',
+      unsuccessfullyCreated: 'Произошла ошибка при создании списка',
       successUpdated: 'Список успешно обновлен',
       successDeleted: 'Список успешно удален',
     },

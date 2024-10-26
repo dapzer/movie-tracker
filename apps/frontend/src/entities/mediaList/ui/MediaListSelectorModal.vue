@@ -1,10 +1,13 @@
 <script setup lang="ts">
 
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import { ListIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { CreateMediaListModal } from "~/entities/mediaList"
+import { PlusIcon } from "~/components/ui/icons.js"
+import { nextTick } from "#imports"
 
 interface MediaListSelectorItemProps {
   mediaId: number;
@@ -16,9 +19,19 @@ const props = defineProps<MediaListSelectorItemProps>();
 const isOpenModal = ref(false);
 const isOpenCreateModal = ref(false);
 
-const afterCreateNewList = () => {
-  isOpenCreateModal.value = false;
-  isOpenModal.value = true;
+watch(() => isOpenCreateModal.value, (value) => {
+  if (!value) {
+    nextTick(() => {
+      isOpenModal.value = true;
+    });
+  }
+});
+
+const onOpenCreateModal = () => {
+  isOpenModal.value = false;
+  nextTick(() => {
+    isOpenCreateModal.value = true;
+  });
 }
 </script>
 
@@ -36,7 +49,22 @@ const afterCreateNewList = () => {
     v-model="isOpenModal"
     :media-id="props.mediaId"
     :media-type="props.mediaType"
-  />
+  >
+    <template #action>
+      <UiButton
+        with-icon
+        :class="$style.createListButton"
+        scheme="secondary"
+        size="medium"
+        @click="onOpenCreateModal"
+      >
+        {{ $t('mediaList.create') }}
+        <PlusIcon />
+      </UiButton>
+    </template>
+  </AddMediaItemToListsModal>
+
+  <CreateMediaListModal v-model="isOpenCreateModal" />
 </template>
 
 <style module lang="scss">
@@ -46,5 +74,9 @@ const afterCreateNewList = () => {
   justify-content: center;
   gap: 2px;
   font-size: var(--fs-label-small) !important;
+}
+
+.createListButton {
+  white-space: nowrap;
 }
 </style>

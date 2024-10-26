@@ -32,12 +32,13 @@ import { useQuery } from "@tanstack/vue-query";
 import type { TmdbPersonType } from "@movie-tracker/types";
 import { TmdbQueryKeys } from "~/api/tmdb/tmdbApiQueryKeys";
 
-export const useGetTmdbMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
+export const useGetTmdbMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>, enabled?: boolean) =>
   useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DETAILS,
       queries
     ],
+    enabled: enabled,
     queryFn: () => getTmdbDetailApi(queries.value)
   });
 
