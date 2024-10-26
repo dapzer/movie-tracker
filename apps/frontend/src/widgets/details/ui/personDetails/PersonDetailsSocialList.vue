@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PersonSocialType } from "~/features/details/model/PersonSocialType";
+import type { PersonSocialType } from "~/widgets/details/model/PersonSocialType";
 import { NuxtLink } from "#components";
 
 interface PersonDetailsSocialListProps {

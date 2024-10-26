@@ -8,13 +8,13 @@ import {
 import { computed } from "vue";
 import { createError, formatDate, useI18n } from "#imports";
 import { UiContainer } from "~/components/newUi/UiContainer";
-import PersonDetailsHeader from "~/features/details/ui/personDetails/PersonDetailsHeader.vue";
-import { usePersonDetailsSeo } from "~/features/details/model/usePersonDetailsSeo";
+import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue";
+import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo";
 import { UiSlider } from "~/components/newUi/UiSlider"
 import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
 import { MovieCardHorizontal } from "~/entities/movieCard"
 import { UiTypography } from "~/components/newUi/UiTypography"
-import PersonDetailsActing from "~/features/details/ui/personDetails/PersonDetailsActing.vue"
+import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
 
 interface PersonDetailsProps {
   mediaId: number;

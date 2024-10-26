@@ -2,9 +2,9 @@
 import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types";
 import { UiInfoHeader } from "~/components/newUi/UiInfoHeader";
 import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports";
-import { getPersonSocialList } from "~/features/details/model/getPersonSocialList";
+import { getPersonSocialList } from "~/widgets/details/model/getPersonSocialList";
 import { computed } from "vue";
-import PersonDetailsSocialList from "~/features/details/ui/personDetails/PersonDetailsSocialList.vue"
+import PersonDetailsSocialList from "~/widgets/details/ui/personDetails/PersonDetailsSocialList.vue"
 
 interface PersonDetailsHeaderProps {
   details?: TmdbPersonType | null;

@@ -5,9 +5,9 @@ import { computed, createError, useI18n } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { useLocalePath } from "#i18n";
-import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo"
-import TvDetailsSeasonsHeader from "~/features/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
-import TvDetailsSeasonsEpisodeList from "~/features/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
+import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
+import TvDetailsSeasonsHeader from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
+import TvDetailsSeasonsEpisodeList from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
 
 interface TvDetailsSeasonsProps {
   mediaId: number;

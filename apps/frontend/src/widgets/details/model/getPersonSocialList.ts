@@ -1,5 +1,5 @@
 import type { TmdbPersonExternalIdsType } from "@movie-tracker/types";
-import type { PersonSocialType } from "~/features/details/model/PersonSocialType";
+import type { PersonSocialType } from "~/widgets/details/model/PersonSocialType";
 import { FacebookIcon, InstagramIcon, TiktokIcon } from "~/components/ui/icons"
 
 export const getPersonSocialList = (externalIds?: TmdbPersonExternalIdsType) => {

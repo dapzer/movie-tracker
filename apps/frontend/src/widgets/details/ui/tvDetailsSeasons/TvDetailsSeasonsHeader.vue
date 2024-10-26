@@ -5,7 +5,7 @@ import { UiInfoHeader } from "~/components/newUi/UiInfoHeader"
 import { MediaTypeEnum, type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
 import { computed } from "#imports"
 import { minsToTimeConverter } from "@movie-tracker/utils"
-import MovieDetailsActions from "~/features/details/ui/MovieDetailsActions.vue"
+import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 import { useLocalePath } from "#i18n"
 
 interface TvDetailsSeasonsHeaderProps {

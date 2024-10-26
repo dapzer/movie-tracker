@@ -11,7 +11,7 @@ import { computed, createError, getProxiedImageUrl, useI18n } from "#imports";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
 import { UiContainer } from "~/components/newUi/UiContainer";
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer";
-import { useMovieDetailsSeo } from "~/features/details/model/useMovieDetailsSeo";
+import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo";
 import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
 import { UiSlider } from "~/components/newUi/UiSlider"
 import { LanguagesEnum } from "~/types/languagesEnum"

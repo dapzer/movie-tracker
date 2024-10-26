@@ -3,7 +3,7 @@
 import { useRoute } from "vue-router";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { computed } from "#imports";
-import { MovieDetails, PersonDetails } from "~/features/details";
+import { MovieDetails, PersonDetails } from "~/widgets/details";
 
 const route = useRoute();
 const mediaType = computed(() => route.params.mediaType);

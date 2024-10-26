@@ -11,7 +11,7 @@ import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
 import { checkIsValidDate } from "~/utils/checkIsValidDate";
 import { UiRating } from "~/components/newUi/UiRating"
-import MovieDetailsActions from "~/features/details/ui/MovieDetailsActions.vue"
+import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 
 interface MovieDetailsHeaderProps {
   details?: TmdbMediaDetailsType | null;
