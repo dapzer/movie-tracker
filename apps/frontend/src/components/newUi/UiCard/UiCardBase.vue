@@ -85,6 +85,7 @@ const slots = defineSlots()
 
     .info {
       width: 100%;
+      min-width: 0;
     }
   }
 }
