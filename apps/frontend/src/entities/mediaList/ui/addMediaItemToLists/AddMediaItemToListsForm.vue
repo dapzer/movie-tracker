@@ -186,7 +186,7 @@ const filteredMediaLists = computed(() => {
   .list {
     min-width: 0;
     overflow-y: auto;
-    max-height: calc(44px * 5);
+    max-height: calc(40px * 5);
   }
 
   .actions {
