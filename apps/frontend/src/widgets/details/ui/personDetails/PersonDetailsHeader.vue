@@ -38,7 +38,7 @@ const birthdayAge = computed(() => {
     :image="getProxiedImageUrl(props.details?.profile_path, 350)"
     :title="props.details?.name ?? ''"
     :overview="props.details?.biography"
-    fallback-image="/avatar.svg"
+    fallback-image="/avatarPoster.svg"
     :description="$t(`details.knowFor.${props.details.known_for_department}`) "
   >
     <template
