@@ -14,14 +14,14 @@ import { UiTypography } from "~/components/newUi/UiTypography"
 
 const { locale, t } = useI18n();
 const route = useRoute();
-const mediaId = computed(() => Number(route.params.mediaId));
-const mediaType = computed(() => route.params.mediaType as TmdbMediaTypeEnum);
+const mediaId = Number(route.params.mediaId);
+const mediaType = route.params.mediaType as TmdbMediaTypeEnum;
 const currentPage = ref(1)
 const localePath = useLocalePath()
 
 const queries = computed(() => ({
-  mediaType: mediaType.value,
-  mediaId: mediaId.value,
+  mediaType: mediaType,
+  mediaId: mediaId,
   language: locale.value
 }));
 
@@ -35,8 +35,8 @@ await Promise.all([
 
 useMovieDetailsSeo({
   withoutSchema: true,
-  mediaId: Number(mediaId.value),
-  mediaType: mediaType.value,
+  mediaId: Number(mediaId),
+  mediaType: mediaType,
   media: tmdbGetMovieDetailsApi?.data?.value,
   getTitle: (title, titleChunk) => `${title} | ${t("details.castTitle")}${titleChunk ? ` | ${titleChunk}`: ""}`,
 });
