@@ -153,9 +153,9 @@ export class AuthService {
 
       await this.mediaListRepository.createMediaList(user.id, true);
 
-      if (user.email && !isEmailVerified) {
-        await this.sendWelcomeEmail(user);
-      }
+      // if (user.email && !isEmailVerified) {
+      //   await this.sendWelcomeEmail(user);
+      // }
     }
 
     if (!account) {

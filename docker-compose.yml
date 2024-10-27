@@ -68,6 +68,13 @@ services:
         - VITE_BASE_URL=${VITE_BASE_URL}
         - VITE_API_URL=${VITE_API_URL}
     env_file: ./.env
+  frontendBeta:
+    image: danilavoronkov/movie-tracker-frontend-beta
+    restart: unless-stopped
+    networks:
+      - movie-tracker
+      - caddy-public
+    env_file: ./.env.beta
   backend:
     image: danilavoronkov/movie-tracker-backend
     restart: unless-stopped
