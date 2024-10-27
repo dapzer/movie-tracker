@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { UiDivider } from "~/components/newUi/UiDivider"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography, type UiTypographyVariant } from "~/components/newUi/UiTypography"
+import type { ComponentOrTag } from "~/types/ComponentOrTag"
 
 interface UiListHeaderProps {
   title?: string;
   subtitle?: string;
+  titleAs?: ComponentOrTag;
+  titleVariant?: UiTypographyVariant;
 }
 
-const props = defineProps<UiListHeaderProps>();
+const props = withDefaults(defineProps<UiListHeaderProps>(), {
+  titleVariant: "title3",
+  titleAs: "h3",
+});
 </script>
 
 
@@ -16,17 +22,18 @@ const props = defineProps<UiListHeaderProps>();
     <div :class="$style.header">
       <UiTypography
         :class="$style.title"
-        as="h3"
-        variant="title3"
+        :as="props.titleAs"
+        :variant="props.titleVariant"
       >
         {{ props.title }}
       </UiTypography>
       <div :class="$style.filters">
-        <slot name="filters" />
+        <slot name="controls" />
       </div>
     </div>
     <UiDivider />
     <UiTypography
+      v-if="props.subtitle"
       :class="$style.subheading"
       variant="subheading"
     >

@@ -2,6 +2,7 @@ export default {
   auth: {
     signIn: "Sign in",
     signOut: "Sign out",
+    notAuthorized: 'You are not authorized',
     signInWith: "Sign in with {provider}",
     authInProgress: "Authorization in progress",
     authError: "An error occurred during authorization",
@@ -1160,6 +1161,7 @@ export default {
     confirmDeleteDescription: "You will not be able to restore this list and all its contents.",
     create: "Create list",
     createNew: "Create new list",
+    notAuthorized: 'You need to be logged in to view your lists',
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },
@@ -1251,6 +1253,11 @@ export default {
     year: 'year old',
     years: 'years old',
     manyYears: 'years old',
+    public: 'Public',
+    private: 'Private',
+    multipleLists: 'lists',
+    manyLists: 'list',
+    singleLists: 'lists',
     errors: {
       nothingFound: "Nothing found",
       pageNotFound: "Page not found.",

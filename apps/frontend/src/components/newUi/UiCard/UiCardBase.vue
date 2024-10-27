@@ -56,6 +56,7 @@ const slots = defineSlots()
     @include card();
     max-width: var(--maxWidth);
     max-height: var(--maxHeight);
+    min-width: 0;
 
     &.horizontal {
       flex-direction: row;

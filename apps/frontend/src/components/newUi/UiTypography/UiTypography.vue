@@ -95,7 +95,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
   color: var(--c-text-secondary);
   font-size: var(--fs-p);
   line-height: var(--lh-p);
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-regular);
 }
 
 .label {

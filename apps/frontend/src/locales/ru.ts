@@ -2,6 +2,7 @@ export default {
   auth: {
     signIn: 'Войти',
     signOut: 'Выйти',
+    notAuthorized: 'Вы не авторизованы',
     signInWith: "Войти используя {provider}",
     authInProgress: 'Выполняется авторизация',
     authError: 'Произошла ошибка при авторизации',
@@ -1161,6 +1162,10 @@ export default {
     confirmDeleteDescription: 'Вы не сможете восстановить этот список и всё его содержимое.',
     create: 'Создать список',
     createNew: 'Создать новый список',
+    multipleLists: 'списков',
+    manyLists: 'списка',
+    singleLists: 'список',
+    notAuthorized: 'Для просмотра ваших списков вам необходимо войти в аккаунт',
     errors: {
       titleLength: 'Минимальная длина названия 3 символа',
     },
@@ -1252,6 +1257,8 @@ export default {
     year: 'год',
     years: 'лет',
     manyYears: 'года',
+    public: 'Публичный',
+    private: 'Приватный',
     errors: {
       nothingFound: 'Ничего не найдено',
       pageNotFound: 'Страница не найдена.',

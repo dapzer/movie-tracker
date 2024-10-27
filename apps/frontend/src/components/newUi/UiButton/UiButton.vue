@@ -262,6 +262,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   align-items: center;
   justify-content: center;
   gap: 4px;
+
   svg {
     min-width: max-content;
     min-height: max-content;

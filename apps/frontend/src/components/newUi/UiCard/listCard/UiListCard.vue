@@ -34,7 +34,7 @@ const handleImageLoadingError = (index: number) => {
   <UiCardBase
     :class="$style.wrapper"
     :width="props.width"
-    :linkUrl:="props.linkUrl"
+    :link-url="props.linkUrl"
   >
     <template #image>
       <div :class="$style.images">
@@ -46,6 +46,7 @@ const handleImageLoadingError = (index: number) => {
           <UiImage
             v-if="imagesSrc?.[number - 1]"
             :src="imagesSrc[number - 1]"
+            fallback-src="/defaultMoviePoster.svg"
             @error="handleImageLoadingError(number)"
           />
         </div>

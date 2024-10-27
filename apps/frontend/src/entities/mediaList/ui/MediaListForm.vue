@@ -54,6 +54,7 @@ watch(() => props.isSystem, (isSystem) => {
       v-model="formValue.title"
       :disabled="props.isSystem"
       :error="errors?.title"
+      maxlength="32"
       :placeholder="$t('mediaList.settingsForm.title')"
     />
     <UiTextarea

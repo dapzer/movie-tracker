@@ -18,10 +18,14 @@ const props = withDefaults(defineProps<UiContainerProps>(), {
 </template>
 
 <style lang="scss" module>
-.body {
-  margin: 0 auto;
-  width: 100%;
-  max-width: var(--s-container);
-  padding: 0 var(--s-indent);
+@layer global, default;
+
+@layer default {
+  .body {
+    margin: 0 auto;
+    width: 100%;
+    max-width: var(--s-container);
+    padding: 0 var(--s-indent);
+  }
 }
 </style>

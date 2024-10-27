@@ -44,3 +44,4 @@ export { default as BackArrowMediumIcon } from "assets/svg/icons/back-arrow-medi
 export { default as SharedPlanetIcon } from "assets/svg/icons/shared-planet.svg"
 export { default as LockerIcon } from "assets/svg/icons/locker.svg"
 export { default as PlusIcon } from "assets/svg/icons/plus.svg"
+export { default as LikeIcon } from "assets/svg/icons/like.svg"

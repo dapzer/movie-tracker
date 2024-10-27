@@ -120,7 +120,7 @@ const clearFilters = () => {
       :subtitle="`${$t('details.participatedIn')} ${inMediaCounts.movie} ${$t(getMediaTypeDeclensionTranslationKey(inMediaCounts.movie,
                                                                                                                    TmdbMediaTypeEnum.MOVIE))}, ${inMediaCounts.tv} ${$t(getMediaTypeDeclensionTranslationKey(inMediaCounts.tv, TmdbMediaTypeEnum.TV))}`"
     >
-      <template #filters>
+      <template #controls>
         <UiButton
           variant="text"
           scheme="link"

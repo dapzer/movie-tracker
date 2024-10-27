@@ -45,7 +45,7 @@ const subtitle = computed(() => {
     >
       <template
         v-if="props.seasons.length"
-        #filters
+        #controls
       >
         <UiSelect
           v-model="selectedSeasonNumber"

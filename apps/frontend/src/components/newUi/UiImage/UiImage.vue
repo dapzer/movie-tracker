@@ -11,10 +11,10 @@ const props = defineProps({
     default: undefined,
   },
 });
-const imageSrc = ref(props.src ?? props.fallbackSrc ?? '/defaultPoster.svg');
+const imageSrc = ref(props.src ?? props.fallbackSrc ?? '/defaultMoviePoster.svg');
 
 const handleImageLoadingError = () => {
-  imageSrc.value = props.fallbackSrc ?? '/defaultPoster.svg';
+  imageSrc.value = props.fallbackSrc ?? '/defaultMoviePoster.svg';
 };
 </script>
 
