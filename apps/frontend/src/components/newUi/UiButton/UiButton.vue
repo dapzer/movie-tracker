@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ComponentOrTag } from "~/types/ComponentOrTag"
+
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded"
 export type UiButtonSize = "small" | "medium" | "large"
 export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link"
@@ -8,17 +10,20 @@ interface UiButtonProps {
   size?: UiButtonSize
   scheme?: UiButtonScheme
   withIcon?: boolean
+  as?: ComponentOrTag
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
   variant: "boxed",
   scheme: "primary",
-  size: "medium"
+  size: "medium",
+  as: "button",
 })
 </script>
 
 <template>
-  <button
+  <component
+    :is="props.as"
     :class="[$style.default, {
       [$style.primary]: props.scheme === 'primary',
       [$style.secondary]: props.scheme === 'secondary',
@@ -36,7 +41,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     }]"
   >
     <slot />
-  </button>
+  </component>
 </template>
 
 <style module lang="scss">
