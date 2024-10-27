@@ -56,15 +56,15 @@ const onOpenButtonClicked = () => {
           />
         </template>
       </UiHoverCard>
+      
+      <MediaListSelectorModal
+        v-model="isOpenModal"
+        hide-trigger
+        :media-id="props.movie.id"
+        :media-type="props.movie.media_type as TmdbMediaTypeEnum"
+      />
     </template>
   </MovieCard>
-
-  <MediaListSelectorModal
-    v-model="isOpenModal"
-    hide-trigger
-    :media-id="props.movie.id"
-    :media-type="props.movie.media_type as TmdbMediaTypeEnum"
-  />
 </template>
 
 <style module lang="scss">
