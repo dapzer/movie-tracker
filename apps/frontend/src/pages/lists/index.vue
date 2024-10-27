@@ -81,7 +81,7 @@ useSeoMeta({
       </template>
       <MediaListCardSkeleton
         v-for="i in 6"
-        v-else
+        v-else-if="getMediaListsApi.isLoading.value"
         :key="i"
       />
     </div>
