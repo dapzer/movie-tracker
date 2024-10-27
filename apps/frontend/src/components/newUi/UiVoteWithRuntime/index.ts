@@ -1,1 +1,1 @@
-export {default as UiVoteWithRuntime} from './UiVoteWithRuntime';
+export {default as UiVoteWithRuntime} from './UiVoteWithRuntime.vue';

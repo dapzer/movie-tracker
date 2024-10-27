@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetTmdbDiscoverTvApi } from "~/api/tmdb/useTmdbApi"
 import { computed, useI18n, useSeoMeta } from "#imports"
-import { TmdbTvGenresEnum } from "@movie-tracker/types"
+import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"

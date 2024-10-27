@@ -8,6 +8,7 @@ import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
 import type { TmdbDiscoverMovieQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { MediaTypeEnum } from "@movie-tracker/types"
 
 const { locale, t } = useI18n();
 const currentPage = ref(1)
