@@ -53,7 +53,7 @@ const onSignIn = async (provider: string) => {
 };
 
 onUnmounted(() => {
-  localStorage.removeItem(LocalStorageEnum.AUTH_REDIRECT_URL );
+  localStorage.removeItem(LocalStorageEnum.AUTH_REDIRECT_URL);
 });
 </script>
 
@@ -114,7 +114,7 @@ onUnmounted(() => {
     span {
       max-width: 208px;
       width: 100%;
-      height: 1em;
+      height: 17px;
 
       &.titleEn {
         max-width: 165px;
