@@ -5,13 +5,10 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
-import { PrismaClientErrorFilter } from '@/filters/prismaClientError.filter';
-import { AllExceptionsFilter } from '@/filters/allException.filter';
 import { getMillisecondsFromDays } from '@/shared/utils/getMillisecondsFromDays';
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
-import { HttpExceptionFilter } from '@/filters/httpException.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });
@@ -36,9 +33,11 @@ async function bootstrap() {
       secret: configService.get('SESSION_SECRET'),
       resave: false,
       saveUninitialized: false,
+      name: "session",
       cookie: {
         sameSite: true,
         httpOnly: true,
+        domain: `.${new URL(configService.get('CLIENT_BASE_URL')).hostname}`,
         maxAge: getMillisecondsFromDays(7),
       },
       store: new PrismaSessionStore(prisma, {
