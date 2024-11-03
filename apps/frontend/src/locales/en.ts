@@ -1147,6 +1147,7 @@ export default {
     }
   },
   mediaList: {
+    listPageTitle: 'List ‘{title}’',
     addToList: "Add to list",
     addToListTitle: 'Add ‘{title}’ to lists',
     unauthorizedDescription: "to display your lists",
@@ -1237,6 +1238,9 @@ export default {
     detailed: "Details",
     fullList: "Full list",
     settings: "Settings",
+    edit: "Edit",
+    like: "Like",
+    dislike: "Dislike",
     confirmAction: "Confirm action",
     yes: "Yes",
     no: "No",

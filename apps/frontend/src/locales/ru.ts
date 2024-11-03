@@ -1148,6 +1148,7 @@ export default {
     },
   },
   mediaList: {
+    listPageTitle: 'Список ‘{title}’',
     addToList: 'Добавить в список',
     addToListTitle: 'Добавить ‘{title}’ в списки',
     unauthorizedDescription: 'для отображения ваших списков',
@@ -1241,6 +1242,9 @@ export default {
     detailed: 'Подробнее',
     fullList: 'Полный список',
     settings: 'Настройки',
+    edit: 'Редактировать',
+    like: "Нравится",
+    dislike: "Не нравится",
     confirmAction: 'Подтвердите действие',
     yes: 'Да',
     no: 'Нет',

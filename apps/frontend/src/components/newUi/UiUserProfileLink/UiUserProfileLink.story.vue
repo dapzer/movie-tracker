@@ -12,6 +12,7 @@ const currentLocation = window?.location.href;
   >
     <template #default>
       <UiUserProfileLink
+        user-id="randomId"
         user-name="UserName"
         :user-url="currentLocation"
       />

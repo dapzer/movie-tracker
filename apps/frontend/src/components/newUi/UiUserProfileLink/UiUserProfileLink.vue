@@ -2,23 +2,27 @@
 
 import { UiAvatar } from '~/components/newUi/UiAvatar';
 import { UiTypography } from '~/components/newUi/UiTypography';
+import { NuxtLink } from "#components"
 
 interface UiUserProfileLinkProps {
   userAvatarSrc?: string;
+  userId: string;
   userName: string;
-  userUrl: string;
+  userUrl?: string;
 }
 
 const props = defineProps<UiUserProfileLinkProps>();
 </script>
 
 <template>
-  <NuxtLink
-    :href="props.userUrl"
+  <component
+    :is="props.userUrl ? NuxtLink : 'div'"
+    :href="props.userUrl || null"
     :class="$style.wrapper"
   >
     <UiAvatar
       :src="props.userAvatarSrc"
+      :placeholder-id="props.userId"
       :size="24"
       :alt="`${props.userName} avatar`"
     />
@@ -28,7 +32,7 @@ const props = defineProps<UiUserProfileLinkProps>();
     >
       {{ props.userName }}
     </UiTypography>
-  </NuxtLink>
+  </component>
 </template>
 
 <style lang="scss" module>
@@ -36,7 +40,6 @@ const props = defineProps<UiUserProfileLinkProps>();
 
 .wrapper {
   display: flex;
-  cursor: pointer;
   align-items: center;
   gap: 8px;
 

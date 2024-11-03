@@ -36,7 +36,7 @@ const getPlaceholder = () => {
 }
 
 watchEffect(() => {
-  if (!props.src && props.placeholderId) {
+  if ((!props.src || !avatarSrc.value) && props.placeholderId) {
     const storedPlaceholder = placeholdersStorage.value[props.placeholderId];
 
     if (storedPlaceholder) {
@@ -89,10 +89,8 @@ const handleImageLoadingError = () => {
   &,
   img,
   .placeholder {
-    width: 100%;
-    height: 100%;
-    max-width: var(--size);
-    max-height: var(--size);
+    width: var(--size);
+    height: var(--size);
     aspect-ratio: 1 / 1;
     border-radius: 50%;
   }
