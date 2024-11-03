@@ -24,3 +24,5 @@ export interface UserType {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type UserPublicType = Omit<UserType, "password" | "email" | "roles" | 'updatedAt' | 'isEmailVerified' | 'signUpMethod'>;
