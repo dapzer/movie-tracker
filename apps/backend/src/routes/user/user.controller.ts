@@ -5,6 +5,7 @@ import { UserDto } from '@/routes/auth/dto/user.dto';
 import { UuidDto } from '@/shared/dto/uuid.dto';
 import { AuthGuard } from '@/routes/auth/guards/auth.guard';
 import { UpdateUserDto } from '@/routes/user/dto/updateUser.dto';
+import { getPublicUser } from "@/shared/utils/getPublicUser"
 
 @Controller('user')
 export class UserController {
@@ -18,7 +19,8 @@ export class UserController {
 
   @Get(':id')
   async getUserById(@Param() params: UuidDto) {
-    return this.userService.getUser(params.id);
+    const user = await this.userService.getUser(params.id);
+    return getPublicUser(user);
   }
 
   @Delete('/delete/:id')
