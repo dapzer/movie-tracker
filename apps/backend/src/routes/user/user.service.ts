@@ -1,10 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import {
-  UserRepositoryInterface,
-  UserRepositorySymbol,
-} from '@/repositories/user/UserRepositoryInterface';
+import { UserRepositoryInterface, UserRepositorySymbol, } from '@/repositories/user/UserRepositoryInterface';
 import { getUserWithoutPassword } from '@/shared/utils/getUserWithoutPassword';
 import { UpdateUserDto } from '@/routes/user/dto/updateUser.dto';
+import { getPublicUser } from "@/shared/utils/getPublicUser"
 
 @Injectable()
 export class UserService {
@@ -16,7 +14,7 @@ export class UserService {
   async getUser(id: string) {
     const user = await this.userRepository.getUserById(id);
 
-    return getUserWithoutPassword(user);
+    return getPublicUser(user);
   }
 
   async deleteUser(id: string, currentUserId: string) {
