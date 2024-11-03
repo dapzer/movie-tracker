@@ -2,19 +2,19 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UserRepositoryInterface, UserRepositorySymbol, } from '@/repositories/user/UserRepositoryInterface';
 import { getUserWithoutPassword } from '@/shared/utils/getUserWithoutPassword';
 import { UpdateUserDto } from '@/routes/user/dto/updateUser.dto';
-import { getPublicUser } from "@/shared/utils/getPublicUser"
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(UserRepositorySymbol)
     private readonly userRepository: UserRepositoryInterface,
-  ) {}
+  ) {
+  }
 
   async getUser(id: string) {
     const user = await this.userRepository.getUserById(id);
 
-    return getPublicUser(user);
+    return getUserWithoutPassword(user);
   }
 
   async deleteUser(id: string, currentUserId: string) {
