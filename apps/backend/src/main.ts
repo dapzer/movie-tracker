@@ -33,6 +33,7 @@ async function bootstrap() {
       secret: configService.get('SESSION_SECRET'),
       resave: false,
       saveUninitialized: false,
+      name: "session",
       cookie: {
         sameSite: "none",
         httpOnly: true,
