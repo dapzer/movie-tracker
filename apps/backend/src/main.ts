@@ -39,6 +39,7 @@ async function bootstrap() {
       cookie: {
         sameSite: true,
         httpOnly: true,
+        domain: `.${new URL(configService.get('CLIENT_BASE_URL')).hostname}`,
         maxAge: getMillisecondsFromDays(7),
       },
       store: new PrismaSessionStore(prisma, {
