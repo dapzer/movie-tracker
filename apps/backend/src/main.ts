@@ -35,7 +35,7 @@ async function bootstrap() {
       saveUninitialized: false,
       name: "session",
       cookie: {
-        sameSite: "none",
+        sameSite: true,
         httpOnly: true,
         domain: `.${new URL(configService.get('CLIENT_BASE_URL')).hostname}`,
         maxAge: getMillisecondsFromDays(7),
