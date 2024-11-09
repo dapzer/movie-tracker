@@ -28,7 +28,7 @@ const isUpdatingMediaList = computed(() => updateMediaListApi.status.value === "
 const settingsModalRef = ref<InstanceType<typeof UiModal> | null>(null);
 
 const copyLink = () => {
-  copy(`${window.location.origin}/lists/${props.list.humanFriendlyId}`);
+  copy(`${window.location.origin}/lists/details/${props.list.humanFriendlyId}`);
 };
 
 const handleUpdateList = async (value: MediaListUpdateApiTypes) => {

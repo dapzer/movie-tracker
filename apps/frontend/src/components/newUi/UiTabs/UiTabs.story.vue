@@ -3,6 +3,10 @@
 import UiTabs from "~/components/newUi/UiTabs/UiTabs.vue"
 import UiTabTrigger from "~/components/newUi/UiTabs/UiTabTrigger.vue"
 import UiTypography from "~/components/ui/UiTypography.vue"
+import UiTabsPane from "~/components/newUi/UiTabs/UiTabsPane.vue"
+import { ref } from "vue"
+
+const currentTab = ref<string>()
 </script>
 
 <template>
@@ -68,12 +72,56 @@ import UiTypography from "~/components/ui/UiTypography.vue"
           </template>
         </UiTabs>
       </Variant>
+      <Variant title="TabsPane">
+        <UiTabsPane
+          v-model="currentTab"
+          :tabs="[
+            {
+              key: 'tab1',
+              label: 'Tab 1'
+            },
+            {
+              key: 'tab2',
+              label: 'Tab 2'
+            },
+            {
+              key: 'tab3',
+              label: 'Tab 3'
+            },
+            {
+              key: 'tab4',
+              label: 'Tab 4'
+            },
+            {
+              key: 'tab5',
+              label: 'Tab 5'
+            }
+          ] as const"
+        >
+          <template #afterTabs>
+            <UiTypography>
+              After tabs content
+            </UiTypography>
+          </template>
+          <template #content>
+            <UiTypography>
+              Tab content
+            </UiTypography>
+          </template>
+        </UiTabsPane>
+      </Variant>
 
       <Variant title="TabTrigger">
         <UiTabTrigger>
           Tab trigger
         </UiTabTrigger>
       </Variant>
+    </template>
+    <template #controls>
+      <HstText
+        v-model="currentTab"
+        title="CurrentTab"
+      />
     </template>
   </Story>
 </template>

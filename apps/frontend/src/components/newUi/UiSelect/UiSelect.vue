@@ -13,6 +13,7 @@ import {
 export interface OptionType {
   value: string
   label: string
+  icon?: string
 }
 
 interface UiSelectProps {
@@ -23,11 +24,13 @@ interface UiSelectProps {
 
 const props = defineProps<UiSelectProps>()
 const selectModel = defineModel<string>()
+const slots = defineSlots()
 </script>
 
 <template>
   <SelectRoot v-model="selectModel">
     <SelectTrigger
+      v-bind="$attrs"
       :class="$style.trigger"
       :style="{
         '--width': props.width ? `${props.width}px` : 'unset'
@@ -55,8 +58,16 @@ const selectModel = defineModel<string>()
             :value="option.value"
             :class="$style.item"
           >
-            <SelectItemText>
-              {{ option.label }}
+            <SelectItemText
+              :class="$style.value"
+            >
+              <component
+                :is="option.icon"
+                v-if="option.icon"
+              />
+              <span>
+                {{ option.label }}
+              </span>
             </SelectItemText>
           </SelectItem>
         </SelectViewport>
@@ -79,6 +90,7 @@ const selectModel = defineModel<string>()
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 
   &[data-state="open"] {
     background: var(--c-card-background-hovered);
@@ -91,7 +103,7 @@ const selectModel = defineModel<string>()
     }
   }
 
-  &, .value {
+  &,.value {
     color: var(--c-text);
     font-size: var(--fs-label);
     font-weight: var(--fw-medium);
@@ -138,11 +150,8 @@ const selectModel = defineModel<string>()
   .item {
     padding: 6px;
     width: 100%;
-    @include ellipsisText;
     color: var(--c-text);
-    font-size: var(--fs-label);
-    font-weight: var(--fw-medium);
-    font-family: var(--ff-inter) !important;
+    min-width: 0;
 
     &:focus,
     &:hover,
@@ -152,6 +161,24 @@ const selectModel = defineModel<string>()
       cursor: pointer;
       background: var(--c-card-background-hovered);
     }
+  }
+}
+
+.value{
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  span {
+    font-family: var(--ff-inter);
+    font-size: var(--fs-label);
+    font-weight: var(--fw-medium);
+    @include ellipsisText;
+  }
+
+  svg {
+    width: 16px;
+    min-width: 16px;
   }
 }
 </style>

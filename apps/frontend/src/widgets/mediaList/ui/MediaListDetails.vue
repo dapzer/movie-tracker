@@ -1,11 +1,13 @@
 <script setup lang="ts">
 
-import type { MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
+import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import MediaListDetailsHeader from "~/widgets/mediaList/ui/MediaListDetailsHeader.vue"
 import MediaListDetailsHeaderSkeleton from "~/widgets/mediaList/ui/MediaListDetailsHeaderSkeleton.vue"
+import MediaListDetailsContent from "~/widgets/mediaList/ui/MediaListDetailsContent.vue"
 
 interface MediaListDetailsProps {
   mediaList?: MediaListType;
+  mediaListItems?: MediaItemType[];
   userProfile?: UserType | UserPublicType
   isUserListOwner?: boolean;
   isLoading?: boolean;
@@ -15,7 +17,7 @@ const props = defineProps<MediaListDetailsProps>();
 </script>
 
 <template>
-  <div>
+  <div :class="$style.wrapper">
     <MediaListDetailsHeaderSkeleton v-if="props.isLoading" />
     <MediaListDetailsHeader
       v-else-if="props.mediaList && props.userProfile"
@@ -23,10 +25,18 @@ const props = defineProps<MediaListDetailsProps>();
       :is-user-list-owner="props.isUserListOwner"
       :user-profile="props.userProfile"
     />
-    <!--    <MediaListDetailsContent :mediaList="props.mediaList" :isUserListOwner="props.isUserListOwner" />-->
+    <MediaListDetailsContent
+      v-if="props.mediaListItems"
+      :is-loading="props.isLoading"
+      :media-list-items="props.mediaListItems"
+    />
   </div>
 </template>
 
-<style scoped lang="scss">
-
+<style module lang="scss">
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 </style>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 
-import { UiTypography } from "~/components/newUi/UiTypography";
 import { UiContainer } from "~/components/newUi/UiContainer";
 import { useAuth } from "~/composables/useAuth";
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
@@ -10,6 +9,7 @@ import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/en
 import { UiButton } from "~/components/newUi/UiButton"
 import { PlusIcon } from "~/components/ui/icons"
 import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
+import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { navigateToSignInPage } = useNavigateToSignInPage()
@@ -52,16 +52,11 @@ useSeoMeta({
     </UiListHeader>
 
 
-    <div
+    <UiAttention
       v-if="!isLoadingProfile && !isAuthorized"
-      :class="$style.unauthorized"
+      :title="$t('auth.notAuthorized')"
+      :description="$t('mediaList.notAuthorized')"
     >
-      <UiTypography variant="title4">
-        {{ $t("auth.notAuthorized") }}
-      </UiTypography>
-      <UiTypography>
-        {{ $t("mediaList.notAuthorized") }}
-      </UiTypography>
       <UiButton
         variant="text"
         scheme="link"
@@ -69,7 +64,7 @@ useSeoMeta({
       >
         {{ $t("auth.signIn") }}
       </UiButton>
-    </div>
+    </UiAttention>
 
     <div :class="$style.lists">
       <template v-if="getMediaListsApi.data.value && !getMediaListsApi.isLoading.value">
@@ -98,21 +93,6 @@ useSeoMeta({
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-}
-
-.unauthorized {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-  max-width: 454px;
-  margin: 70px auto 0;
-
-  p {
-    text-align: center;
-    color: var(--c-description);
   }
 }
 

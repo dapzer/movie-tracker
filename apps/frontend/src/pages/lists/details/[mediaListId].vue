@@ -9,9 +9,14 @@ import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import { useMediaListSettings } from "~/features/mediaList";
 import { MediaListDetails } from "~/widgets/mediaList"
 import { useUserProfileByIdApi } from "~/api/user/useUserApi"
+import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
+import { UiTypography } from "~/components/newUi/UiTypography"
+import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;
+const localePath = useLocalePath()
 const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListHumanFriendlyId as string);
 const { isLoadingProfile, isNotAuthorized, profile } = useAuth();
 
@@ -102,17 +107,32 @@ useSeoMeta({
 
 <template>
   <UiContainer :class="$style.wrapper">
+    <UiAttention
+      v-if="isNotPublicList"
+      :title="$t('mediaList.noPermission')"
+    >
+      <UiTypography
+        :to="localePath('/')"
+        variant="label"
+        :as="NuxtLink"
+        schema="link"
+      >
+        {{ $t('ui.actions.backToMainPage') }}
+      </UiTypography>
+    </UiAttention>
     <MediaListDetails
+      v-else
       :user-profile="currentUserProfile"
       :isLoading="isLoading"
       :is-user-list-owner="isUserListOwner"
       :media-list="currentMediaList"
+      :media-list-items="currentMediaItems"
     />
   </UiContainer>
 </template>
 
 <style lang="scss" module>
 .wrapper {
-  margin-top: 20px !important;
+  margin-top: 60px !important;
 }
 </style>

@@ -25,7 +25,7 @@ const title = computed(() => {
 });
 
 const copyLink = () => {
-  copy(`${window.location.origin}/lists/${props.mediaList.humanFriendlyId}`);
+  copy(`${window.location.origin}/lists/details/${props.mediaList.humanFriendlyId}`);
 };
 </script>
 

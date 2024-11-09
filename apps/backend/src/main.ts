@@ -9,6 +9,9 @@ import { getMillisecondsFromDays } from '@/shared/utils/getMillisecondsFromDays'
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { getMillisecondsFromMins } from '@/shared/utils/getMillisecondsFromMins';
+import { AllExceptionsFilter } from "@/filters/allException.filter"
+import { HttpExceptionFilter } from "@/filters/httpException.filter"
+import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });

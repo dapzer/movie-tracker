@@ -1163,6 +1163,8 @@ export default {
     create: "Create list",
     createNew: "Create new list",
     notAuthorized: 'You need to be logged in to view your lists',
+    noMediaItems: 'There are no films with the selected status in this list',
+    noMediaItemsAll: 'There are no films in this list',
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },
@@ -1183,10 +1185,8 @@ export default {
     },
     sort: {
       title: "Sorting",
-      createdAtAsc: "▲ Date added",
-      createdAtDesc: "▼ Date added",
-      updatedAtAsc: "▲ Last update",
-      updatedAtDesc: "▼ Last update",
+      createdAt: "Sort by date added",
+      updatedAt: "Sort by date updated",
     }
   },
   navigation: {

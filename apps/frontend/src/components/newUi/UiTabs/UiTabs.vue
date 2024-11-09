@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends readonly { key: string; label: string }[]">
-import { ref, type VNode } from "vue"
-import UiTabTrigger from "~/components/newUi/UiTabs/UiTabTrigger.vue"
+import { ref, type VNode, watch } from "vue"
+import UiTabsPane from "~/components/newUi/UiTabs/UiTabsPane.vue"
 
 const props = defineProps<{
   tabs: T
@@ -12,54 +12,31 @@ const slots = defineSlots<{
   afterTabs?: () => VNode
 }>()
 
-const activeTab = ref<string>(props.tabs[0].key);
+const model = defineModel<string>()
+
+const activeTab = ref<string>(model.value || props.tabs[0].key);
+
+watch(() => activeTab.value, () => {
+  model.value = activeTab.value
+}, { immediate: true })
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.navigationWrapper">
-      <div :class="$style.navigation">
-        <UiTabTrigger
-          v-for="tab in props.tabs"
-          :key="tab.key"
-          :active="activeTab === tab.key"
-          @click="activeTab = tab.key"
-        >
-          {{ tab.label }}
-        </UiTabTrigger>
-      </div>
+  <UiTabsPane
+    v-model="activeTab"
+    :tabs="props.tabs"
+  >
+    <template
+      v-if="slots.afterTabs"
+      #afterTabs
+    >
       <slot name="afterTabs" />
-    </div>
-
-    <div :class="$style.content">
+    </template>
+    <template #content>
       <slot :name="activeTab as unknown as keyof typeof slots" />
-    </div>
-  </div>
+    </template>
+  </UiTabsPane>
 </template>
 
 <style module lang="scss">
-.wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  .navigationWrapper {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    justify-content: space-between;
-
-    .navigation {
-      display: flex;
-      flex-direction: row;
-      overflow-x: auto;
-      gap: 4px;
-
-      .content {
-        width: 100%;
-      }
-    }
-  }
-}
 </style>

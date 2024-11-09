@@ -3,6 +3,7 @@
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from "radix-vue"
 
 interface UiDropdown {
+  triggerClass?: string
   indent?: number
   align?: 'start' | 'center' | 'end'
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -22,7 +23,9 @@ defineOptions({
 <template>
   <DropdownMenuRoot v-model:open="model">
     <DropdownMenuTrigger
-      :class="$style.trigger"
+      :class="[$style.trigger, [
+        props.triggerClass
+      ]]"
     >
       <slot name="trigger" />
     </DropdownMenuTrigger>

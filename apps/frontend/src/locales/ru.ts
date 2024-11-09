@@ -1167,6 +1167,9 @@ export default {
     manyLists: 'списка',
     singleLists: 'список',
     notAuthorized: 'Для просмотра ваших списков вам необходимо войти в аккаунт',
+    noMediaItems: 'В данном списке нет кинокартин с выбранным статусом',
+    noMediaItemsAll: 'В данном списке нет кинокартин',
+    noPermission: 'Список не найден или является приватным',
     errors: {
       titleLength: 'Минимальная длина названия 3 символа',
     },
@@ -1187,10 +1190,8 @@ export default {
     },
     sort: {
       title: 'Сортировка',
-      createdAtAsc: '▲ Дата добавления',
-      createdAtDesc: '▼ Дата добавления',
-      updatedAtAsc: '▲ Последнее обновление',
-      updatedAtDesc: '▼ Последнее обновление',
+      createdAt: "По дате добавления",
+      updatedAt: "По дате обновления",
     },
   },
   navigation: {

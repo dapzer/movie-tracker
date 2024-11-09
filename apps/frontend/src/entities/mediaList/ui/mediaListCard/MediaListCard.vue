@@ -27,10 +27,10 @@ const title = computed(() => {
 });
 
 const copyLink = () => {
-  copy(`${window.location.origin}/lists/${props.list.humanFriendlyId}`);
+  copy(`${window.location.origin}/lists/details/${props.list.humanFriendlyId}`);
 };
 
-const listPageUrl = computed(() => localePath(`/lists/${props.list.humanFriendlyId}`));
+const listPageUrl = computed(() => localePath(`/lists/details/${props.list.humanFriendlyId}`));
 const mediaItems = computed(() => mediaItemsApi.data.value?.filter(item => item.mediaListId === props.list.id) || []);
 // TODO: Add mediaItemsCount to the media list api response for each list
 const mediaItemsCount = computed(() => mediaItems.value.filter(item => item.mediaListId === props.list.id).length || 0);
