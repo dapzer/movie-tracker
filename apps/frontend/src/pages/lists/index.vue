@@ -41,8 +41,11 @@ useSeoMeta({
         #controls
       >
         <CreateMediaListModal>
-          <template #trigger>
-            <UiButton with-icon>
+          <template #trigger="{openModal}">
+            <UiButton
+              with-icon
+              @click="openModal"
+            >
               <PlusIcon />
               {{ $t("mediaList.create") }}
             </UiButton>

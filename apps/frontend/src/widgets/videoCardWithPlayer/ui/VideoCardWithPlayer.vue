@@ -22,13 +22,14 @@ const props = defineProps<VideoCardWithPlayerProps>();
       [$style.fullHeight]: props.fullHeight
     }]"
   >
-    <template #trigger>
+    <template #trigger="{openModal}">
       <UiVideoCard
         :fullHeight="props.fullHeight"
         :title="props.title"
         :description="props.description"
         :preview-src="props.previewSrc"
         :width="props.width"
+        @click="openModal"
       />
     </template>
 

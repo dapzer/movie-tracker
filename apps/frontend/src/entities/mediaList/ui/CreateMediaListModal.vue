@@ -32,9 +32,12 @@ const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
   >
     <template
       v-if="slots.trigger"
-      #trigger
+      #trigger="{openModal}"
     >
-      <slot name="trigger" />
+      <slot
+        name="trigger"
+        :openModal="openModal"
+      />
     </template>
 
     <template #content>

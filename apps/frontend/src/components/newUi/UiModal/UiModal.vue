@@ -25,14 +25,14 @@ const slots = defineSlots()
 </script>
 
 <template>
-  <div
+  <template
     v-if="slots.trigger"
-    v-bind="$attrs"
-    :class="$style.triggerWrapper"
-    @click="handleVisible(true)"
   >
-    <slot name="trigger" />
-  </div>
+    <slot
+      name="trigger"
+      :openModal="() => handleVisible(true)"
+    />
+  </template>
   <Teleport
     v-if="visibleState"
     to="body"
@@ -48,7 +48,4 @@ const slots = defineSlots()
 </template>
 
 <style module lang="scss">
-.triggerWrapper {
-  width: fit-content;
-}
 </style>
