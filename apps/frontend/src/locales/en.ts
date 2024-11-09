@@ -1166,6 +1166,8 @@ export default {
     noMediaItems: 'There are no films with the selected status in this list',
     noMediaItemsAll: 'There are no films in this list',
     noPermission: 'List not found or private',
+    editList: 'Editing a list',
+    deleteList: 'Delete list',
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },
@@ -1270,6 +1272,7 @@ export default {
     actions: {
       create: "Create",
       save: "Save",
+      saveChanges: 'Save changes',
       cancel: "Cancel",
       backToMainPage: "Back to main page",
     },

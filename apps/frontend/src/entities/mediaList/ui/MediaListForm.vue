@@ -4,7 +4,6 @@ import { watch } from "vue"
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import * as yup from "yup"
 import { UiInput } from "~/components/newUi/UiInput"
-import { UiTextarea } from "~/components/newUi/UiTextarea"
 import { UiTypography } from "~/components/newUi/UiTypography"
 import { UiSwitch } from "~/components/newUi/UiSwitch"
 
@@ -27,7 +26,7 @@ const { formValue, onFormSubmit, errors } = useForm({
   },
   onSubmit: (formValue) => {
     if (props.isSystem) {
-      formValue.title = '';
+      formValue.title = undefined ;
     }
     emit("onSubmit", formValue);
   },
@@ -57,10 +56,10 @@ watch(() => props.isSystem, (isSystem) => {
       maxlength="32"
       :placeholder="$t('mediaList.settingsForm.title')"
     />
-    <UiTextarea
-      disabled
-      :placeholder="$t('mediaList.settingsForm.description')"
-    />
+    <!--    <UiTextarea-->
+    <!--      disabled-->
+    <!--      :placeholder="$t('mediaList.settingsForm.description')"-->
+    <!--    />-->
 
     <div :class="$style.switch">
       <UiTypography variant="description">

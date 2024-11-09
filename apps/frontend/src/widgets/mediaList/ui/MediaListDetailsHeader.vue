@@ -7,6 +7,7 @@ import { CloneIcon, EditIcon, LikeIcon, ShareIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
 import { UiUserProfileLink } from "~/components/newUi/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
+import { EditMediaListModal } from "~/entities/mediaList"
 
 interface MediaListHeaderProps {
   mediaList: MediaListType;
@@ -75,13 +76,21 @@ const copyLink = () => {
           <CloneIcon />
           {{ t("mediaList.createClone.title") }}
         </UiButton>
-        <UiButton
+        <EditMediaListModal
           v-if="props.isUserListOwner"
-          with-icon
+          :media-list="props.mediaList"
         >
-          <EditIcon />
-          {{ t("ui.edit") }}
-        </UiButton>
+          <template #trigger="{openModal}">
+            <UiButton
+              with-icon
+              @click="openModal"
+            >
+              <EditIcon />
+              {{ t("ui.edit") }}
+            </UiButton>
+          </template>
+        </EditMediaListModal>
+
         <UiButton
           v-else
           with-icon

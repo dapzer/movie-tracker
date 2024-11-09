@@ -1170,6 +1170,8 @@ export default {
     noMediaItems: 'В данном списке нет кинокартин с выбранным статусом',
     noMediaItemsAll: 'В данном списке нет кинокартин',
     noPermission: 'Список не найден или является приватным',
+    editList: 'Редактирование списка',
+    deleteList: 'Удалить список',
     errors: {
       titleLength: 'Минимальная длина названия 3 символа',
     },
@@ -1235,7 +1237,9 @@ export default {
       successCreated: 'Список успешно создан',
       unsuccessfullyCreated: 'Произошла ошибка при создании списка',
       successUpdated: 'Список успешно обновлен',
+      unsuccessfullyUpdated: 'Произошла ошибка при создании списка',
       successDeleted: 'Список успешно удален',
+      unsuccessfullyDeleted: 'Произошла ошибка при удалении списка',
     },
   },
   ui: {
@@ -1271,6 +1275,7 @@ export default {
     actions: {
       create: 'Создать',
       save: 'Сохранить',
+      saveChanges: 'Сохранить изменения',
       cancel: 'Отменить',
       backToMainPage: 'Вернуться на главную',
     },

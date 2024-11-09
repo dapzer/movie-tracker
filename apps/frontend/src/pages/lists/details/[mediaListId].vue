@@ -110,7 +110,7 @@ useSeoMeta({
 <template>
   <UiContainer :class="$style.wrapper">
     <UiAttention
-      v-if="isNotPublicList"
+      v-if="isNotPublicList || !currentMediaList && !isLoading"
       :title="$t('mediaList.noPermission')"
     >
       <UiTypography
