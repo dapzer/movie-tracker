@@ -84,8 +84,10 @@ const currentUserProfile = computed(() => {
 const isLoading = computed(() => {
   const isLoadingMediaItems = externalMediaItemsApi.isLoading.value || mediaItemsApi.isLoading.value;
   const isLoadingMediaList = externalMediaListApi.isLoading.value || mediaListsApi.isLoading.value;
+  const isLoadingProfiles = isLoadingProfile.value || externalUserProfileApi.isLoading.value;
 
-  return (isLoadingMediaItems || isLoadingMediaList || isLoadingProfile.value) && !currentMediaItems.value?.length;
+  return (isLoadingMediaItems || isLoadingMediaList) &&
+      !currentMediaItems.value?.length || isLoadingProfiles
 });
 
 const title = computed(() => {
