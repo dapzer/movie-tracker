@@ -1,1 +1,1 @@
-export {deffault as UiAttention } from "./UiAttention.vue"
+export { default as UiAttention } from "./UiAttention.vue"
