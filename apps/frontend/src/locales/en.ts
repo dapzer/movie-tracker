@@ -1177,6 +1177,7 @@ export default {
       keepStatus: "Keep current status",
       submit: "Clone",
       success: "List successfully cloned",
+      unsuccessfully: 'An error occurred while cloning the list',
     },
     settingsForm: {
       title: "List name",

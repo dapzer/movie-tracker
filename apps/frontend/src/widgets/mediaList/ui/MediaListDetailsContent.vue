@@ -61,7 +61,7 @@ const sortedMediaItems = computed(() => {
       "createdAt" | "updatedAt">)
 })
 
-const categories = computed(() => {
+const groupedByStatus = computed(() => {
   let result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
     [MediaItemStatusNameEnum.WATCHING_NOW]: [],
     [MediaItemStatusNameEnum.NOT_VIEWED]: [],
@@ -80,7 +80,7 @@ const currentTabMediaItems = computed(() => {
     return sortedMediaItems.value
   }
 
-  return categories.value[activeTab.value as MediaItemStatusNameEnum]
+  return groupedByStatus.value[activeTab.value as MediaItemStatusNameEnum]
 })
 
 const currentTabContent = computed(() => {
@@ -143,19 +143,19 @@ watch(currentTabMediaItems, () => {
           key: 'all'
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${categories.WATCHING_NOW.length})`,
+          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${groupedByStatus.WATCHING_NOW.length})`,
           key: MediaItemStatusNameEnum.WATCHING_NOW
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${categories.NOT_VIEWED.length})`,
+          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${groupedByStatus.NOT_VIEWED.length})`,
           key: MediaItemStatusNameEnum.NOT_VIEWED
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${categories.WAIT_NEW_PART.length})`,
+          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${groupedByStatus.WAIT_NEW_PART.length})`,
           key: MediaItemStatusNameEnum.WAIT_NEW_PART
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${categories.VIEWED.length})`,
+          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${groupedByStatus.VIEWED.length})`,
           key: MediaItemStatusNameEnum.VIEWED
         }
       ] as const"

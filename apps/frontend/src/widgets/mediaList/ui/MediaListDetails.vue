@@ -20,9 +20,10 @@ const props = defineProps<MediaListDetailsProps>();
   <div :class="$style.wrapper">
     <MediaListDetailsHeaderSkeleton v-if="props.isLoading" />
     <MediaListDetailsHeader
-      v-else-if="props.mediaList && props.userProfile"
+      v-else-if="props.mediaList && props.userProfile && props.mediaListItems"
       :media-list="props.mediaList"
       :is-user-list-owner="props.isUserListOwner"
+      :media-items="props.mediaListItems"
       :user-profile="props.userProfile"
     />
     <MediaListDetailsContent

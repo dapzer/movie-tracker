@@ -9,6 +9,7 @@ import { UiTypography } from "~/components/newUi/UiTypography"
 export interface UiModalProps {
   maxWidth?: number
   title: string
+  description?: string
 }
 
 export interface UiModalContentEmits {
@@ -58,6 +59,9 @@ onUnmounted(() => {
           <UiTypography variant="title4">
             {{ props.title }}
           </UiTypography>
+          <UiTypography v-if="props.description">
+            {{ props.description }} 
+          </UiTypography>
           <UiButton
             :class="$style.closeButton"
             variant="text"
@@ -104,6 +108,13 @@ onUnmounted(() => {
       position: sticky;
       top: 0;
       background: var(--c-card-background-hovered);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      p {
+        color: var(--c-text-secondary);
+      }
 
       .closeButton {
         position: absolute;

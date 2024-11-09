@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
+import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useI18n } from "#imports"
 import { UiTypography } from "~/components/newUi/UiTypography"
@@ -7,10 +7,11 @@ import { CloneIcon, EditIcon, LikeIcon, ShareIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
 import { UiUserProfileLink } from "~/components/newUi/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
-import { EditMediaListModal } from "~/entities/mediaList"
+import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
 
 interface MediaListHeaderProps {
   mediaList: MediaListType;
+  mediaItems: MediaItemType[]
   userProfile: UserType | UserPublicType
   isUserListOwner: boolean;
 }
@@ -69,13 +70,21 @@ const copyLink = () => {
       </div>
 
       <div :class="$style.actions">
-        <UiButton
-          with-icon
-          scheme="secondary"
+        <CloneMediaListModal
+          :media-list="props.mediaList"
+          :media-items="props.mediaItems"
         >
-          <CloneIcon />
-          {{ t("mediaList.createClone.title") }}
-        </UiButton>
+          <template #trigger="{openModal}">
+            <UiButton
+              with-icon
+              scheme="secondary"
+              @click="openModal"
+            >
+              <CloneIcon />
+              {{ t("mediaList.createClone.title") }}
+            </UiButton>
+          </template>
+        </CloneMediaListModal>
         <EditMediaListModal
           v-if="props.isUserListOwner"
           :media-list="props.mediaList"

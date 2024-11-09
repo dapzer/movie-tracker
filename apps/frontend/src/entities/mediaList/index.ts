@@ -3,3 +3,4 @@ export {default as EditMediaListModal} from './ui/EditMediaListModal.vue';
 export {default as MediaListCard} from './ui/mediaListCard/MediaListCard.vue';
 export {default as MediaListCardSkeleton} from './ui/mediaListCard/MediaListCardSkeleton.vue';
 export {default as MediaListSelectorModal} from './ui/MediaListSelectorModal.vue';
+export {default as CloneMediaListModal} from './ui/cloneMediaList/CloneMediaListModal.vue';

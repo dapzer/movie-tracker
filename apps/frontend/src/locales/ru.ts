@@ -1181,6 +1181,7 @@ export default {
       keepStatus: 'Сохранить текущий статус',
       submit: 'Клонировать',
       success: 'Список успешно клонирован',
+      unsuccessfully: 'Произошла ошибка при клонировании списка',
     },
     settingsForm: {
       title: 'Название списка',

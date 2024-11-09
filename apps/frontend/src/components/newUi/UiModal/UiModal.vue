@@ -5,6 +5,7 @@ import { computed, ref } from "vue"
 export interface UiModalProps {
   maxWidth?: number
   title: string
+  description?: string
 }
 
 const props = defineProps<UiModalProps>()
@@ -40,6 +41,7 @@ const slots = defineSlots()
     <UiModalContent
       :max-width="props.maxWidth"
       :title="props.title"
+      :description="props.description"
       @handle-close="handleVisible(false)"
     >
       <slot name="content" />
