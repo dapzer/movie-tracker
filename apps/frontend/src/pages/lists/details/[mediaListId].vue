@@ -18,7 +18,7 @@ const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;
 const localePath = useLocalePath()
 const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListHumanFriendlyId as string);
-const { isLoadingProfile, isNotAuthorized, profile } = useAuth();
+const { isLoadingProfile, isInitialLoadingProfile, profile } = useAuth();
 
 const mediaListsApi = useGetMediaListsApi();
 const mediaItemsApi = useGetMediaItemsApi();
@@ -84,7 +84,7 @@ const currentUserProfile = computed(() => {
 const isLoading = computed(() => {
   const isLoadingMediaItems = externalMediaItemsApi.isLoading.value || mediaItemsApi.isLoading.value;
   const isLoadingMediaList = externalMediaListApi.isLoading.value || mediaListsApi.isLoading.value;
-  const isLoadingProfiles = isLoadingProfile.value || externalUserProfileApi.isLoading.value;
+  const isLoadingProfiles = isInitialLoadingProfile.value || externalUserProfileApi.isLoading.value;
 
   return (isLoadingMediaItems || isLoadingMediaList) &&
       !currentMediaItems.value?.length || isLoadingProfiles
