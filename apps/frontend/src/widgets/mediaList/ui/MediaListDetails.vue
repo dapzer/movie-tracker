@@ -26,7 +26,6 @@ const props = defineProps<MediaListDetailsProps>();
       :user-profile="props.userProfile"
     />
     <MediaListDetailsContent
-      v-if="props.mediaListItems"
       :is-loading="props.isLoading"
       :media-list-items="props.mediaListItems"
     />

@@ -15,7 +15,7 @@ import { UiPagination } from "~/components/newUi/UiPagination"
 import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
 
 interface MediaListDetailsProps {
-  mediaListItems: MediaItemType[];
+  mediaListItems?: MediaItemType[];
   isLoading: boolean;
 }
 
@@ -57,7 +57,8 @@ const options = computed(() => {
 
 const sortedMediaItems = computed(() => {
   const [sortOrder, sortBy] = sortType.value.split('_')
-  return filterMediaListItems(props.mediaListItems, searchTerm.value, sortOrder, sortBy as keyof Pick<MediaItemType, "createdAt" | "updatedAt">)
+  return filterMediaListItems(props.mediaListItems ?? [], searchTerm.value, sortOrder, sortBy as keyof Pick<MediaItemType,
+      "createdAt" | "updatedAt">)
 })
 
 const categories = computed(() => {
