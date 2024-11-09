@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { UiTypography } from "~/components/newUi/UiTypography"
 import { UiSkeleton } from "~/components/newUi/UiSkeleton"
+import { UiUserProfileLinkSkeleton } from "~/components/newUi/UiUserProfileLink"
 </script>
 
 <template>
   <div :class="$style.wrapper">
     <div :class="$style.info">
-      <div>
-        <UiTypography
-          variant="title2"
-        >
-          <UiSkeleton :width="200" />
+      <div :class="$style.about">
+        <UiTypography variant="title2">
+          <UiSkeleton
+            :height="44"
+            :width="200"
+          />
         </UiTypography>
+        <UiUserProfileLinkSkeleton />
       </div>
 
       <div :class="$style.actions">
@@ -37,10 +40,16 @@ import { UiSkeleton } from "~/components/newUi/UiSkeleton"
     width: 100%;
   }
 
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
   .info {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     gap: 16px;
 
     @include mobileDevice {
