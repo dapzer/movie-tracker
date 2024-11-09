@@ -1165,6 +1165,7 @@ export default {
     notAuthorized: 'You need to be logged in to view your lists',
     noMediaItems: 'There are no films with the selected status in this list',
     noMediaItemsAll: 'There are no films in this list',
+    noPermission: 'List not found or private',
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },
