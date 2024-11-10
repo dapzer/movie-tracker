@@ -59,7 +59,7 @@ const slots = defineSlots()
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  
+
   .inputWrapper {
     position: relative;
     width: 100%;
@@ -107,7 +107,7 @@ const slots = defineSlots()
     &.small {
       padding: 8px 10px;
       font-size: var(--fs-input-small);
-      line-height: var(--lh-input-small);
+      line-height: var(--lh-input);
       height: 36px;
       &.withIcon {
         padding-left: 34px;
