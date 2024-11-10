@@ -163,6 +163,7 @@ watch(currentTabMediaItems, () => {
       <template #afterTabs>
         <UiSelect
           v-model="sortType"
+          :class="$style.select"
           :width="216"
           :options="options"
         />
@@ -233,6 +234,12 @@ watch(currentTabMediaItems, () => {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  @include mobileDevice {
+    .select {
+      display: none;
     }
   }
 
