@@ -4,5 +4,7 @@ export const MediaListQueryKeys = {
   CREATE: "mediaList/create",
   CLONE: "mediaList/clone",
   DELETE: "mediaList/delete",
-  UPDATE: "mediaList/update"
+  UPDATE: "mediaList/update",
+  CREATE_LIKE: "mediaList/createLike",
+  DELETE_LIKE: "mediaList/deleteLike",
 } as const;

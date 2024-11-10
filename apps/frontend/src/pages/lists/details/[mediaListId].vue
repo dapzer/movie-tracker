@@ -28,20 +28,26 @@ const isUserListOwner = computed(() => {
 });
 
 const isUseExternalData = computed(() => {
-  return !isUserListOwner.value && !mediaListsApi.isLoading.value && !isLoadingProfile.value;
+  return !isUserListOwner.value && !(mediaListsApi.isPending.value && mediaListsApi.errorUpdateCount.value === 0) && !isInitialLoadingProfile.value;
 });
 
 const externalMediaListApi = useGetMediaListsByIdApi(mediaListHumanFriendlyId as string, {
-  enabled: isUseExternalData,
+  enabled: isUseExternalData.value,
   retry: false
 });
 
 const externalMediaItemsApi = useGetMediaItemsByMediaListIdApi(mediaListHumanFriendlyId as
     string, {
-  enabled: isUseExternalData,
+  enabled: isUseExternalData.value,
   retry: false
 });
 
+if (isUseExternalData.value) {
+  await Promise.all([
+    externalMediaListApi.suspense(),
+    externalMediaItemsApi.suspense()
+  ]);
+}
 const externalUserId = computed(() => {
   return externalMediaListApi.data.value?.userId;
 });
@@ -51,9 +57,16 @@ const externalUserProfileApi = useUserProfileByIdApi(externalUserId as Ref<strin
   retry: false
 });
 
-watch(() => externalUserId.value, (userId) => {
-  if (userId) {
-    externalUserProfileApi.refetch();
+if (externalUserId.value) {
+  await externalUserProfileApi.suspense();
+}
+
+watch(isUseExternalData, (value) => {
+  if (value) {
+    externalMediaListApi.refetch().then(() => {
+      externalUserProfileApi.refetch();
+    });
+    externalMediaItemsApi.refetch();
   }
 });
 

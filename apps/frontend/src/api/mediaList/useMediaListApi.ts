@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/vue-query";
 import {
+  createLikeMediaListApi,
   createMediaListsApi,
   createMediaListsCloneApi,
+  deleteLikeMediaListApi,
   deleteMediaListsApi,
   getMediaListsApi,
   getMediaListsByIdApi,
@@ -23,11 +25,14 @@ export const useGetMediaListsApi = () => {
   })
 };
 
-export const useGetMediaListsByIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => useQuery({
-  queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
-  queryFn: async () => await getMediaListsByIdApi(mediaListId),
-  ...options
-});
+export const useGetMediaListsByIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => {
+  const headers = useRequestHeaders(["cookie"]);
+  return  useQuery({
+    queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
+    queryFn: async () => await getMediaListsByIdApi(mediaListId, { headers }),
+    ...options
+  });
+}
 
 export const useCreateMediaListApi = () => {
   const queryClient = useQueryClient();
@@ -88,3 +93,34 @@ export const useUpdateMediaListApi = () => {
   });
 };
 
+export const useCreateLikeMediaListApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [MediaListQueryKeys.CREATE_LIKE],
+    mutationFn: async (mediaListId: string) => await createLikeMediaListApi(mediaListId),
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaListQueryKeys.GET_BY_ID, data.mediaListHumanFriendlyId], (oldData: MediaListType) =>({
+        ...oldData,
+        likesCount: (oldData.likesCount || 0) + 1,
+        isLiked: true
+      }));
+    }
+  });
+}
+
+export const useDeleteLikeMediaListApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [MediaListQueryKeys.CREATE_LIKE],
+    mutationFn: async (mediaListId: string) => await deleteLikeMediaListApi(mediaListId),
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaListQueryKeys.GET_BY_ID, data.mediaListHumanFriendlyId], (oldData: MediaListType) => ({
+        ...oldData,
+        likesCount: (oldData.likesCount || 0) - 1,
+        isLiked: false
+      }));
+    }
+  });
+}

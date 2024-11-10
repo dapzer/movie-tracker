@@ -8,6 +8,7 @@ import { UiButton } from "~/components/newUi/UiButton"
 import { UiUserProfileLink } from "~/components/newUi/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
 import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
+import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
 
 interface MediaListHeaderProps {
   mediaList: MediaListType;
@@ -21,6 +22,8 @@ const { t } = useI18n();
 const { copy, copied } = useClipboard({ copiedDuring: 1000 });
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const { isAuthorized } = useAuth()
+const createLikeMediaListApi = useCreateLikeMediaListApi()
+const deleteLikeMediaListApi = useDeleteLikeMediaListApi()
 
 const title = computed(() => {
   return t("mediaList.listPageTitle", {
@@ -30,6 +33,19 @@ const title = computed(() => {
 
 const copyLink = () => {
   copy(`${window.location.origin}/lists/details/${props.mediaList.humanFriendlyId}`);
+};
+
+const handleLike = async () => {
+  if (!isAuthorized.value) {
+    navigateToSignInPage()
+    return
+  }
+
+  if (props.mediaList.isLiked) {
+    await deleteLikeMediaListApi.mutateAsync(props.mediaList.id)
+  } else {
+    await createLikeMediaListApi.mutateAsync(props.mediaList.id)
+  }
 };
 </script>
 
@@ -105,7 +121,10 @@ const copyLink = () => {
         <UiButton
           v-else
           with-icon
-          :scheme="props.mediaList.isLiked ? 'tertiary' : 'primary'"
+          :disabled="createLikeMediaListApi.isPending.value || deleteLikeMediaListApi.isPending.value"
+          :variant="props.mediaList.isLiked ? 'outlined' : 'boxed'"
+          :scheme="props.mediaList.isLiked ? 'secondary' : 'primary'"
+          @click="handleLike"
         >
           <LikeIcon />
           {{ t("ui.like") }}
@@ -167,6 +186,11 @@ const copyLink = () => {
 
       button {
         height: fit-content;
+        min-height: 36px;
+
+        @include tabletDevice {
+          min-height: 40px;
+        }
       }
 
       @include mobileDevice {
