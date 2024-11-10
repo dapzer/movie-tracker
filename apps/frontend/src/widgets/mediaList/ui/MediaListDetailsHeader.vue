@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { computed } from "vue"
-import { useI18n } from "#imports"
+import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
 import { UiTypography } from "~/components/newUi/UiTypography"
 import { CloneIcon, EditIcon, LikeIcon, ShareIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
@@ -19,6 +19,8 @@ interface MediaListHeaderProps {
 const props = defineProps<MediaListHeaderProps>();
 const { t } = useI18n();
 const { copy, copied } = useClipboard({ copiedDuring: 1000 });
+const { navigateToSignInPage } = useNavigateToSignInPage()
+const { isAuthorized } = useAuth()
 
 const title = computed(() => {
   return t("mediaList.listPageTitle", {
@@ -78,7 +80,7 @@ const copyLink = () => {
             <UiButton
               with-icon
               scheme="secondary"
-              @click="openModal"
+              @click="() => isAuthorized ? openModal() : navigateToSignInPage()"
             >
               <CloneIcon />
               {{ t("mediaList.createClone.title") }}
