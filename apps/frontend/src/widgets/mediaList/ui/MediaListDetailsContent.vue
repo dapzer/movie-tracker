@@ -218,6 +218,10 @@ watch(currentTabMediaItems, () => {
 
     @include mobileDevice {
       max-width: 100%;
+
+      input {
+        height: 40px;
+      }
     }
   }
 
@@ -225,9 +229,9 @@ watch(currentTabMediaItems, () => {
     display: none;
 
     @include mobileDevice {
-      width: 34px;
-      min-width: 34px;
-      height: 34px;
+      width: 38px;
+      min-width: 38px;
+      height: 38px;
       background: var(--c-card-background-hovered);
       border: 1px solid var(--c-stroke);
       border-radius: var(--s-border-radius-medium);
