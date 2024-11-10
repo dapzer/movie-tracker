@@ -191,6 +191,7 @@ watch(currentTabMediaItems, () => {
           />
         </template>
         <UiPagination
+          v-if="currentTabMediaItems.length"
           v-model="currentPage"
           :class="$style.pagination"
           :pages-on-sides="1"
