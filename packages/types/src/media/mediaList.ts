@@ -15,6 +15,7 @@ export interface MediaListType {
 export interface MediaListLikeType {
   id: string;
   mediaListId: string;
+  mediaListHumanFriendlyId?: string;
   userId: string;
   createdAt: Date;
 }

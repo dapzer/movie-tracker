@@ -18,7 +18,8 @@ export class MediaListService {
     private readonly mediaListRepository: MediaListRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
-  ) {}
+  ) {
+  }
 
   private async isListOwner(
     id: string,
@@ -49,9 +50,9 @@ export class MediaListService {
   ) {
     const mediaList = byHumanFriendlyId
       ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
-          id,
-          userId,
-        )
+        id,
+        userId,
+      )
       : await this.mediaListRepository.getMedialListById(id, userId);
     const isListOwner = await this.isListOwner(id, userId, mediaList);
 
@@ -163,7 +164,8 @@ export class MediaListService {
   }
 
   async createMediaListLike(mediaListId: string, userId: string) {
-    const isListOwner = await this.isListOwner(mediaListId, userId);
+    const mediaList = await this.mediaListRepository.getMedialListById(mediaListId);
+    const isListOwner = await this.isListOwner(mediaListId, userId, mediaList);
 
     if (isListOwner) {
       throw new HttpException(
@@ -172,11 +174,13 @@ export class MediaListService {
       );
     }
 
-    return this.mediaListRepository.createMediaListLike(mediaListId, userId);
+    const mediaListLike = await this.mediaListRepository.createMediaListLike(mediaListId, userId);
+    return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId };
   }
 
   async deleteMediaListLike(mediaListId: string, userId: string) {
-    const isListOwner = await this.isListOwner(mediaListId, userId);
+    const mediaList = await this.mediaListRepository.getMedialListById(mediaListId);
+    const isListOwner = await this.isListOwner(mediaListId, userId, mediaList);
 
     if (isListOwner) {
       throw new HttpException(
@@ -185,6 +189,7 @@ export class MediaListService {
       );
     }
 
-    return this.mediaListRepository.deleteMediaListLike(mediaListId, userId);
+    const mediaListLike = await this.mediaListRepository.deleteMediaListLike(mediaListId, userId);
+    return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId };
   }
 }
