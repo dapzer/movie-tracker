@@ -11,6 +11,7 @@ import type { MediaListType } from "@movie-tracker/types"
 import { TrashIcon } from "~/components/ui/icons"
 import { useRouter } from "vue-router"
 import { useLocalePath } from "#i18n"
+import { UiConfirmationModal } from "~/components/newUi/UiConfirmationModal"
 
 interface EditMediaListModalProps {
   mediaList: MediaListType
@@ -74,16 +75,27 @@ const handleDeleteMediaList = async () => {
       >
         <template #actions>
           <div :class="$style.actions">
-            <UiButton
-              :disabled="updateMediaListApi.isPending.value || deleteMediaListApi.isPending.value || props.mediaList.isSystem"
-              size="small"
-              scheme="tertiary"
-              with-icon
-              @click="handleDeleteMediaList"
+            <UiConfirmationModal
+              :title="$t('mediaList.confirmDeleteTitle')"
+              :description="$t('mediaList.confirmDeleteDescription', { title: props.mediaList.title })"
+              :confirm-text="$t('ui.actions.delete')"
+              scheme="danger"
+              @confirm="handleDeleteMediaList"
             >
-              <TrashIcon />
-              {{ $t('mediaList.deleteList') }}
-            </UiButton>
+              <template #trigger="{openModal}">
+                <UiButton
+                  :disabled="updateMediaListApi.isPending.value || deleteMediaListApi.isPending.value || props.mediaList.isSystem"
+                  size="small"
+                  scheme="tertiary"
+                  with-icon
+                  type="button"
+                  @click="openModal"
+                >
+                  <TrashIcon />
+                  {{ $t('mediaList.deleteList') }}
+                </UiButton>
+              </template>
+            </UiConfirmationModal>
             <UiButton
               :disabled="updateMediaListApi.isPending.value || deleteMediaListApi.isPending.value"
               size="small"

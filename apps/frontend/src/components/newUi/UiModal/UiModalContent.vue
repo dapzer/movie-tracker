@@ -44,6 +44,7 @@ onUnmounted(() => {
   <div
     :class="$style.wrapper"
     @click="emits('handleClose')"
+    @keydown.esc.stop="closeModalOnKeypress"
   >
     <UiContainer>
       <div
@@ -60,7 +61,7 @@ onUnmounted(() => {
             {{ props.title }}
           </UiTypography>
           <UiTypography v-if="props.description">
-            {{ props.description }} 
+            {{ props.description }}
           </UiTypography>
           <UiButton
             :class="$style.closeButton"
