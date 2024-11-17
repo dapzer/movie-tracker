@@ -75,10 +75,6 @@ const handleChange = () => {
     toast.error(t("toasts.mediaItem.unsuccessfullyTvProgressChanged"));
   });
 };
-
-watch(() => currentValue.value, () => {
-  handleChange()
-}, { deep: true });
 </script>
 
 <template>
@@ -92,6 +88,7 @@ watch(() => currentValue.value, () => {
         :width="126"
         :disabled="updateMediaItemTrackingDataApi.isPending.value"
         :options="seasonOptions"
+        @update:model-value="handleChange"
       />
     </div>
     <div :class="$style.item">
@@ -103,6 +100,7 @@ watch(() => currentValue.value, () => {
         :width="126"
         :disabled="updateMediaItemTrackingDataApi.isPending.value"
         :options="episodeOptions"
+        @update:model-value="handleChange"
       />
     </div>
   </div>

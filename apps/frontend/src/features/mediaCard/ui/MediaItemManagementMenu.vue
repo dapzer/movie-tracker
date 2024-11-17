@@ -3,10 +3,12 @@
 import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
 import { UiSelect } from "~/components/newUi/UiSelect"
 import { useI18n } from "#imports"
-import { computed } from "vue"
+import { computed, ref } from "vue"
 import { UiDivider } from "~/components/newUi/UiDivider"
 import { UiButton } from "~/components/newUi/UiButton"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
+import { toast } from "vue3-toastify"
 
 interface MediaItemManagementMenuDrawerProps {
   mediaItem: MediaItemType;
@@ -14,6 +16,22 @@ interface MediaItemManagementMenuDrawerProps {
 
 const props = defineProps<MediaItemManagementMenuDrawerProps>();
 const { t } = useI18n()
+const currentStatus = ref(props.mediaItem.trackingData.currentStatus)
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
+
+const handleChangeStatus = async () => {
+  await updateMediaItemTrackingDataApi.mutateAsync({
+    trackingDataId: props.mediaItem.trackingData.id,
+    body: {
+      ...props.mediaItem.trackingData,
+      currentStatus: currentStatus.value
+    }
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successStatusChanged"));
+  }).catch(() => {
+    toast.error(t("toasts.mediaItem.unsuccessfullyStatusChanged"));
+  });
+};
 
 const selectOptions = computed(() => {
   const rea = []
@@ -32,8 +50,9 @@ const selectOptions = computed(() => {
 <template>
   <div :class="$style.wrapper">
     <UiSelect
-      v-model="props.mediaItem.trackingData.currentStatus"
+      v-model="currentStatus"
       :options="selectOptions"
+      @update:model-value="handleChangeStatus"
     />
     <UiDivider />
     <div :class="$style.actions">

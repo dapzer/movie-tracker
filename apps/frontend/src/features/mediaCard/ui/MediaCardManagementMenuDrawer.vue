@@ -25,7 +25,6 @@ const currentMediaDetails = computed(() => {
     <UiModal
       v-if="!isMobile"
       v-model="model"
-      side="bottom"
       :title="`${$t('mediaItem.management')} ‘${currentMediaDetails?.title || currentMediaDetails?.originalTitle}’`"
       :max-width="495"
     >
