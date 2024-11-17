@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useI18n, useIsMobile } from "#imports"
-import { UiDropdown } from "~/components/newUi/UiDropdown"
+import { getCurrentMediaDetails, useI18n, useIsMobile } from "#imports"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemManagementMenu.vue"
 import { UiBottomDrawer } from "~/components/newUi/UiBottomDrawer"
 import type { MediaItemType } from "@movie-tracker/types"
+import { UiModal } from "~/components/newUi/UiModal"
+import { computed } from "vue"
 
 interface MediaCardManagementMenuDrawerProps {
   mediaItem: MediaItemType;
@@ -11,25 +12,31 @@ interface MediaCardManagementMenuDrawerProps {
 
 const props = defineProps<MediaCardManagementMenuDrawerProps>();
 const model = defineModel<boolean>()
-const { locale } = useI18n();
 const { isMobile } = useIsMobile()
+const { locale, t } = useI18n();
+
+const currentMediaDetails = computed(() => {
+  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value);
+});
 </script>
 
 <template>
   <ClientOnly>
-    <UiDropdown
+    <UiModal
       v-if="!isMobile"
       v-model="model"
       side="bottom"
+      :title="`${$t('mediaItem.management')} ‘${currentMediaDetails?.title || currentMediaDetails?.originalTitle}’`"
+      :max-width="495"
     >
       <template #content>
         <MediaCardTrackingMenu :media-item="props.mediaItem" />
       </template>
-    </UiDropdown>
+    </UiModal>
     <UiBottomDrawer
       v-else
       v-model="model"
-      title="Manage ‘Rick and Morty’"
+      :title="`${$t('mediaItem.management')} ‘${currentMediaDetails?.title || currentMediaDetails?.originalTitle}’`"
     >
       <template #content>
         <MediaCardTrackingMenu :media-item="props.mediaItem" />

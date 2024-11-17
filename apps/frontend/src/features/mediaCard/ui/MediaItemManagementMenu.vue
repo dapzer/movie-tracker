@@ -3,10 +3,9 @@
 import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
 import { UiSelect } from "~/components/newUi/UiSelect"
 import { useI18n } from "#imports"
-import { computed, ref } from "vue"
+import { computed } from "vue"
 import { UiDivider } from "~/components/newUi/UiDivider"
 import { UiButton } from "~/components/newUi/UiButton"
-import { SelectArrowIcon } from "~/components/ui/icons"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
 
 interface MediaItemManagementMenuDrawerProps {
@@ -15,7 +14,6 @@ interface MediaItemManagementMenuDrawerProps {
 
 const props = defineProps<MediaItemManagementMenuDrawerProps>();
 const { t } = useI18n()
-const isShowTrackingMenu = ref(false)
 
 const selectOptions = computed(() => {
   const rea = []
@@ -60,24 +58,7 @@ const selectOptions = computed(() => {
       </UiButton>
     </div>
     <UiDivider />
-    <UiButton
-      :class="$style.menuItem"
-      variant="text"
-      @click="isShowTrackingMenu = !isShowTrackingMenu"
-    >
-      {{ t("mediaItem.trackingMenu.title") }}
-      <div
-        :class="[$style.iconEnd, $style.icon, {
-          [$style.iconRotated]: isShowTrackingMenu
-        }]"
-      >
-        <SelectArrowIcon />
-      </div>
-    </UiButton>
-    <MediaCardTrackingMenu
-      v-if="isShowTrackingMenu"
-      :media-item="props.mediaItem"
-    />
+    <MediaCardTrackingMenu :media-item="props.mediaItem" />
   </div>
 </template>
 
@@ -89,19 +70,15 @@ const selectOptions = computed(() => {
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  max-width: 284px;
-  min-width: 284px;
 
   @layer external {
     .menuItem {
       width: 100%;
       @include dropdownItem;
+      &:hover {
+        background: var(--c-white-05);
+      }
     }
-  }
-
-
-  .iconRotated {
-    transform: rotate(180deg);
   }
 }
 </style>

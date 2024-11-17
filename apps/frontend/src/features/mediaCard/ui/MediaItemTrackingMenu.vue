@@ -27,7 +27,6 @@ const props = defineProps<MediaItemTrackingMenuProps>();
 
 <style module lang="scss">
 .wrapper {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
