@@ -1,14 +1,15 @@
 <script setup lang="ts">
 
-import { ref, watch } from "vue"
+import { ref } from "vue"
 import { ListIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import { PlusIcon } from "~/components/ui/icons.js"
-import { nextTick, useAuth } from "#imports"
+import { useAuth } from "#imports"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
+import { useSwitchModals } from "~/composables/useSwitchModals"
 
 interface MediaListSelectorItemProps {
   mediaId: number;
@@ -24,20 +25,7 @@ const model = defineModel<boolean>()
 const isOpenModal = ref(model);
 const isOpenCreateModal = ref(false);
 
-watch(() => isOpenCreateModal.value, (value) => {
-  if (!value) {
-    nextTick(() => {
-      isOpenModal.value = true;
-    });
-  }
-});
-
-const onOpenCreateModal = () => {
-  isOpenModal.value = false;
-  nextTick(() => {
-    isOpenCreateModal.value = true;
-  });
-}
+const { onOpenSecondModal } = useSwitchModals(isOpenModal, isOpenCreateModal);
 
 const onOpenButtonClicked = () => {
   if (!isAuthorized.value) {
@@ -71,7 +59,7 @@ const onOpenButtonClicked = () => {
         :class="$style.createListButton"
         scheme="secondary"
         size="medium"
-        @click="onOpenCreateModal"
+        @click="onOpenSecondModal"
       >
         {{ $t('mediaList.create') }}
         <PlusIcon />
