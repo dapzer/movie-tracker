@@ -1231,6 +1231,8 @@ export default {
       successAddedToList: '{media} добавлен в список «{listName}»',
       successRemovedFromList: '{media} удален из списка «{listName}»',
       successRemovedFromCurrentList: '{media} удален из текущего списка',
+      unsuccessfullyRemovedFromCurrentListTV: 'Произошла ошибка при удалении фильма из текущего списка',
+      unsuccessfullyRemovedFromCurrentListMOVIE: 'Произошла ошибка при удалении сериала из текущего списка',
       successSiteToViewChanged: 'Список сайтов для просмотра успешно обновлен',
       unsuccessfullySiteToViewChanged: 'Произошла ошибка при обновлении списка сайтов для просмотра',
       successNoteChanged: 'Заметка успешно обновлена',

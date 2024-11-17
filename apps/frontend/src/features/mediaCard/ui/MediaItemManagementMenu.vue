@@ -7,7 +7,7 @@ import { computed, ref } from "vue"
 import { UiDivider } from "~/components/newUi/UiDivider"
 import { UiButton } from "~/components/newUi/UiButton"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
+import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { toast } from "vue3-toastify"
 
 interface MediaItemManagementMenuDrawerProps {
@@ -18,6 +18,7 @@ const props = defineProps<MediaItemManagementMenuDrawerProps>();
 const { t } = useI18n()
 const currentStatus = ref(props.mediaItem.trackingData.currentStatus)
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
+const deleteMediaItemApi = useDeleteMediaItemApi();
 
 const handleChangeStatus = async () => {
   await updateMediaItemTrackingDataApi.mutateAsync({
@@ -30,6 +31,16 @@ const handleChangeStatus = async () => {
     toast.success(t("toasts.mediaItem.successStatusChanged"));
   }).catch(() => {
     toast.error(t("toasts.mediaItem.unsuccessfullyStatusChanged"));
+  });
+};
+
+const handleDeleteMediaItem = () => {
+  deleteMediaItemApi.mutateAsync(props.mediaItem.id).then(() => {
+    toast.success(t("toasts.mediaItem.successRemovedFromCurrentList", {
+      media: t(`details.mediaType.${props.mediaItem.mediaType}`)
+    }));
+  }).catch(() => {
+    toast.error(t(`toasts.mediaItem.unsuccessfullyRemovedFromCurrentList${props.mediaItem.mediaType}`));
   });
 };
 
@@ -72,6 +83,7 @@ const selectOptions = computed(() => {
         :class="$style.menuItem"
         variant="text"
         scheme="tertiary"
+        @click="handleDeleteMediaItem"
       >
         {{ t("mediaItem.removeFromList") }}
       </UiButton>
