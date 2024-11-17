@@ -1234,6 +1234,7 @@ export default {
       successSiteToViewChanged: 'Список сайтов для просмотра успешно обновлен',
       unsuccessfullySiteToViewChanged: 'Произошла ошибка при обновлении списка сайтов для просмотра',
       successNoteChanged: 'Заметка успешно обновлена',
+      unsuccessfullyNoteChanged: 'Произошла ошибка при обновлении заметки',
       successStatusChanged: 'Статус успешно изменен',
       successTvProgressChanged: "Текущий эпизод и сезон успешно обновлены",
       unsuccessfullyTvProgressChanged: "Произошла ошибка при обновлении текущего эпизода и сезона",

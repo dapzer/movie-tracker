@@ -1230,6 +1230,7 @@ export default {
       successSiteToViewChanged: "The list of sites to view has been successfully updated",
       unsuccessfullySiteToViewChanged: 'Произошла ошибка при обновлении списка сайтов для просмотра',
       successNoteChanged: "Note updated successfully",
+      unsuccessfullyNoteChanged: 'An error occurred while updating the note',
       successStatusChanged: "Status changed successfully",
       successTvProgressChanged: "Current episode and season updated successfully",
       unsuccessfullyTvProgressChanged: "An error occurred while updating the current episode and season",
