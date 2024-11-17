@@ -32,7 +32,7 @@ const currentValue = ref<{
 });
 
 watch(() => currentValue.value.currentSeason, () => {
-  currentValue.value.currentEpisode = "0";
+  currentValue.value.currentEpisode = "1";
 });
 
 const seasonOptions = computed(() => {
@@ -53,7 +53,7 @@ const episodeOptions = computed(() => {
   for (let i = 0; i < episodeCount; i++) {
     result.push({
       label: (i + 1).toString(),
-      value: (i).toString()
+      value: (i + 1).toString()
     });
   }
   return result;
@@ -85,7 +85,7 @@ const handleChange = () => {
       </UiTypography>
       <UiSelect
         v-model="currentValue.currentSeason"
-        :width="126"
+        :width="184"
         :disabled="updateMediaItemTrackingDataApi.isPending.value"
         :options="seasonOptions"
         @update:model-value="handleChange"
@@ -97,7 +97,7 @@ const handleChange = () => {
       </UiTypography>
       <UiSelect
         v-model="currentValue.currentEpisode"
-        :width="126"
+        :width="184"
         :disabled="updateMediaItemTrackingDataApi.isPending.value"
         :options="episodeOptions"
         @update:model-value="handleChange"
