@@ -33,36 +33,9 @@ const slots = defineSlots()
 </template>
 
 <style module lang="scss">
+@import "~/styles/mixins";
+
 .wrapper {
-  padding: 6px;
-  color: var(--c-text);
-  font-size: var(--fs-label);
-  line-height: var(--lh-label);
-  font-weight: var(--fw-medium);
-  font-family: var(--ff-inter);
-
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  outline: none;
-
-  .icon {
-    width: 16px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .iconEnd {
-    justify-self: flex-end;
-  }
-
-  &:active,
-  &:focus,
-  &:hover {
-    cursor: pointer;
-    background: var(--c-card-background-hovered);
-  }
+  @include dropdownItem;
 }
 </style>

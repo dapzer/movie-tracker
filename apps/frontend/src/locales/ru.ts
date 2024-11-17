@@ -1133,6 +1133,7 @@ export default {
       title: 'Меню отслеживания',
       siteToView: 'Cайт для просмотра',
       addSiteToView: 'Добавить сайт для просмотра',
+      newSitePlaceholder: 'URL-адрес сайта',
       currentEpisode: 'Текущий эпизод',
       currentSeason: 'Текущий сезон',
       tabs: {
@@ -1231,8 +1232,11 @@ export default {
       successRemovedFromList: '{media} удален из списка «{listName}»',
       successRemovedFromCurrentList: '{media} удален из текущего списка',
       successSiteToViewChanged: 'Список сайтов для просмотра успешно обновлен',
+      unsuccessfullySiteToViewChanged: 'Произошла ошибка при обновлении списка сайтов для просмотра',
       successNoteChanged: 'Заметка успешно обновлена',
       successStatusChanged: 'Статус успешно изменен',
+      successTvProgressChanged: "Текущий эпизод и сезон успешно обновлены",
+      unsuccessfullyTvProgressChanged: "Произошла ошибка при обновлении текущего эпизода и сезона",
     },
     mediaList: {
       successCreated: 'Список успешно создан',

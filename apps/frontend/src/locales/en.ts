@@ -1132,6 +1132,7 @@ export default {
       title: "Tracking menu",
       siteToView: "Site to view",
       addSiteToView: "Add site to view",
+      newSitePlaceholder: 'Website URL',
       currentEpisode: "Current episode",
       currentSeason: "Current season",
       tabs: {
@@ -1227,8 +1228,11 @@ export default {
       successRemovedFromList: "{media} removed from the list «{listName}»",
       successRemovedFromCurrentList: "{media} removed from the current list",
       successSiteToViewChanged: "The list of sites to view has been successfully updated",
+      unsuccessfullySiteToViewChanged: 'Произошла ошибка при обновлении списка сайтов для просмотра',
       successNoteChanged: "Note updated successfully",
       successStatusChanged: "Status changed successfully",
+      successTvProgressChanged: "Current episode and season updated successfully",
+      unsuccessfullyTvProgressChanged: "An error occurred while updating the current episode and season",
     },
     mediaList: {
       successCreated: "List created successfully",

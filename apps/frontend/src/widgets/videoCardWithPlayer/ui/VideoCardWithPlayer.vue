@@ -18,12 +18,10 @@ const props = defineProps<VideoCardWithPlayerProps>();
 <template>
   <UiModal
     :title="props.title"
-    :class="[$style.trigger, {
-      [$style.fullHeight]: props.fullHeight
-    }]"
   >
     <template #trigger="{openModal}">
       <UiVideoCard
+        :class="$style.trigger"
         :fullHeight="props.fullHeight"
         :title="props.title"
         :description="props.description"

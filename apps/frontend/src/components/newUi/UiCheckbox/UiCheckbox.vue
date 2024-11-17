@@ -54,6 +54,7 @@ defineOptions({
   position: absolute;
   width: 100%;
   height: 100%;
+  color: #030304;
   background: var(--c-label-secondary);
   left: 0;
   top: 0;

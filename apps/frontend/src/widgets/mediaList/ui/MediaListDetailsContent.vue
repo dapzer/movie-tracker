@@ -13,6 +13,7 @@ import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
 import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListItems"
 import { UiPagination } from "~/components/newUi/UiPagination"
 import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
+import { MediaCard } from "~/features/mediaCard"
 
 interface MediaListDetailsProps {
   mediaListItems?: MediaItemType[];
@@ -177,9 +178,11 @@ watch(currentTabMediaItems, () => {
             />
           </template>
           <template v-else-if="currentTabMediaItems.length">
-            <UiMediaCardSkeleton
+            <MediaCard
               v-for="movie in currentTabContent"
               :key="movie.id"
+              :media-item="movie"
+              full-height
             />
           </template>
         </UiCardsGrid>

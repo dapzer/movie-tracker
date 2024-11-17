@@ -1,0 +1,63 @@
+<script lang="ts" setup>
+import type { MediaItemType } from "@movie-tracker/types";
+import { computed, getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports";
+import { useLocalePath } from "#i18n";
+import { UiMediaCard } from "~/components/newUi/UiCard"
+import { formatDate } from "~/utils/formatDate"
+import { UiButton } from "~/components/newUi/UiButton"
+import { ManagementIcon } from "~/components/ui/icons.js"
+import { ref } from "vue"
+import MediaCardTrackingMenuDrawer from "~/features/mediaCard/ui/MediaCardManagementMenuDrawer.vue"
+
+interface MediaCardProps {
+  mediaItem: MediaItemType;
+  width?: number;
+  fullHeight?: boolean;
+}
+
+const props = defineProps<MediaCardProps>();
+
+const localePath = useLocalePath();
+const { locale } = useI18n();
+const isTrackingMenuOpen = ref(false);
+
+const details = computed(() => {
+  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value)
+})
+
+const createdDate = computed(() => {
+  return formatDate(props.mediaItem.createdAt, locale.value);
+});
+</script>
+
+<template>
+  <UiMediaCard
+    :class="$style.wrapper"
+    :title="(details?.title || details?.originalTitle)!"
+    :description="createdDate"
+    :image-src="getProxiedImageUrl(details?.poster, 360)"
+    :link-url="localePath(`/details/${props.mediaItem.mediaType}/${props.mediaItem.mediaId}`)"
+    :width="props.width"
+    :full-height="props.fullHeight"
+    fallback-image-src="/defaultMoviePoster.svg"
+  >
+    <template #control>
+      <UiButton
+        variant="text"
+        @click="isTrackingMenuOpen = true"
+      >
+        <ManagementIcon />
+        <MediaCardTrackingMenuDrawer
+          v-model="isTrackingMenuOpen"
+          :media-item="props.mediaItem"
+        />
+      </UiButton>
+    </template>
+  </UiMediaCard>
+</template>
+
+<style lang="scss" module>
+.wrapper {
+  position: relative;
+}
+</style>
