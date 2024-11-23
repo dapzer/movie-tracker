@@ -13,6 +13,7 @@ interface MediaCardProps {
   mediaItem: MediaItemType;
   width?: number;
   fullHeight?: boolean;
+  hideTrackingMenu?: boolean;
 }
 
 const props = defineProps<MediaCardProps>();
@@ -41,7 +42,10 @@ const createdDate = computed(() => {
     :full-height="props.fullHeight"
     fallback-image-src="/defaultMoviePoster.svg"
   >
-    <template #control>
+    <template
+      v-if="!props.hideTrackingMenu"
+      #control
+    >
       <UiButton
         variant="text"
         @click="isTrackingMenuOpen = true"

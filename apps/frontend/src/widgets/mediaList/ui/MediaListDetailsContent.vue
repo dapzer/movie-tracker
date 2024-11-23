@@ -18,6 +18,7 @@ import { MediaCard } from "~/features/mediaCard"
 interface MediaListDetailsProps {
   mediaListItems?: MediaItemType[];
   isLoading: boolean;
+  isUserListOwner?: boolean;
 }
 
 const props = defineProps<MediaListDetailsProps>();
@@ -183,6 +184,7 @@ watch(currentTabMediaItems, () => {
               :key="movie.id"
               :media-item="movie"
               full-height
+              :hide-tracking-menu="!isUserListOwner"
             />
           </template>
         </UiCardsGrid>

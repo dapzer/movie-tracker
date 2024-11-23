@@ -29,6 +29,7 @@ const props = defineProps<MediaListDetailsProps>();
     <MediaListDetailsContent
       :is-loading="props.isLoading"
       :media-list-items="props.mediaListItems"
+      :is-user-list-owner="props.isUserListOwner"
     />
   </div>
 </template>
