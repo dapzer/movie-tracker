@@ -3,8 +3,8 @@
 import UiTypography from "~/components/ui/UiTypography.vue";
 import { MediaTypeEnum, type TmdbSearchResponseType } from "@movie-tracker/types";
 import { UiCardSkeleton } from "~/components/ui/UiCard";
-import { MovieCard } from "~/widgets/movieCard";
-import { PersonCard } from "~/widgets/personCard";
+import { PersonCard } from "~/entities/personCard";
+import { MovieCard } from "~/entities/movieCard"
 
 interface SearchResultProps {
   searchResult?: TmdbSearchResponseType | null;

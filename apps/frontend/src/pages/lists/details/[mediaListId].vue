@@ -6,7 +6,6 @@ import { useAuth } from "~/composables/useAuth";
 import UiContainer from "~/components/ui/UiContainer.vue";
 import { getShortText, useI18n, useSeoMeta } from "#imports";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
-import { useMediaListSettings } from "~/features/mediaList";
 import { MediaListDetails } from "~/widgets/mediaList"
 import { useUserProfileByIdApi } from "~/api/user/useUserApi"
 import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
@@ -17,7 +16,6 @@ import { useLocalePath } from "#i18n"
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;
 const localePath = useLocalePath()
-const { currentMedaListSettings, handleCategoryState } = useMediaListSettings(mediaListHumanFriendlyId as string);
 const { isLoadingProfile, isInitialLoadingProfile, profile } = useAuth();
 
 const mediaListsApi = useGetMediaListsApi();
