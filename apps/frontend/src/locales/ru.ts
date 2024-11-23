@@ -1123,10 +1123,9 @@ export default {
     changeMediaList: {
       button: 'Изменить список',
       title: 'Изменение списка',
-      description: 'Выберите список, в который необходимо переместить «{title}»',
+      description: 'Выберите список, в который необходимо переместить ‘{title}’',
       noAvailableLists: 'Нет доступных списков.',
       change: 'Переместить',
-      successfullyChanged: 'Кинокартина успешно перемещена в выбранный список',
     },
     trackingMenu: {
       title: 'Меню отслеживания',
@@ -1241,6 +1240,8 @@ export default {
       unsuccessfullyTvProgressChanged: "Произошла ошибка при обновлении текущего эпизода и сезона",
       successCloneCreated: 'Клонирование успешно завершено',
       unsuccessfullyCloneCreated: 'Произошла ошибка при клонировании',
+      successListChanged: "Список успешно изменен",
+      unsuccessfullyListChanged: 'Произошла ошибка при изменении списка.',
     },
     mediaList: {
       successCreated: 'Список успешно создан',

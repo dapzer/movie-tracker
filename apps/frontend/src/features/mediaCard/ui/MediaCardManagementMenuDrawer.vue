@@ -6,6 +6,8 @@ import type { MediaItemType } from "@movie-tracker/types"
 import { UiModal } from "~/components/newUi/UiModal"
 import { computed, ref } from "vue"
 import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
+import MediaItemChangeMediaListModal
+  from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListModal.vue"
 
 interface MediaCardManagementMenuDrawerProps {
   mediaItem: MediaItemType;
@@ -14,10 +16,12 @@ interface MediaCardManagementMenuDrawerProps {
 const props = defineProps<MediaCardManagementMenuDrawerProps>();
 const model = defineModel<boolean>()
 const isOpenCloneModal = ref(false);
+const isOpenChangeMediaListModal = ref(false);
 const { isMobile } = useIsMobile()
 const { locale, t } = useI18n();
 
 const { onOpenSecondModal: handleOpenCloneModal } = useSwitchModals(model, isOpenCloneModal);
+const { onOpenSecondModal: handleOpenChangeMediaListModal } = useSwitchModals(model, isOpenChangeMediaListModal);
 
 const currentMediaDetails = computed(() => {
   return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value);
@@ -36,6 +40,7 @@ const currentMediaDetails = computed(() => {
         <MediaCardTrackingMenu
           :media-item="props.mediaItem"
           @clone="handleOpenCloneModal"
+          @change-media-list="handleOpenChangeMediaListModal"
         />
       </template>
     </UiModal>
@@ -48,12 +53,17 @@ const currentMediaDetails = computed(() => {
         <MediaCardTrackingMenu
           :media-item="props.mediaItem"
           @clone="handleOpenCloneModal"
+          @change-media-list="handleOpenChangeMediaListModal"
         />
       </template>
     </UiBottomDrawer>
 
     <MediaItemCreateCloneModal
       v-model="isOpenCloneModal"
+      :media-item="props.mediaItem"
+    />
+    <MediaItemChangeMediaListModal
+      v-model="isOpenChangeMediaListModal"
       :media-item="props.mediaItem"
     />
   </ClientOnly>

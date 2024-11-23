@@ -1122,10 +1122,9 @@ export default {
     changeMediaList: {
       button: "Change list",
       title: "Change list",
-      description: "Select the list to which you want to move «{title}»",
+      description: "Select the list to which you want to move ‘{title}’",
       noAvailableLists: "No lists available.",
       change: "Change",
-      successfullyChanged: "The movie has been successfully moved to the selected list",
     },
     trackingMenu: {
       title: "Tracking menu",
@@ -1237,6 +1236,8 @@ export default {
       unsuccessfullyTvProgressChanged: "An error occurred while updating the current episode and season",
       successCloneCreated: 'Cloning completed successfully',
       unsuccessfullyCloneCreated: 'An error occurred while cloning',
+      successListChanged: "List changed successfully",
+      unsuccessfullyListChanged: 'An error occurred while changing the list',
     },
     mediaList: {
       successCreated: "List created successfully",

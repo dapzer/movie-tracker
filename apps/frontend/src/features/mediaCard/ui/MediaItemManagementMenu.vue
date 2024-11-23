@@ -74,6 +74,7 @@ const selectOptions = computed(() => {
       <UiButton
         :class="$style.menuItem"
         variant="text"
+        @click="emits('changeMediaList')"
       >
         {{ t("mediaItem.changeMediaList.button") }}
       </UiButton>

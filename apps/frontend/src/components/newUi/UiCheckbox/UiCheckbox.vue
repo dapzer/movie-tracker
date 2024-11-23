@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { CheckIcon } from "~/components//ui/icons"
 
+interface UiCheckboxProps {
+radio?: boolean;
+}
+
+const props = defineProps<UiCheckboxProps>();
 const inputModel = defineModel();
 
 defineOptions({
@@ -12,8 +17,8 @@ defineOptions({
   <label :class="$style.body">
     <input
       v-model="inputModel"
+      :type="props.radio ?'radio' : 'checkbox'"
       v-bind="$attrs"
-      type="checkbox"
     >
     <span :class="$style.transition">
       <CheckIcon />

@@ -6,6 +6,7 @@ import { UiCheckbox } from "~/components/newUi/UiCheckbox"
 interface UiFormListItemProps {
   title: string
   description: string
+  radio?: boolean
 }
 
 const props = defineProps<UiFormListItemProps>()
@@ -22,6 +23,7 @@ defineOptions({
       <UiCheckbox
         v-bind="$attrs"
         v-model="model"
+        :radio="props.radio"
       />
       <UiTypography variant="label">
         {{ props.title }}
