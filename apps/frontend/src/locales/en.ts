@@ -1114,7 +1114,7 @@ export default {
     createClone: {
       button: "Copy to other lists",
       title: "Making a clone",
-      description: "Specify the lists to clone to ‘{tile}’",
+      description: "Specify the lists to clone to ‘{title}’",
       isSaveCreationDate: "Clone with current date added",
       noAvailableLists: "No lists available.",
       clone: "Clone",
