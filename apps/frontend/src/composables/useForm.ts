@@ -6,7 +6,7 @@ import { isRef } from '#build/imports';
 
 interface FormArgs<T extends object> {
   initialValue: ComputedRef<T> | Ref<T> | T;
-  validationSchema: ObjectSchema<AnyObject> | ((formValue: T) => ObjectSchema<AnyObject>);
+  validationSchema?: ObjectSchema<AnyObject> | ((formValue: T) => ObjectSchema<AnyObject>);
   onSubmit: (formValue: T) => void;
 }
 
@@ -32,6 +32,10 @@ export const useForm = <T extends object>(args: FormArgs<T>) => {
   };
 
   const onFormSubmit = async () => {
+    if (!validationSchema) {
+      onSubmit(formValue.value as T);
+      return;
+    }
     const currentValidationSchema = typeof validationSchema === 'function' ? validationSchema(formValue.value) : validationSchema;
     await validateAndSave(formValue.value, currentValidationSchema, errors, () => {
       onSubmit(formValue.value as T);

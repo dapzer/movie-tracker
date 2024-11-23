@@ -15,6 +15,10 @@ interface MediaItemManagementMenuDrawerProps {
 }
 
 const props = defineProps<MediaItemManagementMenuDrawerProps>();
+const emits = defineEmits<{
+  (event: "clone"): void;
+  (event: "changeMediaList"): void;
+}>();
 const { t } = useI18n()
 const currentStatus = ref(props.mediaItem.trackingData.currentStatus)
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
@@ -76,6 +80,7 @@ const selectOptions = computed(() => {
       <UiButton
         :class="$style.menuItem"
         variant="text"
+        @click="emits('clone')"
       >
         {{ t("mediaItem.createClone.button") }}
       </UiButton>
@@ -106,7 +111,10 @@ const selectOptions = computed(() => {
     .menuItem {
       width: 100%;
       @include dropdownItem;
-      &:hover {
+
+      &:hover,
+      &:focus,
+      &:active {
         background: var(--c-white-05);
       }
     }

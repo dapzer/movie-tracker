@@ -1,0 +1,156 @@
+<script setup lang="ts">
+
+import type { MediaItemType } from "@movie-tracker/types"
+import { UiInput } from "~/components/newUi/UiInput"
+import { SearchIcon } from "~/components/ui/icons"
+import { computed, ref } from "vue"
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
+import { useForm, useI18n } from "#imports"
+import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiSwitch } from "~/components/newUi/UiSwitch"
+import { UiButton } from "~/components/newUi/UiButton"
+import { toast } from "vue3-toastify"
+import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+
+interface MediaItemCreateCloneFormProps {
+  mediaItem: MediaItemType;
+}
+
+const props = defineProps<MediaItemCreateCloneFormProps>();
+const model = defineModel<boolean>();
+const getMediaListsApi = useGetMediaListsApi();
+const getMediaItemsApi = useGetMediaItemsApi();
+const { t } = useI18n();
+const searchTerm = ref("");
+const createMediaItemCloneApi = useCreateMediaItemCloneApi();
+
+const { formValue, onFormSubmit } = useForm({
+  initialValue: {
+    selectedMediaListIds: [],
+    isSaveCreationDate: false,
+  },
+  onSubmit: (formValue) => {
+    Promise.all(formValue.selectedMediaListIds.map(listId => {
+      return createMediaItemCloneApi.mutateAsync({
+        mediaListId: listId,
+        isSaveCreationDate: formValue.isSaveCreationDate,
+        mediaItemId: props.mediaItem.id
+      });
+    })).then(() => {
+      toast.success(t("toasts.mediaItem.successCloneCreated"));
+      model.value = false
+    }).catch(() => {
+      toast.error(t("toasts.mediaItem.unsuccessfullyCloneCreated"));
+    });
+  }
+})
+
+const availableMediaLists = computed(() => {
+  if (!getMediaListsApi.data.value) return [];
+
+  return getMediaListsApi.data.value.filter(item => {
+    if (getMediaItemsApi.data.value?.some(el => {
+      return el.mediaType === props.mediaItem.mediaType && el.mediaId === props.mediaItem.mediaId && el.mediaListId === item.id
+    })) return false
+
+    return searchTerm.value
+        ? (item.title || t('mediaList.favorites')).toLowerCase().includes(searchTerm.value.toLowerCase())
+        : true;
+  }) || [];
+});
+</script>
+
+<template>
+  <div :class="$style.wrapper">
+    <div :class="$style.header">
+      <UiInput
+        v-model="searchTerm"
+        size="small"
+        :placeholder="$t('search.placeholder')"
+      >
+        <template #icon>
+          <SearchIcon />
+        </template>
+      </UiInput>
+      <slot name="action" />
+    </div>
+    <div :class="$style.list">
+      <template v-if="availableMediaLists.length">
+        <MediaItemCreateCloneFormItem
+          v-for="mediaList in availableMediaLists"
+          :key="mediaList.id"
+          v-model="formValue.selectedMediaListIds"
+          :disabled="createMediaItemCloneApi.isPending.value"
+          :value="mediaList.id"
+          :media-list="mediaList"
+        />
+      </template>
+      <UiTypography
+        v-else
+        :class="$style.nothingFound"
+        variant="description"
+      >
+        {{ searchTerm.length ? $t("ui.errors.nothingFound") : $t("mediaItem.createClone.noAvailableLists") }}
+      </UiTypography>
+    </div>
+
+    <div :class="$style.switch">
+      <UiTypography variant="description">
+        {{ $t('mediaItem.createClone.isSaveCreationDate') }}
+      </UiTypography>
+      <UiSwitch v-model="formValue.isSaveCreationDate" />
+    </div>
+
+    <div :class="$style.actions">
+      <UiButton
+        size="small"
+        :disabled="createMediaItemCloneApi.isPending.value || !formValue.selectedMediaListIds.length"
+        @click="onFormSubmit"
+      >
+        {{ $t('mediaItem.createClone.clone') }}
+      </UiButton>
+    </div>
+  </div>
+</template>
+
+<style module lang="scss">
+@import "~/styles/mixins";
+@import "~/styles/newVariables";
+
+.wrapper {
+  flex-direction: column;
+  display: flex;
+  gap: 12px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .list {
+    min-width: 0;
+    overflow-y: auto;
+    max-height: calc(40px * 5);
+  }
+
+  .nothingFound {
+    text-align: center;
+  }
+
+  .switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .actions {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+</style>

@@ -112,8 +112,8 @@ const filteredMediaLists = computed(() => {
   }
 
   return getMediaListsApi.data.value.filter((list) =>
-      list.title?.toLowerCase().includes(searchTerm.value.toLowerCase()) || !list.title &&
-      t('mediaList.favorites').toLowerCase().includes(searchTerm.value.toLowerCase()));
+      (list.title || t('mediaList.favorites')).toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
 });
 </script>
 
@@ -141,8 +141,6 @@ const filteredMediaLists = computed(() => {
           :key="mediaList.id"
           v-model="currentListStates[mediaList.id]"
           :disabled="isLoading"
-          :media-id="props.mediaId"
-          :media-type="props.mediaType"
           :media-list="mediaList"
           @change="(e: Event) => handleCheckboxChange(mediaList.id, (e.target as HTMLInputElement).checked)"
         />

@@ -1114,11 +1114,10 @@ export default {
     createClone: {
       button: "Copy to other lists",
       title: "Making a clone",
-      description: "Specify the lists to clone to «{title}»",
+      description: "Specify the lists to clone to ‘{tile}’",
       isSaveCreationDate: "Clone with current date added",
       noAvailableLists: "No lists available.",
       clone: "Clone",
-      successfullyCreated: "The movie has been successfully cloned to the selected lists",
     },
     changeMediaList: {
       button: "Change list",
@@ -1236,6 +1235,8 @@ export default {
       successStatusChanged: "Status changed successfully",
       successTvProgressChanged: "Current episode and season updated successfully",
       unsuccessfullyTvProgressChanged: "An error occurred while updating the current episode and season",
+      successCloneCreated: 'Cloning completed successfully',
+      unsuccessfullyCloneCreated: 'An error occurred while cloning',
     },
     mediaList: {
       successCreated: "List created successfully",

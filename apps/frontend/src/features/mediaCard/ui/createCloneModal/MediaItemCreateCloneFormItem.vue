@@ -6,12 +6,12 @@ import { LockerIcon, SharedPlanetIcon } from "~/components/ui/icons"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
 import { UiFormListItem } from "~/components/newUi/UiFormListItem"
 
-interface AddMediaItemToListsFormItemProps {
+interface MediaItemCreateCloneFormItemProps {
   mediaList: MediaListType;
 }
 
-const props = defineProps<AddMediaItemToListsFormItemProps>();
-const model = defineModel<boolean>()
+const props = defineProps<MediaItemCreateCloneFormItemProps>();
+const model = defineModel()
 
 const getMediaItemsApi = useGetMediaItemsApi();
 

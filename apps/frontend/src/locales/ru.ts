@@ -1115,11 +1115,10 @@ export default {
     createClone: {
       button: 'Клонировать в другие списки',
       title: 'Клонирование кинокартины',
-      description: 'Выберите списки, в которые необходимо клонировать «{title}»',
+      description: "Выберите списки, в которые необходимо клонировать ‘{title}’",
       isSaveCreationDate: 'Клонировать с текущей датой добавления',
       noAvailableLists: 'Нет доступных списков.',
       clone: 'Клонировать',
-      successfullyCreated: 'Кинокартина успешно клонирована в выбранные списки',
     },
     changeMediaList: {
       button: 'Изменить список',
@@ -1240,6 +1239,8 @@ export default {
       successStatusChanged: 'Статус успешно изменен',
       successTvProgressChanged: "Текущий эпизод и сезон успешно обновлены",
       unsuccessfullyTvProgressChanged: "Произошла ошибка при обновлении текущего эпизода и сезона",
+      successCloneCreated: 'Клонирование успешно завершено',
+      unsuccessfullyCloneCreated: 'Произошла ошибка при клонировании',
     },
     mediaList: {
       successCreated: 'Список успешно создан',
