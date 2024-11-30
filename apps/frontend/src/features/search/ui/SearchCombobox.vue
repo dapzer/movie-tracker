@@ -96,7 +96,7 @@ const itemsToRender = computed(() => {
 
       <UiAttention
         v-if="!itemsToRender.length"
-        title-variant="title3"
+        title-variant="text"
         :indent="0"
         :title="$t('search.notingFound')"
       />
