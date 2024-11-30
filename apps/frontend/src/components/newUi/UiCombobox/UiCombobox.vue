@@ -2,7 +2,7 @@
 import { ComboboxAnchor, ComboboxInput, ComboboxRoot, } from 'radix-vue'
 import { CloseIcon, SearchIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
-import { ref, VNodeRef, watch } from "vue"
+import { ref, type VNodeRef, watch } from "vue"
 
 interface UiComboboxProps {
   width?: number
