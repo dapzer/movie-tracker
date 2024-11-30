@@ -8,6 +8,7 @@ import { UiRating } from "~/components/newUi/UiRating"
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType;
+  horizontalTitle?: boolean;
   width?: number;
   fullHeight?: boolean;
   imageWidth?: number;
@@ -41,7 +42,11 @@ const slots = defineSlots()
     </template>
 
     <template #title>
-      <div :class="$style.titleWrapper">
+      <div
+        :class="[$style.titleWrapper, {
+          [$style.horizontal]: props.horizontalTitle
+        }]"
+      >
         <UiTypography
           :class="$style.title"
           variant="cardTitle"
@@ -68,6 +73,12 @@ const slots = defineSlots()
   display: flex;
   flex-direction: column;
   gap: 4px;
+
+  &.horizontal {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+  }
 
   .title {
     @include multiLineEllipsis(2);

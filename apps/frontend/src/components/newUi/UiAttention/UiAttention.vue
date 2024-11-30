@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography, type UiTypographyVariant } from "~/components/newUi/UiTypography"
 
 interface UiAttentionProps {
   title: string;
   description?: string;
   indent?: number;
+  titleVariant?: UiTypographyVariant;
 }
 
 const props = withDefaults(defineProps<UiAttentionProps>(), {
-  indent: 70
+  indent: 70,
+  titleVariant: "title4",
 });
 </script>
 
@@ -17,7 +19,7 @@ const props = withDefaults(defineProps<UiAttentionProps>(), {
     :class="$style.wrapper"
     :style="{ '--indent': `${props.indent}px` }"
   >
-    <UiTypography variant="title4">
+    <UiTypography :variant="props.titleVariant">
       {{ props.title }}
     </UiTypography>
     <UiTypography v-if="props.description">

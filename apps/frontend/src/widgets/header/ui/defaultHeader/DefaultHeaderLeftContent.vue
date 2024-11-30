@@ -3,6 +3,7 @@
 import { UiButton } from "~/components/newUi/UiButton"
 import { BurgerMenuIcon, CrossIcon } from "~/components/ui/icons"
 import { AppLogo } from "~/shared/ui/appLogo"
+import { SearchCombobox } from "~/features/search"
 
 const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 </script>
@@ -19,6 +20,7 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
       <CrossIcon v-else />
     </UiButton>
     <AppLogo />
+    <SearchCombobox :class="$style.search" />
   </div>
 </template>
 
@@ -28,9 +30,23 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 
 .wrapper {
   display: flex;
-  gap: 8px;
   align-items: center;
+  width: 100%;
+  gap: 8px;
 
+  .search {
+    margin-right: 110px;
+    margin-left: 110px;
+
+    @include tabletDevice() {
+      margin-right: 28px;
+      margin-left: 28px;
+    }
+
+    @include mobilePlusDevice() {
+      display: none;
+    }
+  }
 
   .trigger {
     display: none;

@@ -54,6 +54,8 @@ const slots = defineSlots()
 </template>
 
 <style module lang="scss">
+@import "~/styles/mixins";
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -88,45 +90,7 @@ const slots = defineSlots()
   }
 
   input {
-    background: transparent;
-    padding: 10px 14px;
-    font-size: var(--fs-input);
-    line-height: var(--lh-input);
-    height: 44px;
-    font-family: var(--ff-inter);
-    color: var(--c-text);
-    outline: none;
-    border: 1px solid var(--c-stroke);
-    border-radius: var(--s-border-radius-medium);
-    width: 100%;
-
-    &.withIcon {
-      padding-left: 38px;
-    }
-
-    &.small {
-      padding: 8px 10px;
-      font-size: var(--fs-input-small);
-      line-height: var(--lh-input);
-      height: 36px;
-      &.withIcon {
-        padding-left: 34px;
-      }
-    }
-
-    &.errored {
-      border-color: var(--c-error-2);
-    }
-
-    &:active:not(:disabled),
-    &:focus {
-      background: var(--c-card-background-hovered);
-      border-color: var(--c-label-secondary);
-    }
-
-    &:disabled {
-      opacity: var(--s-disabled-opacity);
-    }
+    @include input;
   }
 
   .error {

@@ -6,6 +6,7 @@ import { UiMediaCard, UiMediaCardHorizontal, UiMediaCardSkeleton } from '~/compo
 import { UiVideoCard } from '~/components/newUi/UiCard/videoCard';
 import { UiListCard } from '~/components/newUi/UiCard/listCard';
 import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
+import UiMediaCardHorizontalSkeleton from "~/components/newUi/UiCard/mediaCard/UiMediaCardHorizontalSkeleton.vue"
 </script>
 
 <template>
@@ -96,6 +97,12 @@ import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
         title="MediaCardSkeleton"
       >
         <UiMediaCardSkeleton />
+      </Variant>
+      
+      <Variant
+        title="UiMediaCardHorizontalSkeleton"
+      >
+        <UiMediaCardHorizontalSkeleton />
       </Variant>
 
       <Variant

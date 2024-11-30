@@ -35,6 +35,7 @@ const onClickLogo = () => {
 </template>
 
 <style lang="scss" module>
+@import "~/styles/mixins";
 
 .wrapper {
   display: flex;
@@ -49,6 +50,7 @@ const onClickLogo = () => {
     font-size: var(--fs-logo);
     line-height: var(--lh-logo);
     height: 20px;
+    @include ellipsisText();
   }
 }
 </style>
