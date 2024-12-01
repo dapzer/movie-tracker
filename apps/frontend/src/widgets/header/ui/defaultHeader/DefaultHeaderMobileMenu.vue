@@ -6,48 +6,50 @@ import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { UiDivider } from "~/components/newUi/UiDivider"
 import DefaultHeaderMobileMenuFooter from "~/widgets/header/ui/defaultHeader/DefaultHeaderMobileMenuFooter.vue"
+import { UiModalFullscreen } from "~/components/newUi/UiModal"
+import { UiContainer } from "~/components/newUi/UiContainer"
 
-const emit = defineEmits<{
-  (e: "toggleMobileMenu"): void
-}>();
-
+const model = defineModel<boolean>()
 const localePath = useLocalePath();
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.links">
-      <template
-        v-for="(link, index) in listsNavigationLinks"
-        :key="link.path"
-      >
-        <UiTypography
-          :as="NuxtLink"
-          variant="label"
-          :to="localePath(link.path)"
-          @click="emit('toggleMobileMenu')"
-        >
-          {{ $t(link.title) }}
-        </UiTypography>
-        <UiDivider v-if="index < listsNavigationLinks.length - 1" />
-      </template>
-    </div>
-    <DefaultHeaderMobileMenuFooter />
-  </div>
+  <UiModalFullscreen
+    v-model="model"
+    :indent-top="68"
+  >
+    <template #content>
+      <UiContainer :class="$style.wrapper">
+        <div :class="$style.links">
+          <template
+            v-for="(link, index) in listsNavigationLinks"
+            :key="link.path"
+          >
+            <UiTypography
+              :as="NuxtLink"
+              variant="label"
+              :to="localePath(link.path)"
+              @click="model = false"
+            >
+              {{ $t(link.title) }}
+            </UiTypography>
+            <UiDivider v-if="index < listsNavigationLinks.length - 1" />
+          </template>
+        </div>
+        <DefaultHeaderMobileMenuFooter />
+      </UiContainer>
+    </template>
+  </UiModalFullscreen>
 </template>
 
 <style module lang="scss">
 .wrapper {
-  width: 100%;
-  position: fixed;
-  top: var(--s-header-height);
-  left: 0;
-  height: calc(100% - var(--s-header-height));
-  background-color: var(--c-main-background);
-  padding: 16px 20px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-top: 16px;
+  padding-bottom: 16px;
 
   .links {
     display: flex;

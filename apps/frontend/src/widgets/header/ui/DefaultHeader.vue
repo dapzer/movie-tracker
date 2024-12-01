@@ -9,10 +9,6 @@ import SearchModal from "~/features/search/ui/SearchModal.vue"
 
 const isMobileMenuOpen = ref(false);
 const isSearchModalOpen = ref(false);
-
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
-}
 </script>
 
 <template>
@@ -21,7 +17,7 @@ const toggleMobileMenu = () => {
     <DefaultHeaderRightContent @handle-open-search-modal="isSearchModalOpen = true" />
     <DefaultHeaderMobileMenu
       v-if="isMobileMenuOpen"
-      @toggle-mobile-menu="toggleMobileMenu"
+      v-model="isMobileMenuOpen"
     />
     <SearchModal
       v-if="isSearchModalOpen"
