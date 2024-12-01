@@ -23,7 +23,8 @@ const props = withDefaults(defineProps<UiDividerProps>(), {
 .body {
   border: none;
   width: 100%;
-  height: var(--height);
+  min-height: var(--height);
+  max-height: var(--height);
   background: var(--c-stroke);
 
   &.vertical {

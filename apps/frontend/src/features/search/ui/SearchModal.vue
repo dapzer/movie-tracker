@@ -13,7 +13,6 @@ import { CrossIcon, SearchIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/newUi/UiButton"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
-import { UiComboboxSeparator } from "~/components/newUi/UiCombobox"
 import { UiMediaCardHorizontalSkeleton } from "~/components/newUi/UiCard"
 import { ref, type VNodeRef } from "vue"
 import { UiAttention } from "~/components/newUi/UiAttention"
@@ -86,7 +85,7 @@ const itemsToRender = computed(() => {
                 :class="$style.card"
                 @click="() => handleItemClick(item)"
               />
-              <UiComboboxSeparator v-if="index < itemsToRender.length - 1" />
+              <UiDivider v-if="index < itemsToRender.length - 1" />
             </template>
 
             <UiAttention
@@ -105,7 +104,7 @@ const itemsToRender = computed(() => {
               <UiMediaCardHorizontalSkeleton
                 :image-width="60"
               />
-              <UiComboboxSeparator v-if="index < 5" />
+              <UiDivider v-if="index < 5" />
             </template>
           </template>
         </UiContainer>
