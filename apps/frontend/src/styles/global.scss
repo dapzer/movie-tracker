@@ -48,24 +48,86 @@
     text-decoration: none;
   }
 
-
   li {
     list-style: none;
     font-size: var(--fs-p);
   }
+}
 
-  // Lib
-  .Toastify__toast-theme--dark {
-    background: var(--c-accent) !important;
-    box-shadow: 0 0 20px rgb(0 0 0 / 20%) !important;
+// Lib
 
-    @media only screen and (max-width: 480px) {
-      margin-right: var(--s-indent);
-      margin-left: var(--s-indent);
+.Toastify {
+  --toastify-toast-min-height: 20px;
+  .Toastify__toast-container--top-right {
+    top: calc(10px + var(--s-header-height)) !important;
+    gap: 6px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toast-wrapper {
+    z-index: var(--i-toast) !important;
+    padding: 12px !important;
+    margin: 0 !important;
+    border-radius: var(--s-border-radius-medium) !important;
+    background: var(--c-main-background) !important;
+
+    &:before {
+      content: "";
+      position: absolute;
+      border-radius: var(--s-border-radius-medium) !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--c-white-10);
+      z-index: -1;
+    }
+
+    &.Toastify__toast--success:before {
+      background: var(--c-toast-success-background);
+    }
+
+    &.Toastify__toast--error:before {
+      background: var(--c-toast-error-background);
+    }
+
+    @media only screen and (max-width: 560px) {
+      margin-right: var(--s-indent) !important;
+      margin-left: var(--s-indent) !important;
+    }
+
+    .toast-body {
+      gap: 10px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      align-items: flex-start !important;
+
+      * {
+        font-weight: var(--fw-medium) !important;
+        font-size: var(--fs-p) !important;
+        line-height: var(--lh-p) !important;
+        color: var(--c-text) !important;
+        font-family: var(--ff-inter) !important;
+      }
+
+      .Toastify__toast-icon {
+        margin-inline-end: unset;
+      }
     }
   }
 
-  .Toastify__toast-container--top-right {
-    top: calc(10px + var(--s-header-height)) !important;
+  .Toastify__progress-bar {
+    overflow: hidden;
+    z-index: var(--i-toast-progress) !important;
+    top: 0 !important;
+    bottom: unset !important;
+    height: 2px;
+    border-top-left-radius: var(--s-border-radius);
+    border-top-right-radius: var(--s-border-radius);
+    right: 0;
+    left: 0;
+    margin: 0 auto !important;
+    animation: unset;
   }
 }

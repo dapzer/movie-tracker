@@ -3,7 +3,11 @@ import "vue3-toastify/dist/index.css";
 import { defineNuxtPlugin } from "#app";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(Vue3Toastify, { autoClose: 1500, limit: 2, theme: "dark", position: "top-right" });
+  nuxtApp.vueApp.use(Vue3Toastify, {
+    autoClose: 1500, limit: 2, theme: "dark", position: "top-right", toastClassName: 'toast-wrapper',
+    bodyClassName: 'toast-body',
+    progressClassName: 'toast-progress-bar',
+  });
 
   return {
     provide: { toast }

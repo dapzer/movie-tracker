@@ -55,6 +55,8 @@ $bp-sm: 568px;
   --c-label-lihk-hovered: #7EC3FF;
   --c-label-tertiary: #C64646;
   --c-description: #9F9F9F;
+  --c-toast-success-background: rgba(53, 146, 63, 0.2);
+  --c-toast-error-background: rgba(155, 55, 47, 0.25);
 
   /* Font Family */
 
@@ -199,6 +201,10 @@ $bp-sm: 568px;
   --s-disabled-opacity: 0.5;
 
   /* Indexes */
+
+
+  --i-toast: 1100;
+  --i-toast-progress: 1000;
 
   --i-header: 100;
   --i-ui-details: 90;
