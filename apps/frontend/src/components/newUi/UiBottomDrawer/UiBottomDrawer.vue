@@ -65,6 +65,7 @@ const model = defineModel<boolean>()
 @import "~/styles/mixins";
 
 .overlay {
+  z-index: var(--i-modal);
   background: var(--c-black-90);
   position: fixed;
   top: 0;
@@ -76,6 +77,7 @@ const model = defineModel<boolean>()
 }
 
 .contentWrapper {
+  z-index: var(--i-modal);
   width: 100%;
   position: fixed;
   max-height: calc(100% - 208px);
