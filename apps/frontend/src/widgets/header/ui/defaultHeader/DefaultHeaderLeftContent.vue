@@ -13,7 +13,7 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
     <UiButton
       :class="$style.trigger"
       scheme="default"
-      variant="text"
+      variant="textIcon"
       @click="isMobileMenuOpen = !isMobileMenuOpen"
     >
       <BurgerMenuIcon v-if="!isMobileMenuOpen" />
@@ -50,8 +50,6 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 
   .trigger {
     display: none;
-    align-items: center;
-    justify-content: center;
     width: 32px;
     height: 32px;
 
