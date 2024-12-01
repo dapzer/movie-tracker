@@ -125,6 +125,7 @@ const itemsToRender = computed(() => {
   padding: 12px 0;
 
   .header {
+    height: calc(var(--s-header-height) - 24px);
     display: flex;
     align-items: center;
     gap: 10px;
