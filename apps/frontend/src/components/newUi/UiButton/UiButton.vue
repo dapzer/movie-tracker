@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
 
-export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded"
+export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"
 export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link"
 
@@ -31,6 +31,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.link]: props.scheme === 'link',
       [$style.boxed]: props.variant === 'boxed',
       [$style.text]: props.variant === 'text',
+      [$style.textIcon]: props.variant === 'textIcon',
       [$style.outlined]: props.variant === 'outlined',
       [$style.rounded]: props.variant === 'rounded',
       [$style.icon]: props.variant === 'icon',
@@ -161,6 +162,65 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   }
 
   .text {
+    &.primary {
+      color: var(--c-text);
+
+      &:focus,
+      &:active,
+      &:hover {
+      }
+    }
+
+    &.secondary {
+      color: var(--c-label-secondary);
+
+      &:focus,
+      &:active,
+      &:hover {
+      }
+    }
+
+    &.tertiary {
+      color: var(--c-label-tertiary);
+
+      &:focus,
+      &:active,
+      &:hover {
+      }
+    }
+
+    &.link {
+      color: var(--c-label-link);
+
+      &:focus,
+      &:active,
+      &:hover {
+        color: var(--c-label-lihk-hovered);
+      }
+    }
+
+    &.large {
+    }
+
+    &.medium {
+    }
+
+    &.small {
+    }
+  }
+
+  .textIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:active,
+    &:focus,
+    &:hover {
+      border-radius: var(--s-border-radius-medium);
+      background: var(--c-stroke);
+    }
+
     &.primary {
       color: var(--c-text);
 

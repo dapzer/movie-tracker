@@ -6,6 +6,13 @@ import { UiButton } from "~/components/newUi/UiButton"
 import { useAuth } from "#imports"
 import { UserProfileDropdown } from "~/features/profile"
 import { SignInLink } from "~/features/auth"
+import { SearchIcon } from "~/components/ui/icons"
+
+interface DefaultHeaderRightContentEmits {
+  (event: "handleOpenSearchModal"): void
+}
+
+const emits = defineEmits<DefaultHeaderRightContentEmits>()
 
 const { profile } = useAuth();
 </script>
@@ -18,7 +25,13 @@ const { profile } = useAuth();
     <div :class="$style.menu">
       <LanguageSelectorDropdown />
     </div>
-    <!--    <SignInModal />-->
+    <UiButton
+      :class="$style.searchButton"
+      variant="textIcon"
+      @click="emits('handleOpenSearchModal')"
+    >
+      <SearchIcon width="24" />
+    </UiButton>
     <SignInLink v-if="!profile">
       <UiButton>
         {{ $t('auth.signIn') }}
@@ -39,11 +52,19 @@ const { profile } = useAuth();
 
   .menu {
     display: flex;
+
+    @include mobilePlusDevice() {
+      display: none;
+    }
   }
 
-  @include mobilePlusDevice() {
-    .menu {
-      display: none;
+  .searchButton {
+    display: none;
+
+    @include mobilePlusDevice() {
+      display: flex;
+      height: 32px;
+      width: 32px;
     }
   }
 }

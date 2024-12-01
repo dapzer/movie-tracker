@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "#imports"
-import { ref, type VNodeRef } from "vue"
 import { UiContainer } from "~/components/newUi/UiContainer"
 import { UiButton } from "~/components/newUi/UiButton"
 import { CrossIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/newUi/UiTypography"
+import { useModalContent } from "~/components/newUi/UiModal/useModalContent"
 
 export interface UiModalProps {
   maxWidth?: number
@@ -18,33 +17,15 @@ export interface UiModalContentEmits {
 
 const props = defineProps<UiModalProps>()
 const emits = defineEmits<UiModalContentEmits>();
-const bodyRef = ref<VNodeRef | null>(null);
+const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose"));
 
-const closeModalOnKeypress = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') {
-    emits("handleClose");
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('keydown', closeModalOnKeypress);
-  document.body.style.overflow = 'hidden';
-  if (bodyRef.value) {
-    bodyRef.value.focus();
-  }
-});
-
-onUnmounted(() => {
-  document.removeEventListener('keydown', closeModalOnKeypress);
-  document.body.style.overflow = '';
-});
 </script>
 
 <template>
   <div
     :class="$style.wrapper"
     @click="emits('handleClose')"
-    @keydown.esc.stop="closeModalOnKeypress"
+    @keydown.esc.stop="handleCloseModal"
   >
     <UiContainer>
       <div
@@ -65,7 +46,7 @@ onUnmounted(() => {
           </UiTypography>
           <UiButton
             :class="$style.closeButton"
-            variant="text"
+            variant="textIcon"
             @click="emits('handleClose')"
           >
             <CrossIcon />
@@ -126,13 +107,6 @@ onUnmounted(() => {
 
         svg {
           width: 12px;
-        }
-
-        &:active,
-        &:focus,
-        &:hover {
-          border-radius: var(--s-border-radius-medium);
-          background: var(--c-stroke);
         }
       }
     }

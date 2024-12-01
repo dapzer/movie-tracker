@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import { computed, useI18n, watch } from "#imports"
-import { isOnlySpaces } from "@movie-tracker/utils"
-import { useGetTmdbSearchByTermApi } from "~/api/tmdb/useTmdbApi"
+import { computed } from "#imports"
 import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "~/components/newUi/UiCombobox"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useRouter } from "#vue-router"
@@ -11,41 +9,13 @@ import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMo
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
 import { UiMediaCardHorizontalSkeleton } from "~/components/newUi/UiCard"
 import UiAttention from "../../../components/newUi/UiAttention/UiAttention.vue"
+import { useSearch } from "~/features/search/model/useSearch"
 
-const { locale } = useI18n();
 const router = useRouter()
 const localePath = useLocalePath();
 
-const searchValue = ref<string>("");
-const searchTerm = ref<string>("");
 const open = ref<boolean>(false);
-
-const searchQueries = computed(() => {
-  return {
-    language: locale.value,
-    searchValue: searchTerm.value,
-    page: 1
-  };
-});
-
-const tmdbGetSearchByTermApi = useGetTmdbSearchByTermApi(searchQueries);
-
-watch(() => searchValue.value, (value, oldValue, onCleanup) => {
-  if (searchValue.value == searchTerm.value) return;
-
-  const delayDebounceFn = setTimeout(() => {
-    if (isOnlySpaces(searchValue.value) && isOnlySpaces(searchTerm.value)) return;
-    if (isOnlySpaces(searchValue.value)) {
-      searchValue.value = "";
-      searchTerm.value = "";
-      return;
-    }
-
-    searchTerm.value = searchValue.value;
-  }, 500);
-
-  onCleanup(() => clearTimeout(delayDebounceFn));
-});
+const {searchValue, tmdbGetSearchByTermApi} = useSearch();
 
 const handleSelect = (item: TmdbSearchResponseResultItemType) => {
   router.push(localePath(`/details/${item.media_type}/${item.id}`));
