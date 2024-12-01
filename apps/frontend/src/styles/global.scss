@@ -58,6 +58,7 @@
 
 .Toastify {
   --toastify-toast-min-height: 20px;
+
   .Toastify__toast-container--top-right {
     top: calc(10px + var(--s-header-height)) !important;
     gap: 6px;
@@ -128,6 +129,5 @@
     right: 0;
     left: 0;
     margin: 0 auto !important;
-    animation: unset;
   }
 }
