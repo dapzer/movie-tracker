@@ -1,6 +1,6 @@
 import type { TmdbPersonExternalIdsType } from "@movie-tracker/types";
 import type { PersonSocialType } from "~/widgets/details/model/PersonSocialType";
-import { FacebookIcon, InstagramIcon, TiktokIcon } from "~/components/ui/icons"
+import { FacebookIcon, InstagramIcon, TiktokIcon, TwitterIcon, YoutubeIcon } from "~/components/ui/icons"
 
 export const getPersonSocialList = (externalIds?: TmdbPersonExternalIdsType) => {
   const result: PersonSocialType[] = [];
@@ -12,7 +12,7 @@ export const getPersonSocialList = (externalIds?: TmdbPersonExternalIdsType) => 
     });
   }
   if (externalIds?.twitter_id) {
-    result.push({ icon: FacebookIcon, url: `https://x.com/${externalIds?.twitter_id}` }
+    result.push({ icon: TwitterIcon, url: `https://x.com/${externalIds?.twitter_id}` }
     );
   }
   if (externalIds?.tiktok_id) {
@@ -20,7 +20,7 @@ export const getPersonSocialList = (externalIds?: TmdbPersonExternalIdsType) => 
   }
   if (externalIds?.youtube_id) {
     result.push({
-      icon: FacebookIcon,
+      icon: YoutubeIcon,
       url: `https://youtube.com/${externalIds?.youtube_id}`
     });
   }
