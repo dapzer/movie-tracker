@@ -26,14 +26,19 @@ const localePath = useLocalePath()
           </UiTypography>
         </div>
         <div :class="$style.navigationItem">
+          <!-- TODO: show after implement pages-->
           <UiTypography
+            v-if="false"
             variant="label"
             :class="$style.title"
           >
             Movie Tracker
           </UiTypography>
 
-          <div :class="$style.links">
+          <div
+            v-if="false"
+            :class="$style.links"
+          >
             <DefaultFooterLinkList :links="movieTrackerLinks" />
           </div>
         </div>
