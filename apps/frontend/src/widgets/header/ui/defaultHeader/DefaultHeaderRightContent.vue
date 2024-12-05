@@ -49,6 +49,8 @@ const { profile } = useAuth();
   display: flex;
   align-items: center;
   gap: 16px;
+  width: 100%;
+  max-width: max-content;
 
   .menu {
     display: flex;
