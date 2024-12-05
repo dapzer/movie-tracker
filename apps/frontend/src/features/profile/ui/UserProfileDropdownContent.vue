@@ -56,7 +56,9 @@ const isAdmin = computed(() => {
         {{ $t('dashboard.title') }}
       </template>
     </UiDropdownItem>
+    <!-- TODO: show after implement page -->
     <UiDropdownItem
+      v-if="false"
       :as="NuxtLink"
       :to="localePath('/settings')"
     >
