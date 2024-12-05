@@ -114,10 +114,13 @@ onUnmounted(() => {
     span {
       max-width: 208px;
       width: 100%;
-      height: 17px;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
 
       &.titleEn {
-        max-width: 165px;
+        max-width: 155px;
       }
 
       @include ellipsisText();

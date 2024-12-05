@@ -12,7 +12,7 @@ export const authProvidersList = [
     icon: YandexIcon,
   },
   {
-    title: 'Vkontakte',
+    title: 'VK',
     provider: 'vk',
     icon: VkontakteIcon,
   },
