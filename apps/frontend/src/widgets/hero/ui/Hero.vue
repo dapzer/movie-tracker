@@ -2,9 +2,10 @@
 import { UiContainer } from "~/components/newUi/UiContainer";
 import { UiTypography } from "~/components/newUi/UiTypography";
 import { UiButton } from "~/components/newUi/UiButton"
-import { useLocalePath } from "#i18n"
+import { useAuth, useNavigateToSignInPage } from "#imports"
 
-const localePath = useLocalePath();
+const {navigateToSignInPage} = useNavigateToSignInPage()
+const {isAuthorized}  = useAuth()
 </script>
 
 <template>
@@ -22,14 +23,13 @@ const localePath = useLocalePath();
         {{ $t('hero.aboutService') }}
       </UiTypography>
 
-      <NuxtLink
-        :to="localePath('/about')"
+      <UiButton
+        v-if="!isAuthorized"
         :class="$style.button"
+        @click="navigateToSignInPage"
       >
-        <UiButton>
-          {{ $t('hero.button') }}
-        </UiButton>
-      </NuxtLink>
+        {{ $t('hero.button') }}
+      </UiButton>
     </UiContainer>
   </section>
 </template>
@@ -55,6 +55,8 @@ const localePath = useLocalePath();
 
     .button {
       margin-top: 8px;
+      margin-right: auto;
+      margin-left: auto;
     }
 
     .description {
