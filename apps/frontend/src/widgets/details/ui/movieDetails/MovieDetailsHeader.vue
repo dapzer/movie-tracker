@@ -6,10 +6,9 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils";
 import { computed } from "vue";
 import MovieDetailsProducers from "./MovieDetailsProducers.vue";
-import { getProxiedImageUrl, useI18n } from "#imports";
+import { formatDate, getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
-import { checkIsValidDate } from "~/utils/checkIsValidDate";
 import { UiRating } from "~/components/newUi/UiRating"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 
@@ -28,18 +27,6 @@ const producers = computed(() => {
   if (!props.credits || props.mediaType !== TmdbMediaTypeEnum.MOVIE) return [];
   return getMovieDirectors(props.credits.crew);
 });
-
-const releaseDate = computed(() => {
-  if (!props.details) return "";
-  const date = new Date(props.details?.release_date || props.details?.first_air_date).toLocaleDateString(locale.value);
-
-  return checkIsValidDate(date) ? date : "";
-});
-
-// const isShowOriginalTitle = computed(() => {
-//   if (!props.details) return false;
-//   return (props.details?.original_title || props.details?.original_name) !== (props.details?.title || props.details?.name);
-// });
 
 const title = computed(() => {
   if (!props.details) return "";
@@ -81,16 +68,16 @@ const title = computed(() => {
       </tr>
       <tr>
         <td>{{ $t("details.releaseDate") }}</td>
-        <td>{{ releaseDate }}</td>
+        <td>{{ formatDate(props.details?.release_date || props.details?.first_air_date, locale) }}</td>
       </tr>
       <template v-if="props.mediaType === TmdbMediaTypeEnum.TV">
-        <tr>
+        <tr v-if="props.details.last_air_date">
           <td>{{ $t("details.lastAirDate") }}</td>
-          <td>{{ new Date(props.details.last_air_date).toLocaleDateString(locale) }}</td>
+          <td>{{ formatDate(props.details.last_air_date, locale) }}</td>
         </tr>
         <tr v-if="props.details.next_episode_to_air?.air_date">
           <td>{{ $t("details.nextAirDate") }}</td>
-          <td>{{ new Date(props.details.next_episode_to_air?.air_date).toLocaleDateString(locale) }}</td>
+          <td>{{ formatDate(props.details.next_episode_to_air?.air_date, locale) }}</td>
         </tr>
       </template>
       <tr v-if="props.details?.genres">
