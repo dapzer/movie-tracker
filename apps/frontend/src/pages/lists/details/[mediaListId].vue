@@ -3,7 +3,6 @@ import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/api/mediaList/us
 import { computed, type Ref, watch } from "vue";
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi";
 import { useAuth } from "~/composables/useAuth";
-import UiContainer from "~/components/ui/UiContainer.vue";
 import { getShortText, useI18n, useSeoMeta } from "#imports";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import { MediaListDetails } from "~/widgets/mediaList"
@@ -12,6 +11,7 @@ import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
+import { UiContainer } from "~/components/ui/UiContainer"
 
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;

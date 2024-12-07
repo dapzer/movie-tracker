@@ -2,13 +2,13 @@
 
 import { UiDropdown } from "~/components/ui/UiDropdown"
 import { UiTypography } from "~/components/ui/UiTypography"
-import UiContainer from "~/components/ui/UiContainer.vue"
 import UiDropdownGroup from "~/components/ui/UiDropdown/UiDropdownGroup.vue"
 import UiDropdownItem from "~/components/ui/UiDropdown/UiDropdownItem.vue"
 import UiDropdownSeparator from "~/components/ui/UiDropdown/UiDropdownSeparator.vue"
 import { ref } from "vue"
 import UiDropdownTriggerWithArrow from "~/components/ui/UiDropdown/UiDropdownTriggerWithArrow.vue"
 import { SelectArrowIcon } from "~/components/ui/icons"
+import { UiContainer } from "~/components/ui/UiContainer"
 
 const isOpen = ref(false)
 const align = ref<'start' | 'center' | 'end'>('start')
