@@ -3,10 +3,10 @@
 import type { MediaItemType } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { CreateMediaListModal } from "~/entities/mediaList"
-import { UiModal } from "~/components/newUi/UiModal"
+import { UiModal } from "~/components/ui/UiModal"
 import MediaItemCreateCloneForm from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneForm.vue"
 import { PlusIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
 import { useI18n } from "#imports"
 

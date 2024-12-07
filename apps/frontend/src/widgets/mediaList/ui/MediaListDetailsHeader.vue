@@ -2,10 +2,10 @@
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { CloneIcon, EditIcon, LikeIcon, ShareIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
-import { UiUserProfileLink } from "~/components/newUi/UiUserProfileLink"
+import { UiButton } from "~/components/ui/UiButton"
+import { UiUserProfileLink } from "~/components/ui/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
 import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
@@ -135,7 +135,7 @@ const handleLike = async () => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

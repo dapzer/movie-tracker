@@ -21,7 +21,7 @@ const props = defineProps<MovieDetailsActionsProps>();
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 .wrapper {
   display: flex;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { NuxtLink } from "#components"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { TmdbLogoIcon } from "~/components/ui/icons"
 </script>
 

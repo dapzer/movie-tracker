@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types";
-import { UiInfoHeader } from "~/components/newUi/UiInfoHeader";
+import { UiInfoHeader } from "~/components/ui/UiInfoHeader";
 import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports";
 import { getPersonSocialList } from "~/widgets/details/model/getPersonSocialList";
 import { computed } from "vue";

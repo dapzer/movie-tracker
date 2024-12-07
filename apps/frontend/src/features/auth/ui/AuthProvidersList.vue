@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { authProvidersList } from "~/features/auth/model/authProvidersList"
 import { useSignInByProviderApi } from "~/api/auth/useAuthApi"
 import { useQueryClient } from "@tanstack/vue-query"

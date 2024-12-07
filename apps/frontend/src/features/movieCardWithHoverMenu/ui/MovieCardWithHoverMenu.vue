@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiHoverCard } from "~/components/newUi/UiHoverCard"
+import { UiHoverCard } from "~/components/ui/UiHoverCard"
 import { MovieCard } from "~/entities/movieCard"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
@@ -56,7 +56,7 @@ const onOpenButtonClicked = () => {
           />
         </template>
       </UiHoverCard>
-      
+
       <MediaListSelectorModal
         v-model="isOpenModal"
         hide-trigger
@@ -68,7 +68,7 @@ const onOpenButtonClicked = () => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .trigger {

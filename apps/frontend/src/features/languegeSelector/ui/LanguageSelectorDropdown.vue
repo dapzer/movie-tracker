@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 
 import { allowedLanguages } from "~/features/languegeSelector/model/languages";
-import { UiTypography } from "~/components/newUi/UiTypography";
+import { UiTypography } from "~/components/ui/UiTypography";
 import { useSwitchLocalePath } from "#i18n";
 import { useI18n } from "#imports";
-import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "~/components/newUi/UiDropdown"
+import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "~/components/ui/UiDropdown"
 import { NuxtLink } from "#components"
 import { PlanetIcon } from "~/components/ui/icons";
 import { ref } from "vue"

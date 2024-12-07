@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { useLocalePath } from "#i18n"
 
 interface DefaultFooterLinkListProps {
@@ -30,7 +30,7 @@ const localePath = useLocalePath();
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

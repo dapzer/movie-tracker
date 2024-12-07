@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 
-import { UiCardBase } from '~/components/newUi/UiCard';
-import { UiImage } from '~/components/newUi/UiImage';
-import { UiTypography } from '~/components/newUi/UiTypography';
+import { UiCardBase } from '~/components/ui/UiCard';
+import { UiImage } from '~/components/ui/UiImage';
+import { UiTypography } from '~/components/ui/UiTypography';
 import { computed } from 'vue';
 
 interface EpisodeCardProps {
@@ -56,7 +56,7 @@ const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${pr
 
 <style lang="scss" module>
 @import '~/styles/mixins';
-@import '~/styles/newVariables';
+@import '~/styles/variables';
 
 .wrapper {
   cursor: pointer;

@@ -4,7 +4,7 @@ import { type MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { LockerIcon, SharedPlanetIcon } from "~/components/ui/icons"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
-import { UiFormListItem } from "~/components/newUi/UiFormListItem"
+import { UiFormListItem } from "~/components/ui/UiFormListItem"
 
 interface MediaItemCreateCloneFormItemProps {
   mediaList: MediaListType;

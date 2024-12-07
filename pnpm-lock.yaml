@@ -214,9 +214,6 @@ importers:
       '@types/sharp':
         specifier: 0.32.0
         version: 0.32.0
-      '@yeger/vue-masonry-wall':
-        specifier: 5.0.12
-        version: 5.0.12(vue@3.5.5(typescript@5.6.2))
       embla-carousel-vue:
         specifier: 8.3.0
         version: 8.3.0(vue@3.5.5(typescript@5.6.2))
@@ -3349,20 +3346,6 @@ packages:
 
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
-
-  '@yeger/debounce@2.0.9':
-    resolution: {integrity: sha512-yapSa71O56W0zotDlgv7z/equgK61Ozb8rSEWsNX7oN543oUMucWVWIlDp73/Jg7D08xAkw+E23OVLe1xIBS7A==}
-
-  '@yeger/vue-lib-adapter@2.0.9':
-    resolution: {integrity: sha512-FIaKvP596mg8J9bsphng4Ulr+EMghBG2RNrBrJCFvz9uV7YI6X0vNJ0vV/8SqL6Boe92VpRjG+puKe/HYKsnTg==}
-
-  '@yeger/vue-masonry-wall-core@5.0.10':
-    resolution: {integrity: sha512-s4dwP4/mvcwNqa1/2uSSXU8bSaKS1nHb+JmF17fFLFNvacZTk6b3mcW8yjM38sxzhQ+tv7rthMTrF3W+6abRgw==}
-
-  '@yeger/vue-masonry-wall@5.0.12':
-    resolution: {integrity: sha512-KpGurtFYZdjWZmSPt7V1RhQS2G1SsLxat6l6RwenC1Rj4RKBGCLIEErd7wEGAyaGHQ0EBODK1ZsaJpmOqebszA==}
-    peerDependencies:
-      vue: ^3.0.0
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
@@ -12267,20 +12250,6 @@ snapshots:
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
-
-  '@yeger/debounce@2.0.9': {}
-
-  '@yeger/vue-lib-adapter@2.0.9': {}
-
-  '@yeger/vue-masonry-wall-core@5.0.10':
-    dependencies:
-      '@yeger/debounce': 2.0.9
-      '@yeger/vue-lib-adapter': 2.0.9
-
-  '@yeger/vue-masonry-wall@5.0.12(vue@3.5.5(typescript@5.6.2))':
-    dependencies:
-      '@yeger/vue-masonry-wall-core': 5.0.10
-      vue: 3.5.5(typescript@5.6.2)
 
   abab@2.0.6: {}
 

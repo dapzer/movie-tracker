@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import UiLayoutWrapper from "~/components/ui/UiLayoutWrapper.vue";
+import { UiLayoutWrapper } from "~/components/ui/UiLayoutWrapper"
 </script>
 
 <template>

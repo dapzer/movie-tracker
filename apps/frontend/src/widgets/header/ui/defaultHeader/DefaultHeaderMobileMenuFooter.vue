@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { LanguageSelector } from "~/features/languegeSelector"
 import { PublicResources } from "~/shared/ui/publicResources"
 </script>

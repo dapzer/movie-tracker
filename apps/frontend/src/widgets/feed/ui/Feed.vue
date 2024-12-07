@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/newUi/UiContainer"
+import { UiContainer } from "~/components/ui/UiContainer"
 import { computed, useI18n } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"

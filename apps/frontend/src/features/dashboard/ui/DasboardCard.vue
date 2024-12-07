@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiDivider } from "~/components/newUi/UiDivider"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiDivider } from "~/components/ui/UiDivider"
 
 interface DashboardCardProps {
   title: string;
@@ -22,7 +22,7 @@ const props = defineProps<DashboardCardProps>()
 
 <style module lang="scss">
 @import "~/styles/mixins";
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 
 .wrapper {
   @include card;

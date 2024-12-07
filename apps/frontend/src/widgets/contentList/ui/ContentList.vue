@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import { UiCardsGrid } from "~/components/newUi/UiCardsGrid"
-import { UiDivider } from "~/components/newUi/UiDivider"
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiContainer } from "~/components/newUi/UiContainer"
-import { UiPagination } from "~/components/newUi/UiPagination"
-import { UiBackLink } from "~/components/newUi/UiBackLink"
+import { UiCardsGrid } from "~/components/ui/UiCardsGrid"
+import { UiDivider } from "~/components/ui/UiDivider"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiContainer } from "~/components/ui/UiContainer"
+import { UiPagination } from "~/components/ui/UiPagination"
+import { UiBackLink } from "~/components/ui/UiBackLink"
 
 interface ContentListProps {
   title: string;

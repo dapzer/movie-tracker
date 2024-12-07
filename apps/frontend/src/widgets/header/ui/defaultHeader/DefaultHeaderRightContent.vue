@@ -2,7 +2,7 @@
 
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
 import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { useAuth } from "#imports"
 import { UserProfileDropdown } from "~/features/profile"
 import { SignInLink } from "~/features/auth"
@@ -42,7 +42,7 @@ const { profile } = useAuth();
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

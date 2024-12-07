@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiModal } from "~/components/newUi/UiModal"
+import { UiModal } from "~/components/ui/UiModal"
 import CloneMediaListForm from "~/entities/mediaList/ui/cloneMediaList/CloneMediaListForm.vue"
 import { ref } from "vue"
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"

@@ -1,2 +1,2 @@
-export { default as UiModal } from "./UiModal.vue";
-export { default as UiConfirmationModal } from "./UiConfirmationModal.vue"
+export { default as UiModal } from "./modal/UiModal.vue"
+export { default as UiModalFullscreen } from "./modalFullscreen/UiModalFullscreen.vue"

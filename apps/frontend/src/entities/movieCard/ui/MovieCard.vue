@@ -2,8 +2,8 @@
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { computed, getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
-import { UiMediaCard } from "~/components/newUi/UiCard"
-import { UiRating } from "~/components/newUi/UiRating"
+import { UiMediaCard } from "~/components/ui/UiCard"
+import { UiRating } from "~/components/ui/UiRating"
 import { formatDate } from "~/utils/formatDate"
 
 interface MovieCardProps {

@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { computed } from "#imports"
-import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "~/components/newUi/UiCombobox"
+import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "~/components/ui/UiCombobox"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useRouter } from "#vue-router"
 import { useLocalePath } from "#i18n"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
-import { UiMediaCardHorizontalSkeleton } from "~/components/newUi/UiCard"
-import UiAttention from "../../../components/newUi/UiAttention/UiAttention.vue"
+import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
 import { useSearch } from "~/features/search/model/useSearch"
+import { UiAttention } from "~/components/ui/UiAttention"
 
 const router = useRouter()
 const localePath = useLocalePath();

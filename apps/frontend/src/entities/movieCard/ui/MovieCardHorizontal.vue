@@ -2,9 +2,9 @@
 import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { getProxiedImageUrl } from "#imports";
 import { useLocalePath } from "#i18n";
-import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "~/components/newUi/UiCard"
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiRating } from "~/components/newUi/UiRating"
+import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "~/components/ui/UiCard"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiRating } from "~/components/ui/UiRating"
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType;
@@ -67,7 +67,7 @@ const slots = defineSlots()
 
 <style lang="scss" module>
 @import "~/styles/mixins";
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 
 .titleWrapper {
   display: flex;

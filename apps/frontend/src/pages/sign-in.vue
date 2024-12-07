@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { definePageMeta, useAuth } from "#imports"
-import { UiContainer } from "~/components/newUi/UiContainer"
+import { UiContainer } from "~/components/ui/UiContainer"
 import { SignInForm } from "~/features/auth"
 import { navigateTo } from "#app"
 import { useLocalePath } from "#i18n"
@@ -33,7 +33,7 @@ watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedi
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

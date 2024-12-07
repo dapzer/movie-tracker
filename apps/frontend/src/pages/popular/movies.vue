@@ -5,7 +5,7 @@ import { MediaTypeEnum } from "@movie-tracker/types"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
-import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
+import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 

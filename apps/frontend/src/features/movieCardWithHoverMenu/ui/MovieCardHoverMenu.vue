@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { ListIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import MovieCardHoverMenuHeader from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuHeader.vue"
 import { computed, useI18n } from "#imports"
 import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"

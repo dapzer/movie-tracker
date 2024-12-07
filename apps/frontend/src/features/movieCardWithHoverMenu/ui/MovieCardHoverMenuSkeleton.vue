@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiSkeleton } from "~/components/newUi/UiSkeleton"
+import { UiSkeleton } from "~/components/ui/UiSkeleton"
 </script>
 
 <template>

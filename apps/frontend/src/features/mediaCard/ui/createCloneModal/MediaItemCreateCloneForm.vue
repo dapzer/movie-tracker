@@ -1,15 +1,15 @@
 <script setup lang="ts">
 
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiInput } from "~/components/newUi/UiInput"
+import { UiInput } from "~/components/ui/UiInput"
 import { SearchIcon } from "~/components/ui/icons"
 import { computed, ref } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
 import { useForm, useI18n } from "#imports"
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiSwitch } from "~/components/newUi/UiSwitch"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiSwitch } from "~/components/ui/UiSwitch"
+import { UiButton } from "~/components/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 
@@ -116,7 +116,7 @@ const availableMediaLists = computed(() => {
 
 <style module lang="scss">
 @import "~/styles/mixins";
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 
 .wrapper {
   flex-direction: column;

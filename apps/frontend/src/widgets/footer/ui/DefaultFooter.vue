@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 
-import { UiContainer } from "~/components/newUi/UiContainer";
+import { UiContainer } from "~/components/ui/UiContainer";
 import { AppLogo } from "~/shared/ui/appLogo"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { PublicResources } from "~/shared/ui/publicResources"
 import { movieTrackerLinks } from "~/widgets/footer/model/movieTrackerLinks"
 import { useLocalePath } from "#i18n"
@@ -58,7 +58,7 @@ const localePath = useLocalePath()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

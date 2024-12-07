@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import { type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
-import { UiSelect } from "~/components/newUi/UiSelect"
-import { UiListHeader } from "~/components/newUi/UiListHeader"
+import { UiSelect } from "~/components/ui/UiSelect"
+import { UiListHeader } from "~/components/ui/UiListHeader"
 import { computed, ref } from "vue"
 import { EpisodeCardHorizontal } from "~/entities/episodeCard"
-import { UiDivider } from "~/components/newUi/UiDivider"
+import { UiDivider } from "~/components/ui/UiDivider"
 import { useI18n } from "#imports"
 
 interface TvDetailsSeasonsHeaderProps {
@@ -78,7 +78,7 @@ const subtitle = computed(() => {
 
 <style module lang="scss">
 @import '~/styles/mixins';
-@import '~/styles/newVariables';
+@import '~/styles/variables';
 
 .header {
   margin-bottom: 16px;

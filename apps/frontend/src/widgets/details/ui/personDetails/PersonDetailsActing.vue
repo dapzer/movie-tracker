@@ -2,13 +2,13 @@
 import { TmdbMediaTypeEnum, type TmdbPersonCastType, type TmdbPersonCrewType } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { getMediaTypeDeclensionTranslationKey, useI18n } from "#imports"
-import { UiButton } from "~/components/newUi/UiButton"
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiSelect } from "~/components/newUi/UiSelect"
+import { UiButton } from "~/components/ui/UiButton"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiSelect } from "~/components/ui/UiSelect"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiDivider } from "~/components/newUi/UiDivider"
-import { UiPagination } from "~/components/newUi/UiPagination"
-import { UiListHeader } from "~/components/newUi/UiListHeader"
+import { UiDivider } from "~/components/ui/UiDivider"
+import { UiPagination } from "~/components/ui/UiPagination"
+import { UiListHeader } from "~/components/ui/UiListHeader"
 
 interface PersonDetailsActingProps {
   crew: TmdbPersonCrewType[];
@@ -189,7 +189,7 @@ const clearFilters = () => {
 
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

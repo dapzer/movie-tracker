@@ -5,7 +5,7 @@ import { useI18n } from "#imports";
 import { useInitializeSitemapGenerationsApi } from "~/api/sitemaps/useSitemapsApi";
 import { useInitializeDetailsGenerationApi } from "~/api/details/useDetailsApi";
 import DasboardCard from "~/features/dashboard/ui/DasboardCard.vue"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 
 const initializeSitemapGenerationsApi = useInitializeSitemapGenerationsApi();
 const initializeDetailsGenerationApi = useInitializeDetailsGenerationApi()

@@ -2,7 +2,7 @@
 
 import { ref } from "vue"
 import { ListIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { CreateMediaListModal } from "~/entities/mediaList"

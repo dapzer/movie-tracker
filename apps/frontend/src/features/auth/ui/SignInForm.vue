@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import AuthProvidersList from "~/features/auth/ui/AuthProvidersList.vue"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import AuthTermsOfUse from "~/features/auth/ui/AuthTermsOfUse.vue"
 </script>
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
-import { UiSelect } from "~/components/newUi/UiSelect"
+import { UiSelect } from "~/components/ui/UiSelect"
 import { useI18n } from "#imports"
 import { computed, ref } from "vue"
-import { UiDivider } from "~/components/newUi/UiDivider"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiDivider } from "~/components/ui/UiDivider"
+import { UiButton } from "~/components/ui/UiButton"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
 import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { toast } from "vue3-toastify"

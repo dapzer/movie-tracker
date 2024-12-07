@@ -7,13 +7,13 @@ import {
 } from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
 import { createError, formatDate, useI18n } from "#imports";
-import { UiContainer } from "~/components/newUi/UiContainer";
+import { UiContainer } from "~/components/ui/UiContainer";
 import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue";
 import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo";
-import { UiSlider } from "~/components/newUi/UiSlider"
-import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
+import { UiSlider } from "~/components/ui/UiSlider"
+import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
 
 interface PersonDetailsProps {
@@ -144,7 +144,7 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
 </template>
 
 <style lang="scss" module>
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

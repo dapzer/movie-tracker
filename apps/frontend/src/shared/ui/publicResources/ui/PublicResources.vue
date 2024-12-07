@@ -20,7 +20,7 @@ import { publicResourcesList } from "~/shared/ui/publicResources/model/publicRes
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

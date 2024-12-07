@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { UiImage } from "~/components/newUi/UiImage"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiImage } from "~/components/ui/UiImage"
+import { UiTypography } from "~/components/ui/UiTypography"
 
 interface PersonWithRoleProps {
   name: string
@@ -35,7 +35,7 @@ const props = defineProps<PersonWithRoleProps>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

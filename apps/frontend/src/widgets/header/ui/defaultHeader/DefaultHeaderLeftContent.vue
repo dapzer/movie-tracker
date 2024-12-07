@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { BurgerMenuIcon, CrossIcon } from "~/components/ui/icons"
 import { AppLogo } from "~/shared/ui/appLogo"
 import { SearchCombobox } from "~/features/search"
@@ -25,7 +25,7 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

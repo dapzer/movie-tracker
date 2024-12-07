@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import type { UserType } from "@movie-tracker/types";
-import { UiImage } from "~/components/newUi/UiImage"
+import { UiImage } from "~/components/ui/UiImage"
 
 interface UserProfileDropdownTriggerProps {
   profile: UserType;

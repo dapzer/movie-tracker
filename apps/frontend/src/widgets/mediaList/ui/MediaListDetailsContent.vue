@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
-import { UiInput } from "~/components/newUi/UiInput"
+import { UiInput } from "~/components/ui/UiInput"
 import { SearchIcon, SortArrowDownIcon, SortArrowUpIcon, SortIcon } from "~/components/ui/icons"
-import { UiSelect } from "~/components/newUi/UiSelect"
+import { UiSelect } from "~/components/ui/UiSelect"
 import { computed, ref, watch } from "vue"
 import { useI18n } from "#imports"
-import { UiDropdown, UiDropdownItem } from "~/components/newUi/UiDropdown"
-import { UiTabsPane } from "~/components/newUi/UiTabs"
-import { UiDivider } from "~/components/newUi/UiDivider"
-import { UiCardsGrid } from "~/components/newUi/UiCardsGrid"
-import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
+import { UiDropdown, UiDropdownItem } from "~/components/ui/UiDropdown"
+import { UiTabsPane } from "~/components/ui/UiTabs"
+import { UiDivider } from "~/components/ui/UiDivider"
+import { UiCardsGrid } from "~/components/ui/UiCardsGrid"
+import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListItems"
-import { UiPagination } from "~/components/newUi/UiPagination"
-import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
+import { UiPagination } from "~/components/ui/UiPagination"
+import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 import { MediaCard } from "~/features/mediaCard"
 
 interface MediaListDetailsProps {
@@ -210,7 +210,7 @@ watch(currentTabMediaItems, () => {
 
 <style module lang="scss">
 @import "~/styles/mixins";
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 
 .wrapper {
   display: flex;

@@ -2,14 +2,14 @@
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { computed, ref, watch } from "vue"
-import { UiInput } from "~/components/newUi/UiInput"
+import { UiInput } from "~/components/ui/UiInput"
 import { SearchIcon } from "~/components/ui/icons"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { toast } from "vue3-toastify"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 
 const getMediaListsApi = useGetMediaListsApi();
 const getMediaItemsApi = useGetMediaItemsApi();
@@ -167,7 +167,7 @@ const filteredMediaLists = computed(() => {
 
 <style module lang="scss">
 @import "~/styles/mixins";
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 
 .wrapper {
   flex-direction: column;

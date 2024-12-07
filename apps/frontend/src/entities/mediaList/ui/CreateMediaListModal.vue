@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import { UiModal } from "~/components/newUi/UiModal"
+import { UiModal } from "~/components/ui/UiModal"
 import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import { toast } from "vue3-toastify"
 import { useI18n } from "#imports"

@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 
-import { UiContainer } from "~/components/newUi/UiContainer";
+import { UiContainer } from "~/components/ui/UiContainer";
 import { useAuth } from "~/composables/useAuth";
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
 import { useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports";
-import { UiListHeader } from "~/components/newUi/UiListHeader"
+import { UiListHeader } from "~/components/ui/UiListHeader"
 import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { PlusIcon } from "~/components/ui/icons"
 import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
-import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
+import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { navigateToSignInPage } = useNavigateToSignInPage()
@@ -87,7 +87,7 @@ useSeoMeta({
 </template>
 
 <style lang="scss" module>
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 @layer external {

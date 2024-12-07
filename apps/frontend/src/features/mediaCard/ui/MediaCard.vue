@@ -2,9 +2,9 @@
 import type { MediaItemType } from "@movie-tracker/types";
 import { computed, getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
-import { UiMediaCard } from "~/components/newUi/UiCard"
+import { UiMediaCard } from "~/components/ui/UiCard"
 import { formatDate } from "~/utils/formatDate"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import { ManagementIcon } from "~/components/ui/icons.js"
 import { ref } from "vue"
 import MediaCardTrackingMenuDrawer from "~/features/mediaCard/ui/MediaCardManagementMenuDrawer.vue"

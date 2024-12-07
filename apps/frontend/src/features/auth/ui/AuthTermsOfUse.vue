@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useI18n } from "#imports"
 import { LanguagesEnum } from "~/types/languagesEnum"

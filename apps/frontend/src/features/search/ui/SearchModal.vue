@@ -1,21 +1,21 @@
 <script setup lang="ts">
 
-import { UiModalFullscreen } from "~/components/newUi/UiModal"
-import { UiContainer } from "~/components/newUi/UiContainer"
-import { UiDivider } from "~/components/newUi/UiDivider"
+import { UiModalFullscreen } from "~/components/ui/UiModal"
+import { UiContainer } from "~/components/ui/UiContainer"
+import { UiDivider } from "~/components/ui/UiDivider"
 import { useSearch } from "~/features/search/model/useSearch"
 import { computed, onMounted } from "#imports"
 import { useRouter } from "#vue-router"
 import { useLocalePath } from "#i18n"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-import { UiInput } from "~/components/newUi/UiInput"
+import { UiInput } from "~/components/ui/UiInput"
 import { CrossIcon, SearchIcon } from "~/components/ui/icons"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiButton } from "~/components/ui/UiButton"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
-import { UiMediaCardHorizontalSkeleton } from "~/components/newUi/UiCard"
+import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
 import { ref, type VNodeRef } from "vue"
-import { UiAttention } from "~/components/newUi/UiAttention"
+import { UiAttention } from "~/components/ui/UiAttention"
 
 const model = defineModel<boolean>()
 const router = useRouter()

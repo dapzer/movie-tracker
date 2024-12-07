@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { UiContainer } from "~/components/newUi/UiContainer";
-import { UiTypography } from "~/components/newUi/UiTypography";
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiContainer } from "~/components/ui/UiContainer";
+import { UiTypography } from "~/components/ui/UiTypography";
+import { UiButton } from "~/components/ui/UiButton"
 import { useAuth, useNavigateToSignInPage } from "#imports"
 
 const {navigateToSignInPage} = useNavigateToSignInPage()

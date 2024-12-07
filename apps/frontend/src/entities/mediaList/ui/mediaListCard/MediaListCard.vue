@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
-import { UiListCard } from "~/components/newUi/UiCard/listCard"
+import { UiListCard } from "~/components/ui/UiCard/listCard"
 import type { MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
-import { getCurrentMediaDetails, getElementDeclensionTranslationKey, getProxiedImageUrl, useI18n } from "#imports"
+import { getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { useLocalePath } from "#i18n"
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiButton } from "~/components/newUi/UiButton"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiButton } from "~/components/ui/UiButton"
 import { LikeIcon, LockerIcon, SharedPlanetIcon, ShareIcon } from "~/components/ui/icons"
 import { NuxtLink } from "#components"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"

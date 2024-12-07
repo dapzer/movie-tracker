@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import UiLayoutWrapper from "~/components/ui/UiLayoutWrapper.vue"
 import { AuthHeader } from "~/widgets/header"
+import { UiLayoutWrapper } from "~/components/ui/UiLayoutWrapper"
 </script>
 
 <template>

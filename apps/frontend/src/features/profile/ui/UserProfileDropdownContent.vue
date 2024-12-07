@@ -4,9 +4,9 @@ import { UserRoleEnum } from "@movie-tracker/types";
 import { useAuth } from "~/composables/useAuth";
 import { useLocalePath } from "#i18n";
 import { computed } from "vue";
-import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/components/newUi/UiDropdown"
-import { UiImage } from "~/components/newUi/UiImage"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/components/ui/UiDropdown"
+import { UiImage } from "~/components/ui/UiImage"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { LogoutIcon, SettingsIcon } from "~/components/ui/icons";
 

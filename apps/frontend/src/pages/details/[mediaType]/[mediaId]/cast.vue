@@ -8,9 +8,9 @@ import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb
 import { useRoute } from "#vue-router"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import { PersonCard } from "~/entities/personCard"
-import { UiMediaCardSkeleton } from "~/components/newUi/UiCard"
+import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import { ContentList } from "~/widgets/contentList"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import { UiTypography } from "~/components/ui/UiTypography"
 
 const { locale, t } = useI18n();
 const route = useRoute();

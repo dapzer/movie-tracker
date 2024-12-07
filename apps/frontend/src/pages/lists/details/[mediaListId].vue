@@ -8,8 +8,8 @@ import { getShortText, useI18n, useSeoMeta } from "#imports";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import { MediaListDetails } from "~/widgets/mediaList"
 import { useUserProfileByIdApi } from "~/api/user/useUserApi"
-import UiAttention from "~/components/newUi/UiAttention/UiAttention.vue"
-import { UiTypography } from "~/components/newUi/UiTypography"
+import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
+import { UiTypography } from "~/components/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 

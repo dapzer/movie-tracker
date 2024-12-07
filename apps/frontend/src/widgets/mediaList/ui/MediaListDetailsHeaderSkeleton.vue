@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { UiTypography } from "~/components/newUi/UiTypography"
-import { UiSkeleton } from "~/components/newUi/UiSkeleton"
-import { UiUserProfileLinkSkeleton } from "~/components/newUi/UiUserProfileLink"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiSkeleton } from "~/components/ui/UiSkeleton"
+import { UiUserProfileLinkSkeleton } from "~/components/ui/UiUserProfileLink"
 </script>
 
 <template>
@@ -32,7 +32,7 @@ import { UiUserProfileLinkSkeleton } from "~/components/newUi/UiUserProfileLink"
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

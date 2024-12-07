@@ -1,7 +1,7 @@
 <script generic="T" setup lang="ts">
-import { UiSlider } from "~/components/newUi/UiSlider"
-import { UiCardsGrid } from "~/components/newUi/UiCardsGrid"
-import { UiSectionWithSeeMore } from "~/components/newUi/UiSectionWithSeeMore"
+import { UiSlider } from "~/components/ui/UiSlider"
+import { UiCardsGrid } from "~/components/ui/UiCardsGrid"
+import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
 
 interface FeedItemProps<T> {
   data: T[] | undefined;
@@ -48,7 +48,7 @@ const props = defineProps<FeedItemProps<T>>()
 
 <style module lang="scss">
 @import "~/styles/mixins";
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 
 .wrapper {
   .grid {

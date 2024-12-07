@@ -3,11 +3,11 @@
 import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi";
 import { computed, createError, useI18n } from "#imports";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import UiContainer from "~/components/ui/UiContainer.vue";
 import { useLocalePath } from "#i18n";
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import TvDetailsSeasonsHeader from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
 import TvDetailsSeasonsEpisodeList from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
+import { UiContainer } from "~/components/ui/UiContainer"
 
 interface TvDetailsSeasonsProps {
   mediaId: number;
@@ -64,7 +64,7 @@ useMovieDetailsSeo({
 </template>
 
 <style lang="scss" module>
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .wrapper {

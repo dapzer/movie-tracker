@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
-import { UiInfoHeader } from "~/components/newUi/UiInfoHeader"
+import { UiInfoHeader } from "~/components/ui/UiInfoHeader"
 import { MediaTypeEnum, type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
 import { computed } from "#imports"
 import { minsToTimeConverter } from "@movie-tracker/utils"
@@ -79,7 +79,7 @@ const totalDuration = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/newVariables";
+@import "~/styles/variables";
 @import "~/styles/mixins";
 
 .actionsMobile {

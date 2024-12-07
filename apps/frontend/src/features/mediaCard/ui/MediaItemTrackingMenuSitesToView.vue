@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
 import { NuxtLink } from "#components";
-import { UiButton } from "~/components/newUi/UiButton";
+import { UiButton } from "~/components/ui/UiButton";
 import { CheckIcon, CrossFilledIcon, PencilIcon, PlusIcon, TrashIcon } from "~/components/ui/icons";
-import { UiTypography } from "~/components/newUi/UiTypography";
+import { UiTypography } from "~/components/ui/UiTypography";
 import { computed, ref } from "vue";
-import { UiInput } from "~/components/newUi/UiInput";
+import { UiInput } from "~/components/ui/UiInput";
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
 import { isOnlySpaces } from "@movie-tracker/utils";
 import { useI18n } from "#imports";
