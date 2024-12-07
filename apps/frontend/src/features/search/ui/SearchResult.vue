@@ -244,7 +244,7 @@ const handleTabChange = (tab: Tab) => {
             </template>
           </UiCardsGrid>
           <UiAttention
-            v-if="!dataToRender.items?.length"
+            v-if="!dataToRender.items?.length && !isPending"
             title-variant="text"
             :indent="0"
             :title="$t('search.notingFound')"
