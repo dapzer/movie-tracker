@@ -102,11 +102,6 @@ export default {
     },
     knowFor: {
       title: "Известность за",
-      'Acting': 'Актёр',
-      'Directing': 'Режиссёр',
-      "Camera": "Оператор",
-      'Writing': 'Сценарист',
-      "Crew": "Съемочная группа",
     },
     department: {
       title: "Отдел",
@@ -122,6 +117,7 @@ export default {
       "Costume & Make-Up": "Костюмы и грим",
       "Production": "Производство",
       "Actors": "Актеры",
+      'Acting': 'Актёр',
     },
     job: {
       "Post Production Supervisor": "Супервайзер постпродакшна",

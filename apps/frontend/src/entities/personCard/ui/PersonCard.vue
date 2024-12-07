@@ -50,7 +50,7 @@ const birthday = computed(() => {
         ellipsis
         variant="description"
       >
-        {{ $t(`details.knowFor.${props.person.known_for_department}`) }}
+        {{ $t(`details.department.${props.person.known_for_department}`) }}
       </UiTypography>
 
       <slot name="content" />

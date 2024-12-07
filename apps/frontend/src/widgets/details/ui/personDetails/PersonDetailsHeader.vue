@@ -39,7 +39,7 @@ const birthdayAge = computed(() => {
     :title="props.details?.name ?? ''"
     :overview="props.details?.biography"
     fallback-image="/avatarPoster.svg"
-    :description="$t(`details.knowFor.${props.details.known_for_department}`) "
+    :description="$t(`details.department.${props.details.known_for_department}`) "
   >
     <template
       v-if="props.details"
