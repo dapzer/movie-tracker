@@ -11,6 +11,7 @@ import { UiButton } from "~/components/ui/UiButton"
 import { LikeIcon, LockerIcon, SharedPlanetIcon, ShareIcon } from "~/components/ui/icons"
 import { NuxtLink } from "#components"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
 
 interface MediaListCardProps {
   list: MediaListType;

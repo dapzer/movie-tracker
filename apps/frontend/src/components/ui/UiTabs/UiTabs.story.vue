@@ -2,9 +2,9 @@
 
 import UiTabs from "~/components/ui/UiTabs/UiTabs.vue"
 import UiTabTrigger from "~/components/ui/UiTabs/UiTabTrigger.vue"
-import UiTypography from "~/components/ui/UiTypography.vue"
 import UiTabsPane from "~/components/ui/UiTabs/UiTabsPane.vue"
 import { ref } from "vue"
+import { UiTypography } from "~/components/ui/UiTypography"
 
 const currentTab = ref<string>()
 </script>

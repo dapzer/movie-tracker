@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import UiDetails from "~/components/ui/UiDetails/UiDetails.vue"
-import UiTypography from "~/components/ui/UiTypography.vue"
+import { UiTypography } from "~/components/ui/UiTypography"
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 import UiBottomDrawer from "~/components/ui/UiBottomDrawer/UiBottomDrawer.vue"
-import UiTypography from "~/components/ui/UiTypography.vue"
 import { UiButton } from "~/components/ui/UiButton"
+import { UiTypography } from "~/components/ui/UiTypography"
 </script>
 
 <template>
