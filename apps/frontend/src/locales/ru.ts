@@ -94,8 +94,11 @@ export default {
     },
     mediaType: {
       movie: 'Фильм',
+      movies: 'Фильмы',
       tv: 'Сериал',
+      tvs: 'Сериалы',
       person: 'Персона',
+      persons: 'Персоны',
     },
     knowFor: {
       title: "Известность за",
@@ -1211,11 +1214,16 @@ export default {
     description: `Будьте в курсе всех ваших любимых фильмов и сериалов, создавайте персонализированные \nсписки наблюдения и ищите новые впечатления.`,
   },
   search: {
-    title: 'Найти фильм, сериал, персону...',
+    title: 'Результаты поиска',
+    description: 'Найдено {count} для запроса ‘{searchTerm}’.',
     placeholder: 'Поиск',
     totalResults: 'Найдено результатов',
     notingFound: 'Ничего не найдено',
     mediaPlaceholder: 'Введите название кинокартины',
+    seeAllResults: 'Посмотреть все результаты для “{searchTerm}”',
+    singleMatch: 'совпадение',
+    multipleMatches: 'совпадений',
+    manyMatches: 'совпадения',
   },
   seo: {
     title: 'Movie Tracker - ваш незаменимый помощник в мире кино и сериалов',

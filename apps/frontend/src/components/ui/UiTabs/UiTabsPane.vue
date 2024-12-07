@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends readonly { key: string; label: string }[]">
-import { ref, type VNode, watch } from "vue"
+import { type VNode } from "vue"
 import UiTabTrigger from "~/components/ui/UiTabs/UiTabTrigger.vue"
 
 const props = defineProps<{
@@ -13,13 +13,11 @@ const slots = defineSlots<{
   content: () => VNode
 }>()
 
-const model = defineModel<string>()
+const activeTab = defineModel<string>({default: ''})
 
-const activeTab = ref<string>(model.value || props.tabs[0].key);
-
-watch(() => activeTab.value, () => {
-  model.value = activeTab.value
-}, { immediate: true })
+if (!activeTab.value) {
+  activeTab.value = props.tabs[0].key
+}
 </script>
 
 <template>

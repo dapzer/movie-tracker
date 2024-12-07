@@ -94,8 +94,11 @@ export default {
     },
     mediaType: {
       movie: 'Movie',
+      movies: 'Movies',
       tv: 'TV Show',
+      tvs: 'TV Shows',
       person: 'Person',
+      persons: 'Persons',
     },
     knowFor: {
       title: 'Known for',
@@ -876,7 +879,7 @@ export default {
       "Key Hairdresser": "Key Hairdresser",
       "Wigmaker": "Wigmaker",
       "Hair Department Head": "Hair Department Head",
-      "Costume Mistress": "Costume Mistress",
+      "Costme Mistress": "Costume Mistress",
       "First Assistant Hairstylist": "First Assistant Hairstylist",
       "Wardrobe Assistant": "Wardrobe Assistant",
       "Wardrobe Intern": "Wardrobe Intern",
@@ -1207,11 +1210,16 @@ export default {
     description: `Stay up to date with all your favorite movies and TV shows, create personalized \nwatchlists and discover new experiences.`,
   },
   search: {
-    title: 'Find a movie, series, person...',
+    title: 'Search results',
+    description:"Found {count} for request '{searchTerm}'.",
     placeholder: 'Search',
     totalResults: 'Total results',
     notingFound: 'Nothing found',
     mediaPlaceholder: 'Enter the title of the film',
+    seeAllResults: 'See all results for “{searchTerm}”',
+    singleMatch: 'match',
+    multipleMatches: 'matches',
+    manyMatches: 'matches',
   },
   seo: {
     title: "Movie Tracker - your indispensable assistant in the world of movies and TV series",

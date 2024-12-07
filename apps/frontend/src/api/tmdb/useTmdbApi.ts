@@ -9,6 +9,9 @@ import {
   getTmdbPopularApi,
   getTmdbRecommendationsApi,
   getTmdbSearchApi,
+  getTmdbSearchMovieApi,
+  getTmdbSearchPersonApi,
+  getTmdbSearchTvApi,
   getTmdbSeasonsApi,
   getTmdbTvAiringTodayApi,
   getTmdbTvOnTheAirApi,
@@ -110,6 +113,40 @@ export const useGetTmdbSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =
         queries
       ],
       queryFn: () => getTmdbSearchApi(queries.value)
+    }
+  );
+
+
+export const useGetTmdbSearchMovieByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
+  useQuery(
+    {
+      queryKey: [
+        TmdbQueryKeys.GET_SEARCH_MOVIE,
+        queries
+      ],
+      queryFn: () => getTmdbSearchMovieApi(queries.value)
+    }
+  );
+
+export const useGetTmdbSearchTvByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
+  useQuery(
+    {
+      queryKey: [
+        TmdbQueryKeys.GET_SEARCH_TV,
+        queries
+      ],
+      queryFn: () => getTmdbSearchTvApi(queries.value)
+    }
+  );
+
+export const useGetTmdbSearchPersonByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
+  useQuery(
+    {
+      queryKey: [
+        TmdbQueryKeys.GET_SEARCH_PERSON,
+        queries
+      ],
+      queryFn: () => getTmdbSearchPersonApi(queries.value)
     }
   );
 

@@ -9,13 +9,14 @@ import { useRouter } from "#vue-router"
 import { useLocalePath } from "#i18n"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { UiInput } from "~/components/ui/UiInput"
-import { CrossIcon, SearchIcon } from "~/components/ui/icons"
+import { ArrowRightBoldIcon, CrossIcon, SearchIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
 import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
 import { ref, type VNodeRef } from "vue"
 import { UiAttention } from "~/components/ui/UiAttention"
+import { UiTypography } from "~/components/ui/UiTypography"
 
 const model = defineModel<boolean>()
 const router = useRouter()
@@ -31,6 +32,11 @@ const handleItemClick = (item: TmdbSearchResponseResultItemType) => {
   router.push(localePath(`/details/${item.media_type}/${item.id}`));
   model.value = false;
 };
+
+const handleOpenSearchPage = () => {
+  router.push(localePath(`/search?searchTerm=${searchValue.value}`));
+  model.value = false;
+}
 
 const itemsToRender = computed(() => {
   if (!tmdbGetSearchByTermApi.data.value?.results) return [];
@@ -69,7 +75,7 @@ const itemsToRender = computed(() => {
         <UiContainer :class="$style.result">
           <template v-if="!tmdbGetSearchByTermApi.isFetching.value">
             <template
-              v-for="(item, index) in itemsToRender"
+              v-for="(item) in itemsToRender"
               :key="item.id"
             >
               <SearchResultMovieCardHorizontal
@@ -85,8 +91,18 @@ const itemsToRender = computed(() => {
                 :class="$style.card"
                 @click="() => handleItemClick(item)"
               />
-              <UiDivider v-if="index < itemsToRender.length - 1" />
+              <UiDivider />
             </template>
+
+            <UiTypography
+              v-if="itemsToRender.length"
+              :class="[$style.card, $style.seeAllResults]"
+              schema="link"
+              @click="() => handleOpenSearchPage()"
+            >
+              {{ $t("search.seeAllResults", { searchTerm: searchValue }) }}
+              <ArrowRightBoldIcon width="18" />
+            </UiTypography>
 
             <UiAttention
               v-if="!itemsToRender.length && searchValue.length"
@@ -133,6 +149,13 @@ const itemsToRender = computed(() => {
       width: 32px;
       height: 32px;
     }
+  }
+
+  .seeAllResults {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
   }
 
   .result {

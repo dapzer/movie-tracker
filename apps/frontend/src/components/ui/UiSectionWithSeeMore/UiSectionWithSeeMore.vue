@@ -16,6 +16,9 @@ interface UiSectionWithSeeMoreProps {
 const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
   seeMoreAlign: 'start'
 })
+const emits = defineEmits<{
+  (e: 'onClickSeeMore'): void
+}>()
 
 </script>
 
@@ -42,6 +45,7 @@ const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
         :to="props.seeMoreUrl"
         variant="label"
         schema="link"
+        @click="emits('onClickSeeMore')"
       >
         {{ props.seeMoreText ?? $t("ui.seeMore") }}
         <ArrowRightBoldIcon />

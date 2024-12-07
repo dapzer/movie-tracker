@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { definePageMeta, useAuth } from "#imports"
+import { definePageMeta, useAuth, useI18n, useSeoMeta } from "#imports"
 import { UiContainer } from "~/components/ui/UiContainer"
 import { SignInForm } from "~/features/auth"
 import { navigateTo } from "#app"
@@ -11,6 +11,17 @@ import { LocalStorageEnum } from "~/types/localStorageEnum"
 definePageMeta({
   layout: "auth-layout"
 });
+
+const {t} = useI18n();
+
+useSeoMeta({
+  titleTemplate(titleChunk) {
+    return `${t('auth.signIn')} | ${titleChunk}`;
+  },
+  ogTitle() {
+    return `%s | ${t('auth.signIn')}`;
+  },
+})
 
 const { isNotAuthorized, isLoadingProfile } = useAuth();
 const localePath = useLocalePath()

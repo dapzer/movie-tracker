@@ -37,6 +37,42 @@ export const getTmdbSearchApi = async (queries: TmdbSearchQueriesType) => {
   });
 };
 
+export const getTmdbSearchMovieApi = async (queries: TmdbSearchQueriesType) => {
+  if (queries.searchValue.length === 0) return null;
+
+  return contentApi.get<TmdbSearchResponseType>("search/movie", {
+    params: {
+      query: queries.searchValue,
+      page: queries.page,
+      language: queries.language
+    }
+  });
+};
+
+export const getTmdbSearchTvApi = async (queries: TmdbSearchQueriesType) => {
+  if (queries.searchValue.length === 0) return null;
+
+  return contentApi.get<TmdbSearchResponseType>("search/tv", {
+    params: {
+      query: queries.searchValue,
+      page: queries.page,
+      language: queries.language
+    }
+  });
+};
+
+export const getTmdbSearchPersonApi = async (queries: TmdbSearchQueriesType) => {
+  if (queries.searchValue.length === 0) return null;
+
+  return contentApi.get<TmdbSearchResponseType>("search/person", {
+    params: {
+      query: queries.searchValue,
+      page: queries.page,
+      language: queries.language
+    }
+  });
+};
+
 export const getTmdbDetailApi = async <T = TmdbMediaDetailsType>(queries: TmdbDefaultQueriesType) => {
   return contentApi.get<T>(`${queries.mediaType}/${queries.mediaId}`, {
     params: {

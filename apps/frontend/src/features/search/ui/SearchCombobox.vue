@@ -10,6 +10,8 @@ import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultP
 import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
 import { useSearch } from "~/features/search/model/useSearch"
 import { UiAttention } from "~/components/ui/UiAttention"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { ArrowRightBoldIcon } from "~/components/ui/icons"
 
 const router = useRouter()
 const localePath = useLocalePath();
@@ -21,6 +23,11 @@ const handleSelect = (item: TmdbSearchResponseResultItemType) => {
   router.push(localePath(`/details/${item.media_type}/${item.id}`));
   open.value = false;
 };
+
+const handleOpenSearchPage = () => {
+  router.push(localePath(`/search?searchTerm=${searchValue.value}`));
+  open.value = false;
+}
 
 const itemsToRender = computed(() => {
   if (!tmdbGetSearchByTermApi.data.value?.results) return [];
@@ -41,7 +48,7 @@ const itemsToRender = computed(() => {
   >
     <template v-if="!tmdbGetSearchByTermApi.isFetching.value">
       <template
-        v-for="(item, index) in itemsToRender"
+        v-for="(item) in itemsToRender"
         :key="item.id"
       >
         <UiComboboxItem
@@ -61,8 +68,20 @@ const itemsToRender = computed(() => {
           :class="$style.card"
           @select.prevent="() => handleSelect(item)"
         />
-        <UiComboboxSeparator v-if="index < itemsToRender.length - 1" />
+        <UiComboboxSeparator />
       </template>
+
+      <UiComboboxItem
+        v-if="itemsToRender.length"
+        :class="[$style.card, $style.seeAllResults]"
+        value="link"
+        :as="UiTypography"
+        schema="link"
+        @select.prevent="() => handleOpenSearchPage()"
+      >
+        {{ $t("search.seeAllResults", { searchTerm: searchValue }) }}
+        <ArrowRightBoldIcon width="18" />
+      </UiComboboxItem>
 
       <UiAttention
         v-if="!itemsToRender.length"
@@ -92,6 +111,13 @@ const itemsToRender = computed(() => {
 .wrapper {
   width: 100%;
   max-width: 480px;
+}
+
+.seeAllResults {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .card {
