@@ -102,11 +102,6 @@ export default {
     },
     knowFor: {
       title: 'Known for',
-      'Acting': 'Actor',
-      'Directing': 'Director',
-      'Camera': 'Camera',
-      'Writing': 'Writer',
-      "Crew": "Crew",
     },
     department: {
       title: 'Department',
@@ -121,7 +116,8 @@ export default {
       "Camera": "Camera",
       "Costume & Make-Up": "Costume & Make-Up",
       "Production": "Production",
-      "Actors": "Actors"
+      "Actors": "Actors",
+      'Acting': 'Actor',
     },
     job: {
       "Post Production Supervisor": "Post Production Supervisor",
