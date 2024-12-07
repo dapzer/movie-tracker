@@ -11,6 +11,7 @@ import { PersonCard } from "~/entities/personCard"
 import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import { ContentList } from "~/widgets/contentList"
 import { UiTypography } from "~/components/ui/UiTypography"
+import { arrayToString } from "@movie-tracker/utils"
 
 const { locale, t } = useI18n();
 const route = useRoute();
@@ -68,11 +69,11 @@ const totalPages = computed(() => {
       >
         <template #content>
           <UiTypography
-            v-if="item.character"
+            v-if="item.character || item.roles"
             ellipsis
             variant="description"
           >
-            {{ item.character }}
+            {{ item.character || arrayToString(item.roles, 'character') }}
           </UiTypography>
         </template>
       </PersonCard>
