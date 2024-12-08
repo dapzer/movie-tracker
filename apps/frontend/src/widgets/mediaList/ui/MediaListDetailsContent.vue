@@ -14,6 +14,8 @@ import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListI
 import { UiPagination } from "~/components/ui/UiPagination"
 import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 import { MediaCard } from "~/features/mediaCard"
+import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { useCookie } from "#app"
 
 interface MediaListDetailsProps {
   mediaListItems?: MediaItemType[];
@@ -22,11 +24,19 @@ interface MediaListDetailsProps {
 }
 
 const props = defineProps<MediaListDetailsProps>();
-const sortType = ref<string>('asc_createdAt');
+const storedMediaListSortingType = useCookie(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
+  default: () =>  'asc_createdAt',
+});
+
+const sortType = ref<string>(storedMediaListSortingType.value);
 const activeTab = ref<string>('all');
 const searchTerm = ref<string>('');
 const currentPage = ref<number>(1);
 const { t } = useI18n();
+
+watch(() => sortType.value, () => {
+  storedMediaListSortingType.value = sortType.value
+})
 
 watch([searchTerm, activeTab], () => {
   currentPage.value = 1
