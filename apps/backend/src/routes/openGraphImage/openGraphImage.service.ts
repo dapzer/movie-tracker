@@ -23,7 +23,7 @@ export class OpenGraphImageService {
           style: {
             width: '1200px',
             height: '630px',
-            backgroundColor: '#1f242d',
+            backgroundColor: '#0D0D0D',
             padding: '86px',
             display: 'flex',
             justifyContent: 'space-between',
