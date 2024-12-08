@@ -5,6 +5,7 @@ import { useLocalePath } from "#i18n";
 import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "~/components/ui/UiCard"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { UiRating } from "~/components/ui/UiRating"
+import { NuxtLink } from "#components"
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType;
@@ -50,6 +51,8 @@ const slots = defineSlots()
         <UiTypography
           :class="$style.title"
           variant="cardTitle"
+          :as="NuxtLink"
+          :to="localePath(`/details/${movie.media_type}/${movie.id}`)"
         >
           {{ movie.title || movie.name || movie.original_name }}
         </UiTypography>
