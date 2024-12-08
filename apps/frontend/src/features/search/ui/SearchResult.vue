@@ -198,11 +198,19 @@ const handleTabChange = (tab: Tab) => {
             @on-click-see-more="() => handleTabChange('movies')"
           >
             <UiCardsGrid>
-              <MovieCardWithHoverMenu
-                v-for="item in getTmdbSearchMovieByTerm.data.value?.results.slice(0, 6)"
-                :key="item.id"
-                :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
-              />
+              <template v-if="!isPending">
+                <MovieCardWithHoverMenu
+                  v-for="item in getTmdbSearchMovieByTerm.data.value?.results.slice(0, 6)"
+                  :key="item.id"
+                  :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
+                />
+              </template>
+              <template v-else>
+                <UiMediaCardSkeleton
+                  v-for="index in 6"
+                  :key="index"
+                />
+              </template>
             </UiCardsGrid>
           </UiSectionWithSeeMore>
           <UiSectionWithSeeMore
@@ -212,11 +220,19 @@ const handleTabChange = (tab: Tab) => {
             @on-click-see-more="() => handleTabChange('tvs')"
           >
             <UiCardsGrid>
-              <MovieCardWithHoverMenu
-                v-for="item in getTmdbSearchTvByTerm.data.value?.results.slice(0, 6)"
-                :key="item.id"
-                :movie="{...item, media_type: MediaTypeEnum.TV}"
-              />
+              <template v-if="!isPending">
+                <MovieCardWithHoverMenu
+                  v-for="item in getTmdbSearchTvByTerm.data.value?.results.slice(0, 6)"
+                  :key="item.id"
+                  :movie="{...item, media_type: MediaTypeEnum.TV}"
+                />
+              </template>
+              <template v-else>
+                <UiMediaCardSkeleton
+                  v-for="index in 6"
+                  :key="index"
+                />
+              </template>
             </UiCardsGrid>
           </UiSectionWithSeeMore>
           <UiSectionWithSeeMore
@@ -226,11 +242,19 @@ const handleTabChange = (tab: Tab) => {
             @on-click-see-more="() => handleTabChange('persons')"
           >
             <UiCardsGrid>
-              <PersonCard
-                v-for="item in getTmdbSearchPersonByTerm.data.value?.results.slice(0, 6)"
-                :key="item.id"
-                :person="item"
-              />
+              <template v-if="!isPending">
+                <PersonCard
+                  v-for="item in getTmdbSearchPersonByTerm.data.value?.results.slice(0, 6)"
+                  :key="item.id"
+                  :person="item"
+                />
+              </template>
+              <template v-else>
+                <UiMediaCardSkeleton
+                  v-for="index in 6"
+                  :key="index"
+                />
+              </template>
             </UiCardsGrid>
           </UiSectionWithSeeMore>
         </div>
