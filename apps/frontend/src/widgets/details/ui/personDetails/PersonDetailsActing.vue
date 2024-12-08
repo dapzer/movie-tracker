@@ -111,6 +111,23 @@ const clearFilters = () => {
   }
 }
 
+const getDescription = (jobs?: string[], departments?: string[], characters?: string[]) => {
+  const result = []
+
+  if (characters?.length) {
+    result.push(...characters)
+  }
+
+  if (departments?.length && !jobs?.length) {
+    result.push(...departments.map((department) => t(`details.department.${department}`)))
+  }
+
+  if (jobs?.length) {
+    result.push(...jobs)
+  }
+
+  return result.filter(el => !!el).join(', ')
+}
 </script>
 
 <template>
@@ -164,13 +181,7 @@ const clearFilters = () => {
             <UiTypography
               variant="description"
             >
-              {{
-                item.jobs ? [...item.jobs, ...(item.characters ? [item.characters] : [])].join(', ') :
-                [...item.departments
-                   .map((department: string) => t(`details.department.${department}`)),
-                 ...(item.characters ? [item.characters] : [])]
-                  .join(', ')
-              }}
+              {{ getDescription(item.jobs, item.departments, item.characters) }}
             </UiTypography>
           </template>
         </MovieCardHorizontal>
