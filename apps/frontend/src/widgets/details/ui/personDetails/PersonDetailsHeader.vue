@@ -47,14 +47,14 @@ const birthdayAge = computed(() => {
     >
       <tr v-if="birthdayAge">
         <td>{{ $t("details.birthday") }}</td>
-        <td>
+        <td data-allow-mismatch>
           {{ formatDate(props.details?.birthday, locale) }} ({{ birthdayAge }}
           {{ $t(`ui.${getYearDeclensionTranslationKey(birthdayAge)}`) }})
         </td>
       </tr>
       <tr v-if="props.details.deathday">
         <td>{{ $t("details.deathday") }}</td>
-        <td>
+        <td data-allow-mismatch>
           {{ formatDate(props.details?.deathday, locale) }}
         </td>
       </tr>

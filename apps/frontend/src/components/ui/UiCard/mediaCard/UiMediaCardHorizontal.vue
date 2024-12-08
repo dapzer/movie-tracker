@@ -63,6 +63,7 @@ const slots = defineSlots()
           <UiTypography
             :class="$style.description"
             variant="description"
+            data-allow-mismatch
           >
             {{ props.subDescription }}
           </UiTypography>

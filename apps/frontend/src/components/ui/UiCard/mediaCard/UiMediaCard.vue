@@ -53,6 +53,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
           <UiTypography
             :class="$style.description"
             variant="description"
+            data-allow-mismatch
           >
             {{ props.description }}
           </UiTypography>

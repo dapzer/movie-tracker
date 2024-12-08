@@ -46,6 +46,7 @@ const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${pr
         <UiTypography
           :class="$style.description"
           variant="description"
+          data-allow-mismatch
         >
           {{ props.description }}
         </UiTypography>

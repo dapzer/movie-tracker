@@ -98,6 +98,7 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
       >
         <template #slide="{item}">
           <MovieCardHorizontal
+            :class="$style.knowForCard"
             full-height
             :movie="item"
             :image-width="89"
@@ -119,6 +120,7 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
         <MovieCardHorizontal
           v-for="item in knowFor.slice(0, 6)"
           :key="item.id"
+          :class="$style.knowForCard"
           :movie="item"
           :image-width="80"
           :sub-description="formatDate(item.release_date || item.first_air_date, locale)"
@@ -169,6 +171,12 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
     @include mobileDevice() {
       display: flex;
       flex-direction: column;
+    }
+  }
+
+  .knowForCard {
+    &:not(:hover) {
+      background: none;
     }
   }
 }

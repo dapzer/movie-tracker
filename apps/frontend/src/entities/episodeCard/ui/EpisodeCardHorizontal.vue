@@ -50,6 +50,7 @@ const episodeTitle = computed(() =>
           <UiTypography
             :class="$style.date"
             variant="description"
+            data-allow-mismatch
           >
             {{ formatDate(props.episode.air_date, locale) }}
           </UiTypography>

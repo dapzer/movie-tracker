@@ -48,6 +48,7 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
         </UiTypography>
         <UiTypography
           variant="description"
+          data-allow-mismatch
         >
           {{ props.description }}
         </UiTypography>

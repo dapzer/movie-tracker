@@ -68,16 +68,22 @@ const title = computed(() => {
       </tr>
       <tr>
         <td>{{ $t("details.releaseDate") }}</td>
-        <td>{{ formatDate(props.details?.release_date || props.details?.first_air_date, locale) }}</td>
+        <td data-allow-mismatch>
+          {{ formatDate(props.details?.release_date || props.details?.first_air_date, locale) }}
+        </td>
       </tr>
       <template v-if="props.mediaType === TmdbMediaTypeEnum.TV">
         <tr v-if="props.details.last_air_date">
           <td>{{ $t("details.lastAirDate") }}</td>
-          <td>{{ formatDate(props.details.last_air_date, locale) }}</td>
+          <td data-allow-mismatch>
+            {{ formatDate(props.details.last_air_date, locale) }}
+          </td>
         </tr>
         <tr v-if="props.details.next_episode_to_air?.air_date">
           <td>{{ $t("details.nextAirDate") }}</td>
-          <td>{{ formatDate(props.details.next_episode_to_air?.air_date, locale) }}</td>
+          <td data-allow-mismatch>
+            {{ formatDate(props.details.next_episode_to_air?.air_date, locale) }}
+          </td>
         </tr>
       </template>
       <tr v-if="props.details?.genres">
