@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 
-import UiContentCard from "~/components/ui/UiContentCard.vue";
-import UiTypography from "~/components/ui/UiTypography.vue";
 import { computed } from "vue";
-import UiSkeleton from "~/components/ui/UiSkeleton.vue";
 import { useGetAnalyticsRecordsApi } from "~/api/analytics/useAnalyticsApi";
+import DasboardCard from "~/features/dashboard/ui/DasboardCard.vue"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { UiSkeleton } from "~/components/ui/UiSkeleton"
 
 const getAnalyticsRecordsApi = useGetAnalyticsRecordsApi();
 
@@ -32,18 +32,17 @@ const records = computed(() => {
 </script>
 
 <template>
-  <UiContentCard :title="$t('dashboard.dataSummary')">
+  <DasboardCard :title="$t('dashboard.dataSummary')">
     <ul>
       <UiTypography
         v-for="(record, index) in records"
         :key="index"
         as="li"
-        variant="listItem"
+        variant="label"
       >
         {{ record.label }}:
         <UiTypography
           as="span"
-          variant="listItemValue"
         >
           <template v-if="!getAnalyticsRecordsApi.isLoading.value">
             {{ record.value }}
@@ -57,7 +56,7 @@ const records = computed(() => {
         </UiTypography>
       </UiTypography>
     </ul>
-  </UiContentCard>
+  </DasboardCard>
 </template>
 
 <style lang="scss" module>

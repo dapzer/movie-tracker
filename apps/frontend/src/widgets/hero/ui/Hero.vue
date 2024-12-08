@@ -1,38 +1,74 @@
 <script lang="ts" setup>
-import UiContainer from "~/components/ui/UiContainer.vue";
-import { ServiceSocialList } from "~/features/serviceSocial";
-import UiTypography from "~/components/ui/UiTypography.vue";
+import { UiContainer } from "~/components/ui/UiContainer";
+import { UiTypography } from "~/components/ui/UiTypography";
+import { UiButton } from "~/components/ui/UiButton"
+import { useAuth, useNavigateToSignInPage } from "#imports"
+
+const {navigateToSignInPage} = useNavigateToSignInPage()
+const {isAuthorized}  = useAuth()
 </script>
 
 <template>
-  <section>
-    <UiContainer :class="$style.wrapper">
+  <section :class="$style.wrapper">
+    <UiContainer :class="$style.body">
       <UiTypography
         as="h1"
-        variant="title2"
+        variant="title"
+        :class="$style.title"
       >
         {{ $t("hero.title") }}
       </UiTypography>
 
-      <UiTypography :class="$style.about">
+      <UiTypography :class="$style.description">
         {{ $t('hero.aboutService') }}
       </UiTypography>
 
-      <ServiceSocialList />
+      <UiButton
+        v-if="!isAuthorized"
+        :class="$style.button"
+        @click="navigateToSignInPage"
+      >
+        {{ $t('hero.button') }}
+      </UiButton>
     </UiContainer>
   </section>
 </template>
 
 <style lang="scss" module>
 .wrapper {
+  padding: 24px 0;
+  min-height: 480px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/heroBackground.png");
+  background-size: cover;
+  background-position: center;
 
-  .about {
-      color: var(--c-secondary);
-      font-weight: var(--fw-light);
-      white-space: pre-line;
+  .body {
+    display: flex;
+    max-width: calc(555px + (var(--s-indent) * 2));
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    .button {
+      margin-top: 8px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .description {
+      font-family: var(--ff-neue-haas);
+      font-weight: var(--fw-regular);
+    }
+
+    .title {
+      letter-spacing: -0.025em;
+      white-space: pre-wrap;
+    }
+
   }
 }
 </style>

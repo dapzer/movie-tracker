@@ -11,12 +11,19 @@ import {
 import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types";
 import type { MediaItemCreateApiTypes, MediaItemUpdateApiTypes } from "~/api/mediaItem/mediaItemApiTypes";
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
+import { useRequestHeaders } from "#app"
 
-export const useGetMediaItemsApi = () => useQuery({
-  queryKey: [MediaItemQueryKeys.GET_ALL],
-  queryFn: () => getMediaItemsApi(),
-  retry: false
-});
+export const useGetMediaItemsApi = () => {
+  const headers = useRequestHeaders(["cookie", "connect.sid"]);
+
+  return useQuery({
+    queryKey: [MediaItemQueryKeys.GET_ALL],
+    queryFn: () => getMediaItemsApi({
+      headers
+    }),
+    retry: false
+  })
+};
 
 export const useGetMediaItemsByMediaListIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => useQuery({
   queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID, mediaListId],

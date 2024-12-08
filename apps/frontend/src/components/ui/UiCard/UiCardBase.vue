@@ -1,54 +1,46 @@
 <script lang="ts" setup>
 import { NuxtLink } from "#components";
-import UiTypography from "~/components/ui/UiTypography.vue";
 
-interface UiCardBaseProps {
-  width?: number;
-  link?: string;
-  isHorizontal?: boolean;
-  isSmall?: boolean;
+export interface UiCardBaseProps {
+  width?: number | string;
+  height?: number | string;
+  linkUrl?: string;
+  fullHeight?: boolean;
+  // For horizontal card only
+  imageWidth?: number | string;
+  horizontal?: boolean;
 }
 
-const props = withDefaults(defineProps<UiCardBaseProps>(), {
-  width: 300,
-});
-
+const props = defineProps<UiCardBaseProps>()
+const slots = defineSlots()
 </script>
 
 <template>
   <div
     :class="[$style.wrapper, {
-      [$style.horizontal]: props.isHorizontal,
-      [$style.small]: props.isSmall
+      [$style.horizontal]: props.horizontal,
+      [$style.fullHeight]: props.fullHeight
     }]"
     :style="{
-      '--maxWidth': `${props.width}px`
+      '--maxWidth': Number.isInteger(props.width) ? `${props.width}px` : (props.width || 'unset'),
+      '--maxHeight': Number.isInteger(props.height) ? `${props.height}px` : (props.height || 'unset'),
+      '--imageMaxWidth': Number.isInteger(props.imageWidth) ? `${props.imageWidth}px` : (props.imageWidth || 'unset')
     }"
   >
+    <template v-if="slots.precontent">
+      <slot name="precontent" />
+    </template>
+
     <component
-      :is="link ? NuxtLink : 'div'"
+      :is="!!props.linkUrl ? NuxtLink : 'div'"
       :class="$style.imageWrapper"
-      :href="props.link ?? ''"
+      :href="props.linkUrl ?? ''"
     >
       <slot name="image" />
     </component>
 
     <div :class="$style.info">
-      <UiTypography
-        :class="$style.description"
-        as="span"
-        variant="textSmall"
-      >
-        <slot name="description" />
-      </UiTypography>
-
-      <UiTypography
-        :class="$style.title"
-      >
-        <slot name="title" />
-      </UiTypography>
-
-      <slot />
+      <slot name="content" />
     </div>
   </div>
 </template>
@@ -57,75 +49,47 @@ const props = withDefaults(defineProps<UiCardBaseProps>(), {
 @import "~/styles/mixins";
 @import "~/styles/variables";
 
-.wrapper {
-  @include card;
-  max-width: var(--maxWidth);
+@layer global, default;
 
-  .imageWrapper {
-    width: 100%;
-    border-radius: var(--s-border-radius);
-    height: fit-content;
-    position: relative;
-
-    img {
-      border-radius: var(--s-border-radius);
-      object-fit: contain;
-    }
-  }
-
-  .info {
-    width: 100%;
-
-    .title {
-      color: var(--c-secondary);
-    }
-  }
-
-  &.horizontal {
-    flex-direction: row;
-    max-width: unset;
-    height: unset;
-    gap: 40px;
-
-    .imageWrapper {
-      max-width: 150px;
-      min-width: 150px;
-    }
-  }
-
-  &.small {
-    @media screen and (min-width: 450px){
-      max-width: 200px;
-      min-width: 200px;
-      gap: 10px;
-
-      .title {
-        font-size: 1em;
-      }
-
-      a,
-      .description {
-        font-size: .9em;
-      }
-    }
-
-    @media screen and (max-width: 450px){
-      max-width: unset;
-    }
-  }
-
-  @media screen and (max-width: $bp-md){
-    max-width: unset;
+@layer default {
+  .wrapper {
+    @include card();
+    max-width: var(--maxWidth);
+    max-height: var(--maxHeight);
+    min-width: 0;
 
     &.horizontal {
-      flex-direction: column;
-      gap: 14px;
+      flex-direction: row;
+      align-items: flex-start;
 
       .imageWrapper {
-        max-width: unset;
+        max-width: var(--imageMaxWidth);
       }
+    }
+
+    &.fullHeight {
+      height: 100%;
+    }
+
+    .imageWrapper {
+      display: flex;
+      width: 100%;
+      border-radius: var(--s-border-radius-small);
+      height: fit-content;
+      position: relative;
+
+      img {
+        border-radius: var(--s-border-radius-small);
+        object-fit: cover;
+      }
+    }
+
+    .info {
+      width: 100%;
+      min-width: 0;
     }
   }
 }
 
 </style>
+

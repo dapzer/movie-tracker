@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { NuxtError } from "#app";
-import UiTypography from "~/components/ui/UiTypography.vue";
-import UiButton from "~/components/ui/UiButton.vue";
-import UiContainer from "~/components/ui/UiContainer.vue";
+import { UiTypography } from "~/components/ui/UiTypography";
+import { UiButton } from "~/components/ui/UiButton";
+import { UiContainer } from "~/components/ui/UiContainer";
+import { NuxtLink } from "#components"
 
 interface ErrorPageProps {
   error: NuxtError;
@@ -19,11 +20,12 @@ const props = defineProps<ErrorPageProps>();
     <UiTypography variant="title">
       {{ props.error?.message }}
     </UiTypography>
-    <NuxtLink to="/">
-      <UiButton>
-        {{ $t("ui.actions.backToMainPage") }}
-      </UiButton>
-    </NuxtLink>
+    <UiButton
+      :as="NuxtLink"
+      to="/"
+    >
+      {{ $t("ui.actions.backToMainPage") }}
+    </UiButton>
   </UiContainer>
 </template>
 

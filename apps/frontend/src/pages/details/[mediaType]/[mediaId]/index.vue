@@ -2,12 +2,11 @@
 
 import { useRoute } from "vue-router";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { computed } from "#imports";
-import { MovieDetails, PersonDetails } from "~/features/details";
+import { MovieDetails, PersonDetails } from "~/widgets/details";
 
 const route = useRoute();
-const mediaType = computed(() => route.params.mediaType);
-const mediaId = computed(() => route.params.mediaId);
+const mediaType = route.params.mediaType;
+const mediaId = route.params.mediaId;
 </script>
 
 <template>

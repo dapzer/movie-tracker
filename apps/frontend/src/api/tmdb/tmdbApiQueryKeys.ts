@@ -3,8 +3,16 @@ export const TmdbQueryKeys = {
   GET_CREDITS: "tmdb/getCredits",
   GET_EXTERNAL_IDS: "tmdb/getExternalIds",
   GET_RECOMMENDATIONS: "tmdb/getRecommendations",
-  GET_TRENDS: "tmdb/getTrends",
+  GET_POPULAR: "tmdb/getPopular",
   GET_SEARCH: "tmdb/getSearch",
+  GET_SEARCH_MOVIE: "tmdb/getSearchMovie",
+  GET_SEARCH_TV: "tmdb/getSearchTv",
+  GET_SEARCH_PERSON: "tmdb/getSearchPerson",
   GET_VIDEOS: "tmdb/getVideos",
-  GET_SEASONS: "tmdb/getSeasons"
-}  as const
+  GET_SEASONS: "tmdb/getSeasons",
+  GET_UPCOMING_MOVIES: "tmdb/getUpcomingMovies",
+  GET_TV_ON_THE_AIR: "tmdb/getTvOnTheAir",
+  GET_TV_AIRING_TODAY: "tmdb/getTvAiringToday",
+  GET_DISCOVER_MOVIE: "tmdb/getDiscoverMovie",
+  GET_DISCOVER_TV: "tmdb/getDiscoverTv",
+} as const

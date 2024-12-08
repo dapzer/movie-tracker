@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type { UserType } from "@movie-tracker/types";
-import UiTypography from "~/components/ui/UiTypography.vue";
-import UiButton from "~/components/ui/UiButton.vue";
-import { useAuth } from "~/composables/useAuth";
 import { UserRoleEnum } from "@movie-tracker/types";
-import { NuxtLink } from "#components";
+import { useAuth } from "~/composables/useAuth";
 import { useLocalePath } from "#i18n";
 import { computed } from "vue";
+import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/components/ui/UiDropdown"
+import { UiImage } from "~/components/ui/UiImage"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { NuxtLink } from "#components"
+import { LogoutIcon, SettingsIcon } from "~/components/ui/icons";
 
 interface UserProfileDropdownProps {
   profile: UserType;
@@ -23,63 +25,93 @@ const isAdmin = computed(() => {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.info">
-      <UiTypography :class="$style.userName">
+  <div :class="$style.info">
+    <UiImage
+      :src="props.profile.image"
+      fit="contain"
+      fallback-src="/avatar.svg"
+      height="36"
+      width="36"
+      alt="Avatar"
+    />
+    <div :class="$style.about">
+      <UiTypography variant="label">
         {{ props.profile.name }}
       </UiTypography>
-      <UiTypography
-        :class="$style.email"
-        variant="textSmall"
-      >
+      <UiTypography :class="$style.email">
         {{ props.profile.email }}
       </UiTypography>
     </div>
+  </div>
 
-    <UiTypography
+  <UiDropdownSeparator />
+
+  <UiDropdownGroup>
+    <UiDropdownItem
       v-if="isAdmin"
-      variant="link"
-      :class="$style.link"
       :as="NuxtLink"
       :to="localePath('/dashboard')"
     >
-      {{ $t("dashboard.title") }}
-    </UiTypography>
-
-    <UiButton
-      :class="$style.signOut"
-      color-scheme="danger"
-      :disabled="isProcessingLogout"
-      @click="handleLogout()"
+      <template #content>
+        {{ $t('dashboard.title') }}
+      </template>
+    </UiDropdownItem>
+    <!-- TODO: show after implement page -->
+    <UiDropdownItem
+      v-if="false"
+      :as="NuxtLink"
+      :to="localePath('/settings')"
     >
-      {{ $t("auth.signOut") }}
-    </UiButton>
-  </div>
+      <template #iconStart>
+        <SettingsIcon />
+      </template>
+      <template #content>
+        {{ $t('navigation.accountSettings') }}
+      </template>
+    </UiDropdownItem>
+    <UiDropdownItem
+      :disabled="isProcessingLogout"
+      @click="handleLogout"
+    >
+      <template #iconStart>
+        <LogoutIcon />
+      </template>
+      <template #content>
+        {{ $t('auth.signOut') }}
+      </template>
+    </UiDropdownItem>
+  </UiDropdownGroup>
 </template>
 
 <style lang="scss" module>
-.wrapper {
+@import "~/styles/mixins";
+
+.info {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
 
-  .link {
-    font-size: var(--fs-span);
-  }
-
-  .info {
+  .about {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    max-width: max-content;
+    width: 100%;
 
-    .email,
-    .userName {
-      color: var(--c-secondary);
+    p {
+      @include ellipsisText();
+    }
+
+    .email {
+      color: var(--c-description);
     }
   }
 
-  .signOut {
-    font-size: var(--fs-span);
+  img {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
   }
 }
 </style>

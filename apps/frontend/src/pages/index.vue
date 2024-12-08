@@ -1,18 +1,15 @@
 <script lang="ts" setup>
-import { Hero } from '~/widgets/hero';
-import { SearchContent } from '~/features/search';
-import { computed } from '#imports';
-import { searchStore } from '~/stores/searcStore';
-import { isOnlySpaces } from '@movie-tracker/utils';
-import { PopularLists } from '~/widgets/popularLists';
-
-const searchTerm = computed(() => searchStore.state.searchValue);
+import { Hero } from "~/widgets/hero"
+import { Feed } from "~/widgets/feed"
 </script>
 
 <template>
   <Hero />
-  <SearchContent />
-  <PopularLists v-if="!searchTerm || isOnlySpaces(searchTerm)" />
+  <Feed :class="$style.feed" />
 </template>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.feed {
+  margin-top: 60px !important;
+}
+</style>

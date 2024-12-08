@@ -1,3 +1,4 @@
-export {default as UiCard} from './UiCard.vue'
-export {default as UiVideoCard} from './UiVideoCard.vue'
-export {default as UiCardSkeleton} from './UiCardSkeleton.vue'
+export * from "./mediaCard"
+export * from "./videoCard"
+export { default as UiCardBase } from "./UiCardBase.vue"
+export * from "./UiCardBase.vue"

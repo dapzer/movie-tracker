@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 
-import DefaultHeader from "~/components/layout/defaultHeader/DefaultHeader.vue";
-import UiLayoutWrapper from "~/components/ui/UiLayoutWrapper.vue";
-import DefaultFooter from "~/components/layout/defaultFooter/DefaultFooter.vue";
+import { DefaultHeader } from "~/widgets/header"
+import { DefaultFooter } from "~/widgets/footer"
+import { UiLayoutWrapper } from "~/components/ui/UiLayoutWrapper"
 </script>
 
 <template>

@@ -1,0 +1,240 @@
+<script lang="ts" setup>
+import type { MediaItemType } from "@movie-tracker/types";
+import { NuxtLink } from "#components";
+import { UiButton } from "~/components/ui/UiButton";
+import { CheckIcon, CrossFilledIcon, PencilIcon, PlusIcon, TrashIcon } from "~/components/ui/icons";
+import { UiTypography } from "~/components/ui/UiTypography";
+import { computed, ref } from "vue";
+import { UiInput } from "~/components/ui/UiInput";
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
+import { isOnlySpaces } from "@movie-tracker/utils";
+import { useI18n } from "#imports";
+import { toast } from "vue3-toastify";
+
+interface TrackingMenuSitesToViewProps {
+  mediaItem: MediaItemType;
+}
+
+const props = defineProps<TrackingMenuSitesToViewProps>();
+const { t } = useI18n();
+
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
+
+const currentEditItemIndex = ref<number | null>(null);
+const currentEditItemUrl = ref<string>("");
+
+const sitesToView = computed(() => {
+  return props.mediaItem.trackingData?.sitesToView || [];
+});
+
+const isDisableActiveSaveButton = computed(() => {
+  return isOnlySpaces(currentEditItemUrl.value || "") && currentEditItemIndex.value ===
+      props.mediaItem.trackingData?.sitesToView.length;
+});
+
+const handleEditItem = (index: number | null, url: string) => {
+  currentEditItemIndex.value = index;
+  currentEditItemUrl.value = url;
+};
+
+const handleDeleteItem = async (index: number) => {
+  let finalArray = sitesToView.value.slice();
+  finalArray.splice(index, 1);
+
+  await updateMediaItemTrackingDataApi.mutateAsync({
+    trackingDataId: props.mediaItem.trackingData.id,
+    body: {
+      ...props.mediaItem.trackingData,
+      sitesToView: finalArray
+    }
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successSiteToViewChanged"));
+  }).catch(() => {
+    toast.error(t("toasts.mediaItem.unsuccessfullySiteToViewChanged"));
+  });
+};
+
+const handleSave = async () => {
+  if (currentEditItemIndex.value === null) return;
+  let finalArray = sitesToView.value.slice();
+
+  if (currentEditItemIndex.value === sitesToView.value.length || !sitesToView.value.length) {
+    finalArray.push({
+      url: currentEditItemUrl.value || ""
+    });
+  } else if (!currentEditItemUrl.value) {
+    finalArray.splice(currentEditItemIndex.value, 1);
+  } else {
+    finalArray[currentEditItemIndex.value] = {
+      url: currentEditItemUrl.value
+    };
+  }
+
+  await updateMediaItemTrackingDataApi.mutateAsync({
+    trackingDataId: props.mediaItem.trackingData.id,
+    body: {
+      ...props.mediaItem.trackingData,
+      sitesToView: finalArray
+    }
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successSiteToViewChanged"));
+  });
+
+  handleEditItem(null, '');
+};
+</script>
+
+<template>
+  <div :class="$style.wrapper">
+    <div :class="$style.items">
+      <template
+        v-for="(site, index) in sitesToView"
+        :key="index"
+      >
+        <div
+          v-if="currentEditItemIndex !== index"
+          :class="$style.item"
+          :style="{ '--order': index + 1 }"
+        >
+          <UiTypography
+            :as="NuxtLink"
+            :to="site.url"
+            schema="link"
+            target="_blank"
+          >
+            {{ $t(`mediaItem.trackingMenu.siteToView`) }} #{{ index + 1 }}
+          </UiTypography>
+          <div :class="$style.actions">
+            <UiButton
+              :disabled="updateMediaItemTrackingDataApi.isPending.value"
+              variant="text"
+              @click="handleEditItem(index, site.url || '')"
+            >
+              <PencilIcon />
+            </UiButton>
+
+            <UiButton
+              :disabled="updateMediaItemTrackingDataApi.isPending.value"
+              variant="text"
+              scheme="tertiary"
+              @click="handleDeleteItem(index)"
+            >
+              <TrashIcon />
+            </UiButton>
+          </div>
+        </div>
+      </template>
+
+      <UiButton
+        v-if="currentEditItemIndex === null"
+        withIcon
+        :disabled="sitesToView.length >= 3"
+        :class="$style.addNew"
+        :style="{ '--order': sitesToView.length || 1 }"
+        variant="outlined"
+        @click="handleEditItem(sitesToView.length || 1, '')"
+      >
+        {{ $t(`mediaItem.trackingMenu.addSiteToView`) }}
+        <PlusIcon />
+      </UiButton>
+
+      <div
+        v-if="currentEditItemIndex !== null"
+        :class="[$style.item, $style.editing]"
+        :style="{ '--order': currentEditItemIndex }"
+      >
+        <UiInput
+          v-model="currentEditItemUrl"
+          size="small"
+          :placeholder="$t(`mediaItem.trackingMenu.newSitePlaceholder`)"
+          :disabled="updateMediaItemTrackingDataApi.isPending.value"
+        />
+
+        <UiButton
+          :disabled="updateMediaItemTrackingDataApi.isPending.value || isDisableActiveSaveButton"
+          scheme="secondary"
+          @click="handleSave"
+        >
+          <CheckIcon />
+        </UiButton>
+
+        <UiButton
+          :disabled="updateMediaItemTrackingDataApi.isPending.value"
+          scheme="tertiary"
+          @click="handleEditItem(null, '')"
+        >
+          <CrossFilledIcon />
+        </UiButton>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" module>
+.wrapper {
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .item {
+      height: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      order: var(--order, 1);
+      gap: 6px;
+      font-size: var(--fs-description);
+      font-weight: var(--fw-regular);
+      line-height: var(--lh-description);
+      color: var(--c-text);
+
+      & a {
+        text-decoration: underline;
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 4px;
+
+      button {
+        height: 24px;
+        width: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--s-border-radius-small);
+
+        &:hover {
+          background: var(--c-white-10);
+        }
+      }
+    }
+
+    .addNew {
+      order: var(--order, 1);
+
+      width: 100%;
+    }
+
+    .editing {
+      align-items: flex-end;
+
+      button,
+      input {
+        height: 32px;
+      }
+
+      button {
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}
+</style>

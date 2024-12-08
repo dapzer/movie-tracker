@@ -1,10 +1,11 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 
-import { allowedLanguages } from "~/features/languegeSelector/model/languages";
-import UiTypography from "~/components/ui/UiTypography.vue";
-import { useSwitchLocalePath } from "#i18n";
-import { NuxtLink } from "#components";
-import { useI18n } from "#imports";
+import { allowedLanguages } from "~/features/languegeSelector/model/languages"
+import { useSwitchLocalePath } from "#i18n"
+import { useI18n } from "#imports"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { NuxtLink } from "#components"
+import { UiDivider } from "~/components/ui/UiDivider"
 
 const switchLocalePath = useSwitchLocalePath();
 const { locale } = useI18n();
@@ -17,41 +18,34 @@ const { locale } = useI18n();
       :key="language"
     >
       <UiTypography
+        :class="{ [$style.active]: language.value === locale }"
         :as="NuxtLink"
-        :class="[$style.language, {
-          [$style.active]: locale === language
-        }]"
-        :to="switchLocalePath(language)"
-        variant="link"
+        :to="switchLocalePath(language.value)"
       >
-        {{ language }}
+        {{ language.originalName }}
       </UiTypography>
-      <div
-        v-if="index < allowedLanguages.length - 1"
-        :class="$style.divider"
+      <UiDivider
+        v-if="index !== allowedLanguages.length -1"
+        vertical
+        :height="20"
+        :width="1"
       />
     </template>
   </div>
 </template>
 
-<style lang="scss" module>
+<style module lang="scss">
 .wrapper {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
-}
 
-.divider {
-  width: 1px;
-  height: 27px;
-  background: var(--c-text);
-}
+  a {
+    color: var(--c-white-50);
+  }
 
-.language {
-  text-transform: capitalize;
-}
-
-.active {
-  color: var(--c-highlight) !important;
+  .active {
+    color: var(--c-text);
+  }
 }
 </style>
