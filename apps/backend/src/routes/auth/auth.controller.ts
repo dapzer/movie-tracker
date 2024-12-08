@@ -31,6 +31,7 @@ import { ResetPasswordByTokenDto } from '@/routes/auth/dto/resetPasswordByToken.
 import { getMillisecondsFromHours } from '@/shared/utils/getMillisecondsFromHours';
 import { RequestChangeEmailDto } from '@/routes/auth/dto/requestChangeEmail.dto';
 import { ConfirmChangeEmailDto } from '@/routes/auth/dto/confirmChangeEmail.dto';
+import { ConfigService } from "@nestjs/config"
 
 @Controller('auth')
 export class AuthController {
@@ -50,6 +51,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly providersService: ProvidersService,
+    private readonly configService: ConfigService,
   ) {
   }
 
@@ -189,7 +191,11 @@ export class AuthController {
         resolve(true);
       });
     }).then(() => {
-      res.clearCookie('session');
+      res.clearCookie('session', {
+        sameSite: true,
+        httpOnly: true,
+        domain: `.${new URL(this.configService.get('CLIENT_BASE_URL')).hostname}`,
+      });
       res.send(true);
     }).catch(() => {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
