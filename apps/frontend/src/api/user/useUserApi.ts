@@ -9,9 +9,11 @@ export const useUserProfileApi = () => {
   return useQuery({
     queryKey: [UserQueryKeys.PROFILE],
     queryFn: () => {
-      const headers = useRequestHeaders(["cookie", "connect.sid"]);
-
-      return  getUserProfileApi({ headers })
+      const headers = useRequestHeaders(["cookie"]);
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found");
+      }
+      return getUserProfileApi({ headers })
     },
     retry: false,
   })

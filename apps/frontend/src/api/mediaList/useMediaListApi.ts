@@ -16,20 +16,33 @@ import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 import { useRequestHeaders } from "#app"
 
 export const useGetMediaListsApi = () => {
-  const headers = useRequestHeaders(["cookie", "connect.sid"]);
-
   return useQuery({
     queryKey: [MediaListQueryKeys.GET_ALL],
-    queryFn: () => getMediaListsApi({ headers }),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"]);
+
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found");
+      }
+      
+      return getMediaListsApi({ headers })
+    },
     retry: false
   })
 };
 
 export const useGetMediaListsByIdApi = (mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) => {
-  const headers = useRequestHeaders(["cookie"]);
-  return  useQuery({
+  return useQuery({
     queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
-    queryFn: async () => await getMediaListsByIdApi(mediaListId, { headers }),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"]);
+
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found");
+      }
+
+      return getMediaListsByIdApi(mediaListId, { headers })
+    },
     ...options
   });
 }
@@ -100,7 +113,7 @@ export const useCreateLikeMediaListApi = () => {
     mutationKey: [MediaListQueryKeys.CREATE_LIKE],
     mutationFn: async (mediaListId: string) => await createLikeMediaListApi(mediaListId),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaListQueryKeys.GET_BY_ID, data.mediaListHumanFriendlyId], (oldData: MediaListType) =>({
+      await queryClient.setQueryData([MediaListQueryKeys.GET_BY_ID, data.mediaListHumanFriendlyId], (oldData: MediaListType) => ({
         ...oldData,
         likesCount: (oldData.likesCount || 0) + 1,
         isLiked: true

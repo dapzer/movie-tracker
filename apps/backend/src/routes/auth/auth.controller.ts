@@ -9,10 +9,11 @@ import {
   Post,
   Query,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthProviderGuard } from './guards/provider.guard';
 import { ProvidersService } from '@/routes/auth/providers/providers.service';
@@ -177,16 +178,23 @@ export class AuthController {
 
   @Post('/logout')
   @UseGuards(AuthGuard)
-  async logout(@Req() req: Request) {
-    return new Promise((resolve, reject) => {
+  async logout(@Req() req: Request, @Res() res: Response) {
+    return  new Promise((resolve, reject) => {
       req.session.destroy((err) => {
-        if (err) {
+        if (!err) {
           reject(
-            new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR),
+            new HttpException(err?.message, HttpStatus.INTERNAL_SERVER_ERROR),
           );
         }
         resolve(true);
       });
-    });
+    }).then(() => {
+      res.clearCookie('session');
+      res.send(true);
+    }).catch(() => {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        message: "Error while destroying session",
+      });
+    })
   }
 }

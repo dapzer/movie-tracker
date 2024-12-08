@@ -14,13 +14,20 @@ import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 import { useRequestHeaders } from "#app"
 
 export const useGetMediaItemsApi = () => {
-  const headers = useRequestHeaders(["cookie", "connect.sid"]);
 
   return useQuery({
     queryKey: [MediaItemQueryKeys.GET_ALL],
-    queryFn: () => getMediaItemsApi({
-      headers
-    }),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"]);
+
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found");
+      }
+      
+      return getMediaItemsApi({
+        headers
+      })
+    },
     retry: false
   })
 };
