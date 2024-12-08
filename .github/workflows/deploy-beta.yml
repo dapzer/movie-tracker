@@ -1,8 +1,8 @@
-name: Build and push docker images
+name: Build and push docker images for beta version
 
 on:
   push:
-    branches: [ '44-implement-new-design' ]
+    branches: [ 'beta' ]
   workflow_dispatch:
 
 jobs:
