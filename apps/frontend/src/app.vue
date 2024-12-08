@@ -59,8 +59,20 @@ useSeoMeta({
 
 <template>
   <ConfigProvider :use-id="useIdFunction">
+    <NuxtLoadingIndicator
+      :class="$style.progressBar"
+      color="#78B6FF"
+      :throttle="10"
+      :height="1"
+    />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </ConfigProvider>
 </template>
+
+<style module lang="scss">
+.progressBar {
+  top: var(--s-header-height) !important;
+}
+</style>
