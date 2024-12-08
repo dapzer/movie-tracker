@@ -40,7 +40,7 @@ const tmdbGetPersonExternalIdsApi = useGetTmdbPersonExternalIdsApi(personQueries
 
 await Promise.all([
   tmdbGetPersonDetailsApi.suspense().then((res) => {
-    if (res.data === null) {
+    if ((res.error as Error)?.message.startsWith("404")) {
       throw createError({
         statusCode: 404,
         message: t("ui.errors.pageNotFound"),
