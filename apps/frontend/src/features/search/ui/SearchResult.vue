@@ -15,6 +15,8 @@ import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
 import { UiCardsGrid } from "~/components/ui/UiCardsGrid"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { PersonCard } from "~/entities/personCard"
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { MediaTypeEnum } from "@movie-tracker/types"
 import SearchResultPagination from "~/features/search/ui/SearchResultPagination.vue"
 import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
@@ -29,6 +31,14 @@ const { locale, t } = useI18n();
 const route = useRoute();
 const router = useRouter()
 const searchTerm = ref(route.query.searchTerm as string)
+const contentCount = ref({
+  movie: 0,
+  tv: 0,
+  person: 0,
+  get total() {
+    return this.movie + this.tv + this.person
+  }
+})
 
 watch(() => route.query.searchTerm, () => {
   if ('searchTerm' in route.query) {
@@ -74,14 +84,18 @@ await Promise.all([
   getTmdbSearchPersonByTerm.suspense()
 ])
 
-const contentCount = {
-  movie: getTmdbSearchMovieByTerm.data.value?.total_results || 0,
-  tv: getTmdbSearchTvByTerm.data.value?.total_results || 0,
-  person: getTmdbSearchPersonByTerm.data.value?.total_results || 0,
-  get total()  {
-    return this.movie + this.tv + this.person
+watch([
+  getTmdbSearchMovieByTerm.isPending,
+  getTmdbSearchTvByTerm.isPending,
+  getTmdbSearchPersonByTerm.isPending
+],() => {
+  if (getTmdbSearchMovieByTerm.isPending.value || getTmdbSearchTvByTerm.isPending.value || getTmdbSearchPersonByTerm.isPending.value) {
+    return
   }
-}
+  contentCount.value.movie = getTmdbSearchMovieByTerm.data.value?.total_results || 0
+  contentCount.value.tv = getTmdbSearchTvByTerm.data.value?.total_results || 0
+  contentCount.value.person = getTmdbSearchPersonByTerm.data.value?.total_results || 0
+}, { immediate: true, })
 
 const dataToRender = computed(() => {
   if (activeTab.value === 'movies') {
