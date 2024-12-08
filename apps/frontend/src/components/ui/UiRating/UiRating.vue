@@ -19,6 +19,7 @@ const currentColor = computed(() => {
 <template>
   <div
     :class="[$style.wrapper, {
+      [$style.gray]: currentColor === 'gray',
       [$style.red]: currentColor === 'red',
       [$style.orange]: currentColor === 'orange',
       [$style.green]: currentColor === 'green'
@@ -62,5 +63,10 @@ const currentColor = computed(() => {
   &.red {
     background: var(--c-red);
   }
+
+  &.gray {
+    background: var(--c-stroke-2);
+  }
 }
 </style>
+

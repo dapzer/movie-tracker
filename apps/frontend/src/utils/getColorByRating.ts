@@ -1,7 +1,12 @@
 const ratingRanges = [
   {
-    color: "red",
+    color: "gray",
     min: 0,
+    max: 0
+  },
+  {
+    color: "red",
+    min: 0.1,
     max: 3
   },
   {
