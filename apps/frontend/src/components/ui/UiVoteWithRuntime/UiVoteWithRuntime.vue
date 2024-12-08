@@ -29,6 +29,7 @@ const formatedRuntime = computed(() => {
     <div :class="$style.vote">
       <div
         :class="[$style.rating, {
+          [$style.gray]: currentRatingColor === 'gray',
           [$style.red]: currentRatingColor === 'red',
           [$style.orange]: currentRatingColor === 'orange',
           [$style.green]: currentRatingColor === 'green'
@@ -69,7 +70,6 @@ const formatedRuntime = computed(() => {
     </div>
   </div>
 </template>
-
 <style module lang="scss">
 .wrapper {
   display: flex;
@@ -102,6 +102,10 @@ const formatedRuntime = computed(() => {
 
   &.red {
     color: var(--c-red);
+  }
+
+  &.gray {
+    color: var(--c-description);
   }
 
   p {
