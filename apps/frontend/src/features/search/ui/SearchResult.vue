@@ -24,7 +24,7 @@ import { useRouter } from "vue-router"
 import { UiAttention } from "~/components/ui/UiAttention"
 import { getMatchesDeclensionTranslationKey } from "~/utils/getMatchesDeclensionTranslationKey"
 
-type Tab = 'all' | 'movies' | 'tvs' | 'parsons'
+type Tab = 'all' | 'movies' | 'tvs' | 'persons'
 
 const { locale, t } = useI18n();
 
@@ -112,7 +112,7 @@ const dataToRender = computed(() => {
     }
   }
 
-  if (activeTab.value === 'parsons') {
+  if (activeTab.value === 'persons') {
     return {
       items:getTmdbSearchPersonByTerm.data.value?.results,
       totalPage: getTmdbSearchPersonByTerm.data.value?.total_pages
@@ -176,7 +176,7 @@ const handleTabChange = (tab: Tab) => {
         },
         {
           label: `${$t('details.mediaType.persons')} (${contentCount.person})`,
-          key: 'parsons',
+          key: 'persons',
         }
       ] as const"
     >
@@ -223,7 +223,7 @@ const handleTabChange = (tab: Tab) => {
             v-if="contentCount.person"
             see-more-align="end"
             :title="$t('details.mediaType.persons')"
-            @on-click-see-more="() => handleTabChange('parsons')"
+            @on-click-see-more="() => handleTabChange('persons')"
           >
             <UiCardsGrid>
               <PersonCard
@@ -242,7 +242,7 @@ const handleTabChange = (tab: Tab) => {
                 :key="index"
               />
             </template>
-            <template v-else-if="activeTab !== 'parsons'">
+            <template v-else-if="activeTab !== 'persons'">
               <MovieCardWithHoverMenu
                 v-for="item in dataToRender.items"
                 :key="item.id"
