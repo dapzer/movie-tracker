@@ -181,7 +181,7 @@ export class AuthController {
   async logout(@Req() req: Request, @Res() res: Response) {
     return  new Promise((resolve, reject) => {
       req.session.destroy((err) => {
-        if (!err) {
+        if (err) {
           reject(
             new HttpException(err?.message, HttpStatus.INTERNAL_SERVER_ERROR),
           );
