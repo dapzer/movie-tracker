@@ -7,6 +7,10 @@ movie-tracker.dapzer.ru {
     redir https://movie-tracker.app{uri}
 }
 
+beta.movie-tracker.app {
+    redir https://movie-tracker.app{uri}
+}
+
 movie-tracker.app {
     handle_path /sitemaps/* {
         rewrite * /api/sitemaps{path}
@@ -14,15 +18,6 @@ movie-tracker.app {
     }
 
     reverse_proxy frontend:3000
-}
-
-beta.movie-tracker.app {
-    handle_path /sitemaps/* {
-        rewrite * /api/sitemaps{path}
-        reverse_proxy backend:1337
-    }
-
-    reverse_proxy frontendBeta:3000
 }
 
 api.movie-tracker.app {
