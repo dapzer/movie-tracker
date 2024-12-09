@@ -26,6 +26,7 @@ interface MediaListDetailsProps {
 const props = defineProps<MediaListDetailsProps>();
 const storedMediaListSortingType = useCookie(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
   default: () =>  'asc_createdAt',
+  expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
 });
 
 const sortType = ref<string>(storedMediaListSortingType.value);
