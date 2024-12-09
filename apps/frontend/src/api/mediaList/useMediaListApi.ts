@@ -24,7 +24,7 @@ export const useGetMediaListsApi = () => {
       if (!headers.cookie?.includes("session") && import.meta.server) {
         throw new Error("No session cookie found");
       }
-      
+
       return getMediaListsApi({ headers })
     },
     retry: false
@@ -36,10 +36,6 @@ export const useGetMediaListsByIdApi = (mediaListId: string, options?: Omit<UseQ
     queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"]);
-
-      if (!headers.cookie?.includes("session") && import.meta.server) {
-        throw new Error("No session cookie found");
-      }
 
       return getMediaListsByIdApi(mediaListId, { headers })
     },
