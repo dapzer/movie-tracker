@@ -118,6 +118,7 @@ export default {
       "Production": "Production",
       "Actors": "Actors",
       'Acting': 'Actor',
+      'Creator': 'Creator',
     },
     job: {
       "Post Production Supervisor": "Post Production Supervisor",

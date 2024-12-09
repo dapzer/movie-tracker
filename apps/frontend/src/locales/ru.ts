@@ -118,6 +118,7 @@ export default {
       "Production": "Производство",
       "Actors": "Актеры",
       'Acting': 'Актёр',
+      'Creator': 'Создатель',
     },
     job: {
       "Post Production Supervisor": "Супервайзер постпродакшна",
