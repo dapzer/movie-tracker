@@ -16,7 +16,7 @@ export const usePersonDetailsSeo = (person?: TmdbPersonType | null) => {
 
   useSeoMeta({
     titleTemplate(titleChunk) {
-      return `${person?.name} | ${person?.known_for_department ? `${t(`details.knowFor.${person?.known_for_department}`,
+      return `${person?.name} | ${person?.known_for_department ? `${t(`details.department.${person?.known_for_department}`,
       )} | ` : ''}${titleChunk}`;
     },
     ogTitle: `%s | ${person?.name}`,
