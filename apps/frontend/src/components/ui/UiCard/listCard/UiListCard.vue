@@ -100,6 +100,7 @@ const handleImageLoadingError = (index: number) => {
     border-radius: var(--s-border-radius);
 
     .imagesItem {
+      display: flex;
       background: linear-gradient(337.92deg, #151515 3.25%, #1E1E1E 52.25%, #151515 100%);
       box-shadow: 4px 0px 20px rgba(13, 13, 13, 0.56);
 
