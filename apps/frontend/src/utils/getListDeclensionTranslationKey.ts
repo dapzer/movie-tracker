@@ -3,17 +3,17 @@ export const getListDeclensionTranslationKey = (count: number) => {
   const lastTwoDigits = count % 100;
 
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-    return 'mediaList.multipleLists';
+    return 'ui.multipleLists';
   }
 
   switch (lastDigit) {
     case 1:
-      return 'mediaList.singleLists';
+      return 'ui.singleLists';
     case 2:
     case 3:
     case 4:
-      return 'mediaList.manyLists';
+      return 'ui.manyLists';
     default:
-      return 'mediaList.multipleLists';
+      return 'ui.multipleLists';
   }
 }
