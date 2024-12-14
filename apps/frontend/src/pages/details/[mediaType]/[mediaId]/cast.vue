@@ -12,12 +12,13 @@ import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import { ContentList } from "~/widgets/contentList"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { arrayToString } from "@movie-tracker/utils"
+import { UiAttention } from "~/components/ui/UiAttention"
 
 const { locale, t } = useI18n();
 const route = useRoute();
 const mediaId = Number(route.params.mediaId);
 const mediaType = route.params.mediaType as TmdbMediaTypeEnum;
-const currentPage = ref(1)
+const currentPage = ref(Number(route.query.page) || 1)
 const localePath = useLocalePath()
 
 const queries = computed(() => ({
@@ -58,6 +59,7 @@ const totalPages = computed(() => {
     :title="$t('details.castTitle')"
     :back-button-url="localePath(`/details/${mediaType}/${mediaId}`)"
     :total-pages="totalPages"
+    :get-page-href="(page) => page > 1 ? `?page=${page}`: localePath('')"
   >
     <template v-if="!tmdbGetMovieCreditsApi.isFetching.value">
       <PersonCard
@@ -84,6 +86,16 @@ const totalPages = computed(() => {
         :key="index"
         full-height
         :width="195"
+      />
+    </template>
+    <template
+      v-if="!tmdbGetMovieCreditsApi.isFetching.value && !castList.length"
+      #plainContent
+    >
+      <UiAttention
+        title-variant="text"
+        :indent="0"
+        :title="$t('search.notingFound')"
       />
     </template>
   </ContentList>

@@ -8,9 +8,12 @@ import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { useRoute } from "#app"
+import { UiAttention } from "~/components/ui/UiAttention"
 
 const { locale, t } = useI18n();
-const currentPage = ref(1)
+const route = useRoute()
+const currentPage = ref(Number(route.query.page) || 1)
 const localePath = useLocalePath()
 
 const queries = computed(() => {
@@ -33,6 +36,9 @@ useSeoMeta({
 
 const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(queries);
 await getTmdbMoviePopularListApi.suspense();
+
+const results = computed(() => getTmdbMoviePopularListApi.data?.value?.results)
+const isFetching = computed(() => getTmdbMoviePopularListApi.isFetching.value)
 </script>
 
 <template>
@@ -41,22 +47,33 @@ await getTmdbMoviePopularListApi.suspense();
     :title="$t('feed.popularTv')"
     :back-button-url="localePath('/')"
     :total-pages="getTmdbTotalPages(getTmdbMoviePopularListApi.data?.value?.total_pages)"
+    :get-page-href="(page) => page > 1 ? `?page=${page}`: localePath('')"
   >
-    <template v-if="!getTmdbMoviePopularListApi.isFetching.value">
+    <template v-if="isFetching">
+      <UiMediaCardSkeleton
+        v-for="index in 20"
+        :key="index"
+        full-height
+        :width="195"
+      />
+    </template>
+    <template v-else-if="results?.length">
       <MovieCardWithHoverMenu
-        v-for="item in getTmdbMoviePopularListApi.data?.value?.results"
+        v-for="item in results"
         :key="item.id"
         full-height
         :width="195"
         :movie="{...item, media_type: MediaTypeEnum.TV}"
       />
     </template>
-    <template v-else>
-      <UiMediaCardSkeleton
-        v-for="index in 20"
-        :key="index"
-        full-height
-        :width="195"
+    <template
+      v-if="!results?.length && !isFetching"
+      #plainContent
+    >
+      <UiAttention
+        title-variant="text"
+        :indent="0"
+        :title="$t('search.notingFound')"
       />
     </template>
   </ContentList>

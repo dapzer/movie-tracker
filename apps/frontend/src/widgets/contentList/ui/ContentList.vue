@@ -12,10 +12,12 @@ interface ContentListProps {
   backButtonText?: string;
   backButtonUrl: string;
   totalPages: number;
+  getPageHref?: (page: number) => string;
 }
 
 const props = defineProps<ContentListProps>()
 const currentPage = defineModel<number>("currentPage")
+const slots = defineSlots()
 </script>
 
 <template>
@@ -38,12 +40,19 @@ const currentPage = defineModel<number>("currentPage")
       <slot />
     </UiCardsGrid>
 
+    <template v-if="slots.plainContent">
+      <div :class="$style.content">
+        <slot name="plainContent" />
+      </div>
+    </template>
+
     <template v-if="props.totalPages >= 1">
       <UiPagination
         v-model="currentPage"
         :pages-on-sides="1"
         :items-per-page="20"
         :total-items="props.totalPages * 20"
+        :get-page-href="props.getPageHref"
       />
     </template>
   </UiContainer>

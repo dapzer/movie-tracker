@@ -11,11 +11,13 @@ import {
 import { UiButton } from "~/components/ui/UiButton"
 import { ArrowIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/ui/UiTypography"
+import UiPaginationItem from "~/components/ui/UiPagination/UiPaginationItem.vue"
 
 interface UiPaginationProps {
   totalItems: number;
   pagesOnSides: number;
   itemsPerPage: number;
+  getPageHref?: (page: number) => string;
 }
 
 const props = defineProps<UiPaginationProps>();
@@ -46,10 +48,10 @@ const currentPage = defineModel<number>();
         <PaginationListItem
           v-if="page.type === 'page'"
           :key="index"
-          :class="{ [$style.page]: currentPage === page.value }"
           :value="page.value"
-          :as="UiButton"
-          :scheme="currentPage === page.value ? 'secondary': 'default'"
+          :as="UiPaginationItem"
+          :is-active="currentPage === page.value"
+          :to="props.getPageHref?.(page.value)"
         >
           {{ page.value }}
         </PaginationListItem>
@@ -83,11 +85,13 @@ const currentPage = defineModel<number>();
   justify-content: center;
   flex-wrap: wrap;
 
+  a,
   p,
   button {
     color: var(--c-description);
   }
 
+  a,
   button {
     display: flex;
     align-items: center;
