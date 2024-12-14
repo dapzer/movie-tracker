@@ -7,7 +7,7 @@ import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
-import { todayWithoutTime } from "~/shared/constants/dates"
+import { getTodayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 
@@ -20,8 +20,8 @@ const queries = computed<TmdbDiscoverTvQueriesType>(() => {
     language: locale.value,
     page: currentPage.value,
     sort_by: 'popularity.desc',
-    "air_date.gte": todayWithoutTime,
-    "air_date.lte": todayWithoutTime,
+    "air_date.gte": getTodayWithoutTime(),
+    "air_date.lte": getTodayWithoutTime(),
     without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
       TmdbTvGenresEnum.REALITY].join(','),
   }

@@ -6,7 +6,7 @@ import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import type { TmdbDiscoverMovieQueriesType } from "~/api/tmdb/tmdbApiTypes"
-import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
+import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
@@ -19,8 +19,8 @@ const queries = computed<TmdbDiscoverMovieQueriesType>(() => {
   return {
     language: locale.value,
     page: currentPage.value,
-    "primary_release_date.gte": todayWithoutTime,
-    "primary_release_date.lte": nextThirtyDaysWithoutTime,
+    "primary_release_date.gte": getTodayWithoutTime(),
+    "primary_release_date.lte": getNextThirtyDaysWithoutTime(),
     sort_by: 'popularity.desc',
   }
 })

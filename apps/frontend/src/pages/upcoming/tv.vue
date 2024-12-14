@@ -7,7 +7,7 @@ import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
 import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
-import { nextThirtyDaysWithoutTime, todayWithoutTime } from "~/shared/constants/dates"
+import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 
@@ -19,8 +19,8 @@ const queries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
     language: locale.value,
     page: currentPage.value,
-    "first_air_date.gte": todayWithoutTime,
-    "first_air_date.lte": nextThirtyDaysWithoutTime,
+    "first_air_date.gte": getTodayWithoutTime(),
+    "first_air_date.lte": getNextThirtyDaysWithoutTime(),
     without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
       TmdbTvGenresEnum.REALITY].join(','),
   }
