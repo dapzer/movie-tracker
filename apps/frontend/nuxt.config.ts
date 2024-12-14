@@ -56,11 +56,13 @@ export default defineNuxtConfig({
       {
         code: "en",
         iso: "en",
+        language: "en",
         file: "en.ts"
       },
       {
         code: "ru",
         iso: "ru",
+        language: "ru",
         file: "ru.ts"
       }
     ]
