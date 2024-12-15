@@ -1,0 +1,99 @@
+##
+## Uptrace configuration file.
+## See https://uptrace.dev/get/config.html for details.
+##
+ch:
+  addr: clickhouse:9000
+  user: default
+  password:
+  database: uptrace
+
+  max_execution_time: 30s
+
+pg:
+  addr: postgres:5432
+  user: uptrace
+  password: uptrace
+  database: uptrace
+
+projects:
+  - id: 1
+    name: Uptrace
+    token: project1_secret_token
+    pinned_attrs:
+      - service
+      - host_name
+      - deployment_environment
+    group_by_env: false
+    group_funcs_by_service: false
+    prom_compat: true
+
+  - id: 2
+    name: MovieTracker
+    # TODO: Set a secret token.
+    token: project2_secret_token
+    pinned_attrs:
+      - service
+      - host_name
+      - deployment_environment
+    group_by_env: false
+    group_funcs_by_service: false
+    prom_compat: true
+
+auth:
+  # TODO: Change the auth data.
+  users:
+    - name: Anonymous
+      email: uptrace@localhost
+      password: uptrace
+      notify_by_email: true
+
+  oidc:
+
+ch_schema:
+  compression: ZSTD(3)
+
+  replicated: false
+
+  spans:
+    ttl_delete: 7 DAY
+    storage_policy: 'default'
+
+  metrics:
+    ttl_delete: 30 DAY
+    storage_policy: 'default'
+
+listen:
+  grpc:
+    addr: ':14317'
+  http:
+    addr: ':14318'
+
+site:
+# TODO: Uncomment and set to the public URL.
+#addr: 'https://uptrace.mydomain.com/'
+
+spans:
+
+metrics:
+  drop_attrs:
+    - telemetry.sdk.language
+    - telemetry.sdk.name
+    - telemetry.sdk.version
+uptrace_go:
+
+smtp_mailer:
+  enabled: true
+  host: mailpit
+  port: 1025
+  username: mailpit
+  password: mailpit
+  tls: { disabled: true }
+  from: 'uptrace@localhost'
+
+logs:
+  level: INFO
+
+secret_key: 102c1a557c314fc28198acd017960843
+
+debug: false

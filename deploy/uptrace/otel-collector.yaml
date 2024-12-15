@@ -1,0 +1,96 @@
+extensions:
+  health_check:
+  pprof:
+    endpoint: 0.0.0.0:1777
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+  hostmetrics:
+    collection_interval: 10s
+    scrapers:
+      cpu:
+      disk:
+      load:
+      filesystem:
+      memory:
+      network:
+      paging:
+  httpcheck:
+    targets:
+      - endpoint: 'http://localhost:13133/health/status'
+        method: GET
+      - endpoint: 'http://localhost:13134/health/status'
+        method: GET
+    collection_interval: 15s
+  jaeger:
+    protocols:
+      grpc:
+  postgresql:
+    endpoint: postgres:5432
+    transport: tcp
+    username: uptrace
+    password: uptrace
+    databases:
+      - uptrace
+    tls:
+      insecure: true
+  prometheus/otelcol:
+    config:
+      scrape_configs:
+        - job_name: 'otelcol'
+          scrape_interval: 10s
+          static_configs:
+            - targets: ['0.0.0.0:8888']
+
+processors:
+  resourcedetection:
+    detectors: ['system']
+  batch:
+    send_batch_size: 10000
+    timeout: 10s
+
+exporters:
+  otlp/uptrace:
+    endpoint: http://uptrace:14317
+    tls: { insecure: true }
+    headers: { 'uptrace-dsn': 'http://project1_secret_token@localhost:14318?grpc=14317' }
+  prometheusremotewrite/uptrace:
+    endpoint: 'http://uptrace:14318/api/v1/prometheus/write'
+    tls:
+      insecure: true
+    headers: { 'uptrace-dsn': 'http://project1_secret_token@localhost:14318?grpc=14317' }
+
+service:
+  telemetry:
+    metrics:
+      address: ':8888'
+  #   logs:
+  #     level: DEBUG
+  pipelines:
+    traces:
+      receivers: [otlp, jaeger]
+      processors: [batch]
+      exporters: [otlp/uptrace]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/uptrace]
+    metrics/hostmetrics:
+      receivers: [hostmetrics, postgresql, httpcheck]
+      processors: [batch, resourcedetection]
+      exporters: [otlp/uptrace]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/uptrace]
+    metrics/prom:
+      receivers: [prometheus/otelcol]
+      processors: [batch]
+      exporters: [prometheusremotewrite/uptrace]
+
+  extensions: [health_check, pprof, zpages]

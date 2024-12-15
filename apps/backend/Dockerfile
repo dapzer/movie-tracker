@@ -35,6 +35,8 @@ WORKDIR /app
 
 RUN npm install -g pnpm
 
+ENV NODE_ENV production
+
 COPY --from=installer /app .
 
 CMD ["pnpm", "--filter=backend", "run", "start:prod"]

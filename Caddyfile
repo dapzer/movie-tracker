@@ -24,6 +24,10 @@ api.movie-tracker.app {
     reverse_proxy backend:1337
 }
 
+uptrace.movie-tracker.app {
+    reverse_proxy uptrace:14318
+}
+
 adminer.movie-tracker.app {
     reverse_proxy adminer:8080
 }
