@@ -65,7 +65,7 @@ const currentColor = computed(() => {
   }
 
   &.gray {
-    background: var(--c-stroke-2);
+    background: var(--c-gray);
   }
 }
 </style>
