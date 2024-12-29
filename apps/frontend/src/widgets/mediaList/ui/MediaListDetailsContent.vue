@@ -266,7 +266,7 @@ watch(currentTabMediaItems, () => {
   }
 
   .tabs {
-    min-height: 484px;
+    min-height: 506px;
   }
 
   .pagination {
