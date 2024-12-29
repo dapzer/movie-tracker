@@ -27,6 +27,7 @@ const props = defineProps<FeedItemProps<T>>()
       :data="props.data as T[]"
       :maxWidth="props.slideWidth"
       :withShadow="props.sliderWithShadow"
+      :buttons-top-offset="142"
     >
       <template #slide="{ item }">
         <slot

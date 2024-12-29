@@ -141,6 +141,7 @@ const latestEpisodes = computed(() => {
       <UiSlider
         :data="latestEpisodes"
         :max-width="295"
+        :buttons-top-offset="78"
       >
         <template #slide="{item}">
           <EpisodeCard
@@ -163,6 +164,7 @@ const latestEpisodes = computed(() => {
       <UiSlider
         :data="videosList"
         :max-width="295"
+        :buttons-top-offset="84"
       >
         <template #slide="{item}">
           <VideoCardWithPlayer
@@ -202,6 +204,7 @@ const latestEpisodes = computed(() => {
       <UiSlider
         :data="tmdbGetRecommendationsApi.data.value?.results"
         :max-width="195"
+        :buttons-top-offset="142"
       >
         <template #slide="{item}">
           <MovieCardWithHoverMenu

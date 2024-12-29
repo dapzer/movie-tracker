@@ -9,6 +9,7 @@ interface UiSliderProps<T> {
   data: T[]
   maxWidth?: number
   withShadow?: boolean
+  buttonsTopOffset?: number
 }
 
 const props = defineProps<UiSliderProps<T>>()
@@ -73,7 +74,12 @@ const onNextButtonClick = () => {
     </div>
 
     <div class="embla__controls">
-      <div class="embla__buttons">
+      <div
+        class="embla__buttons"
+        :style="{
+          '--top-offset': props.buttonsTopOffset && props.buttonsTopOffset >= 0 ? `${props.buttonsTopOffset}px`: '50%',
+        }"
+      >
         <UiButton
           v-if="!prevBtnDisabled"
           class="embla__button-prev"
@@ -173,13 +179,14 @@ const onNextButtonClick = () => {
 .embla__buttons {
   position: absolute;
   width: 100%;
-  top: 50%;
   z-index: 2;
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
   align-items: center;
   pointer-events: none;
+
+  top: var(--top-offset);
 
   button {
     pointer-events: auto;
