@@ -150,6 +150,7 @@ watch(currentTabMediaItems, () => {
     <UiDivider />
     <UiTabsPane
       v-model="activeTab"
+      :class="$style.tabs"
       :tabs="[
         {
           label: `${$t('ui.all')} (${sortedMediaItems.length})`,
@@ -262,6 +263,10 @@ watch(currentTabMediaItems, () => {
     .select {
       display: none;
     }
+  }
+
+  .tabs {
+    min-height: 484px;
   }
 
   .pagination {
