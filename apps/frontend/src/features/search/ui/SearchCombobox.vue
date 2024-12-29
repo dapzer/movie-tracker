@@ -43,6 +43,7 @@ const itemsToRender = computed(() => {
     :indent="12"
     :width="568"
     align="center"
+    :resetSearchTermOnBlur="false"
     :placeholder="$t('search.placeholder')"
     :filter-function="(items: TmdbSearchResponseResultItemType[]) => items"
   >
