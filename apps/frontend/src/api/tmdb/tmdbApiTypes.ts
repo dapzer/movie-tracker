@@ -114,4 +114,5 @@ export interface TmdbDefaultQueriesType {
   language: Language;
   mediaType: MediaType;
   mediaId: MediaId;
+  page?: Page;
 }

@@ -199,7 +199,7 @@ const latestEpisodes = computed(() => {
     <UiSectionWithSeeMore
       v-if="tmdbGetRecommendationsApi.data.value?.results.length"
       :title="$t(`details.recommendationsTitle`)"
-      hide-see-more
+      :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/recommendations`)"
     >
       <UiSlider
         :data="tmdbGetRecommendationsApi.data.value?.results"

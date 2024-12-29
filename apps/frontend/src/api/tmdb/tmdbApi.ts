@@ -164,7 +164,7 @@ export const getTmdbRecommendationsApi = async (queries: TmdbDefaultQueriesType)
   return contentApi.get<TmdbSearchResponseType>(`${queries.mediaType}/${queries.mediaId}/recommendations`, {
     params: {
       language: queries.language,
-      page: 1
+      page: queries.page ?? 1
     }
   });
 };
