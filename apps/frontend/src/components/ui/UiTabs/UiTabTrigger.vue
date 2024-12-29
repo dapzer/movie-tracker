@@ -44,7 +44,6 @@ const props = defineProps<UiTabTriggerProps>();
   &:focus:not(.active),
   &:active:not(.active),
   &:hover:not(.active) {
-    border-radius: var(--s-border-radius-small);
     background-color: var(--c-card-background-hovered);
   }
 
