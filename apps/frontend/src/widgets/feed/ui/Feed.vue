@@ -9,6 +9,7 @@ import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/
 import { useLocalePath } from "#i18n"
 import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
 
 const { locale } = useI18n();
 const localePath = useLocalePath()
@@ -77,6 +78,8 @@ await Promise.all([
   getTmdbTvOnTheAirApi.suspense(),
   getTmdbTvAiringTodayApi.suspense(),
 ]);
+
+const loadingArray = Array.from({ length: 20 }, (_, i) => i);
 </script>
 
 <template>
@@ -84,7 +87,8 @@ await Promise.all([
     <FeedItem
       :title="$t('feed.popularMovies')"
       :see-more-url="localePath('/popular/movies')"
-      :data="getTmdbMoviePopularListApi.data.value?.results"
+      :data=" getTmdbMoviePopularListApi.data.value?.results"
+      :is-loading="getTmdbMoviePopularListApi.isPending.value"
       :slide-width="195"
     >
       <template #slide="{item}">
@@ -93,6 +97,9 @@ await Promise.all([
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
         />
+      </template>
+      <template #skeleton>
+        <UiMediaCardSkeleton :width="195" />
       </template>
     </FeedItem>
 
@@ -100,6 +107,7 @@ await Promise.all([
       :title="$t('feed.popularTv')"
       :see-more-url="localePath('/popular/tv')"
       :data="getTmdbTvPopularListApi.data.value?.results"
+      :is-loading="getTmdbTvPopularListApi.isPending.value"
       :slide-width="195"
     >
       <template #slide="{item}">
@@ -109,12 +117,17 @@ await Promise.all([
           :movie="{...item, media_type: MediaTypeEnum.TV}"
         />
       </template>
+
+      <template #skeleton>
+        <UiMediaCardSkeleton :width="195" />
+      </template>
     </FeedItem>
 
     <FeedItem
       :title="$t('feed.futureReleases')"
       :see-more-url="localePath('/upcoming/movies')"
       :data="getTmdbUpcomingMoviesApi.data.value?.results"
+      :is-loading="getTmdbUpcomingMoviesApi.isPending.value"
       :slide-width="195"
     >
       <template #slide="{item}">
@@ -124,12 +137,17 @@ await Promise.all([
           :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
         />
       </template>
+
+      <template #skeleton>
+        <UiMediaCardSkeleton :width="195" />
+      </template>
     </FeedItem>
 
     <FeedItem
       :title="$t('feed.latestReleases')"
       :see-more-url="localePath('/airing/today')"
       :data="getTmdbTvAiringTodayApi.data.value?.results"
+      :is-loading="getTmdbTvAiringTodayApi.isPending.value"
       :slide-width="195"
     >
       <template #slide="{item}">
@@ -139,12 +157,17 @@ await Promise.all([
           :movie="{...item, media_type: MediaTypeEnum.TV}"
         />
       </template>
+
+      <template #skeleton>
+        <UiMediaCardSkeleton :width="195" />
+      </template>
     </FeedItem>
 
     <FeedItem
       :title="$t('feed.futureTv')"
       :see-more-url="localePath('/upcoming/tv')"
       :data="getTmdbTvOnTheAirApi.data.value?.results"
+      :is-loading="getTmdbTvOnTheAirApi.isPending.value"
       :slide-width="195"
     >
       <template #slide="{item}">
@@ -153,6 +176,10 @@ await Promise.all([
           :width="195"
           :movie="{...item, media_type: MediaTypeEnum.TV}"
         />
+      </template>
+
+      <template #skeleton>
+        <UiMediaCardSkeleton :width="195" />
       </template>
     </FeedItem>
   </UiContainer>

@@ -7,12 +7,13 @@ interface FeedItemProps<T> {
   data: T[] | undefined;
   title: string;
   seeMoreUrl: string;
+  isLoading?: boolean;
   slideWidth?: number;
   sliderWithShadow?: boolean;
 }
 
 const props = defineProps<FeedItemProps<T>>()
-
+const loadingArray = Array.from({ length: 20 }, (_, i) => i);
 </script>
 
 <template>
@@ -23,26 +24,44 @@ const props = defineProps<FeedItemProps<T>>()
     :see-more-url="props.seeMoreUrl"
   >
     <UiSlider
+      :buttons-top-offset="142"
       :class="$style.slider"
-      :data="props.data as T[]"
+      :data="isLoading ? loadingArray as T[] : props.data as T[]"
       :maxWidth="props.slideWidth"
       :withShadow="props.sliderWithShadow"
-      :buttons-top-offset="142"
     >
-      <template #slide="{ item }">
+      <template
+        v-if="!isLoading"
+        #slide="{ item }"
+      >
         <slot
           name="slide"
           :item="item"
         />
       </template>
+      <template
+        v-else
+        #slide
+      >
+        <slot name="skeleton" />
+      </template>
     </UiSlider>
 
     <UiCardsGrid :class="$style.grid">
-      <slot
-        v-for="item in props.data as T[]"
-        name="slide"
-        :item="item"
-      />
+      <template v-if="!isLoading">
+        <slot
+          v-for="item in props.data as T[]"
+          name="slide"
+          :item="item"
+        />
+      </template>
+      <template v-else>
+        <slot
+          v-for="(_, index) in loadingArray"
+          :key="index"
+          name="skeleton"
+        />
+      </template>
     </UiCardsGrid>
   </UiSectionWithSeeMore>
 </template>
