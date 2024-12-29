@@ -16,7 +16,7 @@ import { UiContainer } from "~/components/ui/UiContainer"
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;
 const localePath = useLocalePath()
-const { isLoadingProfile, isInitialLoadingProfile, profile } = useAuth();
+const { isInitialLoadingProfile, profile } = useAuth();
 
 const mediaListsApi = useGetMediaListsApi();
 const mediaItemsApi = useGetMediaItemsApi();

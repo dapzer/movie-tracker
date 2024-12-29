@@ -177,7 +177,7 @@ watch(currentTabMediaItems, () => {
         <UiSelect
           v-model="sortType"
           :class="$style.select"
-          :width="216"
+          :width="232"
           :options="options"
         />
       </template>
