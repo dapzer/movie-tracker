@@ -9,6 +9,7 @@ import { UiButton } from "~/components/ui/UiButton"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
 import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { toast } from "vue3-toastify"
+import { TrashIcon } from "~/components/ui/icons"
 
 interface MediaItemManagementMenuDrawerProps {
   mediaItem: MediaItemType;
@@ -92,6 +93,7 @@ const selectOptions = computed(() => {
         @click="handleDeleteMediaItem"
       >
         {{ t("mediaItem.removeFromList") }}
+        <TrashIcon :class="$style.iconEnd" />
       </UiButton>
     </div>
     <UiDivider />
