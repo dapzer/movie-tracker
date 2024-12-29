@@ -66,7 +66,7 @@ const title = computed(() => {
         <td>{{ $t("details.userScore") }}</td>
         <td><UiRating :value="props.details?.vote_average" /></td>
       </tr>
-      <tr>
+      <tr v-if="props.details?.release_date || props.details?.first_air_date">
         <td>{{ $t("details.releaseDate") }}</td>
         <td data-allow-mismatch>
           {{ formatDate(props.details?.release_date || props.details?.first_air_date, locale) }}
