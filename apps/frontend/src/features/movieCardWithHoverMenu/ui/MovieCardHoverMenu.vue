@@ -64,6 +64,7 @@ const producers = computed(() => {
             <UiTypography
               variant="description"
               :as="NuxtLink"
+              schema="link"
               :to="localePath(`/details/person/${producer.id}`)"
             >
               {{ producer.name }}
@@ -86,6 +87,7 @@ const producers = computed(() => {
     <div>
       <UiButton
         :class="$style.addToListButton"
+        with-icon
         variant="outlined"
         scheme="secondary"
         @click="emits('onAddToListClick')"
@@ -109,8 +111,11 @@ const producers = computed(() => {
 
   .directedBy {
     a {
-      color: var(--c-text);
       text-decoration: underline;
+
+      &:not(:hover,:active,:focus) {
+        color: var(--c-text);
+      }
     }
   }
 
@@ -119,9 +124,6 @@ const producers = computed(() => {
   }
 
   .addToListButton {
-    display: flex;
-    align-items: center;
-    gap: 2px;
     font-size: var(--fs-label-small);
   }
 }
