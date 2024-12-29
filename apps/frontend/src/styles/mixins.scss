@@ -16,6 +16,7 @@
   align-items: center;
   gap: 6px;
   outline: none;
+  border-radius: var(--s-border-radius-small);
 
   .icon {
     width: 16px;
@@ -168,7 +169,7 @@
     font-size: var(--fs-input-small);
     line-height: var(--lh-input);
     height: 36px;
-   
+
     &.withIcon {
       padding-left: 34px;
     }
