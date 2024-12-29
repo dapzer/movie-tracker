@@ -42,6 +42,7 @@ const onOpenButtonClicked = () => {
     v-if="!props.hideTrigger"
     :class="$style.addToListButton"
     variant="boxed"
+    with-icon
     @click="onOpenButtonClicked"
   >
     <ListIcon />
@@ -72,10 +73,6 @@ const onOpenButtonClicked = () => {
 
 <style module lang="scss">
 .addToListButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
   font-size: var(--fs-label-small) !important;
 }
 
