@@ -205,6 +205,7 @@ const slots = defineSlots();
   gap: 32px;
   padding: 20px;
   background-color: var(--c-main-background-20);
+  border-radius: var(--s-border-radius);
   position: relative;
   overflow: visible;
 
@@ -327,6 +328,7 @@ const slots = defineSlots();
     flex-direction: column;
     padding: unset;
     background: unset;
+    border-radius: unset;
     gap: 24px;
 
     .titleBlock {
