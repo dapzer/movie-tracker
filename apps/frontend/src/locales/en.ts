@@ -1195,6 +1195,7 @@ export default {
   navigation: {
     home: "Search",
     lists: "Lists",
+    communityLists: 'Community lists',
     myLists: "My lists",
     accountSettings: "Account settings",
     about: "About",
@@ -1208,7 +1209,7 @@ export default {
   },
   search: {
     title: 'Search results',
-    description:"Found {count} for request '{searchTerm}'.",
+    description: "Found {count} for request '{searchTerm}'.",
     placeholder: 'Search',
     totalResults: 'Total results',
     notingFound: 'Nothing found',
@@ -1217,6 +1218,13 @@ export default {
     singleMatch: 'match',
     multipleMatches: 'matches',
     manyMatches: 'matches',
+  },
+  about: {
+    hero: {
+      title: "Your guide to movies and TV shows",
+      description: "Find movies and shows, create lists, share your thoughts",
+      exploreLibrary: "Explore library",
+    }
   },
   seo: {
     title: "Movie Tracker - your indispensable assistant in the world of movies and TV series",

@@ -11,6 +11,11 @@ import { UiContainer } from "~/components/ui/UiContainer"
 
 const model = defineModel<boolean>()
 const localePath = useLocalePath();
+
+const navigationLinks = [{
+  title: "navigation.about",
+  path: "/about",
+}, ...listsNavigationLinks]
 </script>
 
 <template>
@@ -22,7 +27,7 @@ const localePath = useLocalePath();
       <UiContainer :class="$style.wrapper">
         <div :class="$style.links">
           <template
-            v-for="(link, index) in listsNavigationLinks"
+            v-for="(link, index) in navigationLinks"
             :key="link.path"
           >
             <UiTypography
@@ -33,7 +38,7 @@ const localePath = useLocalePath();
             >
               {{ $t(link.title) }}
             </UiTypography>
-            <UiDivider v-if="index < listsNavigationLinks.length - 1" />
+            <UiDivider v-if="index < navigationLinks.length - 1" />
           </template>
         </div>
         <DefaultHeaderMobileMenuFooter />

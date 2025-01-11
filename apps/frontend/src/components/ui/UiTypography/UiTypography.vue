@@ -14,6 +14,7 @@ export type UiTypographyVariant = 'text'
     | 'cardTitle'
     | 'description'
     | 'badge'
+    | 'landingTitle'
 
 export interface UiTypographyProps {
   as?: ComponentOrTag;
@@ -46,6 +47,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
       [$style.badge]: variant === 'badge',
       [$style.badge]: variant === 'badge',
       [$style.link]: schema === 'link',
+      [$style.landingTitle]: variant === 'landingTitle',
       [$style.ellipsis]: props.ellipsis,
     }"
   >
@@ -142,6 +144,13 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
   line-height: var(--lh-badge);
   font-weight: var(--fw-regular);
   font-family: var(--ff-inter);
+}
+
+.landingTitle {
+  color: var(--c-text);
+  font-size: var(--fs-landing-title);
+  line-height: var(--lh-landing-title);
+  font-weight: var(--fw-bold);
 }
 
 .link {

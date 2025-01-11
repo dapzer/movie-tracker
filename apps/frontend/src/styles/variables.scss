@@ -85,6 +85,7 @@ $bp-sm: 568px;
   --fs-input-small: 0.875rem; /* 14px */
   --fs-input-error: 0, 75rem; /* 12px */
   --fs-score: 0.875rem;
+  --fs-landing-title: 4rem;
 
   @include tabletDevice() {
     --fs-h1: 2.5rem; /* 40px */
@@ -103,6 +104,7 @@ $bp-sm: 568px;
     --fs-input: 1.125rem; /* 18px */
     --fs-input-error: 0, 75rem; /* 12px */
     --fs-score: 0.875rem;
+    --fs-landing-title: 3.5rem;
   }
 
   @include mobileDevice() {
@@ -122,6 +124,7 @@ $bp-sm: 568px;
     --fs-input: 0.875rem; /* 14px */
     --fs-input-error: 0, 75rem; /* 12px */
     --fs-score: 0.875rem;
+    --fs-landing-title: 2.25rem;
   }
 
   /* Line heights */
@@ -143,6 +146,7 @@ $bp-sm: 568px;
   --lh-input-error: 1.125rem;
   --lh-score: 1rem;
   --lh-logo: 1.5rem;
+  --lh-landing-title: 4.375rem;
 
   @include tabletDevice() {
     --lh-h1: 2.75rem;
@@ -161,6 +165,7 @@ $bp-sm: 568px;
     --lh-input-error: 1.125rem;
     --lh-score: 1rem;
     --lh-logo: 1.5rem;
+    --lh-landing-title: 3.875rem;
   }
 
   @include mobileDevice() {
@@ -180,6 +185,7 @@ $bp-sm: 568px;
     --lh-input-error: 1.125rem;
     --lh-score: 1rem;
     --lh-logo: 1.5rem;
+    --lh-landing-title: 2.5rem;
   }
 
   /* Font Weights */

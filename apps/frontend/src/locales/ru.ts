@@ -1196,6 +1196,7 @@ export default {
   navigation: {
     home: 'Поиск',
     lists: 'Списки',
+    communityLists: 'Списки сообщества',
     myLists: 'Мои списки',
     accountSettings: 'Настройки аккаунта',
     about: "О сервисе",
@@ -1218,6 +1219,13 @@ export default {
     singleMatch: 'совпадение',
     multipleMatches: 'совпадений',
     manyMatches: 'совпадения',
+  },
+  about: {
+    hero: {
+      title: "Ваш путеводитель по фильмам и сериалам",
+      description: "Находите фильмы и шоу, создавайте списки, делитесь своими мыслями",
+      exploreLibrary: "Исследовать библиотеку",
+    }
   },
   seo: {
     title: 'Movie Tracker - ваш незаменимый помощник в мире кино и сериалов',
