@@ -185,7 +185,7 @@ const localePath = useLocalePath()
 
       .listPageImage {
         position: absolute;
-        top: 102px;
+        bottom: -55px;
         right: -24px;
         width: 183px;
         height: 406px;
@@ -194,7 +194,7 @@ const localePath = useLocalePath()
 
       .addToListImage {
         position: absolute;
-        top: 178px;
+        bottom: -35px;
         left: -34px;
       }
 

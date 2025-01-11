@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n, useSeoMeta } from "#imports"
-import { AboutHero } from "~/widgets/about"
+import { AboutHero, AboutService } from "~/widgets/about"
 
 const { t } = useI18n();
 
@@ -16,6 +16,7 @@ useSeoMeta({
 
 <template>
   <AboutHero />
+  <AboutService />
 </template>
 
 <style scoped lang="scss">

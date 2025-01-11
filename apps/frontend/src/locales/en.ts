@@ -1224,6 +1224,10 @@ export default {
       title: "Your guide to movies and TV shows",
       description: "Find movies and shows, create lists, share your thoughts",
       exploreLibrary: "Explore library",
+    },
+    service: {
+      title: "About Service",
+      description:`Our platform offers a seamless way to discover films, TV shows, and actors, all in one place. With Movie Tracker, you can effortlessly create and customize your own lists, which you can share with friends via a simple link.\n\nTrack your favorite series, keep up with the latest seasons, update the status of the films you've watched, and share your thoughts and reviews with our community.`
     }
   },
   seo: {
