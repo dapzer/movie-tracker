@@ -10,7 +10,7 @@ interface TeamMemberType {
 
 export const teamMembers: TeamMemberType[] = [
   {
-    avatar: 'danilaVoronkov.jpg',
+    avatar: 'danilaVoronkov.webp',
     name: 'Danila Voronkov',
     userId: 'danila-voronkov',
     position: 'Founder & Developer',

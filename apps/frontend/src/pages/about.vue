@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n, useSeoMeta } from "#imports"
-import { AboutFeatures, AboutHero, AboutService, AboutTeam } from "~/widgets/about"
+import { AboutFaq, AboutFeatures, AboutHero, AboutService, AboutTeam } from "~/widgets/about"
 
 const { t } = useI18n();
 
@@ -18,6 +18,7 @@ useSeoMeta({
   <AboutHero />
   <AboutService />
   <AboutFeatures />
+  <AboutFaq />
   <AboutTeam />
 </template>
 

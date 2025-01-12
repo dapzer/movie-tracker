@@ -1260,6 +1260,32 @@ export default {
     team: {
       title: "Meet our team",
       description: "Get inspired by our team's favorite titles",
+    },
+    faq: {
+      title: "Frequently asked questions",
+      description: "Most common question about our services",
+      questions: {
+        movieTracker: {
+          title: "What is Movie Tracker?",
+          description: "Movie Tracker is a universal service for movie and TV series lovers, allowing you to easily find films, TV series, and actors, create and share lists, track your watch progress, and share your impressions."
+        },
+        createList: {
+          title: "How do I create a list?",
+          description: "To create a list, go to the \"My lists\" page, click on the \"Create list\" button, and fill in the required fields or do it from add to list modal. After that, you can add movies and TV shows to your list."
+        },
+        changeStatus: {
+          title: "How do I update the status of a movie or TV series?",
+          description: "To change the status of a movie or TV show, go to the list page, click on the \"Management\" button, and select the desired status."
+        },
+        leaveReview: {
+          title: "How do I leave a review?",
+          description: "Currently, the review feature is not available, but we are working on it. Stay tuned for updates!"
+        },
+        contactSupport: {
+          title: "How can I contact customer support?",
+          description: `If you have any questions or need help, please contact using email movietracker.apps{'@'}gmail.com or via telegram {'@'}dapzer.`
+        }
+      }
     }
   },
   seo: {

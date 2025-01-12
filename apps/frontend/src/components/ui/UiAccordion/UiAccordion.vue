@@ -83,6 +83,8 @@ const model = defineModel<string | string[]>()
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  text-align: left;
   font-size: var(--fs-subheading);
   line-height: var(--lh-subheading);
   font-weight: var(--fw-medium);
