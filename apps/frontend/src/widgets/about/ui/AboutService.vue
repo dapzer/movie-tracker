@@ -78,7 +78,7 @@ import { UiImage } from "~/components/ui/UiImage"
       }
     }
 
-    @include mobileDevice() {
+    @include mobilePlusDevice() {
       padding: 0;
       grid-template-columns: 1fr;
       background: none;
@@ -90,7 +90,7 @@ import { UiImage } from "~/components/ui/UiImage"
     }
   }
 
-  @include mobileDevice() {
+  @include mobilePlusDevice() {
     margin-top: 70px;
   }
 }

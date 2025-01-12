@@ -106,7 +106,7 @@ const localePath = useLocalePath()
       margin-top: 110px;
     }
 
-    @include mobileDevice {
+    @include mobilePlusDevice {
       margin-top: 80px;
     }
 
@@ -131,7 +131,7 @@ const localePath = useLocalePath()
         height: 137px;
       }
 
-      @include mobileDevice() {
+      @include mobilePlusDevice() {
         top: 27px;
         max-width: 318px;
         height: 102px;
@@ -162,7 +162,7 @@ const localePath = useLocalePath()
           padding: 8px 12px;
         }
 
-        @include mobileDevice {
+        @include mobilePlusDevice {
           width: 100%;
           flex-direction: column;
           gap: 16px;
@@ -213,7 +213,7 @@ const localePath = useLocalePath()
         }
       }
 
-      @include mobileDevice {
+      @include mobilePlusDevice {
         display: none;
       }
     }

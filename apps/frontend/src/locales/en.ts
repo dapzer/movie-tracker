@@ -1227,7 +1227,35 @@ export default {
     },
     service: {
       title: "About Service",
-      description:`Our platform offers a seamless way to discover films, TV shows, and actors, all in one place. With Movie Tracker, you can effortlessly create and customize your own lists, which you can share with friends via a simple link.\n\nTrack your favorite series, keep up with the latest seasons, update the status of the films you've watched, and share your thoughts and reviews with our community.`
+      description: `Our platform offers a seamless way to discover films, TV shows, and actors, all in one place. With Movie Tracker, you can effortlessly create and customize your own lists, which you can share with friends via a simple link.\n\nTrack your favorite series, keep up with the latest seasons, update the status of the films you've watched, and share your thoughts and reviews with our community.`
+    },
+    features: {
+      title: "Features",
+      description: 'Explore the powerful features of Movie Tracker that\nenhance your movie and TV series experience.',
+      discover: {
+        title: "Discover",
+        description: "Easily find movies, TV series, and actors in our comprehensive database"
+      },
+      lists: {
+        title: "Create Lists",
+        description: "Create and customize your own lists for movies and TV shows"
+      },
+      tracking: {
+        title: "Track Progress",
+        description: "Keep track of the current series and season you’re watching"
+      },
+      status: {
+        title: "Status Updates",
+        description: "Easily manage your movie-watching experience by marking titles as \"Watched,\" \"Watching\" and so on"
+      },
+      review: {
+        title: "Share Impressions",
+        description: "Write and share reviews and impressions of the works you’ve watched"
+      },
+      community: {
+        title: "Community Lists",
+        description: "Discover new content, follow your favorite lists, and see the top-rated recommendations from other users."
+      },
     }
   },
   seo: {
