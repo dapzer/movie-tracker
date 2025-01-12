@@ -1,22 +1,17 @@
 <script setup lang="ts">
 
-import { publicResourcesList } from "~/shared/ui/publicResources/model/publicResourcesList"
+import { UiSocialList } from "~/components/ui/UiSocialList"
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <template
-      v-for="(resource, index) in publicResourcesList"
-      :key="index"
-    >
-      <NuxtLink
-        :to="resource.url"
-        target="_blank"
-      >
-        <component :is="resource.icon" />
-      </NuxtLink>
-    </template>
-  </div>
+  <!--  TODO: Add Discord link -->
+  <UiSocialList
+    :class="$style.wrapper"
+    :social-list="{
+      github: 'dapzer/movie-tracker',
+      telegram: 'movie_tracker_news',
+    }"
+  />
 </template>
 
 <style module lang="scss">
@@ -24,13 +19,7 @@ import { publicResourcesList } from "~/shared/ui/publicResources/model/publicRes
 @import "~/styles/mixins";
 
 .wrapper {
-  display: flex;
   gap: 16px;
-  align-items: center;
-
-  a {
-    display: flex;
-  }
 
   svg {
     width: 32px;

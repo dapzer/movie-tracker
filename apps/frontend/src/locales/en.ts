@@ -1256,6 +1256,10 @@ export default {
         title: "Community Lists",
         description: "Discover new content, follow your favorite lists, and see the top-rated recommendations from other users."
       },
+    },
+    team: {
+      title: "Meet our team",
+      description: "Get inspired by our team's favorite titles",
     }
   },
   seo: {
