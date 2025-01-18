@@ -20,9 +20,6 @@ export class MediaListDto implements MediaListType {
   @IsString()
   title: string;
 
-  @IsString()
-  poster: string;
-
   @IsDateString()
   createdAt: Date;
 

@@ -67,7 +67,6 @@ const handleDeleteMediaList = async () => {
       <MediaListForm
         :initial-value="{
           title: props.mediaList.isSystem ? $t('mediaList.favorites'): props.mediaList.title,
-          poster: props.mediaList.poster,
           isPublic: props.mediaList.isPublic,
         }"
         :is-system="props.mediaList.isSystem"

@@ -3,8 +3,6 @@
 import { UiCardBase } from '~/components/ui/UiCard';
 import { UiImage } from "~/components/ui/UiImage"
 import { UiUserProfileLink } from "~/components/ui/UiUserProfileLink"
-import { ref } from "vue"
-import { watchEffect } from "#imports"
 
 interface UiListCardProps {
   width?: number;
@@ -13,22 +11,13 @@ interface UiListCardProps {
   userAvatarSrc?: string;
   userName?: string;
   userUrl?: string;
-  imagesSrc?: string[];
+  imagesSrc?: Array<string | undefined>;
 }
 
 const props = withDefaults(defineProps<UiListCardProps>(), {
   width: 396,
+  imagesSrc: () => []
 });
-
-const imagesSrc = ref<string[] | undefined>(props.imagesSrc);
-
-watchEffect(() => {
-  imagesSrc.value = props.imagesSrc;
-})
-
-const handleImageLoadingError = (index: number) => {
-  imagesSrc.value = imagesSrc.value?.splice(index, 1);
-}
 </script>
 
 <template>
@@ -45,10 +34,9 @@ const handleImageLoadingError = (index: number) => {
           :class="$style.imagesItem"
         >
           <UiImage
-            v-if="imagesSrc?.[number - 1]"
-            :src="imagesSrc[number - 1]"
+            v-if="number <= props.imagesSrc?.length"
+            :src="props.imagesSrc?.[number - 1] || '/defaultMoviePoster.svg'"
             fallback-src="/defaultMoviePoster.svg"
-            @error="handleImageLoadingError(number)"
           />
         </div>
       </div>

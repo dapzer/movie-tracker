@@ -27,7 +27,8 @@ export const useGetMediaListsApi = () => {
 
       return getMediaListsApi({ headers })
     },
-    retry: false
+    retry: false,
+    refetchOnMount: "always",
   })
 };
 
