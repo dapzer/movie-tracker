@@ -3,14 +3,13 @@
 import { UiListCard } from "~/components/ui/UiCard/listCard"
 import type { MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
-import { getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports"
+import { getProxiedImageUrl, useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { useLocalePath } from "#i18n"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { UiButton } from "~/components/ui/UiButton"
 import { LikeIcon, LockerIcon, SharedPlanetIcon, ShareIcon } from "~/components/ui/icons"
 import { NuxtLink } from "#components"
-import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
 
 interface MediaListCardProps {
@@ -21,7 +20,6 @@ const props = defineProps<MediaListCardProps>();
 const { t, locale } = useI18n();
 const { copy, copied } = useClipboard({ copiedDuring: 1000 });
 const localePath = useLocalePath();
-const mediaItemsApi = useGetMediaItemsApi();
 
 const title = computed(() => {
   return props.list.isSystem && !props.list.title ? t("mediaList.favorites") : props.list.title ?? "";
@@ -32,25 +30,9 @@ const copyLink = () => {
 };
 
 const listPageUrl = computed(() => localePath(`/lists/details/${props.list.humanFriendlyId}`));
-const mediaItems = computed(() => mediaItemsApi.data.value?.filter(item => item.mediaListId === props.list.id) || []);
-// TODO: Add mediaItemsCount to the media list api response for each list
-const mediaItemsCount = computed(() => mediaItems.value.filter(item => item.mediaListId === props.list.id).length || 0);
 const posters = computed(() => {
-  const res = []
-  for (const item of [...mediaItems.value].sort((a, b) => new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1)) {
-    const details = getCurrentMediaDetails(item.mediaDetails, locale.value)
-
-    if (details?.poster) {
-      res.push(getProxiedImageUrl(details?.poster, 179))
-    }
-
-    if (res.length === 6) {
-      break
-    }
-  }
-
-  return res
-});
+  return props.list.poster?.[locale.value].map(el => el ? getProxiedImageUrl(el, 179) : el)
+})
 </script>
 
 <template>
@@ -82,7 +64,9 @@ const posters = computed(() => {
     <div :class="$style.content">
       <div>
         <UiTypography variant="description">
-          {{ mediaItemsCount }} {{ $t(getElementDeclensionTranslationKey(mediaItemsCount)) }}
+          {{ props.list?.mediaItemsCount }} {{
+            $t(getElementDeclensionTranslationKey(props.list?.mediaItemsCount || 0))
+          }}
         </UiTypography>
         <UiTypography
           :class="$style.state"

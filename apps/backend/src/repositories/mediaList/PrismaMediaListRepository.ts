@@ -22,7 +22,7 @@ const getMediaListIncludeObject = (userId?: string) => ({
   mediaItems: {
     take: 6,
     orderBy: {
-      createdAt: "asc"
+      createdAt: "desc"
     },
     select: {
       mediaDetails: {

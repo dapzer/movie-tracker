@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import type { MediaItemType } from "@movie-tracker/types"
+import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { UiInput } from "~/components/ui/UiInput"
 import { SearchIcon } from "~/components/ui/icons"
 import { computed, ref } from "vue"
@@ -12,6 +12,8 @@ import { toast } from "vue3-toastify"
 import { useGetMediaItemsApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
+import { useQueryClient } from "@tanstack/vue-query"
+import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 
 interface MediaItemChangeMediaListFormProps {
   mediaItem: MediaItemType;
@@ -24,6 +26,7 @@ const getMediaItemsApi = useGetMediaItemsApi();
 const { t } = useI18n();
 const searchTerm = ref("");
 const updateMediaItemApi = useUpdateMediaItemApi();
+const queryClient = useQueryClient();
 
 const { formValue, onFormSubmit } = useForm({
   initialValue: {
@@ -35,7 +38,18 @@ const { formValue, onFormSubmit } = useForm({
       body: {
         mediaListId: formValue.selectedMediaListId
       }
-    }).then(() => {
+    }).then(async () => {
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        return oldData.map(el => {
+          if (el.id === formValue.selectedMediaListId) {
+            el.mediaItemsCount = (el.mediaItemsCount || 0) + 1
+          } else  if (props.mediaItem.mediaListId === el.id) {
+            el.mediaItemsCount = (el.mediaItemsCount || 1) - 1
+          }
+
+          return el
+        })
+      })
       toast.success(t("toasts.mediaItem.successListChanged"));
       model.value = false
     }).catch(() => {

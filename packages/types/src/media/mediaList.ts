@@ -23,6 +23,6 @@ export interface MediaListLikeType {
 
 
 export interface MediaListPosterType {
-  en: string[],
-  ru: string[]
+  en: Array<string | undefined>,
+  ru: Array<string | undefined>
 }
