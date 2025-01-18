@@ -9,10 +9,6 @@ export class UpdateMediaListDto
   isPublic: boolean;
 
   @IsOptional()
-  @IsString()
-  poster: string;
-
-  @IsOptional()
   @Length(3, 32)
   @IsString()
   title: string;

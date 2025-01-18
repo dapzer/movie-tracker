@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { type MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { LockerIcon, SharedPlanetIcon } from "~/components/ui/icons"
@@ -13,12 +12,8 @@ interface AddMediaItemToListsFormItemProps {
 const props = defineProps<AddMediaItemToListsFormItemProps>();
 const model = defineModel<boolean>()
 
-const getMediaItemsApi = useGetMediaItemsApi();
-
 const titlesInListCount = computed(() => {
-  return getMediaItemsApi.data.value?.filter(item => {
-    return item.mediaListId === props.mediaList.id
-  }).length || 0
+  return props.mediaList.mediaItemsCount || 0
 })
 </script>
 

@@ -8,13 +8,13 @@ import {
   updateMediaItemApi,
   updateMediaItemTrackingDataApi
 } from "~/api/mediaItem/mediaItemApi";
-import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types";
+import type { MediaItemTrackingDataType, MediaItemType, MediaListType } from "@movie-tracker/types";
 import type { MediaItemCreateApiTypes, MediaItemUpdateApiTypes } from "~/api/mediaItem/mediaItemApiTypes";
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys";
 import { useRequestHeaders } from "#app"
+import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 
 export const useGetMediaItemsApi = () => {
-
   return useQuery({
     queryKey: [MediaItemQueryKeys.GET_ALL],
     queryFn: () => {
@@ -23,7 +23,7 @@ export const useGetMediaItemsApi = () => {
       if (!headers.cookie?.includes("session") && import.meta.server) {
         throw new Error("No session cookie found");
       }
-      
+
       return getMediaItemsApi({
         headers
       })
@@ -38,7 +38,6 @@ export const useGetMediaItemsByMediaListIdApi = (mediaListId: string, options?: 
   ...options
 });
 
-
 export const useCreateMediaItemApi = () => {
   const queryClient = useQueryClient();
 
@@ -47,6 +46,12 @@ export const useCreateMediaItemApi = () => {
     mutationFn: (args: MediaItemCreateApiTypes) => createMediaItemApi(args),
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data]);
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaList = oldData.find(el => el.id === data.mediaListId)
+        if (!mediaList) return mediaList
+        mediaList.mediaItemsCount = (mediaList.mediaItemsCount || 0) + 1
+        return oldData
+      })
     }
   });
 };
@@ -59,8 +64,14 @@ export const useDeleteMediaItemApi = () => {
     mutationFn: (id: string) => deleteMediaItemApi(id),
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        return oldData.filter((item) => item.id !== data.id);
+        return oldData.filter((item) => item.id !== data.id)
       });
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaList = oldData.find(el => el.id === data.mediaListId)
+        if (!mediaList) return mediaList
+        mediaList.mediaItemsCount = (mediaList.mediaItemsCount || 1) - 1
+        return oldData
+      })
     }
   });
 };
@@ -93,6 +104,12 @@ export const useCreateMediaItemCloneApi = () => {
     mutationFn: createMediaItemCloneApi,
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data]);
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaList = oldData.find(el => el.id === data.mediaListId)
+        if (!mediaList) return mediaList
+        mediaList.mediaItemsCount = (mediaList.mediaItemsCount || 0) + 1
+        return oldData
+      })
     }
   });
 };
