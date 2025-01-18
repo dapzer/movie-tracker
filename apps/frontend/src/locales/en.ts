@@ -1195,6 +1195,7 @@ export default {
   navigation: {
     home: "Search",
     lists: "Lists",
+    communityLists: 'Community lists',
     myLists: "My lists",
     accountSettings: "Account settings",
     about: "About",
@@ -1208,7 +1209,7 @@ export default {
   },
   search: {
     title: 'Search results',
-    description:"Found {count} for request '{searchTerm}'.",
+    description: "Found {count} for request '{searchTerm}'.",
     placeholder: 'Search',
     totalResults: 'Total results',
     notingFound: 'Nothing found',
@@ -1217,6 +1218,75 @@ export default {
     singleMatch: 'match',
     multipleMatches: 'matches',
     manyMatches: 'matches',
+  },
+  about: {
+    hero: {
+      title: "Your guide to movies and TV shows",
+      description: "Find movies and shows, create lists, share your thoughts",
+      exploreLibrary: "Explore library",
+    },
+    service: {
+      title: "About Service",
+      description: `Our platform offers a seamless way to discover films, TV shows, and actors, all in one place. With Movie Tracker, you can effortlessly create and customize your own lists, which you can share with friends via a simple link.\n\nTrack your favorite series, keep up with the latest seasons, update the status of the films you've watched, and share your thoughts and reviews with our community.`
+    },
+    features: {
+      title: "Features",
+      description: 'Explore the powerful features of Movie Tracker that\nenhance your movie and TV series experience.',
+      discover: {
+        title: "Discover",
+        description: "Easily find movies, TV series, and actors in our comprehensive database"
+      },
+      lists: {
+        title: "Create Lists",
+        description: "Create and customize your own lists for movies and TV shows"
+      },
+      tracking: {
+        title: "Track Progress",
+        description: "Keep track of the current series and season you’re watching"
+      },
+      status: {
+        title: "Status Updates",
+        description: "Easily manage your movie-watching experience by marking titles as \"Watched,\" \"Watching\" and so on"
+      },
+      review: {
+        title: "Share Impressions",
+        description: "Write and share reviews and impressions of the works you’ve watched"
+      },
+      community: {
+        title: "Community Lists",
+        description: "Discover new content, follow your favorite lists, and see the top-rated recommendations from other users."
+      },
+    },
+    team: {
+      title: "Meet our team",
+      description: "Get inspired by our team's favorite titles",
+    },
+    faq: {
+      title: "Frequently asked questions",
+      description: "Most common question about our services",
+      questions: {
+        movieTracker: {
+          title: "What is Movie Tracker?",
+          description: "Movie Tracker is a universal service for movie and TV series lovers, allowing you to easily find films, TV series, and actors, create and share lists, track your watch progress, and share your impressions."
+        },
+        createList: {
+          title: "How do I create a list?",
+          description: "To create a list, go to the \"My lists\" page, click on the \"Create list\" button, and fill in the required fields or do it from add to list modal. After that, you can add movies and TV shows to your list."
+        },
+        changeStatus: {
+          title: "How do I update the status of a movie or TV series?",
+          description: "To change the status of a movie or TV show, go to the list page, click on the \"Management\" button, and select the desired status."
+        },
+        leaveReview: {
+          title: "How do I leave a review?",
+          description: "Currently, the review feature is not available, but we are working on it. Stay tuned for updates!"
+        },
+        contactSupport: {
+          title: "How can I contact customer support?",
+          description: `If you have any questions or need help, please contact using email movietracker.apps{'@'}gmail.com or via telegram {'@'}dapzer.`
+        }
+      }
+    }
   },
   seo: {
     title: "Movie Tracker - your indispensable assistant in the world of movies and TV series",

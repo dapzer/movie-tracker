@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useLocalStorage } from '@vueuse/core';
 import { watchEffect } from '#imports';
 import { ref } from 'vue';
 import { UiImage } from '~/components/ui/UiImage';
+import { useCookie } from "#app"
+import { LocalStorageEnum } from "~/types/localStorageEnum"
 
 interface UiAvatarProps {
   src?: string;
@@ -14,7 +15,10 @@ interface UiAvatarProps {
 const props = withDefaults(defineProps<UiAvatarProps>(), {
   size: 24,
 });
-const placeholdersStorage = useLocalStorage<Record<string, string>>('avatarPlaceholders', {})
+const placeholdersStorage = useCookie<Record<string, string>>(LocalStorageEnum.AVATAR_PLACEHOLDERS, {
+  default: () =>  ({}),
+  expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+});
 const placeholder = ref<string | undefined>(undefined);
 const avatarSrc = ref<string | undefined>(props.src);
 

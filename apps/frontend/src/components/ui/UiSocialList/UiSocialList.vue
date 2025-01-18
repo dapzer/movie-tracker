@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import { NuxtLink } from "#components";
+import { getSocialList, type SocialIdsType } from "~/utils/getSocialList"
+import { computed } from "vue"
+
+interface UisSocialListProps {
+  socialList: SocialIdsType
+  size?: number
+}
+
+const props = withDefaults(defineProps<UisSocialListProps>(), {
+  size: 28
+});
+
+const serializedSocialList = computed(() => {
+  return getSocialList(props.socialList);
+})
+
+</script>
+
+<template>
+  <div
+    v-if="serializedSocialList.length"
+    :class="$style.wrapper"
+    :style="`--size: ${props.size}px;`"
+  >
+    <NuxtLink
+      v-for="(social) in serializedSocialList"
+      :key="social.url"
+      :to="social.url"
+      target="_blank"
+    >
+      <component :is="social.icon" />
+    </NuxtLink>
+  </div>
+</template>
+
+<style module lang="scss">
+@layer ui, external;
+
+@layer ui {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    svg {
+      width: var(--size);
+    }
+
+    a {
+      color: var(--c-description);
+
+      &:hover {
+        color: var(--c-label-lihk-hovered);
+      }
+    }
+  }
+}
+
+</style>

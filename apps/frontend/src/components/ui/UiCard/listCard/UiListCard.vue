@@ -45,12 +45,12 @@ const props = withDefaults(defineProps<UiListCardProps>(), {
     <template #content>
       <div :class="$style.contentWrapper">
         <UiUserProfileLink
-          v-if="props.userName && props.userUrl && props.userId"
+          v-if="props.userName && props.userId"
           :class="$style.userProfileLink"
           :user-name="props.userName"
           :user-url="props.userUrl"
           :user-id="props.userId"
-          :user-avatar-src="props.userUrl"
+          :user-avatar-src="props.userAvatarSrc"
         />
 
         <div :class="$style.content">

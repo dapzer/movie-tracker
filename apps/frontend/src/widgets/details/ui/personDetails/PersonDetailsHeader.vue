@@ -2,9 +2,8 @@
 import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types";
 import { UiInfoHeader } from "~/components/ui/UiInfoHeader";
 import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports";
-import { getPersonSocialList } from "~/widgets/details/model/getPersonSocialList";
 import { computed } from "vue";
-import PersonDetailsSocialList from "~/widgets/details/ui/personDetails/PersonDetailsSocialList.vue"
+import { UiSocialList } from "~/components/ui/UiSocialList"
 
 interface PersonDetailsHeaderProps {
   details?: TmdbPersonType | null;
@@ -13,14 +12,6 @@ interface PersonDetailsHeaderProps {
 
 const props = defineProps<PersonDetailsHeaderProps>();
 const { locale } = useI18n();
-
-const socialList = computed(() => {
-  if (!props.externalIds) {
-    return [];
-  }
-
-  return getPersonSocialList(props.externalIds);
-});
 
 const birthdayAge = computed(() => {
   if (!props.details?.birthday) {
@@ -74,10 +65,18 @@ const birthdayAge = computed(() => {
     </template>
 
     <template
-      v-if="socialList.length"
+      v-if="externalIds"
       #posterFooter
     >
-      <PersonDetailsSocialList :socialList="socialList" />
+      <UiSocialList
+        :socialList="{
+          instagram: externalIds?.instagram_id,
+          twitter: externalIds?.twitter_id,
+          tiktok: externalIds?.tiktok_id,
+          youtube: externalIds?.youtube_id,
+          facebook: externalIds?.facebook_id,
+        }"
+      />
     </template>
   </UiInfoHeader>
 </template>

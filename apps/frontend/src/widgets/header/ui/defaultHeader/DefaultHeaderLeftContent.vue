@@ -4,22 +4,37 @@ import { UiButton } from "~/components/ui/UiButton"
 import { BurgerMenuIcon, CrossIcon } from "~/components/ui/icons"
 import { AppLogo } from "~/shared/ui/appLogo"
 import { SearchCombobox } from "~/features/search"
+import { UiTypography } from "~/components/ui/UiTypography"
+import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 
 const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
+const localePath  = useLocalePath()
 </script>
 
 <template>
   <div :class="$style.wrapper">
-    <UiButton
-      :class="$style.trigger"
-      scheme="default"
-      variant="textIcon"
-      @click="isMobileMenuOpen = !isMobileMenuOpen"
+    <div :class="$style.logo">
+      <UiButton
+        :class="$style.trigger"
+        scheme="default"
+        variant="textIcon"
+        @click="isMobileMenuOpen = !isMobileMenuOpen"
+      >
+        <BurgerMenuIcon v-if="!isMobileMenuOpen" />
+        <CrossIcon v-else />
+      </UiButton>
+      <AppLogo />
+    </div>
+    <UiTypography
+      :class="$style.about"
+      :as="NuxtLink"
+      variant="label"
+      :to="localePath('/about')"
+      schema="link"
     >
-      <BurgerMenuIcon v-if="!isMobileMenuOpen" />
-      <CrossIcon v-else />
-    </UiButton>
-    <AppLogo />
+      {{ $t("navigation.about") }}
+    </UiTypography>
     <SearchCombobox :class="$style.search" />
   </div>
 </template>
@@ -32,15 +47,19 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 8px;
+  gap: 38px;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   .search {
-    margin-right: 110px;
-    margin-left: 110px;
+    max-width: 464px;
 
     @include tabletDevice() {
-      margin-right: 28px;
-      margin-left: 28px;
+      max-width: 252px;
     }
 
     @include mobilePlusDevice() {
@@ -59,6 +78,18 @@ const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 
     @include mobilePlusDevice() {
       display: flex;
+    }
+  }
+
+  .about {
+    white-space: nowrap;
+
+    &:not(:hover, :focus, :active) {
+      color: var(--c-white-75);
+    }
+
+    @include mobilePlusDevice() {
+      display: none;
     }
   }
 }
