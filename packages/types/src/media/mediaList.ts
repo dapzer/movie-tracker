@@ -3,8 +3,9 @@ export interface MediaListType {
   humanFriendlyId: string;
   userId: string;
   title?: string;
-  poster?: string;
+  poster?: MediaListPosterType
   likesCount?: number;
+  mediaItemsCount?: number
   isLiked?: boolean;
   isSystem: boolean;
   isPublic: boolean;
@@ -18,4 +19,10 @@ export interface MediaListLikeType {
   mediaListHumanFriendlyId?: string;
   userId: string;
   createdAt: Date;
+}
+
+
+export interface MediaListPosterType {
+  en: string[],
+  ru: string[]
 }
