@@ -89,9 +89,21 @@ const localePath = useLocalePath()
     margin-top: calc(0px - var(--s-header-height));
     width: 1460px;
     height: 1036px;
-    top: -75px;
+    top: -120px;
     z-index: -1;
-    //  TODO: Add adaptive
+
+    @include tabletDevice() {
+      width: 1057px;
+      height: 750px;
+      top: -12px;
+    }
+
+    @include mobilePlusDevice() {
+      width: 428px;
+      height: 303px;
+      top: -30px;
+
+    }
   }
 
   .container {
@@ -103,7 +115,7 @@ const localePath = useLocalePath()
     align-items: center;
 
     @include tabletDevice {
-      margin-top: 110px;
+      margin-top: 80px;
     }
 
     @include mobilePlusDevice {

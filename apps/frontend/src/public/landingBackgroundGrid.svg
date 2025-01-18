@@ -1,38 +1,38 @@
-<svg width="1440" height="961" viewBox="0 0 1440 961" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1118 -51L1118 91" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1118" cy="107" r="8" fill="white" fill-opacity="0.05"/>
-<path d="M1118 123L1118 265" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1118" cy="281" r="7.5" stroke="white" stroke-opacity="0.1"/>
-<path d="M1118 297L1118 439" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1118" cy="455" r="8" fill="white" fill-opacity="0.05"/>
-<path d="M1118 471L1118 613" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1118" cy="629" r="7.5" stroke="white" stroke-opacity="0.1"/>
-<path d="M1118 645L1118 787" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1118" cy="803" r="7.5" stroke="white" stroke-opacity="0.1"/>
-<path d="M1118 819L1118 961" stroke="white" stroke-opacity="0.1"/>
-<circle cx="-2" cy="455" r="8" transform="rotate(-90 -2 455)" fill="white" fill-opacity="0.05"/>
-<path d="M14 455L156 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="172" cy="455" r="7.5" transform="rotate(-90 172 455)" stroke="white" stroke-opacity="0.1"/>
-<path d="M188 455L330 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="346" cy="455" r="8" transform="rotate(-90 346 455)" fill="white" fill-opacity="0.05"/>
-<path d="M362 455L504 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="520" cy="455" r="7.5" transform="rotate(-90 520 455)" stroke="white" stroke-opacity="0.1"/>
-<path d="M536 455L716 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="732" cy="455" r="8" transform="rotate(-90 732 455)" fill="white" fill-opacity="0.05"/>
-<path d="M748 455L928 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="944" cy="455" r="7.5" transform="rotate(-90 944 455)" stroke="white" stroke-opacity="0.1"/>
-<path d="M960 455L1102 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1118" cy="455" r="8" transform="rotate(-90 1118 455)" fill="white" fill-opacity="0.05"/>
-<path d="M1134 455L1276 455" stroke="white" stroke-opacity="0.1"/>
-<circle cx="1292" cy="455" r="7.5" transform="rotate(-90 1292 455)" stroke="white" stroke-opacity="0.1"/>
-<path d="M1308 455L1450 455" stroke="white" stroke-opacity="0.1"/>
-<path d="M346 -51L346 91" stroke="white" stroke-opacity="0.1"/>
-<circle cx="346" cy="107" r="8" fill="white" fill-opacity="0.05"/>
-<path d="M346 123L346 265" stroke="white" stroke-opacity="0.1"/>
-<circle cx="346" cy="281" r="7.5" stroke="white" stroke-opacity="0.1"/>
-<path d="M346 297L346 439" stroke="white" stroke-opacity="0.1"/>
-<circle cx="346" cy="455" r="7.5" stroke="white" stroke-opacity="0.1"/>
-<path d="M346 471L346 613" stroke="white" stroke-opacity="0.1"/>
-<circle cx="346" cy="629" r="7.5" stroke="white" stroke-opacity="0.1"/>
-<path d="M346 645L346 787" stroke="white" stroke-opacity="0.1"/>
+<svg viewBox="0 0 1440 961" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1118 -51L1118 91" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1118" cy="107" r="8" fill="white" fill-opacity="0.05"/>
+    <path d="M1118 123L1118 265" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1118" cy="281" r="7.5" stroke="white" stroke-opacity="0.1"/>
+    <path d="M1118 297L1118 439" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1118" cy="455" r="8" fill="white" fill-opacity="0.05"/>
+    <path d="M1118 471L1118 613" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1118" cy="629" r="7.5" stroke="white" stroke-opacity="0.1"/>
+    <path d="M1118 645L1118 787" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1118" cy="803" r="7.5" stroke="white" stroke-opacity="0.1"/>
+    <path d="M1118 819L1118 961" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="-2" cy="455" r="8" transform="rotate(-90 -2 455)" fill="white" fill-opacity="0.05"/>
+    <path d="M14 455L156 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="172" cy="455" r="7.5" transform="rotate(-90 172 455)" stroke="white" stroke-opacity="0.1"/>
+    <path d="M188 455L330 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="346" cy="455" r="8" transform="rotate(-90 346 455)" fill="white" fill-opacity="0.05"/>
+    <path d="M362 455L504 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="520" cy="455" r="7.5" transform="rotate(-90 520 455)" stroke="white" stroke-opacity="0.1"/>
+    <path d="M536 455L716 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="732" cy="455" r="8" transform="rotate(-90 732 455)" fill="white" fill-opacity="0.05"/>
+    <path d="M748 455L928 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="944" cy="455" r="7.5" transform="rotate(-90 944 455)" stroke="white" stroke-opacity="0.1"/>
+    <path d="M960 455L1102 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1118" cy="455" r="8" transform="rotate(-90 1118 455)" fill="white" fill-opacity="0.05"/>
+    <path d="M1134 455L1276 455" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="1292" cy="455" r="7.5" transform="rotate(-90 1292 455)" stroke="white" stroke-opacity="0.1"/>
+    <path d="M1308 455L1450 455" stroke="white" stroke-opacity="0.1"/>
+    <path d="M346 -51L346 91" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="346" cy="107" r="8" fill="white" fill-opacity="0.05"/>
+    <path d="M346 123L346 265" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="346" cy="281" r="7.5" stroke="white" stroke-opacity="0.1"/>
+    <path d="M346 297L346 439" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="346" cy="455" r="7.5" stroke="white" stroke-opacity="0.1"/>
+    <path d="M346 471L346 613" stroke="white" stroke-opacity="0.1"/>
+    <circle cx="346" cy="629" r="7.5" stroke="white" stroke-opacity="0.1"/>
+    <path d="M346 645L346 787" stroke="white" stroke-opacity="0.1"/>
 </svg>
