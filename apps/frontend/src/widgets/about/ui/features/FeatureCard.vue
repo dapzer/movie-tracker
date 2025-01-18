@@ -4,7 +4,7 @@ import { UiTypography } from "~/components/ui/UiTypography"
 interface FeatureCardProps {
   title: string
   description: string
-  icon: string
+  icon: string | object
 }
 
 const props = defineProps<FeatureCardProps>()

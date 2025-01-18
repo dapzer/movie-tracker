@@ -6,6 +6,7 @@ interface TeamMemberType {
   position: string;
   avatar?: string;
   socials: SocialIdsType;
+  mediaListHumanFriendlyId: string
 }
 
 export const teamMembers: TeamMemberType[] = [
@@ -14,6 +15,7 @@ export const teamMembers: TeamMemberType[] = [
     name: 'Danila Voronkov',
     userId: 'danila-voronkov',
     position: 'Founder & Developer',
+    mediaListHumanFriendlyId: "qffaubxdiv",
     socials: {
       github: "dapzer",
       telegram: "dapzer"
@@ -24,6 +26,7 @@ export const teamMembers: TeamMemberType[] = [
     name: 'MelKam',
     userId: 'melkam',
     position: 'UI-UX Designer',
+    mediaListHumanFriendlyId: "fbnqp8nc3n",
     socials: {
       github: "MellKam",
       telegram: "mellkam",
@@ -34,8 +37,9 @@ export const teamMembers: TeamMemberType[] = [
     name: 'Mariia Deomidova',
     userId: 'mariia-deomidova',
     position: 'UI-UX Designer',
+    mediaListHumanFriendlyId: "ndj61hrkoo",
     socials: {
-      telegram: "q",
+      telegram: "mariia_deomidova",
     }
   },
 

@@ -4,6 +4,12 @@ import { UiListCard } from "~/components/ui/UiCard/listCard"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { type SocialIdsType } from "~/utils/getSocialList"
 import { UiSocialList } from "~/components/ui/UiSocialList"
+import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
+import { computed } from "vue"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { useI18n } from "#imports"
+import { useLocalePath } from "#i18n"
+import { NuxtLink } from "#components"
 
 interface TeamMemberCardProps {
   name: string;
@@ -11,9 +17,21 @@ interface TeamMemberCardProps {
   position: string;
   avatar?: string;
   socials: SocialIdsType;
+  mediaListHumanFriendlyId: string
 }
 
 const props = defineProps<TeamMemberCardProps>();
+
+const mediaListApi = useGetMediaListsByIdApi(props.mediaListHumanFriendlyId);
+await mediaListApi.suspense()
+
+const { locale } = useI18n();
+const localePath = useLocalePath();
+
+const listPageUrl = computed(() => localePath(`/lists/details/${props.mediaListHumanFriendlyId}`));
+const posters = computed(() => {
+  return mediaListApi.data?.value?.poster?.[locale.value].map(el => el ? getProxiedImageUrl(el, 179) : el)
+})
 </script>
 
 <template>
@@ -22,8 +40,14 @@ const props = defineProps<TeamMemberCardProps>();
     :user-avatar-src="props.avatar"
     :user-name="props.name"
     :user-id="props.userId"
+    :images-src="posters"
+    :link-url="listPageUrl"
   >
-    <UiTypography variant="listTitle">
+    <UiTypography
+      :as="NuxtLink"
+      :to="listPageUrl"
+      variant="listTitle"
+    >
       {{ props.position }}
     </UiTypography>
     <UiSocialList

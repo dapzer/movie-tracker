@@ -35,6 +35,7 @@ import TeamMemberCard from "~/widgets/about/ui/team/TeamMemberCard.vue"
         :avatar="member.avatar"
         :user-id="member.userId"
         :socials="member.socials"
+        :media-list-human-friendly-id="member.mediaListHumanFriendlyId"
       />
     </div>
   </UiContainer>
