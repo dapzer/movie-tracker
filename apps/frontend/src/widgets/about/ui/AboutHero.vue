@@ -80,7 +80,8 @@ const localePath = useLocalePath()
 
 .wrapper {
   position: relative;
-overflow: hidden;
+  contain: paint;
+
   .backgroundGrid {
     position: absolute;
     left: 50%;
@@ -90,7 +91,6 @@ overflow: hidden;
     height: 1036px;
     top: -75px;
     z-index: -1;
-
     //  TODO: Add adaptive
   }
 
