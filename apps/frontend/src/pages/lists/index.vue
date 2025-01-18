@@ -10,6 +10,7 @@ import { UiButton } from "~/components/ui/UiButton"
 import { PlusIcon } from "~/components/ui/icons"
 import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
 import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
+import { computed } from "vue"
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { navigateToSignInPage } = useNavigateToSignInPage()
@@ -25,6 +26,15 @@ useSeoMeta({
     return `%s | ${t("mediaList.yourLists")}`;
   }
 });
+
+const sortedMediaLists = computed(() => {
+  return [...getMediaListsApi.data.value || []].sort((a, b) => {
+    const aDate = new Date(a.createdAt);
+    const bDate = new Date(b.createdAt);
+    
+    return bDate < aDate ? 1 : -1;
+  }) || []
+})
 </script>
 
 <template>
@@ -72,7 +82,7 @@ useSeoMeta({
     <div :class="$style.lists">
       <template v-if="getMediaListsApi.data.value && !getMediaListsApi.isLoading.value">
         <MediaListCard
-          v-for="list in getMediaListsApi.data.value"
+          v-for="list in sortedMediaLists"
           :key="list.id"
           :list="list"
         />
