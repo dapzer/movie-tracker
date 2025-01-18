@@ -80,7 +80,7 @@ const localePath = useLocalePath()
 
 .wrapper {
   position: relative;
-  contain: paint;
+  overflow-x: clip;
 
   .backgroundGrid {
     position: absolute;
