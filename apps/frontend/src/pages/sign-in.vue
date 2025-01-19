@@ -49,7 +49,7 @@ watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedi
 
 .wrapper {
   width: 100%;
-  background: linear-gradient(270deg, #0D0D0D 43.14%, rgba(13, 13, 13, 0) 100%), url("/authBackground.png") center;
+  background: linear-gradient(270deg, #0D0D0D 43.14%, rgba(13, 13, 13, 0) 100%), url("/authBackground.webp") center;
   background-size: cover;
   height: calc(100vh - var(--s-header-height));
 
@@ -61,7 +61,7 @@ watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedi
   }
 
   @include tabletDevice() {
-    background: linear-gradient(0deg, rgba(13, 13, 13, 0.9), rgba(13, 13, 13, 0.9)), url("/authBackground.png") center;
+    background: linear-gradient(0deg, rgba(13, 13, 13, 0.9), rgba(13, 13, 13, 0.9)), url("/authBackground.webp") center;
 
     .body {
       justify-content: center;
