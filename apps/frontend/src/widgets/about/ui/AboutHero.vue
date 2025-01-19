@@ -54,7 +54,7 @@ const localePath = useLocalePath()
 
       <div :class="$style.examples">
         <UiImage
-          src="landingMainPage.png"
+          src="landingMainPage.webp"
           :width="796"
           :height="453"
         />
@@ -65,7 +65,7 @@ const localePath = useLocalePath()
         />
         <UiImage
           :class="$style.listPageImage"
-          src="landingListsPage.png"
+          src="landingListsPage.webp"
           :width="183"
           :height="406"
         />
@@ -137,6 +137,7 @@ const localePath = useLocalePath()
       opacity: .6;
       background: linear-gradient(90deg, #1475E6 21.62%, #B747EC 100%);
       filter: blur(200px);
+      z-index: -1;
 
       @include tabletDevice() {
         top: 34px;
@@ -164,6 +165,7 @@ const localePath = useLocalePath()
 
       .description {
         font-weight: var(--fw-regular);
+        color: var(--c-white-70);
       }
 
       .actions {
@@ -195,6 +197,7 @@ const localePath = useLocalePath()
       display: flex;
       justify-content: center;
       margin-top: 96px;
+      aspect-ratio: 16/9;
 
       .listPageImage {
         position: absolute;

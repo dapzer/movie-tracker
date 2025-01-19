@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<UiContainerProps>(), {
 </template>
 
 <style lang="scss" module>
-@layer global, default;
+@layer global, default, external;
 
 @layer default {
   .body {

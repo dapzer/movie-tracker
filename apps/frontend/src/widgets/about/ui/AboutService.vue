@@ -12,7 +12,7 @@ import { UiImage } from "~/components/ui/UiImage"
   >
     <div :class="$style.body">
       <UiImage
-        src="landingListsPagePc.png"
+        src="landingListsPagePc.webp"
         :class="$style.landingListsPagePcImage"
         width="540"
         height="334"
