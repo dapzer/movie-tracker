@@ -43,27 +43,30 @@ watch([searchTerm, activeTab], () => {
   currentPage.value = 1
 })
 
+const sortArrowUpIcon = h(UiIcon, { name: 'icon:sort-arrow-up' })
+const sortArrowDownIcon = h(UiIcon, { name: 'icon:sort-arrow-down' })
+
 const options = computed(() => {
   return [
     {
       label: t("mediaList.sort.createdAt"),
       value: 'asc_createdAt',
-      icon: h(UiIcon, { name: 'icon:sort-arrow-up' })
+      icon: sortArrowUpIcon
     },
     {
       label: t("mediaList.sort.createdAt"),
       value: 'desc_createdAt',
-      icon: h(UiIcon, { name: 'icon:sort-arrow-down' })
+      icon: sortArrowDownIcon
     },
     {
       label: t("mediaList.sort.updatedAt"),
       value: 'asc_updatedAt',
-      icon: h(UiIcon, { name: 'icon:sort-arrow-up' })
+      icon: sortArrowUpIcon
     },
     {
       label: t("mediaList.sort.updatedAt"),
       value: 'desc_updatedAt',
-      icon: h(UiIcon, { name: 'icon:sort-arrow-down' })
+      icon: sortArrowDownIcon
     },
   ]
 })
@@ -140,7 +143,8 @@ watch(currentTabMediaItems, () => {
           >
             <template #iconStart>
               <component
-                :is="option.icon"
+                :is="option?.icon"
+                v-if="option?.icon"
               />
             </template>
             <template #content>
