@@ -96,6 +96,7 @@ const selectOptions = computed(() => {
         <UiIcon
           name="icon:trash"
           :class="$style.iconEnd"
+          :size="18"
         />
       </UiButton>
     </div>
