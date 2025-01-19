@@ -2,8 +2,8 @@
 
 import UiCardBase from '~/components/ui/UiCard/UiCardBase.vue';
 import { UiImage } from '~/components/ui/UiImage';
-import { PlayIcon } from '~/components/ui/icons';
 import { UiTypography } from '~/components/ui/UiTypography';
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiVideoCardProps {
   width?: number;
@@ -33,7 +33,10 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
         />
 
         <div :class="$style.previewOverlay">
-          <PlayIcon />
+          <UiIcon
+            name="icon:play"
+            :size="26"
+          />
         </div>
       </div>
     </template>

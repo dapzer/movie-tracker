@@ -3,7 +3,7 @@
 import { UiInput } from "~/components/ui/UiInput"
 import { ref } from "vue"
 import type { UiInputSize } from "~/components/ui/UiInput/UiInput.vue"
-import { SearchIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const disabled = ref(false)
 const placeholder = ref<string>("Placeholder")
@@ -49,7 +49,7 @@ const sizes = [{
           :disabled="disabled"
         >
           <template #icon>
-            <SearchIcon />
+            <UiIcon name="icon:search" />
           </template>
         </UiInput>
       </Variant>

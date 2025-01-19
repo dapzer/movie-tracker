@@ -6,8 +6,8 @@ import { useSwitchLocalePath } from "#i18n";
 import { useI18n } from "#imports";
 import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "~/components/ui/UiDropdown"
 import { NuxtLink } from "#components"
-import { PlanetIcon } from "~/components/ui/icons";
 import { ref } from "vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const switchLocalePath = useSwitchLocalePath();
 const { locale } = useI18n();
@@ -25,7 +25,10 @@ const isOpen = ref(false);
       <UiDropdownTriggerWithArrow
         :is-open="isOpen"
       >
-        <PlanetIcon />
+        <UiIcon
+          name="icon:planet"
+          :size="20"
+        />
         <UiTypography variant="label">
           {{ locale.toUpperCase() }}
         </UiTypography>

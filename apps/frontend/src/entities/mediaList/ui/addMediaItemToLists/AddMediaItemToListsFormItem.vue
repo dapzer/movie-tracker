@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { type MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
-import { LockerIcon, SharedPlanetIcon } from "~/components/ui/icons"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
 import { UiFormListItem } from "~/components/ui/UiFormListItem"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface AddMediaItemToListsFormItemProps {
   mediaList: MediaListType;
@@ -24,20 +24,19 @@ const titlesInListCount = computed(() => {
     :description="titlesInListCount + ' ' + $t(getElementDeclensionTranslationKey(titlesInListCount))"
   >
     <template #rightContent>
-      <SharedPlanetIcon
+      <UiIcon
         v-if="props.mediaList.isPublic"
-        :class="$style.svg"
+        name="icon:shared-planet"
+        :size="20"
       />
-      <LockerIcon
+      <UiIcon
         v-else
-        :class="$style.svg"
+        name="icon:locker"
+        :size="20"
       />
     </template>
   </UiFormListItem>
 </template>
 
 <style module lang="scss">
-.svg {
-  width: 20px;
-}
 </style>

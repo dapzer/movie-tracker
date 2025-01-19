@@ -6,7 +6,7 @@ import UiButton, {
   type UiButtonVariant
 } from "~/components/ui/UiButton/UiButton.vue"
 import { ref } from "vue"
-import { ArrowRightIcon, EyeIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface Option {
   value: string
@@ -60,7 +60,7 @@ const schema = ref<UiButtonScheme>("primary")
           :size="size"
           :disabled="disabled"
         >
-          <EyeIcon />
+          <UiIcon name="icon:eye" />
         </UiButton>
       </variant>
 
@@ -71,7 +71,7 @@ const schema = ref<UiButtonScheme>("primary")
           :size="size"
           :disabled="disabled"
         >
-          <ArrowRightIcon />
+          <UiIcon name="icon:arrow-right" />
         </UiButton>
       </Variant>
     </template>

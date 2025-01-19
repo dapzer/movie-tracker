@@ -8,8 +8,8 @@ import { useClipboard } from "@vueuse/core"
 import { useLocalePath } from "#i18n"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { UiButton } from "~/components/ui/UiButton"
-import { LikeIcon, LockerIcon, SharedPlanetIcon, ShareIcon } from "~/components/ui/icons"
 import { NuxtLink } from "#components"
+import { UiIcon } from "~/components/ui/UiIcon"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
 
 interface MediaListCardProps {
@@ -57,7 +57,10 @@ const posters = computed(() => {
         :disabled="copied"
         @click="copyLink"
       >
-        <ShareIcon />
+        <UiIcon
+          name="icon:share"
+          :size="20"
+        />
       </UiButton>
     </div>
 
@@ -72,8 +75,18 @@ const posters = computed(() => {
           :class="$style.state"
           variant="description"
         >
-          <SharedPlanetIcon v-if="props.list.isPublic" />
-          <LockerIcon v-else />
+          <UiIcon
+            v-if="props.list.isPublic"
+            name="icon:shared-planet"
+            :width="16"
+            :height="18"
+          />
+          <UiIcon
+            v-else
+            :width="16"
+            :height="18"
+            name="icon:locker"
+          />
           {{ props.list.isPublic ? $t("ui.public") : $t("ui.private") }}
         </UiTypography>
       </div>
@@ -83,7 +96,7 @@ const posters = computed(() => {
           :class="$style.likes"
           variant="description"
         >
-          <LikeIcon />
+          <UiIcon name="icon:like" />
           {{ props.list.likesCount }}
         </UiTypography>
       </div>
@@ -133,10 +146,6 @@ const posters = computed(() => {
   .state {
     display: flex;
     gap: 4px;
-
-    svg {
-      width: 16px;
-    }
   }
 
   .likes {

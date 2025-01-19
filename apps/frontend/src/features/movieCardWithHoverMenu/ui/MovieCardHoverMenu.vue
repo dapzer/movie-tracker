@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { UiTypography } from "~/components/ui/UiTypography"
-import { ListIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import MovieCardHoverMenuHeader from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuHeader.vue"
 import { computed, useI18n } from "#imports"
@@ -10,6 +9,7 @@ import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { getMovieDirectors } from "@movie-tracker/utils"
 import MovieCardHoverMenuSkeleton from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuSkeleton.vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MovieCardHoverMenuProps {
   mediaType: TmdbMediaTypeEnum;
@@ -92,7 +92,10 @@ const producers = computed(() => {
         scheme="secondary"
         @click="emits('onAddToListClick')"
       >
-        <ListIcon />
+        <UiIcon
+          name="icon:list"
+          :size="16"
+        />
         {{ $t('mediaList.addToList') }}
       </UiButton>
     </div>

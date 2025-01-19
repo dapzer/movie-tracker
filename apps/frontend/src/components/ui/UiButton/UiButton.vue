@@ -334,7 +334,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     justify-content: center;
     gap: 4px;
 
-    svg {
+    .icon {
       min-width: max-content;
       min-height: max-content;
     }

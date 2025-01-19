@@ -75,14 +75,14 @@ const slots = defineSlots()
     z-index: 1;
 
     &,
-    svg {
+    .icon {
       width: 20px;
       height: 20px;
     }
 
     &.small {
       &,
-      svg {
+      .icon {
         width: 16px;
         height: 16px;
       }

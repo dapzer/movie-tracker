@@ -2,7 +2,7 @@
 import { computed, ref } from "vue"
 import { UiTypography, type UiTypographyProps } from "~/components/ui/UiTypography"
 import { UiButton } from "~/components/ui/UiButton"
-import { ArrowRightBoldIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiTrimmedTextProps extends UiTypographyProps {
   text: string;
@@ -49,7 +49,11 @@ defineOptions({
       @click="showMore = !showMore"
     >
       {{ showMore ? $t("ui.showLess") : $t("ui.showMore") }}
-      <ArrowRightBoldIcon />
+      <UiIcon
+        :class="$style.icon"
+        :size="20"
+        name="icon:arrow-right-bold"
+      />
     </UiButton>
   </div>
 </template>
@@ -86,13 +90,13 @@ defineOptions({
     gap: 8px;
     align-items: center;
 
-    svg {
+    .icon {
       transform: rotate(90deg);
       width: 20px;
     }
 
     &.active {
-      svg {
+      .icon {
         transform: rotate(-90deg);
       }
     }

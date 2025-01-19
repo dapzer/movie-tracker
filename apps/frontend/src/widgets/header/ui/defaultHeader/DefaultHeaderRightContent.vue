@@ -6,7 +6,7 @@ import { UiButton } from "~/components/ui/UiButton"
 import { useAuth } from "#imports"
 import { UserProfileDropdown } from "~/features/profile"
 import { SignInLink } from "~/features/auth"
-import { SearchIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface DefaultHeaderRightContentEmits {
   (event: "handleOpenSearchModal"): void
@@ -30,7 +30,10 @@ const { profile } = useAuth();
       variant="textIcon"
       @click="emits('handleOpenSearchModal')"
     >
-      <SearchIcon width="24" />
+      <UiIcon
+        name="icon:search"
+        :size="24"
+      />
     </UiButton>
     <SignInLink v-if="!profile">
       <UiButton>

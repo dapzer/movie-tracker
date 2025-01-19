@@ -3,13 +3,13 @@ import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { computed, ref, watch } from "vue"
 import { UiInput } from "~/components/ui/UiInput"
-import { SearchIcon } from "~/components/ui/icons"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { UiButton } from "~/components/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { UiTypography } from "~/components/ui/UiTypography"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const getMediaListsApi = useGetMediaListsApi();
 const getMediaItemsApi = useGetMediaItemsApi();
@@ -126,7 +126,7 @@ const filteredMediaLists = computed(() => {
         :placeholder="$t('search.placeholder')"
       >
         <template #icon>
-          <SearchIcon />
+          <UiIcon name="icon:search" />
         </template>
       </UiInput>
       <slot name="action" />

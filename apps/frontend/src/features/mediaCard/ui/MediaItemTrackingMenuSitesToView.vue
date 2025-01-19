@@ -2,7 +2,6 @@
 import type { MediaItemType } from "@movie-tracker/types";
 import { NuxtLink } from "#components";
 import { UiButton } from "~/components/ui/UiButton";
-import { CheckIcon, CrossFilledIcon, PencilIcon, PlusIcon, TrashIcon } from "~/components/ui/icons";
 import { UiTypography } from "~/components/ui/UiTypography";
 import { computed, ref } from "vue";
 import { UiInput } from "~/components/ui/UiInput";
@@ -10,6 +9,7 @@ import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemt
 import { isOnlySpaces } from "@movie-tracker/utils";
 import { useI18n } from "#imports";
 import { toast } from "vue3-toastify";
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface TrackingMenuSitesToViewProps {
   mediaItem: MediaItemType;
@@ -110,7 +110,7 @@ const handleSave = async () => {
               variant="text"
               @click="handleEditItem(index, site.url || '')"
             >
-              <PencilIcon />
+              <UiIcon name="icon:pencil" />
             </UiButton>
 
             <UiButton
@@ -119,7 +119,10 @@ const handleSave = async () => {
               scheme="tertiary"
               @click="handleDeleteItem(index)"
             >
-              <TrashIcon />
+              <UiIcon
+                name="icon:trash"
+                :size="19"
+              />
             </UiButton>
           </div>
         </div>
@@ -135,7 +138,7 @@ const handleSave = async () => {
         @click="handleEditItem(sitesToView.length || 1, '')"
       >
         {{ $t(`mediaItem.trackingMenu.addSiteToView`) }}
-        <PlusIcon />
+        <UiIcon name="icon:plus" />
       </UiButton>
 
       <div
@@ -155,7 +158,10 @@ const handleSave = async () => {
           scheme="secondary"
           @click="handleSave"
         >
-          <CheckIcon />
+          <UiIcon
+            name="icon:check"
+            :size="16"
+          />
         </UiButton>
 
         <UiButton
@@ -163,7 +169,7 @@ const handleSave = async () => {
           scheme="tertiary"
           @click="handleEditItem(null, '')"
         >
-          <CrossFilledIcon />
+          <UiIcon name="icon:cross-fiilled" />
         </UiButton>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/componen
 import { UiImage } from "~/components/ui/UiImage"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { NuxtLink } from "#components"
-import { LogoutIcon, SettingsIcon } from "~/components/ui/icons";
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UserProfileDropdownProps {
   profile: UserType;
@@ -63,7 +63,7 @@ const isAdmin = computed(() => {
       :to="localePath('/settings')"
     >
       <template #iconStart>
-        <SettingsIcon />
+        <UiIcon name="icon:settings" />
       </template>
       <template #content>
         {{ $t('navigation.accountSettings') }}
@@ -74,7 +74,7 @@ const isAdmin = computed(() => {
       @click="handleLogout"
     >
       <template #iconStart>
-        <LogoutIcon />
+        <UiIcon name="icon:logout" />
       </template>
       <template #content>
         {{ $t('auth.signOut') }}

@@ -5,10 +5,10 @@ import { computed, ref } from "vue"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import { UiModal } from "~/components/ui/UiModal"
 import MediaItemCreateCloneForm from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneForm.vue"
-import { PlusIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
 import { useI18n } from "#imports"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaItemCreateCloneModalProps {
   mediaItem: MediaItemType;
@@ -47,7 +47,7 @@ const currentMediaDetails = computed(() => {
             @click="isOpenCreateModal = true"
           >
             {{ $t('mediaList.create') }}
-            <PlusIcon />
+            <UiIcon name="icon:plus" />
           </UiButton>
         </template>
       </MediaItemCreateCloneForm>

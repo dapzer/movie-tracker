@@ -7,8 +7,8 @@ import UiDropdownItem from "~/components/ui/UiDropdown/UiDropdownItem.vue"
 import UiDropdownSeparator from "~/components/ui/UiDropdown/UiDropdownSeparator.vue"
 import { ref } from "vue"
 import UiDropdownTriggerWithArrow from "~/components/ui/UiDropdown/UiDropdownTriggerWithArrow.vue"
-import { SelectArrowIcon } from "~/components/ui/icons"
 import { UiContainer } from "~/components/ui/UiContainer"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const isOpen = ref(false)
 const align = ref<'start' | 'center' | 'end'>('start')
@@ -39,7 +39,7 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
                     First item
                   </template>
                   <template #iconEnd>
-                    <SelectArrowIcon />
+                    <UiIcon name="icon:select-arrow" />
                   </template>
                 </UiDropdownItem>
                 <UiDropdownItem>

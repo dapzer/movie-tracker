@@ -11,7 +11,7 @@ import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
 import { useSearch } from "~/features/search/model/useSearch"
 import { UiAttention } from "~/components/ui/UiAttention"
 import { UiTypography } from "~/components/ui/UiTypography"
-import { ArrowRightBoldIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const router = useRouter()
 const localePath = useLocalePath();
@@ -81,7 +81,10 @@ const itemsToRender = computed(() => {
         @select.prevent="() => handleOpenSearchPage()"
       >
         {{ $t("search.seeAllResults", { searchTerm: searchValue }) }}
-        <ArrowRightBoldIcon width="18" />
+        <UiIcon
+          :size="18"
+          name="icon:arrow-right-bold"
+        />
       </UiComboboxItem>
 
       <UiAttention

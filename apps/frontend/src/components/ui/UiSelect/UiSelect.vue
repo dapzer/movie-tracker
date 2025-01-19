@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { SelectArrowIcon } from "~/components/ui/icons"
 import {
   SelectContent,
   SelectItem,
@@ -9,11 +8,13 @@ import {
   SelectValue,
   SelectViewport,
 } from 'radix-vue'
+import { UiIcon } from "~/components/ui/UiIcon"
+import { type VNode } from "vue"
 
 export interface OptionType {
   value: string
   label: string
-  icon?: string
+  icon?: string | VNode
 }
 
 interface UiSelectProps {
@@ -41,7 +42,7 @@ const slots = defineSlots()
         :placeholder="props.placeholder"
       />
       <SelectIcon :class="$style.iconWrapper">
-        <SelectArrowIcon />
+        <UiIcon name="icon:select-arrow" />
       </SelectIcon>
     </SelectTrigger>
 

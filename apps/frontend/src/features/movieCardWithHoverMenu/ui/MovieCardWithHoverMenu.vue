@@ -4,11 +4,11 @@ import { UiHoverCard } from "~/components/ui/UiHoverCard"
 import { MovieCard } from "~/entities/movieCard"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
-import { DetailsIcon } from "~/components/ui/icons"
 import { ref } from "vue"
 import { useAuth } from "~/composables/useAuth"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { MediaListSelectorModal } from "~/entities/mediaList"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MovieCardWithHoverMenuProps {
   fullHeight?: boolean;
@@ -45,7 +45,11 @@ const onOpenButtonClicked = () => {
         side="right"
       >
         <template #trigger>
-          <DetailsIcon />
+          <UiIcon
+            :class="$style.icon"
+            name="icon:details"
+            :size="20"
+          />
         </template>
 
         <template #content>
@@ -80,7 +84,7 @@ const onOpenButtonClicked = () => {
   z-index: 1;
   mix-blend-mode: difference;
 
-  svg {
+  .icon {
     margin-top: 8px;
   }
 

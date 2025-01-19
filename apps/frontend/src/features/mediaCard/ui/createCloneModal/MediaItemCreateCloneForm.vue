@@ -2,7 +2,6 @@
 
 import type { MediaItemType } from "@movie-tracker/types"
 import { UiInput } from "~/components/ui/UiInput"
-import { SearchIcon } from "~/components/ui/icons"
 import { computed, ref } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
@@ -12,6 +11,7 @@ import { UiSwitch } from "~/components/ui/UiSwitch"
 import { UiButton } from "~/components/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaItemCreateCloneFormProps {
   mediaItem: MediaItemType;
@@ -70,7 +70,7 @@ const availableMediaLists = computed(() => {
         :placeholder="$t('search.placeholder')"
       >
         <template #icon>
-          <SearchIcon />
+          <UiIcon name="icon:search" />
         </template>
       </UiInput>
       <slot name="action" />

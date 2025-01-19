@@ -3,12 +3,12 @@ import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@mo
 import { computed } from "vue"
 import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
 import { UiTypography } from "~/components/ui/UiTypography"
-import { CloneIcon, EditIcon, LikeIcon, ShareIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import { UiUserProfileLink } from "~/components/ui/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
 import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaListHeaderProps {
   mediaList: MediaListType;
@@ -73,7 +73,10 @@ const handleLike = async () => {
             :class="$style.likes"
             variant="description"
           >
-            <LikeIcon />
+            <UiIcon
+              name="icon:like"
+              :size="16"
+            />
             {{ props.mediaList.likesCount }}
           </UiTypography>
           <UiButton
@@ -82,7 +85,10 @@ const handleLike = async () => {
             :disabled="copied"
             @click="copyLink"
           >
-            <ShareIcon />
+            <UiIcon
+              name="icon:share"
+              :size="20"
+            />
           </UiButton>
         </div>
       </div>
@@ -98,7 +104,7 @@ const handleLike = async () => {
               scheme="secondary"
               @click="() => isAuthorized ? openModal() : navigateToSignInPage()"
             >
-              <CloneIcon />
+              <UiIcon name="icon:clone" />
               {{ t("mediaList.createClone.title") }}
             </UiButton>
           </template>
@@ -112,7 +118,7 @@ const handleLike = async () => {
               with-icon
               @click="openModal"
             >
-              <EditIcon />
+              <UiIcon name="icon:edit" />
               {{ t("ui.edit") }}
             </UiButton>
           </template>
@@ -126,7 +132,7 @@ const handleLike = async () => {
           :scheme="props.mediaList.isLiked ? 'secondary' : 'primary'"
           @click="handleLike"
         >
-          <LikeIcon />
+          <UiIcon name="icon:like" />
           {{ t("ui.like") }}
         </UiButton>
       </div>

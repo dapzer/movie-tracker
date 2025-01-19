@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
 import { UiInput } from "~/components/ui/UiInput"
-import { SearchIcon, SortArrowDownIcon, SortArrowUpIcon, SortIcon } from "~/components/ui/icons"
 import { UiSelect } from "~/components/ui/UiSelect"
-import { computed, ref, watch } from "vue"
+import { computed, h, ref, watch } from "vue"
 import { useI18n } from "#imports"
 import { UiDropdown, UiDropdownItem } from "~/components/ui/UiDropdown"
 import { UiTabsPane } from "~/components/ui/UiTabs"
@@ -16,6 +15,7 @@ import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 import { MediaCard } from "~/features/mediaCard"
 import { LocalStorageEnum } from "~/types/localStorageEnum"
 import { useCookie } from "#app"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaListDetailsProps {
   mediaListItems?: MediaItemType[];
@@ -48,22 +48,22 @@ const options = computed(() => {
     {
       label: t("mediaList.sort.createdAt"),
       value: 'asc_createdAt',
-      icon: SortArrowUpIcon
+      icon: h(UiIcon, { name: 'icon:sort-arrow-up' })
     },
     {
       label: t("mediaList.sort.createdAt"),
       value: 'desc_createdAt',
-      icon: SortArrowDownIcon
+      icon: h(UiIcon, { name: 'icon:sort-arrow-down' })
     },
     {
       label: t("mediaList.sort.updatedAt"),
       value: 'asc_updatedAt',
-      icon: SortArrowUpIcon
+      icon: h(UiIcon, { name: 'icon:sort-arrow-up' })
     },
     {
       label: t("mediaList.sort.updatedAt"),
       value: 'desc_updatedAt',
-      icon: SortArrowDownIcon
+      icon: h(UiIcon, { name: 'icon:sort-arrow-down' })
     },
   ]
 })
@@ -116,7 +116,7 @@ watch(currentTabMediaItems, () => {
         :placeholder="$t('search.placeholder')"
       >
         <template #icon>
-          <SearchIcon />
+          <UiIcon name="icon:search" />
         </template>
       </UiInput>
 
@@ -126,7 +126,10 @@ watch(currentTabMediaItems, () => {
         :trigger-class="$style.dropdownTrigger"
       >
         <template #trigger>
-          <SortIcon />
+          <UiIcon
+            name="icon:sort"
+            :size="20"
+          />
         </template>
 
         <template #content>

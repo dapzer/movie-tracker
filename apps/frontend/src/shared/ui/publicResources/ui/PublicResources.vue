@@ -21,12 +21,15 @@ import { UiSocialList } from "~/components/ui/UiSocialList"
 .wrapper {
   gap: 16px;
 
-  svg {
+   span  {
     width: 32px;
+    height: 32px;
 
     @include mobilePlusDevice() {
       width: 28px;
+      height: 28px;
     }
   }
 }
 </style>
+

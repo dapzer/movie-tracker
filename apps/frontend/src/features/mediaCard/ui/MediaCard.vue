@@ -5,9 +5,9 @@ import { useLocalePath } from "#i18n";
 import { UiMediaCard } from "~/components/ui/UiCard"
 import { formatDate } from "~/utils/formatDate"
 import { UiButton } from "~/components/ui/UiButton"
-import { ManagementIcon } from "~/components/ui/icons.js"
 import { ref } from "vue"
 import MediaCardTrackingMenuDrawer from "~/features/mediaCard/ui/MediaCardManagementMenuDrawer.vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaCardProps {
   mediaItem: MediaItemType;
@@ -50,7 +50,10 @@ const createdDate = computed(() => {
         variant="text"
         @click="isTrackingMenuOpen = true"
       >
-        <ManagementIcon />
+        <UiIcon
+          name="icon:management"
+          :size="20"
+        />
         <MediaCardTrackingMenuDrawer
           v-model="isTrackingMenuOpen"
           :media-item="props.mediaItem"

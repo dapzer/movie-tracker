@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ArrowIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { UiDivider } from "~/components/ui/UiDivider"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiAccordionProps {
   items: Array<{
@@ -39,7 +39,10 @@ const model = defineModel<string | string[]>()
           >
             {{ item.title }}
 
-            <ArrowIcon :class="$style.icon" />
+            <UiIcon
+              :class="$style.icon"
+              name="icon:arrow"
+            />
           </AccordionTrigger>
         </AccordionHeader>
         <AccordionContent>

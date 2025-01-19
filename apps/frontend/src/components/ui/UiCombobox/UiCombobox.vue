@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ComboboxAnchor, ComboboxInput, ComboboxRoot, } from 'radix-vue'
-import { CloseIcon, SearchIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import { ref, type VNodeRef, watch } from "vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiComboboxProps {
   width?: number
@@ -38,7 +38,10 @@ watch(() => open.value, (value) => {
     @update:search-term="value => searchTerm = value"
   >
     <ComboboxAnchor :class="$style.anchor">
-      <SearchIcon :class="$style.searchIcon" />
+      <UiIcon
+        name="icon:search"
+        :class="$style.searchIcon"
+      />
       <ComboboxInput
         ref="inputRef"
         as="input"
@@ -51,7 +54,10 @@ watch(() => open.value, (value) => {
         :as="UiButton"
         variant="text"
       >
-        <CloseIcon width="13.75px" />
+        <UiIcon
+          name="icon:close"
+          :size="13.75"
+        />
       </ComboboxCancel>
     </ComboboxAnchor>
 

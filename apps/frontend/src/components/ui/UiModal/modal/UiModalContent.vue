@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { UiContainer } from "~/components/ui/UiContainer"
 import { UiButton } from "~/components/ui/UiButton"
-import { CrossIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { useModalContent } from "~/components/ui/UiModal/useModalContent"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 export interface UiModalProps {
   maxWidth?: number
@@ -49,7 +49,10 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
             variant="textIcon"
             @click="emits('handleClose')"
           >
-            <CrossIcon />
+            <UiIcon
+              name="icon:cross"
+              :size="12"
+            />
           </UiButton>
         </div>
 
@@ -104,10 +107,6 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
         right: 14px;
         padding: 4px;
         line-height: 0;
-
-        svg {
-          width: 12px;
-        }
       }
     }
 

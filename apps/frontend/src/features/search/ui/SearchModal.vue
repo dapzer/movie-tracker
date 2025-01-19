@@ -9,7 +9,6 @@ import { useRouter } from "#vue-router"
 import { useLocalePath } from "#i18n"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { UiInput } from "~/components/ui/UiInput"
-import { ArrowRightBoldIcon, CrossIcon, SearchIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
@@ -17,6 +16,7 @@ import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
 import { ref, type VNodeRef } from "vue"
 import { UiAttention } from "~/components/ui/UiAttention"
 import { UiTypography } from "~/components/ui/UiTypography"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const model = defineModel<boolean>()
 const router = useRouter()
@@ -58,7 +58,10 @@ const itemsToRender = computed(() => {
             :placeholder="$t('search.placeholder')"
           >
             <template #icon>
-              <SearchIcon width="20" />
+              <UiIcon
+                name="icon:search"
+                :size="16"
+              />
             </template>
           </UiInput>
           <UiButton
@@ -66,7 +69,10 @@ const itemsToRender = computed(() => {
             variant="textIcon"
             @click="closeModal"
           >
-            <CrossIcon width="13.75" />
+            <UiIcon
+              name="icon:cross"
+              :size="13.75"
+            />
           </UiButton>
         </UiContainer>
 
@@ -101,7 +107,10 @@ const itemsToRender = computed(() => {
               @click="() => handleOpenSearchPage()"
             >
               {{ $t("search.seeAllResults", { searchTerm: searchValue }) }}
-              <ArrowRightBoldIcon width="18" />
+              <UiIcon
+                :size="18"
+                name="icon:arrow-right-bold"
+              />
             </UiTypography>
 
             <UiAttention

@@ -9,9 +9,9 @@ import {
   PaginationRoot
 } from "radix-vue"
 import { UiButton } from "~/components/ui/UiButton"
-import { ArrowIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/ui/UiTypography"
 import UiPaginationItem from "~/components/ui/UiPagination/UiPaginationItem.vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiPaginationProps {
   totalItems: number;
@@ -41,7 +41,10 @@ const currentPage = defineModel<number>();
         :as="UiButton"
         scheme="default"
       >
-        <ArrowIcon />
+        <UiIcon
+          :class="$style.arrowIcon"
+          name="icon:arrow"
+        />
       </PaginationPrev>
 
       <template v-for="(page, index) in items">
@@ -71,7 +74,10 @@ const currentPage = defineModel<number>();
         :as="UiButton"
         scheme="default"
       >
-        <ArrowIcon />
+        <UiIcon
+          :class="$style.arrowIcon"
+          name="icon:arrow"
+        />
       </PaginationNext>
     </PaginationList>
   </PaginationRoot>
@@ -106,14 +112,14 @@ const currentPage = defineModel<number>();
   }
 
   .prevPage {
-    svg {
+    .arrowIcon {
       width: 12px;
       transform: rotate(90deg);
     }
   }
 
   .nextPage {
-    svg {
+    .arrowIcon {
       width: 12px;
       transform: rotate(-90deg);
     }

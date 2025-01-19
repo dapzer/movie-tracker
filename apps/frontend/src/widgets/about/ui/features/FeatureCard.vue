@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { UiTypography } from "~/components/ui/UiTypography"
+import { type VNode } from "vue"
 
 interface FeatureCardProps {
   title: string
   description: string
-  icon: string | object
+  icon: VNode
 }
 
 const props = defineProps<FeatureCardProps>()
@@ -12,7 +13,10 @@ const props = defineProps<FeatureCardProps>()
 
 <template>
   <div :class="$style.wrapper">
-    <component :is="props.icon" />
+    <component
+      :is="props.icon"
+      :class="$style.icon"
+    />
     <div :class="$style.info">
       <UiTypography variant="title4">
         {{ props.title }}
@@ -34,6 +38,10 @@ const props = defineProps<FeatureCardProps>()
   border: 1px solid var(--c-white-12);
   box-shadow: 0px 1px 0px 0px rgba(41, 137, 255, 0.15) inset;
   background: linear-gradient(180deg, rgba(39, 136, 255, 0.05) 0%, rgba(13, 13, 13, 0.05) 100%), #0D0D0D;
+
+  .icon {
+    font-size: 40px;
+  }
 
   @include tabletDevice() {
     gap: 24px;

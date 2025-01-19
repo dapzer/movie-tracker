@@ -3,7 +3,7 @@ import { UiTypography } from "~/components/ui/UiTypography";
 import { UiImage } from "~/components/ui/UiImage"
 import { UiTrimmedText } from "~/components/ui/UiTrimmedText"
 import { NuxtLink } from "#components"
-import { BackArrowMediumIcon, BackArrowSmallIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiInfoHeaderProps {
   title: string;
@@ -29,8 +29,14 @@ const slots = defineSlots();
       :to="props.backButtonUrl"
       variant="label"
     >
-      <BackArrowSmallIcon :class="$style.backArrowSmall" />
-      <BackArrowMediumIcon :class="$style.backArrowMedium" />
+      <UiIcon
+        name="icon:back-arrow-small"
+        :class="$style.backArrowSmall"
+      />
+      <UiIcon
+        name="icon:back-arrow-medium"
+        :class="$style.backArrowMedium"
+      />
       <span>
         {{ props.backButtonText }}
       </span>
@@ -155,12 +161,12 @@ const slots = defineSlots();
     color: var(--c-description);
     width: fit-content;
 
-    svg {
+    .backArrowSmall {
       color: var(--c-text);
     }
 
     &:hover {
-      &, svg {
+      &, .backArrowSmall {
         color: var(--c-label-lihk-hovered);
       }
     }

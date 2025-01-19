@@ -65,11 +65,14 @@ onUnmounted(() => {
       size="large"
       @click="onSignIn(provider.provider)"
     >
-      <component :is="provider.icon" />
+      <component
+        :is="provider.icon"
+        :class="$style.icon"
+      />
       <span
-        :class="{
+        :class="[$style.text,{
           [$style.titleEn]: locale === LanguagesEnum.EN
-        }"
+        }]"
       >
         {{
           $t("auth.signInWith", {
@@ -99,8 +102,8 @@ onUnmounted(() => {
     text-align: start;
     gap: 16px;
 
-    svg {
-      width: 20px;
+    .icon {
+      font-size: 20px;
       flex-shrink: 0;
     }
 
@@ -111,7 +114,7 @@ onUnmounted(() => {
     }
 
 
-    span {
+    .text {
       max-width: 208px;
       width: 100%;
       font-family: inherit;

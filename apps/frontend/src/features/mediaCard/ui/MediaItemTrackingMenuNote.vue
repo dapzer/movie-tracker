@@ -3,12 +3,12 @@
 import { UiTextarea } from "~/components/ui/UiTextarea"
 import type { MediaItemType } from "@movie-tracker/types"
 import { UiButton } from "~/components/ui/UiButton"
-import { CheckIcon, CrossFilledIcon } from "~/components/ui/icons"
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { computed, ref } from "vue"
 import { useI18n } from "#imports"
 import { toast } from "vue3-toastify"
 import { UiTypography } from "~/components/ui/UiTypography"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaItemTrackingMenuProps {
   mediaItem: MediaItemType;
@@ -65,7 +65,10 @@ const handleCancel = () => {
           scheme="secondary"
           @click="handleSave"
         >
-          <CheckIcon />
+          <UiIcon
+            name="icon:check"
+            :size="14"
+          />
         </UiButton>
 
         <UiButton
@@ -73,7 +76,7 @@ const handleCancel = () => {
           scheme="tertiary"
           @click="handleCancel"
         >
-          <CrossFilledIcon />
+          <UiIcon name="icon:cross-fiilled" />
         </UiButton>
       </div>
     </div>

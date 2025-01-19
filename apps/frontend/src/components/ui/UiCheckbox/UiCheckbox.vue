@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CheckIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiCheckboxProps {
 radio?: boolean;
@@ -21,7 +21,10 @@ defineOptions({
       v-bind="$attrs"
     >
     <span :class="$style.transition">
-      <CheckIcon />
+      <UiIcon
+        name="icon:check"
+        :size="14"
+      />
     </span>
   </label>
 </template>
@@ -38,7 +41,7 @@ defineOptions({
   position: relative;
   overflow: hidden;
 
-  span {
+  .transition {
     display: none;
   }
 
@@ -55,7 +58,7 @@ defineOptions({
   }
 }
 
-.body input:checked + span {
+.body input:checked + .transition {
   position: absolute;
   width: 100%;
   height: 100%;

@@ -2,40 +2,34 @@
 
 import { UiContainer } from "~/components/ui/UiContainer"
 import { UiTypography } from "~/components/ui/UiTypography"
-import {
-  CommunityFeatureIcon,
-  DiscoverFeatureIcon,
-  ListsFeature,
-  ReviewFeature,
-  StatusFeature,
-  TrackingFeature
-} from "~/components/ui/icons"
 import FeatureCard from "~/widgets/about/ui/features/FeatureCard.vue"
+import { h } from "vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const features = [{
   title: "about.features.discover.title",
   description: "about.features.discover.description",
-  icon: DiscoverFeatureIcon,
+  icon: h(UiIcon, { name: "icon:discover-feature" }),
 }, {
   title: "about.features.lists.title",
   description: "about.features.lists.description",
-  icon: ListsFeature,
+  icon: h(UiIcon, { name: "icon:lists-feature" }),
 }, {
   title: "about.features.tracking.title",
   description: "about.features.tracking.description",
-  icon: TrackingFeature,
+  icon: h(UiIcon, { name: "icon:tracking-feature" }),
 }, {
   title: "about.features.status.title",
   description: "about.features.status.description",
-  icon: StatusFeature,
+  icon: h(UiIcon, { name: "icon:status-feature" }),
 }, {
   title: "about.features.review.title",
   description: "about.features.review.description",
-  icon: ReviewFeature,
+  icon: h(UiIcon, { name: "icon:review-feature" }),
 }, {
   title: "about.features.community.title",
   description: "about.features.community.description",
-  icon: CommunityFeatureIcon,
+  icon: h(UiIcon, { name: "icon:community-feature" }),
 }]
 </script>
 

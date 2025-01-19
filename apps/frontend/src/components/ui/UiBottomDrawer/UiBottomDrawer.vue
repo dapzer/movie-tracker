@@ -9,8 +9,8 @@ import {
   DrawerTrigger
 } from 'vaul-vue'
 import { UiButton } from "~/components/ui/UiButton"
-import { CrossIcon } from "~/components/ui/icons"
 import { UiTypography } from "~/components/ui/UiTypography"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiBottomDrawerProps {
   title: string
@@ -42,7 +42,10 @@ const model = defineModel<boolean>()
           scheme="primary"
           size="small"
         >
-          <CrossIcon />
+          <UiIcon
+            name="icon:cross"
+            :size="8"
+          />
         </DrawerClose>
 
         <DrawerTitle
@@ -99,10 +102,6 @@ const model = defineModel<boolean>()
     top: 16px;
     background: var(--c-white-08);
     border: none;
-
-    svg {
-      width: 8px;
-    }
   }
 
   .title {

@@ -2,7 +2,6 @@
 
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { UiInput } from "~/components/ui/UiInput"
-import { SearchIcon } from "~/components/ui/icons"
 import { computed, ref } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useForm, useI18n } from "#imports"
@@ -14,6 +13,7 @@ import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
 import { useQueryClient } from "@tanstack/vue-query"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaItemChangeMediaListFormProps {
   mediaItem: MediaItemType;
@@ -82,7 +82,7 @@ const availableMediaLists = computed(() => {
         :placeholder="$t('search.placeholder')"
       >
         <template #icon>
-          <SearchIcon />
+          <UiIcon name="icon:search" />
         </template>
       </UiInput>
       <slot name="action" />

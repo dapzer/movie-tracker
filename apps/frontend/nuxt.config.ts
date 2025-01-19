@@ -3,6 +3,7 @@ import crypto from "crypto";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   srcDir: "./src",
+
   app: {
     head: {
       title: "Movie Tracker",
@@ -17,7 +18,9 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   devtools: { enabled: true },
+
   modules: [
     "nuxt-svgo",
     "@nuxtjs/i18n",
@@ -29,11 +32,14 @@ export default defineNuxtConfig({
     "nuxt-delay-hydration",
     '@nuxt/fonts',
     "radix-vue/nuxt",
+    "@nuxt/icon"
   ],
+
   site: {
     url: process.env.VITE_BASE_URL || "http://localhost:3000",
     name: "Movie Tracker",
   },
+
   sitemap: {
     exclude: ["/dashboard"],
     cacheMaxAgeSeconds: 24 * 60 * 60,
@@ -46,6 +52,7 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   i18n: {
     lazy: true,
     baseUrl: process.env.VITE_BASE_URL || "http://localhost:3000",
@@ -67,6 +74,7 @@ export default defineNuxtConfig({
       }
     ]
   },
+
   svgo: {
     svgo: true,
     defaultImport: "component",
@@ -74,21 +82,37 @@ export default defineNuxtConfig({
       multipass: true
     }
   },
+
+  icon: {
+    mode: 'css',
+    customCollections: [
+      {
+        prefix: 'icon',
+        dir: './src/assets/svg/icons',
+      },
+    ],
+  },
+
   delayHydration: {
     mode: 'init',
     debug: process.env.NODE_ENV !== "production"
   },
+
   css: ["@/styles/global.scss", "@/styles/variables.scss"],
+
   imports: {
     autoImport: false
   },
+
   components: {
     dirs: []
   },
+
   typescript: {
     typeCheck: true,
     strict: true
   },
+
   vite: {
     clearScreen: false,
     server: {
@@ -109,5 +133,7 @@ export default defineNuxtConfig({
         }
       }
     }
-  }
+  },
+
+  compatibilityDate: "2025-01-19"
 });

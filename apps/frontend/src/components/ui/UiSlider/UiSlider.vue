@@ -2,8 +2,8 @@
 import { UiButton } from "~/components/ui/UiButton"
 import { ref } from "vue"
 import { watchEffect } from "#imports"
-import { ArrowRightIcon } from "~/components/ui/icons"
 import emblaCarouselVue from "embla-carousel-vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiSliderProps<T> {
   data: T[]
@@ -86,7 +86,10 @@ const onNextButtonClick = () => {
           variant="rounded"
           @click="onPrevButtonClick"
         >
-          <ArrowRightIcon />
+          <UiIcon
+            name="icon:arrow-right"
+            :width="10"
+          />
         </UiButton>
         <UiButton
           v-if="!nextBtnDisabled"
@@ -94,7 +97,10 @@ const onNextButtonClick = () => {
           variant="rounded"
           @click="onNextButtonClick"
         >
-          <ArrowRightIcon />
+          <UiIcon
+            name="icon:arrow-right"
+            :width="10"
+          />
         </UiButton>
       </div>
     </div>

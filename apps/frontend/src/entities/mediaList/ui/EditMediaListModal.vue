@@ -8,10 +8,10 @@ import { toast } from "vue3-toastify"
 import { useI18n } from "#imports"
 import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaList/useMediaListApi"
 import type { MediaListType } from "@movie-tracker/types"
-import { TrashIcon } from "~/components/ui/icons"
 import { useRouter } from "vue-router"
 import { useLocalePath } from "#i18n"
 import { UiConfirmationModal } from "~/components/ui/UiConfirmationModal"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface EditMediaListModalProps {
   mediaList: MediaListType
@@ -90,7 +90,10 @@ const handleDeleteMediaList = async () => {
                   type="button"
                   @click="openModal"
                 >
-                  <TrashIcon />
+                  <UiIcon
+                    name="icon:trash"
+                    :size="19"
+                  />
                   {{ $t('mediaList.deleteList') }}
                 </UiButton>
               </template>

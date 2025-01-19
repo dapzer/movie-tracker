@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from "radix-vue"
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
-import { CardArrowTopIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiHoverCardProps {
   as?: ComponentOrTag
@@ -51,7 +51,11 @@ defineOptions({
           as="div"
           :class="$style.arrow"
         >
-          <CardArrowTopIcon />
+          <UiIcon
+            name="icon:card-arrow-top"
+            :width="14"
+            :height="8"
+          />
         </HoverCardArrow>
       </HoverCardContent>
     </HoverCardPortal>

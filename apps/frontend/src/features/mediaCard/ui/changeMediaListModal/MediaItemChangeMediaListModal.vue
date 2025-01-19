@@ -4,11 +4,11 @@ import type { MediaItemType } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import { UiModal } from "~/components/ui/UiModal"
-import { PlusIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
 import { useI18n } from "#imports"
 import MediaItemChangeMediaListForm from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListForm.vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaItemChangeMediaListModalProps {
   mediaItem: MediaItemType;
@@ -47,7 +47,7 @@ const currentMediaDetails = computed(() => {
             @click="isOpenCreateModal = true"
           >
             {{ $t('mediaList.create') }}
-            <PlusIcon />
+            <UiIcon name="icon:plus" />
           </UiButton>
         </template>
       </MediaItemChangeMediaListForm>

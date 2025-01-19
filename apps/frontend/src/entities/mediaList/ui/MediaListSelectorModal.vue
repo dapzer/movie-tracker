@@ -1,15 +1,14 @@
 <script setup lang="ts">
 
 import { ref } from "vue"
-import { ListIcon } from "~/components/ui/icons"
 import { UiButton } from "~/components/ui/UiButton"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { CreateMediaListModal } from "~/entities/mediaList"
-import { PlusIcon } from "~/components/ui/icons.js"
 import { useAuth } from "#imports"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { useSwitchModals } from "~/composables/useSwitchModals"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface MediaListSelectorItemProps {
   mediaId: number;
@@ -45,7 +44,12 @@ const onOpenButtonClicked = () => {
     with-icon
     @click="onOpenButtonClicked"
   >
-    <ListIcon />
+    <UiIcon
+      block
+      name="icon:list"
+      :width="16"
+      :height="16"
+    />
     {{ $t('mediaList.addToList') }}
   </UiButton>
 
@@ -63,7 +67,7 @@ const onOpenButtonClicked = () => {
         @click="onOpenSecondModal"
       >
         {{ $t('mediaList.create') }}
-        <PlusIcon />
+        <UiIcon name="icon:plus" />
       </UiButton>
     </template>
   </AddMediaItemToListsModal>

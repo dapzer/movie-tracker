@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ArrowIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiDropdownTriggerWithArrowProps {
   isOpen: boolean
@@ -12,7 +12,8 @@ const props = defineProps<UiDropdownTriggerWithArrowProps>()
 <template>
   <div :class="$style.wrapper">
     <slot />
-    <ArrowIcon
+    <UiIcon
+      name="icon:arrow"
       :class="[$style.arrow, {
         [$style.opened]: props.isOpen
       }]"

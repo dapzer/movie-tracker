@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
 import { UiButton } from "~/components/ui/UiButton"
-import { BurgerMenuIcon, CrossIcon } from "~/components/ui/icons"
 import { AppLogo } from "~/shared/ui/appLogo"
 import { SearchCombobox } from "~/features/search"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 const localePath  = useLocalePath()
@@ -21,8 +21,16 @@ const localePath  = useLocalePath()
         variant="textIcon"
         @click="isMobileMenuOpen = !isMobileMenuOpen"
       >
-        <BurgerMenuIcon v-if="!isMobileMenuOpen" />
-        <CrossIcon v-else />
+        <UiIcon
+          v-if="!isMobileMenuOpen"
+          name="icon:burger-menu"
+          :size="16"
+        />
+        <UiIcon
+          v-else
+          :size="16"
+          name="icon:cross"
+        />
       </UiButton>
       <AppLogo />
     </div>
@@ -71,10 +79,6 @@ const localePath  = useLocalePath()
     display: none;
     width: 32px;
     height: 32px;
-
-    svg {
-      width: 16px;
-    }
 
     @include mobilePlusDevice() {
       display: flex;

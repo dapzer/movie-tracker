@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 import { UiButton } from "~/components/ui/UiButton"
-import { ArrowIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 export interface UiDetailsProps {
   title: string
@@ -38,7 +38,10 @@ defineOptions({
       @click="handleVisible(!visibleState)"
     >
       {{ props.title }}
-      <ArrowIcon />
+      <UiIcon
+        :class="$style.icon"
+        name="icon:arrow"
+      />
     </UiButton>
 
     <div v-if="visibleState">
@@ -61,12 +64,12 @@ defineOptions({
     width: 100%;
 
     &.active {
-      svg {
+      .icon {
         transform: rotate(180deg);
       }
     }
 
-    svg {
+    .icon {
       width: 11px;
     }
   }

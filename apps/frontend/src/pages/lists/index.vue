@@ -7,10 +7,10 @@ import { useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports";
 import { UiListHeader } from "~/components/ui/UiListHeader"
 import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
 import { UiButton } from "~/components/ui/UiButton"
-import { PlusIcon } from "~/components/ui/icons"
 import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
 import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 import { computed } from "vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { navigateToSignInPage } = useNavigateToSignInPage()
@@ -31,7 +31,7 @@ const sortedMediaLists = computed(() => {
   return [...getMediaListsApi.data.value || []].sort((a, b) => {
     const aDate = new Date(a.createdAt);
     const bDate = new Date(b.createdAt);
-    
+
     return bDate < aDate ? 1 : -1;
   }) || []
 })
@@ -56,7 +56,7 @@ const sortedMediaLists = computed(() => {
               with-icon
               @click="openModal"
             >
-              <PlusIcon />
+              <UiIcon name="icon:plus" />
               {{ $t("mediaList.create") }}
             </UiButton>
           </template>

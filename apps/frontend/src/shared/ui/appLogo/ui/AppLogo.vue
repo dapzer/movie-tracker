@@ -5,7 +5,7 @@ import { computed } from "#imports";
 import { searchStore } from "~/stores/searcStore";
 import { useRoute } from "#app";
 import { UiTypography } from "~/components/ui/UiTypography"
-import { LogoIcon } from "~/components/ui/icons";
+import { UiIcon } from "~/components/ui/UiIcon"
 
 const localePath = useLocalePath();
 const router = useRoute();
@@ -24,7 +24,10 @@ const onClickLogo = () => {
     :class="$style.wrapper"
     @click="onClickLogo"
   >
-    <LogoIcon />
+    <UiIcon
+      name="icon:logo"
+      :size="28"
+    />
     <UiTypography
       as="span"
       :class="$style.title"

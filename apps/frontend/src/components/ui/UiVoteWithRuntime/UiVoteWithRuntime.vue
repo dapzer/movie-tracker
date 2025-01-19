@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
 import { UiTypography } from "~/components/ui/UiTypography"
-import { ClocksIcon, StarIcon } from "~/components/ui/icons"
 import { computed, getColorByRating, getFormatedNumber } from "#imports"
 import { UiDelimiter } from "~/components/ui/UiDelimiter"
 import { minsToTimeConverter } from "@movie-tracker/utils"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiVoteWithRuntimeProps {
   voteAverage: number;
@@ -35,7 +35,7 @@ const formatedRuntime = computed(() => {
           [$style.green]: currentRatingColor === 'green'
         }]"
       >
-        <StarIcon />
+        <UiIcon name="icon:star" />
         <UiTypography
           variant="labelSmall"
         >
@@ -58,7 +58,7 @@ const formatedRuntime = computed(() => {
       v-if="props.runtime"
       :class="$style.runtimeWrapper"
     >
-      <ClocksIcon />
+      <UiIcon name="icon:clocks" />
       <UiTypography
         variant="labelSmall"
         :class="$style.runtime"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
 import { UiTypography } from "~/components/ui/UiTypography"
-import { ArrowRightBoldIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiBackLinkProps {
   text?: string;
@@ -19,7 +19,11 @@ const props = defineProps<UiBackLinkProps>()
     variant="label"
     schema="link"
   >
-    <ArrowRightBoldIcon />
+    <UiIcon
+      :class="$style.icon"
+      :size="20"
+      name="icon:arrow-right-bold"
+    />
     {{ props.text ?? $t("ui.back") }}
   </uitypography>
 </template>
@@ -31,8 +35,7 @@ const props = defineProps<UiBackLinkProps>()
   align-items: center;
   gap: 8px;
 
-  svg {
-    width: 20px;
+  .icon {
     transform: rotate(180deg);
   }
 }

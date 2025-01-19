@@ -2,7 +2,7 @@
 
 import { NuxtLink } from "#components"
 import { UiTypography } from "~/components/ui/UiTypography"
-import { TmdbLogoIcon } from "~/components/ui/icons"
+import { UiIcon } from "~/components/ui/UiIcon"
 </script>
 
 <template>
@@ -18,7 +18,10 @@ import { TmdbLogoIcon } from "~/components/ui/icons"
         themoviedb.org
       </UiTypography>
     </UiTypography>
-    <TmdbLogoIcon />
+    <UiIcon
+      name="icon:tmdb-logo"
+      :width="84"
+    />
   </div>
 </template>
 

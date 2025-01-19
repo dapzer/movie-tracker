@@ -1,24 +1,25 @@
-import { GithubProviderIcon, GoogleIcon, VkontakteIcon, YandexIcon } from "~/components/ui/icons"
+import { h } from "vue"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 export const authProvidersList = [
   {
     title: 'Google',
     provider: 'google',
-    icon: GoogleIcon,
+    icon: h(UiIcon, { name: "icon:google" }),
   },
   {
     title: 'Yandex',
     provider: 'yandex',
-    icon: YandexIcon,
+    icon: h(UiIcon, { name: "icon:yandex" }),
   },
   {
     title: 'VK',
     provider: 'vk',
-    icon: VkontakteIcon,
+    icon: h(UiIcon, { name: "icon:vkontakte" }),
   },
   {
     title: 'GitHub',
     provider: 'github',
-    icon: GithubProviderIcon,
+    icon: h(UiIcon, { name: "icon:github-provider" }),
   }
 ]

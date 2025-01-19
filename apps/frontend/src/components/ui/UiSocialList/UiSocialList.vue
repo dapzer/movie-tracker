@@ -22,7 +22,7 @@ const serializedSocialList = computed(() => {
   <div
     v-if="serializedSocialList.length"
     :class="$style.wrapper"
-    :style="`--size: ${props.size}px;`"
+    :style="`--icon-size: ${props.size}px;`"
   >
     <NuxtLink
       v-for="(social) in serializedSocialList"
@@ -30,7 +30,10 @@ const serializedSocialList = computed(() => {
       :to="social.url"
       target="_blank"
     >
-      <component :is="social.icon" />
+      <component
+        :is="social.icon"
+        :class="$style.icon"
+      />
     </NuxtLink>
   </div>
 </template>
@@ -45,8 +48,8 @@ const serializedSocialList = computed(() => {
     gap: 10px;
     flex-wrap: wrap;
 
-    svg {
-      width: var(--size);
+    .icon {
+     --size: var(--icon-size) !important;
     }
 
     a {

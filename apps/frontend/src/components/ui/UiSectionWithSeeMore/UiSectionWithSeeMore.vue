@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 import { UiTypography } from "~/components/ui/UiTypography"
-import { ArrowRightBoldIcon } from "~/components/ui/icons"
 import { NuxtLink } from "#components"
+import { UiIcon } from "~/components/ui/UiIcon"
 
 interface UiSectionWithSeeMoreProps {
   title: string;
@@ -48,7 +48,10 @@ const emits = defineEmits<{
         @click="emits('onClickSeeMore')"
       >
         {{ props.seeMoreText ?? $t("ui.seeMore") }}
-        <ArrowRightBoldIcon />
+        <UiIcon
+          name="icon:arrow-right-bold"
+          :size="20"
+        />
       </UiTypography>
     </div>
 
@@ -84,10 +87,6 @@ const emits = defineEmits<{
         @include mobileDevice() {
           display: flex;
         }
-      }
-
-      svg {
-        width: 20px;
       }
     }
   }
