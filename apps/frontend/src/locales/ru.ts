@@ -1204,7 +1204,7 @@ export default {
     features: "Возможности",
   },
   footer: {
-    copyright: 'Copyright © 2024 Movie Tracker. Все права защищены.',
+    copyright: 'Copyright © 2025 Movie Tracker. Все права защищены.',
     dataSource: 'Источник данных для всех фильмов',
     description: `Будьте в курсе всех ваших любимых фильмов и сериалов, создавайте персонализированные \nсписки наблюдения и ищите новые впечатления.`,
   },

@@ -1203,7 +1203,7 @@ export default {
     features: "Features",
   },
   footer: {
-    copyright: 'Copyright © 2024 Movie Tracker. All rights reserved.',
+    copyright: 'Copyright © 2025 Movie Tracker. All rights reserved.',
     dataSource: 'Data source for all movies',
     description: `Stay up to date with all your favorite movies and TV shows, create personalized \nwatchlists and discover new experiences.`,
   },
