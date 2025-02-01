@@ -9,13 +9,6 @@ export default defineNuxtConfig({
       title: "Movie Tracker",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-      script: [
-        (process.env.NODE_ENV === "production" ? {
-          async: true,
-          src: "https://umami.movie-tracker.app/script.js",
-          "data-website-id": "43c97acf-6163-4049-bca2-df93a5122d9b"
-        } : {})
-      ]
     }
   },
 
@@ -32,7 +25,8 @@ export default defineNuxtConfig({
     "nuxt-delay-hydration",
     '@nuxt/fonts',
     "radix-vue/nuxt",
-    "@nuxt/icon"
+    "@nuxt/icon",
+    "nuxt-umami"
   ],
 
   site: {
@@ -91,6 +85,13 @@ export default defineNuxtConfig({
         dir: './src/assets/svg/icons',
       },
     ],
+  },
+
+  umami: {
+    id: process.env.NUXT_UMAMI_ID,
+    host: process.env.NUXT_UMAMI_HOST,
+    autoTrack: true,
+    enabled: process.env.NODE_ENV === "production",
   },
 
   delayHydration: {
