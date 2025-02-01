@@ -10,6 +10,8 @@ import { UiButton } from "~/components/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { UiTypography } from "~/components/ui/UiTypography"
 import { UiIcon } from "~/components/ui/UiIcon"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { SortOrderEnum } from "~/types/Sorting"
 
 const getMediaListsApi = useGetMediaListsApi();
 const getMediaItemsApi = useGetMediaItemsApi();
@@ -115,6 +117,10 @@ const filteredMediaLists = computed(() => {
       (list.title || t('mediaList.favorites')).toLowerCase().includes(searchTerm.value.toLowerCase())
   )
 });
+
+const sortedMediaLists = computed(() => {
+  return getSortedArrayByDate(filteredMediaLists.value, SortOrderEnum.DESC, "createdAt")
+})
 </script>
 
 <template>
@@ -135,9 +141,9 @@ const filteredMediaLists = computed(() => {
       v-if="currentListStates"
       :class="$style.list"
     >
-      <template v-if="filteredMediaLists.length">
+      <template v-if="sortedMediaLists.length">
         <AddMediaItemToListsFormItem
-          v-for="mediaList in filteredMediaLists"
+          v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="currentListStates[mediaList.id]"
           :disabled="isLoading"

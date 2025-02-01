@@ -16,6 +16,7 @@ import { MediaCard } from "~/features/mediaCard"
 import { LocalStorageEnum } from "~/types/localStorageEnum"
 import { useCookie } from "#app"
 import { UiIcon } from "~/components/ui/UiIcon"
+import { SortOrderEnum } from "~/types/Sorting"
 
 interface MediaListDetailsProps {
   mediaListItems?: MediaItemType[];
@@ -73,7 +74,8 @@ const options = computed(() => {
 
 const sortedMediaItems = computed(() => {
   const [sortOrder, sortBy] = sortType.value.split('_')
-  return filterMediaListItems(props.mediaListItems ?? [], searchTerm.value, sortOrder, sortBy as keyof Pick<MediaItemType,
+  return filterMediaListItems(props.mediaListItems ?? [], searchTerm.value, sortOrder as SortOrderEnum, sortBy as keyof
+      Pick<MediaItemType,
       "createdAt" | "updatedAt">)
 })
 

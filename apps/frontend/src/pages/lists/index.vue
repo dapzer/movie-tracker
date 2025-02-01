@@ -11,6 +11,8 @@ import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTransl
 import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
 import { computed } from "vue"
 import { UiIcon } from "~/components/ui/UiIcon"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { SortOrderEnum } from "~/types/Sorting"
 
 const { isLoadingProfile, isAuthorized } = useAuth();
 const { navigateToSignInPage } = useNavigateToSignInPage()
@@ -28,12 +30,7 @@ useSeoMeta({
 });
 
 const sortedMediaLists = computed(() => {
-  return [...getMediaListsApi.data.value || []].sort((a, b) => {
-    const aDate = new Date(a.createdAt);
-    const bDate = new Date(b.createdAt);
-
-    return bDate < aDate ? 1 : -1;
-  }) || []
+  return getSortedArrayByDate(getMediaListsApi.data.value || [], SortOrderEnum.DESC, "createdAt")
 })
 </script>
 

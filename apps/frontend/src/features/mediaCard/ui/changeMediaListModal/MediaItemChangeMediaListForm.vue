@@ -14,6 +14,8 @@ import MediaItemChangeMediaListFormItem
 import { useQueryClient } from "@tanstack/vue-query"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { UiIcon } from "~/components/ui/UiIcon"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { SortOrderEnum } from "~/types/Sorting"
 
 interface MediaItemChangeMediaListFormProps {
   mediaItem: MediaItemType;
@@ -71,6 +73,10 @@ const availableMediaLists = computed(() => {
         : true;
   }) || [];
 });
+
+const sortedMediaLists = computed(() => {
+  return getSortedArrayByDate(availableMediaLists.value, SortOrderEnum.DESC, "createdAt")
+})
 </script>
 
 <template>
@@ -88,9 +94,9 @@ const availableMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div :class="$style.list">
-      <template v-if="availableMediaLists.length">
+      <template v-if="sortedMediaLists.length">
         <MediaItemChangeMediaListFormItem
-          v-for="mediaList in availableMediaLists"
+          v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="formValue.selectedMediaListId"
           radio

@@ -1,16 +1,9 @@
 import type { MediaItemType } from "@movie-tracker/types";
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { SortOrderEnum } from "~/types/Sorting"
 
-export const filterMediaListItems = (mediaItems: MediaItemType[], searchValue: string, sortOrder: string, sortBy: keyof Pick<MediaItemType, "createdAt" | "updatedAt">) => {
-  const sortedArray = [...mediaItems].sort((a, b) => {
-    const aDate = new Date(a.trackingData[sortBy]);
-    const bDate = new Date(b.trackingData[sortBy]);
-
-    if (sortOrder === "desc") {
-      return bDate < aDate ? 1 : -1;
-    } else {
-      return aDate < bDate ? 1 : -1;
-    }
-  });
+export const filterMediaListItems = (mediaItems: MediaItemType[], searchValue: string, sortOrder: SortOrderEnum, sortBy: keyof Pick<MediaItemType, "createdAt" | "updatedAt">) => {
+  const sortedArray = getSortedArrayByDate(mediaItems, sortOrder, `mediaDetails.${sortBy}`);
 
   if (!searchValue) {
     return sortedArray;

@@ -12,6 +12,8 @@ import { UiButton } from "~/components/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { UiIcon } from "~/components/ui/UiIcon"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { SortOrderEnum } from "~/types/Sorting"
 
 interface MediaItemCreateCloneFormProps {
   mediaItem: MediaItemType;
@@ -59,6 +61,10 @@ const availableMediaLists = computed(() => {
         : true;
   }) || [];
 });
+
+const sortedMediaLists = computed(() => {
+  return getSortedArrayByDate(availableMediaLists.value, SortOrderEnum.DESC, "createdAt")
+})
 </script>
 
 <template>
@@ -76,9 +82,9 @@ const availableMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div :class="$style.list">
-      <template v-if="availableMediaLists.length">
+      <template v-if="sortedMediaLists.length">
         <MediaItemCreateCloneFormItem
-          v-for="mediaList in availableMediaLists"
+          v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="formValue.selectedMediaListIds"
           :disabled="createMediaItemCloneApi.isPending.value"
