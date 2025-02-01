@@ -91,7 +91,7 @@ export default defineNuxtConfig({
     id: "43c97acf-6163-4049-bca2-df93a5122d9b",
     host: 'https://umami.movie-tracker.app',
     autoTrack: true,
-    enabled: process.env.NODE_ENV !== "production",
+    // enabled: process.env.NODE_ENV !== "production",
   },
 
   delayHydration: {
