@@ -3,7 +3,7 @@ import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
 import { SortOrderEnum } from "~/types/Sorting"
 
 export const filterMediaListItems = (mediaItems: MediaItemType[], searchValue: string, sortOrder: SortOrderEnum, sortBy: keyof Pick<MediaItemType, "createdAt" | "updatedAt">) => {
-  const sortedArray = getSortedArrayByDate(mediaItems, sortOrder, `mediaDetails.${sortBy}`);
+  const sortedArray = getSortedArrayByDate(mediaItems, sortOrder, `trackingData.${sortBy}`);
 
   if (!searchValue) {
     return sortedArray;
