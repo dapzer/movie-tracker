@@ -91,7 +91,7 @@ export default defineNuxtConfig({
     id: process.env.NUXT_UMAMI_ID,
     host: process.env.NUXT_UMAMI_HOST,
     autoTrack: true,
-    enabled: process.env.NODE_ENV === "production",
+    // enabled: process.env.NODE_ENV !== "production",
   },
 
   delayHydration: {
