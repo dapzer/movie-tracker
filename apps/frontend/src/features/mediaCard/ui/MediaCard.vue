@@ -47,7 +47,7 @@ const createdDate = computed(() => {
       #control
     >
       <UiButton
-        variant="text"
+        variant="textIcon"
         @click="isTrackingMenuOpen = true"
       >
         <UiIcon

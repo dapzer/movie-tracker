@@ -83,6 +83,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
   .title {
     @include ellipsisText();
     @include multiLineEllipsis(2);
+    width: fit-content;
   }
 
   .footer {
