@@ -28,7 +28,7 @@ const movie = {
 
 <template>
   <Story
-    group="feature"
+    group="features"
     title="MovieCardWithHoverMenu"
   >
     <template #default>

@@ -9,7 +9,10 @@ const cardCount = ref(20)
 </script>
 
 <template>
-  <Story title="UiCardsGrid">
+  <Story
+    title="UiCardsGrid"
+    group="ui-kit"
+  >
     <template #default>
       <UiCardsGrid>
         <UiMediaCard
