@@ -4,14 +4,14 @@ import { computed, useI18n, useSeoMeta } from "#imports"
 import { ref } from "vue"
 import { ContentList } from "~/widgets/contentList"
 import { useLocalePath } from "#i18n"
-import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
+import { UiMediaCardSkeleton } from "../../shared/ui/UiCard"
 import type { TmdbDiscoverMovieQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { useRoute } from "#app"
-import { UiAttention } from "~/components/ui/UiAttention"
+import { UiAttention } from "../../shared/ui/UiAttention"
 
 const { locale, t } = useI18n();
 const route = useRoute()

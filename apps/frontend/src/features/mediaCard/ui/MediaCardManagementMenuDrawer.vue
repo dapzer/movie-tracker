@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { getCurrentMediaDetails, useI18n, useIsMobile, useSwitchModals } from "#imports"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemManagementMenu.vue"
-import { UiBottomDrawer } from "~/components/ui/UiBottomDrawer"
+import { UiBottomDrawer } from "../../../shared/ui/UiBottomDrawer"
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiModal } from "~/components/ui/UiModal"
+import { UiModal } from "../../../shared/ui/UiModal"
 import { computed, ref } from "vue"
 import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
 import MediaItemChangeMediaListModal

@@ -7,8 +7,8 @@ import {
   TmdbMediaTypeEnum,
   type TmdbSearchResponseResultItemType
 } from "@movie-tracker/types";
-import { UiMediaCard } from "~/components/ui/UiCard"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiMediaCard } from "../../../shared/ui/UiCard"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 
 interface PersonCardProps {
   person: TmdbSearchResponseResultItemType | TmdbCreditsCastType;

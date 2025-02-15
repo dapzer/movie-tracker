@@ -6,9 +6,9 @@ import { navigateTo } from "#app";
 import { UserRoleEnum } from "@movie-tracker/types";
 import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard";
 import { useLocalePath } from "#i18n"
-import { UiContainer } from "~/components/ui/UiContainer"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiDivider } from "~/components/ui/UiDivider"
+import { UiContainer } from "../../shared/ui/UiContainer"
+import { UiTypography } from "../../shared/ui/UiTypography"
+import { UiDivider } from "../../shared/ui/UiDivider"
 
 const { isNotAuthorized, profile, isLoadingProfile } = useAuth();
 const localePath = useLocalePath()

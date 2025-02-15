@@ -7,11 +7,11 @@ import { getShortText, useI18n, useSeoMeta } from "#imports";
 import { checkIsAuthError } from "~/utils/checkIsAuthError";
 import { MediaListDetails } from "~/widgets/mediaList"
 import { useUserProfileByIdApi } from "~/api/user/useUserApi"
-import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
-import { UiTypography } from "~/components/ui/UiTypography"
+import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiContainer } from "../../../shared/ui/UiContainer"
 
 const { t } = useI18n();
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params;

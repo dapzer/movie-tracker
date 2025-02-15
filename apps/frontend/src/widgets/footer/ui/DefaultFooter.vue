@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 
-import { UiContainer } from "~/components/ui/UiContainer";
+import { UiContainer } from "../../../shared/ui/UiContainer";
 import { AppLogo } from "~/shared/ui/appLogo"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 import { PublicResources } from "~/shared/ui/publicResources"
 import { movieTrackerLinks } from "~/widgets/footer/model/movieTrackerLinks"
 import { useLocalePath } from "#i18n"

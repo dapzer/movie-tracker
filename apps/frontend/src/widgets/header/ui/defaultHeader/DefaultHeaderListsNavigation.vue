@@ -2,9 +2,9 @@
 
 import { NuxtLink } from "#components";
 import { useLocalePath } from "#i18n";
-import { UiTypography } from "~/components/ui/UiTypography";
+import { UiTypography } from "../../../../shared/ui/UiTypography";
 import { listsNavigationLinks } from "~/widgets/header/model/listsNavigationLinks"
-import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "~/components/ui/UiDropdown"
+import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "../../../../shared/ui/UiDropdown"
 import { ref } from "vue"
 
 const localePath = useLocalePath();

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiDivider } from "~/components/ui/UiDivider"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiDivider } from "../../../shared/ui/UiDivider"
 
 interface DashboardCardProps {
   title: string;

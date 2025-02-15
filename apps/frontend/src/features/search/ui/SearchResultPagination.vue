@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiPagination } from "~/components/ui/UiPagination"
+import { UiPagination } from "../../../shared/ui/UiPagination"
 
 interface SearchResultPaginationProps {
   totalPages: number;

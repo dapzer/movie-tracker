@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
 import { listsNavigationLinks } from "~/widgets/header/model/listsNavigationLinks"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiDivider } from "~/components/ui/UiDivider"
+import { UiDivider } from "../../../../shared/ui/UiDivider"
 import DefaultHeaderMobileMenuFooter from "~/widgets/header/ui/defaultHeader/DefaultHeaderMobileMenuFooter.vue"
-import { UiModalFullscreen } from "~/components/ui/UiModal"
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiModalFullscreen } from "../../../../shared/ui/UiModal"
+import { UiContainer } from "../../../../shared/ui/UiContainer"
 
 const model = defineModel<boolean>()
 const localePath = useLocalePath();

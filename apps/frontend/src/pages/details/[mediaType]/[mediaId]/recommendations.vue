@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { UiAttention } from "~/components/ui/UiAttention"
-import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
+import { UiAttention } from "../../../../shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "../../../../shared/ui/UiCard"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { ContentList } from "~/widgets/contentList"
 import { computed, ref } from "vue"

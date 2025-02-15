@@ -7,21 +7,21 @@ import {
   useGetTmdbSearchPersonByTermApi,
   useGetTmdbSearchTvByTermApi
 } from "~/api/tmdb/useTmdbApi"
-import { UiContainer } from "~/components/ui/UiContainer"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiDivider } from "~/components/ui/UiDivider"
-import { UiTabsPane } from "~/components/ui/UiTabs"
-import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
-import { UiCardsGrid } from "~/components/ui/UiCardsGrid"
+import { UiContainer } from "../../../shared/ui/UiContainer"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiDivider } from "../../../shared/ui/UiDivider"
+import { UiTabsPane } from "../../../shared/ui/UiTabs"
+import { UiSectionWithSeeMore } from "../../../shared/ui/UiSectionWithSeeMore"
+import { UiCardsGrid } from "../../../shared/ui/UiCardsGrid"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { PersonCard } from "~/entities/personCard"
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { MediaTypeEnum } from "@movie-tracker/types"
 import SearchResultPagination from "~/features/search/ui/SearchResultPagination.vue"
-import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
+import { UiMediaCardSkeleton } from "../../../shared/ui/UiCard"
 import { useRouter } from "vue-router"
-import { UiAttention } from "~/components/ui/UiAttention"
+import { UiAttention } from "../../../shared/ui/UiAttention"
 import { getMatchesDeclensionTranslationKey } from "~/utils/getMatchesDeclensionTranslationKey"
 
 type Tab = 'all' | 'movies' | 'tvs' | 'persons'

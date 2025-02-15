@@ -7,7 +7,7 @@ import { useLocalePath } from "#i18n";
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import TvDetailsSeasonsHeader from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
 import TvDetailsSeasonsEpisodeList from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiContainer } from "../../../../shared/ui/UiContainer"
 
 interface TvDetailsSeasonsProps {
   mediaId: number;

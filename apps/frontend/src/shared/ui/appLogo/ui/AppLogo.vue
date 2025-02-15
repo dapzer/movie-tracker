@@ -4,8 +4,8 @@ import { useLocalePath } from "#i18n";
 import { computed } from "#imports";
 import { searchStore } from "~/stores/searcStore";
 import { useRoute } from "#app";
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiTypography } from "../../UiTypography"
+import { UiIcon } from "../../UiIcon"
 
 const localePath = useLocalePath();
 const router = useRoute();

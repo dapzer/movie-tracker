@@ -1,17 +1,17 @@
 <script setup lang="ts">
 
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiInput } from "~/components/ui/UiInput"
+import { UiInput } from "../../../../shared/ui/UiInput"
 import { computed, ref } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
 import { useForm, useI18n } from "#imports"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiSwitch } from "~/components/ui/UiSwitch"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
+import { UiSwitch } from "../../../../shared/ui/UiSwitch"
+import { UiButton } from "../../../../shared/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../../shared/ui/UiIcon"
 import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
 import { SortOrderEnum } from "~/types/Sorting"
 

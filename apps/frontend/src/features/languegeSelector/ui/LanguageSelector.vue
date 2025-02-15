@@ -3,9 +3,9 @@
 import { allowedLanguages } from "~/features/languegeSelector/model/languages"
 import { useSwitchLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
-import { UiDivider } from "~/components/ui/UiDivider"
+import { UiDivider } from "../../../shared/ui/UiDivider"
 
 const switchLocalePath = useSwitchLocalePath();
 const { locale } = useI18n();

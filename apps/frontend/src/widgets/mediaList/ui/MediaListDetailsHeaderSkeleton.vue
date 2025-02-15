@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiSkeleton } from "~/components/ui/UiSkeleton"
-import { UiUserProfileLinkSkeleton } from "~/components/ui/UiUserProfileLink"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiSkeleton } from "../../../shared/ui/UiSkeleton"
+import { UiUserProfileLinkSkeleton } from "../../../shared/ui/UiUserProfileLink"
 </script>
 
 <template>

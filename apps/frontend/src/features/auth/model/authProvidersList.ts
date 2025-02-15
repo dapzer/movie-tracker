@@ -1,5 +1,5 @@
 import { h } from "vue"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 export const authProvidersList = [
   {

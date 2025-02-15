@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../../../shared/ui/UiButton"
 import { AppLogo } from "~/shared/ui/appLogo"
 import { SearchCombobox } from "~/features/search"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../../shared/ui/UiIcon"
 
 const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 const localePath  = useLocalePath()

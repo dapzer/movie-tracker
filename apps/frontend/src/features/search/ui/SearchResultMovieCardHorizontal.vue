@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
 import { formatDate } from "~/utils/formatDate"
-import { UiDelimiter } from "~/components/ui/UiDelimiter"
+import { UiDelimiter } from "../../../shared/ui/UiDelimiter"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 

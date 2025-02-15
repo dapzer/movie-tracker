@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 
 import { allowedLanguages } from "~/features/languegeSelector/model/languages";
-import { UiTypography } from "~/components/ui/UiTypography";
+import { UiTypography } from "../../../shared/ui/UiTypography";
 import { useSwitchLocalePath } from "#i18n";
 import { useI18n } from "#imports";
-import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "~/components/ui/UiDropdown"
+import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "../../../shared/ui/UiDropdown"
 import { NuxtLink } from "#components"
 import { ref } from "vue"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 const switchLocalePath = useSwitchLocalePath();
 const { locale } = useI18n();

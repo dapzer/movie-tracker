@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiSocialList } from "~/components/ui/UiSocialList"
+import { UiSocialList } from "../../UiSocialList"
 </script>
 
 <template>

@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types";
 import { NuxtLink } from "#components";
-import { UiButton } from "~/components/ui/UiButton";
-import { UiTypography } from "~/components/ui/UiTypography";
+import { UiButton } from "../../../shared/ui/UiButton";
+import { UiTypography } from "../../../shared/ui/UiTypography";
 import { computed, ref } from "vue";
-import { UiInput } from "~/components/ui/UiInput";
+import { UiInput } from "../../../shared/ui/UiInput";
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
 import { isOnlySpaces } from "@movie-tracker/utils";
 import { useI18n } from "#imports";
 import { toast } from "vue3-toastify";
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface TrackingMenuSitesToViewProps {
   mediaItem: MediaItemType;

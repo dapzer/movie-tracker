@@ -2,11 +2,11 @@
 
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
 import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../../../shared/ui/UiButton"
 import { useAuth } from "#imports"
 import { UserProfileDropdown } from "~/features/profile"
 import { SignInLink } from "~/features/auth"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../../shared/ui/UiIcon"
 
 interface DefaultHeaderRightContentEmits {
   (event: "handleOpenSearchModal"): void

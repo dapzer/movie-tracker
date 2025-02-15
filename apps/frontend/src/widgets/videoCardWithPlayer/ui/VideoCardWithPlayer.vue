@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
-import { UiModal } from "~/components/ui/UiModal";
-import { UiVideoCard } from "~/components/ui/UiCard";
+import { UiModal } from "../../../shared/ui/UiModal";
+import { UiVideoCard } from "../../../shared/ui/UiCard";
 
 interface VideoCardWithPlayerProps {
   videoUrl: string;

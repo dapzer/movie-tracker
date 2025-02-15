@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
 import { ref } from "vue"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../../shared/ui/UiButton"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import { useAuth } from "#imports"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { useSwitchModals } from "~/composables/useSwitchModals"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface MediaListSelectorItemProps {
   mediaId: number;

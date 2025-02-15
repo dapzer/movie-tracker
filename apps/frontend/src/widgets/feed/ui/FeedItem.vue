@@ -1,7 +1,7 @@
 <script generic="T" setup lang="ts">
-import { UiSlider } from "~/components/ui/UiSlider"
-import { UiCardsGrid } from "~/components/ui/UiCardsGrid"
-import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
+import { UiSlider } from "../../../shared/ui/UiSlider"
+import { UiCardsGrid } from "../../../shared/ui/UiCardsGrid"
+import { UiSectionWithSeeMore } from "../../../shared/ui/UiSectionWithSeeMore"
 
 interface FeedItemProps<T> {
   data: T[] | undefined;

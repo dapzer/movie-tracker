@@ -2,9 +2,9 @@
 import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
 import { getProxiedImageUrl } from "#imports";
 import { useLocalePath } from "#i18n";
-import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "~/components/ui/UiCard"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiRating } from "~/components/ui/UiRating"
+import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "../../../shared/ui/UiCard"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiRating } from "../../../shared/ui/UiRating"
 import { NuxtLink } from "#components"
 
 interface MovieCardProps {

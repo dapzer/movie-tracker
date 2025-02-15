@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import { type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
-import { UiSelect } from "~/components/ui/UiSelect"
-import { UiListHeader } from "~/components/ui/UiListHeader"
+import { UiSelect } from "../../../../shared/ui/UiSelect"
+import { UiListHeader } from "../../../../shared/ui/UiListHeader"
 import { computed, ref } from "vue"
 import { EpisodeCardHorizontal } from "~/entities/episodeCard"
-import { UiDivider } from "~/components/ui/UiDivider"
+import { UiDivider } from "../../../../shared/ui/UiDivider"
 import { useI18n } from "#imports"
 
 interface TvDetailsSeasonsHeaderProps {

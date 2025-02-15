@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/ui/UiContainer"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiContainer } from "../../../../shared/ui/UiContainer"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { teamMembers } from "~/widgets/about/model/teamMembers"
 import TeamMemberCard from "~/widgets/about/ui/team/TeamMemberCard.vue"
 </script>

@@ -6,8 +6,8 @@ import {
   TmdbMediaTypeEnum,
   type TmdbSearchResponseResultItemType
 } from "@movie-tracker/types";
-import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "~/components/ui/UiCard"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "../../../shared/ui/UiCard"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 
 interface PersonCardHorizontalProps {
   person: TmdbSearchResponseResultItemType | TmdbCreditsCastType;

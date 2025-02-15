@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { computed } from "#imports"
-import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "~/components/ui/UiCombobox"
+import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "../../../shared/ui/UiCombobox"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useRouter } from "#vue-router"
 import { useLocalePath } from "#i18n"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
-import { UiMediaCardHorizontalSkeleton } from "~/components/ui/UiCard"
+import { UiMediaCardHorizontalSkeleton } from "../../../shared/ui/UiCard"
 import { useSearch } from "~/features/search/model/useSearch"
-import { UiAttention } from "~/components/ui/UiAttention"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiAttention } from "../../../shared/ui/UiAttention"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 const router = useRouter()
 const localePath = useLocalePath();

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/ui/UiContainer"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiContainer } from "../../../shared/ui/UiContainer"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 import { default as BackgroundGrid } from "~/public/landingBackgroundGrid.svg"
 import { default as AddToListExample } from "~/public/landingAddToList.svg"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../../shared/ui/UiButton"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiImage } from "~/components/ui/UiImage"
+import { UiImage } from "../../../shared/ui/UiImage"
 
 const localePath = useLocalePath()
 </script>

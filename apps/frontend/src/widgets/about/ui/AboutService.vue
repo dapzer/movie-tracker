@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/ui/UiContainer"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiImage } from "~/components/ui/UiImage"
+import { UiContainer } from "../../../shared/ui/UiContainer"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiImage } from "../../../shared/ui/UiImage"
 </script>
 
 <template>

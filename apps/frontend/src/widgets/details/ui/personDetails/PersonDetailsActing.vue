@@ -2,13 +2,13 @@
 import { TmdbMediaTypeEnum, type TmdbPersonCastType, type TmdbPersonCrewType } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { getMediaTypeDeclensionTranslationKey, useI18n } from "#imports"
-import { UiButton } from "~/components/ui/UiButton"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiSelect } from "~/components/ui/UiSelect"
+import { UiButton } from "../../../../shared/ui/UiButton"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
+import { UiSelect } from "../../../../shared/ui/UiSelect"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiDivider } from "~/components/ui/UiDivider"
-import { UiPagination } from "~/components/ui/UiPagination"
-import { UiListHeader } from "~/components/ui/UiListHeader"
+import { UiDivider } from "../../../../shared/ui/UiDivider"
+import { UiPagination } from "../../../../shared/ui/UiPagination"
+import { UiListHeader } from "../../../../shared/ui/UiListHeader"
 
 interface PersonDetailsActingProps {
   crew: TmdbPersonCrewType[];

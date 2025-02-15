@@ -3,8 +3,8 @@ import type { MediaItemType } from "@movie-tracker/types"
 import { getCurrentMediaDetails, useI18n, watch } from "#imports"
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { computed, ref } from "vue"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { type OptionType, UiSelect } from "~/components/ui/UiSelect"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { type OptionType, UiSelect } from "../../../shared/ui/UiSelect"
 import { toast } from "vue3-toastify";
 
 interface MediaItemTrackingMenuTvProgressProps {

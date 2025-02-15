@@ -1,19 +1,19 @@
 <script setup lang="ts">
 
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
-import { UiInput } from "~/components/ui/UiInput"
+import { UiInput } from "../../../../shared/ui/UiInput"
 import { computed, ref } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useForm, useI18n } from "#imports"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
+import { UiButton } from "../../../../shared/ui/UiButton"
 import { toast } from "vue3-toastify"
 import { useGetMediaItemsApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
 import { useQueryClient } from "@tanstack/vue-query"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../../shared/ui/UiIcon"
 import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
 import { SortOrderEnum } from "~/types/Sorting"
 

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
-import { UiTextarea } from "~/components/ui/UiTextarea"
+import { UiTextarea } from "../../../shared/ui/UiTextarea"
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../../shared/ui/UiButton"
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { computed, ref } from "vue"
 import { useI18n } from "#imports"
 import { toast } from "vue3-toastify"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface MediaItemTrackingMenuProps {
   mediaItem: MediaItemType;

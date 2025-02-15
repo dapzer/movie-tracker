@@ -3,8 +3,8 @@
 import { computed } from "vue";
 import { useGetAnalyticsRecordsApi } from "~/api/analytics/useAnalyticsApi";
 import DasboardCard from "~/features/dashboard/ui/DasboardCard.vue"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiSkeleton } from "~/components/ui/UiSkeleton"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiSkeleton } from "../../../shared/ui/UiSkeleton"
 
 const getAnalyticsRecordsApi = useGetAnalyticsRecordsApi();
 

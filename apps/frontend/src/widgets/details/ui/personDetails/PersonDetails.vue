@@ -7,13 +7,13 @@ import {
 } from "~/api/tmdb/useTmdbApi";
 import { computed } from "vue";
 import { createError, formatDate, useI18n } from "#imports";
-import { UiContainer } from "~/components/ui/UiContainer";
+import { UiContainer } from "../../../../shared/ui/UiContainer";
 import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue";
 import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo";
-import { UiSlider } from "~/components/ui/UiSlider"
-import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
+import { UiSlider } from "../../../../shared/ui/UiSlider"
+import { UiSectionWithSeeMore } from "../../../../shared/ui/UiSectionWithSeeMore"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
 
 interface PersonDetailsProps {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import { UiLayoutWrapper } from "~/components/ui/UiLayoutWrapper"
+import { UiLayoutWrapper } from "../shared/ui/UiLayoutWrapper"
 </script>
 
 <template>

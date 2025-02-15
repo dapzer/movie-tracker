@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { AuthHeader } from "~/widgets/header"
-import { UiLayoutWrapper } from "~/components/ui/UiLayoutWrapper"
+import { UiLayoutWrapper } from "../shared/ui/UiLayoutWrapper"
 </script>
 
 <template>

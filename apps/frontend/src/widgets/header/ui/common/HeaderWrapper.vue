@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiContainer } from "../../../../shared/ui/UiContainer"
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiHoverCard } from "~/components/ui/UiHoverCard"
+import { UiHoverCard } from "../../../shared/ui/UiHoverCard"
 import { MovieCard } from "~/entities/movieCard"
 import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
@@ -8,7 +8,7 @@ import { ref } from "vue"
 import { useAuth } from "~/composables/useAuth"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { MediaListSelectorModal } from "~/entities/mediaList"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface MovieCardWithHoverMenuProps {
   fullHeight?: boolean;

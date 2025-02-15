@@ -9,11 +9,11 @@ import {
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { computed, createError, getProxiedImageUrl, useI18n } from "#imports";
 import MovieDetailsHeader from "./MovieDetailsHeader.vue";
-import { UiContainer } from "~/components/ui/UiContainer";
+import { UiContainer } from "../../../../shared/ui/UiContainer";
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer";
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo";
-import { UiSectionWithSeeMore } from "~/components/ui/UiSectionWithSeeMore"
-import { UiSlider } from "~/components/ui/UiSlider"
+import { UiSectionWithSeeMore } from "../../../../shared/ui/UiSectionWithSeeMore"
+import { UiSlider } from "../../../../shared/ui/UiSlider"
 import { LanguagesEnum } from "~/types/languagesEnum"
 import { arrayToString } from "@movie-tracker/utils"
 import { PersonWithDescription } from "~/widgets/personWithDescription"

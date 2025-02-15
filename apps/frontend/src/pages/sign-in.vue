@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { definePageMeta, useAuth, useI18n, useSeoMeta } from "#imports"
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiContainer } from "../shared/ui/UiContainer"
 import { SignInForm } from "~/features/auth"
 import { navigateTo } from "#app"
 import { useLocalePath } from "#i18n"

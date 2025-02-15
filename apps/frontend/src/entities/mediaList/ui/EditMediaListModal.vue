@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import { UiModal } from "~/components/ui/UiModal"
+import { UiModal } from "../../../shared/ui/UiModal"
 import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../../shared/ui/UiButton"
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import { toast } from "vue3-toastify"
 import { useI18n } from "#imports"
@@ -10,8 +10,8 @@ import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaList/us
 import type { MediaListType } from "@movie-tracker/types"
 import { useRouter } from "vue-router"
 import { useLocalePath } from "#i18n"
-import { UiConfirmationModal } from "~/components/ui/UiConfirmationModal"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiConfirmationModal } from "../../../shared/ui/UiConfirmationModal"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface EditMediaListModalProps {
   mediaList: MediaListType

@@ -3,9 +3,9 @@ import { useForm, useI18n } from "#imports"
 import { watch } from "vue"
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import * as yup from "yup"
-import { UiInput } from "~/components/ui/UiInput"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiSwitch } from "~/components/ui/UiSwitch"
+import { UiInput } from "../../../shared/ui/UiInput"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiSwitch } from "../../../shared/ui/UiSwitch"
 
 interface MediaListFormProps {
   initialValue?: MediaListUpdateApiTypes;

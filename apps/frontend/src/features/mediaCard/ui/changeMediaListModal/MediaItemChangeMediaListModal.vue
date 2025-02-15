@@ -3,12 +3,12 @@
 import type { MediaItemType } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { CreateMediaListModal } from "~/entities/mediaList"
-import { UiModal } from "~/components/ui/UiModal"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiModal } from "../../../../shared/ui/UiModal"
+import { UiButton } from "../../../../shared/ui/UiButton"
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
 import { useI18n } from "#imports"
 import MediaItemChangeMediaListForm from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListForm.vue"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../../shared/ui/UiIcon"
 
 interface MediaItemChangeMediaListModalProps {
   mediaItem: MediaItemType;

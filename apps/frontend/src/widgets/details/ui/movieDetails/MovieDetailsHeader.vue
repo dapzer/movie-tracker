@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-import { UiInfoHeader } from "~/components/ui/UiInfoHeader";
+import { UiInfoHeader } from "../../../../shared/ui/UiInfoHeader";
 import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types";
 import { TmdbMediaTypeEnum } from "@movie-tracker/types";
 import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils";
@@ -9,7 +9,7 @@ import MovieDetailsProducers from "./MovieDetailsProducers.vue";
 import { formatDate, getProxiedImageUrl, useI18n } from "#imports";
 import { useLocalePath } from "#i18n";
 import { NuxtLink } from "#components";
-import { UiRating } from "~/components/ui/UiRating"
+import { UiRating } from "../../../../shared/ui/UiRating"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 
 interface MovieDetailsHeaderProps {

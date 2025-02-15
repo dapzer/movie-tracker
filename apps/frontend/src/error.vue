@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { NuxtError } from "#app";
-import { UiTypography } from "~/components/ui/UiTypography";
-import { UiButton } from "~/components/ui/UiButton";
-import { UiContainer } from "~/components/ui/UiContainer";
 import { NuxtLink } from "#components"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { UiButton } from "~/shared/ui/UiButton"
 
 interface ErrorPageProps {
   error: NuxtError;

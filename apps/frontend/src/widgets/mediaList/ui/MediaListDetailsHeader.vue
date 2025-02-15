@@ -2,13 +2,13 @@
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiButton } from "~/components/ui/UiButton"
-import { UiUserProfileLink } from "~/components/ui/UiUserProfileLink"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiButton } from "../../../shared/ui/UiButton"
+import { UiUserProfileLink } from "../../../shared/ui/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
 import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface MediaListHeaderProps {
   mediaList: MediaListType;

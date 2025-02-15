@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { UiModal } from "~/components/ui/UiModal"
+import { UiModal } from "../../../../shared/ui/UiModal"
 import AddMediaItemToListsForm from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsForm.vue"
 import { computed, useI18n } from "#imports"
 import { useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
-import { UiBottomDrawer } from "~/components/ui/UiBottomDrawer"
+import { UiBottomDrawer } from "../../../../shared/ui/UiBottomDrawer"
 import { useIsMobile } from "~/composables/useIsMobile"
 
 interface AddMediaItemToListsModalProps {

@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 
-import { UiContainer } from "~/components/ui/UiContainer";
+import { UiContainer } from "../../shared/ui/UiContainer";
 import { useAuth } from "~/composables/useAuth";
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
 import { useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports";
-import { UiListHeader } from "~/components/ui/UiListHeader"
+import { UiListHeader } from "../../shared/ui/UiListHeader"
 import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiButton } from "../../shared/ui/UiButton"
 import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
-import UiAttention from "~/components/ui/UiAttention/UiAttention.vue"
+import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { computed } from "vue"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../shared/ui/UiIcon"
 import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
 import { SortOrderEnum } from "~/types/Sorting"
 

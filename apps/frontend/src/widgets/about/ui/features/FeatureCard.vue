@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { type VNode } from "vue"
 
 interface FeatureCardProps {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import { UiListCard } from "~/components/ui/UiCard/listCard"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiListCard } from "~/shared/ui/UiCard/listCard"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { type SocialIdsType } from "~/utils/getSocialList"
-import { UiSocialList } from "~/components/ui/UiSocialList"
+import { UiSocialList } from "../../../../shared/ui/UiSocialList"
 import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
 import { computed } from "vue"
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"

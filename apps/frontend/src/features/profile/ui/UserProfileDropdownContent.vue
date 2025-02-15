@@ -4,11 +4,11 @@ import { UserRoleEnum } from "@movie-tracker/types";
 import { useAuth } from "~/composables/useAuth";
 import { useLocalePath } from "#i18n";
 import { computed } from "vue";
-import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/components/ui/UiDropdown"
-import { UiImage } from "~/components/ui/UiImage"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "../../../shared/ui/UiDropdown"
+import { UiImage } from "../../../shared/ui/UiImage"
+import { UiTypography } from "../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
-import { UiIcon } from "~/components/ui/UiIcon"
+import { UiIcon } from "../../../shared/ui/UiIcon"
 
 interface UserProfileDropdownProps {
   profile: UserType;

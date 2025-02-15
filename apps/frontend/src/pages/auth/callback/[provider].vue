@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 
-import { UiTypography } from "~/components/ui/UiTypography";
+import { UiTypography } from "../../../shared/ui/UiTypography";
 import { useRoute } from "#app";
 import { definePageMeta, getCurrentBrowserName, onMounted } from "#imports";
-import { UiLoadingIndicator } from "~/components/ui/UiLoadingIndicator";
+import { UiLoadingIndicator } from "../../../shared/ui/UiLoadingIndicator";
 import { computed, ref } from "vue";
-import { UiButton } from "~/components/ui/UiButton";
+import { UiButton } from "../../../shared/ui/UiButton";
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useSignInCallbackApi } from "~/api/auth/useAuthApi";
 import { BrowserEnum } from "~/types/browserEnum"
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiContainer } from "../../../shared/ui/UiContainer"
 import { LocalStorageEnum } from "~/types/localStorageEnum"
 
 const { params, query } = useRoute();

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/ui/UiContainer"
-import { UiImage } from "~/components/ui/UiImage"
-import { UiTypography } from "~/components/ui/UiTypography"
-import UiAccordion from "../../../components/ui/UiAccordion/UiAccordion.vue"
+import { UiContainer } from "../../../shared/ui/UiContainer"
+import { UiImage } from "../../../shared/ui/UiImage"
+import { UiTypography } from "../../../shared/ui/UiTypography"
+import UiAccordion from "~/shared/ui/UiAccordion/UiAccordion.vue"
 </script>
 
 <template>

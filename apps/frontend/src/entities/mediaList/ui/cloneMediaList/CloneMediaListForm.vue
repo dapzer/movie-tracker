@@ -6,11 +6,11 @@ import { toast } from "vue3-toastify"
 import { useCreateMediaListCloneApi } from "~/api/mediaList/useMediaListApi"
 import { getElementDeclensionTranslationKey, useI18n } from "#imports"
 import { computed } from "vue"
-import { UiFormListItem } from "~/components/ui/UiFormListItem"
-import { UiTypography } from "~/components/ui/UiTypography"
-import { UiSwitch } from "~/components/ui/UiSwitch"
-import { UiInput } from "~/components/ui/UiInput"
-import { UiButton } from "~/components/ui/UiButton"
+import { UiFormListItem } from "../../../../shared/ui/UiFormListItem"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
+import { UiSwitch } from "../../../../shared/ui/UiSwitch"
+import { UiInput } from "../../../../shared/ui/UiInput"
+import { UiButton } from "../../../../shared/ui/UiButton"
 
 interface CloneMediaListFormProps {
   mediaList: MediaListType

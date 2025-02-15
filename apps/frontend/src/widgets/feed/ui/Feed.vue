@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { UiContainer } from "~/components/ui/UiContainer"
+import { UiContainer } from "../../../shared/ui/UiContainer"
 import { computed, useI18n } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
@@ -9,7 +9,7 @@ import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/
 import { useLocalePath } from "#i18n"
 import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
-import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
+import { UiMediaCardSkeleton } from "../../../shared/ui/UiCard"
 
 const { locale } = useI18n();
 const localePath = useLocalePath()

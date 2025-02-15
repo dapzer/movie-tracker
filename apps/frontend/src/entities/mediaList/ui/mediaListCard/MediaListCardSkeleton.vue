@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { UiListCard } from "~/components/ui/UiCard/listCard"
-import { UiSkeleton } from "~/components/ui/UiSkeleton"
+import { UiListCard } from "~/shared/ui/UiCard/listCard"
+import { UiSkeleton } from "../../../../shared/ui/UiSkeleton"
 </script>
 
 <template>

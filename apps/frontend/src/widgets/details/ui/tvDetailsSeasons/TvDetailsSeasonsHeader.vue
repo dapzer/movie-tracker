@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
-import { UiInfoHeader } from "~/components/ui/UiInfoHeader"
+import { UiInfoHeader } from "../../../../shared/ui/UiInfoHeader"
 import { MediaTypeEnum, type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
 import { computed } from "#imports"
 import { minsToTimeConverter } from "@movie-tracker/utils"

@@ -8,11 +8,11 @@ import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb
 import { useRoute } from "#vue-router"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import { PersonCard } from "~/entities/personCard"
-import { UiMediaCardSkeleton } from "~/components/ui/UiCard"
+import { UiMediaCardSkeleton } from "../../../../shared/ui/UiCard"
 import { ContentList } from "~/widgets/contentList"
-import { UiTypography } from "~/components/ui/UiTypography"
+import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { arrayToString } from "@movie-tracker/utils"
-import { UiAttention } from "~/components/ui/UiAttention"
+import { UiAttention } from "../../../../shared/ui/UiAttention"
 
 const { locale, t } = useI18n();
 const route = useRoute();
