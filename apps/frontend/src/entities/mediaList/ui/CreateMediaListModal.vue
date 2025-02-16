@@ -14,7 +14,7 @@ const { t } = useI18n();
 const createMediaListApi = useCreateMediaListApi();
 
 const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
-  await createMediaListApi.mutateAsync({ ...value, poster: '' }).then(() => {
+  await createMediaListApi.mutateAsync(value).then(() => {
     toast.success(t("toasts.mediaList.successCreated"));
     model.value = false;
   }).catch(() => {

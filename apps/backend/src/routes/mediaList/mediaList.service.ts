@@ -10,6 +10,7 @@ import {
   MediaItemRepositorySymbol,
 } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
 import { CreateMediaListCloneDto } from '@/routes/mediaList/dto/createMediaListClone.dto';
+import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
 
 @Injectable()
 export class MediaListService {
@@ -76,7 +77,7 @@ export class MediaListService {
     );
   }
 
-  async createMediaList(userId: string, body?: UpdateMediaListDto) {
+  async createMediaList(userId: string, body?: CreateMediaListDto) {
     return this.mediaListRepository.createMediaList(userId, false, body);
   }
 
@@ -132,7 +133,6 @@ export class MediaListService {
       false,
       {
         title: body.title,
-        poster: mediaList.poster,
         isPublic: false,
       },
     );

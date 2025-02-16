@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
-import { computed } from "vue"
 import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
 import { UiTypography } from "../../../shared/ui/UiTypography"
 import { UiButton } from "../../../shared/ui/UiButton"
@@ -24,12 +23,6 @@ const { navigateToSignInPage } = useNavigateToSignInPage()
 const { isAuthorized } = useAuth()
 const createLikeMediaListApi = useCreateLikeMediaListApi()
 const deleteLikeMediaListApi = useDeleteLikeMediaListApi()
-
-const title = computed(() => {
-  return t("mediaList.listPageTitle", {
-    title: props.mediaList.title || t("mediaList.favorites")
-  });
-});
 
 const copyLink = () => {
   copy(`${window.location.origin}/lists/details/${props.mediaList.humanFriendlyId}`);
@@ -56,8 +49,9 @@ const handleLike = async () => {
         <UiTypography
           as="h1"
           variant="title2"
+          :class="$style.title"
         >
-          {{ title }}
+          {{ $t("mediaList.listTitle") }} ‘<span>{{ props.mediaList.title || t("mediaList.favorites") }}</span>’
         </UiTypography>
 
         <div
@@ -91,6 +85,13 @@ const handleLike = async () => {
             />
           </UiButton>
         </div>
+
+        <UiTypography
+          v-if="props.mediaList.description"
+          :class="$style.description"
+        >
+          {{ props.mediaList.description }}
+        </UiTypography>
       </div>
 
       <div :class="$style.actions">
@@ -145,19 +146,41 @@ const handleLike = async () => {
 @import "~/styles/mixins";
 
 .wrapper {
+  min-width: 0;
+
   .info {
+    min-width: 0;
+
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 16px;
 
+    @include tabletDevice {
+      flex-wrap: wrap;
+      max-width: unset;
+    }
+
     .about {
+      width: 100%;
+      max-width: 690px;
       display: flex;
       flex-direction: column;
       gap: 16px;
 
-      h1 {
-        @include ellipsisText;
+      @include tabletDevice {
+        max-width: unset;
+      }
+      min-width: 0;
+
+      .title {
+        display: flex;
+        min-width: 0;
+        width: 100%;
+        white-space: nowrap;
+
+        span {
+          @include ellipsisText;
+        }
       }
 
       .publicInfo {
@@ -184,11 +207,19 @@ const handleLike = async () => {
           }
         }
       }
+
+      .description {
+        color: var(--c-description);
+      }
     }
 
     .actions {
+      height: fit-content;
       display: flex;
-      gap: 8px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 10px;
 
       button {
         height: fit-content;
@@ -200,9 +231,17 @@ const handleLike = async () => {
       }
 
       @include mobileDevice {
+        flex-wrap: nowrap;
+        height: unset;
+
         &,
         button {
           width: 100%;
+        }
+
+        button {
+          height: 100%;
+          min-height: unset;
         }
       }
     }

@@ -1,10 +1,6 @@
-import { MediaItemStatusNameEnum } from "@movie-tracker/types";
+import { MediaItemStatusNameEnum, type MediaListUpdateBodyType } from "@movie-tracker/types";
 
-export interface MediaListUpdateApiTypes {
-  title?: string,
-  isPublic?: boolean,
-  poster?: string
-}
+export type MediaListUpdateApiTypes = MediaListUpdateBodyType;
 
 export interface MediaListCreateCloneApiTypes {
   selectedStatuses: MediaItemStatusNameEnum[]

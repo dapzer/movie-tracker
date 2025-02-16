@@ -1148,6 +1148,7 @@ export default {
   },
   mediaList: {
     listPageTitle: 'Список ‘{title}’',
+    listTitle: 'Список',
     addToList: 'Добавить в список',
     addToListTitle: 'Добавить ‘{title}’ в списки',
     unauthorizedDescription: 'для отображения ваших списков',

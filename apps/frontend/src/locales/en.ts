@@ -1147,6 +1147,7 @@ export default {
   },
   mediaList: {
     listPageTitle: 'List ‘{title}’',
+    listTitle: "List",
     addToList: "Add to list",
     addToListTitle: 'Add ‘{title}’ to lists',
     unauthorizedDescription: "to display your lists",

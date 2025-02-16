@@ -27,7 +27,7 @@ const deleteMediaListApi = useDeleteMediaListApi();
 const router = useRouter();
 
 const handleUpdateMediaList = async (value: MediaListUpdateApiTypes) => {
-  await updateMediaListApi.mutateAsync({ mediaListId: props.mediaList.id, body: { ...value, poster: '' } }).then(() => {
+  await updateMediaListApi.mutateAsync({ mediaListId: props.mediaList.id, body: value }).then(() => {
     toast.success(t("toasts.mediaList.successUpdated"));
     model.value = false;
   }).catch(() => {
@@ -67,6 +67,7 @@ const handleDeleteMediaList = async () => {
       <MediaListForm
         :initial-value="{
           title: props.mediaList.isSystem ? $t('mediaList.favorites'): props.mediaList.title,
+          description: props.mediaList.description,
           isPublic: props.mediaList.isPublic,
         }"
         :is-system="props.mediaList.isSystem"

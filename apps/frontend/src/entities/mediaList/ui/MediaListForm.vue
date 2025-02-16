@@ -6,6 +6,7 @@ import * as yup from "yup"
 import { UiInput } from "../../../shared/ui/UiInput"
 import { UiTypography } from "../../../shared/ui/UiTypography"
 import { UiSwitch } from "../../../shared/ui/UiSwitch"
+import { UiTextarea } from "~/shared/ui/UiTextarea"
 
 interface MediaListFormProps {
   initialValue?: MediaListUpdateApiTypes;
@@ -22,6 +23,7 @@ const { t } = useI18n();
 const { formValue, onFormSubmit, errors } = useForm({
   initialValue: props.initialValue ?? {
     title: "",
+    description: "",
     isPublic: false
   },
   onSubmit: (formValue) => {
@@ -32,7 +34,7 @@ const { formValue, onFormSubmit, errors } = useForm({
   },
   validationSchema: yup.object().shape({
     title: yup.string().min(3, t('mediaList.errors.titleLength')),
-    // description: yup.string().required(t("validation.required")),
+    description: yup.string().nullable(),
     isPublic: yup.boolean().required(t("validation.required"))
   })
 })
@@ -53,13 +55,15 @@ watch(() => props.isSystem, (isSystem) => {
       v-model="formValue.title"
       :disabled="props.isSystem"
       :error="errors?.title"
-      maxlength="32"
+      maxlength="64"
       :placeholder="$t('mediaList.settingsForm.title')"
     />
-    <!--    <UiTextarea-->
-    <!--      disabled-->
-    <!--      :placeholder="$t('mediaList.settingsForm.description')"-->
-    <!--    />-->
+    <UiTextarea
+      v-model="formValue.description"
+      :error="errors?.description"
+      maxlength="256"
+      :placeholder="$t('mediaList.settingsForm.description')"
+    />
 
     <div :class="$style.switch">
       <UiTypography variant="description">

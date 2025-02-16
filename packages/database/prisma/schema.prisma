@@ -63,6 +63,7 @@ model MediaList {
   userId          String          @map("user_id")
   user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   title           String?
+  description     String?
   isSystem        Boolean         @default(false) @map("is_system")
   isPublic        Boolean         @default(false) @map("is_public")
   createdAt       DateTime        @default(now()) @map("created_at")

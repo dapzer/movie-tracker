@@ -1,7 +1,13 @@
 import { PrismaService } from '@/services/prisma/prisma.service';
 import { MediaListRepositoryInterface } from '@/repositories/mediaList/MediaListRepositoryInterface';
 import { Injectable } from '@nestjs/common';
-import { MediaDetailsType, MediaListLikeType, MediaListType } from '@movie-tracker/types';
+import {
+  MediaDetailsType,
+  MediaListCreateBodyType,
+  MediaListLikeType,
+  MediaListType,
+  MediaListUpdateBodyType
+} from '@movie-tracker/types';
 import { MediaListLike, Prisma } from '@movie-tracker/database';
 import { init } from '@paralleldrive/cuid2';
 import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
@@ -63,6 +69,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       isSystem: data.isSystem,
       isPublic: data.isPublic,
       title: data.title,
+      description: data.description,
       likesCount: data.likes?.length,
       mediaItemsCount: data._count?.mediaItems,
       isLiked: !!data.likes?.length,
@@ -147,7 +154,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   async createMediaList(
     userId: string,
     isSystem = false,
-    body?: Pick<MediaListType, 'title' | 'isPublic'>,
+    body?: MediaListCreateBodyType,
   ) {
     const generateCuid = init({ length: 10 });
     const mediaList = await this.prisma.mediaList.create({
@@ -175,7 +182,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
 
   async updateMediaList(
     id: string,
-    body: Pick<MediaListType, 'title' | 'isPublic'>,
+    body: MediaListUpdateBodyType,
   ) {
     const mediaList = await this.prisma.mediaList.update({
       where: { id },

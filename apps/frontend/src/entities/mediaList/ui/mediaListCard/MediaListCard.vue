@@ -64,7 +64,15 @@ const posters = computed(() => {
       </UiButton>
     </div>
 
-    <div :class="$style.content">
+    <UiTypography
+      v-if="props.list.description"
+      :class="$style.description"
+      variant="text"
+    >
+      {{ props.list.description }}
+    </UiTypography>
+
+    <div :class="$style.footer">
       <div>
         <UiTypography variant="description">
           {{ props.list?.mediaItemsCount }} {{
@@ -90,6 +98,7 @@ const posters = computed(() => {
           {{ props.list.isPublic ? $t("ui.public") : $t("ui.private") }}
         </UiTypography>
       </div>
+
       <div>
         <UiTypography
           v-if="props.list.isPublic"
@@ -129,7 +138,12 @@ const posters = computed(() => {
   }
 }
 
-.content {
+.description {
+  @include ellipsisText();
+  color: var(--c-description);
+}
+
+.footer {
   display: flex;
   justify-content: space-between;
   align-items: center;

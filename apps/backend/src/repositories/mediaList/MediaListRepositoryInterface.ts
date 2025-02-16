@@ -1,4 +1,9 @@
-import { MediaListType, MediaListLikeType } from '@movie-tracker/types';
+import {
+  MediaListCreateBodyType,
+  MediaListLikeType,
+  MediaListType,
+  MediaListUpdateBodyType
+} from '@movie-tracker/types';
 
 export const MediaListRepositorySymbol = Symbol();
 
@@ -28,14 +33,14 @@ export interface MediaListRepositoryInterface {
   createMediaList: (
     userId: string,
     isSystem?: boolean,
-    body?: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
+    body?: MediaListCreateBodyType,
   ) => Promise<MediaListType>;
 
   deleteMediaList: (id: string) => Promise<MediaListType>;
 
   updateMediaList: (
     id: string,
-    body: Pick<MediaListType, 'title' | 'poster' | 'isPublic'>,
+    body: MediaListUpdateBodyType,
   ) => Promise<MediaListType>;
 
   getMediaListsCount: () => Promise<number>;

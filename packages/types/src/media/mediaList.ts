@@ -3,6 +3,7 @@ export interface MediaListType {
   humanFriendlyId: string;
   userId: string;
   title?: string;
+  description?: string;
   poster?: MediaListPosterType
   likesCount?: number;
   mediaItemsCount?: number
@@ -26,3 +27,7 @@ export interface MediaListPosterType {
   en: Array<string | undefined>,
   ru: Array<string | undefined>
 }
+
+export type MediaListCreateBodyType = Pick<MediaListType, 'title' | 'description' | 'isPublic'>;
+
+export type MediaListUpdateBodyType = Pick<MediaListType, 'title' | 'description' | 'isPublic'>;

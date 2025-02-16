@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, } from '@nestjs/common';
 import { MediaListService } from '@/routes/mediaList/mediaList.service';
 import { UuidDto } from '@/shared/dto/uuid.dto';
 import { UpdateMediaListDto } from '@/routes/mediaList/dto/updateMediaList.dto';
