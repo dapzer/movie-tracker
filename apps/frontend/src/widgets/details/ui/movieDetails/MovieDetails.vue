@@ -173,6 +173,7 @@ const latestEpisodes = computed(() => {
             :description="formatDate(item.published_at, locale)"
             :preview-src="`https://i.ytimg.com/vi/${item.key}/hq720.jpg`"
             :video-url="`https://www.youtube.com/embed/${item.key}?autoplay=1`"
+            :source-url="`https://www.youtube.com/watch?v=${item.key}`"
           />
         </template>
       </UiSlider>

@@ -56,6 +56,7 @@ export type UiIconName = "icon:close"
     | "icon:status-feature"
     | "icon:tracking-feature"
     | "icon:review-feature"
+    | "icon:round-open-in-new-tab"
 
 interface UiIconProps {
   block?: boolean

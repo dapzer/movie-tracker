@@ -32,6 +32,9 @@ const model = defineModel<boolean>()
           name="content"
           :closeModal="closeModal"
         />
+        <template #afterTitle>
+          <slot name="afterTitle" />
+        </template>
       </UiModalContent>
     </template>
   </UiModalCore>

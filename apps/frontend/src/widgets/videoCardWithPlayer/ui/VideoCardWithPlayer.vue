@@ -2,9 +2,13 @@
 
 import { UiModal } from "../../../shared/ui/UiModal";
 import { UiVideoCard } from "../../../shared/ui/UiCard";
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { NuxtLink } from "#components"
+import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface VideoCardWithPlayerProps {
   videoUrl: string;
+  sourceUrl?: string;
   description: string;
   previewSrc: string;
   title: string;
@@ -29,6 +33,21 @@ const props = defineProps<VideoCardWithPlayerProps>();
         :width="props.width"
         @click="openModal"
       />
+    </template>
+
+    <template
+      v-if="props.sourceUrl"
+      #afterTitle
+    >
+      <UiTypography
+        :class="$style.sourсeUrl"
+        :as="NuxtLink"
+        schema="link"
+        :to="props.sourceUrl"
+        target="_blank"
+      >
+        <UiIcon name="icon:round-open-in-new-tab" />
+      </UiTypography>
     </template>
 
     <template #content>
@@ -56,6 +75,15 @@ const props = defineProps<VideoCardWithPlayerProps>();
   &.fullHeight {
     height: 100%;
   }
+}
+
+.sourсeUrl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  font-size: 20px;
+  height: 24px;
 }
 
 .frame {

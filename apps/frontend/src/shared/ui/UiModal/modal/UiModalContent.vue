@@ -38,10 +38,16 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
         @click.stop
       >
         <div :class="$style.header">
-          <UiTypography variant="title4">
-            {{ props.title }}
-          </UiTypography>
-          <UiTypography v-if="props.description">
+          <div :class="$style.titleWrapper">
+            <UiTypography variant="title4">
+              {{ props.title }}
+            </UiTypography>
+            <slot name="afterTitle" />
+          </div>
+          <UiTypography
+            v-if="props.description"
+            :class="$style.description"
+          >
             {{ props.description }}
           </UiTypography>
           <UiButton
@@ -90,6 +96,7 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
 
     .header {
       padding: 24px;
+      padding-right: 40px;
       position: sticky;
       top: 0;
       background: var(--c-card-background-hovered);
@@ -97,7 +104,13 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
       flex-direction: column;
       gap: 16px;
 
-      p {
+      .titleWrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .description {
         color: var(--c-text-secondary);
       }
 
