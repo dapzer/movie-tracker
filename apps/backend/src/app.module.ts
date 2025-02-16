@@ -29,12 +29,7 @@ import { ThrottlerBehindProxyGuard } from '@/guards/throttlerBehindProxy.guard';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
         return {
-          throttlers: [
-            {
-              ttl: 60,
-              limit: 10000,
-            },
-          ],
+          throttlers: [],
           storage: new ThrottlerStorageRedisService(
             configService.get('REDIS_URL')!,
           ),
