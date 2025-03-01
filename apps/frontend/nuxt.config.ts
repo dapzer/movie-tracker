@@ -15,7 +15,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    "nuxt-svgo",
     "@nuxtjs/i18n",
     "@nuxt/image",
     "@vueuse/nuxt",
@@ -69,20 +68,16 @@ export default defineNuxtConfig({
     ]
   },
 
-  svgo: {
-    svgo: true,
-    defaultImport: "component",
-    svgoConfig: {
-      multipass: true
-    }
-  },
-
   icon: {
     mode: 'css',
     customCollections: [
       {
         prefix: 'icon',
         dir: './src/assets/svg/icons',
+      },
+      {
+        prefix: 'svg',
+        dir: './src/assets/svg/images',
       },
     ],
   },

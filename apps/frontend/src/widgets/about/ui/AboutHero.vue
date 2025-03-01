@@ -2,19 +2,18 @@
 
 import { UiContainer } from "../../../shared/ui/UiContainer"
 import { UiTypography } from "../../../shared/ui/UiTypography"
-import { default as BackgroundGrid } from "~/public/landingBackgroundGrid.svg"
-import { default as AddToListExample } from "~/public/landingAddToList.svg"
 import { UiButton } from "../../../shared/ui/UiButton"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { UiImage } from "../../../shared/ui/UiImage"
+import { UiIcon } from "~/shared/ui/UiIcon"
 
 const localePath = useLocalePath()
 </script>
 
 <template>
   <div :class="$style.wrapper">
-    <BackgroundGrid :class="$style.backgroundGrid" />
+    <span :class="$style.backgroundGrid" />
     <UiContainer
       as="section"
       :class="$style.container"
@@ -54,14 +53,16 @@ const localePath = useLocalePath()
 
       <div :class="$style.examples">
         <UiImage
+          :class="$style.mainPageImage"
           src="landingMainPage.webp"
           :width="796"
           :height="453"
         />
-        <AddToListExample
+        <UiIcon
+          name="svg:landing-add-to-list"
           :class="$style.addToListImage"
-          width="291"
-          height="241"
+          :width="291"
+          :height="241"
         />
         <UiImage
           :class="$style.listPageImage"
@@ -84,6 +85,7 @@ const localePath = useLocalePath()
   overflow-x: clip;
 
   .backgroundGrid {
+    background: url("~/assets/svg/images/landing-background-grid.svg") center no-repeat;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -92,6 +94,7 @@ const localePath = useLocalePath()
     height: 1036px;
     top: -120px;
     z-index: -1;
+    background-size: 100% 100%;
 
     @include tabletDevice() {
       width: 1057px;
@@ -198,6 +201,13 @@ const localePath = useLocalePath()
       justify-content: center;
       margin-top: 96px;
       aspect-ratio: 16/9;
+
+      .mainPageImage,
+      .listPageImage,
+      .addToListImage {
+        user-select: none;
+        pointer-events: none;
+      }
 
       .listPageImage {
         position: absolute;

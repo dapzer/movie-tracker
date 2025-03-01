@@ -57,6 +57,7 @@ export type UiIconName = "icon:close"
     | "icon:tracking-feature"
     | "icon:review-feature"
     | "icon:round-open-in-new-tab"
+    | "svg:landing-add-to-list"
 
 interface UiIconProps {
   block?: boolean
