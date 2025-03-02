@@ -28,7 +28,7 @@ await Promise.all([
 
 useHead({
   htmlAttrs: {
-    lang: () =>  i18nHead.value.htmlAttrs!.lang,
+    lang: () => i18nHead.value.htmlAttrs!.lang,
     dir: () => i18nHead.value.htmlAttrs?.dir
   },
   link: [...(i18nHead.value.link || [])],
@@ -42,14 +42,25 @@ useSeoMeta({
   ogTitle() {
     return t("seo.title");
   },
+  twitterTitle() {
+    return t("seo.title");
+  },
   description() {
     return t("seo.description");
   },
   ogDescription() {
     return t("seo.description");
   },
+  twitterDescription() {
+    return t("seo.description");
+  },
   applicationName: "Movie Tracker",
   ogSiteName: "Movie Tracker",
+  ogImage: "/ogImageEn.png",
+  twitterImage: "/ogImageEn.png",
+  twitterCard: "summary_large_image",
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
   ogType: "website",
   keywords() {
     return t("seo.keywords");
