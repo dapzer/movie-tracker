@@ -8,7 +8,7 @@ import * as path from 'path';
 export class OpenGraphImageService {
   async getOpenGraphImage(title: string, imageUrl: string) {
     const [neueHaasUnicaItalic, inter, logoSvg, backgroundSvg, circleBackgroundSvg] = await Promise.all([
-      readFile(path.join(process.cwd(), 'assets/fonts/NeueHaasUnica-BoldItalic.ttf')),
+      readFile(path.join(process.cwd(), 'assets/fonts/NeueHaasUnica-Bold.ttf')),
       readFile(path.join(process.cwd(), 'assets/fonts/Inter-SemiBold.ttf')),
       readFile(path.join(process.cwd(), 'assets/logo.svg'), 'utf-8'),
       readFile(path.join(process.cwd(), 'assets/mediaOgImageBackground.svg'), 'utf-8'),
