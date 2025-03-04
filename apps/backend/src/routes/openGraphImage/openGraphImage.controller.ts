@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Header,
-  Query,
-  StreamableFile,
-} from '@nestjs/common';
+import { Controller, Get, Header, Query, StreamableFile, } from '@nestjs/common';
 import { OpenGraphImageService } from '@/routes/openGraphImage/openGraphImage.service';
 import { GetOpenGraphImageDto } from '@/routes/openGraphImage/dto/getOpenGraphImage.dto';
 
@@ -18,6 +12,7 @@ export class OpenGraphImageController {
     const image = await this.openGraphImageService.getOpenGraphImage(
       queries.title,
       queries.imageUrl,
+      queries.isAvatarPlaceholder,
     );
 
     return new StreamableFile(image);

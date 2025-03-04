@@ -6,87 +6,90 @@ import * as path from 'path';
 
 @Injectable()
 export class OpenGraphImageService {
-  async getOpenGraphImage(title: string, imageUrl: string) {
-    const [neueHaasUnicaItalic, inter, logoSvg, backgroundSvg, circleBackgroundSvg] = await Promise.all([
+  private calculateFontSize = (options: {
+    text?: string
+    containerWidth?: number
+    containerHeight?: number
+    padding?: number
+    charWidth?: number
+    lineHeight?: number
+    minFontSize?: number
+    maxFontSize?: number
+    safetyFactor?: number
+  }) => {
+    const {
+      text,
+      containerWidth = 665,
+      containerHeight = 249,
+      padding = 10,
+      charWidth = 0.6,
+      lineHeight = 1.1,
+      minFontSize = 12,
+      maxFontSize = 120,
+      safetyFactor = 1
+    } = options;
+
+    if (!text) {
+      return maxFontSize;
+    }
+
+    const effectiveWidth = containerWidth - (padding * 2);
+    const effectiveHeight = containerHeight - (padding * 2);
+    const words = text.split(' ');
+
+    let low = minFontSize;
+    let high = maxFontSize;
+    let optimal = minFontSize;
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      const averageCharWidthPx = mid * charWidth;
+      const lines = [];
+      let currentLine = words[0];
+      let currentLineWidthChars = words[0].length;
+
+      for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const lineWithWordChars = currentLineWidthChars + 1 + word.length;
+
+        if (lineWithWordChars * averageCharWidthPx <= effectiveWidth) {
+          currentLine += ' ' + word;
+          currentLineWidthChars = lineWithWordChars;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+          currentLineWidthChars = word.length;
+        }
+      }
+      lines.push(currentLine);
+
+      const totalHeight = lines.length * mid * lineHeight;
+
+      if (totalHeight <= effectiveHeight) {
+        optimal = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    return Math.floor(optimal * safetyFactor);
+  }
+
+  async getOpenGraphImage(title: string, imageUrl: string, isAvatarPlaceholder: boolean) {
+    const [neueHaasUnicaItalic, inter, logoSvg, backgroundSvg, circleBackgroundSvg, defaultMoviePosterSvg, avatarPosterSvg] = await Promise.all([
       readFile(path.join(process.cwd(), 'assets/fonts/NeueHaasUnica-Bold.ttf')),
       readFile(path.join(process.cwd(), 'assets/fonts/Inter-SemiBold.ttf')),
       readFile(path.join(process.cwd(), 'assets/logo.svg'), 'utf-8'),
       readFile(path.join(process.cwd(), 'assets/mediaOgImageBackground.svg'), 'utf-8'),
       readFile(path.join(process.cwd(), 'assets/mediaOgImageBackgroundCircle.svg'), 'utf-8'),
+      readFile(path.join(process.cwd(), 'assets/defaultMoviePoster.svg'), 'utf-8'),
+      readFile(path.join(process.cwd(), 'assets/avatarPoster.svg'), 'utf-8'),
     ]);
 
     // Calculate optimal font size
-    function calculateFontSize(options: {
-      text?: string
-      containerWidth?: number
-      containerHeight?: number
-      padding?: number
-      charWidth?: number
-      lineHeight?: number
-      minFontSize?: number
-      maxFontSize?: number
-      safetyFactor?: number
-    }) {
-      const {
-        text,
-        containerWidth = 665,
-        containerHeight = 249,
-        padding = 10,
-        charWidth = 0.6,
-        lineHeight = 1.1,
-        minFontSize = 12,
-        maxFontSize = 120,
-        safetyFactor = 1
-      } = options;
 
-      if (!text) {
-        return maxFontSize;
-      }
-
-      const effectiveWidth = containerWidth - (padding * 2);
-      const effectiveHeight = containerHeight - (padding * 2);
-      const words = text.split(' ');
-
-      let low = minFontSize;
-      let high = maxFontSize;
-      let optimal = minFontSize;
-
-      while (low <= high) {
-        const mid = Math.floor((low + high) / 2);
-        const averageCharWidthPx = mid * charWidth;
-        const lines = [];
-        let currentLine = words[0];
-        let currentLineWidthChars = words[0].length;
-
-        for (let i = 1; i < words.length; i++) {
-          const word = words[i];
-          const lineWithWordChars = currentLineWidthChars + 1 + word.length;
-
-          if (lineWithWordChars * averageCharWidthPx <= effectiveWidth) {
-            currentLine += ' ' + word;
-            currentLineWidthChars = lineWithWordChars;
-          } else {
-            lines.push(currentLine);
-            currentLine = word;
-            currentLineWidthChars = word.length;
-          }
-        }
-        lines.push(currentLine);
-
-        const totalHeight = lines.length * mid * lineHeight;
-
-        if (totalHeight <= effectiveHeight) {
-          optimal = mid;
-          low = mid + 1;
-        } else {
-          high = mid - 1;
-        }
-      }
-
-      return Math.floor(optimal * safetyFactor);
-    }
-
-    const fontSize = calculateFontSize({
+    const fontSize = this.calculateFontSize({
       text: title,
       containerWidth: 665,
       containerHeight: 310,
@@ -112,12 +115,14 @@ export class OpenGraphImageService {
             {
               type: 'img',
               props: {
-                src: imageUrl,
+                src: `data:image/svg+xml;base64,${Buffer.from(backgroundSvg).toString('base64')}`,
                 alt: '',
                 style: {
-                  width: '407px',
-                  height: '600px',
-                  objectFit: 'cover',
+                  position: 'absolute',
+                  right: 0,
+                  bottom: 0,
+                  width: '840px',
+                  height: '340px',
                 },
               },
             },
@@ -132,6 +137,18 @@ export class OpenGraphImageService {
                   height: '1068px',
                   top: "36px",
                   left: "486px",
+                },
+              },
+            },
+            {
+              type: 'img',
+              props: {
+                src: imageUrl || `data:image/svg+xml;base64,${Buffer.from(isAvatarPlaceholder ? avatarPosterSvg : defaultMoviePosterSvg).toString('base64')}`,
+                alt: '',
+                style: {
+                  width: '407px',
+                  height: '600px',
+                  objectFit: 'cover',
                 },
               },
             },
@@ -204,20 +221,6 @@ export class OpenGraphImageService {
                           },
                         },
                       ],
-                    },
-                  },
-                  {
-                    type: 'img',
-                    props: {
-                      src: `data:image/svg+xml;base64,${Buffer.from(backgroundSvg).toString('base64')}`,
-                      alt: '',
-                      style: {
-                        position: 'absolute',
-                        right: 0,
-                        bottom: 0,
-                        width: '840px',
-                        height: '340px',
-                      },
                     },
                   },
                 ],

@@ -10,7 +10,8 @@ export const usePersonDetailsSeo = (person?: TmdbPersonType | null) => {
   const ogImage = computed(() => {
     return getOgApiUrl(`/open-graph-image`, {
       title: person?.name || '',
-      imageUrl: getProxiedImageUrl(person?.profile_path, undefined, true),
+      imageUrl: person?.profile_path ? getProxiedImageUrl(person?.profile_path, undefined, true) : undefined,
+      isAvatarPlaceholder: true
     });
   });
 
