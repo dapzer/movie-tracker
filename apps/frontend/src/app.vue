@@ -5,8 +5,9 @@ import { ConfigProvider } from "radix-vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useId } from "#app"
+import { LanguagesEnum } from "~/types/languagesEnum"
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const i18nHead = useLocaleHead({
   dir: true,
@@ -56,8 +57,8 @@ useSeoMeta({
   },
   applicationName: "Movie Tracker",
   ogSiteName: "Movie Tracker",
-  ogImage: "/ogImageEn.png",
-  twitterImage: "/ogImageEn.png",
+  ogImage: locale.value === LanguagesEnum.EN ? "/ogImageEn.webp" : '/ogImageRu.webp',
+  twitterImage: locale.value === LanguagesEnum.EN ? "/ogImageEn.webp" : '/ogImageRu.webp',
   twitterCard: "summary_large_image",
   ogImageWidth: 1200,
   ogImageHeight: 630,
