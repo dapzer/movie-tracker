@@ -44,7 +44,7 @@ const { formValue, onFormSubmit, errors } = useForm({
     })
   },
   validationSchema: yup.object().shape({
-    title: yup.string().min(3, t('mediaList.errors.titleLength')),
+    title: yup.string().trim().min(3, t('mediaList.errors.titleLength')),
   })
 })
 
@@ -102,7 +102,7 @@ const availableStatuses = computed(() => {
     <UiInput
       v-model="formValue.title"
       :error="errors?.title"
-      maxlength="32"
+      maxlength="64"
       :placeholder="$t('mediaList.settingsForm.title')"
     />
 

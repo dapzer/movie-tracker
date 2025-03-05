@@ -1,5 +1,6 @@
 import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
 import { MediaListUpdateBodyType } from "@movie-tracker/types"
+import { Transform } from "class-transformer"
 
 export class UpdateMediaListDto
   implements MediaListUpdateBodyType
@@ -7,6 +8,7 @@ export class UpdateMediaListDto
   @IsBoolean()
   isPublic: boolean;
 
+  @Transform(({ value }) => value?.trim())
   @Length(3, 64)
   @IsString()
   @IsOptional()

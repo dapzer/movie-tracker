@@ -1,5 +1,6 @@
 import { IsArray, IsBoolean, IsEnum, IsString, Length } from 'class-validator';
 import { MediaItemStatusNameEnum } from '@movie-tracker/types';
+import { Transform } from "class-transformer"
 
 export class CreateMediaListCloneDto {
   @IsArray()
@@ -9,7 +10,8 @@ export class CreateMediaListCloneDto {
   @IsBoolean()
   isKeepStatus: boolean;
 
+  @Transform(({ value }) => value?.trim())
   @IsString()
-  @Length(3, 32)
+  @Length(3, 64)
   title: string;
 }

@@ -33,7 +33,7 @@ const { formValue, onFormSubmit, errors } = useForm({
     emit("onSubmit", formValue);
   },
   validationSchema: yup.object().shape({
-    title: yup.string().min(3, t('mediaList.errors.titleLength')),
+    title: yup.string().trim().min(3, t('mediaList.errors.titleLength')),
     description: yup.string().nullable(),
     isPublic: yup.boolean().required(t("validation.required"))
   })
