@@ -46,7 +46,7 @@ export const getSocialList = (socialIds: SocialIdsType) => {
   if (socialIds.discord) {
     result.push({
       icon: h(UiIcon, { name: 'icon:discord' }),
-      url: `https://discord.gg/${socialIds.telegram}`
+      url: `https://discord.gg/invite/${socialIds.discord}`
     })
   }
   if (socialIds?.facebook) {

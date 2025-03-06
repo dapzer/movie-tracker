@@ -4,12 +4,12 @@ import { UiSocialList } from "../../UiSocialList"
 </script>
 
 <template>
-  <!--  TODO: Add Discord link -->
   <UiSocialList
     :class="$style.wrapper"
     :social-list="{
       github: 'dapzer/movie-tracker',
       telegram: 'movie_tracker_news',
+      discord: 'yeAXyC4TEr',
     }"
   />
 </template>
