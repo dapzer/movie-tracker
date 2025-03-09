@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     "radix-vue/nuxt",
     "@nuxt/icon",
     "nuxt-umami",
+    "@nuxtjs/mdc",
   ],
 
   site: {
@@ -89,14 +90,23 @@ export default defineNuxtConfig({
     // enabled: process.env.NODE_ENV !== "production",
   },
 
+  mdc: {
+    components: {
+      prose: true,
+    },
+  },
+
+  components: {
+    dirs: [{
+      path: "shared/ui/UiMarkdown",
+      global: true,
+    }],
+  },
+
   css: ["@/styles/global.scss", "@/styles/variables.scss"],
 
   imports: {
     autoImport: false,
-  },
-
-  components: {
-    dirs: [],
   },
 
   typescript: {

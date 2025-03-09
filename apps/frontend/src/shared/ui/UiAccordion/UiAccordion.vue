@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import type { ComponentOrTag } from "~/types/ComponentOrTag"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
+export interface UiAccordionItem {
+  value: string
+  title: string
+  content?: string
+  as?: ComponentOrTag
+  asProps?: Record<string, unknown>
+}
+
 interface UiAccordionProps {
-  items: Array<{
-    value: string
-    title: string
-    content: string
-  }>
+  items: Array<UiAccordionItem>
   initialExpanded?: boolean
 }
 
@@ -24,8 +29,8 @@ const model = defineModel<string | string[]>()
     type="multiple"
   >
     <template
-      v-for="(item, index) in props.items"
-      :key="index"
+      v-for="item in props.items"
+      :key="item.value"
     >
       <AccordionItem
         :class="$style.item"
@@ -46,9 +51,16 @@ const model = defineModel<string | string[]>()
           </AccordionTrigger>
         </AccordionHeader>
         <AccordionContent>
-          <UiTypography>
+          <UiTypography v-if="!item.as">
             {{ item.content }}
           </UiTypography>
+          <component
+            :is="item.as"
+            v-bind="item.asProps"
+            v-else
+          >
+            {{ item.content }}
+          </component>
         </AccordionContent>
       </AccordionItem>
       <UiDivider />

@@ -1,8 +1,54 @@
 <script setup lang="ts">
-import UiAccordion from "~/shared/ui/UiAccordion/UiAccordion.vue"
+import { useI18n } from "#imports"
+import { computed, h } from "vue"
+import { UiAccordion } from "~/shared/ui/UiAccordion"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiImage } from "~/shared/ui/UiImage"
+import { UiMarkdown } from "~/shared/ui/UiMarkdown"
 import { UiTypography } from "~/shared/ui/UiTypography"
+
+const { t } = useI18n()
+
+const createListContent = computed(() => {
+  return h(UiMarkdown, { value: t("about.faq.questions.createList.description") })
+})
+const contactSupportContent = computed(() => {
+  return h(UiMarkdown, { value: t("about.faq.questions.contactSupport.description") })
+})
+
+const accordionItems = computed(() => {
+  return [
+    {
+      title: t("about.faq.questions.movieTracker.title"),
+      content: t("about.faq.questions.movieTracker.description"),
+      value: "movieTracker",
+    },
+    {
+      title: t("about.faq.questions.createList.title"),
+      as: UiMarkdown,
+      asProps: { value: t("about.faq.questions.createList.description") },
+      value: "createList",
+      asNode: true,
+    },
+    {
+      title: t("about.faq.questions.changeStatus.title"),
+      content: t("about.faq.questions.changeStatus.description"),
+      value: "changeStatus",
+    },
+    {
+      title: t("about.faq.questions.leaveReview.title"),
+      content: t("about.faq.questions.leaveReview.description"),
+      value: "leaveReview",
+    },
+    {
+      title: t("about.faq.questions.contactSupport.title"),
+      as: UiMarkdown,
+      asProps: { value: t("about.faq.questions.contactSupport.description") },
+      value: "contactSupport",
+      asNode: true,
+    },
+  ]
+})
 </script>
 
 <template>
@@ -34,33 +80,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
       </div>
 
       <UiAccordion
-        :items="[
-          {
-            title: $t('about.faq.questions.movieTracker.title'),
-            content: $t('about.faq.questions.movieTracker.description'),
-            value: 'movieTracker',
-          },
-          {
-            title: $t('about.faq.questions.createList.title'),
-            content: $t('about.faq.questions.createList.description'),
-            value: 'createList',
-          },
-          {
-            title: $t('about.faq.questions.changeStatus.title'),
-            content: $t('about.faq.questions.changeStatus.description'),
-            value: 'changeStatus',
-          },
-          {
-            title: $t('about.faq.questions.leaveReview.title'),
-            content: $t('about.faq.questions.leaveReview.description'),
-            value: 'leaveReview',
-          },
-          {
-            title: $t('about.faq.questions.contactSupport.title'),
-            content: $t('about.faq.questions.contactSupport.description'),
-            value: 'contactSupport',
-          },
-        ]"
+        :items="accordionItems"
       />
     </div>
   </UiContainer>
