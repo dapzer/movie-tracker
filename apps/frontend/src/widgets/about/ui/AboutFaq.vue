@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "#imports"
-import { computed, h } from "vue"
+import { computed } from "vue"
 import { UiAccordion } from "~/shared/ui/UiAccordion"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiImage } from "~/shared/ui/UiImage"
@@ -8,13 +8,6 @@ import { UiMarkdown } from "~/shared/ui/UiMarkdown"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 const { t } = useI18n()
-
-const createListContent = computed(() => {
-  return h(UiMarkdown, { value: t("about.faq.questions.createList.description") })
-})
-const contactSupportContent = computed(() => {
-  return h(UiMarkdown, { value: t("about.faq.questions.contactSupport.description") })
-})
 
 const accordionItems = computed(() => {
   return [
