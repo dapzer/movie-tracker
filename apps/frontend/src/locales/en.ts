@@ -1272,7 +1272,7 @@ export default {
         },
         createList: {
           title: "How do I create a list?",
-          description: `To create a list, go to the "[My lists](/lists)" page, click on the "Create list" button, and fill in the required fields or do it from add to list modal. After that, you can add movies and TV shows to your list.`,
+          description: `To create a list, go to the "[My lists](/en/lists)" page, click on the "Create list" button, and fill in the required fields or do it from add to list modal. After that, you can add movies and TV shows to your list.`,
         },
         changeStatus: {
           title: "How do I update the status of a movie or TV series?",
