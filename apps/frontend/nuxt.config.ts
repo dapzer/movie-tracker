@@ -21,7 +21,6 @@ export default defineNuxtConfig({
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
     "nuxt-schema-org",
-    "nuxt-delay-hydration",
     '@nuxt/fonts',
     "radix-vue/nuxt",
     "@nuxt/icon",
@@ -87,11 +86,6 @@ export default defineNuxtConfig({
     host: 'https://umami.movie-tracker.app',
     autoTrack: true,
     // enabled: process.env.NODE_ENV !== "production",
-  },
-
-  delayHydration: {
-    mode: 'init',
-    debug: process.env.NODE_ENV !== "production"
   },
 
   css: ["@/styles/global.scss", "@/styles/variables.scss"],
