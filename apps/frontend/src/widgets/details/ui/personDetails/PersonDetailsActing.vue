@@ -4,12 +4,12 @@ import { getMediaTypeDeclensionTranslationKey, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiDivider } from "../~/shared/ui/UiDivider"
-import { UiListHeader } from "../~/shared/ui/UiListHeader"
-import { UiPagination } from "../~/shared/ui/UiPagination"
-import { UiSelect } from "../~/shared/ui/UiSelect"
-import { UiTypography } from "../~/shared/ui/UiTypography"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiListHeader } from "~/shared/ui/UiListHeader"
+import { UiPagination } from "~/shared/ui/UiPagination"
+import { UiSelect } from "~/shared/ui/UiSelect"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface PersonDetailsActingProps {
   crew: TmdbPersonCrewType[]

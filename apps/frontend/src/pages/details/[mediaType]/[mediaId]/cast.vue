@@ -7,11 +7,11 @@ import { arrayToString } from "@movie-tracker/utils"
 import { ref } from "vue"
 import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
 import { PersonCard } from "~/entities/personCard"
+import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { ContentList } from "~/widgets/contentList"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
-import { UiAttention } from "../~/shared/ui/UiAttention"
-import { UiMediaCardSkeleton } from "../~/shared/ui/UiCard"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 const { locale, t } = useI18n()
 const route = useRoute()

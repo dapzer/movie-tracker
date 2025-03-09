@@ -6,11 +6,11 @@ import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import { useGetTmdbMovieDetailsApi, useGetTmdbRecommendationsApi } from "~/api/tmdb/useTmdbApi"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
 import { ContentList } from "~/widgets/contentList"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
-import { UiAttention } from "../~/shared/ui/UiAttention"
-import { UiMediaCardSkeleton } from "../~/shared/ui/UiCard"
 
 const { locale, t } = useI18n()
 const route = useRoute()

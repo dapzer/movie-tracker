@@ -12,14 +12,14 @@ import {
 } from "~/api/tmdb/useTmdbApi"
 import { EpisodeCard } from "~/entities/episodeCard"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
+import { UiSlider } from "~/shared/ui/UiSlider"
 import { LanguagesEnum } from "~/types/languagesEnum"
 import { formatDate } from "~/utils/formatDate"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import { PersonWithDescription } from "~/widgets/personWithDescription"
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer"
-import { UiContainer } from "../~/shared/ui/UiContainer"
-import { UiSectionWithSeeMore } from "../~/shared/ui/UiSectionWithSeeMore"
-import { UiSlider } from "../~/shared/ui/UiSlider"
 import MovieDetailsHeader from "./MovieDetailsHeader.vue"
 
 interface MovieDetailsProps {

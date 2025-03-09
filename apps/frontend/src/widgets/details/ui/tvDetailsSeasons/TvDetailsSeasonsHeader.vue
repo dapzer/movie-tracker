@@ -4,9 +4,9 @@ import { useLocalePath } from "#i18n"
 import { computed } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { minsToTimeConverter } from "@movie-tracker/utils"
+import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
-import { UiInfoHeader } from "../~/shared/ui/UiInfoHeader"
 
 interface TvDetailsSeasonsHeaderProps {
   details: TmdbMediaDetailsType

@@ -3,9 +3,9 @@ import type { TmdbMediaDetailsType, TmdbSeasonDetailsType } from "@movie-tracker
 import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import { EpisodeCardHorizontal } from "~/entities/episodeCard"
-import { UiDivider } from "../~/shared/ui/UiDivider"
-import { UiListHeader } from "../~/shared/ui/UiListHeader"
-import { UiSelect } from "../~/shared/ui/UiSelect"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiListHeader } from "~/shared/ui/UiListHeader"
+import { UiSelect } from "~/shared/ui/UiSelect"
 
 interface TvDetailsSeasonsHeaderProps {
   details: TmdbMediaDetailsType

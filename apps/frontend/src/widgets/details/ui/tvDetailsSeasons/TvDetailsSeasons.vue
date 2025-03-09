@@ -3,10 +3,10 @@ import { useLocalePath } from "#i18n"
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi"
+import { UiContainer } from "~/shared/ui/UiContainer"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import TvDetailsSeasonsEpisodeList from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
 import TvDetailsSeasonsHeader from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
-import { UiContainer } from "../~/shared/ui/UiContainer"
 
 interface TvDetailsSeasonsProps {
   mediaId: number

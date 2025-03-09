@@ -31,9 +31,9 @@
     "@histoire/plugin-vue": "0.17.17",
     "@movie-tracker/types": "workspace:*",
     "@movie-tracker/utils": "workspace:*",
-    "@nuxt/devtools": "1.7.0",
+    "@nuxt/devtools": "2.2.1",
     "@nuxt/icon": "1.10.3",
-    "@nuxtjs/i18n": "9.1.1",
+    "@nuxtjs/i18n": "9.3.0",
     "@nuxtjs/robots": "5.1.1",
     "@nuxtjs/sitemap": "7.0.2",
     "@vueuse/core": "12.4.0",
@@ -45,7 +45,6 @@
     "nuxt-umami": "3.1.1",
     "typescript": "5.7.3",
     "vue": "3.5.13",
-    "vue-eslint-parser": "9.4.3",
     "vue-router": "4.5.0",
     "vue-tsc": "2.2.0"
   }

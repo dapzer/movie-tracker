@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiTypography } from "../~/shared/ui/UiTypography"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface DefaultFooterLinkListProps {
   links: {

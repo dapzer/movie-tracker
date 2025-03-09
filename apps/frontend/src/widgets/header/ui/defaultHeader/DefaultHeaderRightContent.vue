@@ -3,9 +3,9 @@ import { useAuth } from "#imports"
 import { SignInLink } from "~/features/auth"
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
 import { UserProfileDropdown } from "~/features/profile"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
 import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
 
 interface DefaultHeaderRightContentEmits {
   (event: "handleOpenSearchModal"): void

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
-import { UiSkeleton } from "../~/shared/ui/UiSkeleton"
+import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 </script>
 
 <template>

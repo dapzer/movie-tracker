@@ -5,11 +5,11 @@ import { useLocalePath } from "#i18n"
 import { getProxiedImageUrl, useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
+import { UiButton } from "~/shared/ui/UiButton"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface MediaListCardProps {
   list: MediaListType

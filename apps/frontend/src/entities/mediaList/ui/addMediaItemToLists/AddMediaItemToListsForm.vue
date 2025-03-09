@@ -6,12 +6,12 @@ import { toast } from "vue3-toastify"
 import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { SortOrderEnum } from "~/types/Sorting"
 import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiInput } from "../~/shared/ui/UiInput"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 const props = defineProps<MediaListSelectorModalProps>()
 const emit = defineEmits<{

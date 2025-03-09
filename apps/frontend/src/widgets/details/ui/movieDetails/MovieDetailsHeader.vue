@@ -6,9 +6,9 @@ import { formatDate, getProxiedImageUrl, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils"
 import { computed } from "vue"
+import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
+import { UiRating } from "~/shared/ui/UiRating"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
-import { UiInfoHeader } from "../~/shared/ui/UiInfoHeader"
-import { UiRating } from "../~/shared/ui/UiRating"
 import MovieDetailsProducers from "./MovieDetailsProducers.vue"
 
 interface MovieDetailsHeaderProps {

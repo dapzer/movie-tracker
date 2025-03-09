@@ -6,13 +6,13 @@ import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiSwitch } from "~/shared/ui/UiSwitch"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { SortOrderEnum } from "~/types/Sorting"
 import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiInput } from "../~/shared/ui/UiInput"
-import { UiSwitch } from "../~/shared/ui/UiSwitch"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface MediaItemCreateCloneFormProps {
   mediaItem: MediaItemType

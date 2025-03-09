@@ -2,9 +2,9 @@
 import type { MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import { UiFormListItem } from "~/shared/ui/UiFormListItem"
+import { UiIcon } from "~/shared/ui/UiIcon"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
-import { UiFormListItem } from "../~/shared/ui/UiFormListItem"
-import { UiIcon } from "../~/shared/ui/UiIcon"
 
 interface MediaItemChangeMediaListFormItemProps {
   mediaList: MediaListType

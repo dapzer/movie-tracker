@@ -4,10 +4,10 @@ import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import MediaItemCreateCloneForm from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneForm.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiModal } from "~/shared/ui/UiModal"
 import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiModal } from "../~/shared/ui/UiModal"
 
 interface MediaItemCreateCloneModalProps {
   mediaItem: MediaItemType

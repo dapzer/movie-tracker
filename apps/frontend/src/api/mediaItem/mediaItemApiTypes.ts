@@ -1,4 +1,4 @@
-import type { type MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
+import type { MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
 
 export interface MediaItemCreateApiTypes {
   mediaListId: string

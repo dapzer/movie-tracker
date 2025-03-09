@@ -3,9 +3,9 @@ import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { SearchCombobox } from "~/features/search"
 import { AppLogo } from "~/shared/ui/appLogo"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiTypography } from "../~/shared/ui/UiTypography"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const isMobileMenuOpen = defineModel("isMobileMenuOpen", { required: true })
 const localePath = useLocalePath()

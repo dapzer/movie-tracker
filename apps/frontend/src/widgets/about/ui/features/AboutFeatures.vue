@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { h } from "vue"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import FeatureCard from "~/widgets/about/ui/features/FeatureCard.vue"
-import { UiContainer } from "../~/shared/ui/UiContainer"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 const features = [{
   title: "about.features.discover.title",

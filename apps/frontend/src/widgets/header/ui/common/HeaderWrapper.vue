@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiContainer } from "../~/shared/ui/UiContainer"
+import { UiContainer } from "~/shared/ui/UiContainer"
 </script>
 
 <template>

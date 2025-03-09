@@ -2,7 +2,7 @@
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { ref } from "vue"
 import CloneMediaListForm from "~/entities/mediaList/ui/cloneMediaList/CloneMediaListForm.vue"
-import { UiModal } from "../~/shared/ui/UiModal"
+import { UiModal } from "~/shared/ui/UiModal"
 
 interface CloneMediaListModalProps {
   mediaList: MediaListType

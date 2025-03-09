@@ -2,8 +2,8 @@
 import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types"
 import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports"
 import { computed } from "vue"
-import { UiInfoHeader } from "../~/shared/ui/UiInfoHeader"
-import { UiSocialList } from "../~/shared/ui/UiSocialList"
+import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
+import { UiSocialList } from "~/shared/ui/UiSocialList"
 
 interface PersonDetailsHeaderProps {
   details?: TmdbPersonType | null

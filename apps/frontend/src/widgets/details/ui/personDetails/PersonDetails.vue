@@ -8,13 +8,13 @@ import {
   useGetTmdbPersonExternalIdsApi,
 } from "~/api/tmdb/useTmdbApi"
 import { MovieCardHorizontal } from "~/entities/movieCard"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
+import { UiSlider } from "~/shared/ui/UiSlider"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo"
 import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
 import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue"
-import { UiContainer } from "../~/shared/ui/UiContainer"
-import { UiSectionWithSeeMore } from "../~/shared/ui/UiSectionWithSeeMore"
-import { UiSlider } from "../~/shared/ui/UiSlider"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface PersonDetailsProps {
   mediaId: number

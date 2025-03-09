@@ -6,9 +6,9 @@ import { useI18n } from "#imports"
 import { computed } from "vue"
 import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
+import { UiSocialList } from "~/shared/ui/UiSocialList"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
-import { UiSocialList } from "../~/shared/ui/UiSocialList"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface TeamMemberCardProps {
   name: string

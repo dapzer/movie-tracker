@@ -9,12 +9,12 @@ import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { SortOrderEnum } from "~/types/Sorting"
 import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
-import { UiButton } from "../~/shared/ui/UiButton"
-import { UiIcon } from "../~/shared/ui/UiIcon"
-import { UiInput } from "../~/shared/ui/UiInput"
-import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface MediaItemChangeMediaListFormProps {
   mediaItem: MediaItemType

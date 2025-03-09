@@ -4,8 +4,8 @@ import { computed, useI18n } from "#imports"
 import { useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
 import { useIsMobile } from "~/composables/useIsMobile"
 import AddMediaItemToListsForm from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsForm.vue"
-import { UiBottomDrawer } from "../~/shared/ui/UiBottomDrawer"
-import { UiModal } from "../~/shared/ui/UiModal"
+import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"
+import { UiModal } from "~/shared/ui/UiModal"
 
 interface AddMediaItemToListsModalProps {
   mediaId: number

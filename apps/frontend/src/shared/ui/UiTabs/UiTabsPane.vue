@@ -6,7 +6,7 @@ const props = defineProps<{
   tabs: T
 }>()
 
-const slots = defineSlots<{
+defineSlots<{
   [K in T[number]["key"]]: () => VNode
 } & {
   afterTabs?: () => VNode
