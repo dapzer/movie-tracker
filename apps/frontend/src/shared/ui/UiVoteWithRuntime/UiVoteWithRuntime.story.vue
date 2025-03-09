@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiVoteWithRuntime from "~/shared/ui/UiVoteWithRuntime/UiVoteWithRuntime.vue"
 </script>
 
@@ -10,8 +9,8 @@ import UiVoteWithRuntime from "~/shared/ui/UiVoteWithRuntime/UiVoteWithRuntime.v
   >
     <template #default>
       <UiVoteWithRuntime
-        :voteAverage="7.5"
-        :voteCount="10200"
+        :vote-average="7.5"
+        :vote-count="10200"
         :runtime="144"
       />
     </template>

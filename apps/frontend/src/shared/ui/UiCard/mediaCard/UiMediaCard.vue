@@ -1,23 +1,22 @@
 <script lang="ts" setup>
-
-import UiCardBase from '../UiCardBase.vue';
-import { UiTypography } from '~/shared/ui/UiTypography';
-import { UiImage } from '~/shared/ui/UiImage';
 import { NuxtLink } from "#components"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import UiCardBase from "../UiCardBase.vue"
 
 interface UiMediaCardProps {
-  imageSrc?: string;
-  title?: string;
-  description?: string;
-  width?: number;
-  linkUrl: string;
-  fallbackImageSrc?: string;
-  fullHeight?: boolean;
+  imageSrc?: string
+  title?: string
+  description?: string
+  width?: number
+  linkUrl: string
+  fallbackImageSrc?: string
+  fullHeight?: boolean
 }
 
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
   width: 195,
-});
+})
 </script>
 
 <template>
@@ -65,10 +64,9 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
   </UiCardBase>
 </template>
 
-
 <style lang="scss" module>
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .image {
   aspect-ratio: 2/3;

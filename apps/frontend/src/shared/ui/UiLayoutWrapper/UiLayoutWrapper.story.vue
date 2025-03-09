@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiLayoutWrapper from "~/shared/ui/UiLayoutWrapper/UiLayoutWrapper.vue"
 </script>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { DropdownMenuSeparator } from "radix-vue"
 </script>
 

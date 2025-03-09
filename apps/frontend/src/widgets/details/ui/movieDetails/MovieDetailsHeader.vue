@@ -1,38 +1,38 @@
 <script lang="ts" setup>
-
-import { UiInfoHeader } from "../../../../shared/ui/UiInfoHeader";
-import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types";
-import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils";
-import { computed } from "vue";
-import MovieDetailsProducers from "./MovieDetailsProducers.vue";
-import { formatDate, getProxiedImageUrl, useI18n } from "#imports";
-import { useLocalePath } from "#i18n";
-import { NuxtLink } from "#components";
-import { UiRating } from "../../../../shared/ui/UiRating"
+import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types"
+import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
+import { formatDate, getProxiedImageUrl, useI18n } from "#imports"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils"
+import { computed } from "vue"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
+import { UiInfoHeader } from "../~/shared/ui/UiInfoHeader"
+import { UiRating } from "../~/shared/ui/UiRating"
+import MovieDetailsProducers from "./MovieDetailsProducers.vue"
 
 interface MovieDetailsHeaderProps {
-  details?: TmdbMediaDetailsType | null;
-  mediaType?: TmdbMediaTypeEnum;
-  credits?: TmdbCreditsType | null;
-  overview?: string;
+  details?: TmdbMediaDetailsType | null
+  mediaType?: TmdbMediaTypeEnum
+  credits?: TmdbCreditsType | null
+  overview?: string
 }
 
-const props = defineProps<MovieDetailsHeaderProps>();
-const { locale, t } = useI18n();
-const localePath = useLocalePath();
+const props = defineProps<MovieDetailsHeaderProps>()
+const { locale, t } = useI18n()
+const localePath = useLocalePath()
 
 const producers = computed(() => {
-  if (!props.credits || props.mediaType !== TmdbMediaTypeEnum.MOVIE) return [];
-  return getMovieDirectors(props.credits.crew);
-});
+  if (!props.credits || props.mediaType !== TmdbMediaTypeEnum.MOVIE)
+    return []
+  return getMovieDirectors(props.credits.crew)
+})
 
 const title = computed(() => {
-  if (!props.details) return "";
-  return props.details?.title || props.details?.name;
-});
-
+  if (!props.details)
+    return ""
+  return props.details?.title || props.details?.name
+})
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiTag from "~/shared/ui/UiTag/UiTag.vue"
 </script>
 

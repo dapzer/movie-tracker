@@ -1,50 +1,50 @@
 <script setup lang="ts">
-import { UiAttention } from "../../../../shared/ui/UiAttention"
-import { UiMediaCardSkeleton } from "../../../../shared/ui/UiCard"
-import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
-import { ContentList } from "~/widgets/contentList"
-import { computed, ref } from "vue"
-import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
-import { useGetTmdbMovieDetailsApi, useGetTmdbRecommendationsApi } from "~/api/tmdb/useTmdbApi"
-import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
-import { useI18n } from "#imports"
+import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useRoute } from "#app"
-import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
+import { useI18n } from "#imports"
+import { computed, ref } from "vue"
+import { useGetTmdbMovieDetailsApi, useGetTmdbRecommendationsApi } from "~/api/tmdb/useTmdbApi"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { ContentList } from "~/widgets/contentList"
+import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
+import { UiAttention } from "../~/shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "../~/shared/ui/UiCard"
 
-const { locale, t } = useI18n();
-const route = useRoute();
-const mediaId = Number(route.params.mediaId);
-const mediaType = route.params.mediaType as TmdbMediaTypeEnum;
+const { locale, t } = useI18n()
+const route = useRoute()
+const mediaId = Number(route.params.mediaId)
+const mediaType = route.params.mediaType as TmdbMediaTypeEnum
 const currentPage = ref(Number(route.query.page) || 1)
 const localePath = useLocalePath()
 
 const queries = computed(() => ({
-  mediaType: mediaType,
-  mediaId: mediaId,
-  language: locale.value
-}));
+  mediaType,
+  mediaId,
+  language: locale.value,
+}))
 
 const recommendationsQueries = computed(() => ({
   ...queries.value,
-  page: currentPage.value
-}));
+  page: currentPage.value,
+}))
 
-const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
-const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(recommendationsQueries);
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries)
+const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(recommendationsQueries)
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense(),
-  tmdbGetRecommendationsApi.suspense()
-]);
+  tmdbGetRecommendationsApi.suspense(),
+])
 
 useMovieDetailsSeo({
   withoutSchema: true,
   mediaId: Number(mediaId),
-  mediaType: mediaType,
+  mediaType,
   media: tmdbGetMovieDetailsApi?.data?.value,
-  getTitle: (title, titleChunk) => `${title} | ${t("details.recommendationsTitle")}${titleChunk ? ` | ${titleChunk}`: ""}`,
-});
+  getTitle: (title, titleChunk) => `${title} | ${t("details.recommendationsTitle")}${titleChunk ? ` | ${titleChunk}` : ""}`,
+})
 
 const results = computed(() => tmdbGetRecommendationsApi.data?.value?.results)
 </script>
@@ -55,7 +55,7 @@ const results = computed(() => tmdbGetRecommendationsApi.data?.value?.results)
     :title="$t('details.recommendationsTitle')"
     :back-button-url="localePath(`/details/${mediaType}/${mediaId}`)"
     :total-pages="getTmdbTotalPages(tmdbGetRecommendationsApi.data?.value?.total_pages)"
-    :get-page-href="(page) => page > 1 ? `?page=${page}`: localePath('')"
+    :get-page-href="(page) => page > 1 ? `?page=${page}` : localePath('')"
   >
     <template v-if="!tmdbGetRecommendationsApi.isFetching.value">
       <MovieCardWithHoverMenu

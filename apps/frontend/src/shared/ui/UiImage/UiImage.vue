@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { NuxtImg } from '#components';
+import { NuxtImg } from "#components"
 import { imgProps } from "#image/components/NuxtImg.vue"
+import { ref } from "vue"
 
 const props = defineProps({
   ...imgProps,
@@ -10,12 +10,12 @@ const props = defineProps({
     required: false,
     default: undefined,
   },
-});
-const imageSrc = ref(props.src ?? props.fallbackSrc ?? '/defaultMoviePoster.svg');
+})
+const imageSrc = ref(props.src ?? props.fallbackSrc ?? "/defaultMoviePoster.svg")
 
-const handleImageLoadingError = () => {
-  imageSrc.value = props.fallbackSrc ?? '/defaultMoviePoster.svg';
-};
+function handleImageLoadingError() {
+  imageSrc.value = props.fallbackSrc ?? "/defaultMoviePoster.svg"
+}
 </script>
 
 <template>
@@ -26,4 +26,3 @@ const handleImageLoadingError = () => {
     @error="handleImageLoadingError"
   />
 </template>
-

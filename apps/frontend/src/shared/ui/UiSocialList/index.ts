@@ -1,1 +1,1 @@
-export {default as UiSocialList} from './UiSocialList.vue';
+export { default as UiSocialList } from "./UiSocialList.vue"

@@ -1,1 +1,1 @@
-export { default as UiPagination } from './UiPagination.vue';
+export { default as UiPagination } from "./UiPagination.vue"

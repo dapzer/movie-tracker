@@ -1,1 +1,1 @@
-export { default as UiBottomDrawer } from './UiBottomDrawer.vue';
+export { default as UiBottomDrawer } from "./UiBottomDrawer.vue"

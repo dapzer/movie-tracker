@@ -1,16 +1,15 @@
 <script setup lang="ts">
-
-import { type TmdbMediaDetailsType, TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiTag } from "../../../shared/ui/UiTag"
-import { UiVoteWithRuntime } from "../../../shared/ui/UiVoteWithRuntime"
+import type { TmdbMediaDetailsType, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { UiTag } from "~/shared/ui/UiTag"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { UiVoteWithRuntime } from "~/shared/ui/UiVoteWithRuntime"
 
 interface MovieCardHoverMenuHeaderProps {
-  movie: TmdbMediaDetailsType;
-  mediaType: TmdbMediaTypeEnum;
+  movie: TmdbMediaDetailsType
+  mediaType: TmdbMediaTypeEnum
 }
 
-const props = defineProps<MovieCardHoverMenuHeaderProps>();
+const props = defineProps<MovieCardHoverMenuHeaderProps>()
 </script>
 
 <template>

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
-import { UiTypography } from "../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useI18n } from "#imports"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { LanguagesEnum } from "~/types/languagesEnum"
 
-const { locale } = useI18n();
+const { locale } = useI18n()
 </script>
 
 <template>

@@ -1,27 +1,28 @@
 <script lang="ts" setup>
-import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types";
-import { getProxiedImageUrl } from "#imports";
-import { useLocalePath } from "#i18n";
-import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "../../../shared/ui/UiCard"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiRating } from "../../../shared/ui/UiRating"
+import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import type { UiMediaCardHorizontalSize } from "~/shared/ui/UiCard"
 import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
+import { getProxiedImageUrl } from "#imports"
+import { UiMediaCardHorizontal } from "~/shared/ui/UiCard"
+import { UiRating } from "~/shared/ui/UiRating"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MovieCardProps {
-  movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType;
-  horizontalTitle?: boolean;
-  width?: number;
-  fullHeight?: boolean;
-  imageWidth?: number;
-  size?: UiMediaCardHorizontalSize;
-  subDescription?: string;
+  movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType
+  horizontalTitle?: boolean
+  width?: number
+  fullHeight?: boolean
+  imageWidth?: number
+  size?: UiMediaCardHorizontalSize
+  subDescription?: string
 }
 
-const props = defineProps<MovieCardProps>();
-
-const localePath = useLocalePath();
+const props = defineProps<MovieCardProps>()
 
 const slots = defineSlots()
+
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -45,7 +46,7 @@ const slots = defineSlots()
     <template #title>
       <div
         :class="[$style.titleWrapper, {
-          [$style.horizontal]: props.horizontalTitle
+          [$style.horizontal]: props.horizontalTitle,
         }]"
       >
         <UiTypography

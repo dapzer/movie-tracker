@@ -10,4 +10,4 @@ export const AuthQueryKeys = {
   CONFIRM_CHANGE_EMAIL: "auth/confirmChangeEmail",
   REQUEST_EMAIL_CONFIRMATION: "auth/requestEmailConfirmation",
   CONFIRM_EMAIL: "auth/confirmEmail",
-} as const;
+} as const

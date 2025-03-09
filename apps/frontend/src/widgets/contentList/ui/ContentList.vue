@@ -1,23 +1,22 @@
 <script setup lang="ts">
-
-import { UiCardsGrid } from "../../../shared/ui/UiCardsGrid"
-import { UiDivider } from "../../../shared/ui/UiDivider"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiContainer } from "../../../shared/ui/UiContainer"
-import { UiPagination } from "../../../shared/ui/UiPagination"
-import { UiBackLink } from "../../../shared/ui/UiBackLink"
+import { UiBackLink } from "~/shared/ui/UiBackLink"
+import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiPagination } from "~/shared/ui/UiPagination"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface ContentListProps {
-  title: string;
-  backButtonText?: string;
-  backButtonUrl: string;
-  totalPages: number;
-  getPageHref?: (page: number) => string;
+  title: string
+  backButtonText?: string
+  backButtonUrl: string
+  totalPages: number
+  getPageHref?: (page: number) => string
 }
 
 const props = defineProps<ContentListProps>()
-const currentPage = defineModel<number>("currentPage")
 const slots = defineSlots()
+const currentPage = defineModel<number>("currentPage")
 </script>
 
 <template>

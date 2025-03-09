@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends readonly { key: string; label: string }[]">
-import { type VNode } from "vue"
+import type { VNode } from "vue"
 import UiTabsPane from "~/shared/ui/UiTabs/UiTabsPane.vue"
 
 const props = defineProps<{
@@ -7,12 +7,12 @@ const props = defineProps<{
 }>()
 
 const slots = defineSlots<{
-  [K in T[number]['key']]: () => VNode
+  [K in T[number]["key"]]: () => VNode
 } & {
   afterTabs?: () => VNode
 }>()
 
-const activeTab = defineModel<string>({default: ''})
+const activeTab = defineModel<string>({ default: "" })
 
 if (!activeTab.value) {
   activeTab.value = props.tabs[0].key

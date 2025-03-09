@@ -1,1 +1,1 @@
-export {default as UiTrimmedText} from './UiTrimmedText.vue';
+export { default as UiTrimmedText } from "./UiTrimmedText.vue"

@@ -7,6 +7,10 @@ export interface UiDetailsProps {
   title: string
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<UiDetailsProps>()
 
 const model = defineModel<boolean>()
@@ -17,14 +21,10 @@ const visibleState = computed(() => {
   return model.value ?? visible
 })
 
-const handleVisible = (value: boolean) => {
+function handleVisible(value: boolean) {
   visible.value = value
   model.value = value
 }
-
-defineOptions({
-  inheritAttrs: false
-})
 </script>
 
 <template>
@@ -33,7 +33,7 @@ defineOptions({
       v-bind="$attrs"
       variant="text"
       :class="[$style.trigger, {
-        [$style.active]: visibleState
+        [$style.active]: visibleState,
       }]"
       @click="handleVisible(!visibleState)"
     >

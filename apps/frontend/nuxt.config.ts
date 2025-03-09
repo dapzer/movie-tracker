@@ -1,4 +1,5 @@
-import crypto from "crypto";
+import crypto from "node:crypto"
+import process from "node:process"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -9,7 +10,7 @@ export default defineNuxtConfig({
       title: "Movie Tracker",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
-    }
+    },
   },
 
   devtools: { enabled: true },
@@ -21,10 +22,10 @@ export default defineNuxtConfig({
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
     "nuxt-schema-org",
-    '@nuxt/fonts',
+    "@nuxt/fonts",
     "radix-vue/nuxt",
     "@nuxt/icon",
-    "nuxt-umami"
+    "nuxt-umami",
   ],
 
   site: {
@@ -40,9 +41,9 @@ export default defineNuxtConfig({
       index: [
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/sitemap-index.xml.gz` },
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/sitemap-index.xml.gz` },
-        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml.gz` }
-      ]
-    }
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml.gz` },
+      ],
+    },
   },
 
   i18n: {
@@ -56,34 +57,34 @@ export default defineNuxtConfig({
         code: "en",
         iso: "en",
         language: "en",
-        file: "en.ts"
+        file: "en.ts",
       },
       {
         code: "ru",
         iso: "ru",
         language: "ru",
-        file: "ru.ts"
-      }
-    ]
+        file: "ru.ts",
+      },
+    ],
   },
 
   icon: {
-    mode: 'css',
+    mode: "css",
     customCollections: [
       {
-        prefix: 'icon',
-        dir: './src/assets/svg/icons',
+        prefix: "icon",
+        dir: "./src/assets/svg/icons",
       },
       {
-        prefix: 'svg',
-        dir: './src/assets/svg/images',
+        prefix: "svg",
+        dir: "./src/assets/svg/images",
       },
     ],
   },
 
   umami: {
     id: "43c97acf-6163-4049-bca2-df93a5122d9b",
-    host: 'https://umami.movie-tracker.app',
+    host: "https://umami.movie-tracker.app",
     autoTrack: true,
     // enabled: process.env.NODE_ENV !== "production",
   },
@@ -91,16 +92,16 @@ export default defineNuxtConfig({
   css: ["@/styles/global.scss", "@/styles/variables.scss"],
 
   imports: {
-    autoImport: false
+    autoImport: false,
   },
 
   components: {
-    dirs: []
+    dirs: [],
   },
 
   typescript: {
     typeCheck: true,
-    strict: true
+    strict: true,
   },
 
   vite: {
@@ -109,21 +110,21 @@ export default defineNuxtConfig({
       proxy: {
         "/sitemaps": {
           target: process.env.VITE_API_URL,
-          changeOrigin: false
-        }
-      }
+          changeOrigin: false,
+        },
+      },
     },
     css: {
       modules: {
         generateScopedName: (name, filename, css) => {
-          const hash = crypto.createHash("md5").update(css).digest("hex").substring(0, 5);
-          const componentName = filename.split("/").pop()?.split(".")[0].replace(/[^a-zA-Z ]/g, "") ?? "";
+          const hash = crypto.createHash("md5").update(css).digest("hex").substring(0, 5)
+          const componentName = filename.split("/").pop()?.split(".")[0].replace(/[^a-z ]/gi, "") ?? ""
 
-          return `${componentName}_${name}_${hash}`;
-        }
-      }
-    }
+          return `${componentName}_${name}_${hash}`
+        },
+      },
+    },
   },
 
-  compatibilityDate: "2025-01-19"
-});
+  compatibilityDate: "2025-01-19",
+})

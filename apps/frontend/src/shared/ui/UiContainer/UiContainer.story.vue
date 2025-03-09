@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiContainer from "~/shared/ui/UiContainer/UiContainer.vue"
 </script>
 

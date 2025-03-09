@@ -1,13 +1,12 @@
 <script setup lang="ts">
-
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import PersonCardHorizontal from "~/entities/personCard/ui/PersonCardHorizontal.vue"
 
 interface SearchResultMovieCardHorizontalProps {
-  person: TmdbSearchResponseResultItemType;
+  person: TmdbSearchResponseResultItemType
 }
 
-const props = defineProps<SearchResultMovieCardHorizontalProps>();
+const props = defineProps<SearchResultMovieCardHorizontalProps>()
 </script>
 
 <template>

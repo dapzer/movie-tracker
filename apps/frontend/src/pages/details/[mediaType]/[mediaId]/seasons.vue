@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { TvDetailsSeasons } from "~/widgets/details";
+import { useRoute } from "vue-router"
+import { TvDetailsSeasons } from "~/widgets/details"
 
-const route = useRoute();
-const mediaId = route.params.mediaId;
+const route = useRoute()
+const mediaId = route.params.mediaId
 </script>
 
 <template>

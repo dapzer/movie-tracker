@@ -1,25 +1,26 @@
-import { type ModelRef, type Ref, watch } from "vue"
+import type { ModelRef, Ref } from "vue"
 import { nextTick } from "#imports"
+import { watch } from "vue"
 
 type RefType = Ref<boolean> | ModelRef<boolean | undefined, string, boolean | undefined, boolean | undefined>
 
-export const useSwitchModals = (mainModalOpenState: RefType, secondModalOpenState: RefType) => {
+export function useSwitchModals(mainModalOpenState: RefType, secondModalOpenState: RefType) {
   watch(() => secondModalOpenState.value, (value) => {
     if (!value) {
       nextTick(() => {
-        mainModalOpenState.value = true;
-      });
+        mainModalOpenState.value = true
+      })
     }
-  });
+  })
 
   const onOpenSecondModal = () => {
-    mainModalOpenState.value = false;
+    mainModalOpenState.value = false
     nextTick(() => {
-      secondModalOpenState.value = true;
-    });
+      secondModalOpenState.value = true
+    })
   }
 
   return {
-    onOpenSecondModal
+    onOpenSecondModal,
   }
 }

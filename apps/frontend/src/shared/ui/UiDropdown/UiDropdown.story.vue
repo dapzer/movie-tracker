@@ -1,18 +1,17 @@
 <script setup lang="ts">
-
+import { ref } from "vue"
+import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDropdown } from "~/shared/ui/UiDropdown/index"
-import { UiTypography } from "~/shared/ui/UiTypography"
 import UiDropdownGroup from "~/shared/ui/UiDropdown/UiDropdownGroup.vue"
 import UiDropdownItem from "~/shared/ui/UiDropdown/UiDropdownItem.vue"
 import UiDropdownSeparator from "~/shared/ui/UiDropdown/UiDropdownSeparator.vue"
-import { ref } from "vue"
 import UiDropdownTriggerWithArrow from "~/shared/ui/UiDropdown/UiDropdownTriggerWithArrow.vue"
-import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const isOpen = ref(false)
-const align = ref<'start' | 'center' | 'end'>('start')
-const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
+const align = ref<"start" | "center" | "end">("start")
+const side = ref<"top" | "right" | "bottom" | "left">("bottom")
 </script>
 
 <template>

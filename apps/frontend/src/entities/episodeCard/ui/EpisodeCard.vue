@@ -1,24 +1,23 @@
 <script lang="ts" setup>
-
-import { UiCardBase } from '../../../shared/ui/UiCard';
-import { UiImage } from '../../../shared/ui/UiImage';
-import { UiTypography } from '../../../shared/ui/UiTypography';
-import { computed } from 'vue';
+import { computed } from "vue"
+import { UiCardBase } from "~/shared/ui/UiCard"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface EpisodeCardProps {
-  width?: number;
-  season: number;
-  episode: number;
-  imageSrc: string;
-  title: string;
-  description: string;
+  width?: number
+  season: number
+  episode: number
+  imageSrc: string
+  title: string
+  description: string
 }
 
 const props = withDefaults(defineProps<EpisodeCardProps>(), {
   width: 266,
-});
+})
 
-const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${props.title}`);
+const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${props.title}`)
 </script>
 
 <template>
@@ -56,8 +55,8 @@ const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${pr
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .wrapper {
   cursor: pointer;

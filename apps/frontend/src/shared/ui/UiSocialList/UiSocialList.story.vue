@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiSocialList from "~/shared/ui/UiSocialList/UiSocialList.vue"
 </script>
 

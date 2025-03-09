@@ -1,8 +1,7 @@
 <script setup lang="ts">
-
-import { UiContainer } from "../../../shared/ui/UiContainer"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiImage } from "../../../shared/ui/UiImage"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
 </script>
 
 <template>
@@ -45,7 +44,8 @@ import { UiImage } from "../../../shared/ui/UiImage"
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
-    background: radial-gradient(64.63% 225.44% at 12.42% 12.5%, rgba(20, 117, 230, 0.2) 0%, rgba(13, 13, 13, 0.2) 100%), #0D0D0D;
+    background:
+      radial-gradient(64.63% 225.44% at 12.42% 12.5%, rgba(20, 117, 230, 0.2) 0%, rgba(13, 13, 13, 0.2) 100%), #0d0d0d;
     border-radius: var(--s-border-radius-super-huge);
 
     .landingListsPagePcImage {

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
-import UiCardBase from "../UiCardBase.vue"
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiSkeleton } from "~/shared/ui/UiSkeleton"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import UiCardBase from "../UiCardBase.vue"
 
 interface UiMediaCardSkeletonProps {
-  width?: number;
-  fullHeight?: boolean;
+  width?: number
+  fullHeight?: boolean
 }
 
 const props = withDefaults(defineProps<UiMediaCardSkeletonProps>(), {
@@ -51,8 +50,8 @@ const props = withDefaults(defineProps<UiMediaCardSkeletonProps>(), {
 </template>
 
 <style module lang="scss">
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .wrapper {
   pointer-events: none;

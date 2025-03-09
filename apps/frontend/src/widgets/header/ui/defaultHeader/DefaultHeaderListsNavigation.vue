@@ -1,15 +1,13 @@
 <script setup lang="ts">
-
-import { NuxtLink } from "#components";
-import { useLocalePath } from "#i18n";
-import { UiTypography } from "../../../../shared/ui/UiTypography";
-import { listsNavigationLinks } from "~/widgets/header/model/listsNavigationLinks"
-import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "../../../../shared/ui/UiDropdown"
+import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 import { ref } from "vue"
+import { listsNavigationLinks } from "~/widgets/header/model/listsNavigationLinks"
+import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "../~/shared/ui/UiDropdown"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
-const localePath = useLocalePath();
-const isOpen = ref(false);
-
+const localePath = useLocalePath()
+const isOpen = ref(false)
 </script>
 
 <template>

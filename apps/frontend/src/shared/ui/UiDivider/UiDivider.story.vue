@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiDivider from "~/shared/ui/UiDivider/UiDivider.vue"
 </script>
 

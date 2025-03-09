@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiBackLink from "~/shared/ui/UiBackLink/UiBackLink.vue"
 </script>
 

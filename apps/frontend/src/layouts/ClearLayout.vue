@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 import { UiLayoutWrapper } from "../shared/ui/UiLayoutWrapper"
 </script>
 

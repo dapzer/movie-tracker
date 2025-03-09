@@ -1,1 +1,1 @@
-export {default as PersonWithDescription} from './ui/PersonWithDescription.vue'
+export { default as PersonWithDescription } from "./ui/PersonWithDescription.vue"

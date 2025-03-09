@@ -1,1 +1,1 @@
-export {default as UiConfirmationModal} from "./UiConfirmationModal.vue"
+export { default as UiConfirmationModal } from "./UiConfirmationModal.vue"

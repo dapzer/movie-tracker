@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import type { AuthApiSignInTypes } from "~/api/auth/authApiTypes"
+import { useMutation, useQueryClient } from "@tanstack/vue-query"
 import {
   confirmChangeEmailApi,
   confirmEmailApi,
@@ -11,65 +12,84 @@ import {
   signInByProviderApi,
   signInCallbackApi,
   signUpApi,
-} from '~/api/auth/authApi';
-import { AuthQueryKeys } from "~/api/auth/authApiQueryKeys";
-import type { AuthApiSignInTypes } from '~/api/auth/authApiTypes';
+} from "~/api/auth/authApi"
+import { AuthQueryKeys } from "~/api/auth/authApiQueryKeys"
 
-export const useSignInApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.SIGN_IN],
-  mutationFn: async (body: AuthApiSignInTypes) => await signInApi(body)
-});
+export function useSignInApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.SIGN_IN],
+    mutationFn: async (body: AuthApiSignInTypes) => await signInApi(body),
+  })
+}
 
-export const useSignInByProviderApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.SIGN_IN_BY_PROVIDER],
-  mutationFn: async (provider: string) => await signInByProviderApi(provider)
-});
+export function useSignInByProviderApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.SIGN_IN_BY_PROVIDER],
+    mutationFn: async (provider: string) => await signInByProviderApi(provider),
+  })
+}
 
-export const useSignInCallbackApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.SIGN_IN_CALLBACK],
-  mutationFn: (args: { provider: string, code: string }) => signInCallbackApi(args.provider, args.code)
-});
+export function useSignInCallbackApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.SIGN_IN_CALLBACK],
+    mutationFn: (args: { provider: string, code: string }) => signInCallbackApi(args.provider, args.code),
+  })
+}
 
-export const useLogoutApi = () => {
-  const queryClient = useQueryClient();
+export function useLogoutApi() {
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationKey: [AuthQueryKeys.LOGOUT],
     mutationFn: () => logoutApi(),
-  });
-};
+  })
+}
 
-export const useSignUpApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.SIGN_UP],
-  mutationFn: signUpApi
-});
+export function useSignUpApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.SIGN_UP],
+    mutationFn: signUpApi,
+  })
+}
 
-export const useRecoverPasswordApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.RECOVER_PASSWORD],
-  mutationFn: recoverPasswordApi
-});
+export function useRecoverPasswordApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.RECOVER_PASSWORD],
+    mutationFn: recoverPasswordApi,
+  })
+}
 
-export const useResetPasswordApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.RESET_PASSWORD],
-  mutationFn: resetPasswordApi
-});
+export function useResetPasswordApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.RESET_PASSWORD],
+    mutationFn: resetPasswordApi,
+  })
+}
 
-export const useRequestChangeEmailApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.REQUEST_CHANGE_EMAIL],
-  mutationFn: requestChangeEmailApi
-});
+export function useRequestChangeEmailApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.REQUEST_CHANGE_EMAIL],
+    mutationFn: requestChangeEmailApi,
+  })
+}
 
-export const useConfirmChangeEmailApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.CONFIRM_CHANGE_EMAIL],
-  mutationFn: confirmChangeEmailApi
-});
+export function useConfirmChangeEmailApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.CONFIRM_CHANGE_EMAIL],
+    mutationFn: confirmChangeEmailApi,
+  })
+}
 
-export const useRequestEmailConfirmationApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.REQUEST_EMAIL_CONFIRMATION],
-  mutationFn: requestEmailConfirmationApi
-});
+export function useRequestEmailConfirmationApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.REQUEST_EMAIL_CONFIRMATION],
+    mutationFn: requestEmailConfirmationApi,
+  })
+}
 
-export const useConfirmEmailApi = () => useMutation({
-  mutationKey: [AuthQueryKeys.CONFIRM_EMAIL],
-  mutationFn: confirmEmailApi
-});
+export function useConfirmEmailApi() {
+  return useMutation({
+    mutationKey: [AuthQueryKeys.CONFIRM_EMAIL],
+    mutationFn: confirmEmailApi,
+  })
+}

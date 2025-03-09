@@ -1,7 +1,7 @@
-export const getTmdbTotalPages = (totalPages?: number) => {
+export function getTmdbTotalPages(totalPages?: number) {
   if (!totalPages) {
-    return 0;
+    return 0
   }
 
-  return Math.min(totalPages, 500);
+  return Math.min(totalPages, 500)
 }

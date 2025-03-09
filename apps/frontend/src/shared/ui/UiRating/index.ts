@@ -1,1 +1,1 @@
-export { default as UiRating } from './UiRating.vue'
+export { default as UiRating } from "./UiRating.vue"

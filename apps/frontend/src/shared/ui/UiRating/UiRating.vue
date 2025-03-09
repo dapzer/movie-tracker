@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { computed } from "#imports"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { getColorByRating } from "~/utils/getColorByRating"
 
 interface UiRatingProps {
@@ -8,12 +8,12 @@ interface UiRatingProps {
 }
 
 const props = withDefaults(defineProps<UiRatingProps>(), {
-  value: 0
+  value: 0,
 })
 
 const currentColor = computed(() => {
-  return getColorByRating(props.value);
-});
+  return getColorByRating(props.value)
+})
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const currentColor = computed(() => {
       [$style.gray]: currentColor === 'gray',
       [$style.red]: currentColor === 'red',
       [$style.orange]: currentColor === 'orange',
-      [$style.green]: currentColor === 'green'
+      [$style.green]: currentColor === 'green',
     }]"
   >
     <UiTypography
@@ -69,4 +69,3 @@ const currentColor = computed(() => {
   }
 }
 </style>
-

@@ -14,14 +14,14 @@ const model = defineModel<boolean>()
 
 <template>
   <UiModalCore v-model="model">
-    <template #trigger="{openModal}">
+    <template #trigger="{ openModal }">
       <slot
         name="trigger"
-        :openModal="openModal"
+        :open-modal="openModal"
       />
     </template>
 
-    <template #content="{closeModal}">
+    <template #content="{ closeModal }">
       <UiModalContent
         :max-width="props.maxWidth"
         :title="props.title"
@@ -30,7 +30,7 @@ const model = defineModel<boolean>()
       >
         <slot
           name="content"
-          :closeModal="closeModal"
+          :close-modal="closeModal"
         />
         <template #afterTitle>
           <slot name="afterTitle" />

@@ -1,32 +1,32 @@
 <script setup lang="ts">
-
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
-import { UiInfoHeader } from "../../../../shared/ui/UiInfoHeader"
-import { MediaTypeEnum, type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
-import { computed } from "#imports"
-import { minsToTimeConverter } from "@movie-tracker/utils"
-import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
+import type { TmdbMediaDetailsType, TmdbSeasonDetailsType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
+import { computed } from "#imports"
+import { MediaTypeEnum } from "@movie-tracker/types"
+import { minsToTimeConverter } from "@movie-tracker/utils"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
+import { UiInfoHeader } from "../~/shared/ui/UiInfoHeader"
 
 interface TvDetailsSeasonsHeaderProps {
-  details: TmdbMediaDetailsType;
-  seriesDetails: TmdbSeasonDetailsType[];
+  details: TmdbMediaDetailsType
+  seriesDetails: TmdbSeasonDetailsType[]
 }
 
-const props = defineProps<TvDetailsSeasonsHeaderProps>();
+const props = defineProps<TvDetailsSeasonsHeaderProps>()
 const localePath = useLocalePath()
 
 const totalDuration = computed(() => {
   return minsToTimeConverter(
-      props.seriesDetails.reduce((acc, season) => {
-        season.episodes.forEach((el) => {
-          acc += el.runtime;
-        });
+    props.seriesDetails.reduce((acc, season) => {
+      season.episodes.forEach((el) => {
+        acc += el.runtime
+      })
 
-        return acc;
-      }, 0) ?? 0
-  );
-});
+      return acc
+    }, 0) ?? 0,
+  )
+})
 </script>
 
 <template>

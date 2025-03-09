@@ -1,26 +1,28 @@
 <script lang="ts" setup>
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
-import { useLocalePath } from "#i18n";
+import type { TmdbCreditsCastType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import type { UiMediaCardHorizontalSize } from "~/shared/ui/UiCard"
+import { useLocalePath } from "#i18n"
 import {
-  type TmdbCreditsCastType,
+
   TmdbMediaTypeEnum,
-  type TmdbSearchResponseResultItemType
-} from "@movie-tracker/types";
-import { UiMediaCardHorizontal, type UiMediaCardHorizontalSize } from "../../../shared/ui/UiCard"
-import { UiTypography } from "../../../shared/ui/UiTypography"
+
+} from "@movie-tracker/types"
+import { UiMediaCardHorizontal } from "~/shared/ui/UiCard"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
 
 interface PersonCardHorizontalProps {
-  person: TmdbSearchResponseResultItemType | TmdbCreditsCastType;
-  width?: number;
-  birthday?: string;
-  fullHeight?: boolean;
-  imageWidth?: number;
-  size?: UiMediaCardHorizontalSize;
+  person: TmdbSearchResponseResultItemType | TmdbCreditsCastType
+  width?: number
+  birthday?: string
+  fullHeight?: boolean
+  imageWidth?: number
+  size?: UiMediaCardHorizontalSize
 }
 
-const props = defineProps<PersonCardHorizontalProps>();
+const props = defineProps<PersonCardHorizontalProps>()
 
-const localePath = useLocalePath();
+const localePath = useLocalePath()
 </script>
 
 <template>

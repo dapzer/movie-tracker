@@ -1,3 +1,3 @@
 export const DetailsQueryKeys = {
-  INITIALIZE: "details/initialize"
+  INITIALIZE: "details/initialize",
 }

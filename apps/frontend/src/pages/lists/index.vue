@@ -1,33 +1,32 @@
 <script lang="ts" setup>
-
-import { UiContainer } from "../../shared/ui/UiContainer";
-import { useAuth } from "~/composables/useAuth";
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi";
-import { useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports";
-import { UiListHeader } from "../../shared/ui/UiListHeader"
-import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
-import { UiButton } from "../../shared/ui/UiButton"
-import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
-import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
+import { useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports"
 import { computed } from "vue"
-import { UiIcon } from "../../shared/ui/UiIcon"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import { useAuth } from "~/composables/useAuth"
+import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
+import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { SortOrderEnum } from "~/types/Sorting"
+import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { UiButton } from "../../shared/ui/UiButton"
+import { UiContainer } from "../../shared/ui/UiContainer"
+import { UiIcon } from "../../shared/ui/UiIcon"
+import { UiListHeader } from "../../shared/ui/UiListHeader"
 
-const { isLoadingProfile, isAuthorized } = useAuth();
+const { isLoadingProfile, isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
-const getMediaListsApi = useGetMediaListsApi();
+const getMediaListsApi = useGetMediaListsApi()
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${t("mediaList.yourLists")} | ${titleChunk}`;
+    return `${t("mediaList.yourLists")} | ${titleChunk}`
   },
   ogTitle() {
-    return `%s | ${t("mediaList.yourLists")}`;
-  }
-});
+    return `%s | ${t("mediaList.yourLists")}`
+  },
+})
 
 const sortedMediaLists = computed(() => {
   return getSortedArrayByDate(getMediaListsApi.data.value || [], SortOrderEnum.DESC, "createdAt")
@@ -38,8 +37,8 @@ const sortedMediaLists = computed(() => {
   <UiContainer :class="$style.wrapper">
     <UiListHeader
       :title="$t('mediaList.yourLists')"
-      :subtitle="isAuthorized ?
-        `${getMediaListsApi.data.value?.length || 0} ${$t(getListDeclensionTranslationKey(getMediaListsApi.data.value?.length || 0))}` : ''"
+      :subtitle="isAuthorized
+        ? `${getMediaListsApi.data.value?.length || 0} ${$t(getListDeclensionTranslationKey(getMediaListsApi.data.value?.length || 0))}` : ''"
       title-as="h1"
       title-variant="title2"
     >
@@ -48,7 +47,7 @@ const sortedMediaLists = computed(() => {
         #controls
       >
         <CreateMediaListModal>
-          <template #trigger="{openModal}">
+          <template #trigger="{ openModal }">
             <UiButton
               with-icon
               @click="openModal"
@@ -60,7 +59,6 @@ const sortedMediaLists = computed(() => {
         </CreateMediaListModal>
       </template>
     </UiListHeader>
-
 
     <UiAttention
       v-if="!isLoadingProfile && !isAuthorized"

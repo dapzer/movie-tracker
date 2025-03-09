@@ -35,10 +35,10 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.outlined]: props.variant === 'outlined',
       [$style.rounded]: props.variant === 'rounded',
       [$style.icon]: props.variant === 'icon',
-      [$style.small]: props.size ==='small',
-      [$style.medium]: props.size ==='medium',
-      [$style.large]: props.size ==='large',
-      [$style.withIcon]: props.withIcon
+      [$style.small]: props.size === 'small',
+      [$style.medium]: props.size === 'medium',
+      [$style.large]: props.size === 'large',
+      [$style.withIcon]: props.withIcon,
     }]"
   >
     <slot />
@@ -68,7 +68,6 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
 }
 
 @layer scheme {
-
   .boxed {
     &.primary {
       color: var(--c-text);
@@ -340,5 +339,4 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     }
   }
 }
-
 </style>

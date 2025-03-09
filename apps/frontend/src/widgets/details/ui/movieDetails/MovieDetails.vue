@@ -1,56 +1,56 @@
 <script lang="ts" setup>
+import { useLocalePath } from "#i18n"
+import { computed, createError, getProxiedImageUrl, useI18n } from "#imports"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { arrayToString } from "@movie-tracker/utils"
 import {
   useGetTmdbMovieCreditsApi,
   useGetTmdbMovieDetailsApi,
   useGetTmdbRecommendationsApi,
   useGetTmdbTvSeriesDetailsApi,
-  useGetTmdbVideosApi
-} from "~/api/tmdb/useTmdbApi";
-import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { computed, createError, getProxiedImageUrl, useI18n } from "#imports";
-import MovieDetailsHeader from "./MovieDetailsHeader.vue";
-import { UiContainer } from "../../../../shared/ui/UiContainer";
-import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer";
-import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo";
-import { UiSectionWithSeeMore } from "../../../../shared/ui/UiSectionWithSeeMore"
-import { UiSlider } from "../../../../shared/ui/UiSlider"
-import { LanguagesEnum } from "~/types/languagesEnum"
-import { arrayToString } from "@movie-tracker/utils"
-import { PersonWithDescription } from "~/widgets/personWithDescription"
-import { useLocalePath } from "#i18n"
+  useGetTmdbVideosApi,
+} from "~/api/tmdb/useTmdbApi"
 import { EpisodeCard } from "~/entities/episodeCard"
-import { formatDate } from "~/utils/formatDate"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { LanguagesEnum } from "~/types/languagesEnum"
+import { formatDate } from "~/utils/formatDate"
+import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
+import { PersonWithDescription } from "~/widgets/personWithDescription"
+import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer"
+import { UiContainer } from "../~/shared/ui/UiContainer"
+import { UiSectionWithSeeMore } from "../~/shared/ui/UiSectionWithSeeMore"
+import { UiSlider } from "../~/shared/ui/UiSlider"
+import MovieDetailsHeader from "./MovieDetailsHeader.vue"
 
 interface MovieDetailsProps {
-  mediaId: number;
-  mediaType: TmdbMediaTypeEnum;
+  mediaId: number
+  mediaType: TmdbMediaTypeEnum
 }
 
-const props = defineProps<MovieDetailsProps>();
-const { locale, t } = useI18n();
-const localePath = useLocalePath();
+const props = defineProps<MovieDetailsProps>()
+const { locale, t } = useI18n()
+const localePath = useLocalePath()
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
   mediaId: props.mediaId,
-  language: locale.value
-}));
+  language: locale.value,
+}))
 
 const getVideosQueries = computed(() => ({
   mediaType: props.mediaType,
   mediaId: props.mediaId,
   language: locale.value,
-  includeVideoLanguage: locale.value === LanguagesEnum.RU ? [LanguagesEnum.EN, LanguagesEnum.RU].join(",") : undefined
-}));
+  includeVideoLanguage: locale.value === LanguagesEnum.RU ? [LanguagesEnum.EN, LanguagesEnum.RU].join(",") : undefined,
+}))
 
-const isTv = computed(() => props.mediaType === TmdbMediaTypeEnum.TV);
+const isTv = computed(() => props.mediaType === TmdbMediaTypeEnum.TV)
 
-const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
-const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries);
-const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries);
-const tmdbGetVideosApi = useGetTmdbVideosApi(getVideosQueries);
-const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries, isTv);
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries)
+const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries)
+const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries)
+const tmdbGetVideosApi = useGetTmdbVideosApi(getVideosQueries)
+const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries, isTv)
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -58,69 +58,69 @@ await Promise.all([
       throw createError({
         statusCode: 404,
         message: t("ui.errors.pageNotFound"),
-      });
+      })
     }
   }),
   tmdbGetRecommendationsApi.suspense(),
   tmdbGetMovieCreditsApi.suspense(),
   tmdbGetVideosApi.suspense(),
   (isTv.value && tmdbGetTvSeriesDetailsApi.suspense()),
-]);
+])
 
 useMovieDetailsSeo({
   credits: tmdbGetMovieCreditsApi.data.value,
   mediaId: props.mediaId,
   mediaType: props.mediaType,
   media: tmdbGetMovieDetailsApi.data.value,
-});
+})
 
 const videosList = computed(() => {
   if (!tmdbGetVideosApi.data.value?.results.length) {
-    return [];
+    return []
   }
 
-  return [...tmdbGetVideosApi.data.value.results].sort((a) => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1));
-});
+  return [...tmdbGetVideosApi.data.value.results].sort(a => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1))
+})
 
 const castList = computed(() => {
   if (!tmdbGetMovieCreditsApi.data.value?.cast.length) {
-    return [];
+    return []
   }
 
-  return tmdbGetMovieCreditsApi.data.value.cast.slice(0, 12);
+  return tmdbGetMovieCreditsApi.data.value.cast.slice(0, 12)
 })
 
 const latestEpisodes = computed(() => {
-  const seasons = tmdbGetTvSeriesDetailsApi.data.value;
-  const lastEpisodeToAir = tmdbGetMovieDetailsApi.data.value?.last_episode_to_air;
+  const seasons = tmdbGetTvSeriesDetailsApi.data.value
+  const lastEpisodeToAir = tmdbGetMovieDetailsApi.data.value?.last_episode_to_air
 
   if (!seasons?.length || !lastEpisodeToAir) {
-    return [];
+    return []
   }
 
   const episodes = []
-  const today = new Date();
+  const today = new Date()
 
   for (let i = lastEpisodeToAir.season_number; i >= 0; i--) {
-    const season = seasons[i];
+    const season = seasons[i]
 
     for (let j = season?.episodes.length - 1; j >= 0; j--) {
-      const episode = season?.episodes[j];
+      const episode = season?.episodes[j]
 
       if (episodes.length > 0 || episode?.air_date && new Date(episode?.air_date) < today) {
-        episodes.push(episode);
+        episodes.push(episode)
       }
       if (episodes.length >= 20) {
-        break;
+        break
       }
     }
     if (episodes.length >= 20) {
-      break;
+      break
     }
   }
 
-  return episodes;
-});
+  return episodes
+})
 </script>
 
 <template>
@@ -128,7 +128,7 @@ const latestEpisodes = computed(() => {
     <MovieDetailsHeader
       :credits="tmdbGetMovieCreditsApi.data.value"
       :details="tmdbGetMovieDetailsApi.data.value"
-      :mediaType="props.mediaType"
+      :media-type="props.mediaType"
       :overview="tmdbGetMovieDetailsApi.data.value?.overview"
     />
 
@@ -143,7 +143,7 @@ const latestEpisodes = computed(() => {
         :max-width="295"
         :buttons-top-offset="78"
       >
-        <template #slide="{item}">
+        <template #slide="{ item }">
           <EpisodeCard
             full-height
             :episode="item.episode_number"
@@ -166,7 +166,7 @@ const latestEpisodes = computed(() => {
         :max-width="295"
         :buttons-top-offset="84"
       >
-        <template #slide="{item}">
+        <template #slide="{ item }">
           <VideoCardWithPlayer
             full-height
             :title="item.name"
@@ -207,7 +207,7 @@ const latestEpisodes = computed(() => {
         :max-width="195"
         :buttons-top-offset="142"
       >
-        <template #slide="{item}">
+        <template #slide="{ item }">
           <MovieCardWithHoverMenu
             full-height
             :movie="item"
@@ -244,7 +244,7 @@ const latestEpisodes = computed(() => {
       column-gap: 48px;
       row-gap: 30px;
 
-      .castItem:nth-child(n+10) {
+      .castItem:nth-child(n + 10) {
         display: none;
       }
     }
@@ -254,7 +254,7 @@ const latestEpisodes = computed(() => {
       column-gap: 48px;
       row-gap: 30px;
 
-      .castItem:nth-child(n+7) {
+      .castItem:nth-child(n + 7) {
         display: none;
       }
     }

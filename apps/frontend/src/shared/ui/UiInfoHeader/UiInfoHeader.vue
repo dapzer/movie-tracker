@@ -1,23 +1,23 @@
 <script lang="ts" setup>
-import { UiTypography } from "~/shared/ui/UiTypography";
-import { UiImage } from "~/shared/ui/UiImage"
-import { UiTrimmedText } from "~/shared/ui/UiTrimmedText"
 import { NuxtLink } from "#components"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTrimmedText } from "~/shared/ui/UiTrimmedText"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiInfoHeaderProps {
-  title: string;
-  description?: string;
-  image?: string;
-  fallbackImage: string;
-  overview?: string;
-  backButtonText?: string;
-  backButtonUrl?: string;
-  posterSize?: 'small';
+  title: string
+  description?: string
+  image?: string
+  fallbackImage: string
+  overview?: string
+  backButtonText?: string
+  backButtonUrl?: string
+  posterSize?: "small"
 }
 
-const props = defineProps<UiInfoHeaderProps>();
-const slots = defineSlots();
+const props = defineProps<UiInfoHeaderProps>()
+const slots = defineSlots()
 </script>
 
 <template>
@@ -46,20 +46,20 @@ const slots = defineSlots();
       <div
         :class="$style.backgroundCircle"
         :style="{
-          '--background-color': `url(${props.image || props.fallbackImage})`
+          '--background-color': `url(${props.image || props.fallbackImage})`,
         }"
       />
 
       <div
         :class="[$style.poster, {
-          [$style.small]: props.posterSize === 'small'
+          [$style.small]: props.posterSize === 'small',
         }]"
       >
         <div :class="$style.imageWrapper">
           <div
             :class="$style.backgroundCircle"
             :style="{
-              '--background-color': `url(${props.image || props.fallbackImage})`
+              '--background-color': `url(${props.image || props.fallbackImage})`,
             }"
           />
           <div
@@ -75,7 +75,6 @@ const slots = defineSlots();
             />
           </div>
         </div>
-
 
         <div
           aria-hidden="true"
@@ -122,7 +121,6 @@ const slots = defineSlots();
           </UiTypography>
         </div>
 
-
         <table :class="$style.table">
           <tbody>
             <slot name="tableItems" />
@@ -166,7 +164,8 @@ const slots = defineSlots();
     }
 
     &:hover {
-      &, .backArrowSmall {
+      &,
+      .backArrowSmall {
         color: var(--c-label-lihk-hovered);
       }
     }
@@ -222,12 +221,12 @@ const slots = defineSlots();
     width: 100%;
     max-width: 700px;
     height: 600px;
-    opacity: .4;
+    opacity: 0.4;
     filter: blur(250px);
     background: var(--background-color);
     z-index: -1;
-    transition: opacity .3s ease-in;
-    animation: fadeInDefault .3s ease-in;
+    transition: opacity 0.3s ease-in;
+    animation: fadeInDefault 0.3s ease-in;
 
     @keyframes fadeInDefault {
       from {
@@ -261,7 +260,7 @@ const slots = defineSlots();
       left: -80px;
       max-width: 473px;
       height: 425px;
-      opacity: .5;
+      opacity: 0.5;
       animation-name: fadeInTablet;
     }
 
@@ -274,11 +273,10 @@ const slots = defineSlots();
       max-width: 360px;
       height: 236px;
       filter: blur(150px);
-      opacity: .75;
+      opacity: 0.75;
       animation-name: fadeInMobile;
     }
   }
-
 
   .poster {
     width: 100%;
@@ -365,12 +363,12 @@ const slots = defineSlots();
         }
 
         .imageBody {
-          &, img {
+          &,
+          img {
             max-width: 160px;
           }
         }
       }
-
 
       .titleBlock {
         display: flex;

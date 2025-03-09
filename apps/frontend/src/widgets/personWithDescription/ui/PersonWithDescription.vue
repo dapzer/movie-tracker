@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import { UiImage } from "../../../shared/ui/UiImage"
-import { UiTypography } from "../../../shared/ui/UiTypography"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface PersonWithRoleProps {
   name: string

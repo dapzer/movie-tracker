@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { UiTypography, type UiTypographyVariant } from "~/shared/ui/UiTypography"
+import type { UiTypographyVariant } from "~/shared/ui/UiTypography"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiAttentionProps {
-  title: string;
-  description?: string;
-  indent?: number;
-  titleVariant?: UiTypographyVariant;
+  title: string
+  description?: string
+  indent?: number
+  titleVariant?: UiTypographyVariant
 }
 
 const props = withDefaults(defineProps<UiAttentionProps>(), {
   indent: 70,
   titleVariant: "title4",
-});
+})
 </script>
 
 <template>

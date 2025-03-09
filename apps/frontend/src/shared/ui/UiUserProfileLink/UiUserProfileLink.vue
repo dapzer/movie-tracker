@@ -1,17 +1,16 @@
 <script lang="ts" setup>
-
-import { UiAvatar } from '~/shared/ui/UiAvatar';
-import { UiTypography } from '~/shared/ui/UiTypography';
 import { NuxtLink } from "#components"
+import { UiAvatar } from "~/shared/ui/UiAvatar"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiUserProfileLinkProps {
-  userAvatarSrc?: string;
-  userId: string;
-  userName: string;
-  userUrl?: string;
+  userAvatarSrc?: string
+  userId: string
+  userName: string
+  userUrl?: string
 }
 
-const props = defineProps<UiUserProfileLinkProps>();
+const props = defineProps<UiUserProfileLinkProps>()
 </script>
 
 <template>
@@ -36,7 +35,7 @@ const props = defineProps<UiUserProfileLinkProps>();
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
+@import "~/styles/mixins";
 
 .wrapper {
   display: flex;

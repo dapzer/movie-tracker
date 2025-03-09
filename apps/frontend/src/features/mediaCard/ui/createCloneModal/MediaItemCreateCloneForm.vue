@@ -1,31 +1,30 @@
 <script setup lang="ts">
-
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiInput } from "../../../../shared/ui/UiInput"
-import { computed, ref } from "vue"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
-import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
 import { useForm, useI18n } from "#imports"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiSwitch } from "../../../../shared/ui/UiSwitch"
-import { UiButton } from "../../../../shared/ui/UiButton"
+import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
 import { SortOrderEnum } from "~/types/Sorting"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiIcon } from "../~/shared/ui/UiIcon"
+import { UiInput } from "../~/shared/ui/UiInput"
+import { UiSwitch } from "../~/shared/ui/UiSwitch"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface MediaItemCreateCloneFormProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemCreateCloneFormProps>();
-const model = defineModel<boolean>();
-const getMediaListsApi = useGetMediaListsApi();
-const getMediaItemsApi = useGetMediaItemsApi();
-const { t } = useI18n();
-const searchTerm = ref("");
-const createMediaItemCloneApi = useCreateMediaItemCloneApi();
+const props = defineProps<MediaItemCreateCloneFormProps>()
+const model = defineModel<boolean>()
+const getMediaListsApi = useGetMediaListsApi()
+const getMediaItemsApi = useGetMediaItemsApi()
+const { t } = useI18n()
+const searchTerm = ref("")
+const createMediaItemCloneApi = useCreateMediaItemCloneApi()
 
 const { formValue, onFormSubmit } = useForm({
   initialValue: {
@@ -33,34 +32,37 @@ const { formValue, onFormSubmit } = useForm({
     isSaveCreationDate: false,
   },
   onSubmit: (formValue) => {
-    Promise.all(formValue.selectedMediaListIds.map(listId => {
+    Promise.all(formValue.selectedMediaListIds.map((listId) => {
       return createMediaItemCloneApi.mutateAsync({
         mediaListId: listId,
         isSaveCreationDate: formValue.isSaveCreationDate,
-        mediaItemId: props.mediaItem.id
-      });
+        mediaItemId: props.mediaItem.id,
+      })
     })).then(() => {
-      toast.success(t("toasts.mediaItem.successCloneCreated"));
+      toast.success(t("toasts.mediaItem.successCloneCreated"))
       model.value = false
     }).catch(() => {
-      toast.error(t("toasts.mediaItem.unsuccessfullyCloneCreated"));
-    });
-  }
+      toast.error(t("toasts.mediaItem.unsuccessfullyCloneCreated"))
+    })
+  },
 })
 
 const availableMediaLists = computed(() => {
-  if (!getMediaListsApi.data.value) return [];
+  if (!getMediaListsApi.data.value)
+    return []
 
-  return getMediaListsApi.data.value.filter(item => {
-    if (getMediaItemsApi.data.value?.some(el => {
+  return getMediaListsApi.data.value.filter((item) => {
+    if (getMediaItemsApi.data.value?.some((el) => {
       return el.mediaType === props.mediaItem.mediaType && el.mediaId === props.mediaItem.mediaId && el.mediaListId === item.id
-    })) return false
+    })) {
+      return false
+    }
 
     return searchTerm.value
-        ? (item.title || t('mediaList.favorites')).toLowerCase().includes(searchTerm.value.toLowerCase())
-        : true;
-  }) || [];
-});
+      ? (item.title || t("mediaList.favorites")).toLowerCase().includes(searchTerm.value.toLowerCase())
+      : true
+  }) || []
+})
 
 const sortedMediaLists = computed(() => {
   return getSortedArrayByDate(availableMediaLists.value, SortOrderEnum.DESC, "createdAt")

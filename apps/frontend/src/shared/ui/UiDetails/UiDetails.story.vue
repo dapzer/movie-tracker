@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiDetails from "~/shared/ui/UiDetails/UiDetails.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
 </script>

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
-import { UiModal } from "../../../../shared/ui/UiModal"
-import CloneMediaListForm from "~/entities/mediaList/ui/cloneMediaList/CloneMediaListForm.vue"
-import { ref } from "vue"
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
+import { ref } from "vue"
+import CloneMediaListForm from "~/entities/mediaList/ui/cloneMediaList/CloneMediaListForm.vue"
+import { UiModal } from "../~/shared/ui/UiModal"
 
 interface CloneMediaListModalProps {
   mediaList: MediaListType
@@ -12,9 +11,9 @@ interface CloneMediaListModalProps {
 
 const props = defineProps<CloneMediaListModalProps>()
 
+const slots = defineSlots()
 const model = defineModel<boolean>()
 const isModalOpen = ref(model.value ?? false)
-const slots = defineSlots()
 </script>
 
 <template>
@@ -26,11 +25,11 @@ const slots = defineSlots()
   >
     <template
       v-if="slots.trigger"
-      #trigger="{openModal}"
+      #trigger="{ openModal }"
     >
       <slot
         name="trigger"
-        :openModal="openModal"
+        :open-modal="openModal"
       />
     </template>
 

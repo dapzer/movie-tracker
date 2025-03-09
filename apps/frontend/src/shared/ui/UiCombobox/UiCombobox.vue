@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ComboboxAnchor, ComboboxInput, ComboboxRoot, } from 'radix-vue'
+import type { VNodeRef } from "vue"
+import { ComboboxAnchor, ComboboxInput, ComboboxRoot } from "radix-vue"
+import { ref, watch } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
-import { ref, type VNodeRef, watch } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiComboboxProps {
   width?: number
   indent?: number
-  align?: 'start' | 'center' | 'end'
-  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: "start" | "center" | "end"
+  side?: "top" | "right" | "bottom" | "left"
   placeholder?: string
 }
 
 const props = withDefaults(defineProps<UiComboboxProps>(), {
   indent: 0,
-  align: "start"
+  align: "start",
 })
 
 const model = defineModel<string>()
@@ -33,7 +34,7 @@ watch(() => open.value, (value) => {
 <template>
   <ComboboxRoot
     v-bind="$attrs"
-    v-model:searchTerm="searchTerm"
+    v-model:search-term="searchTerm"
     v-model:open="open"
     @update:search-term="value => searchTerm = value"
   >
@@ -67,12 +68,12 @@ watch(() => open.value, (value) => {
         :style="{
           '--width': props.width ? `${props.width}px` : 'var(--radix-combobox-trigger-width)',
         }"
-        hideWhenDetached
+        hide-when-detached
         position="popper"
-        :collisionPadding="24"
+        :collision-padding="24"
         :align="props.align"
         :side="props.side"
-        :sideOffset="props.indent"
+        :side-offset="props.indent"
       >
         <ComboboxViewport :class="$style.content">
           <slot />

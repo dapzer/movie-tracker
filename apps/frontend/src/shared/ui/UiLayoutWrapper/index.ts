@@ -1,1 +1,1 @@
-export { default as UiLayoutWrapper } from './UiLayoutWrapper.vue';
+export { default as UiLayoutWrapper } from "./UiLayoutWrapper.vue"

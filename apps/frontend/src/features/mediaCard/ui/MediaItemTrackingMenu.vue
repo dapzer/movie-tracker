@@ -1,16 +1,16 @@
 <script setup lang="ts">
-
-import { type MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
-import MediaItemTrackingMenuSitesToView from "~/features/mediaCard/ui/MediaItemTrackingMenuSitesToView.vue"
-import { UiDivider } from "../../../shared/ui/UiDivider"
-import MediaItemTrackingMenuTvProgress from "~/features/mediaCard/ui/MediaItemTrackingMenuTvProgress.vue"
+import type { MediaItemType } from "@movie-tracker/types"
+import { MediaTypeEnum } from "@movie-tracker/types"
 import MediaItemTrackingMenuNote from "~/features/mediaCard/ui/MediaItemTrackingMenuNote.vue"
+import MediaItemTrackingMenuSitesToView from "~/features/mediaCard/ui/MediaItemTrackingMenuSitesToView.vue"
+import MediaItemTrackingMenuTvProgress from "~/features/mediaCard/ui/MediaItemTrackingMenuTvProgress.vue"
+import { UiDivider } from "~/shared/ui/UiDivider"
 
 interface MediaItemTrackingMenuProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemTrackingMenuProps>();
+const props = defineProps<MediaItemTrackingMenuProps>()
 </script>
 
 <template>

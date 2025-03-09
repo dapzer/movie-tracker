@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { UiSocialList } from "../../UiSocialList"
 </script>
 
@@ -21,7 +20,7 @@ import { UiSocialList } from "../../UiSocialList"
 .wrapper {
   gap: 16px;
 
-   span  {
+  span {
     width: 32px;
     height: 32px;
 
@@ -32,4 +31,3 @@ import { UiSocialList } from "../../UiSocialList"
   }
 }
 </style>
-

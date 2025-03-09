@@ -1,28 +1,27 @@
 <script lang="ts" setup>
-
-import UiCardBase from '../UiCardBase.vue';
-import { UiImage } from '~/shared/ui/UiImage';
-import { UiTypography } from '~/shared/ui/UiTypography';
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import UiCardBase from "../UiCardBase.vue"
 
 interface UiVideoCardProps {
-  width?: number;
-  previewSrc: string;
-  description: string;
-  title: string;
-  fullHeight?: boolean;
+  width?: number
+  previewSrc: string
+  description: string
+  title: string
+  fullHeight?: boolean
 }
 
 const props = withDefaults(defineProps<UiVideoCardProps>(), {
   width: 295,
-});
+})
 </script>
 
 <template>
   <UiCardBase
     :class="$style.wrapper"
     :width="props.width"
-    :fullHeight="props.fullHeight"
+    :full-height="props.fullHeight"
   >
     <template #image>
       <div :class="$style.previewWrapper">
@@ -61,8 +60,8 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .wrapper {
   cursor: pointer;
@@ -101,7 +100,7 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: .8;
+      opacity: 0.8;
       background-color: var(--c-main-background);
       color: var(--c-text);
       display: flex;

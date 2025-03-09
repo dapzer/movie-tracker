@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiBackLinkProps {
-  text?: string;
-  url: string;
+  text?: string
+  url: string
 }
 
 const props = defineProps<UiBackLinkProps>()

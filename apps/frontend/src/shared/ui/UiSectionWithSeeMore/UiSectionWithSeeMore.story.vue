@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiSectionWithSeeMore from "~/shared/ui/UiSectionWithSeeMore/UiSectionWithSeeMore.vue"
 </script>
 

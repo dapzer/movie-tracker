@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-import { UiCardBase } from '../../../shared/ui/UiCard';
-import { UiImage } from '../../../shared/ui/UiImage';
-import { UiTypography } from '../../../shared/ui/UiTypography';
-import { computed } from 'vue';
 import type { TmdbSeasonDetailsEpisodeType } from "@movie-tracker/types"
-import { UiVoteWithRuntime } from "../../../shared/ui/UiVoteWithRuntime"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
 import { formatDate, useI18n } from "#imports"
-import { UiSpoilerText } from "../../../shared/ui/UiSpoilerText"
+import { computed } from "vue"
+import { UiCardBase } from "~/shared/ui/UiCard"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiSpoilerText } from "~/shared/ui/UiSpoilerText"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { UiVoteWithRuntime } from "~/shared/ui/UiVoteWithRuntime"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
 
 interface EpisodeCardHorizontalProps {
-  width?: number;
-  episode: TmdbSeasonDetailsEpisodeType;
+  width?: number
+  episode: TmdbSeasonDetailsEpisodeType
 }
 
-const props = withDefaults(defineProps<EpisodeCardHorizontalProps>(), {});
+const props = withDefaults(defineProps<EpisodeCardHorizontalProps>(), {})
 const { locale } = useI18n()
 
 const episodeTitle = computed(() =>
-    `S${props.episode.season_number}.E${props.episode.episode_number} ∙ ${props.episode.name}`);
+  `S${props.episode.season_number}.E${props.episode.episode_number} ∙ ${props.episode.name}`)
 </script>
 
 <template>
@@ -78,8 +78,8 @@ const episodeTitle = computed(() =>
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .wrapper {
   & > div:nth-child(2) {
@@ -123,5 +123,4 @@ const episodeTitle = computed(() =>
     --imageMaxWidth: 100% !important;
   }
 }
-
 </style>

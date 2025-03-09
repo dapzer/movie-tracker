@@ -1,4 +1,4 @@
 export enum SortOrderEnum {
   ASC = "asc",
-  DESC = "desc"
+  DESC = "desc",
 }

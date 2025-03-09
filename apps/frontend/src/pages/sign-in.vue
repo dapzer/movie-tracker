@@ -1,38 +1,37 @@
 <script setup lang="ts">
-import { definePageMeta, useAuth, useI18n, useSeoMeta } from "#imports"
-import { UiContainer } from "../shared/ui/UiContainer"
-import { SignInForm } from "~/features/auth"
 import { navigateTo } from "#app"
 import { useLocalePath } from "#i18n"
+import { definePageMeta, useAuth, useI18n, useSeoMeta } from "#imports"
 import { useLocalStorage } from "@vueuse/core"
 import { watch } from "vue"
+import { SignInForm } from "~/features/auth"
 import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { UiContainer } from "../shared/ui/UiContainer"
 
 definePageMeta({
-  layout: "auth-layout"
-});
+  layout: "auth-layout",
+})
 
-const {t} = useI18n();
+const { t } = useI18n()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${t('auth.signIn')} | ${titleChunk}`;
+    return `${t("auth.signIn")} | ${titleChunk}`
   },
   ogTitle() {
-    return `%s | ${t('auth.signIn')}`;
+    return `%s | ${t("auth.signIn")}`
   },
 })
 
-const { isNotAuthorized, isLoadingProfile } = useAuth();
+const { isNotAuthorized, isLoadingProfile } = useAuth()
 const localePath = useLocalePath()
-const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, '');
+const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, "")
 
 watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedirectUrl.value], () => {
   if (!isNotAuthorized.value && !isLoadingProfile.value && !authRedirectUrl.value) {
-    navigateTo(localePath("/"));
+    navigateTo(localePath("/"))
   }
-});
-
+})
 </script>
 
 <template>
@@ -49,7 +48,9 @@ watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedi
 
 .wrapper {
   width: 100%;
-  background: linear-gradient(270deg, #0D0D0D 43.14%, rgba(13, 13, 13, 0) 100%), url("/authBackground.webp") center;
+  background:
+    linear-gradient(270deg, #0d0d0d 43.14%, rgba(13, 13, 13, 0) 100%),
+    url("/authBackground.webp") center;
   background-size: cover;
   height: calc(100vh - var(--s-header-height));
 
@@ -61,7 +62,9 @@ watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedi
   }
 
   @include tabletDevice() {
-    background: linear-gradient(0deg, rgba(13, 13, 13, 0.9), rgba(13, 13, 13, 0.9)), url("/authBackground.webp") center;
+    background:
+      linear-gradient(0deg, rgba(13, 13, 13, 0.9), rgba(13, 13, 13, 0.9)),
+      url("/authBackground.webp") center;
 
     .body {
       justify-content: center;

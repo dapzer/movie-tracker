@@ -1,34 +1,33 @@
 <script setup lang="ts">
-
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
-import { UiInput } from "../../../../shared/ui/UiInput"
-import { computed, ref } from "vue"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useForm, useI18n } from "#imports"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiButton } from "../../../../shared/ui/UiButton"
+import { useQueryClient } from "@tanstack/vue-query"
+import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
 import { useGetMediaItemsApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi"
+import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
-import { useQueryClient } from "@tanstack/vue-query"
-import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
 import { SortOrderEnum } from "~/types/Sorting"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiIcon } from "../~/shared/ui/UiIcon"
+import { UiInput } from "../~/shared/ui/UiInput"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface MediaItemChangeMediaListFormProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemChangeMediaListFormProps>();
-const model = defineModel<boolean>();
-const getMediaListsApi = useGetMediaListsApi();
-const getMediaItemsApi = useGetMediaItemsApi();
-const { t } = useI18n();
-const searchTerm = ref("");
-const updateMediaItemApi = useUpdateMediaItemApi();
-const queryClient = useQueryClient();
+const props = defineProps<MediaItemChangeMediaListFormProps>()
+const model = defineModel<boolean>()
+const getMediaListsApi = useGetMediaListsApi()
+const getMediaItemsApi = useGetMediaItemsApi()
+const { t } = useI18n()
+const searchTerm = ref("")
+const updateMediaItemApi = useUpdateMediaItemApi()
+const queryClient = useQueryClient()
 
 const { formValue, onFormSubmit } = useForm({
   initialValue: {
@@ -38,41 +37,45 @@ const { formValue, onFormSubmit } = useForm({
     updateMediaItemApi.mutateAsync({
       mediaItemId: props.mediaItem.id,
       body: {
-        mediaListId: formValue.selectedMediaListId
-      }
+        mediaListId: formValue.selectedMediaListId,
+      },
     }).then(async () => {
       await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
-        return oldData.map(el => {
+        return oldData.map((el) => {
           if (el.id === formValue.selectedMediaListId) {
             el.mediaItemsCount = (el.mediaItemsCount || 0) + 1
-          } else  if (props.mediaItem.mediaListId === el.id) {
+          }
+          else if (props.mediaItem.mediaListId === el.id) {
             el.mediaItemsCount = (el.mediaItemsCount || 1) - 1
           }
 
           return el
         })
       })
-      toast.success(t("toasts.mediaItem.successListChanged"));
+      toast.success(t("toasts.mediaItem.successListChanged"))
       model.value = false
     }).catch(() => {
-      toast.error(t("toasts.mediaItem.unsuccessfullyListChanged"));
-    });
-  }
+      toast.error(t("toasts.mediaItem.unsuccessfullyListChanged"))
+    })
+  },
 })
 
 const availableMediaLists = computed(() => {
-  if (!getMediaListsApi.data.value) return [];
+  if (!getMediaListsApi.data.value)
+    return []
 
-  return getMediaListsApi.data.value.filter(item => {
-    if (getMediaItemsApi.data.value?.some(el => {
+  return getMediaListsApi.data.value.filter((item) => {
+    if (getMediaItemsApi.data.value?.some((el) => {
       return el.mediaType === props.mediaItem.mediaType && el.mediaId === props.mediaItem.mediaId && el.mediaListId === item.id
-    })) return false
+    })) {
+      return false
+    }
 
     return searchTerm.value
-        ? (item.title || t('mediaList.favorites')).toLowerCase().includes(searchTerm.value.toLowerCase())
-        : true;
-  }) || [];
-});
+      ? (item.title || t("mediaList.favorites")).toLowerCase().includes(searchTerm.value.toLowerCase())
+      : true
+  }) || []
+})
 
 const sortedMediaLists = computed(() => {
   return getSortedArrayByDate(availableMediaLists.value, SortOrderEnum.DESC, "createdAt")

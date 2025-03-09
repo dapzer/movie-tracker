@@ -1,34 +1,34 @@
 <script lang="ts" setup>
-import type { MediaItemType } from "@movie-tracker/types";
-import { computed, getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports";
-import { useLocalePath } from "#i18n";
-import { UiMediaCard } from "../../../shared/ui/UiCard"
-import { formatDate } from "~/utils/formatDate"
-import { UiButton } from "../../../shared/ui/UiButton"
+import type { MediaItemType } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
+import { computed, getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports"
 import { ref } from "vue"
 import MediaCardTrackingMenuDrawer from "~/features/mediaCard/ui/MediaCardManagementMenuDrawer.vue"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiMediaCard } from "~/shared/ui/UiCard"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { formatDate } from "~/utils/formatDate"
 
 interface MediaCardProps {
-  mediaItem: MediaItemType;
-  width?: number;
-  fullHeight?: boolean;
-  hideTrackingMenu?: boolean;
+  mediaItem: MediaItemType
+  width?: number
+  fullHeight?: boolean
+  hideTrackingMenu?: boolean
 }
 
-const props = defineProps<MediaCardProps>();
+const props = defineProps<MediaCardProps>()
 
-const localePath = useLocalePath();
-const { locale } = useI18n();
-const isTrackingMenuOpen = ref(false);
+const localePath = useLocalePath()
+const { locale } = useI18n()
+const isTrackingMenuOpen = ref(false)
 
 const details = computed(() => {
   return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value)
 })
 
 const createdDate = computed(() => {
-  return formatDate(props.mediaItem.createdAt, locale.value);
-});
+  return formatDate(props.mediaItem.createdAt, locale.value)
+})
 </script>
 
 <template>

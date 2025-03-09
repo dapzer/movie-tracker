@@ -1,1 +1,1 @@
-export {default as UiListHeader} from "./UiListHeader.vue"
+export { default as UiListHeader } from "./UiListHeader.vue"

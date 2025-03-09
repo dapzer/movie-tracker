@@ -1,87 +1,90 @@
 <script lang="ts" setup>
-import type { MediaItemType } from "@movie-tracker/types";
-import { NuxtLink } from "#components";
-import { UiButton } from "../../../shared/ui/UiButton";
-import { UiTypography } from "../../../shared/ui/UiTypography";
-import { computed, ref } from "vue";
-import { UiInput } from "../../../shared/ui/UiInput";
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi";
-import { isOnlySpaces } from "@movie-tracker/utils";
-import { useI18n } from "#imports";
-import { toast } from "vue3-toastify";
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import type { MediaItemType } from "@movie-tracker/types"
+import { NuxtLink } from "#components"
+import { useI18n } from "#imports"
+import { isOnlySpaces } from "@movie-tracker/utils"
+import { computed, ref } from "vue"
+import { toast } from "vue3-toastify"
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface TrackingMenuSitesToViewProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<TrackingMenuSitesToViewProps>();
-const { t } = useI18n();
+const props = defineProps<TrackingMenuSitesToViewProps>()
+const { t } = useI18n()
 
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 
-const currentEditItemIndex = ref<number | null>(null);
-const currentEditItemUrl = ref<string>("");
+const currentEditItemIndex = ref<number | null>(null)
+const currentEditItemUrl = ref<string>("")
 
 const sitesToView = computed(() => {
-  return props.mediaItem.trackingData?.sitesToView || [];
-});
+  return props.mediaItem.trackingData?.sitesToView || []
+})
 
 const isDisableActiveSaveButton = computed(() => {
-  return isOnlySpaces(currentEditItemUrl.value || "") && currentEditItemIndex.value ===
-      props.mediaItem.trackingData?.sitesToView.length;
-});
+  return isOnlySpaces(currentEditItemUrl.value || "") && currentEditItemIndex.value
+    === props.mediaItem.trackingData?.sitesToView.length
+})
 
-const handleEditItem = (index: number | null, url: string) => {
-  currentEditItemIndex.value = index;
-  currentEditItemUrl.value = url;
-};
+function handleEditItem(index: number | null, url: string) {
+  currentEditItemIndex.value = index
+  currentEditItemUrl.value = url
+}
 
-const handleDeleteItem = async (index: number) => {
-  let finalArray = sitesToView.value.slice();
-  finalArray.splice(index, 1);
+async function handleDeleteItem(index: number) {
+  const finalArray = sitesToView.value.slice()
+  finalArray.splice(index, 1)
 
   await updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
-      sitesToView: finalArray
-    }
+      sitesToView: finalArray,
+    },
   }).then(() => {
-    toast.success(t("toasts.mediaItem.successSiteToViewChanged"));
+    toast.success(t("toasts.mediaItem.successSiteToViewChanged"))
   }).catch(() => {
-    toast.error(t("toasts.mediaItem.unsuccessfullySiteToViewChanged"));
-  });
-};
+    toast.error(t("toasts.mediaItem.unsuccessfullySiteToViewChanged"))
+  })
+}
 
-const handleSave = async () => {
-  if (currentEditItemIndex.value === null) return;
-  let finalArray = sitesToView.value.slice();
+async function handleSave() {
+  if (currentEditItemIndex.value === null)
+    return
+  const finalArray = sitesToView.value.slice()
 
   if (currentEditItemIndex.value === sitesToView.value.length || !sitesToView.value.length) {
     finalArray.push({
-      url: currentEditItemUrl.value || ""
-    });
-  } else if (!currentEditItemUrl.value) {
-    finalArray.splice(currentEditItemIndex.value, 1);
-  } else {
+      url: currentEditItemUrl.value || "",
+    })
+  }
+  else if (!currentEditItemUrl.value) {
+    finalArray.splice(currentEditItemIndex.value, 1)
+  }
+  else {
     finalArray[currentEditItemIndex.value] = {
-      url: currentEditItemUrl.value
-    };
+      url: currentEditItemUrl.value,
+    }
   }
 
   await updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
-      sitesToView: finalArray
-    }
+      sitesToView: finalArray,
+    },
   }).then(() => {
-    toast.success(t("toasts.mediaItem.successSiteToViewChanged"));
-  });
+    toast.success(t("toasts.mediaItem.successSiteToViewChanged"))
+  })
 
-  handleEditItem(null, '');
-};
+  handleEditItem(null, "")
+}
 </script>
 
 <template>
@@ -130,7 +133,7 @@ const handleSave = async () => {
 
       <UiButton
         v-if="currentEditItemIndex === null"
-        withIcon
+        with-icon
         :disabled="sitesToView.length >= 3"
         :class="$style.addNew"
         :style="{ '--order': sitesToView.length || 1 }"
@@ -178,7 +181,6 @@ const handleSave = async () => {
 
 <style lang="scss" module>
 .wrapper {
-
   .items {
     display: flex;
     flex-direction: column;

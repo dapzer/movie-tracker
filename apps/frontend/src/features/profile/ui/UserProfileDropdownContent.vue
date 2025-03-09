@@ -1,27 +1,26 @@
 <script lang="ts" setup>
-import type { UserType } from "@movie-tracker/types";
-import { UserRoleEnum } from "@movie-tracker/types";
-import { useAuth } from "~/composables/useAuth";
-import { useLocalePath } from "#i18n";
-import { computed } from "vue";
-import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "../../../shared/ui/UiDropdown"
-import { UiImage } from "../../../shared/ui/UiImage"
-import { UiTypography } from "../../../shared/ui/UiTypography"
+import type { UserType } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { useLocalePath } from "#i18n"
+import { UserRoleEnum } from "@movie-tracker/types"
+import { computed } from "vue"
+import { useAuth } from "~/composables/useAuth"
+import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/shared/ui/UiDropdown"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UserProfileDropdownProps {
-  profile: UserType;
+  profile: UserType
 }
 
-const props = defineProps<UserProfileDropdownProps>();
-const { handleLogout, isProcessingLogout } = useAuth();
+const props = defineProps<UserProfileDropdownProps>()
+const { handleLogout, isProcessingLogout } = useAuth()
 const localePath = useLocalePath()
 
 const isAdmin = computed(() => {
-  return props.profile.roles.includes(UserRoleEnum.ADMIN);
-});
-
+  return props.profile.roles.includes(UserRoleEnum.ADMIN)
+})
 </script>
 
 <template>

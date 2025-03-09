@@ -1,1 +1,1 @@
-export {default as MediaListDetails} from "./ui/MediaListDetails.vue"
+export { default as MediaListDetails } from "./ui/MediaListDetails.vue"

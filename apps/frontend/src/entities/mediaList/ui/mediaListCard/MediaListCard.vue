@@ -1,35 +1,34 @@
 <script setup lang="ts">
-
-import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import type { MediaListType } from "@movie-tracker/types"
-import { computed } from "vue"
+import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 import { getProxiedImageUrl, useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
-import { useLocalePath } from "#i18n"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiButton } from "../../../../shared/ui/UiButton"
-import { NuxtLink } from "#components"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
+import { computed } from "vue"
+import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiIcon } from "../~/shared/ui/UiIcon"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface MediaListCardProps {
-  list: MediaListType;
+  list: MediaListType
 }
 
-const props = defineProps<MediaListCardProps>();
-const { t, locale } = useI18n();
-const { copy, copied } = useClipboard({ copiedDuring: 1000 });
-const localePath = useLocalePath();
+const props = defineProps<MediaListCardProps>()
+const { t, locale } = useI18n()
+const { copy, copied } = useClipboard({ copiedDuring: 1000 })
+const localePath = useLocalePath()
 
 const title = computed(() => {
-  return props.list.isSystem && !props.list.title ? t("mediaList.favorites") : props.list.title ?? "";
-});
+  return props.list.isSystem && !props.list.title ? t("mediaList.favorites") : props.list.title ?? ""
+})
 
-const copyLink = () => {
-  copy(`${window.location.origin}/lists/details/${props.list.humanFriendlyId}`);
-};
+function copyLink() {
+  copy(`${window.location.origin}/lists/details/${props.list.humanFriendlyId}`)
+}
 
-const listPageUrl = computed(() => localePath(`/lists/details/${props.list.humanFriendlyId}`));
+const listPageUrl = computed(() => localePath(`/lists/details/${props.list.humanFriendlyId}`))
 const posters = computed(() => {
   return props.list.poster?.[locale.value].map(el => el ? getProxiedImageUrl(el, 179) : el)
 })

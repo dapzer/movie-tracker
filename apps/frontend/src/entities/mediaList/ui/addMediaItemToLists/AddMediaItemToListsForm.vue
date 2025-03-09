@@ -1,20 +1,24 @@
 <script setup lang="ts">
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
-import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
-import { computed, ref, watch } from "vue"
-import { UiInput } from "../../../../shared/ui/UiInput"
-import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
-import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import { UiButton } from "../../../../shared/ui/UiButton"
+import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { SortOrderEnum } from "~/types/Sorting"
+import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiIcon } from "../~/shared/ui/UiIcon"
+import { UiInput } from "../~/shared/ui/UiInput"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
-const getMediaListsApi = useGetMediaListsApi();
-const getMediaItemsApi = useGetMediaItemsApi();
+const props = defineProps<MediaListSelectorModalProps>()
+const emit = defineEmits<{
+  (e: "onAfterSave"): void
+}>()
+const getMediaListsApi = useGetMediaListsApi()
+const getMediaItemsApi = useGetMediaItemsApi()
 
 export interface MediaListChangeType {
   mediaListId: string
@@ -23,33 +27,29 @@ export interface MediaListChangeType {
 }
 
 interface MediaListSelectorModalProps {
-  mediaId: number;
-  mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
+  mediaId: number
+  mediaType: TmdbMediaTypeEnum | MediaTypeEnum
 }
 
-const props = defineProps<MediaListSelectorModalProps>();
-const emit = defineEmits<{
-  (e: 'onAfterSave'): void
-}>()
-const { t } = useI18n();
+const { t } = useI18n()
 
-const createMediaItemApi = useCreateMediaItemApi();
-const deleteMediaItemApi = useDeleteMediaItemApi();
+const createMediaItemApi = useCreateMediaItemApi()
+const deleteMediaItemApi = useDeleteMediaItemApi()
 
-const searchTerm = ref("");
+const searchTerm = ref("")
 const changes = ref<MediaListChangeType[]>([])
 const currentListStates = ref<Record<string, boolean>>()
 
-const setCurrentListStates = () => {
+function setCurrentListStates() {
   currentListStates.value = Object.fromEntries(
-      getMediaListsApi.data.value?.map(item => {
-        const mediaItem = getMediaItemsApi.data.value?.find(
-            mediaItem => mediaItem.mediaListId === item.id &&
-                mediaItem.mediaId === props.mediaId &&
-                mediaItem.mediaType === props.mediaType
-        )
-        return [item.id, !!mediaItem]
-      }) || []
+    getMediaListsApi.data.value?.map((item) => {
+      const mediaItem = getMediaItemsApi.data.value?.find(
+        mediaItem => mediaItem.mediaListId === item.id
+          && mediaItem.mediaId === props.mediaId
+          && mediaItem.mediaType === props.mediaType,
+      )
+      return [item.id, !!mediaItem]
+    }) || [],
   )
 }
 
@@ -59,20 +59,21 @@ watch(() => getMediaItemsApi.data, () => {
 
 const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value)
 
-const handleCheckboxChange = (mediaListId: string, isChecked: boolean) => {
+function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
   const mediaItem = getMediaItemsApi.data.value?.find(
-      item => item.mediaListId === mediaListId &&
-          item.mediaId === props.mediaId &&
-          item.mediaType === props.mediaType
+    item => item.mediaListId === mediaListId
+      && item.mediaId === props.mediaId
+      && item.mediaType === props.mediaType,
   )
 
   if (isChecked !== !!mediaItem) {
     changes.value.push({
       mediaListId,
       mediaItemId: mediaItem?.id,
-      action: isChecked ? 'add' : 'remove'
+      action: isChecked ? "add" : "remove",
     })
-  } else {
+  }
+  else {
     const index = changes.value.findIndex((el, index) => {
       return el.mediaListId !== mediaListId
     })
@@ -80,13 +81,13 @@ const handleCheckboxChange = (mediaListId: string, isChecked: boolean) => {
   }
 }
 
-const handleSaveChanges = () => {
-  Promise.all(changes.value.map(el => {
+function handleSaveChanges() {
+  Promise.all(changes.value.map((el) => {
     if (el.action === "add") {
       return createMediaItemApi.mutateAsync({
         mediaId: props.mediaId,
         mediaType: props.mediaType as MediaTypeEnum,
-        mediaListId: el.mediaListId
+        mediaListId: el.mediaListId,
       })
     }
 
@@ -95,12 +96,12 @@ const handleSaveChanges = () => {
     }
   })).then(() => {
     toast.success(t("toasts.changesSuccessfullySaved"))
-    emit('onAfterSave')
+    emit("onAfterSave")
   }).catch(() => {
     setCurrentListStates()
     toast.error(t("toasts.changesUnsuccessfullySaved"))
   }).finally(() => {
-    changes.value = [];
+    changes.value = []
   })
 }
 
@@ -110,13 +111,13 @@ const filteredMediaLists = computed(() => {
   }
 
   if (!searchTerm.value) {
-    return getMediaListsApi.data.value;
+    return getMediaListsApi.data.value
   }
 
-  return getMediaListsApi.data.value.filter((list) =>
-      (list.title || t('mediaList.favorites')).toLowerCase().includes(searchTerm.value.toLowerCase())
+  return getMediaListsApi.data.value.filter(list =>
+    (list.title || t("mediaList.favorites")).toLowerCase().includes(searchTerm.value.toLowerCase()),
   )
-});
+})
 
 const sortedMediaLists = computed(() => {
   return getSortedArrayByDate(filteredMediaLists.value, SortOrderEnum.DESC, "createdAt")

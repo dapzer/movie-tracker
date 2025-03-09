@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiTrimmedText from "~/shared/ui/UiTrimmedText/UiTrimmedText.vue"
 </script>
 

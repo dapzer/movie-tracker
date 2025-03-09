@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
+import { useRoute } from "#app"
+import { useLocalePath } from "#i18n"
 import { computed, useI18n, useSeoMeta } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { ref } from "vue"
-import { ContentList } from "~/widgets/contentList"
-import { useLocalePath } from "#i18n"
-import { UiMediaCardSkeleton } from "../../shared/ui/UiCard"
-import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
-import { useRoute } from "#app"
+import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { ContentList } from "~/widgets/contentList"
 import { UiAttention } from "../../shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "../../shared/ui/UiCard"
 
-const { locale, t } = useI18n();
+const { locale, t } = useI18n()
 const route = useRoute()
 const currentPage = ref(Number(route.query.page) || 1)
 const localePath = useLocalePath()
@@ -21,21 +21,21 @@ const queries = computed(() => {
     language: locale.value,
     mediaType: MediaTypeEnum.MOVIE,
     page: currentPage.value,
-    timeWindow: 'week'
-  };
+    timeWindow: "week",
+  }
 })
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${t("feed.popularMovies")} | ${titleChunk}`;
+    return `${t("feed.popularMovies")} | ${titleChunk}`
   },
   ogTitle() {
-    return `%s | ${t("feed.popularMovies")}`;
+    return `%s | ${t("feed.popularMovies")}`
   },
 })
 
-const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(queries);
-await getTmdbMoviePopularListApi.suspense();
+const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(queries)
+await getTmdbMoviePopularListApi.suspense()
 
 const results = computed(() => getTmdbMoviePopularListApi.data?.value?.results)
 const isFetching = computed(() => getTmdbMoviePopularListApi.isFetching.value)
@@ -47,7 +47,7 @@ const isFetching = computed(() => getTmdbMoviePopularListApi.isFetching.value)
     :title="$t('feed.popularMovies')"
     :back-button-url="localePath('/')"
     :total-pages="getTmdbTotalPages(getTmdbMoviePopularListApi.data?.value?.total_pages)"
-    :get-page-href="(page) => page > 1 ? `?page=${page}`: localePath('')"
+    :get-page-href="(page) => page > 1 ? `?page=${page}` : localePath('')"
   >
     <template v-if="isFetching">
       <UiMediaCardSkeleton
@@ -63,7 +63,7 @@ const isFetching = computed(() => getTmdbMoviePopularListApi.isFetching.value)
         :key="item.id"
         full-height
         :width="195"
-        :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
+        :movie="{ ...item, media_type: MediaTypeEnum.MOVIE }"
       />
     </template>
     <template

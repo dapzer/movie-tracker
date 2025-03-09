@@ -1,5 +1,5 @@
-import { api } from "~/api/instance";
+import { api } from "~/api/instance"
 
-export const initializeSitemapGenerationsApi = async () => {
-  return api.post("sitemaps/generate");
-};
+export async function initializeSitemapGenerationsApi() {
+  return api.post("sitemaps/generate")
+}

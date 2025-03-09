@@ -1,4 +1,19 @@
-import type { Ref } from "vue";
+import type { TmdbPersonType } from "@movie-tracker/types"
+import type { Ref } from "vue"
+import type {
+  TmdbDefaultQueriesType,
+  TmdbDiscoverMovieQueriesType,
+  TmdbDiscoverTvQueriesType,
+  TmdbPersonCreditsQueriesType,
+  TmdbPopularQueriesType,
+  TmdbSearchQueriesType,
+  TmdbSeasonsQueriesType,
+  TmdbTvAiringTodayQueriesType,
+  TmdbTvOnTheAirQueriesType,
+  TmdbUpcomingMoviesQueriesType,
+  TmdbVideosQueriesType,
+} from "~/api/tmdb/tmdbApiTypes"
+import { useQuery } from "@tanstack/vue-query"
 import {
   getTmdbCreditsApi,
   getTmdbDetailApi,
@@ -16,203 +31,201 @@ import {
   getTmdbTvAiringTodayApi,
   getTmdbTvOnTheAirApi,
   getTmdbUpcomingMoviesApi,
-  getTmdbVideosApi
-} from "~/api/tmdb/tmdbApi";
-import type {
-  TmdbDefaultQueriesType,
-  TmdbDiscoverMovieQueriesType,
-  TmdbDiscoverTvQueriesType,
-  TmdbPersonCreditsQueriesType,
-  TmdbPopularQueriesType,
-  TmdbSearchQueriesType,
-  TmdbSeasonsQueriesType,
-  TmdbTvAiringTodayQueriesType,
-  TmdbTvOnTheAirQueriesType,
-  TmdbUpcomingMoviesQueriesType,
-  TmdbVideosQueriesType
-} from "~/api/tmdb/tmdbApiTypes";
-import { useQuery } from "@tanstack/vue-query";
-import type { TmdbPersonType } from "@movie-tracker/types";
-import { TmdbQueryKeys } from "~/api/tmdb/tmdbApiQueryKeys";
+  getTmdbVideosApi,
+} from "~/api/tmdb/tmdbApi"
+import { TmdbQueryKeys } from "~/api/tmdb/tmdbApiQueryKeys"
 
-export const useGetTmdbMovieDetailsApi = (queries: Ref<TmdbDefaultQueriesType>, enabled?: boolean) =>
-  useQuery({
+export function useGetTmdbMovieDetailsApi(queries: Ref<TmdbDefaultQueriesType>, enabled?: boolean) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DETAILS,
-      queries
+      queries,
     ],
-    enabled: enabled,
-    queryFn: () => getTmdbDetailApi(queries.value)
-  });
+    enabled,
+    queryFn: () => getTmdbDetailApi(queries.value),
+  })
+}
 
-export const useGetTmdbPersonDetailsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
-  useQuery({
+export function useGetTmdbPersonDetailsApi(queries: Ref<TmdbDefaultQueriesType>) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DETAILS,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbDetailApi<TmdbPersonType>(queries.value)
-  });
+    queryFn: () => getTmdbDetailApi<TmdbPersonType>(queries.value),
+  })
+}
 
-export const useGetTmdbMovieCreditsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
-  useQuery({
-      queryKey: [
-        TmdbQueryKeys.GET_CREDITS,
-        queries
-      ],
-      queryFn: () => getTmdbCreditsApi(queries.value)
-    }
-  );
+export function useGetTmdbMovieCreditsApi(queries: Ref<TmdbDefaultQueriesType>) {
+  return useQuery({
+    queryKey: [
+      TmdbQueryKeys.GET_CREDITS,
+      queries,
+    ],
+    queryFn: () => getTmdbCreditsApi(queries.value),
+  },
+  )
+}
 
-export const useGetTmdbPersonCreditsApi = (queries: Ref<TmdbPersonCreditsQueriesType>) =>
-  useQuery(
+export function useGetTmdbPersonCreditsApi(queries: Ref<TmdbPersonCreditsQueriesType>) {
+  return useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_CREDITS,
-        queries
+        queries,
       ],
-      queryFn: () => getTmdbPersonCreditsApi(queries.value)
-    }
-  );
+      queryFn: () => getTmdbPersonCreditsApi(queries.value),
+    },
+  )
+}
 
-export const useGetTmdbPersonExternalIdsApi = (queries: Ref<TmdbDefaultQueriesType>) => {
+export function useGetTmdbPersonExternalIdsApi(queries: Ref<TmdbDefaultQueriesType>) {
   return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_EXTERNAL_IDS,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbPersonExternalIdsApi(queries.value)
-  });
+    queryFn: () => getTmdbPersonExternalIdsApi(queries.value),
+  })
 }
 
-export const useGetTmdbRecommendationsApi = (queries: Ref<TmdbDefaultQueriesType>) =>
-  useQuery(
+export function useGetTmdbRecommendationsApi(queries: Ref<TmdbDefaultQueriesType>) {
+  return useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_RECOMMENDATIONS,
-        queries
+        queries,
       ],
-      queryFn: () => getTmdbRecommendationsApi(queries.value)
-    }
-  );
+      queryFn: () => getTmdbRecommendationsApi(queries.value),
+    },
+  )
+}
 
-export const useGetTmdbPopularListApi = (queries: Ref<TmdbPopularQueriesType>) =>
-  useQuery({
+export function useGetTmdbPopularListApi(queries: Ref<TmdbPopularQueriesType>) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_POPULAR,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbPopularApi(queries.value)
-  });
+    queryFn: () => getTmdbPopularApi(queries.value),
+  })
+}
 
-export const useGetTmdbSearchByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
-  useQuery(
+export function useGetTmdbSearchByTermApi(queries: Ref<TmdbSearchQueriesType>) {
+  return useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_SEARCH,
-        queries
+        queries,
       ],
-      queryFn: () => getTmdbSearchApi(queries.value)
-    }
-  );
+      queryFn: () => getTmdbSearchApi(queries.value),
+    },
+  )
+}
 
-
-export const useGetTmdbSearchMovieByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
-  useQuery(
+export function useGetTmdbSearchMovieByTermApi(queries: Ref<TmdbSearchQueriesType>) {
+  return useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_SEARCH_MOVIE,
-        queries
+        queries,
       ],
-      queryFn: () => getTmdbSearchMovieApi(queries.value)
-    }
-  );
+      queryFn: () => getTmdbSearchMovieApi(queries.value),
+    },
+  )
+}
 
-export const useGetTmdbSearchTvByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
-  useQuery(
+export function useGetTmdbSearchTvByTermApi(queries: Ref<TmdbSearchQueriesType>) {
+  return useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_SEARCH_TV,
-        queries
+        queries,
       ],
-      queryFn: () => getTmdbSearchTvApi(queries.value)
-    }
-  );
+      queryFn: () => getTmdbSearchTvApi(queries.value),
+    },
+  )
+}
 
-export const useGetTmdbSearchPersonByTermApi = (queries: Ref<TmdbSearchQueriesType>) =>
-  useQuery(
+export function useGetTmdbSearchPersonByTermApi(queries: Ref<TmdbSearchQueriesType>) {
+  return useQuery(
     {
       queryKey: [
         TmdbQueryKeys.GET_SEARCH_PERSON,
-        queries
+        queries,
       ],
-      queryFn: () => getTmdbSearchPersonApi(queries.value)
-    }
-  );
+      queryFn: () => getTmdbSearchPersonApi(queries.value),
+    },
+  )
+}
 
-export const useGetTmdbVideosApi = (queries: Ref<TmdbVideosQueriesType>) =>
-  useQuery({
+export function useGetTmdbVideosApi(queries: Ref<TmdbVideosQueriesType>) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_VIDEOS,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbVideosApi(queries.value)
-  });
+    queryFn: () => getTmdbVideosApi(queries.value),
+  })
+}
 
-export const useGetTmdbTvSeriesDetailsApi = (queries: Ref<TmdbSeasonsQueriesType>, enabled?: Ref<boolean>) =>
-  useQuery({
+export function useGetTmdbTvSeriesDetailsApi(queries: Ref<TmdbSeasonsQueriesType>, enabled?: Ref<boolean>) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_SEASONS,
-      queries
+      queries,
     ],
     queryFn: () => getTmdbSeasonsApi(queries.value),
-    enabled: enabled
-  });
+    enabled,
+  })
+}
 
-export const useGetTmdbUpcomingMoviesApi = (queries: Ref<TmdbUpcomingMoviesQueriesType>) =>
-  useQuery({
+export function useGetTmdbUpcomingMoviesApi(queries: Ref<TmdbUpcomingMoviesQueriesType>) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_UPCOMING_MOVIES,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbUpcomingMoviesApi(queries.value)
-  });
+    queryFn: () => getTmdbUpcomingMoviesApi(queries.value),
+  })
+}
 
-export const useGetTmdbTvOnTheAirApi = (queries: Ref<TmdbTvOnTheAirQueriesType>) =>
-  useQuery({
+export function useGetTmdbTvOnTheAirApi(queries: Ref<TmdbTvOnTheAirQueriesType>) {
+  return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_TV_ON_THE_AIR,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbTvOnTheAirApi(queries.value)
-  });
+    queryFn: () => getTmdbTvOnTheAirApi(queries.value),
+  })
+}
 
-export const useGetTmdbTvAiringTodayApi = (queries: Ref<TmdbTvAiringTodayQueriesType>) => {
+export function useGetTmdbTvAiringTodayApi(queries: Ref<TmdbTvAiringTodayQueriesType>) {
   return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_TV_AIRING_TODAY,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbTvAiringTodayApi(queries.value)
-  });
+    queryFn: () => getTmdbTvAiringTodayApi(queries.value),
+  })
 }
 
-export const useGetTmdbDiscoverMovieApi = (queries: Ref<TmdbDiscoverMovieQueriesType>) => {
+export function useGetTmdbDiscoverMovieApi(queries: Ref<TmdbDiscoverMovieQueriesType>) {
   return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DISCOVER_MOVIE,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbDiscoverMovieApi(queries.value)
-  });
+    queryFn: () => getTmdbDiscoverMovieApi(queries.value),
+  })
 }
 
-export const useGetTmdbDiscoverTvApi = (queries: Ref<TmdbDiscoverTvQueriesType>) => {
+export function useGetTmdbDiscoverTvApi(queries: Ref<TmdbDiscoverTvQueriesType>) {
   return useQuery({
     queryKey: [
       TmdbQueryKeys.GET_DISCOVER_TV,
-      queries
+      queries,
     ],
-    queryFn: () => getTmdbDiscoverTvApi(queries.value)
-  });
+    queryFn: () => getTmdbDiscoverTvApi(queries.value),
+  })
 }

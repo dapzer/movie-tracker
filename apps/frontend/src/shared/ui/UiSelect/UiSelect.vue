@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { VNode } from "vue"
 import {
   SelectContent,
   SelectItem,
@@ -7,9 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
   SelectViewport,
-} from 'radix-vue'
+} from "radix-vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
-import { type VNode } from "vue"
 
 export interface OptionType {
   value: string
@@ -24,8 +24,8 @@ interface UiSelectProps {
 }
 
 const props = defineProps<UiSelectProps>()
-const selectModel = defineModel<string>()
 const slots = defineSlots()
+const selectModel = defineModel<string>()
 </script>
 
 <template>
@@ -34,7 +34,7 @@ const slots = defineSlots()
       v-bind="$attrs"
       :class="$style.trigger"
       :style="{
-        '--width': props.width ? `${props.width}px` : 'unset'
+        '--width': props.width ? `${props.width}px` : 'unset',
       }"
     >
       <SelectValue
@@ -48,7 +48,7 @@ const slots = defineSlots()
 
     <SelectPortal>
       <SelectContent
-        :alignOffset="0"
+        :align-offset="0"
         :class="$style.content"
         position="popper"
       >
@@ -104,7 +104,8 @@ const slots = defineSlots()
     }
   }
 
-  &,.value {
+  &,
+  .value {
     color: var(--c-text);
     font-size: var(--fs-label);
     font-weight: var(--fw-medium);
@@ -125,7 +126,6 @@ const slots = defineSlots()
     opacity: var(--s-disabled-opacity);
   }
 }
-
 
 .content {
   width: var(--radix-popper-anchor-width);
@@ -165,7 +165,7 @@ const slots = defineSlots()
   }
 }
 
-.value{
+.value {
   display: flex;
   gap: 4px;
   align-items: center;

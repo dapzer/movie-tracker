@@ -1,8 +1,7 @@
 <script setup lang="ts">
-
 import { NuxtLink } from "#components"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
+import { UiIcon } from "../~/shared/ui/UiIcon"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 </script>
 
 <template>

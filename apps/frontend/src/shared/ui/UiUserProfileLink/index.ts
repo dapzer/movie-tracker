@@ -1,2 +1,2 @@
-export { default as UiUserProfileLink } from './UiUserProfileLink.vue';
-export { default as UiUserProfileLinkSkeleton } from './UiUserProfileLinkSkeleton.vue';
+export { default as UiUserProfileLink } from "./UiUserProfileLink.vue"
+export { default as UiUserProfileLinkSkeleton } from "./UiUserProfileLinkSkeleton.vue"

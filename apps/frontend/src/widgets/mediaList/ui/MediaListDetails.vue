@@ -1,19 +1,18 @@
 <script setup lang="ts">
-
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
+import MediaListDetailsContent from "~/widgets/mediaList/ui/MediaListDetailsContent.vue"
 import MediaListDetailsHeader from "~/widgets/mediaList/ui/MediaListDetailsHeader.vue"
 import MediaListDetailsHeaderSkeleton from "~/widgets/mediaList/ui/MediaListDetailsHeaderSkeleton.vue"
-import MediaListDetailsContent from "~/widgets/mediaList/ui/MediaListDetailsContent.vue"
 
 interface MediaListDetailsProps {
-  mediaList?: MediaListType;
-  mediaListItems?: MediaItemType[];
+  mediaList?: MediaListType
+  mediaListItems?: MediaItemType[]
   userProfile?: UserType | UserPublicType
-  isUserListOwner?: boolean;
-  isLoading?: boolean;
+  isUserListOwner?: boolean
+  isLoading?: boolean
 }
 
-const props = defineProps<MediaListDetailsProps>();
+const props = defineProps<MediaListDetailsProps>()
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiDropdownTriggerWithArrowProps {
@@ -15,7 +14,7 @@ const props = defineProps<UiDropdownTriggerWithArrowProps>()
     <UiIcon
       name="icon:arrow"
       :class="[$style.arrow, {
-        [$style.opened]: props.isOpen
+        [$style.opened]: props.isOpen,
       }]"
     />
   </div>

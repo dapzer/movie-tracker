@@ -1,3 +1,3 @@
-export const checkIsValidDate = (date: string) => {
+export function checkIsValidDate(date: string) {
   return date !== "Invalid Date"
 }

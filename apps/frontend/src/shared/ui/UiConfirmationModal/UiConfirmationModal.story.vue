@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import UiConfirmationModal from "~/shared/ui/UiConfirmationModal/UiConfirmationModal.vue"
 import { UiButton } from "~/shared/ui/UiButton"
+import UiConfirmationModal from "~/shared/ui/UiConfirmationModal/UiConfirmationModal.vue"
 </script>
 
 <template>

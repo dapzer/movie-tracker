@@ -2,22 +2,21 @@
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiCheckboxProps {
-radio?: boolean;
+  radio?: boolean
 }
 
-const props = defineProps<UiCheckboxProps>();
-const inputModel = defineModel();
-
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 })
+const props = defineProps<UiCheckboxProps>()
+const inputModel = defineModel()
 </script>
 
 <template>
   <label :class="$style.body">
     <input
       v-model="inputModel"
-      :type="props.radio ?'radio' : 'checkbox'"
+      :type="props.radio ? 'radio' : 'checkbox'"
       v-bind="$attrs"
     >
     <span :class="$style.transition">
@@ -52,7 +51,7 @@ defineOptions({
     outline: none;
   }
 
-  &:has(input:disabled)  {
+  &:has(input:disabled) {
     opacity: var(--s-disabled-opacity);
     pointer-events: none;
   }
@@ -75,8 +74,7 @@ defineOptions({
 
 .body input {
   position: absolute;
-  width:  0;
+  width: 0;
   height: 0;
 }
-
 </style>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import type { UiModalFullscreenContentProps } from "~/shared/ui/UiModal/modalFullscreen/UiModalFullscreenContent.vue"
+import UiModalFullscreenContent from "~/shared/ui/UiModal/modalFullscreen/UiModalFullscreenContent.vue"
 import UiModalCore from "~/shared/ui/UiModal/UiModalCore.vue"
-import UiModalFullscreenContent, {
-  type UiModalFullscreenContentProps
-} from "~/shared/ui/UiModal/modalFullscreen/UiModalFullscreenContent.vue"
 
 type UiModalFullscreenProps = UiModalFullscreenContentProps
 
@@ -12,21 +11,21 @@ const model = defineModel<boolean>()
 
 <template>
   <UiModalCore v-model="model">
-    <template #trigger="{openModal}">
+    <template #trigger="{ openModal }">
       <slot
         name="trigger"
-        :openModal="openModal"
+        :open-modal="openModal"
       />
     </template>
 
-    <template #content="{closeModal}">
+    <template #content="{ closeModal }">
       <UiModalFullscreenContent
-        :indentTop="props.indentTop"
+        :indent-top="props.indentTop"
         @handle-close="closeModal"
       >
         <slot
           name="content"
-          :closeModal="closeModal"
+          :close-modal="closeModal"
         />
       </UiModalFullscreenContent>
     </template>

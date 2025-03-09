@@ -1,1 +1,1 @@
-export { default as DefaultFooter } from './ui/DefaultFooter.vue';
+export { default as DefaultFooter } from "./ui/DefaultFooter.vue"

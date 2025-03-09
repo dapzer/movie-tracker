@@ -1,16 +1,15 @@
-import { type MediaItemType, MediaTypeEnum } from "@movie-tracker/types";
+import type { type MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
 
 export interface MediaItemCreateApiTypes {
-  mediaListId: string,
-  mediaType: MediaTypeEnum,
+  mediaListId: string
+  mediaType: MediaTypeEnum
   mediaId: number
 }
 
 export type MediaItemUpdateApiTypes = Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
 
 export interface MediaItemCreateCloneApiTypes {
-  mediaItemId: string,
-  mediaListId: string,
+  mediaItemId: string
+  mediaListId: string
   isSaveCreationDate: boolean
 }
-

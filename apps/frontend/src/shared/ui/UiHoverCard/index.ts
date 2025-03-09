@@ -1,1 +1,1 @@
-export { default as UiHoverCard } from './UiHoverCard.vue';
+export { default as UiHoverCard } from "./UiHoverCard.vue"

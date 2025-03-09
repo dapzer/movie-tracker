@@ -6,11 +6,11 @@ import {
   DrawerPortal,
   DrawerRoot,
   DrawerTitle,
-  DrawerTrigger
-} from 'vaul-vue'
+  DrawerTrigger,
+} from "vaul-vue"
 import { UiButton } from "~/shared/ui/UiButton"
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiBottomDrawerProps {
   title: string

@@ -2,14 +2,14 @@
 import { useI18n, useSeoMeta } from "#imports"
 import { AboutFaq, AboutFeatures, AboutHero, AboutService, AboutTeam } from "~/widgets/about"
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${t('navigation.about')} | ${titleChunk}`;
+    return `${t("navigation.about")} | ${titleChunk}`
   },
   ogTitle() {
-    return `%s | ${t('navigation.about')}`;
+    return `%s | ${t("navigation.about")}`
   },
 })
 </script>

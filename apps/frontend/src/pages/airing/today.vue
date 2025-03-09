@@ -1,46 +1,45 @@
 <script setup lang="ts">
-import { useGetTmdbDiscoverTvApi } from "~/api/tmdb/useTmdbApi"
+import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
+import { useRoute } from "#app"
+import { useLocalePath } from "#i18n"
 import { computed, useI18n, useSeoMeta } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { ref } from "vue"
-import { ContentList } from "~/widgets/contentList"
-import { useLocalePath } from "#i18n"
-import { UiMediaCardSkeleton } from "../../shared/ui/UiCard"
-import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
+import { useGetTmdbDiscoverTvApi } from "~/api/tmdb/useTmdbApi"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { getTodayWithoutTime } from "~/shared/constants/dates"
 import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
-import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
-import { useRoute } from "#app"
+import { ContentList } from "~/widgets/contentList"
 import { UiAttention } from "../../shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "../../shared/ui/UiCard"
 
-const { locale, t } = useI18n();
+const { locale, t } = useI18n()
 const route = useRoute()
 const currentPage = ref(Number(route.query.page) || 1)
 const localePath = useLocalePath()
 
 const queries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
-    language: locale.value,
-    page: currentPage.value,
-    sort_by: 'popularity.desc',
+    "language": locale.value,
+    "page": currentPage.value,
+    "sort_by": "popularity.desc",
     "air_date.gte": getTodayWithoutTime(),
     "air_date.lte": getTodayWithoutTime(),
-    without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
-      TmdbTvGenresEnum.REALITY].join(','),
+    "without_genres": [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK, TmdbTvGenresEnum.REALITY].join(","),
   }
 })
 
 useSeoMeta({
   titleTemplate(titleChunk) {
-    return `${t("feed.latestReleases")} | ${titleChunk}`;
+    return `${t("feed.latestReleases")} | ${titleChunk}`
   },
   ogTitle() {
-    return `%s | ${t("feed.latestReleases")}`;
+    return `%s | ${t("feed.latestReleases")}`
   },
 })
 
-const getTmdbTvAiringTodayApi = useGetTmdbDiscoverTvApi(queries);
-await getTmdbTvAiringTodayApi.suspense();
+const getTmdbTvAiringTodayApi = useGetTmdbDiscoverTvApi(queries)
+await getTmdbTvAiringTodayApi.suspense()
 
 const results = computed(() => getTmdbTvAiringTodayApi.data?.value?.results)
 const isFetching = computed(() => getTmdbTvAiringTodayApi.isFetching.value)
@@ -52,7 +51,7 @@ const isFetching = computed(() => getTmdbTvAiringTodayApi.isFetching.value)
     :title="$t('feed.latestReleases')"
     :back-button-url="localePath('/')"
     :total-pages="getTmdbTotalPages(getTmdbTvAiringTodayApi.data?.value?.total_pages)"
-    :get-page-href="(page) => page > 1 ? `?page=${page}`: localePath('')"
+    :get-page-href="(page) => page > 1 ? `?page=${page}` : localePath('')"
   >
     <template v-if="isFetching">
       <UiMediaCardSkeleton
@@ -68,7 +67,7 @@ const isFetching = computed(() => getTmdbTvAiringTodayApi.isFetching.value)
         :key="item.id"
         full-height
         :width="195"
-        :movie="{...item, media_type: MediaTypeEnum.TV}"
+        :movie="{ ...item, media_type: MediaTypeEnum.TV }"
       />
     </template>
     <template

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import { UiSwitch } from "~/shared/ui/UiSwitch/index"
 import { ref } from "vue"
+import { UiSwitch } from "~/shared/ui/UiSwitch/index"
 
 const disabled = ref(false)
 const checked = ref(false)

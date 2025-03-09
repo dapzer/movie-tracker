@@ -1,19 +1,18 @@
 <script lang="ts" setup>
-
-import { useLocalePath } from "#i18n";
-import { computed } from "#imports";
-import { searchStore } from "~/stores/searcStore";
-import { useRoute } from "#app";
-import { UiTypography } from "../../UiTypography"
+import { useRoute } from "#app"
+import { useLocalePath } from "#i18n"
+import { computed } from "#imports"
+import { searchStore } from "~/stores/searcStore"
 import { UiIcon } from "../../UiIcon"
+import { UiTypography } from "../../UiTypography"
 
-const localePath = useLocalePath();
-const router = useRoute();
-const searchValue = computed(() => searchStore.state.searchValue);
+const localePath = useLocalePath()
+const router = useRoute()
+const searchValue = computed(() => searchStore.state.searchValue)
 
-const onClickLogo = () => {
+function onClickLogo() {
   if (searchValue.value && router.path == localePath("/")) {
-    searchStore.onChangeSearch("");
+    searchStore.onChangeSearch("")
   }
 }
 </script>

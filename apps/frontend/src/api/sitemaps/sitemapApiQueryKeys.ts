@@ -1,3 +1,3 @@
 export const SitemapQueryKeys = {
-  GENERATE: "sitemap/generate"
-} as const;
+  GENERATE: "sitemap/generate",
+} as const

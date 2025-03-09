@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import type { NuxtError } from "#app";
+import type { NuxtError } from "#app"
 import { NuxtLink } from "#components"
+import { UiButton } from "~/shared/ui/UiButton"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { UiButton } from "~/shared/ui/UiButton"
 
 interface ErrorPageProps {
-  error: NuxtError;
+  error: NuxtError
 }
 
-const props = defineProps<ErrorPageProps>();
+const props = defineProps<ErrorPageProps>()
 </script>
 
 <template>

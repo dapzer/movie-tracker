@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiSkeleton from "~/shared/ui/UiSkeleton/UiSkeleton.vue"
 </script>
 

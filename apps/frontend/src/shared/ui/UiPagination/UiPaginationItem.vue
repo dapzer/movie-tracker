@@ -1,21 +1,20 @@
 <script setup lang="ts">
-
-import { UiButton } from "~/shared/ui/UiButton"
 import { NuxtLink } from "#components"
+import { UiButton } from "~/shared/ui/UiButton"
 
 interface UiPaginationItemProps {
-  isActive: boolean;
-  to?: string;
+  isActive: boolean
+  to?: string
 }
 
-const props = defineProps<UiPaginationItemProps>();
+const props = defineProps<UiPaginationItemProps>()
 </script>
 
 <template>
   <UiButton
     :as="props.to ? NuxtLink : 'button'"
     :to="props.to"
-    :scheme="props.isActive ? 'secondary': 'default'"
+    :scheme="props.isActive ? 'secondary' : 'default'"
   >
     <slot />
   </UiButton>

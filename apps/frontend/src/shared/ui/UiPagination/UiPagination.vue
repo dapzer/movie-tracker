@@ -1,29 +1,28 @@
 <script lang="ts" setup>
-
 import {
   PaginationEllipsis,
   PaginationList,
   PaginationListItem,
   PaginationNext,
   PaginationPrev,
-  PaginationRoot
+  PaginationRoot,
 } from "radix-vue"
 import { UiButton } from "~/shared/ui/UiButton"
-import { UiTypography } from "~/shared/ui/UiTypography"
-import UiPaginationItem from "~/shared/ui/UiPagination/UiPaginationItem.vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import UiPaginationItem from "~/shared/ui/UiPagination/UiPaginationItem.vue"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiPaginationProps {
-  totalItems: number;
-  pagesOnSides: number;
-  itemsPerPage: number;
-  getPageHref?: (page: number) => string;
+  totalItems: number
+  pagesOnSides: number
+  itemsPerPage: number
+  getPageHref?: (page: number) => string
 }
 
-const props = defineProps<UiPaginationProps>();
-const currentPage = defineModel<number>();
-
+const props = defineProps<UiPaginationProps>()
+const currentPage = defineModel<number>()
 </script>
+
 <template>
   <PaginationRoot
     v-model:page="currentPage"

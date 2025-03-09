@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from "radix-vue"
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from "radix-vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiHoverCardProps {
   as?: ComponentOrTag
   indent?: number
-  align?: 'start' | 'center' | 'end'
-  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: "start" | "center" | "end"
+  side?: "top" | "right" | "bottom" | "left"
 }
+
+defineOptions({
+  inheritAttrs: false,
+})
 
 const props = withDefaults(defineProps<UiHoverCardProps>(), {
   indent: 0,
-  as: 'div',
-  align: 'start',
-  side: 'bottom'
-})
-
-defineOptions({
-  inheritAttrs: false
+  as: "div",
+  align: "start",
+  side: "bottom",
 })
 </script>
 
 <template>
   <HoverCardRoot
-    :openDelay="0"
-    :closeDelay="0"
+    :open-delay="0"
+    :close-delay="0"
   >
     <HoverCardTrigger
       :class="$style.trigger"
@@ -40,8 +40,8 @@ defineOptions({
         :class="$style.contentWrapper"
         :align="props.align"
         :side="props.side"
-        :sideOffset="props.indent"
-        updatePositionStrategy="always"
+        :side-offset="props.indent"
+        update-position-strategy="always"
       >
         <div :class="$style.content">
           <slot name="content" />

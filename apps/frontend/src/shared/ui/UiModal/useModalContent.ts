@@ -1,27 +1,28 @@
-import { ref, type VNodeRef } from "vue"
+import type { VNodeRef } from "vue"
 import { onMounted, onUnmounted } from "#imports"
+import { ref } from "vue"
 
-export const useModalContent = (handleCloseModal: () => void) => {
-  const bodyRef = ref<VNodeRef | null>(null);
+export function useModalContent(handleCloseModal: () => void) {
+  const bodyRef = ref<VNodeRef | null>(null)
 
   const closeModalOnKeypress = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       handleCloseModal()
     }
   }
 
   onMounted(() => {
-    document.addEventListener('keydown', closeModalOnKeypress);
-    document.body.style.overflow = 'hidden';
+    document.addEventListener("keydown", closeModalOnKeypress)
+    document.body.style.overflow = "hidden"
     if (bodyRef.value) {
-      bodyRef.value.focus();
+      bodyRef.value.focus()
     }
-  });
+  })
 
   onUnmounted(() => {
-    document.removeEventListener('keydown', closeModalOnKeypress);
-    document.body.style.overflow = '';
-  });
+    document.removeEventListener("keydown", closeModalOnKeypress)
+    document.body.style.overflow = ""
+  })
 
   return {
     bodyRef,

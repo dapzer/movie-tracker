@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { useLocalePath } from "#i18n"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface DefaultFooterLinkListProps {
   links: {
-    title: string;
-    href: string;
-  }[];
+    title: string
+    href: string
+  }[]
 }
 
-const props = defineProps<DefaultFooterLinkListProps>();
+const props = defineProps<DefaultFooterLinkListProps>()
 
-const localePath = useLocalePath();
+const localePath = useLocalePath()
 </script>
 
 <template>

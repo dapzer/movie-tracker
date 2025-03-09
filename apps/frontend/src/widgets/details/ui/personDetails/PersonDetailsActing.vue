@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { TmdbMediaTypeEnum, type TmdbPersonCastType, type TmdbPersonCrewType } from "@movie-tracker/types"
-import { computed, ref, watch } from "vue"
+import type { TmdbPersonCastType, TmdbPersonCrewType } from "@movie-tracker/types"
 import { getMediaTypeDeclensionTranslationKey, useI18n } from "#imports"
-import { UiButton } from "../../../../shared/ui/UiButton"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiSelect } from "../../../../shared/ui/UiSelect"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { computed, ref, watch } from "vue"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiDivider } from "../../../../shared/ui/UiDivider"
-import { UiPagination } from "../../../../shared/ui/UiPagination"
-import { UiListHeader } from "../../../../shared/ui/UiListHeader"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiDivider } from "../~/shared/ui/UiDivider"
+import { UiListHeader } from "../~/shared/ui/UiListHeader"
+import { UiPagination } from "../~/shared/ui/UiPagination"
+import { UiSelect } from "../~/shared/ui/UiSelect"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface PersonDetailsActingProps {
-  crew: TmdbPersonCrewType[];
-  cast: TmdbPersonCastType[];
+  crew: TmdbPersonCrewType[]
+  cast: TmdbPersonCastType[]
 }
 
-const props = defineProps<PersonDetailsActingProps>();
+const props = defineProps<PersonDetailsActingProps>()
 const { t } = useI18n()
 const filters = ref({
-  mediaType: '',
-  department: ''
+  mediaType: "",
+  department: "",
 })
 const currentPage = ref(1)
 
@@ -68,9 +69,8 @@ const departments = computed(() => {
     }
   }
 
-  return Array.from(result).map((item) => ({ value: item, label: t(`details.department.${item}`) }))
+  return Array.from(result).map(item => ({ value: item, label: t(`details.department.${item}`) }))
 })
-
 
 const mediaTypes = computed(() => {
   const result = new Set<string>()
@@ -79,13 +79,13 @@ const mediaTypes = computed(() => {
     result.add(item.movie.media_type)
   }
 
-  return Array.from(result).map((item) => ({ value: item, label: t(`details.mediaType.${item}`) }))
+  return Array.from(result).map(item => ({ value: item, label: t(`details.mediaType.${item}`) }))
 })
 
 const inMediaCounts = computed(() => {
   const result = {
     movie: 0,
-    tv: 0
+    tv: 0,
   }
 
   for (const item of data.value) {
@@ -98,20 +98,20 @@ const inMediaCounts = computed(() => {
 const filteredData = computed(() => {
   return data.value.filter((item) => {
     return (
-        (filters.value.mediaType === '' || item.mediaTypes === filters.value.mediaType) &&
-        (filters.value.department === '' || item.departments.includes(filters.value.department))
+      (filters.value.mediaType === "" || item.mediaTypes === filters.value.mediaType)
+      && (filters.value.department === "" || item.departments.includes(filters.value.department))
     )
   }).sort((a, b) => b.releaseDate ? new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime() : -1)
 })
 
-const clearFilters = () => {
+function clearFilters() {
   filters.value = {
-    mediaType: '',
-    department: ''
+    mediaType: "",
+    department: "",
   }
 }
 
-const getDescription = (jobs?: string[], departments?: string[], characters?: string[]) => {
+function getDescription(jobs?: string[], departments?: string[], characters?: string[]) {
   const result = []
 
   if (characters?.length) {
@@ -119,14 +119,14 @@ const getDescription = (jobs?: string[], departments?: string[], characters?: st
   }
 
   if (departments?.length && !jobs?.length) {
-    result.push(...departments.map((department) => t(`details.department.${department}`)))
+    result.push(...departments.map(department => t(`details.department.${department}`)))
   }
 
   if (jobs?.length) {
     result.push(...jobs)
   }
 
-  return result.filter(el => !!el).join(', ')
+  return result.filter(el => !!el).join(", ")
 }
 </script>
 
@@ -197,7 +197,6 @@ const getDescription = (jobs?: string[], departments?: string[], characters?: st
     />
   </div>
 </template>
-
 
 <style module lang="scss">
 @import "~/styles/variables";

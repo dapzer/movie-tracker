@@ -1,18 +1,17 @@
 <script setup lang="ts">
-
-import { formatDate } from "~/utils/formatDate"
-import { UiDelimiter } from "../../../shared/ui/UiDelimiter"
-import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiTypography } from "../../../shared/ui/UiTypography"
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
+import { MovieCardHorizontal } from "~/entities/movieCard"
+import { UiDelimiter } from "~/shared/ui/UiDelimiter"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { formatDate } from "~/utils/formatDate"
 
 interface SearchResultMovieCardHorizontalProps {
-  movie: TmdbSearchResponseResultItemType;
+  movie: TmdbSearchResponseResultItemType
 }
 
-const props = defineProps<SearchResultMovieCardHorizontalProps>();
-const { locale } = useI18n();
+const props = defineProps<SearchResultMovieCardHorizontalProps>()
+const { locale } = useI18n()
 </script>
 
 <template>

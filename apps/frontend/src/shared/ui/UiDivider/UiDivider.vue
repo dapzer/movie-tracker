@@ -6,14 +6,14 @@ interface UiDividerProps {
 }
 
 const props = withDefaults(defineProps<UiDividerProps>(), {
-  height: 1
+  height: 1,
 })
 </script>
 
 <template>
   <hr
     :class="[$style.body, {
-      [$style.vertical]: props.vertical
+      [$style.vertical]: props.vertical,
     }]"
     :style="{ '--height': `${props.height}px`, '--width': props.width ? `${props.width}px` : 'unset' }"
   >

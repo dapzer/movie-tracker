@@ -1,25 +1,25 @@
 <script lang="ts" setup>
-import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types";
-import { computed, getProxiedImageUrl, useI18n } from "#imports";
-import { useLocalePath } from "#i18n";
-import { UiMediaCard } from "../../../shared/ui/UiCard"
-import { UiRating } from "../../../shared/ui/UiRating"
+import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
+import { computed, getProxiedImageUrl, useI18n } from "#imports"
+import { UiMediaCard } from "~/shared/ui/UiCard"
+import { UiRating } from "~/shared/ui/UiRating"
 import { formatDate } from "~/utils/formatDate"
 
 interface MovieCardProps {
-  movie: TmdbSearchResponseResultItemType;
-  width?: number;
-  fullHeight?: boolean;
+  movie: TmdbSearchResponseResultItemType
+  width?: number
+  fullHeight?: boolean
 }
 
-const props = defineProps<MovieCardProps>();
+const props = defineProps<MovieCardProps>()
 
-const localePath = useLocalePath();
-const { locale } = useI18n();
+const localePath = useLocalePath()
+const { locale } = useI18n()
 
 const releaseDate = computed(() => {
-  return formatDate(props.movie.release_date || props.movie.first_air_date, locale.value);
-});
+  return formatDate(props.movie.release_date || props.movie.first_air_date, locale.value)
+})
 </script>
 
 <template>

@@ -1,1 +1,1 @@
-export type ValidationErrorsType = Record<string, string[]> | undefined;
+export type ValidationErrorsType = Record<string, string[]> | undefined

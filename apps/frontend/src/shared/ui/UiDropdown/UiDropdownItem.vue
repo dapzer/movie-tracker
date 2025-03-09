@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import { DropdownMenuItem } from "radix-vue"
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import { DropdownMenuItem } from "radix-vue"
 
 interface UiDropdownItemProps {
   as?: ComponentOrTag

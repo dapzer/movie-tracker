@@ -1,50 +1,48 @@
 <script setup lang="ts">
-
-import { UiModal } from "../../../shared/ui/UiModal"
-import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
-import { UiButton } from "../../../shared/ui/UiButton"
-import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
-import { toast } from "vue3-toastify"
-import { useI18n } from "#imports"
-import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaList/useMediaListApi"
 import type { MediaListType } from "@movie-tracker/types"
-import { useRouter } from "vue-router"
+import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import { useLocalePath } from "#i18n"
-import { UiConfirmationModal } from "../../../shared/ui/UiConfirmationModal"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { useI18n } from "#imports"
+import { toast } from "vue3-toastify"
+import { useRouter } from "vue-router"
+import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaList/useMediaListApi"
+import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiConfirmationModal } from "~/shared/ui/UiConfirmationModal"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiModal } from "~/shared/ui/UiModal"
 
 interface EditMediaListModalProps {
   mediaList: MediaListType
 }
 
 const props = defineProps<EditMediaListModalProps>()
-const model = defineModel<boolean>()
 const slots = defineSlots()
-const { t } = useI18n();
-const localePath= useLocalePath()
-const updateMediaListApi = useUpdateMediaListApi();
-const deleteMediaListApi = useDeleteMediaListApi();
-const router = useRouter();
+const model = defineModel<boolean>()
+const { t } = useI18n()
+const localePath = useLocalePath()
+const updateMediaListApi = useUpdateMediaListApi()
+const deleteMediaListApi = useDeleteMediaListApi()
+const router = useRouter()
 
-const handleUpdateMediaList = async (value: MediaListUpdateApiTypes) => {
+async function handleUpdateMediaList(value: MediaListUpdateApiTypes) {
   await updateMediaListApi.mutateAsync({ mediaListId: props.mediaList.id, body: value }).then(() => {
-    toast.success(t("toasts.mediaList.successUpdated"));
-    model.value = false;
+    toast.success(t("toasts.mediaList.successUpdated"))
+    model.value = false
   }).catch(() => {
-    toast.error(t("toasts.mediaList.unsuccessfullyUpdated"));
-  });
-};
+    toast.error(t("toasts.mediaList.unsuccessfullyUpdated"))
+  })
+}
 
-const handleDeleteMediaList = async () => {
+async function handleDeleteMediaList() {
   await deleteMediaListApi.mutateAsync(props.mediaList.id).then(() => {
-    toast.success(t("toasts.mediaList.successDeleted"));
-    model.value = false;
-    router.push(localePath('lists'))
+    toast.success(t("toasts.mediaList.successDeleted"))
+    model.value = false
+    router.push(localePath("lists"))
   }).catch(() => {
-    toast.error(t("toasts.mediaList.unsuccessfullyDeleted"));
-  });
-};
-
+    toast.error(t("toasts.mediaList.unsuccessfullyDeleted"))
+  })
+}
 </script>
 
 <template>
@@ -55,18 +53,18 @@ const handleDeleteMediaList = async () => {
   >
     <template
       v-if="slots.trigger"
-      #trigger="{openModal}"
+      #trigger="{ openModal }"
     >
       <slot
         name="trigger"
-        :openModal="openModal"
+        :open-modal="openModal"
       />
     </template>
 
     <template #content>
       <MediaListForm
         :initial-value="{
-          title: props.mediaList.isSystem ? $t('mediaList.favorites'): props.mediaList.title,
+          title: props.mediaList.isSystem ? $t('mediaList.favorites') : props.mediaList.title,
           description: props.mediaList.description,
           isPublic: props.mediaList.isPublic,
         }"
@@ -82,7 +80,7 @@ const handleDeleteMediaList = async () => {
               scheme="danger"
               @confirm="handleDeleteMediaList"
             >
-              <template #trigger="{openModal}">
+              <template #trigger="{ openModal }">
                 <UiButton
                   :disabled="updateMediaListApi.isPending.value || deleteMediaListApi.isPending.value || props.mediaList.isSystem"
                   size="small"

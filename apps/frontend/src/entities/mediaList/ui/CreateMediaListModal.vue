@@ -1,27 +1,25 @@
 <script setup lang="ts">
-
-import { UiModal } from "../../../shared/ui/UiModal"
-import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
-import { UiButton } from "../../../shared/ui/UiButton"
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
-import { toast } from "vue3-toastify"
 import { useI18n } from "#imports"
+import { toast } from "vue3-toastify"
 import { useCreateMediaListApi } from "~/api/mediaList/useMediaListApi"
+import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiModal } from "~/shared/ui/UiModal"
 
-const model = defineModel<boolean>()
 const slots = defineSlots()
-const { t } = useI18n();
-const createMediaListApi = useCreateMediaListApi();
+const model = defineModel<boolean>()
+const { t } = useI18n()
+const createMediaListApi = useCreateMediaListApi()
 
-const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
+async function handleCreateMediaList(value: MediaListUpdateApiTypes) {
   await createMediaListApi.mutateAsync(value).then(() => {
-    toast.success(t("toasts.mediaList.successCreated"));
-    model.value = false;
+    toast.success(t("toasts.mediaList.successCreated"))
+    model.value = false
   }).catch(() => {
-    toast.error(t("toasts.mediaList.unsuccessfullyCreated"));
-  });
-};
-
+    toast.error(t("toasts.mediaList.unsuccessfullyCreated"))
+  })
+}
 </script>
 
 <template>
@@ -32,11 +30,11 @@ const handleCreateMediaList = async (value: MediaListUpdateApiTypes) => {
   >
     <template
       v-if="slots.trigger"
-      #trigger="{openModal}"
+      #trigger="{ openModal }"
     >
       <slot
         name="trigger"
-        :openModal="openModal"
+        :open-modal="openModal"
       />
     </template>
 

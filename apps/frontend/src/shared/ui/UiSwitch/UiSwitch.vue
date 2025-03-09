@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useAttrs } from "#imports"
 
-const inputModel = defineModel();
-
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 })
+
+const inputModel = defineModel()
+
 const attrs = useAttrs()
 </script>
 
 <template>
   <label
     :class="[$style.switch, {
-      [$style.disabled]: attrs.disabled
+      [$style.disabled]: attrs.disabled,
     }]"
   >
     <input
@@ -87,7 +88,6 @@ const attrs = useAttrs()
   opacity: var(--s-disabled-opacity);
 }
 
-
 .switch input[type="checkbox"]:checked + .slider::after {
   transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset) + 0px));
   box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
@@ -96,5 +96,4 @@ const attrs = useAttrs()
 .switch input[type="checkbox"] {
   display: none;
 }
-
 </style>

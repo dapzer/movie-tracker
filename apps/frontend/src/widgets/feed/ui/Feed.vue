@@ -1,17 +1,16 @@
 <script setup lang="ts">
-
-import { UiContainer } from "../../../shared/ui/UiContainer"
+import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
+import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
-import FeedItem from "~/widgets/feed/ui/FeedItem.vue"
-import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
-import { useLocalePath } from "#i18n"
-import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
-import { UiMediaCardSkeleton } from "../../../shared/ui/UiCard"
+import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
+import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import FeedItem from "~/widgets/feed/ui/FeedItem.vue"
 
-const { locale } = useI18n();
+const { locale } = useI18n()
 const localePath = useLocalePath()
 
 const movieQueries = computed(() => {
@@ -19,56 +18,54 @@ const movieQueries = computed(() => {
     language: locale.value,
     page: 1,
     mediaType: MediaTypeEnum.MOVIE,
-    timeWindow: 'week'
-  };
-});
+    timeWindow: "week",
+  }
+})
 
 const tvQueries = computed(() => {
   return {
     language: locale.value,
     page: 1,
     mediaType: MediaTypeEnum.TV,
-    timeWindow: 'week'
-  };
-});
+    timeWindow: "week",
+  }
+})
 
 const upcomingMoviesQueries = computed<TmdbDiscoverMovieQueriesType>(() => {
   return {
-    language: locale.value,
-    page: 1,
+    "language": locale.value,
+    "page": 1,
     "primary_release_date.gte": getTodayWithoutTime(),
     "primary_release_date.lte": getNextThirtyDaysWithoutTime(),
-    sort_by: 'popularity.desc',
+    "sort_by": "popularity.desc",
   }
 })
 
 const tvOnTheAirQueries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
-    language: locale.value,
-    page: 1,
+    "language": locale.value,
+    "page": 1,
     "first_air_date.gte": getTodayWithoutTime(),
     "first_air_date.lte": getNextThirtyDaysWithoutTime(),
-    without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
-      TmdbTvGenresEnum.REALITY].join(','),
+    "without_genres": [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK, TmdbTvGenresEnum.REALITY].join(","),
   }
 })
 
 const tvAiringTodayQueries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
-    language: locale.value,
-    page: 1,
-    sort_by: 'popularity.desc',
+    "language": locale.value,
+    "page": 1,
+    "sort_by": "popularity.desc",
     "air_date.gte": getTodayWithoutTime(),
     "air_date.lte": getTodayWithoutTime(),
-    without_genres: [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK,
-      TmdbTvGenresEnum.REALITY].join(','),
+    "without_genres": [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK, TmdbTvGenresEnum.REALITY].join(","),
   }
 })
 
-const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(movieQueries);
-const getTmdbTvPopularListApi = useGetTmdbPopularListApi(tvQueries);
-const getTmdbUpcomingMoviesApi = useGetTmdbDiscoverMovieApi(upcomingMoviesQueries);
-const getTmdbTvOnTheAirApi = useGetTmdbDiscoverTvApi(tvOnTheAirQueries);
+const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(movieQueries)
+const getTmdbTvPopularListApi = useGetTmdbPopularListApi(tvQueries)
+const getTmdbUpcomingMoviesApi = useGetTmdbDiscoverMovieApi(upcomingMoviesQueries)
+const getTmdbTvOnTheAirApi = useGetTmdbDiscoverTvApi(tvOnTheAirQueries)
 const getTmdbTvAiringTodayApi = useGetTmdbDiscoverTvApi(tvAiringTodayQueries)
 
 await Promise.all([
@@ -77,9 +74,9 @@ await Promise.all([
   getTmdbUpcomingMoviesApi.suspense(),
   getTmdbTvOnTheAirApi.suspense(),
   getTmdbTvAiringTodayApi.suspense(),
-]);
+])
 
-const loadingArray = Array.from({ length: 20 }, (_, i) => i);
+const loadingArray = Array.from({ length: 20 }, (_, i) => i)
 </script>
 
 <template>
@@ -91,11 +88,11 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i);
       :is-loading="getTmdbMoviePopularListApi.isPending.value"
       :slide-width="195"
     >
-      <template #slide="{item}">
+      <template #slide="{ item }">
         <MovieCardWithHoverMenu
           full-height
           :width="195"
-          :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
+          :movie="{ ...item, media_type: MediaTypeEnum.MOVIE }"
         />
       </template>
       <template #skeleton>
@@ -110,11 +107,11 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i);
       :is-loading="getTmdbTvPopularListApi.isPending.value"
       :slide-width="195"
     >
-      <template #slide="{item}">
+      <template #slide="{ item }">
         <MovieCardWithHoverMenu
           full-height
           :width="195"
-          :movie="{...item, media_type: MediaTypeEnum.TV}"
+          :movie="{ ...item, media_type: MediaTypeEnum.TV }"
         />
       </template>
 
@@ -130,11 +127,11 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i);
       :is-loading="getTmdbUpcomingMoviesApi.isPending.value"
       :slide-width="195"
     >
-      <template #slide="{item}">
+      <template #slide="{ item }">
         <MovieCardWithHoverMenu
           full-height
           :width="195"
-          :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
+          :movie="{ ...item, media_type: MediaTypeEnum.MOVIE }"
         />
       </template>
 
@@ -150,11 +147,11 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i);
       :is-loading="getTmdbTvAiringTodayApi.isPending.value"
       :slide-width="195"
     >
-      <template #slide="{item}">
+      <template #slide="{ item }">
         <MovieCardWithHoverMenu
           full-height
           :width="195"
-          :movie="{...item, media_type: MediaTypeEnum.TV}"
+          :movie="{ ...item, media_type: MediaTypeEnum.TV }"
         />
       </template>
 
@@ -170,11 +167,11 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i);
       :is-loading="getTmdbTvOnTheAirApi.isPending.value"
       :slide-width="195"
     >
-      <template #slide="{item}">
+      <template #slide="{ item }">
         <MovieCardWithHoverMenu
           full-height
           :width="195"
-          :movie="{...item, media_type: MediaTypeEnum.TV}"
+          :movie="{ ...item, media_type: MediaTypeEnum.TV }"
         />
       </template>
 

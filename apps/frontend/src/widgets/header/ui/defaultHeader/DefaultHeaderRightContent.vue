@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
-import { LanguageSelectorDropdown } from "~/features/languegeSelector"
-import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
-import { UiButton } from "../../../../shared/ui/UiButton"
 import { useAuth } from "#imports"
-import { UserProfileDropdown } from "~/features/profile"
 import { SignInLink } from "~/features/auth"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
+import { LanguageSelectorDropdown } from "~/features/languegeSelector"
+import { UserProfileDropdown } from "~/features/profile"
+import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiIcon } from "../~/shared/ui/UiIcon"
 
 interface DefaultHeaderRightContentEmits {
   (event: "handleOpenSearchModal"): void
@@ -14,7 +13,7 @@ interface DefaultHeaderRightContentEmits {
 
 const emits = defineEmits<DefaultHeaderRightContentEmits>()
 
-const { profile } = useAuth();
+const { profile } = useAuth()
 </script>
 
 <template>

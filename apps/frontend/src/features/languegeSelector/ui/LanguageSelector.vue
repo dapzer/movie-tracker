@@ -1,14 +1,13 @@
 <script setup lang="ts">
-
-import { allowedLanguages } from "~/features/languegeSelector/model/languages"
+import { NuxtLink } from "#components"
 import { useSwitchLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { NuxtLink } from "#components"
-import { UiDivider } from "../../../shared/ui/UiDivider"
+import { allowedLanguages } from "~/features/languegeSelector/model/languages"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
-const switchLocalePath = useSwitchLocalePath();
-const { locale } = useI18n();
+const switchLocalePath = useSwitchLocalePath()
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -25,7 +24,7 @@ const { locale } = useI18n();
         {{ language.originalName }}
       </UiTypography>
       <UiDivider
-        v-if="index !== allowedLanguages.length -1"
+        v-if="index !== allowedLanguages.length - 1"
         vertical
         :height="20"
         :width="1"

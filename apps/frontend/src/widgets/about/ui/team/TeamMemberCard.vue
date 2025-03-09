@@ -1,34 +1,33 @@
 <script setup lang="ts">
-
-import { UiListCard } from "~/shared/ui/UiCard/listCard"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { type SocialIdsType } from "~/utils/getSocialList"
-import { UiSocialList } from "../../../../shared/ui/UiSocialList"
-import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
-import { computed } from "vue"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
-import { useI18n } from "#imports"
-import { useLocalePath } from "#i18n"
+import type { SocialIdsType } from "~/utils/getSocialList"
 import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
+import { useI18n } from "#imports"
+import { computed } from "vue"
+import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
+import { UiListCard } from "~/shared/ui/UiCard/listCard"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { UiSocialList } from "../~/shared/ui/UiSocialList"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface TeamMemberCardProps {
-  name: string;
-  userId?: string;
-  position: string;
-  avatar?: string;
-  socials: SocialIdsType;
+  name: string
+  userId?: string
+  position: string
+  avatar?: string
+  socials: SocialIdsType
   mediaListHumanFriendlyId: string
 }
 
-const props = defineProps<TeamMemberCardProps>();
+const props = defineProps<TeamMemberCardProps>()
 
-const mediaListApi = useGetMediaListsByIdApi(props.mediaListHumanFriendlyId);
+const mediaListApi = useGetMediaListsByIdApi(props.mediaListHumanFriendlyId)
 await mediaListApi.suspense()
 
-const { locale } = useI18n();
-const localePath = useLocalePath();
+const { locale } = useI18n()
+const localePath = useLocalePath()
 
-const listPageUrl = computed(() => localePath(`/lists/details/${props.mediaListHumanFriendlyId}`));
+const listPageUrl = computed(() => localePath(`/lists/details/${props.mediaListHumanFriendlyId}`))
 const posters = computed(() => {
   return mediaListApi.data?.value?.poster?.[locale.value].map(el => el ? getProxiedImageUrl(el, 179) : el)
 })

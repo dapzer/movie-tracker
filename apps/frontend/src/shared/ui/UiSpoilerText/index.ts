@@ -1,1 +1,1 @@
-export {default as UiSpoilerText} from "./UiSpoilerText.vue";
+export { default as UiSpoilerText } from "./UiSpoilerText.vue"

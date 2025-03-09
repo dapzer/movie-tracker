@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiButton } from "~/shared/ui/UiButton"
-import { UiTypography } from "~/shared/ui/UiTypography"
-import { useModalContent } from "~/shared/ui/UiModal/useModalContent"
+import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { useModalContent } from "~/shared/ui/UiModal/useModalContent"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 export interface UiModalProps {
   maxWidth?: number
@@ -12,13 +12,12 @@ export interface UiModalProps {
 }
 
 export interface UiModalContentEmits {
-  (event: "handleClose"): void;
+  (event: "handleClose"): void
 }
 
 const props = defineProps<UiModalProps>()
-const emits = defineEmits<UiModalContentEmits>();
-const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose"));
-
+const emits = defineEmits<UiModalContentEmits>()
+const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose"))
 </script>
 
 <template>
@@ -33,7 +32,7 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
         tabindex="0"
         :class="[$style.body]"
         :style="{
-          '--max-width': props.maxWidth ? `${props.maxWidth}px` : 'unset'
+          '--max-width': props.maxWidth ? `${props.maxWidth}px` : 'unset',
         }"
         @click.stop
       >

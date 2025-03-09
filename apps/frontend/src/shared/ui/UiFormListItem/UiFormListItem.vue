@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiCheckbox } from "~/shared/ui/UiCheckbox"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiFormListItemProps {
   title: string
@@ -9,12 +8,11 @@ interface UiFormListItemProps {
   radio?: boolean
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
 const props = defineProps<UiFormListItemProps>()
 const model = defineModel()
-
-defineOptions({
-  inheritAttrs: false
-})
 </script>
 
 <template>

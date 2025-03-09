@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue"
 
-const model = defineModel<boolean>()
 const slots = defineSlots()
+const model = defineModel<boolean>()
 const visible = ref(model)
 
-const handleVisible = (value: boolean) => {
+function handleVisible(value: boolean) {
   visible.value = value
 }
 </script>
@@ -16,7 +16,7 @@ const handleVisible = (value: boolean) => {
   >
     <slot
       name="trigger"
-      :openModal="() => handleVisible(true)"
+      :open-modal="() => handleVisible(true)"
     />
   </template>
   <Teleport
@@ -25,7 +25,7 @@ const handleVisible = (value: boolean) => {
   >
     <slot
       name="content"
-      :closeModal="() => handleVisible(false)"
+      :close-modal="() => handleVisible(false)"
     />
   </Teleport>
 </template>

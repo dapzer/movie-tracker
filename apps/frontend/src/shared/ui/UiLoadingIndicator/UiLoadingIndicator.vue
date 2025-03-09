@@ -1,21 +1,22 @@
 <script lang="ts" setup>
-import { computed } from "#imports";
+import { computed } from "#imports"
 
 interface UiLoadingIndicatorProps {
-  size?: number;
-  thickness?: number;
+  size?: number
+  thickness?: number
 }
 
 const props = withDefaults(
-    defineProps<UiLoadingIndicatorProps>(), {
-      thickness: 3
-    }
-);
+  defineProps<UiLoadingIndicatorProps>(),
+  {
+    thickness: 3,
+  },
+)
 
 const computedStyle = computed(() => {
   return {
     size: props.size ? `${props.size}px` : "inherit",
-    thickness: `${props.thickness}px`
+    thickness: `${props.thickness}px`,
   }
 })
 </script>
@@ -30,9 +31,9 @@ const computedStyle = computed(() => {
   max-width: 1em;
   min-width: 1em;
   height: 1em;
-  font-size: v-bind('computedStyle.size');
+  font-size: v-bind("computedStyle.size");
   line-height: 1;
-  border: v-bind('computedStyle.thickness') solid var(--c-text);
+  border: v-bind("computedStyle.thickness") solid var(--c-text);
   border-bottom-color: transparent;
   border-radius: 50%;
   animation: rotation 1s linear infinite;
@@ -46,5 +47,4 @@ const computedStyle = computed(() => {
     transform: rotate(360deg);
   }
 }
-
 </style>

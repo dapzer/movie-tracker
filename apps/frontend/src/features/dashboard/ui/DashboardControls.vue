@@ -1,30 +1,29 @@
 <script lang="ts" setup>
-
-import { toast } from "vue3-toastify";
-import { useI18n } from "#imports";
-import { useInitializeSitemapGenerationsApi } from "~/api/sitemaps/useSitemapsApi";
-import { useInitializeDetailsGenerationApi } from "~/api/details/useDetailsApi";
+import { useI18n } from "#imports"
+import { toast } from "vue3-toastify"
+import { useInitializeDetailsGenerationApi } from "~/api/details/useDetailsApi"
+import { useInitializeSitemapGenerationsApi } from "~/api/sitemaps/useSitemapsApi"
 import DasboardCard from "~/features/dashboard/ui/DasboardCard.vue"
-import { UiButton } from "../../../shared/ui/UiButton"
+import { UiButton } from "~/shared/ui/UiButton"
 
-const initializeSitemapGenerationsApi = useInitializeSitemapGenerationsApi();
+const initializeSitemapGenerationsApi = useInitializeSitemapGenerationsApi()
 const initializeDetailsGenerationApi = useInitializeDetailsGenerationApi()
 
-const { t } = useI18n();
+const { t } = useI18n()
 
-const generateSitemap = async () => {
-  toast.success(t("dashboard.sitemapGenerationStarted"));
+async function generateSitemap() {
+  toast.success(t("dashboard.sitemapGenerationStarted"))
 
   initializeSitemapGenerationsApi.mutateAsync().then(() => {
     toast.success(t("dashboard.sitemapGenerationFinished"))
-  });
-};
+  })
+}
 
-const generateDetails = async () => {
-  toast.success(t("dashboard.detailsGenerationStarted"));
+async function generateDetails() {
+  toast.success(t("dashboard.detailsGenerationStarted"))
 
   initializeDetailsGenerationApi.mutateAsync().then(() => {
-    toast.success(t("dashboard.detailsGenerationFinished"));
+    toast.success(t("dashboard.detailsGenerationFinished"))
   })
 }
 </script>

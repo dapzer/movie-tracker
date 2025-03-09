@@ -1,1 +1,1 @@
-export { default as MediaCard } from './ui/MediaCard.vue';
+export { default as MediaCard } from "./ui/MediaCard.vue"

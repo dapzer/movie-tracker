@@ -1,54 +1,56 @@
 <script setup lang="ts">
-
-import { UiModalFullscreen } from "../../../shared/ui/UiModal"
-import { UiContainer } from "../../../shared/ui/UiContainer"
-import { UiDivider } from "../../../shared/ui/UiDivider"
-import { useSearch } from "~/features/search/model/useSearch"
+import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import type { VNodeRef } from "vue"
+import { useLocalePath } from "#i18n"
 import { computed, onMounted } from "#imports"
 import { useRouter } from "#vue-router"
-import { useLocalePath } from "#i18n"
-import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-import { UiInput } from "../../../shared/ui/UiInput"
-import { UiButton } from "../../../shared/ui/UiButton"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { ref } from "vue"
+import { useSearch } from "~/features/search/model/useSearch"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
-import { UiMediaCardHorizontalSkeleton } from "../../../shared/ui/UiCard"
-import { ref, type VNodeRef } from "vue"
-import { UiAttention } from "../../../shared/ui/UiAttention"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiMediaCardHorizontalSkeleton } from "~/shared/ui/UiCard"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiModalFullscreen } from "~/shared/ui/UiModal"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const model = defineModel<boolean>()
 const router = useRouter()
-const localePath = useLocalePath();
-const {searchValue, tmdbGetSearchByTermApi} = useSearch();
-const inputRef = ref<VNodeRef | null>(null);
+const localePath = useLocalePath()
+const { searchValue, tmdbGetSearchByTermApi } = useSearch()
+const inputRef = ref<VNodeRef | null>(null)
 
 onMounted(() => {
-  inputRef.value?.$el.focus();
-});
+  inputRef.value?.$el.focus()
+})
 
-const handleItemClick = (item: TmdbSearchResponseResultItemType) => {
-  router.push(localePath(`/details/${item.media_type}/${item.id}`));
-  model.value = false;
-};
+function handleItemClick(item: TmdbSearchResponseResultItemType) {
+  router.push(localePath(`/details/${item.media_type}/${item.id}`))
+  model.value = false
+}
 
-const handleOpenSearchPage = () => {
-  router.push(localePath(`/search?searchTerm=${searchValue.value}`));
-  model.value = false;
+function handleOpenSearchPage() {
+  router.push(localePath(`/search?searchTerm=${searchValue.value}`))
+  model.value = false
 }
 
 const itemsToRender = computed(() => {
-  if (!tmdbGetSearchByTermApi.data.value?.results) return [];
-  return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5);
-});
+  if (!tmdbGetSearchByTermApi.data.value?.results)
+    return []
+  return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5)
+})
 </script>
 
 <template>
   <UiModalFullscreen
     v-model="model"
   >
-    <template #content="{closeModal}">
+    <template #content="{ closeModal }">
       <div :class="$style.wrapper">
         <UiContainer :class="$style.header">
           <UiInput
@@ -141,7 +143,7 @@ const itemsToRender = computed(() => {
 <style module lang="scss">
 @import "~/styles/mixins";
 
-.wrapper{
+.wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;

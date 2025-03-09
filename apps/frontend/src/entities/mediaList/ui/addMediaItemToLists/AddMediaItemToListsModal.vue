@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { UiModal } from "../../../../shared/ui/UiModal"
-import AddMediaItemToListsForm from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsForm.vue"
+import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed, useI18n } from "#imports"
 import { useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
-import { UiBottomDrawer } from "../../../../shared/ui/UiBottomDrawer"
 import { useIsMobile } from "~/composables/useIsMobile"
+import AddMediaItemToListsForm from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsForm.vue"
+import { UiBottomDrawer } from "../~/shared/ui/UiBottomDrawer"
+import { UiModal } from "../~/shared/ui/UiModal"
 
 interface AddMediaItemToListsModalProps {
-  mediaId: number;
-  mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
+  mediaId: number
+  mediaType: TmdbMediaTypeEnum | MediaTypeEnum
 }
 
-const props = defineProps<AddMediaItemToListsModalProps>();
+const props = defineProps<AddMediaItemToListsModalProps>()
 const model = defineModel<boolean>()
-const { locale } = useI18n();
+const { locale } = useI18n()
 const { isMobile } = useIsMobile()
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
   mediaId: props.mediaId,
-  language: locale.value
-}));
+  language: locale.value,
+}))
 
-const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries, model.value);
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries, model.value)
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries, model.value);
     <UiModal
       v-if="!isMobile"
       v-model="model"
-      :title="$t('mediaList.addToListTitle', {title: tmdbGetMovieDetailsApi.data?.value?.title || tmdbGetMovieDetailsApi.data?.value?.name})"
+      :title="$t('mediaList.addToListTitle', { title: tmdbGetMovieDetailsApi.data?.value?.title || tmdbGetMovieDetailsApi.data?.value?.name })"
       :max-width="495"
     >
       <template #content>
@@ -49,7 +49,7 @@ const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries, model.value);
     <UiBottomDrawer
       v-else
       v-model="model"
-      :title="$t('mediaList.addToListTitle', {title: tmdbGetMovieDetailsApi.data?.value?.title || tmdbGetMovieDetailsApi.data?.value?.name})"
+      :title="$t('mediaList.addToListTitle', { title: tmdbGetMovieDetailsApi.data?.value?.title || tmdbGetMovieDetailsApi.data?.value?.name })"
     >
       <template #content>
         <AddMediaItemToListsForm

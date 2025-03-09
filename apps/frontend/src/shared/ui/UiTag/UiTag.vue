@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-export type TagColor = 'gray' | 'green' | 'orange'
+export type TagColor = "gray" | "green" | "orange"
 
 interface UiTagProps {
   color?: TagColor
 }
 
 const props = withDefaults(defineProps<UiTagProps>(), {
-  color: 'gray',
+  color: "gray",
 })
 </script>
 

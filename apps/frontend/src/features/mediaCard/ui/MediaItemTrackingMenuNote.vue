@@ -1,50 +1,49 @@
 <script setup lang="ts">
-
-import { UiTextarea } from "../../../shared/ui/UiTextarea"
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiButton } from "../../../shared/ui/UiButton"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
-import { computed, ref } from "vue"
 import { useI18n } from "#imports"
+import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTextarea } from "~/shared/ui/UiTextarea"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaItemTrackingMenuProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemTrackingMenuProps>();
-const { t } = useI18n();
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
-const value = ref(props.mediaItem.trackingData.note || "");
-const maxLength = 250;
+const props = defineProps<MediaItemTrackingMenuProps>()
+const { t } = useI18n()
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
+const value = ref(props.mediaItem.trackingData.note || "")
+const maxLength = 250
 
 const currentNote = computed(() => {
-  return props.mediaItem.trackingData.note;
-});
+  return props.mediaItem.trackingData.note
+})
 
 const isActiveControls = computed(() => {
-  return !updateMediaItemTrackingDataApi.isPending.value && currentNote.value !== value.value;
-});
+  return !updateMediaItemTrackingDataApi.isPending.value && currentNote.value !== value.value
+})
 
-const handleSave = async () => {
+async function handleSave() {
   await updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
-      note: value.value
-    }
+      note: value.value,
+    },
   }).then(() => {
-    toast.success(t("toasts.mediaItem.successNoteChanged"));
+    toast.success(t("toasts.mediaItem.successNoteChanged"))
   }).catch(() => {
-    toast.error(t("toasts.mediaItem.unsuccessfullyNoteChanged"));
-  });
-};
+    toast.error(t("toasts.mediaItem.unsuccessfullyNoteChanged"))
+  })
+}
 
-const handleCancel = () => {
-  value.value = currentNote.value;
-};
+function handleCancel() {
+  value.value = currentNote.value
+}
 </script>
 
 <template>

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiDivider } from "../../../shared/ui/UiDivider"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface DashboardCardProps {
-  title: string;
+  title: string
 }
 
 const props = defineProps<DashboardCardProps>()

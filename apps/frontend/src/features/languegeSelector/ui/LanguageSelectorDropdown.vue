@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-
-import { allowedLanguages } from "~/features/languegeSelector/model/languages";
-import { UiTypography } from "../../../shared/ui/UiTypography";
-import { useSwitchLocalePath } from "#i18n";
-import { useI18n } from "#imports";
-import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "../../../shared/ui/UiDropdown"
 import { NuxtLink } from "#components"
+import { useSwitchLocalePath } from "#i18n"
+import { useI18n } from "#imports"
 import { ref } from "vue"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { allowedLanguages } from "~/features/languegeSelector/model/languages"
+import { UiDropdown, UiDropdownGroup, UiDropdownItem, UiDropdownTriggerWithArrow } from "~/shared/ui/UiDropdown"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
-const switchLocalePath = useSwitchLocalePath();
-const { locale } = useI18n();
+const switchLocalePath = useSwitchLocalePath()
+const { locale } = useI18n()
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 </script>
 
 <template>

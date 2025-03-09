@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import UiHoverCard from "~/shared/ui/UiHoverCard/UiHoverCard.vue"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
 import { UiMediaCard } from "~/shared/ui/UiCard"
+import UiHoverCard from "~/shared/ui/UiHoverCard/UiHoverCard.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
 
-const align = ref<'start' | 'center' | 'end'>('start')
-const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
+const align = ref<"start" | "center" | "end">("start")
+const side = ref<"top" | "right" | "bottom" | "left">("bottom")
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
       >
         <template #trigger>
           <UiMediaCard
-            :imageSrc="getPlaceholderImageUrl(179, 277)"
+            :image-src="getPlaceholderImageUrl(179, 277)"
             description="Jan 07 2024, USA"
             title="Movie Title"
             link-url=""
@@ -44,7 +44,7 @@ const side = ref<'top' | 'right' | 'bottom' | 'left'>('bottom')
       >
         <template #trigger>
           <UiMediaCard
-            :imageSrc="getPlaceholderImageUrl(179, 277)"
+            :image-src="getPlaceholderImageUrl(179, 277)"
             description="Jan 07 2024, USA"
             title="Movie Title"
             link-url=""

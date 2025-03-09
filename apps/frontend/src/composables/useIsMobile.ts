@@ -1,10 +1,10 @@
 import { useBreakpoints } from "@vueuse/core"
 
-export const useIsMobile = () => {
+export function useIsMobile() {
   const breakpoints = useBreakpoints({
-    mobile: 568
+    mobile: 568,
   })
-  const isMobile = breakpoints.smaller("mobile");
+  const isMobile = breakpoints.smaller("mobile")
 
-  return { isMobile };
+  return { isMobile }
 }

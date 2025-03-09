@@ -1,32 +1,30 @@
 <script setup lang="ts">
-
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiSectionWithSeeMoreProps {
-  title: string;
-  seeMoreText?: string;
-  hideSeeMore?: boolean;
-  seeMoreUrl?: string;
-  seeMoreMobileOnly?: boolean;
-  seeMoreAlign?: 'start' | 'end';
+  title: string
+  seeMoreText?: string
+  hideSeeMore?: boolean
+  seeMoreUrl?: string
+  seeMoreMobileOnly?: boolean
+  seeMoreAlign?: "start" | "end"
 }
 
 const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
-  seeMoreAlign: 'start'
+  seeMoreAlign: "start",
 })
 const emits = defineEmits<{
-  (e: 'onClickSeeMore'): void
+  (e: "onClickSeeMore"): void
 }>()
-
 </script>
 
 <template>
   <section :class="$style.wrapper">
     <div
       :class="[$style.header, {
-        [$style.alignEnd]: props.seeMoreAlign === 'end'
+        [$style.alignEnd]: props.seeMoreAlign === 'end',
       }]"
     >
       <UiTypography
@@ -39,7 +37,7 @@ const emits = defineEmits<{
       <UiTypography
         v-if="!props.hideSeeMore"
         :class="[$style.link, {
-          [$style.seeMoreMobileOnly]: props.seeMoreMobileOnly
+          [$style.seeMoreMobileOnly]: props.seeMoreMobileOnly,
         }]"
         :as="NuxtLink"
         :to="props.seeMoreUrl"

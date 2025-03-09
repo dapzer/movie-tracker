@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
-import { UiInput } from "~/shared/ui/UiInput/index"
-import { ref } from "vue"
 import type { UiInputSize } from "~/shared/ui/UiInput/UiInput.vue"
+import { ref } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput/index"
 
 const disabled = ref(false)
 const placeholder = ref<string>("Placeholder")
@@ -13,10 +12,10 @@ const size = ref<UiInputSize>("default")
 
 const sizes = [{
   label: "Default",
-  value: "default"
-},{
+  value: "default",
+}, {
   label: "Small",
-  value: "small"
+  value: "small",
 }]
 </script>
 

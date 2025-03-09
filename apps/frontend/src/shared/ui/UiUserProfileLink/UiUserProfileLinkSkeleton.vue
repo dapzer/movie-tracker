@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-
-import { UiTypography } from '~/shared/ui/UiTypography';
 import { UiSkeleton } from "~/shared/ui/UiSkeleton"
+import { UiTypography } from "~/shared/ui/UiTypography"
 </script>
 
 <template>
@@ -18,7 +17,7 @@ import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
+@import "~/styles/mixins";
 
 .wrapper {
   display: flex;

@@ -1,34 +1,32 @@
 <script lang="ts" setup>
-
-import { computed } from "vue";
-import { useGetAnalyticsRecordsApi } from "~/api/analytics/useAnalyticsApi";
+import { computed } from "vue"
+import { useGetAnalyticsRecordsApi } from "~/api/analytics/useAnalyticsApi"
 import DasboardCard from "~/features/dashboard/ui/DasboardCard.vue"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiSkeleton } from "../../../shared/ui/UiSkeleton"
+import { UiSkeleton } from "~/shared/ui/UiSkeleton"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
-const getAnalyticsRecordsApi = useGetAnalyticsRecordsApi();
+const getAnalyticsRecordsApi = useGetAnalyticsRecordsApi()
 
 const records = computed(() => {
   return [
     {
       label: "Users",
-      value: getAnalyticsRecordsApi.data?.value?.users ?? 0
+      value: getAnalyticsRecordsApi.data?.value?.users ?? 0,
     },
     {
       label: "Media Lists",
-      value: getAnalyticsRecordsApi.data?.value?.mediaLists ?? 0
+      value: getAnalyticsRecordsApi.data?.value?.mediaLists ?? 0,
     },
     {
       label: "Media Items",
-      value: getAnalyticsRecordsApi.data?.value?.mediaItems ?? 0
+      value: getAnalyticsRecordsApi.data?.value?.mediaItems ?? 0,
     },
     {
       label: "Media Details",
-      value: getAnalyticsRecordsApi.data?.value?.mediaDetails ?? 0
-    }
-  ];
-});
-
+      value: getAnalyticsRecordsApi.data?.value?.mediaDetails ?? 0,
+    },
+  ]
+})
 </script>
 
 <template>

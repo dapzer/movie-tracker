@@ -1,1 +1,1 @@
-export {default as UiListCard} from './UiListCard.vue';
+export { default as UiListCard } from "./UiListCard.vue"

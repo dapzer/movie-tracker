@@ -1,33 +1,32 @@
 <script setup lang="ts">
-
-import { UiHoverCard } from "../../../shared/ui/UiHoverCard"
-import { MovieCard } from "~/entities/movieCard"
-import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
+import type { TmdbMediaTypeEnum, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { ref } from "vue"
 import { useAuth } from "~/composables/useAuth"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { MediaListSelectorModal } from "~/entities/mediaList"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { MovieCard } from "~/entities/movieCard"
+import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
+import { UiHoverCard } from "~/shared/ui/UiHoverCard"
+import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface MovieCardWithHoverMenuProps {
-  fullHeight?: boolean;
-  movie: TmdbSearchResponseResultItemType;
-  width?: number;
+  fullHeight?: boolean
+  movie: TmdbSearchResponseResultItemType
+  width?: number
 }
 
-const props = defineProps<MovieCardWithHoverMenuProps>();
-const isOpenModal = ref(false);
+const props = defineProps<MovieCardWithHoverMenuProps>()
+const isOpenModal = ref(false)
 const { isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
 
-const onOpenButtonClicked = () => {
+function onOpenButtonClicked() {
   if (!isAuthorized.value) {
-    navigateToSignInPage();
-    return;
+    navigateToSignInPage()
+    return
   }
 
-  isOpenModal.value = true;
+  isOpenModal.value = true
 }
 </script>
 

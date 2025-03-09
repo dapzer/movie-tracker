@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
-import { type MediaListType } from "@movie-tracker/types"
+import type { MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
+import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
-import { UiFormListItem } from "../../../../shared/ui/UiFormListItem"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
+import { UiFormListItem } from "../~/shared/ui/UiFormListItem"
+import { UiIcon } from "../~/shared/ui/UiIcon"
 
 interface MediaItemCreateCloneFormItemProps {
-  mediaList: MediaListType;
+  mediaList: MediaListType
 }
 
-const props = defineProps<MediaItemCreateCloneFormItemProps>();
+const props = defineProps<MediaItemCreateCloneFormItemProps>()
 const model = defineModel()
 
-const getMediaItemsApi = useGetMediaItemsApi();
+const getMediaItemsApi = useGetMediaItemsApi()
 
 const titlesInListCount = computed(() => {
-  return getMediaItemsApi.data.value?.filter(item => {
+  return getMediaItemsApi.data.value?.filter((item) => {
     return item.mediaListId === props.mediaList.id
   }).length || 0
 })
@@ -26,7 +26,7 @@ const titlesInListCount = computed(() => {
   <UiFormListItem
     v-model="model"
     :title="props.mediaList.title ?? $t('mediaList.favorites')"
-    :description="titlesInListCount + ' ' + $t(getElementDeclensionTranslationKey(titlesInListCount))"
+    :description="`${titlesInListCount} ${$t(getElementDeclensionTranslationKey(titlesInListCount))}`"
   >
     <template #rightContent>
       <UiIcon

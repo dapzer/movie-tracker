@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiListHeader from "~/shared/ui/UiListHeader/UiListHeader.vue"
 import { UiSelect } from "~/shared/ui/UiSelect"
 </script>
@@ -17,7 +16,7 @@ import { UiSelect } from "~/shared/ui/UiSelect"
         <template #filters>
           <UiSelect
             :width="200"
-            :options="[{value: '1', label: 'Option 1'}, {value: '2', label: 'Option 2'}]"
+            :options="[{ value: '1', label: 'Option 1' }, { value: '2', label: 'Option 2' }]"
             placeholder="Filter"
           />
         </template>

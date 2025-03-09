@@ -1,32 +1,32 @@
 <script lang="ts" setup>
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
 
-export type UiTypographySchema = 'link'
-export type UiTypographyVariant = 'text'
-    | 'title'
-    | 'title2'
-    | 'title3'
-    | 'title4'
-    | 'subheading'
-    | 'label'
-    | 'labelSmall'
-    | 'listTitle'
-    | 'cardTitle'
-    | 'description'
-    | 'badge'
-    | 'landingTitle'
+export type UiTypographySchema = "link"
+export type UiTypographyVariant = "text"
+  | "title"
+  | "title2"
+  | "title3"
+  | "title4"
+  | "subheading"
+  | "label"
+  | "labelSmall"
+  | "listTitle"
+  | "cardTitle"
+  | "description"
+  | "badge"
+  | "landingTitle"
 
 export interface UiTypographyProps {
-  as?: ComponentOrTag;
-  variant?: UiTypographyVariant;
-  schema?: UiTypographySchema;
-  ellipsis?: boolean;
+  as?: ComponentOrTag
+  variant?: UiTypographyVariant
+  schema?: UiTypographySchema
+  ellipsis?: boolean
 }
 
 const props = withDefaults(defineProps<UiTypographyProps>(), {
-  as: 'p',
-  variant: 'text',
-});
+  as: "p",
+  variant: "text",
+})
 </script>
 
 <template>
@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
+@import "~/styles/mixins";
 
 .title {
   color: var(--c-text);

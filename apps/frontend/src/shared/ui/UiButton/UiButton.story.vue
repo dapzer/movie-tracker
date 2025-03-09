@@ -1,11 +1,7 @@
 <script setup lang="ts">
-
-import UiButton, {
-  type UiButtonScheme,
-  type UiButtonSize,
-  type UiButtonVariant
-} from "~/shared/ui/UiButton/UiButton.vue"
+import type { UiButtonScheme, UiButtonSize, UiButtonVariant } from "~/shared/ui/UiButton/UiButton.vue"
 import { ref } from "vue"
+import UiButton from "~/shared/ui/UiButton/UiButton.vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface Option {
@@ -28,7 +24,7 @@ const sizeOptions: Option[] = (["small", "medium", "large"] as UiButtonSize[]).m
   }
 })
 const size = ref<UiButtonSize>("medium")
-const schemeOptions: Option[] = (["default", "primary", "secondary", "tertiary", 'link'] as UiButtonScheme[]).map((el) => {
+const schemeOptions: Option[] = (["default", "primary", "secondary", "tertiary", "link"] as UiButtonScheme[]).map((el) => {
   return {
     value: el,
     label: el,

@@ -1,24 +1,23 @@
 <script lang="ts" setup>
-
-import UiCardBase from '../UiCardBase.vue';
-import { UiTypography } from '~/shared/ui/UiTypography';
-import { UiImage } from '~/shared/ui/UiImage';
 import type { UiCardBaseProps } from "~/shared/ui/UiCard"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import UiCardBase from "../UiCardBase.vue"
 
-export type UiMediaCardHorizontalSize = 'small' | 'medium';
+export type UiMediaCardHorizontalSize = "small" | "medium"
 
-export interface UiMediaCardHorizontalProps extends Omit<UiCardBaseProps, "horizontal">{
-  imageSrc?: string;
-  title?: string;
-  subDescription?: string;
-  size?: UiMediaCardHorizontalSize;
-  fallbackImageSrc?: string;
+export interface UiMediaCardHorizontalProps extends Omit<UiCardBaseProps, "horizontal"> {
+  imageSrc?: string
+  title?: string
+  subDescription?: string
+  size?: UiMediaCardHorizontalSize
+  fallbackImageSrc?: string
 }
 
 const props = withDefaults(defineProps<UiMediaCardHorizontalProps>(), {
   imageWidth: 133,
-  size: 'medium',
-});
+  size: "medium",
+})
 
 const slots = defineSlots()
 </script>
@@ -73,10 +72,9 @@ const slots = defineSlots()
   </UiCardBase>
 </template>
 
-
 <style lang="scss" module>
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .image {
   aspect-ratio: 2/3;
@@ -105,7 +103,7 @@ const slots = defineSlots()
   &.small {
     gap: 4px;
 
-    .description{
+    .description {
       gap: 4px;
     }
   }

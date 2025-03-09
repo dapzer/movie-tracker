@@ -20,6 +20,5 @@ const props = defineProps<ComboboxItemProps>()
 
 <style module lang="scss">
 .item {
-
 }
 </style>

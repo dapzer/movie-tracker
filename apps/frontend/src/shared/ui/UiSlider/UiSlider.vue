@@ -1,8 +1,8 @@
 <script generic="T" setup lang="ts">
-import { UiButton } from "~/shared/ui/UiButton"
-import { ref } from "vue"
 import { watchEffect } from "#imports"
 import emblaCarouselVue from "embla-carousel-vue"
+import { ref } from "vue"
+import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiSliderProps<T> {
@@ -15,41 +15,46 @@ interface UiSliderProps<T> {
 const props = defineProps<UiSliderProps<T>>()
 
 const [emblaRef, emblaApi] = emblaCarouselVue({
-  align: 'start',
+  align: "start",
 })
 const prevBtnDisabled = ref(true)
 const nextBtnDisabled = ref(false)
 
-const onSlideChange = () => {
-  if (!emblaApi.value) return
+function onSlideChange() {
+  if (!emblaApi.value)
+    return
 
   nextBtnDisabled.value = !emblaApi.value.canScrollNext()
   prevBtnDisabled.value = !emblaApi.value.canScrollPrev()
 }
 
 watchEffect(() => {
-  if (!emblaApi.value) return
+  if (!emblaApi.value)
+    return
 
   onSlideChange()
-  emblaApi.value?.on('reInit', onSlideChange).on('select', onSlideChange)
+  emblaApi.value?.on("reInit", onSlideChange).on("select", onSlideChange)
 })
 
-const onPrevButtonClick = () => {
-  if (!emblaApi) return
+function onPrevButtonClick() {
+  if (!emblaApi)
+    return
   emblaApi?.value?.scrollPrev()
 }
 
-const onNextButtonClick = () => {
-  if (!emblaApi) return
+function onNextButtonClick() {
+  if (!emblaApi)
+    return
   emblaApi?.value?.scrollNext()
 }
 </script>
 
 <template>
   <div
-    :class="['embla', {
+    class="embla"
+    :class="[{
       'embla__shadow-left': props.withShadow && !prevBtnDisabled,
-      'embla__shadow-right': props.withShadow && !nextBtnDisabled
+      'embla__shadow-right': props.withShadow && !nextBtnDisabled,
     }]"
   >
     <div
@@ -62,7 +67,7 @@ const onNextButtonClick = () => {
           :key="index"
           class="embla__slide"
           :style="{
-            '--max-width': props.maxWidth ? `${props.maxWidth}px`: '100%',
+            '--max-width': props.maxWidth ? `${props.maxWidth}px` : '100%',
           }"
         >
           <slot
@@ -77,7 +82,7 @@ const onNextButtonClick = () => {
       <div
         class="embla__buttons"
         :style="{
-          '--top-offset': props.buttonsTopOffset && props.buttonsTopOffset >= 0 ? `${props.buttonsTopOffset}px`: '50%',
+          '--top-offset': props.buttonsTopOffset && props.buttonsTopOffset >= 0 ? `${props.buttonsTopOffset}px` : '50%',
         }"
       >
         <UiButton
@@ -122,7 +127,7 @@ const onNextButtonClick = () => {
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     z-index: 1;
     display: none;
     position: absolute;
@@ -131,7 +136,7 @@ const onNextButtonClick = () => {
     left: -100px;
     top: 0;
     pointer-events: none;
-    background: linear-gradient(90deg, #0D0D0D 55.14%, rgba(13, 13, 13, 0) 100%);
+    background: linear-gradient(90deg, #0d0d0d 55.14%, rgba(13, 13, 13, 0) 100%);
 
     @include mobileDevice() {
       width: 50px;
@@ -142,7 +147,7 @@ const onNextButtonClick = () => {
   &:after {
     right: -100px;
     left: auto;
-    background: linear-gradient(270deg, #0D0D0D 55.14%, rgba(13, 13, 13, 0) 100%);
+    background: linear-gradient(270deg, #0d0d0d 55.14%, rgba(13, 13, 13, 0) 100%);
   }
 
   @include mobileDevice() {
@@ -199,7 +204,7 @@ const onNextButtonClick = () => {
   }
 
   .embla__button-prev {
-    transform: rotate(180deg)
+    transform: rotate(180deg);
   }
 
   .embla__button-next {

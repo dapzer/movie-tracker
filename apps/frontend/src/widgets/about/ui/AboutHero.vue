@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
-import { UiContainer } from "../../../shared/ui/UiContainer"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiButton } from "../../../shared/ui/UiButton"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiImage } from "../../../shared/ui/UiImage"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const localePath = useLocalePath()
 </script>
@@ -35,13 +34,13 @@ const localePath = useLocalePath()
         </UiTypography>
         <div :class="$style.actions">
           <!-- TODO: Uncomment after implement community lists -->
-          <!--          <UiButton-->
-          <!--            :as="NuxtLink"-->
-          <!--            :to="localePath('/lists/community')"-->
-          <!--            variant="outlined"-->
-          <!--          >-->
-          <!--            {{ $t("navigation.communityLists") }}-->
-          <!--          </UiButton>-->
+          <!--          <UiButton -->
+          <!--            :as="NuxtLink" -->
+          <!--            :to="localePath('/lists/community')" -->
+          <!--            variant="outlined" -->
+          <!--          > -->
+          <!--            {{ $t("navigation.communityLists") }} -->
+          <!--          </UiButton> -->
           <UiButton
             :as="NuxtLink"
             :to="localePath('/')"
@@ -106,7 +105,6 @@ const localePath = useLocalePath()
       width: 428px;
       height: 303px;
       top: -30px;
-
     }
   }
 
@@ -137,8 +135,8 @@ const localePath = useLocalePath()
       width: 100%;
       max-width: 897px;
       height: 167px;
-      opacity: .6;
-      background: linear-gradient(90deg, #1475E6 21.62%, #B747EC 100%);
+      opacity: 0.6;
+      background: linear-gradient(90deg, #1475e6 21.62%, #b747ec 100%);
       filter: blur(200px);
       z-index: -1;
 

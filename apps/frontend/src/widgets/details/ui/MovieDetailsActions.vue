@@ -1,14 +1,13 @@
 <script setup lang="ts">
-
+import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { MediaListSelectorModal } from "~/entities/mediaList"
-import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 
 interface MovieDetailsActionsProps {
-  mediaId: number;
-  mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
+  mediaId: number
+  mediaType: TmdbMediaTypeEnum | MediaTypeEnum
 }
 
-const props = defineProps<MovieDetailsActionsProps>();
+const props = defineProps<MovieDetailsActionsProps>()
 </script>
 
 <template>
@@ -34,6 +33,5 @@ const props = defineProps<MovieDetailsActionsProps>();
       width: 100%;
     }
   }
-
 }
 </style>

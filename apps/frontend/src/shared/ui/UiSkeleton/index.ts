@@ -1,1 +1,1 @@
-export { default as UiSkeleton } from './UiSkeleton.vue';
+export { default as UiSkeleton } from "./UiSkeleton.vue"

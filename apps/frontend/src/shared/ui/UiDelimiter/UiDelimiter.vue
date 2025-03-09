@@ -16,7 +16,7 @@
   line-height: inherit;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: calc(50% - 2.5px);
     width: 5px;

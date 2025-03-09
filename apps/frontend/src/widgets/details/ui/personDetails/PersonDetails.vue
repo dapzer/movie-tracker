@@ -1,42 +1,42 @@
 <script lang="ts" setup>
-import { TmdbMediaTypeEnum } from "@movie-tracker/types";
+import { createError, formatDate, useI18n } from "#imports"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { computed } from "vue"
 import {
   useGetTmdbPersonCreditsApi,
   useGetTmdbPersonDetailsApi,
-  useGetTmdbPersonExternalIdsApi
-} from "~/api/tmdb/useTmdbApi";
-import { computed } from "vue";
-import { createError, formatDate, useI18n } from "#imports";
-import { UiContainer } from "../../../../shared/ui/UiContainer";
-import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue";
-import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo";
-import { UiSlider } from "../../../../shared/ui/UiSlider"
-import { UiSectionWithSeeMore } from "../../../../shared/ui/UiSectionWithSeeMore"
+  useGetTmdbPersonExternalIdsApi,
+} from "~/api/tmdb/useTmdbApi"
 import { MovieCardHorizontal } from "~/entities/movieCard"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
+import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo"
 import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
+import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue"
+import { UiContainer } from "../~/shared/ui/UiContainer"
+import { UiSectionWithSeeMore } from "../~/shared/ui/UiSectionWithSeeMore"
+import { UiSlider } from "../~/shared/ui/UiSlider"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface PersonDetailsProps {
-  mediaId: number;
+  mediaId: number
 }
 
-const props = defineProps<PersonDetailsProps>();
-const { locale, t } = useI18n();
+const props = defineProps<PersonDetailsProps>()
+const { locale, t } = useI18n()
 
 const personQueries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.PERSON,
   mediaId: props.mediaId,
-  language: locale.value
-}));
+  language: locale.value,
+}))
 
 const creditsQueries = computed(() => ({
   personId: props.mediaId,
-  language: locale.value
-}));
+  language: locale.value,
+}))
 
-const tmdbGetPersonDetailsApi = useGetTmdbPersonDetailsApi(personQueries);
-const tmdbGetPersonCreditsApi = useGetTmdbPersonCreditsApi(creditsQueries);
-const tmdbGetPersonExternalIdsApi = useGetTmdbPersonExternalIdsApi(personQueries);
+const tmdbGetPersonDetailsApi = useGetTmdbPersonDetailsApi(personQueries)
+const tmdbGetPersonCreditsApi = useGetTmdbPersonCreditsApi(creditsQueries)
+const tmdbGetPersonExternalIdsApi = useGetTmdbPersonExternalIdsApi(personQueries)
 
 await Promise.all([
   tmdbGetPersonDetailsApi.suspense().then((res) => {
@@ -44,15 +44,16 @@ await Promise.all([
       throw createError({
         statusCode: 404,
         message: t("ui.errors.pageNotFound"),
-      });
+      })
     }
   }),
   tmdbGetPersonCreditsApi.suspense(),
-  tmdbGetPersonExternalIdsApi.suspense()
-]);
+  tmdbGetPersonExternalIdsApi.suspense(),
+])
 
 const knowFor = computed(() => {
-  if (!tmdbGetPersonCreditsApi.data.value) return [];
+  if (!tmdbGetPersonCreditsApi.data.value)
+    return []
   const result = new Map()
 
   tmdbGetPersonCreditsApi.data.value.cast.forEach((item) => {
@@ -73,10 +74,10 @@ const knowFor = computed(() => {
     })
   })
 
-  return Array.from(result.values()).sort((a, b) => b.vote_count - a.vote_count).slice(0, 20);
-});
+  return Array.from(result.values()).sort((a, b) => b.vote_count - a.vote_count).slice(0, 20)
+})
 
-usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
+usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value)
 </script>
 
 <template>
@@ -96,7 +97,7 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value);
         :data="knowFor"
         :max-width="294"
       >
-        <template #slide="{item}">
+        <template #slide="{ item }">
           <MovieCardHorizontal
             :class="$style.knowForCard"
             full-height

@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type { TmdbCreditsCastType, TmdbMediaDetailsCreatedByType } from "@movie-tracker/types";
-import { NuxtLink } from "#components";
-import { useLocalePath } from "#i18n";
+import type { TmdbCreditsCastType, TmdbMediaDetailsCreatedByType } from "@movie-tracker/types"
+import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 
 interface MovieDetailsProducersProps {
-  producers: TmdbCreditsCastType[] | TmdbMediaDetailsCreatedByType[];
+  producers: TmdbCreditsCastType[] | TmdbMediaDetailsCreatedByType[]
 }
 
-const props = defineProps<MovieDetailsProducersProps>();
+const props = defineProps<MovieDetailsProducersProps>()
 const localePath = useLocalePath()
-
 </script>
 
 <template>

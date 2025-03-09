@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
-import UiTabs from "~/shared/ui/UiTabs/UiTabs.vue"
-import UiTabTrigger from "~/shared/ui/UiTabs/UiTabTrigger.vue"
-import UiTabsPane from "~/shared/ui/UiTabs/UiTabsPane.vue"
 import { ref } from "vue"
+import UiTabs from "~/shared/ui/UiTabs/UiTabs.vue"
+import UiTabsPane from "~/shared/ui/UiTabs/UiTabsPane.vue"
+import UiTabTrigger from "~/shared/ui/UiTabs/UiTabTrigger.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 const currentTab = ref<string>()
@@ -20,24 +19,24 @@ const currentTab = ref<string>()
           :tabs="[
             {
               key: 'tab1',
-              label: 'Tab 1'
+              label: 'Tab 1',
             },
             {
               key: 'tab2',
-              label: 'Tab 2'
+              label: 'Tab 2',
             },
             {
               key: 'tab3',
-              label: 'Tab 3'
+              label: 'Tab 3',
             },
             {
               key: 'tab4',
-              label: 'Tab 4'
+              label: 'Tab 4',
             },
             {
               key: 'tab5',
-              label: 'Tab 5'
-            }
+              label: 'Tab 5',
+            },
           ] as const"
         >
           <template #afterTabs>
@@ -78,24 +77,24 @@ const currentTab = ref<string>()
           :tabs="[
             {
               key: 'tab1',
-              label: 'Tab 1'
+              label: 'Tab 1',
             },
             {
               key: 'tab2',
-              label: 'Tab 2'
+              label: 'Tab 2',
             },
             {
               key: 'tab3',
-              label: 'Tab 3'
+              label: 'Tab 3',
             },
             {
               key: 'tab4',
-              label: 'Tab 4'
+              label: 'Tab 4',
             },
             {
               key: 'tab5',
-              label: 'Tab 5'
-            }
+              label: 'Tab 5',
+            },
           ] as const"
         >
           <template #afterTabs>

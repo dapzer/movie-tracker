@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import UiPagination from "~/shared/ui/UiPagination/UiPagination.vue"
 import { ref } from "vue"
+import UiPagination from "~/shared/ui/UiPagination/UiPagination.vue"
 
 const currentPage = ref(1)
 </script>

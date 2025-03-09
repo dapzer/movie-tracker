@@ -7,14 +7,15 @@ export interface UiTextareaProps {
   height?: number
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = withDefaults(defineProps<UiTextareaProps>(), {
-  height: 92
-});
+  height: 92,
+})
 
 const inputModel = defineModel<string>()
-defineOptions({
-  inheritAttrs: false
-})
 </script>
 
 <template>
@@ -22,9 +23,9 @@ defineOptions({
     <textarea
       v-bind="$attrs"
       v-model="inputModel"
-      :style="{'--height': `${props.height}px`}"
+      :style="{ '--height': `${props.height}px` }"
       :class="{
-        [$style.errored]: !!props.error
+        [$style.errored]: !!props.error,
       }"
     />
 

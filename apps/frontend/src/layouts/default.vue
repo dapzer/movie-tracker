@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-
-import { DefaultHeader } from "~/widgets/header"
 import { DefaultFooter } from "~/widgets/footer"
+import { DefaultHeader } from "~/widgets/header"
 import { UiLayoutWrapper } from "../shared/ui/UiLayoutWrapper"
 </script>
 

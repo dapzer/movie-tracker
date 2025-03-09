@@ -1,59 +1,59 @@
 <script lang="ts" setup>
-
-import { UiTypography } from "../../../shared/ui/UiTypography";
-import { useRoute } from "#app";
-import { definePageMeta, getCurrentBrowserName, onMounted } from "#imports";
-import { UiLoadingIndicator } from "../../../shared/ui/UiLoadingIndicator";
-import { computed, ref } from "vue";
-import { UiButton } from "../../../shared/ui/UiButton";
-import { useLocalStorage } from "@vueuse/core";
-import { useRouter } from "vue-router";
-import { useSignInCallbackApi } from "~/api/auth/useAuthApi";
+import { useRoute } from "#app"
+import { definePageMeta, getCurrentBrowserName, onMounted } from "#imports"
+import { useLocalStorage } from "@vueuse/core"
+import { computed, ref } from "vue"
+import { useRouter } from "vue-router"
+import { useSignInCallbackApi } from "~/api/auth/useAuthApi"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiLoadingIndicator } from "~/shared/ui/UiLoadingIndicator"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { BrowserEnum } from "~/types/browserEnum"
-import { UiContainer } from "../../../shared/ui/UiContainer"
 import { LocalStorageEnum } from "~/types/localStorageEnum"
 
-const { params, query } = useRoute();
-const signInCallbackApi = useSignInCallbackApi();
-const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, "");
-const router = useRouter();
+const { params, query } = useRoute()
+const signInCallbackApi = useSignInCallbackApi()
+const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, "")
+const router = useRouter()
 
 definePageMeta({
-  layout: "auth-layout"
-});
+  layout: "auth-layout",
+})
 
-const isError = ref(false);
-const isPending = computed(() => signInCallbackApi.status.value === "pending");
+const isError = ref(false)
+const isPending = computed(() => signInCallbackApi.status.value === "pending")
 
-const closeWindow = () => {
-  window.close();
-};
+function closeWindow() {
+  window.close()
+}
 
 onMounted(async () => {
   try {
     if (!query.code) {
-      isError.value = true;
-      return;
+      isError.value = true
+      return
     }
 
     await signInCallbackApi.mutateAsync({
       provider: params.provider as string,
-      code: query.code as string
-    });
+      code: query.code as string,
+    })
 
-    const currentBrowser = getCurrentBrowserName();
+    const currentBrowser = getCurrentBrowserName()
 
     if (authRedirectUrl.value && currentBrowser === BrowserEnum.SAFARI) {
-      await router.replace(authRedirectUrl.value);
-      authRedirectUrl.value = "";
-    } else {
-      closeWindow();
+      await router.replace(authRedirectUrl.value)
+      authRedirectUrl.value = ""
     }
-  } catch (e) {
-    isError.value = true;
-    return;
+    else {
+      closeWindow()
+    }
   }
-});
+  catch (e) {
+    isError.value = true
+  }
+})
 </script>
 
 <template>

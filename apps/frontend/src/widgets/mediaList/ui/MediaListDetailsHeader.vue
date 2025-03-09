@@ -1,34 +1,34 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiButton } from "../../../shared/ui/UiButton"
-import { UiUserProfileLink } from "../../../shared/ui/UiUserProfileLink"
 import { useClipboard } from "@vueuse/core"
-import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 
 interface MediaListHeaderProps {
-  mediaList: MediaListType;
+  mediaList: MediaListType
   mediaItems: MediaItemType[]
   userProfile: UserType | UserPublicType
-  isUserListOwner: boolean;
+  isUserListOwner: boolean
 }
 
-const props = defineProps<MediaListHeaderProps>();
-const { t } = useI18n();
-const { copy, copied } = useClipboard({ copiedDuring: 1000 });
+const props = defineProps<MediaListHeaderProps>()
+const { t } = useI18n()
+const { copy, copied } = useClipboard({ copiedDuring: 1000 })
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const { isAuthorized } = useAuth()
 const createLikeMediaListApi = useCreateLikeMediaListApi()
 const deleteLikeMediaListApi = useDeleteLikeMediaListApi()
 
-const copyLink = () => {
-  copy(`${window.location.origin}/lists/details/${props.mediaList.humanFriendlyId}`);
-};
+function copyLink() {
+  copy(`${window.location.origin}/lists/details/${props.mediaList.humanFriendlyId}`)
+}
 
-const handleLike = async () => {
+async function handleLike() {
   if (!isAuthorized.value) {
     navigateToSignInPage()
     return
@@ -36,10 +36,11 @@ const handleLike = async () => {
 
   if (props.mediaList.isLiked) {
     await deleteLikeMediaListApi.mutateAsync(props.mediaList.id)
-  } else {
+  }
+  else {
     await createLikeMediaListApi.mutateAsync(props.mediaList.id)
   }
-};
+}
 </script>
 
 <template>
@@ -99,7 +100,7 @@ const handleLike = async () => {
           :media-list="props.mediaList"
           :media-items="props.mediaItems"
         >
-          <template #trigger="{openModal}">
+          <template #trigger="{ openModal }">
             <UiButton
               with-icon
               scheme="secondary"
@@ -114,7 +115,7 @@ const handleLike = async () => {
           v-if="props.isUserListOwner"
           :media-list="props.mediaList"
         >
-          <template #trigger="{openModal}">
+          <template #trigger="{ openModal }">
             <UiButton
               with-icon
               @click="openModal"

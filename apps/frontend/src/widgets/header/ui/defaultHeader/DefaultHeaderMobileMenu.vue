@@ -1,16 +1,15 @@
 <script setup lang="ts">
-
-import { listsNavigationLinks } from "~/widgets/header/model/listsNavigationLinks"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { UiDivider } from "../../../../shared/ui/UiDivider"
+import { listsNavigationLinks } from "~/widgets/header/model/listsNavigationLinks"
 import DefaultHeaderMobileMenuFooter from "~/widgets/header/ui/defaultHeader/DefaultHeaderMobileMenuFooter.vue"
-import { UiModalFullscreen } from "../../../../shared/ui/UiModal"
-import { UiContainer } from "../../../../shared/ui/UiContainer"
+import { UiContainer } from "../~/shared/ui/UiContainer"
+import { UiDivider } from "../~/shared/ui/UiDivider"
+import { UiModalFullscreen } from "../~/shared/ui/UiModal"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 const model = defineModel<boolean>()
-const localePath = useLocalePath();
+const localePath = useLocalePath()
 
 const navigationLinks = [{
   title: "navigation.about",

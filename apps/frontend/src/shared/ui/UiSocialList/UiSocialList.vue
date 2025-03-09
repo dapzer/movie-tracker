@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { NuxtLink } from "#components";
-import { getSocialList, type SocialIdsType } from "~/utils/getSocialList"
+import type { SocialIdsType } from "~/utils/getSocialList"
+import { NuxtLink } from "#components"
 import { computed } from "vue"
+import { getSocialList } from "~/utils/getSocialList"
 
 interface UisSocialListProps {
   socialList: SocialIdsType
@@ -9,13 +10,12 @@ interface UisSocialListProps {
 }
 
 const props = withDefaults(defineProps<UisSocialListProps>(), {
-  size: 28
-});
-
-const serializedSocialList = computed(() => {
-  return getSocialList(props.socialList);
+  size: 28,
 })
 
+const serializedSocialList = computed(() => {
+  return getSocialList(props.socialList)
+})
 </script>
 
 <template>
@@ -49,7 +49,7 @@ const serializedSocialList = computed(() => {
     flex-wrap: wrap;
 
     .icon {
-     --size: var(--icon-size) !important;
+      --size: var(--icon-size) !important;
     }
 
     a {
@@ -61,5 +61,4 @@ const serializedSocialList = computed(() => {
     }
   }
 }
-
 </style>

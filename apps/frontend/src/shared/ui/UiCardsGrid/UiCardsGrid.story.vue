@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
+import { ref } from "vue"
+import { UiMediaCard } from "~/shared/ui/UiCard"
 import UiCardsGrid from "~/shared/ui/UiCardsGrid/UiCardsGrid.vue"
 import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
-import { UiMediaCard } from "~/shared/ui/UiCard"
-import { ref } from "vue"
 
 const cardCount = ref(20)
 </script>
@@ -19,7 +18,7 @@ const cardCount = ref(20)
           v-for="i in cardCount"
           :key="i"
           full-height
-          :imageSrc="getPlaceholderImageUrl(179, 277)"
+          :image-src="getPlaceholderImageUrl(179, 277)"
           description="Jan 07 2024, USA"
           :title="`Movie Title ${i + 1}`"
           link-url=""

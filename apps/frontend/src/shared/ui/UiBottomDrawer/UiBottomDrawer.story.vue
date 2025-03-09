@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiBottomDrawer from "~/shared/ui/UiBottomDrawer/UiBottomDrawer.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiTypography } from "~/shared/ui/UiTypography"

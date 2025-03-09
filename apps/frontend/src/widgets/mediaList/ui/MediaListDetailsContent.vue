@@ -1,40 +1,41 @@
 <script setup lang="ts">
-import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
-import { UiInput } from "../../../shared/ui/UiInput"
-import { UiSelect } from "../../../shared/ui/UiSelect"
-import { computed, h, ref, watch } from "vue"
-import { useI18n } from "#imports"
-import { UiDropdown, UiDropdownItem } from "../../../shared/ui/UiDropdown"
-import { UiTabsPane } from "../../../shared/ui/UiTabs"
-import { UiDivider } from "../../../shared/ui/UiDivider"
-import { UiCardsGrid } from "../../../shared/ui/UiCardsGrid"
-import { UiMediaCardSkeleton } from "../../../shared/ui/UiCard"
-import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListItems"
-import { UiPagination } from "../../../shared/ui/UiPagination"
-import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
-import { MediaCard } from "~/features/mediaCard"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
+import type { MediaItemType } from "@movie-tracker/types"
+import type { SortOrderEnum } from "~/types/Sorting"
 import { useCookie } from "#app"
-import { UiIcon } from "../../../shared/ui/UiIcon"
-import { SortOrderEnum } from "~/types/Sorting"
+import { useI18n } from "#imports"
+import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import { computed, h, ref, watch } from "vue"
+import { MediaCard } from "~/features/mediaCard"
+import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
+import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
+import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiDropdown, UiDropdownItem } from "~/shared/ui/UiDropdown"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiPagination } from "~/shared/ui/UiPagination"
+import { UiSelect } from "~/shared/ui/UiSelect"
+import { UiTabsPane } from "~/shared/ui/UiTabs"
+import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListItems"
 
 interface MediaListDetailsProps {
-  mediaListItems?: MediaItemType[];
-  isLoading: boolean;
-  isUserListOwner?: boolean;
+  mediaListItems?: MediaItemType[]
+  isLoading: boolean
+  isUserListOwner?: boolean
 }
 
-const props = defineProps<MediaListDetailsProps>();
+const props = defineProps<MediaListDetailsProps>()
 const storedMediaListSortingType = useCookie(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
-  default: () =>  'asc_createdAt',
-  expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-});
+  default: () => "asc_createdAt",
+  expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+})
 
-const sortType = ref<string>(storedMediaListSortingType.value);
-const activeTab = ref<string>('all');
-const searchTerm = ref<string>('');
-const currentPage = ref<number>(1);
-const { t } = useI18n();
+const sortType = ref<string>(storedMediaListSortingType.value)
+const activeTab = ref<string>("all")
+const searchTerm = ref<string>("")
+const currentPage = ref<number>(1)
+const { t } = useI18n()
 
 watch(() => sortType.value, () => {
   storedMediaListSortingType.value = sortType.value
@@ -44,43 +45,42 @@ watch([searchTerm, activeTab], () => {
   currentPage.value = 1
 })
 
-const sortArrowUpIcon = h(UiIcon, { name: 'icon:sort-arrow-up' })
-const sortArrowDownIcon = h(UiIcon, { name: 'icon:sort-arrow-down' })
+const sortArrowUpIcon = h(UiIcon, { name: "icon:sort-arrow-up" })
+const sortArrowDownIcon = h(UiIcon, { name: "icon:sort-arrow-down" })
 
 const options = computed(() => {
   return [
     {
       label: t("mediaList.sort.createdAt"),
-      value: 'asc_createdAt',
-      icon: sortArrowUpIcon
+      value: "asc_createdAt",
+      icon: sortArrowUpIcon,
     },
     {
       label: t("mediaList.sort.createdAt"),
-      value: 'desc_createdAt',
-      icon: sortArrowDownIcon
+      value: "desc_createdAt",
+      icon: sortArrowDownIcon,
     },
     {
       label: t("mediaList.sort.updatedAt"),
-      value: 'asc_updatedAt',
-      icon: sortArrowUpIcon
+      value: "asc_updatedAt",
+      icon: sortArrowUpIcon,
     },
     {
       label: t("mediaList.sort.updatedAt"),
-      value: 'desc_updatedAt',
-      icon: sortArrowDownIcon
+      value: "desc_updatedAt",
+      icon: sortArrowDownIcon,
     },
   ]
 })
 
 const sortedMediaItems = computed(() => {
-  const [sortOrder, sortBy] = sortType.value.split('_')
+  const [sortOrder, sortBy] = sortType.value.split("_")
   return filterMediaListItems(props.mediaListItems ?? [], searchTerm.value, sortOrder as SortOrderEnum, sortBy as keyof
-      Pick<MediaItemType,
-      "createdAt" | "updatedAt">)
+  Pick<MediaItemType, "createdAt" | "updatedAt">)
 })
 
 const groupedByStatus = computed(() => {
-  let result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
+  const result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
     [MediaItemStatusNameEnum.WATCHING_NOW]: [],
     [MediaItemStatusNameEnum.NOT_VIEWED]: [],
     [MediaItemStatusNameEnum.WAIT_NEW_PART]: [],
@@ -94,7 +94,7 @@ const groupedByStatus = computed(() => {
 })
 
 const currentTabMediaItems = computed(() => {
-  if (activeTab.value === 'all') {
+  if (activeTab.value === "all") {
     return sortedMediaItems.value
   }
 
@@ -163,24 +163,24 @@ watch(currentTabMediaItems, () => {
       :tabs="[
         {
           label: `${$t('ui.all')} (${sortedMediaItems.length})`,
-          key: 'all'
+          key: 'all',
         },
         {
           label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${groupedByStatus.WATCHING_NOW.length})`,
-          key: MediaItemStatusNameEnum.WATCHING_NOW
+          key: MediaItemStatusNameEnum.WATCHING_NOW,
         },
         {
           label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${groupedByStatus.NOT_VIEWED.length})`,
-          key: MediaItemStatusNameEnum.NOT_VIEWED
+          key: MediaItemStatusNameEnum.NOT_VIEWED,
         },
         {
           label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${groupedByStatus.WAIT_NEW_PART.length})`,
-          key: MediaItemStatusNameEnum.WAIT_NEW_PART
+          key: MediaItemStatusNameEnum.WAIT_NEW_PART,
         },
         {
           label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${groupedByStatus.VIEWED.length})`,
-          key: MediaItemStatusNameEnum.VIEWED
-        }
+          key: MediaItemStatusNameEnum.VIEWED,
+        },
       ] as const"
     >
       <template #afterTabs>

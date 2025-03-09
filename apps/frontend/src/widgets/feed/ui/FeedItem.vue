@@ -1,19 +1,19 @@
 <script generic="T" setup lang="ts">
-import { UiSlider } from "../../../shared/ui/UiSlider"
-import { UiCardsGrid } from "../../../shared/ui/UiCardsGrid"
-import { UiSectionWithSeeMore } from "../../../shared/ui/UiSectionWithSeeMore"
+import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
+import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
+import { UiSlider } from "~/shared/ui/UiSlider"
 
 interface FeedItemProps<T> {
-  data: T[] | undefined;
-  title: string;
-  seeMoreUrl: string;
-  isLoading?: boolean;
-  slideWidth?: number;
-  sliderWithShadow?: boolean;
+  data: T[] | undefined
+  title: string
+  seeMoreUrl: string
+  isLoading?: boolean
+  slideWidth?: number
+  sliderWithShadow?: boolean
 }
 
 const props = defineProps<FeedItemProps<T>>()
-const loadingArray = Array.from({ length: 20 }, (_, i) => i);
+const loadingArray = Array.from({ length: 20 }, (_, i) => i)
 </script>
 
 <template>
@@ -27,8 +27,8 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i);
       :buttons-top-offset="142"
       :class="$style.slider"
       :data="isLoading ? loadingArray as T[] : props.data as T[]"
-      :maxWidth="props.slideWidth"
-      :withShadow="props.sliderWithShadow"
+      :max-width="props.slideWidth"
+      :with-shadow="props.sliderWithShadow"
     >
       <template
         v-if="!isLoading"

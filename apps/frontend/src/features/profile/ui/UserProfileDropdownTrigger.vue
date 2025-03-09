@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-
-import type { UserType } from "@movie-tracker/types";
-import { UiImage } from "../../../shared/ui/UiImage"
+import type { UserType } from "@movie-tracker/types"
+import { UiImage } from "~/shared/ui/UiImage"
 
 interface UserProfileDropdownTriggerProps {
-  profile: UserType;
+  profile: UserType
 }
 
-const props = defineProps<UserProfileDropdownTriggerProps>();
+const props = defineProps<UserProfileDropdownTriggerProps>()
 </script>
 
 <template>

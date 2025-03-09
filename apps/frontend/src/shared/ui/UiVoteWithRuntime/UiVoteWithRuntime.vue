@@ -1,27 +1,27 @@
 <script setup lang="ts">
-
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { computed, getColorByRating, getFormatedNumber } from "#imports"
-import { UiDelimiter } from "~/shared/ui/UiDelimiter"
 import { minsToTimeConverter } from "@movie-tracker/utils"
+import { UiDelimiter } from "~/shared/ui/UiDelimiter"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiVoteWithRuntimeProps {
-  voteAverage: number;
-  voteCount: number;
-  runtime?: number;
+  voteAverage: number
+  voteCount: number
+  runtime?: number
 }
 
-const props = defineProps<UiVoteWithRuntimeProps>();
+const props = defineProps<UiVoteWithRuntimeProps>()
 
 const currentRatingColor = computed(() => {
-  return getColorByRating(props.voteAverage);
-});
+  return getColorByRating(props.voteAverage)
+})
 
 const formatedRuntime = computed(() => {
-  if (!props.runtime) return undefined;
-  return minsToTimeConverter(props.runtime);
-});
+  if (!props.runtime)
+    return undefined
+  return minsToTimeConverter(props.runtime)
+})
 </script>
 
 <template>
@@ -32,7 +32,7 @@ const formatedRuntime = computed(() => {
           [$style.gray]: currentRatingColor === 'gray',
           [$style.red]: currentRatingColor === 'red',
           [$style.orange]: currentRatingColor === 'orange',
-          [$style.green]: currentRatingColor === 'green'
+          [$style.green]: currentRatingColor === 'green',
         }]"
       >
         <UiIcon name="icon:star" />
@@ -70,6 +70,7 @@ const formatedRuntime = computed(() => {
     </div>
   </div>
 </template>
+
 <style module lang="scss">
 .wrapper {
   display: flex;

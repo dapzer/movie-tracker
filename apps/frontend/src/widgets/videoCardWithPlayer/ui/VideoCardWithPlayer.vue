@@ -1,32 +1,31 @@
 <script lang="ts" setup>
-
-import { UiModal } from "../../../shared/ui/UiModal";
-import { UiVideoCard } from "../../../shared/ui/UiCard";
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { NuxtLink } from "#components"
+import { UiVideoCard } from "~/shared/ui/UiCard"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiModal } from "~/shared/ui/UiModal"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface VideoCardWithPlayerProps {
-  videoUrl: string;
-  sourceUrl?: string;
-  description: string;
-  previewSrc: string;
-  title: string;
-  width?: number;
-  fullHeight?: boolean;
+  videoUrl: string
+  sourceUrl?: string
+  description: string
+  previewSrc: string
+  title: string
+  width?: number
+  fullHeight?: boolean
 }
 
-const props = defineProps<VideoCardWithPlayerProps>();
+const props = defineProps<VideoCardWithPlayerProps>()
 </script>
 
 <template>
   <UiModal
     :title="props.title"
   >
-    <template #trigger="{openModal}">
+    <template #trigger="{ openModal }">
       <UiVideoCard
         :class="$style.trigger"
-        :fullHeight="props.fullHeight"
+        :full-height="props.fullHeight"
         :title="props.title"
         :description="props.description"
         :preview-src="props.previewSrc"

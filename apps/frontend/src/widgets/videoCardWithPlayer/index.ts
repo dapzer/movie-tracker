@@ -1,1 +1,1 @@
-export {default as VideoCardWithPlayer} from './ui/VideoCardWithPlayer.vue'
+export { default as VideoCardWithPlayer } from "./ui/VideoCardWithPlayer.vue"

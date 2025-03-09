@@ -1,23 +1,22 @@
 <script lang="ts" setup>
-
-import { UiCardBase } from '~/shared/ui/UiCard';
+import { UiCardBase } from "~/shared/ui/UiCard"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 
 interface UiListCardProps {
-  width?: number;
-  linkUrl?: string;
-  userId?: string;
-  userAvatarSrc?: string;
-  userName?: string;
-  userUrl?: string;
-  imagesSrc?: Array<string | undefined>;
+  width?: number
+  linkUrl?: string
+  userId?: string
+  userAvatarSrc?: string
+  userName?: string
+  userUrl?: string
+  imagesSrc?: Array<string | undefined>
 }
 
 const props = withDefaults(defineProps<UiListCardProps>(), {
   width: 396,
-  imagesSrc: () => []
-});
+  imagesSrc: () => [],
+})
 </script>
 
 <template>
@@ -62,8 +61,8 @@ const props = withDefaults(defineProps<UiListCardProps>(), {
 </template>
 
 <style lang="scss" module>
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .wrapper {
   padding: 16px;
@@ -89,7 +88,7 @@ const props = withDefaults(defineProps<UiListCardProps>(), {
 
     .imagesItem {
       display: flex;
-      background: linear-gradient(337.92deg, #151515 3.25%, #1E1E1E 52.25%, #151515 100%);
+      background: linear-gradient(337.92deg, #151515 3.25%, #1e1e1e 52.25%, #151515 100%);
       box-shadow: 4px 0px 20px rgba(13, 13, 13, 0.56);
 
       &:not(:first-child) {

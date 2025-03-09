@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-
-import { UiContainer } from "../../../shared/ui/UiContainer";
-import { AppLogo } from "~/shared/ui/appLogo"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { PublicResources } from "~/shared/ui/publicResources"
-import { movieTrackerLinks } from "~/widgets/footer/model/movieTrackerLinks"
 import { useLocalePath } from "#i18n"
-import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFooterLinkList.vue"
+import { AppLogo } from "~/shared/ui/appLogo"
+import { PublicResources } from "~/shared/ui/publicResources"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { movieTrackerLinks } from "~/widgets/footer/model/movieTrackerLinks"
 import DefaultFooterDataSource from "~/widgets/footer/ui/defaultFooter/DefaultFooterDataSource.vue"
+import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFooterLinkList.vue"
 
 const localePath = useLocalePath()
 </script>
@@ -26,7 +25,7 @@ const localePath = useLocalePath()
           </UiTypography>
         </div>
         <div :class="$style.navigationItem">
-          <!-- TODO: show after implement pages-->
+          <!-- TODO: show after implement pages -->
           <UiTypography
             v-if="false"
             variant="label"
@@ -107,8 +106,6 @@ const localePath = useLocalePath()
       flex-wrap: wrap;
       gap: 12px;
     }
-
   }
 }
-
 </style>

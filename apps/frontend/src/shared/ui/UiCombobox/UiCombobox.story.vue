@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
+import { ref } from "vue"
 import UiCombobox from "~/shared/ui/UiCombobox/UiCombobox.vue"
 import UiComboboxItem from "~/shared/ui/UiCombobox/UiComboboxItem.vue"
-import { ref } from "vue"
 
-const options = ['Apple', 'Banana', 'Blueberry', 'Grapes', 'Pineapple']
+const options = ["Apple", "Banana", "Blueberry", "Grapes", "Pineapple"]
 const searchTerm = ref<string>("")
 </script>
 

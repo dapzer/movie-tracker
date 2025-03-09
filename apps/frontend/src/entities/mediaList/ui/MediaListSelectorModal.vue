@@ -1,38 +1,37 @@
 <script setup lang="ts">
-
-import { ref } from "vue"
-import { UiButton } from "../../../shared/ui/UiButton"
-import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
-import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { CreateMediaListModal } from "~/entities/mediaList"
+import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useAuth } from "#imports"
+import { ref } from "vue"
 import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { useSwitchModals } from "~/composables/useSwitchModals"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { CreateMediaListModal } from "~/entities/mediaList"
+import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface MediaListSelectorItemProps {
-  mediaId: number;
-  mediaType: TmdbMediaTypeEnum | MediaTypeEnum;
-  hideTrigger?: boolean;
+  mediaId: number
+  mediaType: TmdbMediaTypeEnum | MediaTypeEnum
+  hideTrigger?: boolean
 }
 
-const props = defineProps<MediaListSelectorItemProps>();
+const props = defineProps<MediaListSelectorItemProps>()
 const { isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const model = defineModel<boolean>()
 
-const isOpenModal = ref(model);
-const isOpenCreateModal = ref(false);
+const isOpenModal = ref(model)
+const isOpenCreateModal = ref(false)
 
-const { onOpenSecondModal } = useSwitchModals(isOpenModal, isOpenCreateModal);
+const { onOpenSecondModal } = useSwitchModals(isOpenModal, isOpenCreateModal)
 
-const onOpenButtonClicked = () => {
+function onOpenButtonClicked() {
   if (!isAuthorized.value) {
-    navigateToSignInPage();
-    return;
+    navigateToSignInPage()
+    return
   }
 
-  isOpenModal.value = true;
+  isOpenModal.value = true
 }
 </script>
 

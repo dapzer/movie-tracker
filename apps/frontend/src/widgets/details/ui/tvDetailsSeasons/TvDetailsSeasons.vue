@@ -1,30 +1,29 @@
 <script lang="ts" setup>
-
-import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi";
-import { computed, createError, useI18n } from "#imports";
-import { TmdbMediaTypeEnum } from "@movie-tracker/types";
-import { useLocalePath } from "#i18n";
+import { useLocalePath } from "#i18n"
+import { computed, createError, useI18n } from "#imports"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
-import TvDetailsSeasonsHeader from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
 import TvDetailsSeasonsEpisodeList from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsEpisodeList.vue"
-import { UiContainer } from "../../../../shared/ui/UiContainer"
+import TvDetailsSeasonsHeader from "~/widgets/details/ui/tvDetailsSeasons/TvDetailsSeasonsHeader.vue"
+import { UiContainer } from "../~/shared/ui/UiContainer"
 
 interface TvDetailsSeasonsProps {
-  mediaId: number;
+  mediaId: number
 }
 
-const props = defineProps<TvDetailsSeasonsProps>();
-const { locale, t } = useI18n();
-const localePath = useLocalePath();
+const props = defineProps<TvDetailsSeasonsProps>()
+const { locale, t } = useI18n()
+const localePath = useLocalePath()
 
 const queries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.TV,
   mediaId: props.mediaId,
-  language: locale.value
-}));
+  language: locale.value,
+}))
 
-const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries);
-const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
+const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries)
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries)
 
 await Promise.all([
   tmdbGetTvSeriesDetailsApi.suspense(),
@@ -33,18 +32,18 @@ await Promise.all([
       throw createError({
         statusCode: 404,
         message: t("ui.errors.pageNotFound"),
-      });
+      })
     }
   }),
-]);
+])
 
 useMovieDetailsSeo({
   mediaType: TmdbMediaTypeEnum.TV,
   mediaId: props.mediaId,
   withoutSchema: true,
   media: tmdbGetMovieDetailsApi.data.value,
-  getTitle: (title, titleChink) => `${title} | ${t("details.episodesList")}${titleChink? ` | ${titleChink}` : ""}`,
-});
+  getTitle: (title, titleChink) => `${title} | ${t("details.episodesList")}${titleChink ? ` | ${titleChink}` : ""}`,
+})
 </script>
 
 <template>

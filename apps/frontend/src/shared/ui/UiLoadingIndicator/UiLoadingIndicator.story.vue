@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiLoadingIndicator from "~/shared/ui/UiLoadingIndicator/UiLoadingIndicator.vue"
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from "vue"
 
-const isShowSpoiler = ref(false);
+const isShowSpoiler = ref(false)
 </script>
 
 <template>
@@ -21,7 +21,6 @@ const isShowSpoiler = ref(false);
   & > * {
     transition: all 0.2s linear;
   }
-
 
   &.active {
     & > * {

@@ -1,80 +1,81 @@
 <script setup lang="ts">
 import type { MediaItemType } from "@movie-tracker/types"
+import type { OptionType } from "~/shared/ui/UiSelect"
 import { getCurrentMediaDetails, useI18n, watch } from "#imports"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { computed, ref } from "vue"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { type OptionType, UiSelect } from "../../../shared/ui/UiSelect"
-import { toast } from "vue3-toastify";
+import { toast } from "vue3-toastify"
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
+import { UiSelect } from "~/shared/ui/UiSelect"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaItemTrackingMenuTvProgressProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemTrackingMenuTvProgressProps>();
-const { locale, t } = useI18n();
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
+const props = defineProps<MediaItemTrackingMenuTvProgressProps>()
+const { locale, t } = useI18n()
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 
 const currentMediaDetails = computed(() => {
-  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value);
-});
+  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value)
+})
 
 const currentTvProgress = computed(() => {
   return props.mediaItem.trackingData.tvProgress
-});
+})
 
 const currentValue = ref<{
-  currentSeason: string;
-  currentEpisode: string;
+  currentSeason: string
+  currentEpisode: string
 }>({
   currentSeason: currentTvProgress.value.currentSeason.toString(),
-  currentEpisode: currentTvProgress.value.currentEpisode.toString()
-});
+  currentEpisode: currentTvProgress.value.currentEpisode.toString(),
+})
 
 watch(() => currentValue.value.currentSeason, () => {
-  currentValue.value.currentEpisode = "1";
-});
+  currentValue.value.currentEpisode = "1"
+})
 
 const seasonOptions = computed(() => {
   return currentMediaDetails.value?.seasons?.map((season, index) => ({
     label: season.name,
-    value: index.toString()
-  })) || [];
-});
+    value: index.toString(),
+  })) || []
+})
 
 const episodeOptions = computed(() => {
   const result: Array<OptionType> = []
-  const episodeCount = currentMediaDetails.value?.seasons?.[Number(currentValue.value.currentSeason)]?.episode_count;
+  const episodeCount = currentMediaDetails.value?.seasons?.[Number(currentValue.value.currentSeason)]?.episode_count
 
   if (!episodeCount) {
-    return result;
+    return result
   }
 
   for (let i = 0; i < episodeCount; i++) {
     result.push({
       label: (i + 1).toString(),
-      value: (i + 1).toString()
-    });
+      value: (i + 1).toString(),
+    })
   }
-  return result;
-});
+  return result
+})
 
-const handleChange = () => {
+function handleChange() {
   updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
       tvProgress: {
         currentSeason: Number(currentValue.value.currentSeason),
-        currentEpisode: Number(currentValue.value.currentEpisode)
-      }
-    }
+        currentEpisode: Number(currentValue.value.currentEpisode),
+      },
+    },
   }).then(() => {
-    toast.success(t("toasts.mediaItem.successTvProgressChanged"));
+    toast.success(t("toasts.mediaItem.successTvProgressChanged"))
   }).catch(() => {
-    toast.error(t("toasts.mediaItem.unsuccessfullyTvProgressChanged"));
-  });
-};
+    toast.error(t("toasts.mediaItem.unsuccessfullyTvProgressChanged"))
+  })
+}
 </script>
 
 <template>

@@ -1,38 +1,39 @@
 <script setup lang="ts">
-
-import { type TmdbMediaDetailsType, type TmdbSeasonDetailsType } from "@movie-tracker/types"
-import { UiSelect } from "../../../../shared/ui/UiSelect"
-import { UiListHeader } from "../../../../shared/ui/UiListHeader"
+import type { TmdbMediaDetailsType, TmdbSeasonDetailsType } from "@movie-tracker/types"
+import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import { EpisodeCardHorizontal } from "~/entities/episodeCard"
-import { UiDivider } from "../../../../shared/ui/UiDivider"
-import { useI18n } from "#imports"
+import { UiDivider } from "../~/shared/ui/UiDivider"
+import { UiListHeader } from "../~/shared/ui/UiListHeader"
+import { UiSelect } from "../~/shared/ui/UiSelect"
 
 interface TvDetailsSeasonsHeaderProps {
-  details: TmdbMediaDetailsType;
-  seasons: TmdbSeasonDetailsType[];
+  details: TmdbMediaDetailsType
+  seasons: TmdbSeasonDetailsType[]
 }
 
-const props = defineProps<TvDetailsSeasonsHeaderProps>();
-const { t } = useI18n();
-const selectedSeasonNumber = ref<string>('1');
+const props = defineProps<TvDetailsSeasonsHeaderProps>()
+const { t } = useI18n()
+const selectedSeasonNumber = ref<string>("1")
 
 const seasonsOptions = computed(() => {
-  return props.seasons.map((season) => ({
+  return props.seasons.map(season => ({
     label: season.name,
     value: season.season_number.toString(),
-  }));
-});
+  }))
+})
 
 const selectedSeason = computed(() => {
-  return props.seasons.find((season) => season.season_number === Number(selectedSeasonNumber.value));
+  return props.seasons.find(season => season.season_number === Number(selectedSeasonNumber.value))
 })
 
 const subtitle = computed(() => {
-  if (!props.seasons.length) return t('details.noSeasons');
-  if (!selectedSeason.value?.episodes.length) return t('details.noEpisodes')
+  if (!props.seasons.length)
+    return t("details.noSeasons")
+  if (!selectedSeason.value?.episodes.length)
+    return t("details.noEpisodes")
 
-  return `${t('details.episodesCount')}: ${ selectedSeason.value?.episodes.length }`;
+  return `${t("details.episodesCount")}: ${selectedSeason.value?.episodes.length}`
 })
 </script>
 
@@ -77,8 +78,8 @@ const subtitle = computed(() => {
 </template>
 
 <style module lang="scss">
-@import '~/styles/mixins';
-@import '~/styles/variables';
+@import "~/styles/mixins";
+@import "~/styles/variables";
 
 .header {
   margin-bottom: 16px;
@@ -97,7 +98,8 @@ const subtitle = computed(() => {
     gap: 16px;
 
     .line {
-      display: none;}
+      display: none;
+    }
   }
 }
 </style>

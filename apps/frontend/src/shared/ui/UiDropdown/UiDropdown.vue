@@ -1,30 +1,28 @@
 <script setup lang="ts">
-
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from "radix-vue"
 
 interface UiDropdown {
   triggerClass?: string
   indent?: number
-  align?: 'start' | 'center' | 'end'
-  side?: 'top' | 'right' | 'bottom' | 'left'
+  align?: "start" | "center" | "end"
+  side?: "top" | "right" | "bottom" | "left"
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
 const props = withDefaults(defineProps<UiDropdown>(), {
   indent: 0,
-  align: "start"
+  align: "start",
 })
 const model = defineModel<boolean>()
-
-defineOptions({
-  inheritAttrs: false
-})
 </script>
 
 <template>
   <DropdownMenuRoot v-model:open="model">
     <DropdownMenuTrigger
       :class="[$style.trigger, [
-        props.triggerClass
+        props.triggerClass,
       ]]"
     >
       <slot name="trigger" />
@@ -34,9 +32,9 @@ defineOptions({
         :class="$style.contentWrapper"
         :align="props.align"
         :side="props.side"
-        :sideOffset="props.indent"
-        :collisionPadding="24"
-        updatePositionStrategy="always"
+        :side-offset="props.indent"
+        :collision-padding="24"
+        update-position-strategy="always"
       >
         <div
           v-bind="$attrs"

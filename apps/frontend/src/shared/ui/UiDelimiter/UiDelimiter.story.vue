@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiDelimiter from "~/shared/ui/UiDelimiter/UiDelimiter.vue"
 </script>
 

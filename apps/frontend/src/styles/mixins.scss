@@ -50,7 +50,7 @@
 }
 
 @mixin slideFromRight($defaultShowedWidth) {
-  transition: all .5s;
+  transition: all 0.5s;
   transform: translateX(calc(100% - $defaultShowedWidth));
 
   &:hover {

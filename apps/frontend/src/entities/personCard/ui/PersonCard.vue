@@ -1,37 +1,38 @@
 <script lang="ts" setup>
-import { computed, useI18n } from "#imports";
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl";
-import { useLocalePath } from "#i18n";
+import type { TmdbCreditsCastType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
+import { computed, useI18n } from "#imports"
 import {
-  type TmdbCreditsCastType,
+
   TmdbMediaTypeEnum,
-  type TmdbSearchResponseResultItemType
-} from "@movie-tracker/types";
-import { UiMediaCard } from "../../../shared/ui/UiCard"
-import { UiTypography } from "../../../shared/ui/UiTypography"
+
+} from "@movie-tracker/types"
+import { UiMediaCard } from "~/shared/ui/UiCard"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
 
 interface PersonCardProps {
-  person: TmdbSearchResponseResultItemType | TmdbCreditsCastType;
-  width?: number;
-  birthday?: string;
-  fullHeight?: boolean;
+  person: TmdbSearchResponseResultItemType | TmdbCreditsCastType
+  width?: number
+  birthday?: string
+  fullHeight?: boolean
 }
 
-const props = defineProps<PersonCardProps>();
+const props = defineProps<PersonCardProps>()
 
-const { locale } = useI18n();
-const localePath = useLocalePath();
+const { locale } = useI18n()
+const localePath = useLocalePath()
 
 const birthday = computed(() => {
   if (!props.birthday) {
-    return undefined;
+    return undefined
   }
-  const date = new Date(props.birthday);
-  const today = new Date();
-  const age = today.getFullYear() - date.getFullYear();
+  const date = new Date(props.birthday)
+  const today = new Date()
+  const age = today.getFullYear() - date.getFullYear()
 
-  return `${age} (${date.getFullYear().toLocaleString(locale.value)})`;
-});
+  return `${age} (${date.getFullYear().toLocaleString(locale.value)})`
+})
 </script>
 
 <template>

@@ -8,14 +8,13 @@ interface UiInputProps {
   size?: UiInputSize
 }
 
-const props = defineProps<UiInputProps>()
-const inputModel = defineModel<string>()
-
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 })
-
+const props = defineProps<UiInputProps>()
 const slots = defineSlots()
+
+const inputModel = defineModel<string>()
 </script>
 
 <template>
@@ -25,7 +24,7 @@ const slots = defineSlots()
         <div
           v-if="slots.icon"
           :class="[$style.icon, {
-            [$style.small]: props.size === 'small'
+            [$style.small]: props.size === 'small',
           }]"
         >
           <slot name="icon" />
@@ -37,11 +36,10 @@ const slots = defineSlots()
         :class="{
           [$style.withIcon]: !!slots.icon,
           [$style.errored]: !!props.error,
-          [$style.small]: props.size === 'small'
+          [$style.small]: props.size === 'small',
         }"
       >
     </div>
-
 
     <UiTypography
       v-if="props.error"

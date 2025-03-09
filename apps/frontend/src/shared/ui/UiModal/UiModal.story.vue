@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
-import UiModal from "~/shared/ui/UiModal/modal/UiModal.vue"
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { ref } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
+import UiModal from "~/shared/ui/UiModal/modal/UiModal.vue"
 import UiModalFullscreen from "~/shared/ui/UiModal/modalFullscreen/UiModalFullscreen.vue"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const visible = ref(false)
 </script>
@@ -40,7 +39,7 @@ const visible = ref(false)
         <UiModal
           title="Modal title"
         >
-          <template #trigger="{openModal}">
+          <template #trigger="{ openModal }">
             <UiButton @click="openModal">
               Open
             </UiButton>
@@ -58,12 +57,12 @@ const visible = ref(false)
 
       <Variant title="Fullscreen without external state">
         <UiModalFullscreen>
-          <template #trigger="{openModal}">
+          <template #trigger="{ openModal }">
             <UiButton @click="openModal">
               Open
             </UiButton>
           </template>
-          <template #content="{closeModal}">
+          <template #content="{ closeModal }">
             <UiTypography>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur exercitationem fuga id ipsum
               laudantium

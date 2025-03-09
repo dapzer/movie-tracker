@@ -1,41 +1,41 @@
 <script setup lang="ts">
-import { TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiButton } from "../../../shared/ui/UiButton"
-import MovieCardHoverMenuHeader from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuHeader.vue"
-import { computed, useI18n } from "#imports"
-import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
+import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
+import { computed, useI18n } from "#imports"
 import { getMovieDirectors } from "@movie-tracker/utils"
+import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
+import MovieCardHoverMenuHeader from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuHeader.vue"
 import MovieCardHoverMenuSkeleton from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuSkeleton.vue"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MovieCardHoverMenuProps {
-  mediaType: TmdbMediaTypeEnum;
-  mediaId: number;
+  mediaType: TmdbMediaTypeEnum
+  mediaId: number
 }
 
-const props = defineProps<MovieCardHoverMenuProps>();
-const { locale } = useI18n();
+const props = defineProps<MovieCardHoverMenuProps>()
+const emits = defineEmits<{
+  (event: "onAddToListClick"): void
+}>()
+const { locale } = useI18n()
 const localePath = useLocalePath()
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
   mediaId: props.mediaId,
-  language: locale.value
-}));
-const emits = defineEmits<{
-  (event: 'onAddToListClick'): void;
-}>();
-
-const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries);
-const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries);
+  language: locale.value,
+}))
+const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries)
+const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries)
 
 const producers = computed(() => {
-  if (!tmdbGetMovieCreditsApi.data.value?.crew) return [];
-  return getMovieDirectors(tmdbGetMovieCreditsApi.data.value?.crew);
-});
+  if (!tmdbGetMovieCreditsApi.data.value?.crew)
+    return []
+  return getMovieDirectors(tmdbGetMovieCreditsApi.data.value?.crew)
+})
 </script>
 
 <template>
@@ -116,7 +116,7 @@ const producers = computed(() => {
     a {
       text-decoration: underline;
 
-      &:not(:hover,:active,:focus) {
+      &:not(:hover, :active, :focus) {
         color: var(--c-text);
       }
     }

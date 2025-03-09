@@ -1,37 +1,36 @@
 <script setup lang="ts">
-import { UiModal } from "~/shared/ui/UiModal"
-import { UiButton } from "~/shared/ui/UiButton"
 import { ref } from "vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiModal } from "~/shared/ui/UiModal"
 
-type UiConfirmationModalScheme =  'danger'
+type UiConfirmationModalScheme = "danger"
 interface UiConfirmationModalProps {
-  title: string;
-  description?: string;
-  confirmText?: string;
-  scheme?: UiConfirmationModalScheme;
+  title: string
+  description?: string
+  confirmText?: string
+  scheme?: UiConfirmationModalScheme
 }
 
 const props = defineProps<UiConfirmationModalProps>()
 const emit = defineEmits<{
-  (event: 'cancel'): void
-  (event: 'confirm'): void
+  (event: "cancel"): void
+  (event: "confirm"): void
 }>()
-const model = defineModel<boolean>()
 const slots = defineSlots()
+const model = defineModel<boolean>()
 const isOpen = ref(model.value ?? false)
 
-const handleCancel = () => {
-  emit('cancel')
+function handleCancel() {
+  emit("cancel")
   model.value = false
   isOpen.value = false
 }
 
-const handleConfirm = () => {
-  emit('confirm')
+function handleConfirm() {
+  emit("confirm")
   model.value = false
   isOpen.value = false
 }
-
 </script>
 
 <template>
@@ -47,7 +46,7 @@ const handleConfirm = () => {
     >
       <slot
         name="trigger"
-        :openModal="openModal"
+        :open-modal="openModal"
       />
     </template>
 

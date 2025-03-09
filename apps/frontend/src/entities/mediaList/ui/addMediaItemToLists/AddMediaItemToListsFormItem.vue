@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { type MediaListType } from "@movie-tracker/types"
+import type { MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
-import { UiFormListItem } from "../../../../shared/ui/UiFormListItem"
-import { UiIcon } from "../../../../shared/ui/UiIcon"
+import { UiFormListItem } from "../~/shared/ui/UiFormListItem"
+import { UiIcon } from "../~/shared/ui/UiIcon"
 
 interface AddMediaItemToListsFormItemProps {
-  mediaList: MediaListType;
+  mediaList: MediaListType
 }
 
-const props = defineProps<AddMediaItemToListsFormItemProps>();
+const props = defineProps<AddMediaItemToListsFormItemProps>()
 const model = defineModel<boolean>()
 
 const titlesInListCount = computed(() => {
@@ -21,7 +21,7 @@ const titlesInListCount = computed(() => {
   <UiFormListItem
     v-model="model"
     :title="props.mediaList.title ?? $t('mediaList.favorites')"
-    :description="titlesInListCount + ' ' + $t(getElementDeclensionTranslationKey(titlesInListCount))"
+    :description="`${titlesInListCount} ${$t(getElementDeclensionTranslationKey(titlesInListCount))}`"
   >
     <template #rightContent>
       <UiIcon

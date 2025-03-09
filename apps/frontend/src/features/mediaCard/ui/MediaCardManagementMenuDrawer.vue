@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { getCurrentMediaDetails, useI18n, useIsMobile, useSwitchModals } from "#imports"
-import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemManagementMenu.vue"
-import { UiBottomDrawer } from "../../../shared/ui/UiBottomDrawer"
 import type { MediaItemType } from "@movie-tracker/types"
-import { UiModal } from "../../../shared/ui/UiModal"
+import { getCurrentMediaDetails, useI18n, useIsMobile, useSwitchModals } from "#imports"
 import { computed, ref } from "vue"
-import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
 import MediaItemChangeMediaListModal
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListModal.vue"
+import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
+import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemManagementMenu.vue"
+import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"
+import { UiModal } from "~/shared/ui/UiModal"
 
 interface MediaCardManagementMenuDrawerProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaCardManagementMenuDrawerProps>();
+const props = defineProps<MediaCardManagementMenuDrawerProps>()
 const model = defineModel<boolean>()
-const isOpenCloneModal = ref(false);
-const isOpenChangeMediaListModal = ref(false);
+const isOpenCloneModal = ref(false)
+const isOpenChangeMediaListModal = ref(false)
 const { isMobile } = useIsMobile()
-const { locale, t } = useI18n();
+const { locale, t } = useI18n()
 
-const { onOpenSecondModal: handleOpenCloneModal } = useSwitchModals(model, isOpenCloneModal);
-const { onOpenSecondModal: handleOpenChangeMediaListModal } = useSwitchModals(model, isOpenChangeMediaListModal);
+const { onOpenSecondModal: handleOpenCloneModal } = useSwitchModals(model, isOpenCloneModal)
+const { onOpenSecondModal: handleOpenChangeMediaListModal } = useSwitchModals(model, isOpenChangeMediaListModal)
 
 const currentMediaDetails = computed(() => {
-  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value);
-});
+  return getCurrentMediaDetails(props.mediaItem.mediaDetails, locale.value)
+})
 </script>
 
 <template>

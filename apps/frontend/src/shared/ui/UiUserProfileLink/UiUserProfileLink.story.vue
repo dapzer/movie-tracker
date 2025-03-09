@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
-import UiUserProfileLink from '~/shared/ui/UiUserProfileLink/UiUserProfileLink.vue';
+import UiUserProfileLink from "~/shared/ui/UiUserProfileLink/UiUserProfileLink.vue"
 import UiUserProfileLinkSkeleton from "~/shared/ui/UiUserProfileLink/UiUserProfileLinkSkeleton.vue"
 
-const currentLocation = window?.location.href;
+const currentLocation = window?.location.href
 </script>
 
 <template>

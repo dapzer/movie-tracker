@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { type VNode } from "vue"
+import type { VNode } from "vue"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface FeatureCardProps {
   title: string
@@ -37,7 +37,7 @@ const props = defineProps<FeatureCardProps>()
   border-radius: var(--s-border-radius-huge);
   border: 1px solid var(--c-white-12);
   box-shadow: 0px 1px 0px 0px rgba(41, 137, 255, 0.15) inset;
-  background: linear-gradient(180deg, rgba(39, 136, 255, 0.05) 0%, rgba(13, 13, 13, 0.05) 100%), #0D0D0D;
+  background: linear-gradient(180deg, rgba(39, 136, 255, 0.05) 0%, rgba(13, 13, 13, 0.05) 100%), #0d0d0d;
 
   .icon {
     font-size: 40px;

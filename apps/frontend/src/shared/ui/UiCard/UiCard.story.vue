@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-
-import UiCardBase from '~/shared/ui/UiCard/UiCardBase.vue';
-import { UiTypography } from '~/shared/ui/UiTypography';
-import { UiMediaCard, UiMediaCardHorizontal, UiMediaCardSkeleton } from '~/shared/ui/UiCard/mediaCard';
-import { UiVideoCard } from '~/shared/ui/UiCard/videoCard';
-import { UiListCard } from '~/shared/ui/UiCard/listCard';
-import { getPlaceholderImageUrl } from '~/utils/getPlaceholderImageUrl';
+import { UiListCard } from "~/shared/ui/UiCard/listCard"
+import { UiMediaCard, UiMediaCardHorizontal, UiMediaCardSkeleton } from "~/shared/ui/UiCard/mediaCard"
+import UiCardBase from "~/shared/ui/UiCard/UiCardBase.vue"
+import { UiVideoCard } from "~/shared/ui/UiCard/videoCard"
+import { UiTypography } from "~/shared/ui/UiTypography"
+import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
 import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkeleton.vue"
 </script>
 
@@ -64,7 +63,7 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
         title="MediaCard"
       >
         <UiMediaCard
-          :imageSrc="getPlaceholderImageUrl(179, 277)"
+          :image-src="getPlaceholderImageUrl(179, 277)"
           description="Jan 07 2024, USA"
           title="Movie Title"
           link-url=""
@@ -75,7 +74,7 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
         title="MediaCardHorizontal"
       >
         <UiMediaCardHorizontal
-          :imageSrc="getPlaceholderImageUrl(179, 277)"
+          :image-src="getPlaceholderImageUrl(179, 277)"
           sub-description="Jan 07 2024, USA"
           title="Movie Title"
           link-url=""
@@ -120,7 +119,7 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
       >
         <UiListCard
           :user-avatar-src="getPlaceholderImageUrl(32, 32)"
-          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) =>getPlaceholderImageUrl(179, 277))"
+          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) => getPlaceholderImageUrl(179, 277))"
           user-name="UserName"
           user-url="/"
         >
@@ -134,7 +133,7 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
         title="ListCardWithoutUser"
       >
         <UiListCard
-          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) =>getPlaceholderImageUrl(179, 277))"
+          :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) => getPlaceholderImageUrl(179, 277))"
           :user-avatar-src="getPlaceholderImageUrl(32, 32)"
         >
           <UiTypography variant="listTitle">

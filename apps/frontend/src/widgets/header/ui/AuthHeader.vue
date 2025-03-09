@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import HeaderWrapper from "~/widgets/header/ui/common/HeaderWrapper.vue"
-import { AppLogo } from "~/shared/ui/appLogo"
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
+import { AppLogo } from "~/shared/ui/appLogo"
+import HeaderWrapper from "~/widgets/header/ui/common/HeaderWrapper.vue"
 </script>
 
 <template>

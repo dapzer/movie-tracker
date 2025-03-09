@@ -1,25 +1,25 @@
 <script lang="ts" setup>
-import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types";
-import { UiInfoHeader } from "../../../../shared/ui/UiInfoHeader";
-import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports";
-import { computed } from "vue";
-import { UiSocialList } from "../../../../shared/ui/UiSocialList"
+import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types"
+import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports"
+import { computed } from "vue"
+import { UiInfoHeader } from "../~/shared/ui/UiInfoHeader"
+import { UiSocialList } from "../~/shared/ui/UiSocialList"
 
 interface PersonDetailsHeaderProps {
-  details?: TmdbPersonType | null;
-  externalIds?: TmdbPersonExternalIdsType | null;
+  details?: TmdbPersonType | null
+  externalIds?: TmdbPersonExternalIdsType | null
 }
 
-const props = defineProps<PersonDetailsHeaderProps>();
-const { locale } = useI18n();
+const props = defineProps<PersonDetailsHeaderProps>()
+const { locale } = useI18n()
 
 const birthdayAge = computed(() => {
   if (!props.details?.birthday) {
-    return undefined;
+    return undefined
   }
 
-  return (props.details?.deathday ? new Date(props.details?.deathday) : new Date()).getFullYear() -
-      new Date(props.details?.birthday).getFullYear();
+  return (props.details?.deathday ? new Date(props.details?.deathday) : new Date()).getFullYear()
+    - new Date(props.details?.birthday).getFullYear()
 })
 </script>
 
@@ -30,7 +30,7 @@ const birthdayAge = computed(() => {
     :title="props.details?.name ?? ''"
     :overview="props.details?.biography"
     fallback-image="/avatarPoster.svg"
-    :description="props.details.known_for_department? $t(`details.department.${props.details.known_for_department}`)
+    :description="props.details.known_for_department ? $t(`details.department.${props.details.known_for_department}`)
       : undefined"
   >
     <template
@@ -69,7 +69,7 @@ const birthdayAge = computed(() => {
       #posterFooter
     >
       <UiSocialList
-        :socialList="{
+        :social-list="{
           instagram: externalIds?.instagram_id,
           twitter: externalIds?.twitter_id,
           tiktok: externalIds?.tiktok_id,

@@ -1,4 +1,6 @@
-export const fetchWihCredentials = (requestInfo: RequestInfo, requestInit?: RequestInit) => fetch(requestInfo, {
-  credentials: 'include',
-  ...requestInit,
-})
+export function fetchWihCredentials(requestInfo: RequestInfo, requestInit?: RequestInit) {
+  return fetch(requestInfo, {
+    credentials: "include",
+    ...requestInit,
+  })
+}

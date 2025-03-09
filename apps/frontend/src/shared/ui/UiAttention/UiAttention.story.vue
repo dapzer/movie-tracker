@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import { UiButton } from "~/shared/ui/UiButton"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
+import { UiButton } from "~/shared/ui/UiButton"
 </script>
 
 <template>

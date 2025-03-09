@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { NuxtLink } from "#components";
+import { NuxtLink } from "#components"
 
 export interface UiCardBaseProps {
-  width?: number | string;
-  height?: number | string;
-  linkUrl?: string;
-  fullHeight?: boolean;
+  width?: number | string
+  height?: number | string
+  linkUrl?: string
+  fullHeight?: boolean
   // For horizontal card only
-  imageWidth?: number | string;
-  horizontal?: boolean;
+  imageWidth?: number | string
+  horizontal?: boolean
 }
 
 const props = defineProps<UiCardBaseProps>()
@@ -19,12 +19,12 @@ const slots = defineSlots()
   <div
     :class="[$style.wrapper, {
       [$style.horizontal]: props.horizontal,
-      [$style.fullHeight]: props.fullHeight
+      [$style.fullHeight]: props.fullHeight,
     }]"
     :style="{
       '--maxWidth': Number.isInteger(props.width) ? `${props.width}px` : (props.width || 'unset'),
       '--maxHeight': Number.isInteger(props.height) ? `${props.height}px` : (props.height || 'unset'),
-      '--imageMaxWidth': Number.isInteger(props.imageWidth) ? `${props.imageWidth}px` : (props.imageWidth || 'unset')
+      '--imageMaxWidth': Number.isInteger(props.imageWidth) ? `${props.imageWidth}px` : (props.imageWidth || 'unset'),
     }"
   >
     <template v-if="slots.precontent">
@@ -90,6 +90,4 @@ const slots = defineSlots()
     }
   }
 }
-
 </style>
-

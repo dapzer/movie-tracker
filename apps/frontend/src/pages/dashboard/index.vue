@@ -1,24 +1,22 @@
 <script lang="ts" setup>
-
-import { useAuth } from "~/composables/useAuth";
-import { watchEffect } from "#imports";
-import { navigateTo } from "#app";
-import { UserRoleEnum } from "@movie-tracker/types";
-import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard";
+import { navigateTo } from "#app"
 import { useLocalePath } from "#i18n"
+import { watchEffect } from "#imports"
+import { UserRoleEnum } from "@movie-tracker/types"
+import { useAuth } from "~/composables/useAuth"
+import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard"
 import { UiContainer } from "../../shared/ui/UiContainer"
-import { UiTypography } from "../../shared/ui/UiTypography"
 import { UiDivider } from "../../shared/ui/UiDivider"
+import { UiTypography } from "../../shared/ui/UiTypography"
 
-const { isNotAuthorized, profile, isLoadingProfile } = useAuth();
+const { isNotAuthorized, profile, isLoadingProfile } = useAuth()
 const localePath = useLocalePath()
 
 watchEffect(() => {
   if ((isNotAuthorized.value || !profile.value?.roles.includes(UserRoleEnum.ADMIN)) && !isLoadingProfile.value) {
-    navigateTo(localePath("/"));
+    navigateTo(localePath("/"))
   }
-});
-
+})
 </script>
 
 <template>

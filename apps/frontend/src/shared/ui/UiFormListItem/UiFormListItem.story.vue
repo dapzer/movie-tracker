@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiFormListItem from "~/shared/ui/UiFormListItem/UiFormListItem.vue"
 </script>
 

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 interface UiContainerProps {
-  as?: keyof Pick<HTMLElementTagNameMap, "div" | "section">;
+  as?: keyof Pick<HTMLElementTagNameMap, "div" | "section">
 }
 
 const props = withDefaults(defineProps<UiContainerProps>(), {
-  as: "div"
-});
+  as: "div",
+})
 </script>
 
 <template>

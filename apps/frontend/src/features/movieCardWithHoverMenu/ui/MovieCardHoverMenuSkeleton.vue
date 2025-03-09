@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-import { UiSkeleton } from "../../../shared/ui/UiSkeleton"
+import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 </script>
 
 <template>

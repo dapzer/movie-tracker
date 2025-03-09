@@ -1,24 +1,24 @@
 <script setup lang="ts">
+import type { UiTypographyProps } from "~/shared/ui/UiTypography"
 import { computed, ref } from "vue"
-import { UiTypography, type UiTypographyProps } from "~/shared/ui/UiTypography"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiTrimmedTextProps extends UiTypographyProps {
-  text: string;
-  maxLines: number;
-  maxCharsInLine: number;
+  text: string
+  maxLines: number
+  maxCharsInLine: number
 }
 
-const props = defineProps<UiTrimmedTextProps>();
-const showMore = ref(false);
+defineOptions({
+  inheritAttrs: false,
+})
+const props = defineProps<UiTrimmedTextProps>()
+const showMore = ref(false)
 
 const trimText = computed(() => {
   return props.text.length > (props.maxCharsInLine * props.maxLines)
-})
-
-defineOptions({
-  inheritAttrs: false
 })
 </script>
 
@@ -27,13 +27,13 @@ defineOptions({
     <UiTypography
       v-bind="$attrs"
       :class="[$style.text, {
-        [$style.trimmed]: !showMore && trimText
+        [$style.trimmed]: !showMore && trimText,
       }]"
       :variant="props.variant"
       :as="props.as"
       :schema="props.schema"
       :style="{
-        '--max-lines': props.maxLines
+        '--max-lines': props.maxLines,
       }"
     >
       {{ text }}
@@ -42,7 +42,7 @@ defineOptions({
     <UiButton
       v-if="trimText"
       :class="[$style.button, {
-        [$style.active]: showMore
+        [$style.active]: showMore,
       }]"
       variant="text"
       scheme="link"
@@ -69,18 +69,17 @@ defineOptions({
   .text {
     position: relative;
 
-
     &.trimmed {
       @include multiLineEllipsis(var(--max-lines));
       text-overflow: unset;
 
       &::after {
-        content:  "\00a0";
+        content: "\00a0";
         position: absolute;
         bottom: 0;
         right: 0;
         left: 0;
-        background: linear-gradient(90deg, rgba(14, 14, 14, 0) 0%, #0E0E0E 100%);
+        background: linear-gradient(90deg, rgba(14, 14, 14, 0) 0%, #0e0e0e 100%);
       }
     }
   }

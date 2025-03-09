@@ -1,9 +1,8 @@
 <script setup lang="ts">
-
-import { UiContainer } from "../../../shared/ui/UiContainer"
-import { UiImage } from "../../../shared/ui/UiImage"
-import { UiTypography } from "../../../shared/ui/UiTypography"
 import UiAccordion from "~/shared/ui/UiAccordion/UiAccordion.vue"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiImage } from "~/shared/ui/UiImage"
+import { UiTypography } from "~/shared/ui/UiTypography"
 </script>
 
 <template>
@@ -39,27 +38,27 @@ import UiAccordion from "~/shared/ui/UiAccordion/UiAccordion.vue"
           {
             title: $t('about.faq.questions.movieTracker.title'),
             content: $t('about.faq.questions.movieTracker.description'),
-            value: 'movieTracker'
+            value: 'movieTracker',
           },
           {
             title: $t('about.faq.questions.createList.title'),
             content: $t('about.faq.questions.createList.description'),
-            value: 'createList'
+            value: 'createList',
           },
           {
             title: $t('about.faq.questions.changeStatus.title'),
             content: $t('about.faq.questions.changeStatus.description'),
-            value: 'changeStatus'
+            value: 'changeStatus',
           },
           {
             title: $t('about.faq.questions.leaveReview.title'),
             content: $t('about.faq.questions.leaveReview.description'),
-            value: 'leaveReview'
+            value: 'leaveReview',
           },
           {
             title: $t('about.faq.questions.contactSupport.title'),
             content: $t('about.faq.questions.contactSupport.description'),
-            value: 'contactSupport'
+            value: 'contactSupport',
           },
         ]"
       />
@@ -86,7 +85,7 @@ import UiAccordion from "~/shared/ui/UiAccordion/UiAccordion.vue"
   }
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 27px;
     width: 230px;

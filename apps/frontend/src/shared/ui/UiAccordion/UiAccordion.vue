@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { UiButton } from "~/shared/ui/UiButton"
-import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiAccordionProps {
   items: Array<{
@@ -64,7 +64,7 @@ const model = defineModel<string | string[]>()
   gap: 24px;
 }
 
-.header{
+.header {
   display: flex;
   width: 100%;
 }

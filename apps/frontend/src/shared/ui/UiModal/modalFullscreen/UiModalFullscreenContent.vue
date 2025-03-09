@@ -6,20 +6,19 @@ export interface UiModalFullscreenContentProps {
 }
 
 export interface UiModalContentEmits {
-  (event: "handleClose"): void;
+  (event: "handleClose"): void
 }
 
 const props = defineProps<UiModalFullscreenContentProps>()
-const emits = defineEmits<UiModalContentEmits>();
-const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose"));
-
+const emits = defineEmits<UiModalContentEmits>()
+const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose"))
 </script>
 
 <template>
   <div
     :class="$style.wrapper"
     :style="{
-      '--indent-top': `${props.indentTop || 0}px`
+      '--indent-top': `${props.indentTop || 0}px`,
     }"
     @keydown.esc.stop="handleCloseModal"
   >

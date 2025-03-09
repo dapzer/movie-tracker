@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import UiCheckbox from "~/shared/ui/UiCheckbox/UiCheckbox.vue"
 import { ref } from "vue"
+import UiCheckbox from "~/shared/ui/UiCheckbox/UiCheckbox.vue"
 
 const disabled = ref(false)
 const checked = ref(false)

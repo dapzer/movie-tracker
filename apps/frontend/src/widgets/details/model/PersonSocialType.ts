@@ -1,4 +1,4 @@
 export interface PersonSocialType {
-  icon: string;
-  url: string;
+  icon: string
+  url: string
 }

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { UiDivider } from "~/shared/ui/UiDivider"
-import { UiTypography, type UiTypographyVariant } from "~/shared/ui/UiTypography"
+import type { UiTypographyVariant } from "~/shared/ui/UiTypography"
 import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiListHeaderProps {
-  title?: string;
-  subtitle?: string;
-  titleAs?: ComponentOrTag;
-  titleVariant?: UiTypographyVariant;
+  title?: string
+  subtitle?: string
+  titleAs?: ComponentOrTag
+  titleVariant?: UiTypographyVariant
 }
 
 const props = withDefaults(defineProps<UiListHeaderProps>(), {
   titleVariant: "title3",
   titleAs: "h3",
-});
+})
 </script>
-
 
 <template>
   <div :class="$style.wrapper">
@@ -41,7 +41,6 @@ const props = withDefaults(defineProps<UiListHeaderProps>(), {
     </UiTypography>
   </div>
 </template>
-
 
 <style module lang="scss">
 @import "~/styles/variables";

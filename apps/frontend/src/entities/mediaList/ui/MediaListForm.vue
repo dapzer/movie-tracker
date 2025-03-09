@@ -1,47 +1,47 @@
 <script setup lang="ts">
+import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import { useForm, useI18n } from "#imports"
 import { watch } from "vue"
-import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import * as yup from "yup"
-import { UiInput } from "../../../shared/ui/UiInput"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiSwitch } from "../../../shared/ui/UiSwitch"
+import { UiInput } from "~/shared/ui/UiInput"
+import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTextarea } from "~/shared/ui/UiTextarea"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaListFormProps {
-  initialValue?: MediaListUpdateApiTypes;
-  isSystem?: boolean;
+  initialValue?: MediaListUpdateApiTypes
+  isSystem?: boolean
 }
 
-const props = defineProps<MediaListFormProps>();
+const props = defineProps<MediaListFormProps>()
 const emit = defineEmits<{
-  (e: "onSubmit", settings: MediaListUpdateApiTypes): void;
-}>();
+  (e: "onSubmit", settings: MediaListUpdateApiTypes): void
+}>()
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 const { formValue, onFormSubmit, errors } = useForm({
   initialValue: props.initialValue ?? {
     title: "",
     description: "",
-    isPublic: false
+    isPublic: false,
   },
   onSubmit: (formValue) => {
     if (props.isSystem) {
-      formValue.title = undefined ;
+      formValue.title = undefined
     }
-    emit("onSubmit", formValue);
+    emit("onSubmit", formValue)
   },
   validationSchema: yup.object().shape({
-    title: yup.string().trim().min(3, t('mediaList.errors.titleLength')),
+    title: yup.string().trim().min(3, t("mediaList.errors.titleLength")),
     description: yup.string().nullable(),
-    isPublic: yup.boolean().required(t("validation.required"))
-  })
+    isPublic: yup.boolean().required(t("validation.required")),
+  }),
 })
 
 watch(() => props.isSystem, (isSystem) => {
   if (isSystem) {
-    formValue.value.title = t("mediaList.favorites");
+    formValue.value.title = t("mediaList.favorites")
   }
 })
 </script>

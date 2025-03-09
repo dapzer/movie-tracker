@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
-import { UiTypography } from "~/shared/ui/UiTypography"
 import UiSpoilerText from "~/shared/ui/UiSpoilerText/UiSpoilerText.vue"
+import { UiTypography } from "~/shared/ui/UiTypography"
 </script>
 
 <template>

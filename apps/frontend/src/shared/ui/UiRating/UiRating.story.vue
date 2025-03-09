@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import UiScore from "~/shared/ui/UiRating/UiRating.vue"
 </script>
 

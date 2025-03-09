@@ -1,25 +1,25 @@
 <script lang="ts" setup>
+import type { UiTypographyVariant } from "./UiTypography.vue"
+import { ref } from "vue"
+import UiTypography from "./UiTypography.vue"
 
-import { ref } from 'vue';
-import UiTypography, { type UiTypographyVariant } from './UiTypography.vue';
-
-const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+const text = ref("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
 
 const variants: UiTypographyVariant[] = [
-  'text',
-  'title',
-  'title2',
-  'title3',
-  'title4',
-  'subheading',
-  'label',
-  'listTitle',
-  'cardTitle',
-  'description',
-  'badge',
-];
+  "text",
+  "title",
+  "title2",
+  "title3",
+  "title4",
+  "subheading",
+  "label",
+  "listTitle",
+  "cardTitle",
+  "description",
+  "badge",
+]
 
-const schema = ref(undefined);
+const schema = ref(undefined)
 </script>
 
 <template>
@@ -42,7 +42,6 @@ const schema = ref(undefined);
       </Variant>
     </template>
 
-
     <template #controls>
       <HstText
         v-model="text"
@@ -53,7 +52,7 @@ const schema = ref(undefined);
         :options="[{
           value: undefined,
           label: 'default',
-        },'link']"
+        }, 'link']"
         title="schema"
       />
     </template>

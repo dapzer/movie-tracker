@@ -2,10 +2,10 @@
 import { UiButton } from "~/shared/ui/UiButton"
 
 interface UiTabTriggerProps {
-  active?: boolean;
+  active?: boolean
 }
 
-const props = defineProps<UiTabTriggerProps>();
+const props = defineProps<UiTabTriggerProps>()
 </script>
 
 <template>
@@ -13,7 +13,7 @@ const props = defineProps<UiTabTriggerProps>();
     variant="default"
     scheme="default"
     :class="[$style.body, {
-      [$style.active]: props.active
+      [$style.active]: props.active,
     }]"
   >
     <slot />
@@ -52,6 +52,5 @@ const props = defineProps<UiTabTriggerProps>();
     background: var(--c-button-background-secondary);
     border-bottom: 1px solid var(--c-blue);
   }
-
 }
 </style>

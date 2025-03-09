@@ -1,1 +1,1 @@
-export { default as UiBackLink } from './UiBackLink.vue';
+export { default as UiBackLink } from "./UiBackLink.vue"

@@ -1,53 +1,53 @@
 <script setup lang="ts">
-
-import { MediaItemStatusNameEnum, type MediaItemType } from "@movie-tracker/types"
-import { UiSelect } from "../../../shared/ui/UiSelect"
+import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
+import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed, ref } from "vue"
-import { UiDivider } from "../../../shared/ui/UiDivider"
-import { UiButton } from "../../../shared/ui/UiButton"
-import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
-import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { toast } from "vue3-toastify"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { useDeleteMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
+import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemTrackingMenu.vue"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiSelect } from "~/shared/ui/UiSelect"
 
 interface MediaItemManagementMenuDrawerProps {
-  mediaItem: MediaItemType;
+  mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemManagementMenuDrawerProps>();
+const props = defineProps<MediaItemManagementMenuDrawerProps>()
 const emits = defineEmits<{
-  (event: "clone"): void;
-  (event: "changeMediaList"): void;
-}>();
+  (event: "clone"): void
+  (event: "changeMediaList"): void
+}>()
 const { t } = useI18n()
 const currentStatus = ref(props.mediaItem.trackingData.currentStatus)
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi();
-const deleteMediaItemApi = useDeleteMediaItemApi();
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
+const deleteMediaItemApi = useDeleteMediaItemApi()
 
-const handleChangeStatus = async () => {
+async function handleChangeStatus() {
   await updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
       ...props.mediaItem.trackingData,
-      currentStatus: currentStatus.value
-    }
+      currentStatus: currentStatus.value,
+    },
   }).then(() => {
-    toast.success(t("toasts.mediaItem.successStatusChanged"));
+    toast.success(t("toasts.mediaItem.successStatusChanged"))
   }).catch(() => {
-    toast.error(t("toasts.mediaItem.unsuccessfullyStatusChanged"));
-  });
-};
+    toast.error(t("toasts.mediaItem.unsuccessfullyStatusChanged"))
+  })
+}
 
-const handleDeleteMediaItem = () => {
+function handleDeleteMediaItem() {
   deleteMediaItemApi.mutateAsync(props.mediaItem.id).then(() => {
     toast.success(t("toasts.mediaItem.successRemovedFromCurrentList", {
-      media: t(`details.mediaType.${props.mediaItem.mediaType}`)
-    }));
+      media: t(`details.mediaType.${props.mediaItem.mediaType}`),
+    }))
   }).catch(() => {
-    toast.error(t(`toasts.mediaItem.unsuccessfullyRemovedFromCurrentList${props.mediaItem.mediaType}`));
-  });
-};
+    toast.error(t(`toasts.mediaItem.unsuccessfullyRemovedFromCurrentList${props.mediaItem.mediaType}`))
+  })
+}
 
 const selectOptions = computed(() => {
   const rea = []
@@ -55,7 +55,7 @@ const selectOptions = computed(() => {
   for (const status in MediaItemStatusNameEnum) {
     rea.push({
       label: t(`mediaItem.status.${status}`),
-      value: status
+      value: status,
     })
   }
 

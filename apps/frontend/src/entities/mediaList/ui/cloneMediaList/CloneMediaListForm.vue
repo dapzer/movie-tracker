@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { useForm } from "~/composables/useForm"
-import * as yup from "yup"
-import { MediaItemStatusNameEnum, type MediaItemType, type MediaListType } from "@movie-tracker/types"
-import { toast } from "vue3-toastify"
-import { useCreateMediaListCloneApi } from "~/api/mediaList/useMediaListApi"
+import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { getElementDeclensionTranslationKey, useI18n } from "#imports"
+import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed } from "vue"
-import { UiFormListItem } from "../../../../shared/ui/UiFormListItem"
-import { UiTypography } from "../../../../shared/ui/UiTypography"
-import { UiSwitch } from "../../../../shared/ui/UiSwitch"
-import { UiInput } from "../../../../shared/ui/UiInput"
-import { UiButton } from "../../../../shared/ui/UiButton"
+import { toast } from "vue3-toastify"
+import * as yup from "yup"
+import { useCreateMediaListCloneApi } from "~/api/mediaList/useMediaListApi"
+import { useForm } from "~/composables/useForm"
+import { UiButton } from "../~/shared/ui/UiButton"
+import { UiFormListItem } from "../~/shared/ui/UiFormListItem"
+import { UiInput } from "../~/shared/ui/UiInput"
+import { UiSwitch } from "../~/shared/ui/UiSwitch"
+import { UiTypography } from "../~/shared/ui/UiTypography"
 
 interface CloneMediaListFormProps {
   mediaList: MediaListType
@@ -19,14 +20,14 @@ interface CloneMediaListFormProps {
 
 const props = defineProps<CloneMediaListFormProps>()
 const model = defineModel<boolean>()
-const createMediaListCloneApi = useCreateMediaListCloneApi();
-const { t } = useI18n();
+const createMediaListCloneApi = useCreateMediaListCloneApi()
+const { t } = useI18n()
 
 const { formValue, onFormSubmit, errors } = useForm({
   initialValue: {
     title: "",
     isKeepStatus: false,
-    selectedStatuses: []
+    selectedStatuses: [],
   },
   onSubmit: (formValue) => {
     createMediaListCloneApi.mutateAsync({
@@ -34,22 +35,22 @@ const { formValue, onFormSubmit, errors } = useForm({
       body: {
         title: formValue.title,
         selectedStatuses: formValue.selectedStatuses,
-        isKeepStatus: formValue.isKeepStatus
-      }
+        isKeepStatus: formValue.isKeepStatus,
+      },
     }).then(() => {
-      model.value = false;
-      toast.success(t("mediaList.createClone.success"));
+      model.value = false
+      toast.success(t("mediaList.createClone.success"))
     }).catch(() => {
-      toast.error(t("mediaList.createClone.unsuccessfully"));
+      toast.error(t("mediaList.createClone.unsuccessfully"))
     })
   },
   validationSchema: yup.object().shape({
-    title: yup.string().trim().min(3, t('mediaList.errors.titleLength')),
-  })
+    title: yup.string().trim().min(3, t("mediaList.errors.titleLength")),
+  }),
 })
 
 const groupedByStatus = computed(() => {
-  let result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
+  const result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
     [MediaItemStatusNameEnum.WATCHING_NOW]: [],
     [MediaItemStatusNameEnum.NOT_VIEWED]: [],
     [MediaItemStatusNameEnum.WAIT_NEW_PART]: [],

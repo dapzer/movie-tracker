@@ -1,38 +1,40 @@
 <script setup lang="ts">
-import { ref } from "vue"
-import { computed } from "#imports"
-import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "../../../shared/ui/UiCombobox"
-import { TmdbMediaTypeEnum, type TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-import { useRouter } from "#vue-router"
+import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
+import { computed } from "#imports"
+import { useRouter } from "#vue-router"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { ref } from "vue"
+import { useSearch } from "~/features/search/model/useSearch"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
-import { UiMediaCardHorizontalSkeleton } from "../../../shared/ui/UiCard"
-import { useSearch } from "~/features/search/model/useSearch"
-import { UiAttention } from "../../../shared/ui/UiAttention"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiIcon } from "../../../shared/ui/UiIcon"
+import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiMediaCardHorizontalSkeleton } from "~/shared/ui/UiCard"
+import { UiCombobox, UiComboboxItem, UiComboboxSeparator } from "~/shared/ui/UiCombobox"
+import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const router = useRouter()
-const localePath = useLocalePath();
+const localePath = useLocalePath()
 
-const open = ref<boolean>(false);
-const {searchValue, tmdbGetSearchByTermApi} = useSearch();
+const open = ref<boolean>(false)
+const { searchValue, tmdbGetSearchByTermApi } = useSearch()
 
-const handleSelect = (item: TmdbSearchResponseResultItemType) => {
-  router.push(localePath(`/details/${item.media_type}/${item.id}`));
-  open.value = false;
-};
+function handleSelect(item: TmdbSearchResponseResultItemType) {
+  router.push(localePath(`/details/${item.media_type}/${item.id}`))
+  open.value = false
+}
 
-const handleOpenSearchPage = () => {
-  router.push(localePath(`/search?searchTerm=${searchValue.value}`));
-  open.value = false;
+function handleOpenSearchPage() {
+  router.push(localePath(`/search?searchTerm=${searchValue.value}`))
+  open.value = false
 }
 
 const itemsToRender = computed(() => {
-  if (!tmdbGetSearchByTermApi.data.value?.results) return [];
-  return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5);
-});
+  if (!tmdbGetSearchByTermApi.data.value?.results)
+    return []
+  return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5)
+})
 </script>
 
 <template>
@@ -43,7 +45,7 @@ const itemsToRender = computed(() => {
     :indent="12"
     :width="568"
     align="center"
-    :resetSearchTermOnBlur="false"
+    :reset-search-term-on-blur="false"
     :placeholder="$t('search.placeholder')"
     :filter-function="(items: TmdbSearchResponseResultItemType[]) => items"
   >

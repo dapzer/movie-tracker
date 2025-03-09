@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import { useRoute } from "#vue-router"
 import { useI18n } from "#imports"
-import { computed, ref, watch } from "vue"
-import {
-  useGetTmdbSearchMovieByTermApi,
-  useGetTmdbSearchPersonByTermApi,
-  useGetTmdbSearchTvByTermApi
-} from "~/api/tmdb/useTmdbApi"
-import { UiContainer } from "../../../shared/ui/UiContainer"
-import { UiTypography } from "../../../shared/ui/UiTypography"
-import { UiDivider } from "../../../shared/ui/UiDivider"
-import { UiTabsPane } from "../../../shared/ui/UiTabs"
-import { UiSectionWithSeeMore } from "../../../shared/ui/UiSectionWithSeeMore"
-import { UiCardsGrid } from "../../../shared/ui/UiCardsGrid"
-import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
-import { PersonCard } from "~/entities/personCard"
+import { useRoute } from "#vue-router"
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { MediaTypeEnum } from "@movie-tracker/types"
-import SearchResultPagination from "~/features/search/ui/SearchResultPagination.vue"
-import { UiMediaCardSkeleton } from "../../../shared/ui/UiCard"
+import { computed, ref, watch } from "vue"
 import { useRouter } from "vue-router"
-import { UiAttention } from "../../../shared/ui/UiAttention"
+import {
+  useGetTmdbSearchMovieByTermApi,
+  useGetTmdbSearchPersonByTermApi,
+  useGetTmdbSearchTvByTermApi,
+} from "~/api/tmdb/useTmdbApi"
+import { PersonCard } from "~/entities/personCard"
+import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import SearchResultPagination from "~/features/search/ui/SearchResultPagination.vue"
+import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
+import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
+import { UiTabsPane } from "~/shared/ui/UiTabs"
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { getMatchesDeclensionTranslationKey } from "~/utils/getMatchesDeclensionTranslationKey"
 
-type Tab = 'all' | 'movies' | 'tvs' | 'persons'
+type Tab = "all" | "movies" | "tvs" | "persons"
 
-const { locale, t } = useI18n();
+const { locale, t } = useI18n()
 
-const route = useRoute();
+const route = useRoute()
 const router = useRouter()
 const searchTerm = ref(route.query.searchTerm as string)
 const contentCount = ref({
@@ -37,25 +37,25 @@ const contentCount = ref({
   person: 0,
   get total() {
     return this.movie + this.tv + this.person
-  }
+  },
 })
 
 watch(() => route.query.searchTerm, () => {
-  if ('searchTerm' in route.query) {
+  if ("searchTerm" in route.query) {
     searchTerm.value = route.query.searchTerm as string
   }
 })
 
-const activeTab = ref<Tab>(route.query.activeTab?.toString() as Tab || 'all')
+const activeTab = ref<Tab>(route.query.activeTab?.toString() as Tab || "all")
 const currentPage = ref(Number(route.query.page || 1))
 
-const updateQueryParams = () => {
+function updateQueryParams() {
   router.push({
     query: {
       searchTerm: searchTerm.value,
       activeTab: activeTab.value,
-      page: currentPage.value
-    }
+      page: currentPage.value,
+    },
   })
 }
 
@@ -71,7 +71,7 @@ watch(() => currentPage.value, () => {
 const searchQueries = computed(() => ({
   searchValue: searchTerm.value,
   language: locale.value,
-  page: currentPage.value
+  page: currentPage.value,
 }))
 
 const getTmdbSearchMovieByTerm = useGetTmdbSearchMovieByTermApi(searchQueries)
@@ -81,57 +81,57 @@ const getTmdbSearchPersonByTerm = useGetTmdbSearchPersonByTermApi(searchQueries)
 await Promise.all([
   getTmdbSearchMovieByTerm.suspense(),
   getTmdbSearchTvByTerm.suspense(),
-  getTmdbSearchPersonByTerm.suspense()
+  getTmdbSearchPersonByTerm.suspense(),
 ])
 
 watch([
   getTmdbSearchMovieByTerm.isPending,
   getTmdbSearchTvByTerm.isPending,
-  getTmdbSearchPersonByTerm.isPending
-],() => {
+  getTmdbSearchPersonByTerm.isPending,
+], () => {
   if (getTmdbSearchMovieByTerm.isPending.value || getTmdbSearchTvByTerm.isPending.value || getTmdbSearchPersonByTerm.isPending.value) {
     return
   }
   contentCount.value.movie = getTmdbSearchMovieByTerm.data.value?.total_results || 0
   contentCount.value.tv = getTmdbSearchTvByTerm.data.value?.total_results || 0
   contentCount.value.person = getTmdbSearchPersonByTerm.data.value?.total_results || 0
-}, { immediate: true, })
+}, { immediate: true })
 
 const dataToRender = computed(() => {
-  if (activeTab.value === 'movies') {
+  if (activeTab.value === "movies") {
     return {
-      items:getTmdbSearchMovieByTerm.data.value?.results,
-      totalPage: getTmdbSearchMovieByTerm.data.value?.total_pages
+      items: getTmdbSearchMovieByTerm.data.value?.results,
+      totalPage: getTmdbSearchMovieByTerm.data.value?.total_pages,
     }
   }
 
-  if (activeTab.value === 'tvs') {
+  if (activeTab.value === "tvs") {
     return {
-      items:getTmdbSearchTvByTerm.data.value?.results,
-      totalPage: getTmdbSearchTvByTerm.data.value?.total_pages
+      items: getTmdbSearchTvByTerm.data.value?.results,
+      totalPage: getTmdbSearchTvByTerm.data.value?.total_pages,
     }
   }
 
-  if (activeTab.value === 'persons') {
+  if (activeTab.value === "persons") {
     return {
-      items:getTmdbSearchPersonByTerm.data.value?.results,
-      totalPage: getTmdbSearchPersonByTerm.data.value?.total_pages
+      items: getTmdbSearchPersonByTerm.data.value?.results,
+      totalPage: getTmdbSearchPersonByTerm.data.value?.total_pages,
     }
   }
 
   return {
     items: [],
-    totalPage: 0
+    totalPage: 0,
   }
 })
 
 const isPending = computed(() => {
-  return getTmdbSearchMovieByTerm.isPending.value ||
-    getTmdbSearchTvByTerm.isPending.value ||
-    getTmdbSearchPersonByTerm.isPending.value
+  return getTmdbSearchMovieByTerm.isPending.value
+    || getTmdbSearchTvByTerm.isPending.value
+    || getTmdbSearchPersonByTerm.isPending.value
 })
 
-const handleTabChange = (tab: Tab) => {
+function handleTabChange(tab: Tab) {
   activeTab.value = tab
 }
 </script>
@@ -152,7 +152,7 @@ const handleTabChange = (tab: Tab) => {
         {{
           $t("search.description", {
             count: `${contentCount.total} ${$t(getMatchesDeclensionTranslationKey(contentCount.total))}`,
-            searchTerm: searchTerm
+            searchTerm,
           })
         }}
       </UiTypography>
@@ -177,12 +177,12 @@ const handleTabChange = (tab: Tab) => {
         {
           label: `${$t('details.mediaType.persons')} (${contentCount.person})`,
           key: 'persons',
-        }
+        },
       ] as const"
     >
       <template #content>
         <div
-          v-if="activeTab ==='all'"
+          v-if="activeTab === 'all'"
           :class="$style.all"
         >
           <UiAttention
@@ -202,7 +202,7 @@ const handleTabChange = (tab: Tab) => {
                 <MovieCardWithHoverMenu
                   v-for="item in getTmdbSearchMovieByTerm.data.value?.results.slice(0, 6)"
                   :key="item.id"
-                  :movie="{...item, media_type: MediaTypeEnum.MOVIE}"
+                  :movie="{ ...item, media_type: MediaTypeEnum.MOVIE }"
                 />
               </template>
               <template v-else>
@@ -224,7 +224,7 @@ const handleTabChange = (tab: Tab) => {
                 <MovieCardWithHoverMenu
                   v-for="item in getTmdbSearchTvByTerm.data.value?.results.slice(0, 6)"
                   :key="item.id"
-                  :movie="{...item, media_type: MediaTypeEnum.TV}"
+                  :movie="{ ...item, media_type: MediaTypeEnum.TV }"
                 />
               </template>
               <template v-else>
@@ -270,7 +270,7 @@ const handleTabChange = (tab: Tab) => {
               <MovieCardWithHoverMenu
                 v-for="item in dataToRender.items"
                 :key="item.id"
-                :movie="{...item, media_type: activeTab === 'movies' ? MediaTypeEnum.MOVIE : MediaTypeEnum.TV}"
+                :movie="{ ...item, media_type: activeTab === 'movies' ? MediaTypeEnum.MOVIE : MediaTypeEnum.TV }"
               />
             </template>
             <template v-else>

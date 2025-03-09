@@ -1,24 +1,23 @@
 <script lang="ts" setup>
-import { computed } from "#imports";
+import { computed } from "#imports"
 
 interface CardSkeletonProps {
-  width?: number;
-  height?: number;
-  isCircle?: boolean;
-  isFixedWidth?: boolean;
-  isInline?: boolean;
+  width?: number
+  height?: number
+  isCircle?: boolean
+  isFixedWidth?: boolean
+  isInline?: boolean
 }
 
-const props = defineProps<CardSkeletonProps>();
+const props = defineProps<CardSkeletonProps>()
 
 const styles = computed(() => {
   return {
     width: props.width ? `${props.width}px` : "unset",
     height: props.height ? `${props.height}px` : "inherit",
     minWidth: props.isFixedWidth ? `${props.width}px` : "unset",
-  };
-});
-
+  }
+})
 </script>
 
 <template>
@@ -26,12 +25,12 @@ const styles = computed(() => {
     :style="{
       '--width': styles.width,
       '--minWidth': styles.minWidth,
-      '--height': styles.height
+      '--height': styles.height,
 
     }"
     :class="[$style.body, {
       [$style.circle]: isCircle,
-      [$style.inline]: isInline
+      [$style.inline]: isInline,
     }]"
   >
     &zwnj;

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { UiContainer } from "../../../shared/ui/UiContainer";
-import { UiTypography } from "../../../shared/ui/UiTypography";
-import { UiButton } from "../../../shared/ui/UiButton"
 import { useAuth, useNavigateToSignInPage } from "#imports"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
-const {navigateToSignInPage} = useNavigateToSignInPage()
-const {isAuthorized}  = useAuth()
+const { navigateToSignInPage } = useNavigateToSignInPage()
+const { isAuthorized } = useAuth()
 </script>
 
 <template>
@@ -68,7 +68,6 @@ const {isAuthorized}  = useAuth()
       letter-spacing: -0.025em;
       white-space: pre-wrap;
     }
-
   }
 }
 </style>
