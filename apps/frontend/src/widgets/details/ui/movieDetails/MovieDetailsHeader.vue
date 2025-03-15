@@ -86,7 +86,7 @@ const title = computed(() => {
           </td>
         </tr>
       </template>
-      <tr v-if="props.details?.genres">
+      <tr v-if="props.details?.genres.length">
         <td>{{ $t("details.genre") }}</td>
         <td>{{ arrayToString(props.details.genres, "name") }}</td>
       </tr>
