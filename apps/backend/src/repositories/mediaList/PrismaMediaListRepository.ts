@@ -13,16 +13,16 @@ import { init } from '@paralleldrive/cuid2';
 import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
 
 
-const getMediaListIncludeObject = (userId?: string) => ({
+const getMediaListIncludeObject = (currentUserId?: string) => ({
   _count: {
     select: {
       mediaItems: true,
       likes: true
     }
   },
-  likes: {
+  likes: currentUserId && {
     where: {
-      userId: userId
+      userId: currentUserId
     }
   },
   mediaItems: {
@@ -70,7 +70,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       isPublic: data.isPublic,
       title: data.title,
       description: data.description,
-      likesCount: data.likes?.length,
+      likesCount: data._count.likes,
       mediaItemsCount: data._count?.mediaItems,
       isLiked: !!data.likes?.length,
       poster: data.mediaItems?.reduce((acc, el) => {
@@ -84,12 +84,12 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     };
   }
 
-  async getAllMedialLists(isPublicOnly = false, userId?: string) {
+  async getAllMedialLists(isPublicOnly = false, currentUserId?: string) {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
         ...(isPublicOnly && { isPublic: true }),
       },
-      include: getMediaListIncludeObject(userId),
+      include: getMediaListIncludeObject(currentUserId),
     });
 
     return mediaLists.map((el) => {
@@ -97,35 +97,35 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     });
   }
 
-  async getMedialListById(id: string, userId?: string) {
+  async getMedialListById(id: string, currentUserId?: string) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
         id,
       },
-      include: getMediaListIncludeObject(userId)
+      include: getMediaListIncludeObject(currentUserId)
     });
 
     return this.convertToInterface(mediaList);
   }
 
-  async getMedialListByHumanFriendlyId(id: string, userId?: string) {
+  async getMedialListByHumanFriendlyId(id: string, currentUserId?: string) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
         humanFriendlyId: id,
       },
-      include: getMediaListIncludeObject(userId)
+      include: getMediaListIncludeObject(currentUserId)
     })
 
     return this.convertToInterface(mediaList);
   }
 
-  async getMedialListsByUserId(userId: string, isPublicOnly = false) {
+  async getMedialListsByUserId(userId: string, currentUserId: string, isPublicOnly = false) {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
         userId,
         ...(isPublicOnly && { isPublic: true }),
       },
-      include: getMediaListIncludeObject(userId)
+      include: getMediaListIncludeObject(currentUserId)
     });
 
     return mediaLists.map((el) => {
@@ -133,7 +133,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     });
   }
 
-  async getMedialListByMediaItemAndUserId(mediaItemId: string, userId: string) {
+  async getMedialListByMediaItemAndUserId(mediaItemId: string, userId: string, currentUserId?: string,) {
     const mediaList = await this.prisma.mediaList.findFirst({
       where: {
         userId,
@@ -145,7 +145,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
           },
         },
       },
-      include: getMediaListIncludeObject(userId)
+      include: getMediaListIncludeObject(currentUserId)
     });
 
     return this.convertToInterface(mediaList);
@@ -164,7 +164,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
         isSystem,
         ...(body ?? {}),
       },
-      include: getMediaListIncludeObject(userId)
+      include: getMediaListIncludeObject()
     });
 
     return this.convertToInterface(mediaList);

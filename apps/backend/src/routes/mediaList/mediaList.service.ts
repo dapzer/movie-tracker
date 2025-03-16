@@ -24,7 +24,7 @@ export class MediaListService {
 
   private async isListOwner(
     id: string,
-    userId: string,
+    currentUserId: string,
     mediaListBase?: MediaListType,
   ) {
     const mediaList =
@@ -37,25 +37,25 @@ export class MediaListService {
       );
     }
 
-    return mediaList.userId === userId;
+    return mediaList.userId === currentUserId;
   }
 
-  async getAllMedialLists(isPublicOnly = false, userId?: string) {
-    return this.mediaListRepository.getAllMedialLists(isPublicOnly, userId);
+  async getAllMedialLists(isPublicOnly = false, currentUserId?: string) {
+    return this.mediaListRepository.getAllMedialLists(isPublicOnly, currentUserId);
   }
 
   async getMedialListById(
     id: string,
-    userId: string,
+    currentUserId: string,
     byHumanFriendlyId = false,
   ) {
     const mediaList = byHumanFriendlyId
       ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
         id,
-        userId,
+        currentUserId,
       )
-      : await this.mediaListRepository.getMedialListById(id, userId);
-    const isListOwner = await this.isListOwner(id, userId, mediaList);
+      : await this.mediaListRepository.getMedialListById(id, currentUserId);
+    const isListOwner = await this.isListOwner(id, currentUserId, mediaList);
 
     if (!isListOwner && !mediaList.isPublic) {
       throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
@@ -73,6 +73,7 @@ export class MediaListService {
 
     return this.mediaListRepository.getMedialListsByUserId(
       userId,
+      currentUserId,
       isPublicOnly,
     );
   }

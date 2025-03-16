@@ -10,23 +10,25 @@ export const MediaListRepositorySymbol = Symbol();
 export interface MediaListRepositoryInterface {
   getAllMedialLists: (
     isPublicOnly?: boolean,
-    userId?: string,
+    currentUserId?: string,
   ) => Promise<MediaListType[]>;
 
-  getMedialListById: (id: string, userId?: string) => Promise<MediaListType>;
+  getMedialListById: (id: string, currentUserId?: string) => Promise<MediaListType>;
 
   getMedialListByMediaItemAndUserId: (
     mediaItemId: string,
     userId: string,
+    currentUserId?: string,
   ) => Promise<MediaListType>;
 
   getMedialListByHumanFriendlyId: (
     id: string,
-    userId?: string,
+    currentUserId?: string,
   ) => Promise<MediaListType>;
 
   getMedialListsByUserId: (
     userId: string,
+    currentUserId?: string,
     isPublicOnly?: boolean,
   ) => Promise<MediaListType[]>;
 
