@@ -1,3 +1,5 @@
+![alt](https://raw.githubusercontent.com/dapzer/movie-tracker/refs/heads/master/apps/frontend/src/public/ogImageEn.webp)
+
 #### [Production](https://movie-tracker.app)
 
 ### About the project
