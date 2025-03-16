@@ -29,7 +29,6 @@ export function useGetMediaListsApi() {
       return getMediaListsApi({ headers })
     },
     retry: false,
-    refetchOnMount: "always",
   })
 }
 

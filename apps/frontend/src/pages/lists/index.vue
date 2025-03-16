@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports"
+import { onBeforeMount, useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports"
 import { computed } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useAuth } from "~/composables/useAuth"
@@ -18,6 +18,10 @@ const { navigateToSignInPage } = useNavigateToSignInPage()
 const getMediaListsApi = useGetMediaListsApi()
 
 const { t } = useI18n()
+
+onBeforeMount(() => {
+  getMediaListsApi.refetch()
+})
 
 useSeoMeta({
   titleTemplate(titleChunk) {

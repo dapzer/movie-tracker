@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<UiListCardProps>(), {
       <div :class="$style.images">
         <div
           v-for="number in 6"
-          :key="number"
+          :key="props.imagesSrc?.[number - 1] ?? number"
           :class="$style.imagesItem"
         >
           <UiImage
