@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"

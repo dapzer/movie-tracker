@@ -5,7 +5,7 @@ import { computed } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { minsToTimeConverter } from "@movie-tracker/utils"
 import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 
 interface TvDetailsSeasonsHeaderProps {
@@ -79,8 +79,8 @@ const totalDuration = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .actionsMobile {
   display: none !important;

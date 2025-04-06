@@ -30,8 +30,8 @@ const localePath = useLocalePath()
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: grid;

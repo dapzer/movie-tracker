@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
-import { computed, getProxiedImageUrl, useI18n } from "#imports"
+import { computed, useI18n } from "#imports"
 import { UiMediaCard } from "~/shared/ui/UiCard"
 import { UiRating } from "~/shared/ui/UiRating"
-import { formatDate } from "~/utils/formatDate"
+import { formatDate } from "~/shared/utils/formatDate"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType

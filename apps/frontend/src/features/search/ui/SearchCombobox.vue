@@ -112,7 +112,7 @@ const itemsToRender = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   width: 100%;

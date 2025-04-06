@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useAuth } from "#imports"
 import { SignInLink } from "~/features/auth"
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
 import { UserProfileDropdown } from "~/features/profile"
+import { useAuth } from "~/shared/composables/useAuth"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import DefaultHeaderListsNavigation from "~/widgets/header/ui/defaultHeader/DefaultHeaderListsNavigation.vue"
@@ -44,8 +44,8 @@ const { profile } = useAuth()
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

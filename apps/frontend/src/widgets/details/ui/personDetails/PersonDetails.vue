@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createError, formatDate, useI18n } from "#imports"
+import { createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import {
@@ -12,6 +12,7 @@ import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiSlider } from "~/shared/ui/UiSlider"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { formatDate } from "~/shared/utils/formatDate"
 import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo"
 import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
 import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue"
@@ -147,8 +148,8 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value)
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

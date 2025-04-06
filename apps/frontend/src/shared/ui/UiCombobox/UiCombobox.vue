@@ -84,7 +84,7 @@ watch(() => open.value, (value) => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .anchor {
   position: relative;

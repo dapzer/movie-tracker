@@ -2,12 +2,14 @@
 import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { formatDate, getProxiedImageUrl, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString, convertNumberToCurrency, getMovieDirectors } from "@movie-tracker/utils"
 import { computed } from "vue"
 import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
 import { UiRating } from "~/shared/ui/UiRating"
+import { formatDate } from "~/shared/utils/formatDate"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 import MovieDetailsProducers from "./MovieDetailsProducers.vue"
 
@@ -19,7 +21,7 @@ interface MovieDetailsHeaderProps {
 }
 
 const props = defineProps<MovieDetailsHeaderProps>()
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 const localePath = useLocalePath()
 
 const producers = computed(() => {

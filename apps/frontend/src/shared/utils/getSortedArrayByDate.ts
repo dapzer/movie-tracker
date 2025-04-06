@@ -1,6 +1,6 @@
-import type { SortOrderEnum } from "~/types/Sorting"
+import type { SortOrderEnum } from "~/shared/types/Sorting"
 
-type FixArr<T> = T extends readonly never[] ? Omit<T, Exclude<keyof never[], number>> : T
+type FixArr<T> = T extends readonly any[] ? Omit<T, Exclude<keyof any[], number>> : T
 
 type _DeepKeys<T> = T extends object ? (
   { [K in (string | number) & keyof T]:

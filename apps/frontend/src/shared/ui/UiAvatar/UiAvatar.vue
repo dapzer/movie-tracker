@@ -2,8 +2,8 @@
 import { useCookie } from "#app"
 import { watchEffect } from "#imports"
 import { ref } from "vue"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import { UiImage } from "~/shared/ui/UiImage"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
 
 interface UiAvatarProps {
   src?: string

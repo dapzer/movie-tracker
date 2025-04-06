@@ -144,8 +144,8 @@ const slots = defineSlots()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

@@ -103,7 +103,7 @@ const producers = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

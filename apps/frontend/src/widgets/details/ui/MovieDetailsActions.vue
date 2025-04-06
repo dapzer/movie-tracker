@@ -20,8 +20,8 @@ const props = defineProps<MovieDetailsActionsProps>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 .wrapper {
   display: flex;
   justify-content: flex-start;

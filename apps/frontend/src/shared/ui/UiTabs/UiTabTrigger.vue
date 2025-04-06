@@ -21,8 +21,8 @@ const props = defineProps<UiTabTriggerProps>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .body {
   font-size: var(--fs-label);

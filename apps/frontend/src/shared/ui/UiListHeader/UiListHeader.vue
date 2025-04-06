@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import type { UiTypographyVariant } from "~/shared/ui/UiTypography"
-import type { ComponentOrTag } from "~/types/ComponentOrTag"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
@@ -43,8 +43,8 @@ const props = withDefaults(defineProps<UiListHeaderProps>(), {
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

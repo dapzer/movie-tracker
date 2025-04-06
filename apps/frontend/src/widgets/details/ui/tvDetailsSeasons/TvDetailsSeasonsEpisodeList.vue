@@ -78,8 +78,8 @@ const subtitle = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .header {
   margin-bottom: 16px;

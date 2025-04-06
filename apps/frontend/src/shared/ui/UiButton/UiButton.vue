@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"

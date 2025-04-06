@@ -2,7 +2,7 @@ import { useRoute } from "#app"
 import { useLocalePath } from "#i18n"
 import { useLocalStorage } from "@vueuse/core"
 import { useRouter } from "vue-router"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 
 export function useNavigateToSignInPage() {
   const localePath = useLocalePath()

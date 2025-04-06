@@ -1,4 +1,4 @@
-import { LanguagesEnum } from "~/types/languagesEnum"
+import { LanguagesEnum } from "~/shared/types/languagesEnum"
 
 export const allowedLanguages = [{
   value: LanguagesEnum.EN,

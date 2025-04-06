@@ -2,14 +2,10 @@
 import type { TmdbCreditsCastType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
-import {
-
-  TmdbMediaTypeEnum,
-
-} from "@movie-tracker/types"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { UiMediaCard } from "~/shared/ui/UiCard"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface PersonCardProps {
   person: TmdbSearchResponseResultItemType | TmdbCreditsCastType

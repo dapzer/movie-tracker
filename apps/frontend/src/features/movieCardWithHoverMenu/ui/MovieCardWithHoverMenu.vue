@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { TmdbMediaTypeEnum, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { ref } from "vue"
-import { useAuth } from "~/composables/useAuth"
-import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
 import { MediaListSelectorModal } from "~/entities/mediaList"
 import { MovieCard } from "~/entities/movieCard"
 import MovieCardHoverMenu from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenu.vue"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiHoverCard } from "~/shared/ui/UiHoverCard"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
@@ -71,8 +71,8 @@ function onOpenButtonClicked() {
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .trigger {
   cursor: pointer;

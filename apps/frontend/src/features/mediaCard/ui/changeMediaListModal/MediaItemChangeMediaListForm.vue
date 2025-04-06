@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
-import { useForm, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
@@ -9,12 +9,13 @@ import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
+import { useForm } from "~/shared/composables/useForm"
+import { SortOrderEnum } from "~/shared/types/Sorting"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { SortOrderEnum } from "~/types/Sorting"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
 interface MediaItemChangeMediaListFormProps {
   mediaItem: MediaItemType
@@ -130,8 +131,8 @@ const sortedMediaLists = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   flex-direction: column;

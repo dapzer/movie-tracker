@@ -2,7 +2,7 @@
 import { ref } from "vue"
 import { UiMediaCard } from "~/shared/ui/UiCard"
 import UiCardsGrid from "~/shared/ui/UiCardsGrid/UiCardsGrid.vue"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
+import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
 
 const cardCount = ref(20)
 </script>

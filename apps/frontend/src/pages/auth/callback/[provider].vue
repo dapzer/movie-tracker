@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import { useRoute } from "#app"
-import { definePageMeta, getCurrentBrowserName, onMounted } from "#imports"
+import { definePageMeta, onMounted } from "#imports"
 import { useLocalStorage } from "@vueuse/core"
 import { computed, ref } from "vue"
 import { useRouter } from "vue-router"
 import { useSignInCallbackApi } from "~/api/auth/useAuthApi"
+import { BrowserEnum } from "~/shared/types/browserEnum"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiLoadingIndicator } from "~/shared/ui/UiLoadingIndicator"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { BrowserEnum } from "~/types/browserEnum"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { getCurrentBrowserName } from "~/shared/utils/getCurrentBrowserName"
 
 const { params, query } = useRoute()
 const signInCallbackApi = useSignInCallbackApi()
@@ -50,7 +51,7 @@ onMounted(async () => {
       closeWindow()
     }
   }
-  catch (e) {
+  catch (error) {
     isError.value = true
   }
 })

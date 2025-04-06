@@ -3,10 +3,11 @@ import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultIt
 import type { UiMediaCardHorizontalSize } from "~/shared/ui/UiCard"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { getProxiedImageUrl } from "#imports"
 import { UiMediaCardHorizontal } from "~/shared/ui/UiCard"
 import { UiRating } from "~/shared/ui/UiRating"
 import { UiTypography } from "~/shared/ui/UiTypography"
+
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType | TmdbPersonCrewType | TmdbPersonCastType
@@ -70,8 +71,8 @@ const localePath = useLocalePath()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .titleWrapper {
   display: flex;

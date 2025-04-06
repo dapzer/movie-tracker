@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed, getColorByRating, getFormatedNumber } from "#imports"
+import { computed } from "#imports"
 import { minsToTimeConverter } from "@movie-tracker/utils"
 import { UiDelimiter } from "~/shared/ui/UiDelimiter"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getColorByRating } from "~/shared/utils/getColorByRating"
+import { getFormatedNumber } from "~/shared/utils/getFormatedNumber"
 
 interface UiVoteWithRuntimeProps {
   voteAverage: number

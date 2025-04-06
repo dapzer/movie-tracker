@@ -75,8 +75,6 @@ await Promise.all([
   getTmdbTvOnTheAirApi.suspense(),
   getTmdbTvAiringTodayApi.suspense(),
 ])
-
-const loadingArray = Array.from({ length: 20 }, (_, i) => i)
 </script>
 
 <template>

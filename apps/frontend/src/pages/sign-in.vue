@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { navigateTo } from "#app"
 import { useLocalePath } from "#i18n"
-import { definePageMeta, useAuth, useI18n, useSeoMeta } from "#imports"
+import { definePageMeta, useI18n, useSeoMeta } from "#imports"
 import { useLocalStorage } from "@vueuse/core"
 import { watch } from "vue"
 import { SignInForm } from "~/features/auth"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { useAuth } from "~/shared/composables/useAuth"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import { UiContainer } from "../shared/ui/UiContainer"
 
 definePageMeta({
@@ -43,8 +44,8 @@ watch([() => isNotAuthorized.value, () => isLoadingProfile.value, () => authRedi
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   width: 100%;

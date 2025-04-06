@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
-import { useForm, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { watch } from "vue"
 import * as yup from "yup"
+import { useForm } from "~/shared/composables/useForm"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTextarea } from "~/shared/ui/UiTextarea"

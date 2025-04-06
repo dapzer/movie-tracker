@@ -2,8 +2,8 @@
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed, useI18n } from "#imports"
 import { useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
-import { useIsMobile } from "~/composables/useIsMobile"
 import AddMediaItemToListsForm from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsForm.vue"
+import { useIsMobile } from "~/shared/composables/useIsMobile"
 import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"
 import { UiModal } from "~/shared/ui/UiModal"
 

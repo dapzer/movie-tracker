@@ -1,9 +1,9 @@
 import type { ComputedRef, Ref } from "vue"
 import type { AnyObject, ObjectSchema } from "yup"
-import type { ValidationErrorsType } from "~/types/ValidationErrorsType"
-import { isRef } from "#build/imports"
+import type { ValidationErrorsType } from "~/shared/types/ValidationErrorsType"
+import { isRef } from "#imports"
 import { computed, ref, toValue, watch } from "vue"
-import { validateAndSave } from "~/utils/validateAndSave"
+import { validateAndSave } from "~/shared/utils/validateAndSave"
 
 interface FormArgs<T extends object> {
   initialValue: ComputedRef<T> | Ref<T> | T

@@ -2,17 +2,18 @@
 import type { Ref } from "vue"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { getShortText, useI18n, useSeoMeta } from "#imports"
+import { useI18n, useSeoMeta } from "#imports"
 import { computed, watch } from "vue"
 import { useRoute } from "vue-router"
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
 import { useUserProfileByIdApi } from "~/api/user/useUserApi"
-import { useAuth } from "~/composables/useAuth"
+import { useAuth } from "~/shared/composables/useAuth"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { checkIsAuthError } from "~/utils/checkIsAuthError"
+import { checkIsAuthError } from "~/shared/utils/checkIsAuthError"
+import { getShortText } from "~/shared/utils/getShortText"
 import { MediaListDetails } from "~/widgets/mediaList"
 
 const { t } = useI18n()
@@ -100,7 +101,7 @@ const isLoading = computed(() => {
   const isLoadingProfiles = isInitialLoadingProfile.value || externalUserProfileApi.isLoading.value
 
   return (isLoadingMediaItems || isLoadingMediaList)
-    && !currentMediaItems.value?.length || isLoadingProfiles
+    && (!currentMediaItems.value?.length || isLoadingProfiles)
 })
 
 const title = computed(() => {

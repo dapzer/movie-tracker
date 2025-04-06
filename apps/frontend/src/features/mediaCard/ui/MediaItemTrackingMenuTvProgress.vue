@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { MediaItemType } from "@movie-tracker/types"
 import type { OptionType } from "~/shared/ui/UiSelect"
-import { getCurrentMediaDetails, useI18n, watch } from "#imports"
+import { useI18n, watch } from "#imports"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 
 interface MediaItemTrackingMenuTvProgressProps {
   mediaItem: MediaItemType

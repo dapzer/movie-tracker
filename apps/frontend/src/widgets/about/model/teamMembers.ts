@@ -1,4 +1,4 @@
-import type { SocialIdsType } from "~/utils/getSocialList"
+import type { SocialIdsType } from "~/shared/ui/UiSocialList/model/getSocialList"
 
 interface TeamMemberType {
   name: string

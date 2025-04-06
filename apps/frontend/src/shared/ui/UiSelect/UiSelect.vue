@@ -24,7 +24,6 @@ interface UiSelectProps {
 }
 
 const props = defineProps<UiSelectProps>()
-const slots = defineSlots()
 const selectModel = defineModel<string>()
 </script>
 
@@ -78,7 +77,7 @@ const selectModel = defineModel<string>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .trigger {
   outline: none;

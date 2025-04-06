@@ -7,7 +7,7 @@ import MediaItemCreateCloneForm from "~/features/mediaCard/ui/createCloneModal/M
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiModal } from "~/shared/ui/UiModal"
-import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
+import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 
 interface MediaItemCreateCloneModalProps {
   mediaItem: MediaItemType

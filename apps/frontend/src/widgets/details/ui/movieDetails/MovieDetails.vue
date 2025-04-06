@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useLocalePath } from "#i18n"
-import { computed, createError, getProxiedImageUrl, useI18n } from "#imports"
+import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
 import {
@@ -12,11 +12,12 @@ import {
 } from "~/api/tmdb/useTmdbApi"
 import { EpisodeCard } from "~/entities/episodeCard"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import { LanguagesEnum } from "~/shared/types/languagesEnum"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiSlider } from "~/shared/ui/UiSlider"
-import { LanguagesEnum } from "~/types/languagesEnum"
-import { formatDate } from "~/utils/formatDate"
+import { formatDate } from "~/shared/utils/formatDate"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 import { PersonWithDescription } from "~/widgets/personWithDescription"
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer"
@@ -107,7 +108,7 @@ const latestEpisodes = computed(() => {
     for (let j = season?.episodes.length - 1; j >= 0; j--) {
       const episode = season?.episodes[j]
 
-      if (episodes.length > 0 || episode?.air_date && new Date(episode?.air_date) < today) {
+      if (episodes.length > 0 || (episode?.air_date && new Date(episode?.air_date) < today)) {
         episodes.push(episode)
       }
       if (episodes.length >= 20) {
@@ -219,8 +220,8 @@ const latestEpisodes = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

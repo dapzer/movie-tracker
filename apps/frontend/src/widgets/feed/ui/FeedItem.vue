@@ -67,8 +67,8 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i)
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   .grid {

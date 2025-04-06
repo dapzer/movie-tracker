@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from "radix-vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 

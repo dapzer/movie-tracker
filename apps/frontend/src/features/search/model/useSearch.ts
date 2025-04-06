@@ -20,7 +20,7 @@ export function useSearch() {
   const tmdbGetSearchByTermApi = useGetTmdbSearchByTermApi(searchQueries)
 
   watch(() => searchValue.value, (value, oldValue, onCleanup) => {
-    if (searchValue.value == searchTerm.value)
+    if (searchValue.value === searchTerm.value)
       return
 
     const delayDebounceFn = setTimeout(() => {

@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import { onBeforeMount, useI18n, useNavigateToSignInPage, useSeoMeta } from "#imports"
+import { onBeforeMount, useI18n, useSeoMeta } from "#imports"
 import { computed } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
-import { useAuth } from "~/composables/useAuth"
 import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
-import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
-import { SortOrderEnum } from "~/types/Sorting"
-import { getListDeclensionTranslationKey } from "~/utils/getListDeclensionTranslationKey"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
+import { SortOrderEnum } from "~/shared/types/Sorting"
+import { UiAttention } from "~/shared/ui/UiAttention"
+import { getListDeclensionTranslationKey } from "~/shared/utils/getListDeclensionTranslationKey"
+import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 import { UiButton } from "../../shared/ui/UiButton"
 import { UiContainer } from "../../shared/ui/UiContainer"
 import { UiIcon } from "../../shared/ui/UiIcon"
@@ -96,8 +97,8 @@ const sortedMediaLists = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 @layer external {
   .wrapper {

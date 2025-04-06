@@ -65,7 +65,7 @@ const features = [{
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
+@import "~/shared/styles/variables";
 
 .wrapper {
   margin-top: 96px;

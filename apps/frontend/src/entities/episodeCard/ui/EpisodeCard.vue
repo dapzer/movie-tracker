@@ -55,8 +55,8 @@ const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${pr
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   cursor: pointer;

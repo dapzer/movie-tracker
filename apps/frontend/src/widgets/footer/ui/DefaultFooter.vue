@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useLocalePath } from "#i18n"
 import { AppLogo } from "~/shared/ui/appLogo"
 import { PublicResources } from "~/shared/ui/publicResources"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -7,8 +6,6 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 import { movieTrackerLinks } from "~/widgets/footer/model/movieTrackerLinks"
 import DefaultFooterDataSource from "~/widgets/footer/ui/defaultFooter/DefaultFooterDataSource.vue"
 import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFooterLinkList.vue"
-
-const localePath = useLocalePath()
 </script>
 
 <template>
@@ -57,8 +54,8 @@ const localePath = useLocalePath()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   width: 100%;

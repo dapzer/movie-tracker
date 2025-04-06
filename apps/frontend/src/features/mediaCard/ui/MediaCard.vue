@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import type { MediaItemType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
-import { computed, getCurrentMediaDetails, getProxiedImageUrl, useI18n } from "#imports"
+import { computed, useI18n } from "#imports"
 import { ref } from "vue"
 import MediaCardTrackingMenuDrawer from "~/features/mediaCard/ui/MediaCardManagementMenuDrawer.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiMediaCard } from "~/shared/ui/UiCard"
 import { UiIcon } from "~/shared/ui/UiIcon"
-import { formatDate } from "~/utils/formatDate"
+import { formatDate } from "~/shared/utils/formatDate"
+import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface MediaCardProps {
   mediaItem: MediaItemType

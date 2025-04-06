@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { MediaItemType } from "@movie-tracker/types"
-import type { SortOrderEnum } from "~/types/Sorting"
+import type { SortOrderEnum } from "~/shared/types/Sorting"
 import { useCookie } from "#app"
 import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed, h, ref, watch } from "vue"
 import { MediaCard } from "~/features/mediaCard"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
@@ -16,7 +17,6 @@ import { UiInput } from "~/shared/ui/UiInput"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
 import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListItems"
 
 interface MediaListDetailsProps {
@@ -230,8 +230,8 @@ watch(currentTabMediaItems, () => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   display: flex;

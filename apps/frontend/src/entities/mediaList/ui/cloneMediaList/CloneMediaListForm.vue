@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
-import { getElementDeclensionTranslationKey, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import { toast } from "vue3-toastify"
 import * as yup from "yup"
 import { useCreateMediaListCloneApi } from "~/api/mediaList/useMediaListApi"
-import { useForm } from "~/composables/useForm"
+import { useForm } from "~/shared/composables/useForm"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiFormListItem } from "~/shared/ui/UiFormListItem"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getElementDeclensionTranslationKey } from "~/shared/utils/getElementDeclensionTranslationKey"
 
 interface CloneMediaListFormProps {
   mediaList: MediaListType

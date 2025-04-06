@@ -3,7 +3,7 @@ import { ref } from "vue"
 import { UiMediaCard } from "~/shared/ui/UiCard"
 import UiHoverCard from "~/shared/ui/UiHoverCard/UiHoverCard.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
+import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
 
 const align = ref<"start" | "center" | "end">("start")
 const side = ref<"top" | "right" | "bottom" | "left">("bottom")

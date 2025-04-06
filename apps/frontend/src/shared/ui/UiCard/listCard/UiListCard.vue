@@ -61,8 +61,8 @@ const props = withDefaults(defineProps<UiListCardProps>(), {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   padding: 16px;

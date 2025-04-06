@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { UiVideoCard } from "~/shared/ui/UiCard"
 import UiSlider from "~/shared/ui/UiSlider/UiSlider.vue"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
+import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
 </script>
 
 <template>

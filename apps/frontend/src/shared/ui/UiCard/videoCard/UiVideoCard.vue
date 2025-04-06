@@ -60,8 +60,8 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   cursor: pointer;

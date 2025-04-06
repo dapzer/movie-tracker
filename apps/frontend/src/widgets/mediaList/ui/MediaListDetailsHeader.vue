@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
-import { useAuth, useI18n, useNavigateToSignInPage } from "#imports"
+import { useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
 import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -143,8 +145,8 @@ async function handleLike() {
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   min-width: 0;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { SocialIdsType } from "~/utils/getSocialList"
+import type { SocialIdsType } from "~/shared/ui/UiSocialList/model/getSocialList"
 import { NuxtLink } from "#components"
 import { computed } from "vue"
-import { getSocialList } from "~/utils/getSocialList"
+import { getSocialList } from "~/shared/ui/UiSocialList/model/getSocialList"
 
 interface UisSocialListProps {
   socialList: SocialIdsType

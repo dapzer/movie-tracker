@@ -8,7 +8,7 @@ import { useGetTmdbMovieDetailsApi, useGetTmdbRecommendationsApi } from "~/api/t
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
-import { getTmdbTotalPages } from "~/utils/getTmdbTotalPages"
+import { getTmdbTotalPages } from "~/shared/utils/getTmdbTotalPages"
 import { ContentList } from "~/widgets/contentList"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
 

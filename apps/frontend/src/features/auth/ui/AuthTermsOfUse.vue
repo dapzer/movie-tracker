@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
 import { useI18n } from "#imports"
+import { LanguagesEnum } from "~/shared/types/languagesEnum"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { LanguagesEnum } from "~/types/languagesEnum"
 
 const { locale } = useI18n()
 </script>

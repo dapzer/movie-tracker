@@ -73,8 +73,8 @@ const slots = defineSlots()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .image {
   aspect-ratio: 2/3;

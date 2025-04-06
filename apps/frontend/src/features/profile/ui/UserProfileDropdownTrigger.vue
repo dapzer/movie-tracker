@@ -27,7 +27,7 @@ const props = defineProps<UserProfileDropdownTriggerProps>()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
+@import "~/shared/styles/variables";
 
 .wrapper {
   display: flex;

@@ -14,8 +14,8 @@ import { UiSocialList } from "../../UiSocialList"
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   gap: 16px;

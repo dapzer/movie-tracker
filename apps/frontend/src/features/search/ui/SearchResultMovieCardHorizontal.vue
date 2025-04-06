@@ -4,7 +4,7 @@ import { useI18n } from "#imports"
 import { MovieCardHorizontal } from "~/entities/movieCard"
 import { UiDelimiter } from "~/shared/ui/UiDelimiter"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { formatDate } from "~/utils/formatDate"
+import { formatDate } from "~/shared/utils/formatDate"
 
 interface SearchResultMovieCardHorizontalProps {
   movie: TmdbSearchResponseResultItemType

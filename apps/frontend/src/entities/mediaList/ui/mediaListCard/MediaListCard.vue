@@ -2,14 +2,15 @@
 import type { MediaListType } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { getProxiedImageUrl, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
+import { getElementDeclensionTranslationKey } from "~/shared/utils/getElementDeclensionTranslationKey"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface MediaListCardProps {
   list: MediaListType
@@ -113,7 +114,7 @@ const posters = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .header {
   display: flex;

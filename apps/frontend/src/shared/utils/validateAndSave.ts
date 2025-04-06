@@ -1,6 +1,6 @@
 import type { Ref } from "vue"
 import type { AnyObject, ObjectSchema } from "yup"
-import type { ValidationErrorsType } from "~/types/ValidationErrorsType"
+import type { ValidationErrorsType } from "~/shared/types/ValidationErrorsType"
 import { ValidationError } from "yup"
 
 function reduceYupErrors(yupErrors: ValidationError[]) {

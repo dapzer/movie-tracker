@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import type { TmdbPersonExternalIdsType, TmdbPersonType } from "@movie-tracker/types"
-import { formatDate, getProxiedImageUrl, getYearDeclensionTranslationKey, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { computed } from "vue"
 import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
 import { UiSocialList } from "~/shared/ui/UiSocialList"
+import { formatDate } from "~/shared/utils/formatDate"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
+import { getYearDeclensionTranslationKey } from "~/shared/utils/getYearDeclensionTranslationKey"
 
 interface PersonDetailsHeaderProps {
   details?: TmdbPersonType | null

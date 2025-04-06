@@ -1,6 +1,6 @@
 import type { VNode } from "vue"
 import { h } from "vue"
-import { UiIcon } from "../shared/ui/UiIcon"
+import { UiIcon } from "../../UiIcon"
 
 export interface SocialIdsType {
   instagram?: string | null

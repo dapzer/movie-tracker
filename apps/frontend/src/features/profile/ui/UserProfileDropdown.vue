@@ -1,8 +1,8 @@
 =
 <script lang="ts" setup>
-import { useAuth } from "~/composables/useAuth"
 import UserProfileDropdownContent from "~/features/profile/ui/UserProfileDropdownContent.vue"
 import UserProfileDropdownTrigger from "~/features/profile/ui/UserProfileDropdownTrigger.vue"
+import { useAuth } from "~/shared/composables/useAuth"
 import { UiDropdown } from "~/shared/ui/UiDropdown"
 
 const { profile } = useAuth()

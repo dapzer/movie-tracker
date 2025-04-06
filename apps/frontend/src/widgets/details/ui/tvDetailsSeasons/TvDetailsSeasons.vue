@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useLocalePath } from "#i18n"
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi"
@@ -14,7 +13,6 @@ interface TvDetailsSeasonsProps {
 
 const props = defineProps<TvDetailsSeasonsProps>()
 const { locale, t } = useI18n()
-const localePath = useLocalePath()
 
 const queries = computed(() => ({
   mediaType: TmdbMediaTypeEnum.TV,
@@ -63,8 +61,8 @@ useMovieDetailsSeo({
 </template>
 
 <style lang="scss" module>
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

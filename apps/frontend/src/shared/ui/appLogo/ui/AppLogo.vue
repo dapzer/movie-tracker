@@ -1,27 +1,15 @@
 <script lang="ts" setup>
-import { useRoute } from "#app"
 import { useLocalePath } from "#i18n"
-import { computed } from "#imports"
-import { searchStore } from "~/stores/searcStore"
 import { UiIcon } from "../../UiIcon"
 import { UiTypography } from "../../UiTypography"
 
 const localePath = useLocalePath()
-const router = useRoute()
-const searchValue = computed(() => searchStore.state.searchValue)
-
-function onClickLogo() {
-  if (searchValue.value && router.path == localePath("/")) {
-    searchStore.onChangeSearch("")
-  }
-}
 </script>
 
 <template>
   <NuxtLink
     :to="localePath('/')"
     :class="$style.wrapper"
-    @click="onClickLogo"
   >
     <UiIcon
       name="icon:logo"
@@ -37,7 +25,7 @@ function onClickLogo() {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

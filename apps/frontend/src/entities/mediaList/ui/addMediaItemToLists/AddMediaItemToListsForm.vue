@@ -6,12 +6,12 @@ import { toast } from "vue3-toastify"
 import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
+import { SortOrderEnum } from "~/shared/types/Sorting"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { SortOrderEnum } from "~/types/Sorting"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
 const props = defineProps<MediaListSelectorModalProps>()
 const emit = defineEmits<{
@@ -74,7 +74,7 @@ function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
     })
   }
   else {
-    const index = changes.value.findIndex((el, index) => {
+    const index = changes.value.findIndex((el) => {
       return el.mediaListId !== mediaListId
     })
     changes.value.splice(index, 1)
@@ -94,6 +94,7 @@ function handleSaveChanges() {
     if (el.action === "remove" && el.mediaItemId) {
       return deleteMediaItemApi.mutateAsync(el.mediaItemId)
     }
+    return Promise.resolve()
   })).then(() => {
     toast.success(t("toasts.changesSuccessfullySaved"))
     emit("onAfterSave")
@@ -173,8 +174,8 @@ const sortedMediaLists = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   flex-direction: column;

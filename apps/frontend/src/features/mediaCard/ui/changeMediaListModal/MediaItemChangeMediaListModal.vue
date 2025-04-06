@@ -7,7 +7,7 @@ import MediaItemChangeMediaListForm from "~/features/mediaCard/ui/changeMediaLis
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiModal } from "~/shared/ui/UiModal"
-import { getCurrentMediaDetails } from "~/utils/getCurrentMediaDetails"
+import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 
 interface MediaItemChangeMediaListModalProps {
   mediaItem: MediaItemType

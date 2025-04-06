@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import { DropdownMenuItem } from "radix-vue"
 
 interface UiDropdownItemProps {
@@ -32,7 +32,7 @@ const slots = defineSlots()
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   @include dropdownItem;

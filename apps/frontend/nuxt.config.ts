@@ -103,7 +103,7 @@ export default defineNuxtConfig({
     }],
   },
 
-  css: ["@/styles/global.scss", "@/styles/variables.scss"],
+  css: ["@/shared/styles/global.scss", "@/shared/styles/variables.scss"],
 
   imports: {
     autoImport: false,

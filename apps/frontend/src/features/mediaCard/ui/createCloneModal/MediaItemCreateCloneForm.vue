@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import type { MediaItemType } from "@movie-tracker/types"
-import { useForm, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
 import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
+import { useForm } from "~/shared/composables/useForm"
+import { SortOrderEnum } from "~/shared/types/Sorting"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { SortOrderEnum } from "~/types/Sorting"
-import { getSortedArrayByDate } from "~/utils/getSortedArrayByDate"
+import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
 interface MediaItemCreateCloneFormProps {
   mediaItem: MediaItemType
@@ -123,8 +124,8 @@ const sortedMediaLists = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   flex-direction: column;

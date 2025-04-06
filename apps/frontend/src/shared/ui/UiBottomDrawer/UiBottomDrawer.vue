@@ -21,10 +21,7 @@ const model = defineModel<boolean>()
 </script>
 
 <template>
-  <DrawerRoot
-    ref="drawerRef"
-    v-model:open="model"
-  >
+  <DrawerRoot v-model:open="model">
     <DrawerTrigger as="div">
       <slot name="trigger" />
     </DrawerTrigger>
@@ -65,7 +62,7 @@ const model = defineModel<boolean>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .overlay {
   z-index: var(--i-modal);

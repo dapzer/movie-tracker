@@ -4,7 +4,7 @@ import { UiMediaCard, UiMediaCardHorizontal, UiMediaCardSkeleton } from "~/share
 import UiCardBase from "~/shared/ui/UiCard/UiCardBase.vue"
 import { UiVideoCard } from "~/shared/ui/UiCard/videoCard"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
+import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
 import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkeleton.vue"
 </script>
 

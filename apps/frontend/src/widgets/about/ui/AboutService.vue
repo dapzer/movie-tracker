@@ -33,8 +33,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   margin-top: 128px;

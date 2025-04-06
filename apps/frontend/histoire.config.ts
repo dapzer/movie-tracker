@@ -57,7 +57,7 @@ export default defineConfig({
       },
       {
         title: "Others",
-        include: file => true,
+        include: () => true,
       },
     ],
   },

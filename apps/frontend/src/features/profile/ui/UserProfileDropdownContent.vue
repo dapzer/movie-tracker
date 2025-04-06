@@ -4,7 +4,7 @@ import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { UserRoleEnum } from "@movie-tracker/types"
 import { computed } from "vue"
-import { useAuth } from "~/composables/useAuth"
+import { useAuth } from "~/shared/composables/useAuth"
 import { UiDropdownGroup, UiDropdownItem, UiDropdownSeparator } from "~/shared/ui/UiDropdown"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiImage } from "~/shared/ui/UiImage"
@@ -83,7 +83,7 @@ const isAdmin = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .info {
   display: flex;

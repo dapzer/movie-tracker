@@ -1,4 +1,4 @@
-import { BrowserEnum } from "~/types/browserEnum"
+import { BrowserEnum } from "~/shared/types/browserEnum"
 
 export function getCurrentBrowserName() {
   const userAgent = navigator.userAgent.toLowerCase()

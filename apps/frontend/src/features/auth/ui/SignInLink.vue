@@ -2,7 +2,7 @@
 import { useRoute } from "#app"
 import { useLocalePath } from "#i18n"
 import { useLocalStorage } from "@vueuse/core"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 
 const localePath = useLocalePath()
 const authRedirectUrl = useLocalStorage(LocalStorageEnum.AUTH_REDIRECT_URL, "")

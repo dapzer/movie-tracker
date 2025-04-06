@@ -3,7 +3,7 @@ import type { MediaListType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { UiFormListItem } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
-import { getElementDeclensionTranslationKey } from "~/utils/getElementDeclensionTranslationKey"
+import { getElementDeclensionTranslationKey } from "~/shared/utils/getElementDeclensionTranslationKey"
 
 interface AddMediaItemToListsFormItemProps {
   mediaList: MediaListType

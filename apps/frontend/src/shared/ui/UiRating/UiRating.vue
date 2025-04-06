@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "#imports"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getColorByRating } from "~/utils/getColorByRating"
+import { getColorByRating } from "~/shared/utils/getColorByRating"
 
 interface UiRatingProps {
   value?: number

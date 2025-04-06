@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import type { MediaItemType } from "@movie-tracker/types"
-import { getCurrentMediaDetails, useI18n, useIsMobile, useSwitchModals } from "#imports"
+import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import MediaItemChangeMediaListModal
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListModal.vue"
 import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
 import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemManagementMenu.vue"
+import { useIsMobile } from "~/shared/composables/useIsMobile"
+import { useSwitchModals } from "~/shared/composables/useSwitchModals"
 import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"
 import { UiModal } from "~/shared/ui/UiModal"
+import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 
 interface MediaCardManagementMenuDrawerProps {
   mediaItem: MediaItemType
@@ -18,7 +21,7 @@ const model = defineModel<boolean>()
 const isOpenCloneModal = ref(false)
 const isOpenChangeMediaListModal = ref(false)
 const { isMobile } = useIsMobile()
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 
 const { onOpenSecondModal: handleOpenCloneModal } = useSwitchModals(model, isOpenCloneModal)
 const { onOpenSecondModal: handleOpenChangeMediaListModal } = useSwitchModals(model, isOpenChangeMediaListModal)

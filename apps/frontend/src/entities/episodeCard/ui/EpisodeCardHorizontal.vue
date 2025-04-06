@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { TmdbSeasonDetailsEpisodeType } from "@movie-tracker/types"
-import { formatDate, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { computed } from "vue"
 import { UiCardBase } from "~/shared/ui/UiCard"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiSpoilerText } from "~/shared/ui/UiSpoilerText"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiVoteWithRuntime } from "~/shared/ui/UiVoteWithRuntime"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { formatDate } from "~/shared/utils/formatDate"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface EpisodeCardHorizontalProps {
   width?: number
@@ -78,8 +79,8 @@ const episodeTitle = computed(() =>
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   & > div:nth-child(2) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import UiAvatar from "~/shared/ui/UiAvatar/UiAvatar.vue"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
+import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
 </script>
 
 <template>

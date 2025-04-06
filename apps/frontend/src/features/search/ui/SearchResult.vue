@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "#imports"
 import { useRoute } from "#vue-router"
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { useRouter } from "vue-router"
@@ -22,11 +20,11 @@ import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getMatchesDeclensionTranslationKey } from "~/utils/getMatchesDeclensionTranslationKey"
+import { getMatchesDeclensionTranslationKey } from "~/shared/utils/getMatchesDeclensionTranslationKey"
 
 type Tab = "all" | "movies" | "tvs" | "persons"
 
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 
 const route = useRoute()
 const router = useRouter()

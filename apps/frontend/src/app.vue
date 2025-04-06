@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { useId } from "#app"
 import { useLocaleHead } from "#i18n"
-import { useAuth, useHead, useI18n, useSeoMeta } from "#imports"
+import { useHead, useI18n, useSeoMeta } from "#imports"
 import { ConfigProvider } from "radix-vue"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
-import { LanguagesEnum } from "~/types/languagesEnum"
+import { useAuth } from "~/shared/composables/useAuth"
+import { LanguagesEnum } from "~/shared/types/languagesEnum"
 
 const { t, locale } = useI18n()
 

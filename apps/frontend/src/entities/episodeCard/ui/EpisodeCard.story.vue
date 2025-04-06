@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import EpisodeCard from "~/entities/episodeCard/ui/EpisodeCard.vue"
 import EpisodeCardHorizontal from "~/entities/episodeCard/ui/EpisodeCardHorizontal.vue"
-import { getPlaceholderImageUrl } from "~/utils/getPlaceholderImageUrl"
+import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
 
 const episode = {
   air_date: "2013-12-02",

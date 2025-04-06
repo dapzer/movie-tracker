@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ComponentOrTag } from "~/types/ComponentOrTag"
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiTypographySchema = "link"
 export type UiTypographyVariant = "text"
@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .title {
   color: var(--c-text);

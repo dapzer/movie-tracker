@@ -113,8 +113,8 @@ function onNextButtonClick() {
 </template>
 
 <style lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .embla {
   position: relative;

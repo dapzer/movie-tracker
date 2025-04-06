@@ -27,7 +27,7 @@ const props = defineProps<FeatureCardProps>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
+@import "~/shared/styles/variables";
 
 .wrapper {
   display: flex;

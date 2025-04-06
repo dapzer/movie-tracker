@@ -2,14 +2,10 @@
 import type { TmdbCreditsCastType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import type { UiMediaCardHorizontalSize } from "~/shared/ui/UiCard"
 import { useLocalePath } from "#i18n"
-import {
-
-  TmdbMediaTypeEnum,
-
-} from "@movie-tracker/types"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { UiMediaCardHorizontal } from "~/shared/ui/UiCard"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface PersonCardHorizontalProps {
   person: TmdbSearchResponseResultItemType | TmdbCreditsCastType
@@ -51,7 +47,7 @@ const localePath = useLocalePath()
 </template>
 
 <style lang="scss" module>
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .title {
   @include multiLineEllipsis(2);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TmdbPersonCastType, TmdbPersonCrewType } from "@movie-tracker/types"
-import { getMediaTypeDeclensionTranslationKey, useI18n } from "#imports"
+import { useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { MovieCardHorizontal } from "~/entities/movieCard"
@@ -10,6 +10,7 @@ import { UiListHeader } from "~/shared/ui/UiListHeader"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getMediaTypeDeclensionTranslationKey } from "~/shared/utils/getMediTypeDeclensionTranslationKey"
 
 interface PersonDetailsActingProps {
   crew: TmdbPersonCrewType[]
@@ -199,8 +200,8 @@ function getDescription(jobs?: string[], departments?: string[], characters?: st
 </template>
 
 <style module lang="scss">
-@import "~/styles/variables";
-@import "~/styles/mixins";
+@import "~/shared/styles/variables";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   display: flex;

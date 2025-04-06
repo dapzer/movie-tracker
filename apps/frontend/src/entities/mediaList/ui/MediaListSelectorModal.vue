@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { useAuth } from "#imports"
 import { ref } from "vue"
-import { useNavigateToSignInPage } from "~/composables/useNavigateToSignInPage"
-import { useSwitchModals } from "~/composables/useSwitchModals"
 import { CreateMediaListModal } from "~/entities/mediaList"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
+import { useSwitchModals } from "~/shared/composables/useSwitchModals"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 

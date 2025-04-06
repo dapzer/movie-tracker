@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SocialIdsType } from "~/utils/getSocialList"
+import type { SocialIdsType } from "~/shared/ui/UiSocialList/model/getSocialList"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
@@ -8,7 +8,7 @@ import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { UiSocialList } from "~/shared/ui/UiSocialList"
 import { UiTypography } from "~/shared/ui/UiTypography"
-import { getProxiedImageUrl } from "~/utils/getProxiedImageUrl"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface TeamMemberCardProps {
   name: string

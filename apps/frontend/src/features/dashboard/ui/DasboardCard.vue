@@ -20,8 +20,8 @@ const props = defineProps<DashboardCardProps>()
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
-@import "~/styles/variables";
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/variables";
 
 .wrapper {
   @include card;

@@ -1,8 +1,9 @@
 import type { TmdbCreditsType, TmdbMediaDetailsType, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
-import { defineMovie, getProxiedImageUrl, useI18n, useSchemaOrg, useSeoMeta } from "#imports"
+import { defineMovie, useI18n, useSchemaOrg, useSeoMeta } from "#imports"
 import { generateApiUrl, getMovieDirectors } from "@movie-tracker/utils"
 import { computed } from "vue"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface Args {
   mediaId: number

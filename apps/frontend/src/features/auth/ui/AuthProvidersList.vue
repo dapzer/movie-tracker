@@ -10,12 +10,12 @@ import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
 import { authProvidersList } from "~/features/auth/model/authProvidersList"
+import { BrowserEnum } from "~/shared/types/browserEnum"
+import { LanguagesEnum } from "~/shared/types/languagesEnum"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import { UiButton } from "~/shared/ui/UiButton"
-import { BrowserEnum } from "~/types/browserEnum"
-import { LanguagesEnum } from "~/types/languagesEnum"
-import { LocalStorageEnum } from "~/types/localStorageEnum"
-import { getCurrentBrowserName } from "~/utils/getCurrentBrowserName"
-import { spawnWindowInScreenCenter } from "~/utils/spawnWindowInScreenCenter"
+import { getCurrentBrowserName } from "~/shared/utils/getCurrentBrowserName"
+import { spawnWindowInScreenCenter } from "~/shared/utils/spawnWindowInScreenCenter"
 
 const signInByProviderApi = useSignInByProviderApi()
 const queryClient = useQueryClient()
@@ -85,7 +85,7 @@ onUnmounted(() => {
 </template>
 
 <style module lang="scss">
-@import "~/styles/mixins";
+@import "~/shared/styles/mixins";
 
 .wrapper {
   width: 100%;

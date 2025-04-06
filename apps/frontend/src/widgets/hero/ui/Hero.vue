@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { useAuth, useNavigateToSignInPage } from "#imports"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiTypography } from "~/shared/ui/UiTypography"

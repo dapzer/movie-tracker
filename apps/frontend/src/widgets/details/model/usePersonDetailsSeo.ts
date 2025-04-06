@@ -1,7 +1,8 @@
 import type { TmdbPersonType } from "@movie-tracker/types"
-import { getProxiedImageUrl, useI18n, useSeoMeta } from "#imports"
+import { useI18n, useSeoMeta } from "#imports"
 import { generateApiUrl } from "@movie-tracker/utils"
 import { computed } from "vue"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 export function usePersonDetailsSeo(person?: TmdbPersonType | null) {
   const { t } = useI18n()

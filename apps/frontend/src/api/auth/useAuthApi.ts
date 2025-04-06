@@ -1,5 +1,5 @@
 import type { AuthApiSignInTypes } from "~/api/auth/authApiTypes"
-import { useMutation, useQueryClient } from "@tanstack/vue-query"
+import { useMutation } from "@tanstack/vue-query"
 import {
   confirmChangeEmailApi,
   confirmEmailApi,
@@ -37,8 +37,6 @@ export function useSignInCallbackApi() {
 }
 
 export function useLogoutApi() {
-  const queryClient = useQueryClient()
-
   return useMutation({
     mutationKey: [AuthQueryKeys.LOGOUT],
     mutationFn: () => logoutApi(),
