@@ -26,11 +26,13 @@ const titlesInListCount = computed(() => {
     <template #rightContent>
       <UiIcon
         v-if="props.mediaList.isPublic"
+        block
         name="icon:shared-planet"
         :size="20"
       />
       <UiIcon
         v-else
+        block
         name="icon:locker"
         :size="20"
       />
