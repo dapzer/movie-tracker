@@ -2,7 +2,7 @@ name: Build and push docker images for beta version
 
 on:
   push:
-    branches: [ 'beta' ]
+    branches: [beta]
   workflow_dispatch:
 
 jobs:
@@ -34,4 +34,3 @@ jobs:
           build-args: |
             VITE_BASE_URL=${{ secrets.BETA_BASE_URL }}
             VITE_API_URL=${{ secrets.BETA_API_URL }}
-

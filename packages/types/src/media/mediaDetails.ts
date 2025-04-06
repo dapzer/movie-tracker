@@ -1,20 +1,20 @@
-import { MediaTypeEnum } from "./mediaItem";
-import { TmdbMediaDetailsSeasonType } from "../tmdb";
+import type { TmdbMediaDetailsSeasonType } from "../tmdb"
+import type { MediaTypeEnum } from "./mediaItem"
 
-export type MediaDetailsType = {
-  id: string;
-  mediaId: number;
-  mediaType: MediaTypeEnum;
-  score: number | null;
-  en: MediaDetailsInfoType;
-  ru: MediaDetailsInfoType;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export interface MediaDetailsType {
+  id: string
+  mediaId: number
+  mediaType: MediaTypeEnum
+  score: number | null
+  en: MediaDetailsInfoType
+  ru: MediaDetailsInfoType
+  createdAt: Date
+  updatedAt: Date
+}
 
-export type MediaDetailsInfoType = {
-  title: string | null;
-  originalTitle: string | null;
-  poster: string | null;
-  seasons?: TmdbMediaDetailsSeasonType[];
-};
+export interface MediaDetailsInfoType {
+  title: string | null
+  originalTitle: string | null
+  poster: string | null
+  seasons?: TmdbMediaDetailsSeasonType[]
+}

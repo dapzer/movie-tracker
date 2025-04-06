@@ -1,4 +1,4 @@
-import { TmdbSearchResponseType } from "./searchResponse"
+import type { TmdbSearchResponseType } from "./searchResponse"
 
 export interface TmdbUpcomingMoviesResponseType extends TmdbSearchResponseType {
   dates: TmdbUpcomingMoviesDatesType

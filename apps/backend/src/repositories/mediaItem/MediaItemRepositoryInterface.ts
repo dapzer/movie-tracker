@@ -2,18 +2,18 @@ import {
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
   MediaItemType,
-} from '@movie-tracker/types';
+} from "@movie-tracker/types"
 
-export const MediaItemRepositorySymbol = Symbol();
+export const MediaItemRepositorySymbol = Symbol()
 
 export interface MediaItemRepositoryInterface {
-  getAllMediaItems: () => Promise<MediaItemType[]>;
+  getAllMediaItems: () => Promise<MediaItemType[]>
 
-  getMediaItemById: (id: string) => Promise<MediaItemType>;
+  getMediaItemById: (id: string) => Promise<MediaItemType>
 
-  getMediaItemsByListId: (mediaListId: string) => Promise<MediaItemType[]>;
+  getMediaItemsByListId: (mediaListId: string) => Promise<MediaItemType[]>
 
-  getMediaItemsByUserId: (userId: string) => Promise<MediaItemType[]>;
+  getMediaItemsByUserId: (userId: string) => Promise<MediaItemType[]>
 
   createMediaItem: (
     mediaId: number,
@@ -22,7 +22,7 @@ export interface MediaItemRepositoryInterface {
     mediaDetailsId: string,
     createdAt?: Date,
     currentStatus?: MediaItemStatusNameEnum,
-  ) => Promise<MediaItemType>;
+  ) => Promise<MediaItemType>
 
   createMediaItemWithExistedData: (
     mediaId: number,
@@ -31,17 +31,17 @@ export interface MediaItemRepositoryInterface {
     mediaDetailsId: string,
     trackingData: Omit<
       MediaItemTrackingDataType,
-      'id' | 'updatedAt' | 'createdAt' | 'mediaItemId'
+      "id" | "updatedAt" | "createdAt" | "mediaItemId"
     >,
     createdAt?: Date,
-  ) => Promise<MediaItemType>;
+  ) => Promise<MediaItemType>
 
-  deleteMediaItem: (id: string) => Promise<MediaItemType>;
+  deleteMediaItem: (id: string) => Promise<MediaItemType>
 
   updateMediaItem: (
     id: string,
-    data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,
-  ) => Promise<MediaItemType>;
+    data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>,
+  ) => Promise<MediaItemType>
 
-  getMediaItemsCount: () => Promise<number>;
+  getMediaItemsCount: () => Promise<number>
 }

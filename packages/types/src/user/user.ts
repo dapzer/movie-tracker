@@ -12,17 +12,17 @@ export enum SignUpMethodEnum {
 }
 
 export interface UserType {
-  id: string;
+  id: string
   // userName: string;
-  name: string;
-  email?: string;
-  image?: string;
-  isEmailVerified: boolean;
-  signUpMethod: SignUpMethodEnum;
-  password?: string;
-  roles: UserRoleEnum[];
-  createdAt: Date;
-  updatedAt: Date;
+  name: string
+  email?: string
+  image?: string
+  isEmailVerified: boolean
+  signUpMethod: SignUpMethodEnum
+  password?: string
+  roles: UserRoleEnum[]
+  createdAt: Date
+  updatedAt: Date
 }
 
-export type UserPublicType = Omit<UserType, "password" | "email" | "roles" | 'updatedAt' | 'isEmailVerified' | 'signUpMethod'>;
+export type UserPublicType = Omit<UserType, "password" | "email" | "roles" | "updatedAt" | "isEmailVerified" | "signUpMethod">

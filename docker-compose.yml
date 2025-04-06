@@ -25,7 +25,7 @@ services:
     networks:
       - movie-tracker
     environment:
-      SCHEDULE: '@every 8h'
+      SCHEDULE: "@every 8h"
       S3_REGION: ${S3_REGION}
       S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
       S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
@@ -37,7 +37,7 @@ services:
       POSTGRES_USER: ${DATABASE_USER:-spaceman}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-spaceman}
       POSTGRES_BACKUP_ALL: "false"
-      POSTGRES_EXTRA_OPTS: "--inserts --data-only"
+      POSTGRES_EXTRA_OPTS: --inserts --data-only
   caddy:
     image: caddy:2
     restart: unless-stopped
@@ -66,13 +66,13 @@ services:
         - VITE_BASE_URL=${VITE_BASE_URL}
         - VITE_API_URL=${VITE_API_URL}
     env_file: ./.env
-#  frontendBeta:
-#    image: danilavoronkov/movie-tracker-frontend-beta
-#    restart: unless-stopped
-#    networks:
-#      - movie-tracker
-#      - caddy-public
-#    env_file: ./.env.beta
+  #  frontendBeta:
+  #    image: danilavoronkov/movie-tracker-frontend-beta
+  #    restart: unless-stopped
+  #    networks:
+  #      - movie-tracker
+  #      - caddy-public
+  #    env_file: ./.env.beta
   backend:
     image: danilavoronkov/movie-tracker-backend
     restart: unless-stopped

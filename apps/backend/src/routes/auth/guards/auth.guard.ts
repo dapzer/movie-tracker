@@ -4,18 +4,18 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-} from '@nestjs/common';
-import { Request } from 'express';
+} from "@nestjs/common"
+import { Request } from "express"
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
-    const request = context.switchToHttp().getRequest() as Request;
+    const request = context.switchToHttp().getRequest() as Request
 
-    if (typeof request.session.user !== 'undefined') {
-      return true;
+    if (typeof request.session.user !== "undefined") {
+      return true
     }
 
-    throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
   }
 }

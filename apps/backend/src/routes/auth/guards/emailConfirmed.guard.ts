@@ -1,15 +1,15 @@
-import { CanActivate, HttpException, HttpStatus } from '@nestjs/common';
-import { SignUpMethodEnum, UserType } from '@movie-tracker/types';
+import { SignUpMethodEnum, UserType } from "@movie-tracker/types"
+import { CanActivate, HttpException, HttpStatus } from "@nestjs/common"
 
 export class EmailConfirmedGuard implements CanActivate {
   canActivate(context) {
-    const request = context.switchToHttp().getRequest();
-    const user = request.session.user as Omit<UserType, "password">;
+    const request = context.switchToHttp().getRequest()
+    const user = request.session.user as Omit<UserType, "password">
 
     if (user && user?.isEmailVerified || user.signUpMethod !== SignUpMethodEnum.EMAIL) {
-      return true;
+      return true
     }
 
-    throw new HttpException('Email not confirmed', HttpStatus.FORBIDDEN);
+    throw new HttpException("Email not confirmed", HttpStatus.FORBIDDEN)
   }
 }

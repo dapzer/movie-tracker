@@ -2,9 +2,9 @@ import {
   MediaDetailsInfoType,
   MediaDetailsType,
   MediaTypeEnum,
-} from '@movie-tracker/types';
+} from "@movie-tracker/types"
 
-export const MediaDetailsRepositorySymbol = Symbol();
+export const MediaDetailsRepositorySymbol = Symbol()
 
 export interface MediaDetailsRepositoryInterface {
   createMediaDetails: (
@@ -13,7 +13,7 @@ export interface MediaDetailsRepositoryInterface {
     mediaDetailsInfoRu: MediaDetailsInfoType,
     mediaDetailsInfoEn: MediaDetailsInfoType,
     score: number,
-  ) => Promise<MediaDetailsType>;
+  ) => Promise<MediaDetailsType>
 
   updateMediaDetails: (
     mediaId: number,
@@ -21,12 +21,12 @@ export interface MediaDetailsRepositoryInterface {
     mediaDetailsInfoRu: MediaDetailsInfoType,
     mediaDetailsInfoEn: MediaDetailsInfoType,
     score: number,
-  ) => Promise<MediaDetailsType>;
+  ) => Promise<MediaDetailsType>
 
   getMediaDetailsItem: (
     mediaId: number,
     mediaType: MediaTypeEnum,
-  ) => Promise<MediaDetailsType>;
+  ) => Promise<MediaDetailsType>
 
-  getMediaDetailsCount: () => Promise<number>;
+  getMediaDetailsCount: () => Promise<number>
 }

@@ -1,3 +1,3 @@
-export const getMillisecondsFromDays = (days: number) => {
-  return days * 24 * 60 * 60 * 1000;
-};
+export function getMillisecondsFromDays(days: number) {
+  return days * 24 * 60 * 60 * 1000
+}

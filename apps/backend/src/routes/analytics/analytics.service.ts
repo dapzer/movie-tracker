@@ -1,21 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
-import {
-  UserRepositoryInterface,
-  UserRepositorySymbol,
-} from '@/repositories/user/UserRepositoryInterface';
-import {
-  MediaListRepositoryInterface,
-  MediaListRepositorySymbol,
-} from '@/repositories/mediaList/MediaListRepositoryInterface';
-import {
-  MediaItemRepositoryInterface,
-  MediaItemRepositorySymbol,
-} from '@/repositories/mediaItem/MediaItemRepositoryInterface';
 import {
   MediaDetailsRepositoryInterface,
   MediaDetailsRepositorySymbol,
-} from '@/repositories/mediaDetails/MediaDetailsRepositoryInterface';
-import { AnalyticsRecords } from '@movie-tracker/types';
+} from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
+import {
+  MediaItemRepositoryInterface,
+  MediaItemRepositorySymbol,
+} from "@/repositories/mediaItem/MediaItemRepositoryInterface"
+import {
+  MediaListRepositoryInterface,
+  MediaListRepositorySymbol,
+} from "@/repositories/mediaList/MediaListRepositoryInterface"
+import {
+  UserRepositoryInterface,
+  UserRepositorySymbol,
+} from "@/repositories/user/UserRepositoryInterface"
+import { AnalyticsRecords } from "@movie-tracker/types"
+import { Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class AnalyticsService {
@@ -36,13 +36,13 @@ export class AnalyticsService {
       this.mediaItemRepository.getMediaItemsCount(),
       this.userRepository.getUsersCount(),
       this.mediaListRepository.getMediaListsCount(),
-    ]);
+    ])
 
     return {
       mediaDetails,
       mediaItems,
       users,
       mediaLists,
-    };
+    }
   }
 }

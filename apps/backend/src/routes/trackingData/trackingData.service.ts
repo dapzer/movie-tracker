@@ -1,13 +1,13 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import {
-  TrackingDataRepositoryInterface,
-  TrackingDataRepositorySymbol,
-} from '@/repositories/trackingData/TrackingDataRepositoryInterface';
 import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
-} from '@/repositories/mediaList/MediaListRepositoryInterface';
-import { MediaItemTrackingDataType } from '@movie-tracker/types';
+} from "@/repositories/mediaList/MediaListRepositoryInterface"
+import {
+  TrackingDataRepositoryInterface,
+  TrackingDataRepositorySymbol,
+} from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import { MediaItemTrackingDataType } from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class TrackingDataService {
@@ -19,16 +19,16 @@ export class TrackingDataService {
   ) {}
 
   private async checkIsMediaListOwner(trackingDataId: string, userId: string) {
-    const trackingData =
-      await this.trackingDataRepository.getTrackingDataById(trackingDataId);
-    const mediaList =
-      await this.mediaListRepository.getMedialListByMediaItemAndUserId(
+    const trackingData
+      = await this.trackingDataRepository.getTrackingDataById(trackingDataId)
+    const mediaList
+      = await this.mediaListRepository.getMedialListByMediaItemAndUserId(
         trackingData.mediaItemId,
         userId,
-      );
+      )
 
     if (!mediaList) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
   }
 
@@ -38,12 +38,12 @@ export class TrackingDataService {
     data: Partial<
       Omit<
         MediaItemTrackingDataType,
-        'id' | 'createdAt' | 'updatedAt' | 'mediaItemId'
+        "id" | "createdAt" | "updatedAt" | "mediaItemId"
       >
     >,
   ) {
-    await this.checkIsMediaListOwner(id, userId);
+    await this.checkIsMediaListOwner(id, userId)
 
-    return this.trackingDataRepository.updateTrackingData(id, data);
+    return this.trackingDataRepository.updateTrackingData(id, data)
   }
 }

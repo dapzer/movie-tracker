@@ -1,29 +1,32 @@
 {
   "name": "movie-tracker",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "packageManager": "pnpm@9.2.0",
   "scripts": {
     "build": "dotenv -- turbo run build",
     "dev": "dotenv -- turbo run dev",
     "predev": "pnpm --filter=database run migrate",
     "lint": "turbo run lint",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postbuild": "dotenv -- turbo run postbuild",
     "db:push": "dotenv -- turbo db:push"
   },
+  "dependencies": {
+    "dotenv-cli": "7.4.2",
+    "eslint": "9.22.0"
+  },
   "devDependencies": {
-    "eslint": "8.57.0",
+    "@antfu/eslint-config": "4.8.1",
+    "eslint-plugin-format": "^1.0.1",
     "prettier": "3.3.3",
     "turbo": "2.1.2",
     "typescript": "5.6.2"
-  },
-  "dependencies": {
-    "dotenv-cli": "7.4.2"
-  },
-  "packageManager": "pnpm@9.2.0"
+  }
 }

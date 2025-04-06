@@ -2,58 +2,58 @@ import {
   MediaListCreateBodyType,
   MediaListLikeType,
   MediaListType,
-  MediaListUpdateBodyType
-} from '@movie-tracker/types';
+  MediaListUpdateBodyType,
+} from "@movie-tracker/types"
 
-export const MediaListRepositorySymbol = Symbol();
+export const MediaListRepositorySymbol = Symbol()
 
 export interface MediaListRepositoryInterface {
   getAllMedialLists: (
     isPublicOnly?: boolean,
     currentUserId?: string,
-  ) => Promise<MediaListType[]>;
+  ) => Promise<MediaListType[]>
 
-  getMedialListById: (id: string, currentUserId?: string) => Promise<MediaListType>;
+  getMedialListById: (id: string, currentUserId?: string) => Promise<MediaListType>
 
   getMedialListByMediaItemAndUserId: (
     mediaItemId: string,
     userId: string,
     currentUserId?: string,
-  ) => Promise<MediaListType>;
+  ) => Promise<MediaListType>
 
   getMedialListByHumanFriendlyId: (
     id: string,
     currentUserId?: string,
-  ) => Promise<MediaListType>;
+  ) => Promise<MediaListType>
 
   getMedialListsByUserId: (
     userId: string,
     currentUserId?: string,
     isPublicOnly?: boolean,
-  ) => Promise<MediaListType[]>;
+  ) => Promise<MediaListType[]>
 
   createMediaList: (
     userId: string,
     isSystem?: boolean,
     body?: MediaListCreateBodyType,
-  ) => Promise<MediaListType>;
+  ) => Promise<MediaListType>
 
-  deleteMediaList: (id: string) => Promise<MediaListType>;
+  deleteMediaList: (id: string) => Promise<MediaListType>
 
   updateMediaList: (
     id: string,
     body: MediaListUpdateBodyType,
-  ) => Promise<MediaListType>;
+  ) => Promise<MediaListType>
 
-  getMediaListsCount: () => Promise<number>;
+  getMediaListsCount: () => Promise<number>
 
   createMediaListLike: (
     mediaListId: string,
     userId: string,
-  ) => Promise<MediaListLikeType>;
+  ) => Promise<MediaListLikeType>
 
   deleteMediaListLike: (
     mediaListId: string,
     userId: string,
-  ) => Promise<MediaListLikeType>;
+  ) => Promise<MediaListLikeType>
 }

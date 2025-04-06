@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "jsx": "preserve",
     "useDefineForClassFields": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "strict": true,
-    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "jsx": "preserve",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
     "declaration": true,
     "declarationMap": true,
-    "strictPropertyInitialization": false
+    "removeComments": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": false,
+    "skipLibCheck": true
   }
 }

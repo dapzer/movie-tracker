@@ -1,6 +1,8 @@
 {
   "name": "@movie-tracker/utils",
   "private": true,
+  "author": "",
+  "license": "ISC",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -24,7 +26,5 @@
   },
   "devDependencies": {
     "@movie-tracker/types": "workspace:*"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }

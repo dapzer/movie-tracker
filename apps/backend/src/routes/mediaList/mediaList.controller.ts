@@ -1,17 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, } from '@nestjs/common';
-import { MediaListService } from '@/routes/mediaList/mediaList.service';
-import { UuidDto } from '@/shared/dto/uuid.dto';
-import { UpdateMediaListDto } from '@/routes/mediaList/dto/updateMediaList.dto';
-import { AuthGuard } from '@/routes/auth/guards/auth.guard';
-import { User } from '@/routes/user/users.decorator';
-import { UserDto } from '@/routes/auth/dto/user.dto';
-import { GetAllMediaListsDto } from '@/routes/mediaList/dto/getAllMediaLists.dto';
-import { CreateMediaListDto } from '@/routes/mediaList/dto/createMediaList.dto';
-import { isCuid } from '@paralleldrive/cuid2';
-import { GetMedialListByIdDto } from '@/routes/mediaList/dto/getMedialListById.dto';
-import { CreateMediaListCloneDto } from '@/routes/mediaList/dto/createMediaListClone.dto';
+import { UserDto } from "@/routes/auth/dto/user.dto"
+import { AuthGuard } from "@/routes/auth/guards/auth.guard"
+import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
+import { CreateMediaListCloneDto } from "@/routes/mediaList/dto/createMediaListClone.dto"
+import { GetAllMediaListsDto } from "@/routes/mediaList/dto/getAllMediaLists.dto"
+import { GetMedialListByIdDto } from "@/routes/mediaList/dto/getMedialListById.dto"
+import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
+import { MediaListService } from "@/routes/mediaList/mediaList.service"
+import { User } from "@/routes/user/users.decorator"
+import { UuidDto } from "@/shared/dto/uuid.dto"
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { isCuid } from "@paralleldrive/cuid2"
 
-@Controller('media-list')
+@Controller("media-list")
 export class MediaListController {
   constructor(private readonly mediaListService: MediaListService) {}
 
@@ -24,13 +24,13 @@ export class MediaListController {
       return this.mediaListService.getMedialListByUserId(
         queries.userId,
         user?.id,
-      );
+      )
     }
 
-    return this.mediaListService.getMedialListByUserId(user?.id, user?.id);
+    return this.mediaListService.getMedialListByUserId(user?.id, user?.id)
   }
 
-  @Get(':id')
+  @Get(":id")
   async getMedialListById(
     @Param() params: GetMedialListByIdDto,
     @User() user: UserDto,
@@ -39,7 +39,7 @@ export class MediaListController {
       params.id,
       user?.id,
       isCuid(params.id),
-    );
+    )
   }
 
   @Post()
@@ -48,10 +48,10 @@ export class MediaListController {
     @User() user: UserDto,
     @Body() body: CreateMediaListDto,
   ) {
-    return this.mediaListService.createMediaList(user?.id, body);
+    return this.mediaListService.createMediaList(user?.id, body)
   }
 
-  @Post(':id/clone')
+  @Post(":id/clone")
   @UseGuards(AuthGuard)
   async createMediaListClone(
     @Param() params: UuidDto,
@@ -62,34 +62,34 @@ export class MediaListController {
       params.id,
       user?.id,
       body,
-    );
+    )
   }
 
-  @Post(':id/like')
+  @Post(":id/like")
   @UseGuards(AuthGuard)
   async createMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaListService.createMediaListLike(params.id, user?.id);
+    return this.mediaListService.createMediaListLike(params.id, user?.id)
   }
 
-  @Delete(':id/like')
+  @Delete(":id/like")
   @UseGuards(AuthGuard)
   async deleteMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaListService.deleteMediaListLike(params.id, user?.id);
+    return this.mediaListService.deleteMediaListLike(params.id, user?.id)
   }
 
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(AuthGuard)
   async updateMediaList(
     @Param() params: UuidDto,
     @Body() body: UpdateMediaListDto,
     @User() user: UserDto,
   ) {
-    return this.mediaListService.updateMediaList(params.id, body, user?.id);
+    return this.mediaListService.updateMediaList(params.id, body, user?.id)
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteMediaList(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaListService.deleteMediaList(params.id, user?.id);
+    return this.mediaListService.deleteMediaList(params.id, user?.id)
   }
 }

@@ -1,28 +1,28 @@
-import { IsBoolean, IsDateString, IsString, IsUUID } from "class-validator";
-import { MediaListType } from "@movie-tracker/types";
+import { MediaListType } from "@movie-tracker/types"
+import { IsBoolean, IsDateString, IsString, IsUUID } from "class-validator"
 
 export class MediaListDto implements MediaListType {
   @IsUUID()
-  id: string;
+  id: string
 
   @IsString()
-  humanFriendlyId: string;
+  humanFriendlyId: string
 
   @IsUUID()
-  userId: string;
+  userId: string
 
   @IsBoolean()
-  isSystem: boolean;
+  isSystem: boolean
 
   @IsBoolean()
-  isPublic: boolean;
+  isPublic: boolean
 
   @IsString()
-  title: string;
+  title: string
 
   @IsDateString()
-  createdAt: Date;
+  createdAt: Date
 
   @IsDateString()
-  updatedAt: Date;
+  updatedAt: Date
 }

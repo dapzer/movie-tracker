@@ -1,10 +1,10 @@
-import { IsInt } from 'class-validator';
-import { MediaItemTvProgressType } from '@movie-tracker/types';
+import { MediaItemTvProgressType } from "@movie-tracker/types"
+import { IsInt } from "class-validator"
 
 export class MediaItemTvProgressDto implements MediaItemTvProgressType {
   @IsInt()
-  currentSeason: number;
+  currentSeason: number
 
   @IsInt()
-  currentEpisode: number;
+  currentEpisode: number
 }

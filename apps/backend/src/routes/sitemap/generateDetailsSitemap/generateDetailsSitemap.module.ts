@@ -1,5 +1,5 @@
-import { Module } from "@nestjs/common";
-import { GenerateDetailsSitemapService } from "@/routes/sitemap/generateDetailsSitemap/generateDetailsSitemap.service";
+import { GenerateDetailsSitemapService } from "@/routes/sitemap/generateDetailsSitemap/generateDetailsSitemap.service"
+import { Module } from "@nestjs/common"
 
 @Module({
   imports: [],

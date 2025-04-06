@@ -1,7 +1,10 @@
+import { MediaItemSiteToViewDto } from "@/routes/mediaItem/dto/mediaItemSiteToView.dto"
+import { MediaItemTvProgressDto } from "@/routes/mediaItem/dto/mediaItemTvProgress.dto"
 import {
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
-} from '@movie-tracker/types';
+} from "@movie-tracker/types"
+import { Type } from "class-transformer"
 import {
   IsArray,
   IsEnum,
@@ -9,34 +12,30 @@ import {
   IsOptional,
   IsString,
   ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
-import { MediaItemTvProgressDto } from '@/routes/mediaItem/dto/mediaItemTvProgress.dto';
-import { MediaItemSiteToViewDto } from '@/routes/mediaItem/dto/mediaItemSiteToView.dto';
+} from "class-validator"
 
 export class MediaItemTrackingDataDto
-  implements
+implements
     Omit<
       MediaItemTrackingDataType,
-      'id' | 'createdAt' | 'updatedAt' | 'mediaItemId'
-    >
-{
+      "id" | "createdAt" | "updatedAt" | "mediaItemId"
+    > {
   @IsEnum(MediaItemStatusNameEnum)
-  currentStatus: MediaItemStatusNameEnum;
+  currentStatus: MediaItemStatusNameEnum
 
   @IsString()
-  note: string;
+  note: string
 
   @IsOptional()
   @IsNumber()
-  score: number | null;
+  score: number | null
 
   @ValidateNested()
   @Type(() => MediaItemTvProgressDto)
-  tvProgress: MediaItemTvProgressDto;
+  tvProgress: MediaItemTvProgressDto
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => MediaItemSiteToViewDto)
-  sitesToView: Array<MediaItemSiteToViewDto>;
+  sitesToView: Array<MediaItemSiteToViewDto>
 }

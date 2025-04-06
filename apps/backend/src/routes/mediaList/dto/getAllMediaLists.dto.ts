@@ -1,7 +1,7 @@
-import { IsOptional, IsUUID } from "class-validator";
+import { IsOptional, IsUUID } from "class-validator"
 
 export class GetAllMediaListsDto {
   @IsOptional()
   @IsUUID()
-  userId: string;
+  userId: string
 }

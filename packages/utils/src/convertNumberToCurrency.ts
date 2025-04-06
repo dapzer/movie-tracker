@@ -1,8 +1,8 @@
-export const convertNumberToCurrency = (value: number, currencyType: string, locale: string) => {
+export function convertNumberToCurrency(value: number, currencyType: string, locale: string) {
   return value.toLocaleString(locale, {
-    style: 'currency',
+    style: "currency",
     currency: currencyType,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  });
-};
+  })
+}

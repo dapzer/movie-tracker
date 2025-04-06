@@ -1,3 +1,3 @@
-export const getMillisecondsFromMins = (mins: number) => {
-  return mins * 60 * 1000;
-};
+export function getMillisecondsFromMins(mins: number) {
+  return mins * 60 * 1000
+}

@@ -1,31 +1,31 @@
-import { IsDateString, IsEnum, IsNumber, IsUUID, ValidateNested } from "class-validator";
-import { MediaItemTrackingDataDto } from "@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto";
-import { Type } from "class-transformer";
-import { MediaItemType, MediaTypeEnum } from "@movie-tracker/types";
+import { MediaItemTrackingDataDto } from "@/routes/mediaItem/dto/mediaItemTrackingDataDto.dto"
+import { MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
+import { Type } from "class-transformer"
+import { IsDateString, IsEnum, IsNumber, IsUUID, ValidateNested } from "class-validator"
 
 export class MediaItemDto implements MediaItemType {
   @IsUUID()
-  id: string;
+  id: string
 
   @IsUUID()
-  mediaDetailsId: string;
+  mediaDetailsId: string
 
   @IsNumber()
-  mediaId: number;
+  mediaId: number
 
   @IsEnum(MediaTypeEnum)
-  mediaType: MediaTypeEnum;
+  mediaType: MediaTypeEnum
 
   @IsUUID()
-  mediaListId: string;
+  mediaListId: string
 
   @ValidateNested()
   @Type(() => MediaItemTrackingDataDto)
-  trackingData: MediaItemTrackingDataDto;
+  trackingData: MediaItemTrackingDataDto
 
   @IsDateString()
-  createdAt: Date;
+  createdAt: Date
 
   @IsDateString()
-  updatedAt: Date;
+  updatedAt: Date
 }

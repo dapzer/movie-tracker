@@ -1,7 +1,7 @@
-import { IsString } from 'class-validator';
-import { MediaItemSiteToViewType } from '@movie-tracker/types';
+import { MediaItemSiteToViewType } from "@movie-tracker/types"
+import { IsString } from "class-validator"
 
 export class MediaItemSiteToViewDto implements MediaItemSiteToViewType {
   @IsString()
-  url: string;
+  url: string
 }

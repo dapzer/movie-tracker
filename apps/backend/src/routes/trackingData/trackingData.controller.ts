@@ -1,16 +1,16 @@
-import { Body, Controller, Param, Patch, UseGuards } from '@nestjs/common';
-import { TrackingDataService } from '@/routes/trackingData/trackingData.service';
-import { AuthGuard } from '@/routes/auth/guards/auth.guard';
-import { User } from '@/routes/user/users.decorator';
-import { UserDto } from '@/routes/auth/dto/user.dto';
-import { UuidDto } from '@/shared/dto/uuid.dto';
-import { MediaItemTrackingDataDto } from '@/routes/trackingData/dto/updateTrackingData.dto';
+import { UserDto } from "@/routes/auth/dto/user.dto"
+import { AuthGuard } from "@/routes/auth/guards/auth.guard"
+import { MediaItemTrackingDataDto } from "@/routes/trackingData/dto/updateTrackingData.dto"
+import { TrackingDataService } from "@/routes/trackingData/trackingData.service"
+import { User } from "@/routes/user/users.decorator"
+import { UuidDto } from "@/shared/dto/uuid.dto"
+import { Body, Controller, Param, Patch, UseGuards } from "@nestjs/common"
 
-@Controller('tracking-data')
+@Controller("tracking-data")
 export class TrackingDataController {
   constructor(private readonly trackingDataService: TrackingDataService) {}
 
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(AuthGuard)
   async updateTrackingData(
     @Param() param: UuidDto,
@@ -21,6 +21,6 @@ export class TrackingDataController {
       param.id,
       user?.id,
       body,
-    );
+    )
   }
 }

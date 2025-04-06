@@ -1,3 +1,12 @@
+import { UserDto } from "@/routes/auth/dto/user.dto"
+import { AuthGuard } from "@/routes/auth/guards/auth.guard"
+import { CreateMediaItemDto } from "@/routes/mediaItem/dto/createMediaItem.dto"
+import { CreateMediaItemCloneDto } from "@/routes/mediaItem/dto/createMediaItemClone.dto"
+import { UpdateMediaItemDto } from "@/routes/mediaItem/dto/updateMediaItem.dto"
+import { MediaItemService } from "@/routes/mediaItem/mediaItem.service"
+import { User } from "@/routes/user/users.decorator"
+import { MediaItemListIdDto } from "@/shared/dto/mediaItemListId.dto"
+import { UuidDto } from "@/shared/dto/uuid.dto"
 import {
   Body,
   Controller,
@@ -7,19 +16,10 @@ import {
   Patch,
   Post,
   UseGuards,
-} from '@nestjs/common';
-import { MediaItemService } from '@/routes/mediaItem/mediaItem.service';
-import { CreateMediaItemDto } from '@/routes/mediaItem/dto/createMediaItem.dto';
-import { UuidDto } from '@/shared/dto/uuid.dto';
-import { MediaItemListIdDto } from '@/shared/dto/mediaItemListId.dto';
-import { AuthGuard } from '@/routes/auth/guards/auth.guard';
-import { User } from '@/routes/user/users.decorator';
-import { UserDto } from '@/routes/auth/dto/user.dto';
-import { isCuid } from '@paralleldrive/cuid2';
-import { CreateMediaItemCloneDto } from '@/routes/mediaItem/dto/createMediaItemClone.dto';
-import { UpdateMediaItemDto } from '@/routes/mediaItem/dto/updateMediaItem.dto';
+} from "@nestjs/common"
+import { isCuid } from "@paralleldrive/cuid2"
 
-@Controller('media-item')
+@Controller("media-item")
 export class MediaItemController {
   constructor(private readonly mediaItemService: MediaItemService) {}
 
@@ -34,16 +34,16 @@ export class MediaItemController {
       body.mediaType,
       body.mediaListId,
       user?.id,
-    );
+    )
   }
 
   @Get()
   @UseGuards(AuthGuard)
   async getMediaItemsByUserId(@User() user: UserDto) {
-    return this.mediaItemService.getMediaItemsByUserId(user?.id);
+    return this.mediaItemService.getMediaItemsByUserId(user?.id)
   }
 
-  @Get('/media-list/:mediaListId')
+  @Get("/media-list/:mediaListId")
   async getMediaItemsByListId(
     @Param() param: MediaItemListIdDto,
     @User() user: UserDto,
@@ -52,26 +52,26 @@ export class MediaItemController {
       param.mediaListId,
       user?.id,
       isCuid(param.mediaListId),
-    );
+    )
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteMediaItem(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaItemService.deleteMediaItem(params.id, user?.id);
+    return this.mediaItemService.deleteMediaItem(params.id, user?.id)
   }
 
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(AuthGuard)
   async updateMediaItem(
     @Param() param: UuidDto,
     @Body() body: UpdateMediaItemDto,
     @User() user: UserDto,
   ) {
-    return this.mediaItemService.updateMediaItem(param.id, user?.id, body);
+    return this.mediaItemService.updateMediaItem(param.id, user?.id, body)
   }
 
-  @Post(':id/clone')
+  @Post(":id/clone")
   @UseGuards(AuthGuard)
   async cloneMediaItem(
     @Param() param: UuidDto,
@@ -83,6 +83,6 @@ export class MediaItemController {
       user?.id,
       body.mediaListId,
       body.isSaveCreationDate,
-    );
+    )
   }
 }

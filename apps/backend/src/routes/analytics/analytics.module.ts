@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
-import { AnalyticsService } from '@/routes/analytics/analytics.service';
-import { AnalyticsController } from '@/routes/analytics/analytics.controller';
-import { MediaDetailsRepositorySymbol } from '@/repositories/mediaDetails/MediaDetailsRepositoryInterface';
-import { PrismaMediaDetailsRepository } from '@/repositories/mediaDetails/PrismaMediaDetailsRepository';
-import { MediaItemRepositorySymbol } from '@/repositories/mediaItem/MediaItemRepositoryInterface';
-import { PrismaMediaItemRepository } from '@/repositories/mediaItem/PrismaMediaItemRepository';
-import { UserRepositorySymbol } from '@/repositories/user/UserRepositoryInterface';
-import { PrismaUserRepository } from '@/repositories/user/PrismaUserRepository';
-import { MediaListRepositorySymbol } from '@/repositories/mediaList/MediaListRepositoryInterface';
-import { PrismaMediaListRepository } from '@/repositories/mediaList/PrismaMediaListRepository';
+import { MediaDetailsRepositorySymbol } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
+import { PrismaMediaDetailsRepository } from "@/repositories/mediaDetails/PrismaMediaDetailsRepository"
+import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
+import { PrismaMediaItemRepository } from "@/repositories/mediaItem/PrismaMediaItemRepository"
+import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import { PrismaMediaListRepository } from "@/repositories/mediaList/PrismaMediaListRepository"
+import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
+import { AnalyticsController } from "@/routes/analytics/analytics.controller"
+import { AnalyticsService } from "@/routes/analytics/analytics.service"
+import { Module } from "@nestjs/common"
 
 @Module({
   controllers: [AnalyticsController],

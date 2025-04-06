@@ -1,20 +1,19 @@
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
-import { MediaListCreateBodyType } from '@movie-tracker/types';
+import { MediaListCreateBodyType } from "@movie-tracker/types"
 import { Transform } from "class-transformer"
+import { IsBoolean, IsOptional, IsString, Length } from "class-validator"
 
 export class CreateMediaListDto
-  implements MediaListCreateBodyType
-{
+implements MediaListCreateBodyType {
   @IsBoolean()
-  isPublic: boolean;
+  isPublic: boolean
 
   @Transform(({ value }) => value?.trim())
   @Length(3, 64)
   @IsString()
-  title: string;
+  title: string
 
   @Length(0, 256)
   @IsString()
   @IsOptional()
-  description: string;
+  description: string
 }

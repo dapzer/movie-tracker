@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
-import { SendMailOptionsType } from '@/services/mail/dto/SendMailOptionsType';
-import { ConfigService } from '@nestjs/config';
+import { SendMailOptionsType } from "@/services/mail/dto/SendMailOptionsType"
+import { MailerService } from "@nestjs-modules/mailer"
+import { Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 
 @Injectable()
 export class MailService {
@@ -15,13 +15,13 @@ export class MailService {
       subject: options.subject,
       to: options.to,
       from: {
-        name: options?.from?.name ?? 'Movie Tracker',
+        name: options?.from?.name ?? "Movie Tracker",
         address:
-          options?.from?.address ??
-          this.configService.get('SUPPORT_EMAIL_ADDRESS'),
+          options?.from?.address
+          ?? this.configService.get("SUPPORT_EMAIL_ADDRESS"),
       },
       text: options?.text,
       html: options?.html,
-    });
+    })
   }
 }

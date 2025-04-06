@@ -1,7 +1,7 @@
-##
-## Uptrace configuration file.
-## See https://uptrace.dev/get/config.html for details.
-##
+# #
+# # Uptrace configuration file.
+# # See https://uptrace.dev/get/config.html for details.
+# #
 ch:
   addr: clickhouse:9000
   user: default
@@ -57,21 +57,21 @@ ch_schema:
 
   spans:
     ttl_delete: 7 DAY
-    storage_policy: 'default'
+    storage_policy: default
 
   metrics:
     ttl_delete: 30 DAY
-    storage_policy: 'default'
+    storage_policy: default
 
 listen:
   grpc:
-    addr: ':14317'
+    addr: ":14317"
   http:
-    addr: ':14318'
+    addr: ":14318"
 
 site:
 # TODO: Uncomment and set to the public URL.
-#addr: 'https://uptrace.mydomain.com/'
+# addr: 'https://uptrace.mydomain.com/'
 
 spans:
 
@@ -88,8 +88,8 @@ smtp_mailer:
   port: 1025
   username: mailpit
   password: mailpit
-  tls: { disabled: true }
-  from: 'uptrace@localhost'
+  tls: {disabled: true}
+  from: uptrace@localhost
 
 logs:
   level: INFO

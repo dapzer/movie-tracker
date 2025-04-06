@@ -1,17 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { MediaDetailsRepositoryInterface } from '@/repositories/mediaDetails/MediaDetailsRepositoryInterface';
-import { PrismaService } from '@/services/prisma/prisma.service';
+import { MediaDetailsRepositoryInterface } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
+import { MediaDetails, Prisma } from "@movie-tracker/database"
 import {
   MediaDetailsInfoType,
   MediaDetailsType,
   MediaTypeEnum,
-} from '@movie-tracker/types';
-import { MediaDetails, Prisma } from '@movie-tracker/database';
+} from "@movie-tracker/types"
+import { Injectable } from "@nestjs/common"
 
 @Injectable()
 export class PrismaMediaDetailsRepository
-  implements MediaDetailsRepositoryInterface
-{
+implements MediaDetailsRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 
   private convertToInterface(data: MediaDetails): MediaDetailsType {
@@ -24,7 +23,7 @@ export class PrismaMediaDetailsRepository
       ru: data.ru as unknown as MediaDetailsInfoType,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
-    };
+    }
   }
 
   async createMediaDetails(
@@ -42,9 +41,9 @@ export class PrismaMediaDetailsRepository
         en: mediaDetailsInfoEn as unknown as Prisma.JsonArray,
         score,
       },
-    });
+    })
 
-    return this.convertToInterface(mediaDetails);
+    return this.convertToInterface(mediaDetails)
   }
 
   async updateMediaDetails(
@@ -66,9 +65,9 @@ export class PrismaMediaDetailsRepository
         en: mediaDetailsInfoEn as unknown as Prisma.JsonArray,
         score,
       },
-    });
+    })
 
-    return this.convertToInterface(mediaDetails);
+    return this.convertToInterface(mediaDetails)
   }
 
   async getMediaDetailsItem(mediaId: number, mediaType: MediaTypeEnum) {
@@ -79,12 +78,12 @@ export class PrismaMediaDetailsRepository
           mediaType,
         },
       },
-    });
+    })
 
-    return mediaDetails ? this.convertToInterface(mediaDetails) : null;
+    return mediaDetails ? this.convertToInterface(mediaDetails) : null
   }
 
   async getMediaDetailsCount() {
-    return this.prismaService.mediaDetails.count();
+    return this.prismaService.mediaDetails.count()
   }
 }

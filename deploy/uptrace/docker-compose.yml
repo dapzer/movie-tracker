@@ -5,15 +5,15 @@ services:
     environment:
       CLICKHOUSE_DB: uptrace
     healthcheck:
-      test: ['CMD', 'wget', '--spider', '-q', 'localhost:8123/ping']
+      test: [CMD, wget, --spider, -q, "localhost:8123/ping"]
       interval: 1s
       timeout: 1s
       retries: 30
     volumes:
       - ch_data2:/var/lib/clickhouse
     expose:
-      - '8123'
-      - '9000'
+      - "8123"
+      - "9000"
     networks:
       - uptrace
 
@@ -26,28 +26,28 @@ services:
       POSTGRES_PASSWORD: uptrace
       POSTGRES_DB: uptrace
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U uptrace -d uptrace']
+      test: [CMD-SHELL, pg_isready -U uptrace -d uptrace]
       interval: 1s
       timeout: 1s
       retries: 30
     volumes:
-      - 'pg_data3:/var/lib/postgresql/data/pgdata'
+      - "pg_data3:/var/lib/postgresql/data/pgdata"
     expose:
-      - '5432'
+      - "5432"
     networks:
       - uptrace
 
   uptrace:
-    image: 'uptrace/uptrace:1.7.6'
-    #image: 'uptrace/uptrace-dev:latest'
+    image: "uptrace/uptrace:1.7.6"
+    # image: 'uptrace/uptrace-dev:latest'
     restart: on-failure
     volumes:
       - ./uptrace.yml:/etc/uptrace/uptrace.yml
-    #environment:
+    # environment:
     #  - DEBUG=2
     ports:
-      - '14317:14317'
-      - '14318:14318'
+      - "14317:14317"
+      - "14318:14318"
     depends_on:
       - clickhouse
       - postgres
@@ -61,10 +61,10 @@ services:
     volumes:
       - ./otel-collector.yaml:/etc/otelcol-contrib/config.yaml
     expose:
-      - '4317'
-      - '4318'
+      - "4317"
+      - "4318"
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - "host.docker.internal:host-gateway"
     depends_on:
       - uptrace
     networks:
@@ -93,18 +93,18 @@ services:
     networks:
       - uptrace
 
-#  grafana:
-#    image: grafana/grafana:9.5.3
-#    restart: on-failure
-#    volumes:
-#      - ../../config/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-#      - ../../config/grafana/custom.ini:/etc/grafana/grafana.ini
-#    ports:
-#      - '3000:3000'
-#    extra_hosts:
-#      - 'host.docker.internal:host-gateway'
-#    networks:
-#      - uptrace
+  #  grafana:
+  #    image: grafana/grafana:9.5.3
+  #    restart: on-failure
+  #    volumes:
+  #      - ../../config/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+  #      - ../../config/grafana/custom.ini:/etc/grafana/grafana.ini
+  #    ports:
+  #      - '3000:3000'
+  #    extra_hosts:
+  #      - 'host.docker.internal:host-gateway'
+  #    networks:
+  #      - uptrace
 
   prometheus:
     image: prom/prometheus:v2.36.2
@@ -113,12 +113,12 @@ services:
       - ../../config/prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - "host.docker.internal:host-gateway"
     networks:
       - uptrace
 
@@ -126,12 +126,12 @@ services:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
     command:
-      - '--path.rootfs=/host'
+      - --path.rootfs=/host
     network_mode: host
     pid: host
     restart: unless-stopped
     volumes:
-      - '/:/host:ro,rslave'
+      - "/:/host:ro,rslave"
 
 volumes:
   ch_data2:

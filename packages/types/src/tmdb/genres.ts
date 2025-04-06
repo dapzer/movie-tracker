@@ -14,7 +14,7 @@ export enum TmdbTvGenresEnum {
   SOAP = 10766,
   TALK = 10767,
   WAR_POLITICS = 10768,
-  WESTERN = 37
+  WESTERN = 37,
 }
 
 export enum TmdbMovieGenresEnum {
@@ -36,5 +36,5 @@ export enum TmdbMovieGenresEnum {
   TV_MOVIE = 10770,
   THRILLER = 53,
   WAR = 10752,
-  WESTERN = 37
+  WESTERN = 37,
 }

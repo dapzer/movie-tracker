@@ -1,3 +1,4 @@
+import { SignUpMethodEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import {
   IsBoolean,
   IsDateString,
@@ -8,47 +9,45 @@ import {
   IsUrl,
   IsUUID,
   Length,
-} from 'class-validator';
-import { SignUpMethodEnum, UserRoleEnum, UserType } from '@movie-tracker/types';
+} from "class-validator"
 
 export class UserDto implements UserType {
   @IsUUID()
-  id: string;
+  id: string
 
   // @IsOptional()
   // @IsString()
   // userName: string;
 
   @IsString()
-  name: string;
+  name: string
 
   @IsOptional()
   @IsEmail()
   @IsString()
-  email: string;
+  email: string
 
   @IsUrl()
   @IsString()
-  image: string;
+  image: string
 
   @IsOptional()
   @IsString()
   @Length(8, 32)
-  password?: string;
+  password?: string
 
   @IsBoolean()
-  isEmailVerified: boolean;
+  isEmailVerified: boolean
 
   @IsEnum(UserRoleEnum, { each: true })
-  roles: UserRoleEnum[];
+  roles: UserRoleEnum[]
 
   @IsEnum(SignUpMethodEnum)
-  signUpMethod: SignUpMethodEnum;
-
-
-  @IsDateString()
-  createdAt: Date;
+  signUpMethod: SignUpMethodEnum
 
   @IsDateString()
-  updatedAt: Date;
+  createdAt: Date
+
+  @IsDateString()
+  updatedAt: Date
 }

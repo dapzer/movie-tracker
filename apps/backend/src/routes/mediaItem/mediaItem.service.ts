@@ -1,18 +1,17 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
-} from '@/repositories/mediaItem/MediaItemRepositoryInterface';
+} from "@/repositories/mediaItem/MediaItemRepositoryInterface"
 import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
-} from '@/repositories/mediaList/MediaListRepositoryInterface';
-import { MediaDetailsService } from '@/routes/mediaDetails/mediaDetails.service';
+} from "@/repositories/mediaList/MediaListRepositoryInterface"
+import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import {
-  MediaItemTrackingDataType,
   MediaItemType,
   MediaTypeEnum,
-} from '@movie-tracker/types';
+} from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class MediaItemService {
@@ -25,17 +24,17 @@ export class MediaItemService {
   ) {}
 
   private async isMediaListOwner(mediaListId: string, userId: string) {
-    const mediaList =
-      await this.mediaListRepository.getMedialListById(mediaListId);
+    const mediaList
+      = await this.mediaListRepository.getMedialListById(mediaListId)
 
     if (!mediaList) {
       throw new HttpException(
         `Media list with id '${mediaListId}' doesn't exist.`,
         HttpStatus.NOT_FOUND,
-      );
+      )
     }
 
-    return mediaList.userId === userId;
+    return mediaList.userId === userId
   }
 
   private async isMediaItemOwner(
@@ -43,21 +42,21 @@ export class MediaItemService {
     userId: string,
     mediaItemBase?: MediaItemType,
   ) {
-    const mediaItem =
-      mediaItemBase ?? (await this.mediaItemRepository.getMediaItemById(id));
+    const mediaItem
+      = mediaItemBase ?? (await this.mediaItemRepository.getMediaItemById(id))
     const isMediaListOwner = await this.isMediaListOwner(
       mediaItem.mediaListId,
       userId,
-    );
+    )
 
     if (!mediaItem) {
       throw new HttpException(
         `Media item with id '${id}' doesn't exist.`,
         HttpStatus.NOT_FOUND,
-      );
+      )
     }
 
-    return isMediaListOwner;
+    return isMediaListOwner
   }
 
   async createMediaItem(
@@ -66,37 +65,37 @@ export class MediaItemService {
     mediaListId: string,
     userId: string,
   ) {
-    const mediaList =
-      await this.mediaListRepository.getMedialListById(mediaListId);
+    const mediaList
+      = await this.mediaListRepository.getMedialListById(mediaListId)
 
     if (!mediaList) {
       throw new HttpException(
         `Media list with id '${mediaListId}' doesn't exist.`,
         HttpStatus.NOT_FOUND,
-      );
+      )
     }
 
     if (mediaList.userId !== userId) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    const mediaDetails =
-      await this.mediaDetailsService.createOrUpdateMediaDetails(
+    const mediaDetails
+      = await this.mediaDetailsService.createOrUpdateMediaDetails(
         mediaId,
         mediaType,
         null,
-      );
+      )
 
     return this.mediaItemRepository.createMediaItem(
       mediaId,
       mediaType,
       mediaListId,
       mediaDetails.id,
-    );
+    )
   }
 
   async getMediaItemsByUserId(userId: string) {
-    return this.mediaItemRepository.getMediaItemsByUserId(userId);
+    return this.mediaItemRepository.getMediaItemsByUserId(userId)
   }
 
   async getMediaItemsByListId(
@@ -106,39 +105,39 @@ export class MediaItemService {
   ) {
     const mediaList = byHumanFriendlyId
       ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
-          mediaListId,
-        )
-      : await this.mediaListRepository.getMedialListById(mediaListId);
+        mediaListId,
+      )
+      : await this.mediaListRepository.getMedialListById(mediaListId)
 
     if (mediaList && mediaList.userId !== userId && !mediaList.isPublic) {
-      throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED);
+      throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaItemRepository.getMediaItemsByListId(mediaList.id);
+    return this.mediaItemRepository.getMediaItemsByListId(mediaList.id)
   }
 
   async deleteMediaItem(id: string, userId: string) {
-    const isMediaItemOwner = await this.isMediaItemOwner(id, userId);
+    const isMediaItemOwner = await this.isMediaItemOwner(id, userId)
 
     if (!isMediaItemOwner) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaItemRepository.deleteMediaItem(id);
+    return this.mediaItemRepository.deleteMediaItem(id)
   }
 
   async updateMediaItem(
     id: string,
     userId: string,
-    data: Partial<Pick<MediaItemType, 'mediaDetailsId' | 'mediaListId'>>,
+    data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>,
   ) {
-    const isMediaItemOwner = await this.isMediaItemOwner(id, userId);
+    const isMediaItemOwner = await this.isMediaItemOwner(id, userId)
 
     if (!isMediaItemOwner) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaItemRepository.updateMediaItem(id, data);
+    return this.mediaItemRepository.updateMediaItem(id, data)
   }
 
   async createMediaItemClone(
@@ -147,14 +146,14 @@ export class MediaItemService {
     mediaListId: string,
     isSaveCreationDate = false,
   ) {
-    const isMediaItemOwner = await this.isMediaItemOwner(id, userId);
-    const isMediaListOwner = await this.isMediaListOwner(mediaListId, userId);
+    const isMediaItemOwner = await this.isMediaItemOwner(id, userId)
+    const isMediaListOwner = await this.isMediaListOwner(mediaListId, userId)
 
     if (!isMediaItemOwner || !isMediaListOwner) {
-      throw new HttpException('Unauthorized.', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    const mediaItem = await this.mediaItemRepository.getMediaItemById(id);
+    const mediaItem = await this.mediaItemRepository.getMediaItemById(id)
 
     return this.mediaItemRepository.createMediaItemWithExistedData(
       mediaItem.mediaId,
@@ -163,6 +162,6 @@ export class MediaItemService {
       mediaItem.mediaDetailsId,
       mediaItem.trackingData,
       isSaveCreationDate ? mediaItem.createdAt : undefined,
-    );
+    )
   }
 }

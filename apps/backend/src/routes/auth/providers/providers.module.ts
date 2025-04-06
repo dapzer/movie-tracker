@@ -1,6 +1,6 @@
-import { DynamicModule, Module } from '@nestjs/common';
-import { ProvidersService } from './providers.service';
-import { AsyncOpts, Opts, ProvidersOptsSymbol } from './constants';
+import { DynamicModule, Module } from "@nestjs/common"
+import { AsyncOpts, Opts, ProvidersOptsSymbol } from "./constants"
+import { ProvidersService } from "./providers.service"
 
 @Module({})
 export class ProvidersModule {
@@ -15,7 +15,7 @@ export class ProvidersModule {
         ProvidersService,
       ],
       exports: [ProvidersService],
-    };
+    }
   }
 
   static registerAsync(opts: AsyncOpts): DynamicModule {
@@ -31,6 +31,6 @@ export class ProvidersModule {
         ProvidersService,
       ],
       exports: [ProvidersService],
-    };
+    }
   }
 }

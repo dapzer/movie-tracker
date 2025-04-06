@@ -1,18 +1,17 @@
-import { TrackingDataRepositoryInterface } from '@/repositories/trackingData/TrackingDataRepositoryInterface';
-import { PrismaService } from '@/services/prisma/prisma.service';
-import { Prisma, TrackingData } from '@movie-tracker/database';
+import { TrackingDataRepositoryInterface } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
+import { Prisma, TrackingData } from "@movie-tracker/database"
 import {
   MediaItemSiteToViewType,
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
   MediaItemTvProgressType,
-} from '@movie-tracker/types';
-import { Injectable } from '@nestjs/common';
+} from "@movie-tracker/types"
+import { Injectable } from "@nestjs/common"
 
 @Injectable()
 export class PrismaTrackingDataRepository
-  implements TrackingDataRepositoryInterface
-{
+implements TrackingDataRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 
   private convertToInterface(data: TrackingData): MediaItemTrackingDataType {
@@ -26,18 +25,18 @@ export class PrismaTrackingDataRepository
       tvProgress: data.tvProgress as unknown as MediaItemTvProgressType,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
-    };
+    }
   }
 
   async getTrackingDataById(id: string) {
-    const trackingData =
-      await this.prismaService.trackingData.findUniqueOrThrow({
+    const trackingData
+      = await this.prismaService.trackingData.findUniqueOrThrow({
         where: {
           id,
         },
-      });
+      })
 
-    return this.convertToInterface(trackingData);
+    return this.convertToInterface(trackingData)
   }
 
   async updateTrackingData(
@@ -45,7 +44,7 @@ export class PrismaTrackingDataRepository
     data: Partial<
       Omit<
         MediaItemTrackingDataType,
-        'id' | 'createdAt' | 'updatedAt' | 'mediaItemId'
+        "id" | "createdAt" | "updatedAt" | "mediaItemId"
       >
     >,
   ) {
@@ -60,8 +59,8 @@ export class PrismaTrackingDataRepository
         sitesToView: data.sitesToView as unknown as Prisma.JsonArray,
         tvProgress: data.tvProgress as unknown as Prisma.JsonObject,
       },
-    });
+    })
 
-    return this.convertToInterface(trackingData);
+    return this.convertToInterface(trackingData)
   }
 }

@@ -1,25 +1,24 @@
-import { Wrapper } from '../components/Wrapper';
-import { StylesType } from '../types/StylesType';
-import { Typography } from '../components/Typography';
-import { Button } from '../components/Button';
-import React from 'react';
+import type { StylesType } from "../types/StylesType"
+import React from "react"
+import { Button } from "../components/Button"
+import { Typography } from "../components/Typography"
+import { Wrapper } from "../components/Wrapper"
 
 interface PasswordRecoveryEmailProps {
-  url: string;
+  url: string
 }
 
 const styles = {
   title: {
-    marginBottom: '4px',
+    marginBottom: "4px",
   },
   description: {
-    marginBottom: '16px',
+    marginBottom: "16px",
   },
-} satisfies StylesType;
+} satisfies StylesType
 
-
-export const PasswordRecoveryEmail = (props: PasswordRecoveryEmailProps) => {
-  const { url } = props;
+export function PasswordRecoveryEmail(props: PasswordRecoveryEmailProps) {
+  const { url } = props
 
   return (
     <Wrapper>
@@ -43,7 +42,7 @@ export const PasswordRecoveryEmail = (props: PasswordRecoveryEmailProps) => {
         If you have not requested a password reset, ignore this message!.
       </Typography>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default PasswordRecoveryEmail;
+export default PasswordRecoveryEmail

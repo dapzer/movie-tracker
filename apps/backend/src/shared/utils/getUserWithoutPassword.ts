@@ -1,8 +1,6 @@
-import { UserType } from '@movie-tracker/types';
+import { UserType } from "@movie-tracker/types"
 
-export const getUserWithoutPassword = (
-  user: UserType,
-): Omit<UserType, 'password'> => {
+export function getUserWithoutPassword(user: UserType): Omit<UserType, "password"> {
   return {
     id: user.id,
     name: user.name,
@@ -13,5 +11,5 @@ export const getUserWithoutPassword = (
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
     isEmailVerified: user.isEmailVerified,
-  };
-};
+  }
+}

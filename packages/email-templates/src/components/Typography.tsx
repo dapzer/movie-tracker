@@ -1,6 +1,6 @@
-import { Text } from '@react-email/components';
-import { TextProps } from '@react-email/text';
-import { StylesType } from '../types/StylesType';
+import type { TextProps } from "@react-email/text"
+import type { StylesType } from "../types/StylesType"
+import { Text } from "@react-email/components"
 
 const styles = {
   title: {
@@ -24,16 +24,15 @@ const styles = {
     color: "#1f242d",
     margin: "unset",
     opacity: 0.7,
-  }
-} satisfies StylesType;
-
+  },
+} satisfies StylesType
 
 interface TypographyProps extends TextProps {
-  variant?: keyof typeof styles;
+  variant?: keyof typeof styles
 }
 
-export const Typography = (props: TypographyProps) => {
-  const { style = {}, variant = 'text', ...rest } = props;
+export function Typography(props: TypographyProps) {
+  const { style = {}, variant = "text", ...rest } = props
 
   return (
     <Text
@@ -43,5 +42,5 @@ export const Typography = (props: TypographyProps) => {
       }}
       {...rest}
     />
-  );
-};
+  )
+}

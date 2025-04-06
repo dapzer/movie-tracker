@@ -1,34 +1,34 @@
-import { IsDateString, IsInt, IsString, IsUUID } from "class-validator";
-import { AccountType } from "@/repositories/account/AccountRepositoryInterface";
+import { AccountType } from "@/repositories/account/AccountRepositoryInterface"
+import { IsDateString, IsInt, IsString, IsUUID } from "class-validator"
 
 export class AccountDto implements AccountType {
   @IsUUID()
-  id: string;
+  id: string
 
   @IsUUID()
-  userId: string;
+  userId: string
 
   @IsString()
-  access_token: string;
+  access_token: string
 
   @IsString()
-  refresh_token: string;
+  refresh_token: string
 
   @IsString()
-  provider: string;
+  provider: string
 
   @IsString()
-  providerAccountId: string;
+  providerAccountId: string
 
   @IsInt()
-  expires_at: number;
+  expires_at: number
 
   @IsString()
-  type: string;
+  type: string
 
   @IsDateString()
-  createdAt: Date;
+  createdAt: Date
 
   @IsDateString()
-  updatedAt: Date;
+  updatedAt: Date
 }

@@ -1,3 +1,8 @@
+import { Roles } from "@/decorators/roles.decorator"
+import { RolesGuard } from "@/guards/roles.guard"
+import { AuthGuard } from "@/routes/auth/guards/auth.guard"
+import { SitemapService } from "@/routes/sitemap/sitemap.service"
+import { UserRoleEnum } from "@movie-tracker/types"
 import {
   Controller,
   Get,
@@ -6,35 +11,30 @@ import {
   Post,
   StreamableFile,
   UseGuards,
-} from '@nestjs/common';
-import { SitemapService } from '@/routes/sitemap/sitemap.service';
-import { AuthGuard } from '@/routes/auth/guards/auth.guard';
-import { Roles } from '@/decorators/roles.decorator';
-import { RolesGuard } from '@/guards/roles.guard';
-import { UserRoleEnum } from '@movie-tracker/types';
+} from "@nestjs/common"
 
-@Controller('sitemaps')
+@Controller("sitemaps")
 export class SitemapController {
   constructor(private readonly sitemapService: SitemapService) {}
 
-  @Get(':folder/:subFolder/:fileName')
-  @Header('Content-Type', 'application/xml')
+  @Get(":folder/:subFolder/:fileName")
+  @Header("Content-Type", "application/xml")
   async getSitemapFile(
-    @Param('fileName') fileName: string,
-    @Param('subFolder') subFolder: string,
-    @Param('folder') folder: string,
+    @Param("fileName") fileName: string,
+    @Param("subFolder") subFolder: string,
+    @Param("folder") folder: string,
   ) {
-    const fileLocation = `${folder}/${subFolder}/${fileName}`;
-    const stream = await this.sitemapService.readFile(fileLocation);
+    const fileLocation = `${folder}/${subFolder}/${fileName}`
+    const stream = await this.sitemapService.readFile(fileLocation)
 
-    return new StreamableFile(stream);
+    return new StreamableFile(stream)
   }
 
-  @Post('generate')
+  @Post("generate")
   @UseGuards(AuthGuard)
   @Roles([UserRoleEnum.ADMIN])
   @UseGuards(RolesGuard)
   async triggerGeneration() {
-    return this.sitemapService.generate();
+    return this.sitemapService.generate()
   }
 }

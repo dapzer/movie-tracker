@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { UserRepositorySymbol } from '@/repositories/user/UserRepositoryInterface';
-import { PrismaUserRepository } from '@/repositories/user/PrismaUserRepository';
+import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
+import { Module } from "@nestjs/common"
+import { UserController } from "./user.controller"
+import { UserService } from "./user.service"
 
 @Module({
   imports: [],

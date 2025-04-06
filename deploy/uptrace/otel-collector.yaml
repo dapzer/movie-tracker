@@ -22,9 +22,9 @@ receivers:
       paging:
   httpcheck:
     targets:
-      - endpoint: 'http://localhost:13133/health/status'
+      - endpoint: "http://localhost:13133/health/status"
         method: GET
-      - endpoint: 'http://localhost:13134/health/status'
+      - endpoint: "http://localhost:13134/health/status"
         method: GET
     collection_interval: 15s
   jaeger:
@@ -42,14 +42,14 @@ receivers:
   prometheus/otelcol:
     config:
       scrape_configs:
-        - job_name: 'otelcol'
+        - job_name: otelcol
           scrape_interval: 10s
           static_configs:
-            - targets: ['0.0.0.0:8888']
+            - targets: ["0.0.0.0:8888"]
 
 processors:
   resourcedetection:
-    detectors: ['system']
+    detectors: [system]
   batch:
     send_batch_size: 10000
     timeout: 10s
@@ -57,18 +57,18 @@ processors:
 exporters:
   otlp/uptrace:
     endpoint: http://uptrace:14317
-    tls: { insecure: true }
-    headers: { 'uptrace-dsn': 'http://project1_secret_token@localhost:14318?grpc=14317' }
+    tls: {insecure: true}
+    headers: {uptrace-dsn: "http://project1_secret_token@localhost:14318?grpc=14317"}
   prometheusremotewrite/uptrace:
-    endpoint: 'http://uptrace:14318/api/v1/prometheus/write'
+    endpoint: "http://uptrace:14318/api/v1/prometheus/write"
     tls:
       insecure: true
-    headers: { 'uptrace-dsn': 'http://project1_secret_token@localhost:14318?grpc=14317' }
+    headers: {uptrace-dsn: "http://project1_secret_token@localhost:14318?grpc=14317"}
 
 service:
   telemetry:
     metrics:
-      address: ':8888'
+      address: ":8888"
   #   logs:
   #     level: DEBUG
   pipelines:
