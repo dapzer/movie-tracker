@@ -9,6 +9,7 @@ import { UiSocialList } from "../../UiSocialList"
       github: 'dapzer/movie-tracker',
       telegram: 'movie_tracker_news',
       discord: 'yeAXyC4TEr',
+      twitter: 'AppMovieTracker',
     }"
   />
 </template>
