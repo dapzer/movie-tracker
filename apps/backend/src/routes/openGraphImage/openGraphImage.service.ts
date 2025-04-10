@@ -1,5 +1,7 @@
+import * as buffer from "node:buffer"
 import { readFile } from "node:fs/promises"
 import * as path from "node:path"
+import * as process from "node:process"
 import { Injectable } from "@nestjs/common"
 import satori from "satori"
 import * as sharp from "sharp"
@@ -117,7 +119,7 @@ export class OpenGraphImageService {
             {
               type: "img",
               props: {
-                src: `data:image/svg+xml;base64,${Buffer.from(backgroundSvg).toString("base64")}`,
+                src: `data:image/svg+xml;base64,${buffer.Buffer.from(backgroundSvg).toString("base64")}`,
                 alt: "",
                 style: {
                   position: "absolute",
@@ -131,7 +133,7 @@ export class OpenGraphImageService {
             {
               type: "img",
               props: {
-                src: `data:image/svg+xml;base64,${Buffer.from(circleBackgroundSvg).toString("base64")}`,
+                src: `data:image/svg+xml;base64,${buffer.Buffer.from(circleBackgroundSvg).toString("base64")}`,
                 alt: "",
                 style: {
                   position: "absolute",
@@ -145,7 +147,7 @@ export class OpenGraphImageService {
             {
               type: "img",
               props: {
-                src: imageUrl || `data:image/svg+xml;base64,${Buffer.from(isAvatarPlaceholder ? avatarPosterSvg : defaultMoviePosterSvg).toString("base64")}`,
+                src: imageUrl || `data:image/svg+xml;base64,${buffer.Buffer.from(isAvatarPlaceholder ? avatarPosterSvg : defaultMoviePosterSvg).toString("base64")}`,
                 alt: "",
                 style: {
                   width: "407px",
@@ -214,7 +216,7 @@ export class OpenGraphImageService {
                         {
                           type: "img",
                           props: {
-                            src: `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString("base64")}`,
+                            src: `data:image/svg+xml;base64,${buffer.Buffer.from(logoSvg).toString("base64")}`,
                             alt: "",
                             style: {
                               width: "128px",
@@ -254,6 +256,6 @@ export class OpenGraphImageService {
       },
     )
 
-    return sharp(Buffer.from(svg)).webp({ quality: 100 }).toBuffer()
+    return sharp(buffer.Buffer.from(svg)).webp({ quality: 100 }).toBuffer()
   }
 }
