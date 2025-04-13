@@ -266,6 +266,9 @@ importers:
       '@nuxt/icon':
         specifier: 1.10.3
         version: 1.10.3(magicast@0.3.5)(rollup@4.39.0)(vite@6.2.5(@types/node@22.1.0)(jiti@2.4.2)(sass@1.77.4)(terser@5.36.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
+      '@nuxtjs/fontaine':
+        specifier: 0.5.0
+        version: 0.5.0(magicast@0.3.5)
       '@nuxtjs/i18n':
         specifier: 9.5.2
         version: 9.5.2(@vue/compiler-dom@3.5.13)(eslint@9.22.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.39.0)(vue@3.5.13(typescript@5.7.3))
@@ -2076,6 +2079,9 @@ packages:
     engines: {node: ^18.12.0 || ^20.9.0 || >=22.0.0}
     peerDependencies:
       vue: ^3.3.4
+
+  '@nuxtjs/fontaine@0.5.0':
+    resolution: {integrity: sha512-68po45LJW1bMrlxPiI96L4lH/8Hom8LDKsUSmIZtgPrtI1HvFvg9Kcj2329DkWIH379hyffT2Qt7/1RgRPVV+A==}
 
   '@nuxtjs/i18n@9.5.2':
     resolution: {integrity: sha512-54Db+/9ohkvQeNpdWlb29trv6JkojGHnVB6nImS7D0Rf6EQ1cO84xG7wjEK7ndTX6GWLO/r2xCrAKyqSlwINJw==}
@@ -12463,6 +12469,17 @@ snapshots:
       - vti
       - vue-tsc
       - yaml
+
+  '@nuxtjs/fontaine@0.5.0(magicast@0.3.5)':
+    dependencies:
+      '@nuxt/kit': 3.16.2(magicast@0.3.5)
+      fontaine: 0.5.0
+      magic-string: 0.30.17
+      pathe: 2.0.3
+      ufo: 1.5.4
+    transitivePeerDependencies:
+      - encoding
+      - magicast
 
   '@nuxtjs/i18n@9.5.2(@vue/compiler-dom@3.5.13)(eslint@9.22.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.39.0)(vue@3.5.13(typescript@5.7.3))':
     dependencies:

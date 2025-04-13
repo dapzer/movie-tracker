@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "nuxt-umami",
     "@nuxtjs/mdc",
+    "@nuxtjs/fontaine",
   ],
 
   site: {
