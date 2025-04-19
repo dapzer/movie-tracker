@@ -30,3 +30,5 @@ export interface MediaListPosterType {
 export type MediaListCreateBodyType = Pick<MediaListType, "title" | "description" | "isPublic">
 
 export type MediaListUpdateBodyType = Pick<MediaListType, "title" | "description" | "isPublic">
+
+export const MEDIA_LIST_COUNT_LIMIT = 12

@@ -9,7 +9,7 @@ import {
 import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/routes/mediaList/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
-import { MediaItemType, MediaListType } from "@movie-tracker/types"
+import { MEDIA_LIST_COUNT_LIMIT, MediaItemType, MediaListType } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
@@ -38,6 +38,19 @@ export class MediaListService {
     }
 
     return mediaList.userId === currentUserId
+  }
+
+  private async isMediaListsLimitReached(userId: string) {
+    const mediaListsCount = await this.mediaListRepository.getMediaListsCountByUserId(userId)
+
+    if (mediaListsCount >= MEDIA_LIST_COUNT_LIMIT) {
+      throw new HttpException(
+        `You have reached the limit of ${MEDIA_LIST_COUNT_LIMIT} media lists.`,
+        HttpStatus.FORBIDDEN,
+      )
+    }
+
+    return false
   }
 
   async getAllMedialLists(isPublicOnly = false, currentUserId?: string) {
@@ -79,6 +92,7 @@ export class MediaListService {
   }
 
   async createMediaList(userId: string, body?: CreateMediaListDto) {
+    await this.isMediaListsLimitReached(userId)
     return this.mediaListRepository.createMediaList(userId, false, body)
   }
 
@@ -115,6 +129,8 @@ export class MediaListService {
     userId: string,
     body: CreateMediaListCloneDto,
   ) {
+    await this.isMediaListsLimitReached(userId)
+
     const mediaList = await this.mediaListRepository.getMedialListById(id)
 
     if (!mediaList) {

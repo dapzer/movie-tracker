@@ -200,6 +200,14 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     return this.prisma.mediaList.count()
   }
 
+  async getMediaListsCountByUserId(userId: string) {
+    return this.prisma.mediaList.count({
+      where: {
+        userId,
+      },
+    })
+  }
+
   async createMediaListLike(mediaListId: string, userId: string) {
     const mediaListLike = await this.prisma.mediaListLike.create({
       data: {
