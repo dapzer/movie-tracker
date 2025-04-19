@@ -94,9 +94,6 @@ const selectModel = defineModel<string>()
 
   &[data-state="open"] {
     background: var(--c-card-background-hovered);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: unset;
 
     .iconWrapper {
       transform: rotate(180deg);
@@ -132,10 +129,20 @@ const selectModel = defineModel<string>()
   background: var(--c-card-background);
   padding: 6px;
   border: 1px solid var(--c-stroke);
-  border-top: unset;
-  border-bottom-right-radius: var(--s-border-radius);
-  border-bottom-left-radius: var(--s-border-radius);
   z-index: var(--i-select);
+
+  &[data-side="bottom"] {
+    border-bottom-left-radius: var(--s-border-radius);
+    border-bottom-right-radius: var(--s-border-radius);
+    border-top: unset;
+  }
+
+  &[data-side="top"] {
+    max-height: calc(var(--radix-select-content-available-height) - var(--s-header-height));
+    border-top-left-radius: var(--s-border-radius);
+    border-top-right-radius: var(--s-border-radius);
+    border-bottom: unset;
+  }
 
   .viewport {
     overflow: auto;
@@ -180,5 +187,15 @@ const selectModel = defineModel<string>()
     width: 16px;
     min-width: 16px;
   }
+}
+
+body:has(.content[data-side="bottom"][data-state="open"]) .trigger[data-state="open"] {
+  border-bottom: 1px solid transparent;
+  border-radius: var(--s-border-radius) var(--s-border-radius) 0 0;
+}
+
+body:has(.content[data-side="top"][data-state="open"]) .trigger[data-state="open"] {
+  border-top: 1px solid transparent;
+  border-radius: 0 0 var(--s-border-radius) var(--s-border-radius);
 }
 </style>
