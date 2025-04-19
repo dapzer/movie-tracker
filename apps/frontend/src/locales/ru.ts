@@ -26,6 +26,7 @@ export default {
     title: "Название",
     releaseDate: "Дата выхода",
     userScore: "Оценка пользователей",
+    tmdbScore: "Оценка пользователей TMDB",
     scores: "Оценки",
     productionCountry: "Страна производства",
     producer: "Режиссёр",

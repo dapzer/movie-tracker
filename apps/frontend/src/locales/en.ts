@@ -26,6 +26,7 @@ export default {
     title: "Title",
     releaseDate: "Release date",
     userScore: "User score",
+    tmdbScore: "TMDB users score",
     scores: "Scores",
     productionCountry: "Production country",
     producer: "Producer",

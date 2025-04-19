@@ -65,7 +65,7 @@ const title = computed(() => {
         <td>{{ props.details?.original_title || props.details?.original_name }}</td>
       </tr>
       <tr>
-        <td>{{ $t("details.userScore") }}</td>
+        <td>{{ $t("details.tmdbScore") }}</td>
         <td><UiRating :value="props.details?.vote_average" /></td>
       </tr>
       <tr v-if="props.details?.release_date || props.details?.first_air_date">
