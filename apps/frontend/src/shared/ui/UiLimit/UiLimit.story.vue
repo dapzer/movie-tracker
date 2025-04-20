@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UiiLimit from "~/shared/ui/UiiLimit/UiiLimit.vue"
+import UiiLimit from "~/shared/ui/UiLimit/UiLimit.vue"
 </script>
 
 <template>

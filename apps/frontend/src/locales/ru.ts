@@ -1170,6 +1170,8 @@ export default {
     noPermission: "Список не найден или является приватным",
     editList: "Редактирование списка",
     deleteList: "Удалить список",
+    limitReached: "Limit reached",
+    limitReachedDescription: "Вы достигли лимита в {limit} списков. Пожалуйста, удалите один из списков, чтобы создать новый.",
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },

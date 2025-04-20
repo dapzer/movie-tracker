@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { ref } from "vue"
-import { CreateMediaListModal } from "~/entities/mediaList"
+import { CreateMediaListModal, MediaListsLimitTooltip } from "~/entities/mediaList"
 import AddMediaItemToListsModal from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsModal.vue"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
@@ -58,16 +58,21 @@ function onOpenButtonClicked() {
     :media-type="props.mediaType"
   >
     <template #action>
-      <UiButton
-        with-icon
-        :class="$style.createListButton"
-        scheme="secondary"
-        size="medium"
-        @click="onOpenSecondModal"
-      >
-        {{ $t('mediaList.create') }}
-        <UiIcon name="icon:plus" />
-      </UiButton>
+      <MediaListsLimitTooltip>
+        <template #default="{ isLimitReached }">
+          <UiButton
+            with-icon
+            :class="$style.createListButton"
+            :disabled="isLimitReached"
+            scheme="secondary"
+            size="medium"
+            @click="onOpenSecondModal"
+          >
+            {{ $t('mediaList.create') }}
+            <UiIcon name="icon:plus" />
+          </UiButton>
+        </template>
+      </MediaListsLimitTooltip>
     </template>
   </AddMediaItemToListsModal>
 
