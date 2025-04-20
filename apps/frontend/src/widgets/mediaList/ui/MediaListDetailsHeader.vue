@@ -3,7 +3,7 @@ import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@mo
 import { useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
-import { CloneMediaListModal, EditMediaListModal } from "~/entities/mediaList"
+import { CloneMediaListModal, EditMediaListModal, MediaListsLimitTooltip } from "~/entities/mediaList"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -103,14 +103,19 @@ async function handleLike() {
           :media-items="props.mediaItems"
         >
           <template #trigger="{ openModal }">
-            <UiButton
-              with-icon
-              scheme="secondary"
-              @click="() => isAuthorized ? openModal() : navigateToSignInPage()"
-            >
-              <UiIcon name="icon:clone" />
-              {{ t("mediaList.createClone.title") }}
-            </UiButton>
+            <MediaListsLimitTooltip>
+              <template #default="{ isLimitReached }">
+                <UiButton
+                  with-icon
+                  scheme="secondary"
+                  :disabled="isLimitReached"
+                  @click="() => isAuthorized ? openModal() : navigateToSignInPage()"
+                >
+                  <UiIcon name="icon:clone" />
+                  {{ t("mediaList.createClone.title") }}
+                </UiButton>
+              </template>
+            </MediaListsLimitTooltip>
           </template>
         </CloneMediaListModal>
         <EditMediaListModal

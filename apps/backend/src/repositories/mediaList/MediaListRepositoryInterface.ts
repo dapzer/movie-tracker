@@ -47,6 +47,8 @@ export interface MediaListRepositoryInterface {
 
   getMediaListsCount: () => Promise<number>
 
+  getMediaListsCountByUserId: (userId: string) => Promise<number>
+
   createMediaListLike: (
     mediaListId: string,
     userId: string,

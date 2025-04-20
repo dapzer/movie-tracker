@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 import { onBeforeMount, useI18n, useSeoMeta } from "#imports"
+import { MEDIA_LIST_COUNT_LIMIT } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
-import { CreateMediaListModal, MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
+import {
+  CreateMediaListModal,
+  MediaListCard,
+  MediaListCardSkeleton,
+  MediaListsLimitTooltip,
+} from "~/entities/mediaList"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { SortOrderEnum } from "~/shared/types/Sorting"
@@ -43,7 +49,8 @@ const sortedMediaLists = computed(() => {
     <UiListHeader
       :title="$t('mediaList.yourLists')"
       :subtitle="isAuthorized
-        ? `${getMediaListsApi.data.value?.length || 0} ${$t(getListDeclensionTranslationKey(getMediaListsApi.data.value?.length || 0))}` : ''"
+        ? `${getMediaListsApi.data.value?.length || 0}/${MEDIA_LIST_COUNT_LIMIT}
+        ${$t(getListDeclensionTranslationKey(getMediaListsApi.data.value?.length || 0))}` : ''"
       title-as="h1"
       title-variant="title2"
     >
@@ -53,13 +60,18 @@ const sortedMediaLists = computed(() => {
       >
         <CreateMediaListModal>
           <template #trigger="{ openModal }">
-            <UiButton
-              with-icon
-              @click="openModal"
-            >
-              <UiIcon name="icon:plus" />
-              {{ $t("mediaList.create") }}
-            </UiButton>
+            <MediaListsLimitTooltip>
+              <template #default="{ isLimitReached }">
+                <UiButton
+                  with-icon
+                  :disabled="isLimitReached"
+                  @click="openModal"
+                >
+                  <UiIcon name="icon:plus" />
+                  {{ $t("mediaList.create") }}
+                </UiButton>
+              </template>
+            </MediaListsLimitTooltip>
           </template>
         </CreateMediaListModal>
       </template>

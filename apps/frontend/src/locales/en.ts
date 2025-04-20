@@ -1169,6 +1169,8 @@ export default {
     noPermission: "List not found or private",
     editList: "Editing a list",
     deleteList: "Delete list",
+    limitReached: "Limit reached",
+    limitReachedDescription: "You have reached the limit in {limit} lists. Please delete one of the lists to create a new.",
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
     },

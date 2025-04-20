@@ -2,7 +2,7 @@
 import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed, ref } from "vue"
-import { CreateMediaListModal } from "~/entities/mediaList"
+import { CreateMediaListModal, MediaListsLimitTooltip } from "~/entities/mediaList"
 import MediaItemChangeMediaListForm from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListForm.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -38,16 +38,21 @@ const currentMediaDetails = computed(() => {
         :media-item="props.mediaItem"
       >
         <template #action>
-          <UiButton
-            with-icon
-            :class="$style.createListButton"
-            scheme="secondary"
-            size="medium"
-            @click="isOpenCreateModal = true"
-          >
-            {{ $t('mediaList.create') }}
-            <UiIcon name="icon:plus" />
-          </UiButton>
+          <MediaListsLimitTooltip>
+            <template #default="{ isLimitReached }">
+              <UiButton
+                with-icon
+                :class="$style.createListButton"
+                scheme="secondary"
+                size="medium"
+                :disabled="isLimitReached"
+                @click="isOpenCreateModal = true"
+              >
+                {{ $t('mediaList.create') }}
+                <UiIcon name="icon:plus" />
+              </UiButton>
+            </template>
+          </MediaListsLimitTooltip>
         </template>
       </MediaItemChangeMediaListForm>
     </template>
