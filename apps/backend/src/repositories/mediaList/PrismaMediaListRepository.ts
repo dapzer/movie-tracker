@@ -71,7 +71,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       isPublic: data.isPublic,
       title: data.title,
       description: data.description,
-      likesCount: data._count.likes,
+      likesCount: data._count?.likes,
       mediaItemsCount: data._count?.mediaItems,
       isLiked: !!data.likes?.length,
       poster: data.mediaItems?.reduce((acc, el) => {
