@@ -3,6 +3,7 @@ import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenu
 
 interface UiDropdown {
   triggerClass?: string
+  contentClass?: string
   indent?: number
   align?: "start" | "center" | "end"
   side?: "top" | "right" | "bottom" | "left"
@@ -38,7 +39,9 @@ const model = defineModel<boolean>()
       >
         <div
           v-bind="$attrs"
-          :class="$style.content"
+          :class="[$style.content, [
+            props.contentClass,
+          ]]"
         >
           <slot name="content" />
         </div>

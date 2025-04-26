@@ -40,7 +40,7 @@ const createMediaItemApi = useCreateMediaItemApi()
 const deleteMediaItemApi = useDeleteMediaItemApi()
 
 const searchTerm = ref("")
-const changes = ref<Record<string, MediaListChangeType>>({})
+const changes = ref<Map<string, MediaListChangeType>>(new Map())
 
 function setCurrentListStates() {
   for (const mediaList of getMediaListsApi.data.value || []) {
@@ -50,13 +50,13 @@ function setCurrentListStates() {
         && item.mediaType === props.mediaType,
     )
 
-    changes.value[mediaList.id] = {
-      checked: Boolean(mediaItem),
+    changes.value.set(mediaList.id, {
+      checked: !!mediaItem,
       mediaListId: mediaList.id,
       mediaItemId: mediaItem?.id,
       action: "pass",
       currentStatus: mediaItem?.trackingData.currentStatus || MediaItemStatusNameEnum.NOT_VIEWED,
-    }
+    })
   }
 }
 
@@ -67,47 +67,54 @@ watch(() => getMediaItemsApi.data, () => {
 const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value)
 
 function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
-  const currentState = changes.value[mediaListId]
+  const currentState = changes.value.get(mediaListId)
   if (!currentState) {
     return
   }
 
   let action: Exclude<MediaListChangeType["action"], "update"> = "pass"
+
   // * Item is already in the list
-  if (!isChecked && currentState.mediaItemId) {
+  if (currentState?.checked && currentState.mediaItemId) {
     action = "remove"
   }
   // * Item wasn't in the list
-  else if (isChecked && !currentState.mediaItemId) {
+  else if (!currentState?.checked) {
     action = "add"
   }
 
-  changes.value[mediaListId].checked = isChecked
-  changes.value[mediaListId].action = action
+  changes.value.set(mediaListId, {
+    ...currentState,
+    checked: isChecked,
+    action,
+  })
 }
 
 function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum) {
-  const currentState = changes.value[mediaListId]
+  const currentState = changes.value.get(mediaListId)
   if (!currentState) {
     return
   }
 
-  changes.value[mediaListId].currentStatus = status
-  changes.value[mediaListId].action = currentState.mediaItemId ? "update" : currentState.action
+  changes.value.set(mediaListId, {
+    ...currentState,
+    currentStatus: status,
+    action: currentState.mediaItemId ? "update" : currentState.action,
+  })
 }
 
 function handleSaveChanges() {
-  Promise.all(Object.entries(changes.value).map(([mediaListId, value]) => {
-    switch (value.action) {
+  Promise.all(Array.from(changes.value, ([key, value]) => ({ key, value })).map((el) => {
+    switch (el.value.action) {
       case "add":
         return createMediaItemApi.mutateAsync({
           mediaId: props.mediaId,
           mediaType: props.mediaType as MediaTypeEnum,
-          mediaListId,
+          mediaListId: el.value.mediaListId,
         })
       case "remove":
-        if (value.mediaItemId) {
-          return deleteMediaItemApi.mutateAsync(value.mediaItemId)
+        if (el.value.mediaItemId) {
+          return deleteMediaItemApi.mutateAsync(el.value.mediaItemId)
         }
     }
 
@@ -142,7 +149,7 @@ const sortedMediaLists = computed(() => {
 })
 
 const isHasChanges = computed(() => {
-  return Object.values(changes.value).some((el) => {
+  return changes.value.values().some((el) => {
     return el.action !== "pass"
   })
 })
@@ -163,14 +170,15 @@ const isHasChanges = computed(() => {
       <slot name="action" />
     </div>
     <div
+      v-if="changes.size > 0"
       :class="$style.list"
     >
       <template v-if="sortedMediaLists.length">
         <AddMediaItemToListsFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
-          v-model="changes[mediaList.id].checked"
-          v-model:status="changes[mediaList.id].currentStatus"
+          v-model="changes.get(mediaList.id)!.checked"
+          v-model:status="changes.get(mediaList.id)!.currentStatus"
           :disabled="isLoading"
           :media-list="mediaList"
           @change="(e: Event) => handleCheckboxChange(mediaList.id, (e.target as HTMLInputElement).checked)"
