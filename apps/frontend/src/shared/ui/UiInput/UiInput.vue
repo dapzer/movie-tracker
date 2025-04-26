@@ -67,6 +67,7 @@ const inputModel = defineModel<string>()
 
   .icon {
     position: absolute;
+    display: flex;
     top: 50%;
     transform: translateY(-50%);
     left: 10px;
