@@ -61,7 +61,7 @@ const { isAuthorized } = useAuth()
     }
 
     .description {
-      font-family: var(--ff-neue-haas);
+      font-family: var(--ff-libra-franklin);
       font-weight: var(--fw-regular);
     }
 

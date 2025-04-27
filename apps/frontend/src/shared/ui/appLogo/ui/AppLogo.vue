@@ -35,11 +35,10 @@ const localePath = useLocalePath()
 
   .title {
     color: var(--c-text);
-    font-family: var(--ff-neue-haas);
+    font-family: var(--ff-libra-franklin);
     font-weight: var(--fw-medium);
     font-size: var(--fs-logo);
     line-height: var(--lh-logo);
-    height: 20px;
     @include ellipsisText();
   }
 }

@@ -81,8 +81,8 @@ export class OpenGraphImageService {
   }
 
   async getOpenGraphImage(title: string, imageUrl: string, isAvatarPlaceholder: boolean) {
-    const [neueHaasUnicaItalic, inter, logoSvg, backgroundSvg, circleBackgroundSvg, defaultMoviePosterSvg, avatarPosterSvg] = await Promise.all([
-      readFile(path.join(process.cwd(), "assets/fonts/NeueHaasUnica-Bold.ttf")),
+    const [libreFranklin, inter, logoSvg, backgroundSvg, circleBackgroundSvg, defaultMoviePosterSvg, avatarPosterSvg] = await Promise.all([
+      readFile(path.join(process.cwd(), "assets/fonts/LibreFranklin-Bold.ttf")),
       readFile(path.join(process.cwd(), "assets/fonts/Inter-SemiBold.ttf")),
       readFile(path.join(process.cwd(), "assets/logo.svg"), "utf-8"),
       readFile(path.join(process.cwd(), "assets/mediaOgImageBackground.svg"), "utf-8"),
@@ -174,11 +174,10 @@ export class OpenGraphImageService {
                     props: {
                       style: {
                         fontSize: `${fontSize}px`,
-                        fontFamily: "Neue Haas Unica",
+                        fontFamily: "Libre Franklin",
                         fontWeight: 700,
                         display: "block",
                         color: "#fff",
-                        fontStyle: "italic",
                         lineHeight: 1.1,
                         width: "100%",
                         maxHeight: "310px",
@@ -241,10 +240,10 @@ export class OpenGraphImageService {
         debug: false,
         fonts: [
           {
-            name: "Neue Haas Unica",
-            data: neueHaasUnicaItalic,
+            name: "Libre Franklin",
+            data: libreFranklin,
             weight: 700,
-            style: "italic",
+            style: "normal",
           },
           {
             name: "Inter",
