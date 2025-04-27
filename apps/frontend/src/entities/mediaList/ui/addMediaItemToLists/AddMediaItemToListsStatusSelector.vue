@@ -32,7 +32,7 @@ const dropdownItems = computed(() => {
 <template>
   <UiDropdown
     align="end"
-    :indent="20"
+    :indent="4"
     :trigger-class="$style.dropdownTrigger"
     size="small"
   >
