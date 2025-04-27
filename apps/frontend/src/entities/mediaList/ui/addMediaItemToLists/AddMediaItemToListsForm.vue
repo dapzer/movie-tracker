@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
+import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
-import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import {
+  useCreateMediaItemApi,
+  useDeleteMediaItemApi,
+  useGetMediaItemsApi,
+  useUpdateMediaItemTrackingDataApi,
+} from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { SortOrderEnum } from "~/shared/types/Sorting"
@@ -13,17 +19,12 @@ import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
-const props = defineProps<MediaListSelectorModalProps>()
-const emit = defineEmits<{
-  (e: "onAfterSave"): void
-}>()
-const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
-
 export interface MediaListChangeType {
+  checked: boolean
   mediaListId: string
   mediaItemId?: string
-  action: "add" | "remove"
+  action: "add" | "remove" | "pass" | "update"
+  currentStatus: MediaItemStatusNameEnum
 }
 
 interface MediaListSelectorModalProps {
@@ -31,69 +32,111 @@ interface MediaListSelectorModalProps {
   mediaType: TmdbMediaTypeEnum | MediaTypeEnum
 }
 
+const props = defineProps<MediaListSelectorModalProps>()
+
+const emit = defineEmits<{
+  (e: "onAfterSave"): void
+}>()
+
 const { t } = useI18n()
 
+const getMediaListsApi = useGetMediaListsApi()
+const getMediaItemsApi = useGetMediaItemsApi()
 const createMediaItemApi = useCreateMediaItemApi()
 const deleteMediaItemApi = useDeleteMediaItemApi()
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 
 const searchTerm = ref("")
-const changes = ref<MediaListChangeType[]>([])
-const currentListStates = ref<Record<string, boolean>>()
+const changes = ref<Record<string, MediaListChangeType>>({})
 
 function setCurrentListStates() {
-  currentListStates.value = Object.fromEntries(
-    getMediaListsApi.data.value?.map((item) => {
-      const mediaItem = getMediaItemsApi.data.value?.find(
-        mediaItem => mediaItem.mediaListId === item.id
-          && mediaItem.mediaId === props.mediaId
-          && mediaItem.mediaType === props.mediaType,
-      )
-      return [item.id, !!mediaItem]
-    }) || [],
-  )
+  for (const mediaList of getMediaListsApi.data.value || []) {
+    const mediaItem = getMediaItemsApi.data.value?.find(
+      item => item.mediaListId === mediaList.id
+        && item.mediaId === props.mediaId
+        && item.mediaType === props.mediaType,
+    )
+
+    changes.value[mediaList.id] = {
+      checked: Boolean(mediaItem),
+      mediaListId: mediaList.id,
+      mediaItemId: mediaItem?.id,
+      action: "pass",
+      currentStatus: mediaItem?.trackingData.currentStatus || MediaItemStatusNameEnum.NOT_VIEWED,
+    }
+  }
 }
 
 watch(() => getMediaItemsApi.data, () => {
   setCurrentListStates()
 }, { immediate: true })
 
-const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value)
+const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value)
 
 function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
-  const mediaItem = getMediaItemsApi.data.value?.find(
-    item => item.mediaListId === mediaListId
-      && item.mediaId === props.mediaId
-      && item.mediaType === props.mediaType,
-  )
-
-  if (isChecked !== !!mediaItem) {
-    changes.value.push({
-      mediaListId,
-      mediaItemId: mediaItem?.id,
-      action: isChecked ? "add" : "remove",
-    })
+  const currentState = changes.value[mediaListId]
+  if (!currentState) {
+    return
   }
-  else {
-    const index = changes.value.findIndex((el) => {
-      return el.mediaListId !== mediaListId
-    })
-    changes.value.splice(index, 1)
+
+  let action: Exclude<MediaListChangeType["action"], "update"> = "pass"
+  // * Item is already in the list
+  if (!isChecked && currentState.mediaItemId) {
+    action = "remove"
+  }
+  // * Item wasn't in the list
+  else if (isChecked && !currentState.mediaItemId) {
+    action = "add"
+  }
+
+  changes.value[mediaListId].checked = isChecked
+  changes.value[mediaListId].action = action
+}
+
+function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum) {
+  const currentState = changes.value[mediaListId]
+  if (!currentState) {
+    return
+  }
+
+  changes.value[mediaListId].currentStatus = status
+
+  if (currentState.mediaItemId) {
+    const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === currentState.mediaItemId)
+    const isSameStatus = mediaItem?.trackingData.currentStatus === status
+    changes.value[mediaListId].action = isSameStatus ? "pass" : "update"
   }
 }
 
 function handleSaveChanges() {
-  Promise.all(changes.value.map((el) => {
-    if (el.action === "add") {
-      return createMediaItemApi.mutateAsync({
-        mediaId: props.mediaId,
-        mediaType: props.mediaType as MediaTypeEnum,
-        mediaListId: el.mediaListId,
-      })
+  Promise.all(Object.entries(changes.value).map(([mediaListId, value]) => {
+    switch (value.action) {
+      case "add":
+        return createMediaItemApi.mutateAsync({
+          mediaId: props.mediaId,
+          mediaType: props.mediaType as MediaTypeEnum,
+          mediaListId,
+          currentStatus: value.currentStatus,
+        })
+      case "remove":
+        if (value.mediaItemId) {
+          return deleteMediaItemApi.mutateAsync(value.mediaItemId)
+        }
+        break
+      case "update": {
+        const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === value.mediaItemId)
+        if (mediaItem) {
+          return updateMediaItemTrackingDataApi.mutateAsync({
+            trackingDataId: mediaItem.trackingData.id,
+            body: {
+              ...mediaItem.trackingData,
+              currentStatus: value.currentStatus,
+            },
+          })
+        }
+      }
     }
 
-    if (el.action === "remove" && el.mediaItemId) {
-      return deleteMediaItemApi.mutateAsync(el.mediaItemId)
-    }
     return Promise.resolve()
   })).then(() => {
     toast.success(t("toasts.changesSuccessfullySaved"))
@@ -102,7 +145,7 @@ function handleSaveChanges() {
     setCurrentListStates()
     toast.error(t("toasts.changesUnsuccessfullySaved"))
   }).finally(() => {
-    changes.value = []
+    setCurrentListStates()
   })
 }
 
@@ -123,6 +166,12 @@ const filteredMediaLists = computed(() => {
 const sortedMediaLists = computed(() => {
   return getSortedArrayByDate(filteredMediaLists.value, SortOrderEnum.DESC, "createdAt")
 })
+
+const isHasChanges = computed(() => {
+  return Object.values(changes.value).some((el) => {
+    return el.action !== "pass"
+  })
+})
 </script>
 
 <template>
@@ -140,17 +189,18 @@ const sortedMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div
-      v-if="currentListStates"
       :class="$style.list"
     >
       <template v-if="sortedMediaLists.length">
         <AddMediaItemToListsFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
-          v-model="currentListStates[mediaList.id]"
+          v-model="changes[mediaList.id].checked"
+          :current-status="changes[mediaList.id]!.currentStatus"
           :disabled="isLoading"
           :media-list="mediaList"
           @change="(e: Event) => handleCheckboxChange(mediaList.id, (e.target as HTMLInputElement).checked)"
+          @on-status-change="handleStatusChange(mediaList.id, $event)"
         />
       </template>
 
@@ -164,7 +214,7 @@ const sortedMediaLists = computed(() => {
     </div>
     <div :class="$style.actions">
       <UiButton
-        :disabled="!changes.length || isLoading"
+        :disabled="!isHasChanges || isLoading"
         @click="handleSaveChanges"
       >
         {{ $t("ui.actions.save") }}

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
+import type { UiDropdownSize } from "~/shared/ui/UiDropdown/UiDropdown.vue"
+import { inject } from "#imports"
 import { DropdownMenuItem } from "radix-vue"
+import { uiDropdownSizeInjectionKey } from "~/shared/ui/UiDropdown/model/constants"
 
 interface UiDropdownItemProps {
   as?: ComponentOrTag
@@ -8,12 +11,15 @@ interface UiDropdownItemProps {
 
 const props = defineProps<UiDropdownItemProps>()
 const slots = defineSlots()
+const size = inject<UiDropdownSize | undefined>(uiDropdownSizeInjectionKey)
 </script>
 
 <template>
   <DropdownMenuItem
     :as="props.as"
-    :class="$style.wrapper"
+    :class="[$style.wrapper, {
+      [$style.wrapperSmall]: size === 'small',
+    }]"
   >
     <div
       v-if="slots.iconStart"
@@ -36,5 +42,10 @@ const slots = defineSlots()
 
 .wrapper {
   @include dropdownItem;
+}
+
+.wrapperSmall {
+  font-size: var(--fs-label-small);
+  font-weight: var(--fw-regular);
 }
 </style>

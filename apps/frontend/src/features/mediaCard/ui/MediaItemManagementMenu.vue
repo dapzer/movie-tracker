@@ -50,16 +50,16 @@ function handleDeleteMediaItem() {
 }
 
 const selectOptions = computed(() => {
-  const rea = []
+  const result = []
 
   for (const status in MediaItemStatusNameEnum) {
-    rea.push({
+    result.push({
       label: t(`mediaItem.status.${status}`),
       value: status,
     })
   }
 
-  return rea
+  return result
 })
 </script>
 

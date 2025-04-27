@@ -6,6 +6,7 @@ interface UiFormListItemProps {
   title: string
   description: string
   radio?: boolean
+  wrapperClass?: string
 }
 
 defineOptions({
@@ -16,14 +17,21 @@ const model = defineModel()
 </script>
 
 <template>
-  <label :class="$style.wrapper">
+  <label
+    :class="[$style.wrapper, {
+      [props.wrapperClass as string]: props.wrapperClass,
+    }]"
+  >
     <div>
       <UiCheckbox
         v-bind="$attrs"
         v-model="model"
         :radio="props.radio"
       />
-      <UiTypography variant="label">
+      <UiTypography
+        variant="label"
+        :class="$style.title"
+      >
         {{ props.title }}
       </UiTypography>
     </div>
@@ -50,6 +58,11 @@ const model = defineModel()
   outline: none;
 
   p {
+    width: 100%;
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .title {
     @include ellipsisText();
   }
 
@@ -67,6 +80,8 @@ const model = defineModel()
     gap: 10px;
     align-items: center;
     min-width: 0;
+    width: 100%;
+    max-width: max-content;
   }
 }
 </style>

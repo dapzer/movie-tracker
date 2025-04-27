@@ -7,10 +7,7 @@ import {
   MediaListRepositorySymbol,
 } from "@/repositories/mediaList/MediaListRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
-import {
-  MediaItemType,
-  MediaTypeEnum,
-} from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
@@ -64,6 +61,7 @@ export class MediaItemService {
     mediaType: MediaTypeEnum,
     mediaListId: string,
     userId: string,
+    currentStatus: MediaItemStatusNameEnum,
   ) {
     const mediaList
       = await this.mediaListRepository.getMedialListById(mediaListId)
@@ -91,6 +89,8 @@ export class MediaItemService {
       mediaType,
       mediaListId,
       mediaDetails.id,
+      undefined,
+      currentStatus,
     )
   }
 
