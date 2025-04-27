@@ -4,7 +4,12 @@ import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
-import { useCreateMediaItemApi, useDeleteMediaItemApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import {
+  useCreateMediaItemApi,
+  useDeleteMediaItemApi,
+  useGetMediaItemsApi,
+  useUpdateMediaItemTrackingDataApi,
+} from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { SortOrderEnum } from "~/shared/types/Sorting"
@@ -38,6 +43,7 @@ const { t } = useI18n()
 
 const createMediaItemApi = useCreateMediaItemApi()
 const deleteMediaItemApi = useDeleteMediaItemApi()
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 
 const searchTerm = ref("")
 const changes = ref<Record<string, MediaListChangeType>>({})
@@ -64,7 +70,7 @@ watch(() => getMediaItemsApi.data, () => {
   setCurrentListStates()
 }, { immediate: true })
 
-const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value)
+const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value)
 
 function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
   const currentState = changes.value[mediaListId]
@@ -93,7 +99,12 @@ function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum
   }
 
   changes.value[mediaListId].currentStatus = status
-  changes.value[mediaListId].action = currentState.mediaItemId ? "update" : currentState.action
+
+  if (currentState.mediaItemId) {
+    const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === currentState.mediaItemId)
+    const isSameStatus = mediaItem?.trackingData.currentStatus === status
+    changes.value[mediaListId].action = isSameStatus ? "pass" : "update"
+  }
 }
 
 function handleSaveChanges() {
@@ -109,6 +120,19 @@ function handleSaveChanges() {
         if (value.mediaItemId) {
           return deleteMediaItemApi.mutateAsync(value.mediaItemId)
         }
+        break
+      case "update": {
+        const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === value.mediaItemId)
+        if (mediaItem) {
+          return updateMediaItemTrackingDataApi.mutateAsync({
+            trackingDataId: mediaItem.trackingData.id,
+            body: {
+              ...mediaItem.trackingData,
+              currentStatus: value.currentStatus,
+            },
+          })
+        }
+      }
     }
 
     return Promise.resolve()
@@ -170,7 +194,7 @@ const isHasChanges = computed(() => {
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="changes[mediaList.id].checked"
-          v-model:status="changes[mediaList.id].currentStatus"
+          :current-status="changes[mediaList.id]!.currentStatus"
           :disabled="isLoading"
           :media-list="mediaList"
           @change="(e: Event) => handleCheckboxChange(mediaList.id, (e.target as HTMLInputElement).checked)"

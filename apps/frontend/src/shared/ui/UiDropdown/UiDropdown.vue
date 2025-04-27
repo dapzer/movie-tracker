@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { provide } from "#imports"
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from "radix-vue"
+import { uiDropdownSizeInjectionKey } from "~/shared/ui/UiDropdown/model/constants"
+
+export type UiDropdownSize = "small"
 
 interface UiDropdown {
   triggerClass?: string
@@ -7,6 +11,7 @@ interface UiDropdown {
   indent?: number
   align?: "start" | "center" | "end"
   side?: "top" | "right" | "bottom" | "left"
+  size?: UiDropdownSize
 }
 
 defineOptions({
@@ -17,6 +22,8 @@ const props = withDefaults(defineProps<UiDropdown>(), {
   align: "start",
 })
 const model = defineModel<boolean>()
+
+provide(uiDropdownSizeInjectionKey, props.size)
 </script>
 
 <template>
@@ -41,7 +48,9 @@ const model = defineModel<boolean>()
           v-bind="$attrs"
           :class="[$style.content, [
             props.contentClass,
-          ]]"
+          ], {
+            [$style.contentSmall]: props.size === 'small',
+          }]"
         >
           <slot name="content" />
         </div>
@@ -74,5 +83,9 @@ const model = defineModel<boolean>()
   overflow-y: auto;
   max-width: max-content;
   border-radius: var(--s-border-radius);
+}
+
+.contentSmall {
+  padding: 4px;
 }
 </style>
