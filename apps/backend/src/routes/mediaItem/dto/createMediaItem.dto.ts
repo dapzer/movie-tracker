@@ -1,4 +1,4 @@
-import { MediaTypeEnum } from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, MediaTypeEnum } from "@movie-tracker/types"
 import { IsEnum, IsNumber, IsUUID } from "class-validator"
 
 export class CreateMediaItemDto {
@@ -10,4 +10,7 @@ export class CreateMediaItemDto {
 
   @IsUUID()
   mediaListId: string
+
+  @IsEnum(MediaItemStatusNameEnum)
+  currentStatus: MediaItemStatusNameEnum
 }

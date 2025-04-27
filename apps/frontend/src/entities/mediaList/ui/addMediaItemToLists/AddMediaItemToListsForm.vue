@@ -19,13 +19,6 @@ import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
-const props = defineProps<MediaListSelectorModalProps>()
-const emit = defineEmits<{
-  (e: "onAfterSave"): void
-}>()
-const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
-
 export interface MediaListChangeType {
   checked: boolean
   mediaListId: string
@@ -39,8 +32,16 @@ interface MediaListSelectorModalProps {
   mediaType: TmdbMediaTypeEnum | MediaTypeEnum
 }
 
+const props = defineProps<MediaListSelectorModalProps>()
+
+const emit = defineEmits<{
+  (e: "onAfterSave"): void
+}>()
+
 const { t } = useI18n()
 
+const getMediaListsApi = useGetMediaListsApi()
+const getMediaItemsApi = useGetMediaItemsApi()
 const createMediaItemApi = useCreateMediaItemApi()
 const deleteMediaItemApi = useDeleteMediaItemApi()
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
@@ -115,6 +116,7 @@ function handleSaveChanges() {
           mediaId: props.mediaId,
           mediaType: props.mediaType as MediaTypeEnum,
           mediaListId,
+          currentStatus: value.currentStatus,
         })
       case "remove":
         if (value.mediaItemId) {

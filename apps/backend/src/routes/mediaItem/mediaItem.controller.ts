@@ -7,16 +7,7 @@ import { MediaItemService } from "@/routes/mediaItem/mediaItem.service"
 import { User } from "@/routes/user/users.decorator"
 import { MediaItemListIdDto } from "@/shared/dto/mediaItemListId.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common"
 import { isCuid } from "@paralleldrive/cuid2"
 
 @Controller("media-item")
@@ -34,6 +25,7 @@ export class MediaItemController {
       body.mediaType,
       body.mediaListId,
       user?.id,
+      body.currentStatus,
     )
   }
 
