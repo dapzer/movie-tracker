@@ -17,12 +17,16 @@ interface UiBottomDrawerProps {
 }
 
 const props = defineProps<UiBottomDrawerProps>()
+const slots = defineSlots()
 const model = defineModel<boolean>()
 </script>
 
 <template>
   <DrawerRoot v-model:open="model">
-    <DrawerTrigger as="div">
+    <DrawerTrigger
+      v-if="slots.trigger"
+      as="div"
+    >
       <slot name="trigger" />
     </DrawerTrigger>
     <DrawerPortal>

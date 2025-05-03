@@ -41,6 +41,7 @@ const totalDuration = computed(() => {
   >
     <template #posterFooter>
       <MovieDetailsActions
+        hide-rating
         :class="$style.actionsMobile"
         :media-id="props.details.id"
         :media-type="MediaTypeEnum.TV"
@@ -48,6 +49,7 @@ const totalDuration = computed(() => {
     </template>
     <template #content>
       <MovieDetailsActions
+        hide-rating
         :class="$style.actionsPc"
         :media-id="props.details.id"
         :media-type="MediaTypeEnum.TV"

@@ -53,6 +53,7 @@ model User {
   mediaLists     MediaList[]
   accounts       Account[]
   mediaListLikes MediaListLike[]
+  mediaRatings   MediaRating[]
 
   @@map("users")
 }
@@ -135,6 +136,20 @@ model MediaDetails {
 
   @@unique([mediaId, mediaType])
   @@map("media_details")
+}
+
+model MediaRating {
+  id          String        @id @default(uuid())
+  userId    String        @map("user_id")
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mediaId   Int           @map("media_id")
+  mediaType MediaTypeEnum @map("media_type")
+  rating    Int
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt() @map("updated_at")
+
+  @@unique([mediaId, mediaType, userId])
+  @@map("media_ratings")
 }
 
 enum StatusNameEnum {

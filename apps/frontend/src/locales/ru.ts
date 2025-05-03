@@ -1197,6 +1197,10 @@ export default {
       updatedAt: "По дате обновления",
     },
   },
+  mediaRating: {
+    rate: "Оценить",
+    howRate: "Как бы вы оценили",
+  },
   navigation: {
     home: "Поиск",
     lists: "Списки",
@@ -1326,6 +1330,12 @@ export default {
       unsuccessfullyUpdated: "Произошла ошибка при создании списка",
       successDeleted: "Список успешно удален",
       unsuccessfullyDeleted: "Произошла ошибка при удалении списка",
+    },
+    mediaRating: {
+      successRated: "Оценка успешно сохранена",
+      unsuccessfullyRated: "Произошла ошибка при сохранении оценки",
+      successUpdated: "Оценка успешно обновлена",
+      unsuccessfullyUpdated: "Произошла ошибка при обновлении оценки",
     },
   },
   ui: {

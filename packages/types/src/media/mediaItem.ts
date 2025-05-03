@@ -1,4 +1,5 @@
 import type { MediaDetailsType } from "./mediaDetails"
+import { MediaRatingType } from "./mediaRating"
 
 export enum MediaTypeEnum {
   MOVIE = "movie",
@@ -19,6 +20,7 @@ export interface MediaItemType {
   mediaListId: string
   mediaType: MediaTypeEnum
   mediaDetails?: MediaDetailsType
+  mediaRating?: MediaRatingType
   trackingData: MediaItemTrackingDataType
   createdAt: Date
   updatedAt: Date

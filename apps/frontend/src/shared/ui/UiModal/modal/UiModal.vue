@@ -4,17 +4,23 @@ import UiModalCore from "~/shared/ui/UiModal/UiModalCore.vue"
 
 export interface UiModalProps {
   maxWidth?: number
-  title: string
+  title?: string
   description?: string
+  withoutHeader?: boolean
 }
 
 const props = defineProps<UiModalProps>()
+const slots = defineSlots()
+
 const model = defineModel<boolean>()
 </script>
 
 <template>
   <UiModalCore v-model="model">
-    <template #trigger="{ openModal }">
+    <template
+      v-if="slots.trigger"
+      #trigger="{ openModal }"
+    >
       <slot
         name="trigger"
         :open-modal="openModal"
@@ -25,6 +31,7 @@ const model = defineModel<boolean>()
       <UiModalContent
         :max-width="props.maxWidth"
         :title="props.title"
+        :without-header="props.withoutHeader"
         :description="props.description"
         @handle-close="closeModal"
       >

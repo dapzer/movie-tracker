@@ -5,7 +5,7 @@ import { computed, ref } from "vue"
 import MediaItemChangeMediaListModal
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListModal.vue"
 import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
-import MediaCardTrackingMenu from "~/features/mediaCard/ui/MediaItemManagementMenu.vue"
+import MediaCardTrackingMenu from "~/features/mediaCard/ui/managementMenu/MediaItemManagementMenu.vue"
 import { useIsMobile } from "~/shared/composables/useIsMobile"
 import { useSwitchModals } from "~/shared/composables/useSwitchModals"
 import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"

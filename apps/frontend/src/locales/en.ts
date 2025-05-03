@@ -1196,6 +1196,10 @@ export default {
       updatedAt: "Sort by date updated",
     },
   },
+  mediaRating: {
+    rate: "Rate",
+    howRate: "How would you rate",
+  },
   navigation: {
     home: "Search",
     lists: "Lists",
@@ -1323,6 +1327,12 @@ export default {
       unsuccessfullyCreated: "An error occurred while creating the list",
       successUpdated: "List updated successfully",
       successDeleted: "List deleted successfully",
+    },
+    mediaRating: {
+      successRated: "Rating saved successfully",
+      unsuccessfullyRated: "An error occurred while saving the rating",
+      successUpdated: "Rating updated successfully",
+      unsuccessfullyUpdated: "An error occurred while updating the rating",
     },
   },
   ui: {

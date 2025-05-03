@@ -25,6 +25,7 @@ const currentColor = computed(() => {
       [$style.green]: currentColor === 'green',
     }]"
   >
+    <slot name="beforeContent" />
     <UiTypography
       :class="$style.value"
       variant="text"

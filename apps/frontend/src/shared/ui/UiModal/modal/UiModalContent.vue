@@ -7,7 +7,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 
 export interface UiModalProps {
   maxWidth?: number
-  title: string
+  title?: string
+  withoutHeader?: boolean
   description?: string
 }
 
@@ -17,6 +18,7 @@ export interface UiModalContentEmits {
 
 const props = defineProps<UiModalProps>()
 const emits = defineEmits<UiModalContentEmits>()
+const slots = defineSlots()
 const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose"))
 </script>
 
@@ -36,8 +38,15 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
         }"
         @click.stop
       >
-        <div :class="$style.header">
-          <div :class="$style.titleWrapper">
+        <div
+          :class="[$style.header, {
+            [$style.withoutHeader]: props.withoutHeader,
+          }]"
+        >
+          <div
+            v-if="props.title || slots.afterTitle"
+            :class="$style.titleWrapper"
+          >
             <UiTypography variant="title4">
               {{ props.title }}
             </UiTypography>
@@ -102,6 +111,11 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
       display: flex;
       flex-direction: column;
       gap: 16px;
+
+      &.withoutHeader {
+        padding: 0;
+        padding-top: 24px;
+      }
 
       .titleWrapper {
         display: flex;

@@ -58,6 +58,8 @@ export type UiIconName = "icon:close"
   | "icon:review-feature"
   | "icon:round-open-in-new-tab"
   | "icon:double-arrow"
+  | "icon:rating-star"
+  | "icon:rating-star-filled"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

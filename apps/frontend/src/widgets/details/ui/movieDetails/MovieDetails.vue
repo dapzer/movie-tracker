@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import type { MediaTypeEnum } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
+import { useGetMediaRatingByUserApi } from "~/api/mediaRating/useMediaRatingApi"
 import {
   useGetTmdbMovieCreditsApi,
   useGetTmdbMovieDetailsApi,
@@ -52,6 +54,10 @@ const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries)
 const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries)
 const tmdbGetVideosApi = useGetTmdbVideosApi(getVideosQueries)
 const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries, isTv)
+const getMediaRatingApi = useGetMediaRatingByUserApi({
+  mediaId: props.mediaId,
+  mediaType: props.mediaType as unknown as MediaTypeEnum,
+})
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -66,6 +72,7 @@ await Promise.all([
   tmdbGetMovieCreditsApi.suspense(),
   tmdbGetVideosApi.suspense(),
   (isTv.value && tmdbGetTvSeriesDetailsApi.suspense()),
+  getMediaRatingApi.suspense(),
 ])
 
 useMovieDetailsSeo({

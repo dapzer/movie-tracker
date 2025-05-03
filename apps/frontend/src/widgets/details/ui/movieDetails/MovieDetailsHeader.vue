@@ -51,6 +51,7 @@ const title = computed(() => {
     >
       <MovieDetailsActions
         :class="$style.actions"
+        :title="title"
         :media-id="props.details.id"
         :media-type="props.mediaType"
       />
