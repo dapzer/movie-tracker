@@ -105,6 +105,7 @@ function handleRatingClick() {
     >
       <UiIcon
         name="icon:rating-star"
+        :size="20"
         block
       />
     </UiButton>
