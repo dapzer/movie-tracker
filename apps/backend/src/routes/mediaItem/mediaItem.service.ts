@@ -6,8 +6,12 @@ import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import {
+  MediaRatingRepositoryInterface,
+  MediaRatingRepositorySymbol,
+} from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
-import { MediaItemStatusNameEnum, MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, MediaItemType, MediaListType, MediaTypeEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
@@ -17,12 +21,14 @@ export class MediaItemService {
     private readonly mediaListRepository: MediaListRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
+    @Inject(MediaRatingRepositorySymbol)
+    private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
   ) {}
 
-  private async isMediaListOwner(mediaListId: string, userId: string) {
+  private async isMediaListOwner(mediaListId: string, userId: string, mediaListBase?: MediaListType) {
     const mediaList
-      = await this.mediaListRepository.getMedialListById(mediaListId)
+      = mediaListBase || await this.mediaListRepository.getMedialListById(mediaListId)
 
     if (!mediaList) {
       throw new HttpException(
@@ -84,7 +90,7 @@ export class MediaItemService {
         null,
       )
 
-    return this.mediaItemRepository.createMediaItem(
+    const createdMediaItem = await this.mediaItemRepository.createMediaItem(
       mediaId,
       mediaType,
       mediaListId,
@@ -92,10 +98,33 @@ export class MediaItemService {
       undefined,
       currentStatus,
     )
+    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
+      mediaType,
+      mediaId,
+      userId,
+    })
+
+    return {
+      ...createdMediaItem,
+      mediaRating,
+    }
   }
 
   async getMediaItemsByUserId(userId: string) {
-    return this.mediaItemRepository.getMediaItemsByUserId(userId)
+    const mediaItems = await this.mediaItemRepository.getMediaItemsByUserId(userId)
+
+    return Promise.all(mediaItems.map(async (mediaItem): Promise<MediaItemType> => {
+      const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
+        mediaType: mediaItem.mediaType,
+        mediaId: mediaItem.mediaId,
+        userId,
+      })
+
+      return {
+        ...mediaItem,
+        mediaRating,
+      }
+    }))
   }
 
   async getMediaItemsByListId(
@@ -113,7 +142,20 @@ export class MediaItemService {
       throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaItemRepository.getMediaItemsByListId(mediaList.id)
+    const mediaItems = await this.mediaItemRepository.getMediaItemsByListId(mediaList.id)
+
+    return Promise.all(mediaItems.map(async (mediaItem): Promise<MediaItemType> => {
+      const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
+        mediaType: mediaItem.mediaType,
+        mediaId: mediaItem.mediaId,
+        userId: mediaList.userId,
+      })
+
+      return {
+        ...mediaItem,
+        mediaRating,
+      }
+    }))
   }
 
   async deleteMediaItem(id: string, userId: string) {
@@ -147,15 +189,15 @@ export class MediaItemService {
     isSaveCreationDate = false,
   ) {
     const isMediaItemOwner = await this.isMediaItemOwner(id, userId)
-    const isMediaListOwner = await this.isMediaListOwner(mediaListId, userId)
+    const mediaList = await this.mediaListRepository.getMedialListById(mediaListId)
+    const isMediaListOwner = await this.isMediaListOwner(mediaListId, userId, mediaList)
 
     if (!isMediaItemOwner || !isMediaListOwner) {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
     const mediaItem = await this.mediaItemRepository.getMediaItemById(id)
-
-    return this.mediaItemRepository.createMediaItemWithExistedData(
+    const createdMediaItem = await this.mediaItemRepository.createMediaItemWithExistedData(
       mediaItem.mediaId,
       mediaItem.mediaType,
       mediaListId,
@@ -163,5 +205,16 @@ export class MediaItemService {
       mediaItem.trackingData,
       isSaveCreationDate ? mediaItem.createdAt : undefined,
     )
+
+    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
+      mediaType: mediaItem.mediaType,
+      mediaId: mediaItem.mediaId,
+      userId: mediaList.userId,
+    })
+
+    return {
+      ...createdMediaItem,
+      mediaRating,
+    }
   }
 }
