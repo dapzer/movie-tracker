@@ -169,7 +169,8 @@ function handleRatingClick() {
   background: var(--c-gold-25);
   color: var(--c-gold);
   border-radius: var(--s-border-radius-small);
-  padding: 4px;
+  width: 20px;
+  height: 20px;
 
   &:hover {
     background: var(--c-gold-30);
