@@ -129,6 +129,8 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 </template>
 
 <style module lang="scss">
+@import "~/shared/styles/mixins";
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -208,25 +210,27 @@ function handleRatingClick(rating: number, event: MouseEvent) {
     }
   }
 
-  &:hover .item,
-  &:focus-within .item {
-    .icon {
-      display: none;
+  @include hoverAvailable {
+    &:hover .item,
+    &:focus-within .item {
+      .icon {
+        display: none;
+      }
+
+      .iconFilled {
+        display: block;
+      }
     }
 
-    .iconFilled {
-      display: block;
-    }
-  }
+    .item:hover ~ .item,
+    .item:focus ~ .item {
+      .icon {
+        display: block;
+      }
 
-  .item:hover ~ .item,
-  .item:focus ~ .item {
-    .icon {
-      display: block;
-    }
-
-    .iconFilled {
-      display: none;
+      .iconFilled {
+        display: none;
+      }
     }
   }
 }

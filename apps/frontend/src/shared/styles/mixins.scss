@@ -190,3 +190,9 @@
     opacity: var(--s-disabled-opacity);
   }
 }
+
+@mixin hoverAvailable {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}

@@ -78,12 +78,16 @@ const createdDate = computed(() => {
 </template>
 
 <style lang="scss" module>
+@import "~/shared/styles/mixins";
+
 .wrapper {
   position: relative;
 
-  &:hover {
-    .rating button {
-      --action-display: flex !important;
+  @include hoverAvailable {
+    &:hover {
+      .rating button {
+        --action-display: flex !important;
+      }
     }
   }
 }
