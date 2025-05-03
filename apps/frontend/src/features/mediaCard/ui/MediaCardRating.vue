@@ -103,7 +103,10 @@ function handleRatingClick() {
       scheme="gold"
       @click="isOpenModal = true"
     >
-      <UiIcon name="icon:rating-star" />
+      <UiIcon
+        name="icon:rating-star"
+        block
+      />
     </UiButton>
   </div>
   <MediaRatingSelectModal
@@ -169,6 +172,9 @@ function handleRatingClick() {
   background: var(--c-gold-25);
   color: var(--c-gold);
   border-radius: var(--s-border-radius-small);
+  padding: 0;
+  align-items: center;
+  justify-content: center;
   width: 20px;
   height: 20px;
 
