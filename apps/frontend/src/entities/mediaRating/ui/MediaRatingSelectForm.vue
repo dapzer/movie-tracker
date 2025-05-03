@@ -185,6 +185,10 @@ function handleRatingClick(rating: number) {
     display: none;
   }
 
+  .icon {
+    color: var(--c-description);
+  }
+
   .item {
     &.active {
       .icon {

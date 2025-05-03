@@ -11,10 +11,12 @@ interface MediaRatingSelectModalProps {
 }
 
 const props = defineProps<MediaRatingSelectModalProps>()
+const model = defineModel<boolean>()
 </script>
 
 <template>
   <UiModal
+    v-model="model"
     without-header
     :max-width="436"
   >

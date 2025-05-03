@@ -1,11 +1,10 @@
 import type { UseQueryOptions } from "@tanstack/vue-query"
-import type { Ref } from "vue"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery } from "@tanstack/vue-query"
 import { getUserProfileApi, getUserProfileByIdApi, updateUserProfileApi } from "~/api/user/userApi"
 import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
 
-export function useUserProfileApi() {
+export function useGetUserProfileApi() {
   return useQuery({
     queryKey: [UserQueryKeys.PROFILE],
     queryFn: () => {
@@ -19,10 +18,10 @@ export function useUserProfileApi() {
   })
 }
 
-export function useUserProfileByIdApi(userId: Ref<string>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+export function useGetUserProfileByIdApi(userId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
-    queryKey: [UserQueryKeys.PROFILE_BY_ID],
-    queryFn: () => getUserProfileByIdApi(userId.value),
+    queryKey: [UserQueryKeys.PROFILE_BY_ID, userId],
+    queryFn: () => getUserProfileByIdApi(userId),
     ...options,
   })
 }

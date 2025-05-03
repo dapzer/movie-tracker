@@ -4,14 +4,14 @@ import { useLogoutApi } from "~/api/auth/useAuthApi"
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
-import { useUserProfileApi } from "~/api/user/useUserApi"
+import { useGetUserProfileApi } from "~/api/user/useUserApi"
 
 export function useAuth() {
-  const userProfileApi = useUserProfileApi()
+  const getUserProfileApi = useGetUserProfileApi()
   const logoutApi = useLogoutApi()
 
   const isAuthorized = computed(() => {
-    return !!userProfileApi.data.value
+    return !!getUserProfileApi.data.value
   })
 
   const isProcessingLogout = computed(() => {
@@ -19,15 +19,15 @@ export function useAuth() {
   })
 
   const isNotAuthorized = computed(() => {
-    return !isAuthorized.value && !userProfileApi.isLoading.value
+    return !isAuthorized.value && !getUserProfileApi.isLoading.value
   })
 
   const isLoadingProfile = computed(() => {
-    return userProfileApi.isPending.value
+    return getUserProfileApi.isPending.value
   })
 
   const isInitialLoadingProfile = computed(() => {
-    return userProfileApi.isPending.value && userProfileApi.errorUpdateCount.value === 0
+    return getUserProfileApi.isPending.value && getUserProfileApi.errorUpdateCount.value === 0
   })
   const queryClient = useQueryClient()
 
@@ -43,15 +43,16 @@ export function useAuth() {
   }
 
   return {
-    profile: userProfileApi.data,
+    profile: getUserProfileApi.data,
     isLoadingProfile,
     isInitialLoadingProfile,
-    isProfileSuccess: userProfileApi.isSuccess,
+    isProfileSuccess: getUserProfileApi.isSuccess,
     handleLogout,
-    handleRefetchProfile: userProfileApi.refetch,
+    handleRefetchProfile: getUserProfileApi.refetch,
     isAuthorized,
     isProcessingLogout,
     isNotAuthorized,
-    suspenseProfile: userProfileApi.suspense,
+    suspenseProfile: getUserProfileApi.suspense,
+    getUserProfileApi,
   }
 }

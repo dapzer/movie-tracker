@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { Ref } from "vue"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
@@ -7,7 +6,7 @@ import { computed, watch } from "vue"
 import { useRoute } from "vue-router"
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
-import { useUserProfileByIdApi } from "~/api/user/useUserApi"
+import { useGetUserProfileByIdApi } from "~/api/user/useUserApi"
 import { useAuth } from "~/shared/composables/useAuth"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -53,7 +52,7 @@ const externalUserId = computed(() => {
   return externalMediaListApi.data.value?.userId
 })
 
-const externalUserProfileApi = useUserProfileByIdApi(externalUserId as Ref<string>, {
+const externalUserProfileApi = useGetUserProfileByIdApi(externalUserId.value!, {
   enabled: !!externalUserId.value,
   retry: false,
 })

@@ -45,6 +45,9 @@ const variant = computed<UiButtonVariant>(() => {
         @click="openModal"
       >
         <UiIcon
+          :class="[{
+            [$style.icon]: !getMediaRatingApi.data.value?.rating,
+          }]"
           :name="getMediaRatingApi.data.value?.rating ? 'icon:rating-star-filled' : 'icon:rating-star'"
           :size="18"
         />
@@ -55,4 +58,7 @@ const variant = computed<UiButtonVariant>(() => {
 </template>
 
 <style module lang="scss">
+.icon {
+  color: var(--c-description);
+}
 </style>

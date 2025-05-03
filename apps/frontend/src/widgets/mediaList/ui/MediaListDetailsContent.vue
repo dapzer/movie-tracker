@@ -206,6 +206,7 @@ watch(currentTabMediaItems, () => {
               :media-item="movie"
               full-height
               :hide-tracking-menu="!isUserListOwner"
+              :can-edit-rating="isUserListOwner"
             />
           </template>
         </UiCardsGrid>

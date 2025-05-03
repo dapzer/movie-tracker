@@ -1,4 +1,4 @@
-import type { MediaRatingType } from "@movie-tracker/types"
+import type { MediaItemType, MediaRatingType } from "@movie-tracker/types"
 import type {
   CreateMediaRatingBody,
   GetMediaRatingByUserArgs,
@@ -6,6 +6,7 @@ import type {
 } from "~/api/mediaRating/mediaRatingApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
+import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
 import { createMediaRating, getMediaRatingByUser, updateMediaRating } from "~/api/mediaRating/mediaRatingApi"
 import { MediaRatingApiQueryKeys } from "~/api/mediaRating/mediaRatingApiQueryKeys"
 
@@ -22,6 +23,7 @@ export function useGetMediaRatingByUserApi(args: GetMediaRatingByUserArgs) {
       return getMediaRatingByUser(args, { headers })
     },
     retry: false,
+    retryOnMount: false,
   })
 }
 
@@ -34,6 +36,19 @@ export function useCreateMediaRatingApi() {
     },
     onSuccess: async (data: MediaRatingType) => {
       await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType], data)
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        if (oldData) {
+          const mediaItem = oldData.find((item) => {
+            return item.mediaId === data.mediaId && item.mediaType === data.mediaType
+          })
+
+          if (mediaItem) {
+            mediaItem.mediaRating = data
+            return [...oldData]
+          }
+          return oldData
+        }
+      })
     },
   })
 }
@@ -47,6 +62,19 @@ export function useUpdateMediaRatingApi() {
     },
     onSuccess: async (data: MediaRatingType) => {
       await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType], data)
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        if (oldData) {
+          const mediaItem = oldData.find((item) => {
+            return item.mediaId === data.mediaId && item.mediaType === data.mediaType
+          })
+
+          if (mediaItem) {
+            mediaItem.mediaRating = data
+            return [...oldData]
+          }
+          return oldData
+        }
+      })
     },
   })
 }
