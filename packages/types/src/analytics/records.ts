@@ -3,4 +3,5 @@ export interface AnalyticsRecords {
   mediaItems: number
   users: number
   mediaLists: number
+  mediaRatings: number
 }

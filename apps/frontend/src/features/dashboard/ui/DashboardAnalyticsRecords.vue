@@ -25,6 +25,10 @@ const records = computed(() => {
       label: "Media Details",
       value: getAnalyticsRecordsApi.data?.value?.mediaDetails ?? 0,
     },
+    {
+      label: "Media Ratings",
+      value: getAnalyticsRecordsApi.data?.value?.mediaRatings ?? 0,
+    },
   ]
 })
 </script>

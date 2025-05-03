@@ -76,4 +76,8 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
 
     return this.convertMediaRatingToInterface(mediaRating)
   }
+
+  async getMediaRatingsCount() {
+    return this.prisma.mediaRating.count()
+  }
 }

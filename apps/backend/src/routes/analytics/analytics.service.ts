@@ -11,9 +11,10 @@ import {
   MediaListRepositorySymbol,
 } from "@/repositories/mediaList/MediaListRepositoryInterface"
 import {
-  UserRepositoryInterface,
-  UserRepositorySymbol,
-} from "@/repositories/user/UserRepositoryInterface"
+  MediaRatingRepositoryInterface,
+  MediaRatingRepositorySymbol,
+} from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { AnalyticsRecords } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 
@@ -28,14 +29,17 @@ export class AnalyticsService {
     private readonly userRepository: UserRepositoryInterface,
     @Inject(MediaListRepositorySymbol)
     private readonly mediaListRepository: MediaListRepositoryInterface,
+    @Inject(MediaRatingRepositorySymbol)
+    private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
   ) {}
 
   async getRecords(): Promise<AnalyticsRecords> {
-    const [mediaDetails, mediaItems, users, mediaLists] = await Promise.all([
+    const [mediaDetails, mediaItems, users, mediaLists, mediaRatings] = await Promise.all([
       this.mediaDetailsRepository.getMediaDetailsCount(),
       this.mediaItemRepository.getMediaItemsCount(),
       this.userRepository.getUsersCount(),
       this.mediaListRepository.getMediaListsCount(),
+      this.mediaRatingRepository.getMediaRatingsCount(),
     ])
 
     return {
@@ -43,6 +47,7 @@ export class AnalyticsService {
       mediaItems,
       users,
       mediaLists,
+      mediaRatings,
     }
   }
 }

@@ -24,4 +24,6 @@ export interface MediaRatingRepositoryInterface {
   ) => Promise<MediaRatingType>
 
   deleteMediaRating: (id: string) => Promise<MediaRatingType>
+
+  getMediaRatingsCount: () => Promise<number>
 }

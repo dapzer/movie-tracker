@@ -4,6 +4,8 @@ import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRep
 import { PrismaMediaItemRepository } from "@/repositories/mediaItem/PrismaMediaItemRepository"
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
 import { PrismaMediaListRepository } from "@/repositories/mediaList/PrismaMediaListRepository"
+import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { PrismaMediaRatingRepository } from "@/repositories/mediaRating/PrismaMediaRatingRepository"
 import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
 import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { AnalyticsController } from "@/routes/analytics/analytics.controller"
@@ -24,6 +26,7 @@ import { Module } from "@nestjs/common"
       useClass: PrismaUserRepository,
     },
     { provide: MediaListRepositorySymbol, useClass: PrismaMediaListRepository },
+    { provide: MediaRatingRepositorySymbol, useClass: PrismaMediaRatingRepository },
   ],
 })
 export class AnalyticsModule {}
