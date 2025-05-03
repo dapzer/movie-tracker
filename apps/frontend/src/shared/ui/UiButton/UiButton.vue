@@ -3,7 +3,7 @@ import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"
-export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link"
+export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold"
 
 interface UiButtonProps {
   variant?: UiButtonVariant
@@ -28,6 +28,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.primary]: props.scheme === 'primary',
       [$style.secondary]: props.scheme === 'secondary',
       [$style.tertiary]: props.scheme === 'tertiary',
+      [$style.gold]: props.scheme === 'gold',
       [$style.link]: props.scheme === 'link',
       [$style.boxed]: props.variant === 'boxed',
       [$style.text]: props.variant === 'text',
@@ -99,6 +100,17 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:active,
       &:hover {
         background: var(--c-button-background-tertiary-hovered);
+      }
+    }
+
+    &.gold {
+      color: var(--c-gold);
+      background: var(--c-gold-15);
+
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-gold-20);
       }
     }
 

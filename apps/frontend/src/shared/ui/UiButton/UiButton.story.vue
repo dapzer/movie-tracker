@@ -24,7 +24,14 @@ const sizeOptions: Option[] = (["small", "medium", "large"] as UiButtonSize[]).m
   }
 })
 const size = ref<UiButtonSize>("medium")
-const schemeOptions: Option[] = (["default", "primary", "secondary", "tertiary", "link"] as UiButtonScheme[]).map((el) => {
+const schemeOptions: Option[] = ([
+  "default",
+  "primary",
+  "secondary",
+  "tertiary",
+  "gold",
+  "link",
+] as UiButtonScheme[]).map((el) => {
   return {
     value: el,
     label: el,
