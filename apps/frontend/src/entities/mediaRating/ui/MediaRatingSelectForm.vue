@@ -60,8 +60,10 @@ async function handleSubmit() {
   emits("afterSubmit")
 }
 
-function handleRatingClick(rating: number) {
+function handleRatingClick(rating: number, event: MouseEvent) {
   selectedRating.value = rating
+  const target = event.currentTarget as HTMLElement
+  target.blur()
 }
 </script>
 
@@ -100,7 +102,7 @@ function handleRatingClick(rating: number) {
             [$style.active]: selectedRating && selectedRating >= i,
           }]"
           variant="textIcon"
-          @click="handleRatingClick(i)"
+          @click="handleRatingClick(i, $event)"
         >
           <UiIcon
             :class="$style.icon"
