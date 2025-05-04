@@ -38,15 +38,15 @@ export function useCreateMediaRatingApi() {
       await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType], data)
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         if (oldData) {
-          const mediaItem = oldData.find((item) => {
-            return item.mediaId === data.mediaId && item.mediaType === data.mediaType
+          return oldData.map((el) => {
+            if (el.mediaId === data.mediaId && el.mediaType === data.mediaType) {
+              return {
+                ...el,
+                mediaRating: data,
+              }
+            }
+            return el
           })
-
-          if (mediaItem) {
-            mediaItem.mediaRating = data
-            return [...oldData]
-          }
-          return oldData
         }
       })
     },
@@ -64,15 +64,15 @@ export function useUpdateMediaRatingApi() {
       await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType], data)
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         if (oldData) {
-          const mediaItem = oldData.find((item) => {
-            return item.mediaId === data.mediaId && item.mediaType === data.mediaType
+          return oldData.map((el) => {
+            if (el.mediaId === data.mediaId && el.mediaType === data.mediaType) {
+              return {
+                ...el,
+                mediaRating: data,
+              }
+            }
+            return el
           })
-
-          if (mediaItem) {
-            mediaItem.mediaRating = data
-            return [...oldData]
-          }
-          return oldData
         }
       })
     },
