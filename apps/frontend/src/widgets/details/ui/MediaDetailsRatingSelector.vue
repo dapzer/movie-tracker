@@ -4,6 +4,8 @@ import type { UiButtonScheme, UiButtonVariant } from "~/shared/ui/UiButton"
 import { computed } from "vue"
 import { useGetMediaRatingByUserApi } from "~/api/mediaRating/useMediaRatingApi"
 import { MediaRatingSelectModal } from "~/entities/mediaRating"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
@@ -14,6 +16,9 @@ interface MediaDetailsRatingSelectorProps {
 }
 
 const props = defineProps<MediaDetailsRatingSelectorProps>()
+
+const { isAuthorized } = useAuth()
+const { navigateToSignInPage } = useNavigateToSignInPage()
 
 const getMediaRatingApi = useGetMediaRatingByUserApi({
   mediaId: props.mediaId,
@@ -42,7 +47,7 @@ const variant = computed<UiButtonVariant>(() => {
         :variant="variant"
         size="medium"
         with-icon
-        @click="openModal"
+        @click="isAuthorized ? openModal() : navigateToSignInPage()"
       >
         <UiIcon
           :class="[{
