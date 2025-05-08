@@ -2,13 +2,13 @@ import type { RequestOptions, SearchParams } from "./fetchClientTypes"
 import { FetchError } from "./featchError"
 
 export class FetchClient {
-  private baseUrl: string
+  private baseUrl: string | (() => string)
   public headers?: Record<string, string>
   public params?: SearchParams
   public options?: RequestOptions
 
   constructor(init: {
-    baseUrl: string
+    baseUrl: string | (() => string)
     headers?: Record<string, string>
     params?: SearchParams
     options?: RequestOptions
@@ -47,7 +47,8 @@ export class FetchClient {
     method: RequestInit["method"],
     options: RequestOptions = {},
   ) {
-    let url = `${this.baseUrl}/${endpoint}`
+    const baseUrl = typeof this.baseUrl === "function" ? this.baseUrl() : this.baseUrl
+    let url = `${baseUrl}/${endpoint}`
 
     if (options.params) {
       url += this.createSearchParams(options.params)
