@@ -38,6 +38,8 @@ export interface MediaItemTrackingDataType {
   updatedAt: Date
 }
 
+export const MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH = 2500
+
 export interface MediaItemTvProgressType {
   currentSeason: number
   currentEpisode: number

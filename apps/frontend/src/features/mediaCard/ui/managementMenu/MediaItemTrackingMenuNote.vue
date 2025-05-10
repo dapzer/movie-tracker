@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
+import { MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
 import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItem/useMediaItemtApi"
@@ -17,7 +18,6 @@ const props = defineProps<MediaItemTrackingMenuProps>()
 const { t } = useI18n()
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 const value = ref(props.mediaItem.trackingData.note || "")
-const maxLength = 250
 
 const currentNote = computed(() => {
   return props.mediaItem.trackingData.note
@@ -51,12 +51,12 @@ function handleCancel() {
     <UiTextarea
       v-model="value"
       :disabled="updateMediaItemTrackingDataApi.isPending.value"
-      :maxlength="maxLength"
+      :maxlength="MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH"
       :placeholder="$t('mediaItem.trackingMenu.tabs.note')"
     />
     <div :class="$style.footer">
       <UiTypography variant="description">
-        {{ $t("ui.characters") }}: {{ value.length }} / {{ maxLength }}
+        {{ $t("ui.characters") }}: {{ value.length }} / {{ MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH }}
       </UiTypography>
       <div :class="$style.actions">
         <UiButton
