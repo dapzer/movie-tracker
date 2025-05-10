@@ -33,6 +33,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/movie-tracker-frontend:latest
           build-args: |
             VITE_BASE_URL=${{ secrets.BASE_URL }}
+            VITE_API_LOCAL_URL=${{ secrets.API_LOCAL_URL }}
             VITE_API_URL=${{ secrets.API_URL }}
 
   backend:
