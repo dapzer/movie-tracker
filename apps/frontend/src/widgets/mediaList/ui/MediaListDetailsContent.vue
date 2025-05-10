@@ -4,6 +4,7 @@ import type { SortOrderEnum } from "~/shared/types/Sorting"
 import { useCookie } from "#app"
 import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import { useRouteQuery } from "@vueuse/router"
 import { computed, h, ref, watch } from "vue"
 import { MediaCard } from "~/features/mediaCard"
 import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
@@ -32,9 +33,16 @@ const storedMediaListSortingType = useCookie(LocalStorageEnum.MEDIA_LIST_SORTING
 })
 
 const sortType = ref<string>(storedMediaListSortingType.value)
-const activeTab = ref<string>("all")
-const searchTerm = ref<string>("")
-const currentPage = ref<number>(1)
+const activeTab = useRouteQuery<string>("tab", "all", {
+  mode: "replace",
+})
+const searchTerm = useRouteQuery<string>("searchTerm", "", {
+  mode: "replace",
+})
+const currentPage = useRouteQuery<number>("page", 1, {
+  transform: Number,
+  mode: "replace",
+})
 const { t } = useI18n()
 
 watch(() => sortType.value, () => {

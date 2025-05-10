@@ -16,6 +16,7 @@
     "@nuxt/image": "1.9.0",
     "@tanstack/vue-query": "5.64.2",
     "@types/sharp": "0.32.0",
+    "@vueuse/router": "^13.1.0",
     "embla-carousel-vue": "8.5.2",
     "radix-vue": "1.9.12",
     "sass": "1.77.4",
