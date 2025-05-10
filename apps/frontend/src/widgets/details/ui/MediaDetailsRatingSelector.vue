@@ -50,11 +50,18 @@ const variant = computed<UiButtonVariant>(() => {
         @click="isAuthorized ? openModal() : navigateToSignInPage()"
       >
         <UiIcon
+          v-if="!getMediaRatingApi.data.value?.rating"
           :class="[{
             [$style.icon]: !getMediaRatingApi.data.value?.rating,
           }]"
-          :name="getMediaRatingApi.data.value?.rating ? 'icon:rating-star-filled' : 'icon:rating-star'"
-          :size="18"
+          name="icon:rating-star"
+          :size="16"
+        />
+        <UiIcon
+          v-else
+          :class="$style.icon"
+          name="icon:rating-star-filled"
+          :size="20"
         />
         {{ getMediaRatingApi.data.value?.rating || $t("mediaRating.rate") }}
       </UiButton>

@@ -106,7 +106,7 @@ function handleRatingClick(rating: number, event: MouseEvent) {
         >
           <UiIcon
             :class="$style.icon"
-            :size="26"
+            :size="22"
             name="icon:rating-star"
           />
           <UiIcon
