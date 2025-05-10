@@ -61,7 +61,7 @@ const variant = computed<UiButtonVariant>(() => {
           v-else
           :class="$style.icon"
           name="icon:rating-star-filled"
-          :size="20"
+          :size="16"
         />
         {{ getMediaRatingApi.data.value?.rating || $t("mediaRating.rate") }}
       </UiButton>

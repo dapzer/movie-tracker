@@ -106,12 +106,12 @@ function handleRatingClick(rating: number, event: MouseEvent) {
         >
           <UiIcon
             :class="$style.icon"
-            :size="22"
+            :size="24"
             name="icon:rating-star"
           />
           <UiIcon
             :class="$style.iconFilled"
-            :size="26"
+            :size="24"
             name="icon:rating-star-filled"
           />
         </UiButton>
