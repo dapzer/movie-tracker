@@ -13,7 +13,7 @@ import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiBottomDrawerProps {
-  title: string
+  title?: string
 }
 
 const props = defineProps<UiBottomDrawerProps>()
@@ -50,6 +50,7 @@ const model = defineModel<boolean>()
         </DrawerClose>
 
         <DrawerTitle
+          v-if="props.title"
           :class="$style.title"
           :as="UiTypography"
           variant="title4"

@@ -75,26 +75,20 @@ function handleRatingClick() {
         v-if="user"
         #beforeContent
       >
-        <UiAvatar
-          :size="16"
-          :src="user?.image"
-          :placeholder-id="user?.id"
-          :alt="`${user?.name} avatar`"
-        />
-        <!--        <div :class="$style.avatarOverlay"> -->
-        <!--          <UiAvatar -->
-        <!--            :size="16" -->
-        <!--            :src="user?.image" -->
-        <!--            :placeholder-id="user?.id" -->
-        <!--            :alt="`${user?.name} avatar`" -->
-        <!--          /> -->
-        <!--          <UiIcon -->
-        <!--            :class="$style.pencilIcon" -->
-        <!--            block -->
-        <!--            name="icon:pencil" -->
-        <!--            :size="10" -->
-        <!--          /> -->
-        <!--        </div> -->
+        <div :class="$style.avatarOverlay">
+          <UiAvatar
+            :size="16"
+            :src="user?.image"
+            :placeholder-id="user?.id"
+            :alt="`${user?.name} avatar`"
+          />
+          <UiIcon
+            :class="$style.pencilIcon"
+            block
+            name="icon:pencil"
+            :size="12"
+          />
+        </div>
       </template>
     </UiRating>
     <UiButton
@@ -127,45 +121,46 @@ function handleRatingClick() {
     cursor: pointer;
   }
 
-  //.avatarOverlay {
-  //  .pencilIcon {
-  //    display: none;
-  //  }
-  //}
-  //
-  //&:hover {
-  //  cursor: pointer;
-  //  .avatarOverlay {
-  //    position: relative;
-  //    width: 16px;
-  //    height: 16px;
-  //    border-radius: 100%;
-  //    overflow: hidden;
-  //    display: flex;
-  //    align-items: center;
-  //    justify-content: center;
-  //
-  //    .pencilIcon {
-  //      z-index: 1;
-  //      position: absolute;
-  //      top: 50%;
-  //      left: 50%;
-  //      transform: translate(-50%, -50%);
-  //      display: block;
-  //    }
-  //
-  //    &:after {
-  //      z-index: 0;
-  //      content: "";
-  //      position: absolute;
-  //      top: 0;
-  //      left: 0;
-  //      width: 100%;
-  //      height: 100%;
-  //      background-color: var(--c-black-30);
-  //    }
-  //  }
-  //}
+  .avatarOverlay {
+    .pencilIcon {
+      display: none;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .avatarOverlay {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      border-radius: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .pencilIcon {
+        z-index: 1;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+      }
+
+      &:after {
+        z-index: 0;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--c-black-30);
+      }
+    }
+  }
 }
 
 .action {

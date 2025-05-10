@@ -22,11 +22,12 @@ interface MediaRatingSelectFormEmits {
 const props = defineProps<MediaRatingSelectFormProps>()
 const emits = defineEmits<MediaRatingSelectFormEmits>()
 
-const selectedRating = ref<number | undefined>(undefined)
-
 const { t } = useI18n()
 const createMediaRatingApi = useCreateMediaRatingApi()
 const updateMediaRatingApi = useUpdateMediaRatingApi()
+
+const selectedRating = ref<number | undefined>(undefined)
+const hoveredRating = ref<number | undefined>(undefined)
 
 async function handleSubmit() {
   if (!selectedRating.value) {
@@ -88,13 +89,10 @@ function handleRatingClick(rating: number, event: MouseEvent) {
           variant="title4"
           :class="$style.rating"
         >
-          {{ selectedRating ? selectedRating : "?" }}
+          {{ hoveredRating || (selectedRating ? selectedRating : "?") }}
         </UiTypography>
       </div>
-      <div
-        id="lia"
-        :class="$style.list"
-      >
+      <div :class="$style.list">
         <UiButton
           v-for="i in 10"
           :key="i"
@@ -103,15 +101,17 @@ function handleRatingClick(rating: number, event: MouseEvent) {
           }]"
           variant="textIcon"
           @click="handleRatingClick(i, $event)"
+          @mouseover="hoveredRating = i"
+          @mouseleave="hoveredRating = undefined"
         >
           <UiIcon
             :class="$style.icon"
-            :size="20"
+            :size="26"
             name="icon:rating-star"
           />
           <UiIcon
             :class="$style.iconFilled"
-            :size="20"
+            :size="26"
             name="icon:rating-star-filled"
           />
         </UiButton>
@@ -148,7 +148,7 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 .content {
   background-color: var(--c-header-footer-background);
   border-radius: 8px;
-  padding: 20px;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -183,7 +183,6 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 
 .list {
   display: flex;
-  gap: 1px;
 
   .iconFilled {
     display: none;
@@ -194,6 +193,9 @@ function handleRatingClick(rating: number, event: MouseEvent) {
   }
 
   .item {
+    width: 28px;
+    height: 28px;
+
     &.active {
       .icon {
         display: none;
