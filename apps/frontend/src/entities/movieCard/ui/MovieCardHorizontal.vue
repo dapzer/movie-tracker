@@ -72,7 +72,7 @@ const localePath = useLocalePath()
 
 <style lang="scss" module>
 @import "~/shared/styles/mixins";
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 
 .titleWrapper {
   display: flex;

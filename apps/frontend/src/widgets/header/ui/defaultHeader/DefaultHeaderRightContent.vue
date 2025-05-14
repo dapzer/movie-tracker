@@ -44,7 +44,7 @@ const { profile } = useAuth()
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 @import "~/shared/styles/mixins";
 
 .wrapper {

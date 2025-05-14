@@ -80,7 +80,7 @@ const episodeTitle = computed(() =>
 
 <style lang="scss" module>
 @import "~/shared/styles/mixins";
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 
 .wrapper {
   & > div:nth-child(2) {

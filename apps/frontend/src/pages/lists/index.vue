@@ -109,7 +109,7 @@ const sortedMediaLists = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 @import "~/shared/styles/mixins";
 
 @layer external {

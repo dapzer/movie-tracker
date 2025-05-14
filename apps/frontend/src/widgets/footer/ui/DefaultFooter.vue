@@ -54,7 +54,7 @@ import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFoot
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 @import "~/shared/styles/mixins";
 
 .wrapper {

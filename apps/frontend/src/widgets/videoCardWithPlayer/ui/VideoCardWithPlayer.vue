@@ -64,7 +64,7 @@ const props = defineProps<VideoCardWithPlayerProps>()
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 
 .trigger {
   width: 100% !important;

@@ -225,7 +225,7 @@ const isHasChanges = computed(() => {
 
 <style module lang="scss">
 @import "~/shared/styles/mixins";
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 
 .wrapper {
   flex-direction: column;

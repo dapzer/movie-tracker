@@ -71,7 +71,7 @@ function onOpenButtonClicked() {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 @import "~/shared/styles/mixins";
 
 .trigger {

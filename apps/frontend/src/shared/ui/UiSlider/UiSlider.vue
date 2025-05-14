@@ -113,7 +113,7 @@ function onNextButtonClick() {
 </template>
 
 <style lang="scss">
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 @import "~/shared/styles/mixins";
 
 .embla {

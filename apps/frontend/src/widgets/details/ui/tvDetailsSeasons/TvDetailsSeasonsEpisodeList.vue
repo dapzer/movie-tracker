@@ -79,7 +79,7 @@ const subtitle = computed(() => {
 
 <style module lang="scss">
 @import "~/shared/styles/mixins";
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 
 .header {
   margin-bottom: 16px;

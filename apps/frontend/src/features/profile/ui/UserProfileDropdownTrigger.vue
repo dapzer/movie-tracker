@@ -27,7 +27,7 @@ const props = defineProps<UserProfileDropdownTriggerProps>()
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/variables";
+@import "~/shared/styles/breakpoints";
 
 .wrapper {
   display: flex;
