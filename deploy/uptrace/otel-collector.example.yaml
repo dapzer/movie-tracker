@@ -63,18 +63,14 @@ exporters:
   otlp/uptrace:
     endpoint: http://uptrace:14317
     tls: {insecure: true}
-    headers: {
-      # TODO: set dns
-      uptrace-dsn: ""
-    }
+    # TODO: set dns
+    headers: { uptrace-dsn: "" }
   prometheusremotewrite/uptrace:
     endpoint: "http://uptrace:14318/api/v1/prometheus/write"
     tls:
       insecure: true
-    headers: {
       # TODO: set dns
-      uptrace-dsn: ""
-    }
+    headers: { uptrace-dsn: "" }
 
 service:
   telemetry:
