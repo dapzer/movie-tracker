@@ -1,4 +1,4 @@
-name: umami
+name: grafana
 
 services:
   grafana:
