@@ -27,6 +27,7 @@ dist/
 .DS_Store
 *.pem
 apps/backend/sitemaps
+deploy/uptrace/uptrace.yml
 
 # debug
 logs
