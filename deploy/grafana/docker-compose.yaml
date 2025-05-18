@@ -1,0 +1,23 @@
+name: umami
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    expose:
+      - 3000
+    networks:
+      - caddy-public
+      - movie-tracker-metrics
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:
+
+networks:
+  movie-tracker-metrics:
+    external: true
+  caddy-public:
+    external: true

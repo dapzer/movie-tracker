@@ -35,3 +35,7 @@ adminer.movie-tracker.app {
 umami.movie-tracker.app {
     reverse_proxy umami:3000
 }
+
+grafana.movie-tracker.app {
+    reverse_proxy grafana:3000
+}

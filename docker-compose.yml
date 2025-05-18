@@ -6,6 +6,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - movie-tracker
+      - movie-tracker-metrics
     environment:
       POSTGRES_USER: ${DATABASE_USER:-spaceman}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-spaceman}
@@ -105,5 +106,7 @@ volumes:
 networks:
   movie-tracker:
     name: movie-tracker
+  movie-tracker-metrics:
+    external: true
   caddy-public:
     external: true
