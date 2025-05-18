@@ -52,6 +52,7 @@ services:
       - NET_ADMIN
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
   frontend:
     image: danilavoronkov/movie-tracker-frontend
     restart: unless-stopped
@@ -98,7 +99,6 @@ services:
 
 volumes:
   caddy_data:
-  caddy_config:
   postgres-data:
   redis-data:
   sitemaps:
