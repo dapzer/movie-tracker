@@ -69,6 +69,7 @@ services:
       - uptrace
     networks:
       - uptrace
+      - movie-tracker-metrics
 
   mailpit:
     image: axllent/mailpit
@@ -142,5 +143,7 @@ volumes:
 networks:
   uptrace:
     name: uptrace
+  movie-tracker-metrics:
+    external: true
   caddy-public:
     external: true

@@ -92,6 +92,7 @@ services:
     image: redis
     restart: always
     networks:
+      - movie-tracker-metrics
       - movie-tracker
     command: redis-server --save 60 1 --loglevel warning
     volumes:
