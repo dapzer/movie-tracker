@@ -36,10 +36,12 @@ receivers:
   postgresql:
     endpoint: postgres:5432
     transport: tcp
-    username: uptrace
-    password: uptrace
+    username: spaceman
+    # TODO: set password
+    password:
     databases:
-      - uptrace
+      - movietracker
+    collection_interval: 10s
     tls:
       insecure: true
   prometheus/otelcol:
@@ -61,12 +63,18 @@ exporters:
   otlp/uptrace:
     endpoint: http://uptrace:14317
     tls: {insecure: true}
-    headers: {uptrace-dsn: "http://project1_secret_token@localhost:14318?grpc=14317"}
+    headers: {
+      # TODO: set dns
+      uptrace-dsn: ""
+    }
   prometheusremotewrite/uptrace:
     endpoint: "http://uptrace:14318/api/v1/prometheus/write"
     tls:
       insecure: true
-    headers: {uptrace-dsn: "http://project1_secret_token@localhost:14318?grpc=14317"}
+    headers: {
+      # TODO: set dns
+      uptrace-dsn: ""
+    }
 
 service:
   telemetry:
