@@ -24,3 +24,7 @@ export function createMediaRating(body: CreateMediaRatingBody, options?: Request
 export function updateMediaRating(args: UpdateMediaRatingArgs, options?: RequestOptions) {
   return api.patch<MediaRatingType>(`media-rating/${args.id}`, args.body, options)
 }
+
+export function deleteMediaRating(id: string, options?: RequestOptions) {
+  return api.delete<MediaRatingType>(`media-rating/${id}`, options)
+}

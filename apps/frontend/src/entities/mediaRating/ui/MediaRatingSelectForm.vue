@@ -3,7 +3,11 @@ import type { MediaRatingType, MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-t
 import { useI18n } from "#imports"
 import { ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useCreateMediaRatingApi, useUpdateMediaRatingApi } from "~/api/mediaRating/useMediaRatingApi"
+import {
+  useCreateMediaRatingApi,
+  useDeleteMediaRatingApi,
+  useUpdateMediaRatingApi,
+} from "~/api/mediaRating/useMediaRatingApi"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -25,6 +29,7 @@ const emits = defineEmits<MediaRatingSelectFormEmits>()
 const { t } = useI18n()
 const createMediaRatingApi = useCreateMediaRatingApi()
 const updateMediaRatingApi = useUpdateMediaRatingApi()
+const deleteMediaRatingApi = useDeleteMediaRatingApi()
 
 const selectedRating = ref<number | undefined>(undefined)
 const hoveredRating = ref<number | undefined>(undefined)
@@ -57,6 +62,20 @@ async function handleSubmit() {
       toast.error(t("toasts.mediaRating.unsuccessfullyRated"))
     })
   }
+
+  emits("afterSubmit")
+}
+
+async function handleDelete() {
+  if (!props.currentRating?.id) {
+    return
+  }
+
+  await deleteMediaRatingApi.mutateAsync(props.currentRating.id).then(() => {
+    toast.success(t("toasts.mediaRating.successDeleted"))
+  }).catch(() => {
+    toast.error(t("toasts.mediaRating.unsuccessfullyDeleted"))
+  })
 
   emits("afterSubmit")
 }
@@ -117,14 +136,34 @@ function handleRatingClick(rating: number, event: MouseEvent) {
         </UiButton>
       </div>
     </div>
-    <UiButton
-      size="large"
-      :class="$style.submitButton"
-      :disabled="createMediaRatingApi.isPending.value || updateMediaRatingApi.isPending.value || !selectedRating"
-      @click="handleSubmit"
-    >
-      {{ $t("mediaRating.rate") }}
-    </UiButton>
+    <div :class="$style.actions">
+      <UiButton
+        v-if="props.currentRating"
+        size="large"
+        scheme="tertiary"
+        :class="$style.submitButton"
+        :disabled="createMediaRatingApi.isPending.value || updateMediaRatingApi.isPending.value
+          || deleteMediaRatingApi.isPending.value"
+        with-icon
+        @click="handleDelete"
+      >
+        <UiIcon
+          name="icon:trash"
+          :size="19"
+        />
+        {{ $t("mediaRating.deleteRate") }}
+      </UiButton>
+      <UiButton
+        size="large"
+        :class="$style.submitButton"
+        :disabled="createMediaRatingApi.isPending.value || updateMediaRatingApi.isPending.value
+          || deleteMediaRatingApi.isPending.value
+          || !selectedRating"
+        @click="handleSubmit"
+      >
+        {{ props.currentRating ? $t("mediaRating.updateRate") : $t("mediaRating.rate") }}
+      </UiButton>
+    </div>
   </div>
 </template>
 
@@ -239,5 +278,11 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 
 .submitButton {
   width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 </style>

@@ -7,7 +7,12 @@ import type {
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
-import { createMediaRating, getMediaRatingByUser, updateMediaRating } from "~/api/mediaRating/mediaRatingApi"
+import {
+  createMediaRating,
+  deleteMediaRating,
+  getMediaRatingByUser,
+  updateMediaRating,
+} from "~/api/mediaRating/mediaRatingApi"
 import { MediaRatingApiQueryKeys } from "~/api/mediaRating/mediaRatingApiQueryKeys"
 
 export function useGetMediaRatingByUserApi(args: GetMediaRatingByUserArgs) {
@@ -69,6 +74,32 @@ export function useUpdateMediaRatingApi() {
               return {
                 ...el,
                 mediaRating: data,
+              }
+            }
+            return el
+          })
+        }
+      })
+    },
+  })
+}
+
+export function useDeleteMediaRatingApi() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: [MediaRatingApiQueryKeys.DELETE],
+    mutationFn: deleteMediaRating,
+    onSuccess: async (data, id) => {
+      await queryClient.resetQueries({
+        queryKey: [MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType],
+      })
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        if (oldData) {
+          return oldData.map((el) => {
+            if (el.mediaRating?.id === id) {
+              return {
+                ...el,
+                mediaRating: undefined,
               }
             }
             return el

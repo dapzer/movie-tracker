@@ -32,7 +32,7 @@ function openModal() {
       v-if="!isMobile"
       v-model="model"
       without-header
-      :max-width="436"
+      :max-width="456"
     >
       <template #content="{ closeModal }">
         <MediaRatingSelectForm
