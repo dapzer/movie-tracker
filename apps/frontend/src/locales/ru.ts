@@ -1200,6 +1200,8 @@ export default {
   mediaRating: {
     rate: "Оценить",
     howRate: "Как бы вы оценили",
+    deleteRate: "Удалить оценку",
+    updateRate: "Обновить оценку",
   },
   navigation: {
     home: "Поиск",
@@ -1336,6 +1338,8 @@ export default {
       unsuccessfullyRated: "Произошла ошибка при сохранении оценки",
       successUpdated: "Оценка успешно обновлена",
       unsuccessfullyUpdated: "Произошла ошибка при обновлении оценки",
+      successDeleted: "Оценка успешно удалена",
+      unsuccessfullyDeleted: "Произошла ошибка при удалении оценки",
     },
   },
   ui: {

@@ -1199,6 +1199,8 @@ export default {
   mediaRating: {
     rate: "Rate",
     howRate: "How would you rate",
+    deleteRate: "Delete rating",
+    updateRate: "Update rating",
   },
   navigation: {
     home: "Search",
@@ -1333,6 +1335,8 @@ export default {
       unsuccessfullyRated: "An error occurred while saving the rating",
       successUpdated: "Rating updated successfully",
       unsuccessfullyUpdated: "An error occurred while updating the rating",
+      successDeleted: "Rating deleted successfully",
+      unsuccessfullyDeleted: "An error occurred while deleting the rating",
     },
   },
   ui: {
