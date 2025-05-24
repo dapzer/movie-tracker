@@ -69,7 +69,7 @@ const slots = defineSlots()
               :src="props.image"
               :fallback-src="props.fallbackImage"
               loading="eager"
-              fetchpriority="high"
+              preload
               :width="256"
               :alt="props.title"
             />

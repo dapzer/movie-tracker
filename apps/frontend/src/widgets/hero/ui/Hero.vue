@@ -3,6 +3,7 @@ import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiImage } from "~/shared/ui/UiImage"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 const { navigateToSignInPage } = useNavigateToSignInPage()
@@ -11,6 +12,12 @@ const { isAuthorized } = useAuth()
 
 <template>
   <section :class="$style.wrapper">
+    <UiImage
+      :class="$style.background"
+      src="/heroBackground.webp"
+      loading="eager"
+      preload
+    />
     <UiContainer :class="$style.body">
       <UiTypography
         as="h1"
@@ -43,9 +50,20 @@ const { isAuthorized } = useAuth()
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/heroBackground.png");
-  background-size: cover;
-  background-position: center;
+  position: relative;
+  //background-image: url("/heroBackground.webp");
+  //background-size: cover;
+  //background-position: center;
+
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
   .body {
     display: flex;
