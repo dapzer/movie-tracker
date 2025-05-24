@@ -17,6 +17,7 @@ const { isAuthorized } = useAuth()
       src="/heroBackground.webp"
       loading="eager"
       preload
+      fetchpriority="high"
     />
     <UiContainer :class="$style.body">
       <UiTypography
