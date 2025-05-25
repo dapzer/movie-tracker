@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     "nuxt-umami",
     "@nuxtjs/mdc",
     "@nuxtjs/fontaine",
+    "@sentry/nuxt/module",
   ],
 
   site: {
@@ -138,4 +139,15 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2025-01-19",
+
+  sentry: {
+    sourceMapsUploadOptions: {
+      org: "movietracker",
+      project: "frontend",
+    },
+  },
+
+  sourcemap: {
+    client: "hidden",
+  },
 })
