@@ -112,19 +112,26 @@ export class MediaItemService {
 
   async getMediaItemsByUserId(userId: string) {
     const mediaItems = await this.mediaItemRepository.getMediaItemsByUserId(userId)
+    if (!mediaItems || mediaItems.length === 0) {
+      return []
+    }
 
-    return Promise.all(mediaItems.map(async (mediaItem): Promise<MediaItemType> => {
-      const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
-        mediaType: mediaItem.mediaType,
-        mediaId: mediaItem.mediaId,
-        userId,
-      })
+    const mediaIds = mediaItems.map(item => item.mediaId)
+    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaId({
+      userId,
+      mediaIds,
+    })
+
+    return mediaItems.map((item) => {
+      const mediaRating = mediaRatings.find(
+        rating => rating.mediaId === item.mediaId && rating.mediaType === item.mediaType,
+      )
 
       return {
-        ...mediaItem,
+        ...item,
         mediaRating,
       }
-    }))
+    })
   }
 
   async getMediaItemsByListId(
@@ -143,19 +150,26 @@ export class MediaItemService {
     }
 
     const mediaItems = await this.mediaItemRepository.getMediaItemsByListId(mediaList.id)
+    if (!mediaItems || mediaItems.length === 0) {
+      return []
+    }
 
-    return Promise.all(mediaItems.map(async (mediaItem): Promise<MediaItemType> => {
-      const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
-        mediaType: mediaItem.mediaType,
-        mediaId: mediaItem.mediaId,
-        userId: mediaList.userId,
-      })
+    const mediaIds = mediaItems.map(item => item.mediaId)
+    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaId({
+      userId,
+      mediaIds,
+    })
+
+    return mediaItems.map((item) => {
+      const mediaRating = mediaRatings.find(
+        rating => rating.mediaId === item.mediaId && rating.mediaType === item.mediaType,
+      )
 
       return {
-        ...mediaItem,
+        ...item,
         mediaRating,
       }
-    }))
+    })
   }
 
   async deleteMediaItem(id: string, userId: string) {

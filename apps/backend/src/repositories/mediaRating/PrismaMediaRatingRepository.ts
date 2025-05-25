@@ -43,6 +43,20 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
     return mediaRating ? this.convertMediaRatingToInterface(mediaRating) : undefined
   }
 
+  async getMediaRatingsByUserIdAndMediaId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingsByUserIdAndMediaId"]>[0]) {
+    const { userId, mediaIds } = args
+    const mediaRatings = await this.prisma.mediaRating.findMany({
+      where: {
+        userId,
+        mediaId: {
+          in: mediaIds,
+        },
+      },
+    })
+
+    return mediaRatings.map(this.convertMediaRatingToInterface)
+  }
+
   async createMediaRating(args: Parameters<MediaRatingRepositoryInterface["createMediaRating"]>[0]) {
     const { userId, mediaId, mediaType, rating } = args
     const mediaRating = await this.prisma.mediaRating.create({

@@ -11,6 +11,13 @@ export interface MediaRatingRepositoryInterface {
     } & Pick<MediaRatingType, "mediaId" | "mediaType">
   ) => Promise<MediaRatingType | undefined>
 
+  getMediaRatingsByUserIdAndMediaId: (
+    args: {
+      userId: string
+      mediaIds: number[]
+    }
+  ) => Promise<MediaRatingType[] | undefined>
+
   createMediaRating: (
     args: {
       userId: string
