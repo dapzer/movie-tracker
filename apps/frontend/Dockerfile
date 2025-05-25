@@ -50,4 +50,4 @@ COPY --from=installer /app .
 
 ENV NODE_ENV production
 
-CMD ["node", "apps/frontend/.output/server/index.mjs"]
+CMD ["node", "-import", "apps/frontend/.output/server/sentry.server.config.mjs", "apps/frontend/.output/server/index.mjs"]

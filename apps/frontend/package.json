@@ -14,6 +14,7 @@
   "dependencies": {
     "@nuxt/fonts": "0.10.3",
     "@nuxt/image": "1.9.0",
+    "@sentry/nuxt": "9.22.0",
     "@tanstack/vue-query": "5.64.2",
     "@types/sharp": "0.32.0",
     "@vueuse/router": "^13.1.0",
@@ -47,5 +48,10 @@
     "vue": "3.5.13",
     "vue-router": "4.5.0",
     "vue-tsc": "2.2.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@vercel/nft": "^0.27.4"
+    }
   }
 }
