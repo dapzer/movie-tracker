@@ -221,7 +221,7 @@ importers:
         specifier: 1.9.0
         version: 1.9.0(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)(rollup@4.39.0)
       '@sentry/nuxt':
-        specifier: ^9
+        specifier: 9.22.0
         version: 9.22.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)(magicast@0.3.5)(nuxt@3.16.2(@parcel/watcher@2.4.1)(@types/node@22.1.0)(db0@0.3.1)(eslint@9.22.0(jiti@2.4.2))(ioredis@5.6.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.39.0)(sass@1.77.4)(terser@5.36.0)(typescript@5.7.3)(vite@6.2.5(@types/node@22.1.0)(jiti@2.4.2)(sass@1.77.4)(terser@5.36.0)(yaml@2.7.0))(vue-tsc@2.2.0(typescript@5.7.3))(yaml@2.7.0))(rollup@4.39.0)(vue@3.5.13(typescript@5.7.3))
       '@tanstack/vue-query':
         specifier: 5.64.2
@@ -305,6 +305,9 @@ importers:
       nuxt-umami:
         specifier: 3.1.1
         version: 3.1.1(magicast@0.3.5)(rollup@4.39.0)
+      nuxt-vitalizer:
+        specifier: 0.10.0
+        version: 0.10.0(magicast@0.3.5)
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -7962,6 +7965,9 @@ packages:
 
   nuxt-umami@3.1.1:
     resolution: {integrity: sha512-o3I0IGo0GHn0I4B8iHiIZmlQ/2123I4FJ+ed3FwlvNLgGoy5yM6R/htsRFz1Cdl72Tx/JjEGU+KQ3umXW/2ZOw==}
+
+  nuxt-vitalizer@0.10.0:
+    resolution: {integrity: sha512-z5leudr8wD2msKl7ETLGUICSOVoXVLMA8bAeRuWN4/UuYl7g7G2k7Idzl1z8ft/VmoYZ9ld3J0/2UZOZuxxzog==}
 
   nuxt@3.16.2:
     resolution: {integrity: sha512-yjIC/C4HW8Pd+m0ACGliEF0HnimXYGYvUzjOsTiLQKkDDt2T+djyZ+pCl9BfhQBA8rYmnsym2jUI+ubjv1iClw==}
@@ -20054,6 +20060,14 @@ snapshots:
       - magicast
       - rollup
       - supports-color
+
+  nuxt-vitalizer@0.10.0(magicast@0.3.5):
+    dependencies:
+      '@nuxt/kit': 3.16.2(magicast@0.3.5)
+      defu: 6.1.4
+      knitwork: 1.2.0
+    transitivePeerDependencies:
+      - magicast
 
   nuxt@3.16.2(@parcel/watcher@2.4.1)(@types/node@22.1.0)(db0@0.3.1)(eslint@9.22.0(jiti@2.4.2))(ioredis@5.6.0)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.39.0)(sass@1.77.4)(terser@5.36.0)(typescript@5.7.3)(vite@6.2.5(@types/node@22.1.0)(jiti@2.4.2)(sass@1.77.4)(terser@5.36.0)(yaml@2.7.0))(vue-tsc@2.2.0(typescript@5.7.3))(yaml@2.7.0):
     dependencies:

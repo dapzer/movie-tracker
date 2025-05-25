@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     "@nuxtjs/mdc",
     "@nuxtjs/fontaine",
     "@sentry/nuxt/module",
+    "nuxt-vitalizer",
   ],
 
   site: {
@@ -96,6 +97,11 @@ export default defineNuxtConfig({
     components: {
       prose: true,
     },
+  },
+
+  vitalizer: {
+    // Remove the render-blocking entry CSS
+    disableStylesheets: "entry",
   },
 
   components: {

@@ -44,6 +44,7 @@
     "nuxt": "3.16.2",
     "nuxt-schema-org": "4.0.4",
     "nuxt-umami": "3.1.1",
+    "nuxt-vitalizer": "0.10.0",
     "typescript": "5.7.3",
     "vue": "3.5.13",
     "vue-router": "4.5.0",
