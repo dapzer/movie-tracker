@@ -48,8 +48,8 @@ RUN addgroup --system --gid 1001 frontend
 RUN adduser --system --uid 1001 frontend
 
 USER frontend
-COPY --from=installer /app .
+COPY --from=installer /app/apps/frontend/.output .
 
 ENV NODE_ENV production
 
-CMD ["node", "--import", "./apps/frontend/.output/server/sentry.server.config.mjs", "./apps/frontend/.output/server/index.mjs"]
+CMD ["node", "--import", "./server/sentry.server.config.mjs", "./server/index.mjs"]
