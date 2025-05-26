@@ -43,6 +43,8 @@ async function onSignIn(provider: string) {
     const interval = setInterval(() => {
       if (win?.closed) {
         queryClient.invalidateQueries({ queryKey: [UserQueryKeys.PROFILE] })
+        queryClient.invalidateQueries({ queryKey: [MediaListQueryKeys.GET_ALL] })
+        queryClient.invalidateQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] })
         queryClient.removeQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] })
         queryClient.removeQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] })
         router.push(localePath(authRedirectUrl.value))
