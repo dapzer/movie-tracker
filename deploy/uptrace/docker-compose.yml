@@ -1,3 +1,5 @@
+name: uptrace
+
 services:
   clickhouse:
     image: clickhouse/clickhouse-server:24.7
