@@ -18,7 +18,7 @@ services:
       - movie-tracker
       - caddy-public
   backup:
-    image: schickling/postgres-backup-s3
+    image: schickling/postgres-backup-s3:14
     depends_on:
       - postgres
     links:
