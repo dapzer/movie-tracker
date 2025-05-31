@@ -2,15 +2,6 @@
     email danilavoronkov2002@gmail.com
 }
 
-
-movie-tracker.dapzer.ru {
-    redir https://movie-tracker.app{uri}
-}
-
-beta.movie-tracker.app {
-    redir https://movie-tracker.app{uri}
-}
-
 movie-tracker.app {
     handle_path /sitemaps/* {
         rewrite * /api/sitemaps{path}
