@@ -50,8 +50,9 @@ services:
     image: "uptrace/uptrace:1.7.5"
     # image: 'uptrace/uptrace-dev:latest'
     restart: on-failure
-    volumes:
-      - ./uptrace.yml:/etc/uptrace/uptrace.yml
+    configs:
+      - source: uptrace_config
+        target: /etc/uptrace/uptrace.yml
     # environment:
     #  - DEBUG=2
     ports:
@@ -72,8 +73,9 @@ services:
   otelcol:
     image: otel/opentelemetry-collector-contrib:0.88.0
     restart: on-failure
-    volumes:
-      - ./otel-collector.yaml:/etc/otelcol-contrib/config.yaml
+    configs:
+      - source: otel_collector_config
+        target: /etc/otelcol-contrib/config.yaml
     expose:
       - "4317"
       - "4318"
@@ -113,8 +115,9 @@ services:
 
   vector:
     image: timberio/vector:0.28.X-alpine
-    volumes:
-      - ./vector.toml:/etc/vector/vector.toml:ro
+    configs:
+      - source: vector_config
+        target: /etc/vector/vector.toml
     networks:
       - uptrace
     deploy:
@@ -161,6 +164,14 @@ services:
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
+
+configs:
+  uptrace_config:
+    file: ./uptrace.yml
+  otel_collector_config:
+    file: ./otel-collector.yaml
+  vector_config:
+    file: ./vector.toml
 
 volumes:
   ch_data2:
