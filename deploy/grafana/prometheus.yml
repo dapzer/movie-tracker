@@ -11,8 +11,8 @@ scrape_configs:
     static_configs:
       - targets: ['node-exporter:9100']
 
-remote_write:
-  - url: 'http://prometheus:9090/api/v1/write'
+#remote_write:
+#  - url: 'http://prometheus:9090/api/v1/write'
 #    basic_auth:
 #      username: '<Your Grafana Username>'
 #      password: '<Your Grafana Cloud Access Policy Token>'
