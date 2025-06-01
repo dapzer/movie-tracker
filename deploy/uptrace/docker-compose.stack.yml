@@ -164,6 +164,11 @@ services:
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
 configs:
   uptrace_config:
