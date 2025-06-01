@@ -56,7 +56,8 @@ services:
     deploy:
       placement:
         constraints:
-          - node.role == manager
+          - node.role != manager
+          - node.labels.databases != true
 
 volumes:
   grafana-storage:
