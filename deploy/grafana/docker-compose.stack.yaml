@@ -1,9 +1,6 @@
-name: grafana
-
 services:
   grafana:
     image: grafana/grafana
-    container_name: grafana
     restart: always
     expose:
       - 3000
