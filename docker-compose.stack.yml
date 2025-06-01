@@ -61,6 +61,10 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
   frontend:
     image: danilavoronkov/movie-tracker-frontend
     restart: unless-stopped
@@ -69,6 +73,9 @@ services:
       - caddy-public
     deploy:
       replicas: 5
+      placement:
+        constraints:
+          - node.role == manager
     build:
       context: .
       dockerfile: ./apps/frontend/Dockerfile
@@ -84,11 +91,14 @@ services:
       - caddy-public
     deploy:
       replicas: 5
+      placement:
+        constraints:
+          - node.role == manager
     build:
       dockerfile: ./apps/backend/Dockerfile
     env_file: ./.env
     volumes:
-      - sitemaps:/app/apps/backend/sitemaps
+      - sitemaps:/app/apps/backend/sitemaps'
   redis:
     image: redis
     restart: always
