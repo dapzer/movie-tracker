@@ -1,5 +1,3 @@
-name: uptrace
-
 services:
   clickhouse:
     image: clickhouse/clickhouse-server:24.7
@@ -18,6 +16,11 @@ services:
       - "9000"
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   postgres:
     image: postgres:15-alpine
@@ -38,6 +41,10 @@ services:
       - "5432"
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.labels.databases == true
 
   uptrace:
     image: "uptrace/uptrace:1.7.5"
@@ -56,6 +63,11 @@ services:
     networks:
       - uptrace
       - caddy-public
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   otelcol:
     image: otel/opentelemetry-collector-contrib:0.88.0
@@ -72,6 +84,11 @@ services:
     networks:
       - uptrace
       - movie-tracker-metrics
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   mailpit:
     image: axllent/mailpit
@@ -88,6 +105,11 @@ services:
       - mailpit_data:/data
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   vector:
     image: timberio/vector:0.28.X-alpine
@@ -95,6 +117,11 @@ services:
       - ./vector.toml:/etc/vector/vector.toml:ro
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   #  grafana:
   #    image: grafana/grafana:9.5.3
@@ -109,21 +136,21 @@ services:
   #    networks:
   #      - uptrace
 
-  #  prometheus:
-  #    image: prom/prometheus:v2.36.2
-  #    restart: always
-  #    volumes:
-  #      - ../../config/prometheus/:/etc/prometheus/
-  #      - prometheus_data:/prometheus
-  #    command:
-  #      - --config.file=/etc/prometheus/prometheus.yml
-  #      - --storage.tsdb.path=/prometheus
-  #      - --web.console.libraries=/usr/share/prometheus/console_libraries
-  #      - --web.console.templates=/usr/share/prometheus/consoles
-  #    extra_hosts:
-  #      - "host.docker.internal:host-gateway"
-  #    networks:
-  #      - uptrace
+#  prometheus:
+#    image: prom/prometheus:v2.36.2
+#    restart: always
+#    volumes:
+#      - ../../config/prometheus/:/etc/prometheus/
+#      - prometheus_data:/prometheus
+#    command:
+#      - --config.file=/etc/prometheus/prometheus.yml
+#      - --storage.tsdb.path=/prometheus
+#      - --web.console.libraries=/usr/share/prometheus/console_libraries
+#      - --web.console.templates=/usr/share/prometheus/consoles
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    networks:
+#      - uptrace
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
@@ -146,6 +173,8 @@ networks:
   uptrace:
     name: uptrace
   movie-tracker-metrics:
+    name: movie-tracker-metrics
     external: true
   caddy-public:
+    name: caddy-public
     external: true

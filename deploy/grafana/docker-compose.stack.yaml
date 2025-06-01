@@ -1,0 +1,30 @@
+name: grafana
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    expose:
+      - 3000
+    networks:
+      - caddy-public
+      - movie-tracker-metrics
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
+
+volumes:
+  grafana-storage:
+
+networks:
+  movie-tracker-metrics:
+    name: movie-tracker-metrics
+    external: true
+  caddy-public:
+    name: caddy-public
+    external: true
