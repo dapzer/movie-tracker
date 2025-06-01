@@ -42,8 +42,10 @@ services:
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -58,6 +60,10 @@ services:
         constraints:
           - node.role != manager
           - node.labels.databases != true
+
+configs:
+  prometheus_config:
+    file: ./prometheus.yml
 
 volumes:
   grafana-storage:
