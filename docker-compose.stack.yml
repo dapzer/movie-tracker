@@ -21,6 +21,10 @@ services:
     networks:
       - movie-tracker
       - caddy-public
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
   backup:
     image: eeshugerman/postgres-backup-s3:14
     depends_on:

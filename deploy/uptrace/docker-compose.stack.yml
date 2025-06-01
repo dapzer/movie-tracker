@@ -55,9 +55,9 @@ services:
         target: /etc/uptrace/uptrace.yml
     # environment:
     #  - DEBUG=2
-    ports:
-      - "14317:14317"
-      - "14318:14318"
+    expose:
+      - 14317
+      - 14318
     depends_on:
       - clickhouse
       - postgres
@@ -139,21 +139,21 @@ services:
   #    networks:
   #      - uptrace
 
-#  prometheus:
-#    image: prom/prometheus:v2.36.2
-#    restart: always
-#    volumes:
-#      - ../../config/prometheus/:/etc/prometheus/
-#      - prometheus_data:/prometheus
-#    command:
-#      - --config.file=/etc/prometheus/prometheus.yml
-#      - --storage.tsdb.path=/prometheus
-#      - --web.console.libraries=/usr/share/prometheus/console_libraries
-#      - --web.console.templates=/usr/share/prometheus/consoles
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#    networks:
-#      - uptrace
+  #  prometheus:
+  #    image: prom/prometheus:v2.36.2
+  #    restart: always
+  #    volumes:
+  #      - ../../config/prometheus/:/etc/prometheus/
+  #      - prometheus_data:/prometheus
+  #    command:
+  #      - --config.file=/etc/prometheus/prometheus.yml
+  #      - --storage.tsdb.path=/prometheus
+  #      - --web.console.libraries=/usr/share/prometheus/console_libraries
+  #      - --web.console.templates=/usr/share/prometheus/consoles
+  #    extra_hosts:
+  #      - "host.docker.internal:host-gateway"
+  #    networks:
+  #      - uptrace
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
