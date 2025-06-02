@@ -1,5 +1,3 @@
-name: uptrace
-
 services:
   clickhouse:
     image: clickhouse/clickhouse-server:24.7
@@ -18,6 +16,11 @@ services:
       - "9000"
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   postgres:
     image: postgres:15-alpine
@@ -38,30 +41,41 @@ services:
       - "5432"
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.labels.databases == true
 
   uptrace:
     image: "uptrace/uptrace:1.7.5"
     # image: 'uptrace/uptrace-dev:latest'
     restart: on-failure
-    volumes:
-      - ./uptrace.yml:/etc/uptrace/uptrace.yml
+    configs:
+      - source: uptrace_config
+        target: /etc/uptrace/uptrace.yml
     # environment:
     #  - DEBUG=2
-    ports:
-      - "14317:14317"
-      - "14318:14318"
+    expose:
+      - 14317
+      - 14318
     depends_on:
       - clickhouse
       - postgres
     networks:
       - uptrace
       - caddy-public
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   otelcol:
     image: otel/opentelemetry-collector-contrib:0.88.0
     restart: on-failure
-    volumes:
-      - ./otel-collector.yaml:/etc/otelcol-contrib/config.yaml
+    configs:
+      - source: otel_collector_config
+        target: /etc/otelcol-contrib/config.yaml
     expose:
       - "4317"
       - "4318"
@@ -72,6 +86,11 @@ services:
     networks:
       - uptrace
       - movie-tracker-metrics
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   mailpit:
     image: axllent/mailpit
@@ -88,13 +107,24 @@ services:
       - mailpit_data:/data
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   vector:
     image: timberio/vector:0.28.X-alpine
-    volumes:
-      - ./vector.toml:/etc/vector/vector.toml:ro
+    configs:
+      - source: vector_config
+        target: /etc/vector/vector.toml
     networks:
       - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
 
   #  grafana:
   #    image: grafana/grafana:9.5.3
@@ -127,7 +157,6 @@ services:
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
-    container_name: node_exporter
     command:
       - --path.rootfs=/host
     network_mode: host
@@ -135,6 +164,19 @@ services:
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
+
+configs:
+  uptrace_config:
+    file: ./uptrace.yml
+  otel_collector_config:
+    file: ./otel-collector.yaml
+  vector_config:
+    file: ./vector.toml
 
 volumes:
   ch_data2:
@@ -146,6 +188,8 @@ networks:
   uptrace:
     name: uptrace
   movie-tracker-metrics:
+    name: movie-tracker-metrics
     external: true
   caddy-public:
+    name: caddy-public
     external: true
