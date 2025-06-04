@@ -1,5 +1,6 @@
 import { createReadStream, statSync } from "node:fs"
 import { join, resolve } from "node:path"
+import * as process from "node:process"
 import { Worker } from "node:worker_threads"
 import { createGunzip } from "node:zlib"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"

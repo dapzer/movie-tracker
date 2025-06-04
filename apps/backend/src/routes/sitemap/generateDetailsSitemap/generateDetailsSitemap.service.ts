@@ -1,14 +1,11 @@
 import * as fs from "node:fs/promises"
 import { resolve } from "node:path"
+import * as process from "node:process"
 import { promisify } from "node:util"
 import { unzip } from "node:zlib"
 import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import {
-  EnumChangefreq,
-  simpleSitemapAndIndex,
-  SitemapItemLoose,
-} from "sitemap"
+import { EnumChangefreq, simpleSitemapAndIndex, SitemapItemLoose } from "sitemap"
 
 const unzipAsync = promisify(unzip)
 const idRegex = /"id":(\d+)/g
@@ -53,7 +50,7 @@ export class GenerateDetailsSitemapService {
   }
 
   private async getSourceData(baseFileName: string) {
-    const tryCount = 0
+    let tryCount = 0
 
     while (tryCount < 7) {
       const fileName = `${baseFileName}_ids_${this.formatDate(
@@ -67,6 +64,7 @@ export class GenerateDetailsSitemapService {
       if (response.ok) {
         return response
       }
+      tryCount = tryCount + 1
     }
 
     throw new HttpException(
@@ -96,7 +94,7 @@ export class GenerateDetailsSitemapService {
       const parsedData = unzippedData.toString()
 
       const matches = parsedData.matchAll(idRegex)
-      const sitemapItems: SitemapItemLoose[] = []
+      let sitemapItems: SitemapItemLoose[] = []
 
       for (const match of matches) {
         const id = match[1]
@@ -137,6 +135,11 @@ export class GenerateDetailsSitemapService {
             `Failed to generate sitemap for ${mediaType.type}!`,
           )
         })
+        .finally(
+          () => {
+            sitemapItems = []
+          },
+        )
     }
   }
 }
