@@ -102,7 +102,7 @@ services:
       dockerfile: ./apps/backend/Dockerfile
     env_file: ./.env
     volumes:
-      - sitemaps:/app/apps/backend/sitemaps'
+      - sitemaps:/app/apps/backend/sitemaps
   redis:
     image: redis
     restart: always
