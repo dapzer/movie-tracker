@@ -4,12 +4,15 @@ import { ConfigService } from "@nestjs/config"
 import "dotenv/config"
 
 const configService = new ConfigService()
-const generateDetailsSitemapService = new GenerateDetailsSitemapService(
+let generateDetailsSitemapService = new GenerateDetailsSitemapService(
   configService,
 )
 
 parentPort.on("message", async (message) => {
   if (message === "generate") {
     await generateDetailsSitemapService.generate()
+    generateDetailsSitemapService = new GenerateDetailsSitemapService(
+      configService,
+    )
   }
 })
