@@ -110,7 +110,7 @@ const accessLevelOptions = computed(() => {
   </form>
 </template>
 
-z<style module lang="scss">
+<style module lang="scss">
 .wrapper {
   display: flex;
   flex-direction: column;
