@@ -11,7 +11,13 @@ import {
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
-import { MediaItemStatusNameEnum, MediaItemType, MediaListType, MediaTypeEnum } from "@movie-tracker/types"
+import {
+  MediaItemStatusNameEnum,
+  MediaItemType,
+  MediaListAccessLevelEnum,
+  MediaListType,
+  MediaTypeEnum,
+} from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
@@ -145,7 +151,7 @@ export class MediaItemService {
       )
       : await this.mediaListRepository.getMedialListById(mediaListId)
 
-    if (mediaList && mediaList.userId !== userId && !mediaList.isPublic) {
+    if (mediaList && mediaList.userId !== userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
       throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED)
     }
 

@@ -9,7 +9,7 @@ import {
 import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/routes/mediaList/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
-import { MEDIA_LIST_COUNT_LIMIT, MediaItemType, MediaListType } from "@movie-tracker/types"
+import { MEDIA_LIST_COUNT_LIMIT, MediaItemType, MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
@@ -53,10 +53,6 @@ export class MediaListService {
     return false
   }
 
-  async getAllMedialLists(isPublicOnly = false, currentUserId?: string) {
-    return this.mediaListRepository.getAllMedialLists(isPublicOnly, currentUserId)
-  }
-
   async getMedialListById(
     id: string,
     currentUserId: string,
@@ -70,7 +66,7 @@ export class MediaListService {
       : await this.mediaListRepository.getMedialListById(id, currentUserId)
     const isListOwner = await this.isListOwner(id, currentUserId, mediaList)
 
-    if (!isListOwner && !mediaList.isPublic) {
+    if (!isListOwner && (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE)) {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
@@ -140,7 +136,7 @@ export class MediaListService {
       )
     }
 
-    if (!mediaList.isPublic && mediaList.userId !== userId) {
+    if (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE && mediaList.userId !== userId) {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
@@ -150,7 +146,7 @@ export class MediaListService {
       false,
       {
         title: body.title,
-        isPublic: false,
+        accessLevel: MediaListAccessLevelEnum.PRIVATE,
       },
     )
 

@@ -1,11 +1,11 @@
-import { MediaListCreateBodyType } from "@movie-tracker/types"
+import { MediaListAccessLevelEnum, MediaListCreateBodyType } from "@movie-tracker/types"
 import { Transform } from "class-transformer"
-import { IsBoolean, IsOptional, IsString, Length } from "class-validator"
+import { IsEnum, IsOptional, IsString, Length } from "class-validator"
 
 export class CreateMediaListDto
 implements MediaListCreateBodyType {
-  @IsBoolean()
-  isPublic: boolean
+  @IsEnum(MediaListAccessLevelEnum)
+  accessLevel: MediaListAccessLevelEnum
 
   @Transform(({ value }) => value?.trim())
   @Length(3, 64)

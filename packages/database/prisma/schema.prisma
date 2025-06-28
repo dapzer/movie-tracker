@@ -59,16 +59,16 @@ model User {
 }
 
 model MediaList {
-  id              String          @id @default(uuid())
-  humanFriendlyId String          @unique @map("human_friendly_id")
-  userId          String          @map("user_id")
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String                   @id @default(uuid())
+  humanFriendlyId String                   @unique @map("human_friendly_id")
+  userId          String                   @map("user_id")
+  user            User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   title           String?
   description     String?
-  isSystem        Boolean         @default(false) @map("is_system")
-  isPublic        Boolean         @default(false) @map("is_public")
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt() @map("updated_at")
+  accessLevel     MediaListAccessLevelEnum @default(PRIVATE) @map("access_level")
+  isSystem        Boolean                  @default(false) @map("is_system")
+  createdAt       DateTime                 @default(now()) @map("created_at")
+  updatedAt       DateTime                 @updatedAt() @map("updated_at")
   mediaItems      MediaItem[]
   likes           MediaListLike[]
 
@@ -139,7 +139,7 @@ model MediaDetails {
 }
 
 model MediaRating {
-  id          String        @id @default(uuid())
+  id        String        @id @default(uuid())
   userId    String        @map("user_id")
   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   mediaId   Int           @map("media_id")
@@ -175,4 +175,10 @@ enum SignUpMethodEnum {
   GITHUB
   VK
   YANDEX
+}
+
+enum MediaListAccessLevelEnum {
+  PUBLIC
+  URL
+  PRIVATE
 }
