@@ -16,16 +16,16 @@ export class CommunityListsController {
     return this.communityListsService.getListByTitle({
       title: query.title,
       currentUserId: user?.id,
-      limit: query.limit ?? DEFAULT_PAGINATION_LIMIT,
-      offset: query.offset ?? DEFAULT_PAGINATION_OFFSET,
+      limit: query.limit ? Number(query.limit) : DEFAULT_PAGINATION_LIMIT,
+      offset: query.offset ? Number(query.offset) : DEFAULT_PAGINATION_OFFSET,
     })
   }
 
   @Get("week-top")
   getWeekTop(@Query() query: PaginationDto, @User() user: UserDto) {
     return this.communityListsService.getWeeklyTopLists({
-      limit: query.limit ?? DEFAULT_PAGINATION_LIMIT,
-      offset: query.offset ?? DEFAULT_PAGINATION_OFFSET,
+      limit: query.limit ? Number(query.limit) : DEFAULT_PAGINATION_LIMIT,
+      offset: query.offset ? Number(query.offset) : DEFAULT_PAGINATION_OFFSET,
       currentUserId: user?.id,
     })
   }
@@ -33,8 +33,8 @@ export class CommunityListsController {
   @Get("all-time-top")
   getAllTimeTop(@Query() query: PaginationDto, @User() user: UserDto) {
     return this.communityListsService.getAllTimeTopLists({
-      limit: query.limit ?? DEFAULT_PAGINATION_LIMIT,
-      offset: query.offset ?? DEFAULT_PAGINATION_OFFSET,
+      limit: query.limit ? Number(query.limit) : DEFAULT_PAGINATION_LIMIT,
+      offset: query.offset ? Number(query.offset) : DEFAULT_PAGINATION_OFFSET,
       currentUserId: user?.id,
     })
   }
@@ -42,8 +42,8 @@ export class CommunityListsController {
   @Get("new-to-explore")
   getNewToExplore(@Query() query: PaginationDto, @User() user: UserDto) {
     return this.communityListsService.getNewestLists({
-      limit: query.limit ?? DEFAULT_PAGINATION_LIMIT,
-      offset: query.offset ?? DEFAULT_PAGINATION_OFFSET,
+      limit: query.limit ? Number(query.limit) : DEFAULT_PAGINATION_LIMIT,
+      offset: query.offset ? Number(query.offset) : DEFAULT_PAGINATION_OFFSET,
       currentUserId: user?.id,
     })
   }
