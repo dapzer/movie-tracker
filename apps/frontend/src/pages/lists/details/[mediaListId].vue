@@ -6,6 +6,7 @@ import { computed, watch } from "vue"
 import { useRoute } from "vue-router"
 import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
+import { useSendMediaListViewApi } from "~/api/mediaListView/useMediaListViewApi"
 import { useGetUserProfileByIdApi } from "~/api/user/useUserApi"
 import { useAuth } from "~/shared/composables/useAuth"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
@@ -18,10 +19,11 @@ import { MediaListDetails } from "~/widgets/mediaList"
 const { t } = useI18n()
 const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params
 const localePath = useLocalePath()
-const { isInitialLoadingProfile, profile } = useAuth()
+const { isInitialLoadingProfile, profile, isAuthorized } = useAuth()
 
 const mediaListsApi = useGetMediaListsApi()
 const mediaItemsApi = useGetMediaItemsApi()
+const sendMediaListViewApi = useSendMediaListViewApi()
 
 const isUserListOwner = computed(() => {
   return !!mediaListsApi.data.value?.some(list => list.humanFriendlyId === mediaListHumanFriendlyId)
@@ -93,6 +95,10 @@ const currentMediaItems = computed(() => {
 const currentUserProfile = computed(() => {
   return isUserListOwner.value ? profile.value : externalUserProfileApi.data.value
 })
+
+if (isAuthorized.value && !isNotPublicList.value && !isUserListOwner.value && currentMediaList.value && import.meta.client) {
+  sendMediaListViewApi.mutateAsync(currentMediaList.value.id)
+}
 
 const isLoading = computed(() => {
   const isLoadingMediaItems = externalMediaItemsApi.isLoading.value || mediaItemsApi.isLoading.value

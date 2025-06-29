@@ -22,6 +22,14 @@ export interface MediaListLikeType {
   createdAt: Date
 }
 
+export interface MediaListViewType {
+  id: string
+  mediaListId: string
+  userId: string
+  createdAt: Date
+  updatedAt: Date
+}
+
 export interface MediaListPosterType {
   en: Array<string | undefined>
   ru: Array<string | undefined>
