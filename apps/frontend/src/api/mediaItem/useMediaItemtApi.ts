@@ -30,6 +30,7 @@ export function useGetMediaItemsApi() {
       })
     },
     retry: false,
+    retryOnMount: false,
   })
 }
 

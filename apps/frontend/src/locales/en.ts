@@ -1188,7 +1188,12 @@ export default {
       description: "Description",
       poster: "Poster URL",
       posterPlaceholder: "Insert a link to an image or gif",
-      publicStatus: "View by public URL",
+      accessLevel: {
+        title: "Access level",
+        public: "Public",
+        private: "Private",
+        url: "By link",
+      },
     },
     sort: {
       title: "Sorting",

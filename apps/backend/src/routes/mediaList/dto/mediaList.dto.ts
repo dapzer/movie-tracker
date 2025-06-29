@@ -1,5 +1,5 @@
-import { MediaListType } from "@movie-tracker/types"
-import { IsBoolean, IsDateString, IsString, IsUUID } from "class-validator"
+import { MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
+import { IsBoolean, IsDateString, IsEnum, IsString, IsUUID } from "class-validator"
 
 export class MediaListDto implements MediaListType {
   @IsUUID()
@@ -14,8 +14,8 @@ export class MediaListDto implements MediaListType {
   @IsBoolean()
   isSystem: boolean
 
-  @IsBoolean()
-  isPublic: boolean
+  @IsEnum(MediaListAccessLevelEnum)
+  accessLevel: MediaListAccessLevelEnum
 
   @IsString()
   title: string

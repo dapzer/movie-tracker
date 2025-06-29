@@ -1189,7 +1189,12 @@ export default {
       titlePlaceholder: "Введите название",
       poster: "Постер",
       posterPlaceholder: "Вставьте ссылку на изображение или gif",
-      publicStatus: "Просмотр по публичному URL",
+      accessLevel: {
+        title: "Уровень доступа",
+        public: "Публичный",
+        private: "Приватный",
+        url: "По ссылке",
+      },
     },
     sort: {
       title: "Сортировка",
