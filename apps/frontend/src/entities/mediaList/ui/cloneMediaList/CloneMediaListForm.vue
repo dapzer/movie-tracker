@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import {
+  MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
+  MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
+  MediaItemStatusNameEnum,
+} from "@movie-tracker/types"
 import { computed } from "vue"
 import { toast } from "vue3-toastify"
 import * as yup from "yup"
@@ -46,7 +50,7 @@ const { formValue, onFormSubmit, errors } = useForm({
     })
   },
   validationSchema: yup.object().shape({
-    title: yup.string().trim().min(3, t("mediaList.errors.titleLength")),
+    title: yup.string().trim().min(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, t("mediaList.errors.titleLength")),
   }),
 })
 
@@ -104,7 +108,7 @@ const availableStatuses = computed(() => {
     <UiInput
       v-model="formValue.title"
       :error="errors?.title"
-      maxlength="64"
+      :maxlength="MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT"
       :placeholder="$t('mediaList.settingsForm.title')"
     />
 

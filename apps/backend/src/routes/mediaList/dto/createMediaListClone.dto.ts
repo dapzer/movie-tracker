@@ -1,4 +1,8 @@
-import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import {
+  MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
+  MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
+  MediaItemStatusNameEnum,
+} from "@movie-tracker/types"
 import { Transform } from "class-transformer"
 import { IsArray, IsBoolean, IsEnum, IsString, Length } from "class-validator"
 
@@ -12,6 +16,6 @@ export class CreateMediaListCloneDto {
 
   @Transform(({ value }) => value?.trim())
   @IsString()
-  @Length(3, 64)
+  @Length(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT)
   title: string
 }

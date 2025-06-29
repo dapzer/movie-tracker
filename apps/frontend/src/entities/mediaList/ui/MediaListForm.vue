@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import { useI18n } from "#imports"
-import { MediaListAccessLevelEnum } from "@movie-tracker/types"
+import {
+  MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
+  MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
+  MediaListAccessLevelEnum,
+} from "@movie-tracker/types"
 import { computed, h, watch } from "vue"
 import * as yup from "yup"
 import { useForm } from "~/shared/composables/useForm"
@@ -36,7 +40,7 @@ const { formValue, onFormSubmit, errors } = useForm({
     emit("onSubmit", formValue)
   },
   validationSchema: yup.object().shape({
-    title: yup.string().trim().min(3, t("mediaList.errors.titleLength")),
+    title: yup.string().trim().min(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, t("mediaList.errors.titleLength")),
     description: yup.string().nullable(),
     accessLevel: yup.string().required(t("validation.required")),
   }),
@@ -82,7 +86,7 @@ const accessLevelOptions = computed(() => {
       v-model="formValue.title"
       :disabled="props.isSystem"
       :error="errors?.title"
-      maxlength="64"
+      :maxlength="MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT"
       :placeholder="$t('mediaList.settingsForm.title')"
     />
     <UiTextarea
