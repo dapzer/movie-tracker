@@ -1,17 +1,17 @@
 import { PaginationDto } from "@/shared/dto/pagination.dto"
-import { GetCommunityListsAllTimeTopQuery, SortOrderEnum } from "@movie-tracker/types"
+import { GetCommunityListsAllTimeTopQueries, SortOrderEnum } from "@movie-tracker/types"
 import { IsEnum, IsIn, IsOptional, IsString } from "class-validator"
 
-const sortByOptions: GetCommunityListsAllTimeTopQuery["sortBy"][] = ["likes", "createdAt", "updatedAt"]
+const sortByOptions: GetCommunityListsAllTimeTopQueries["sortBy"][] = ["likes", "createdAt", "updatedAt"]
 
-export class GetCommunityListsAllTimeTopQueryDto extends PaginationDto implements GetCommunityListsAllTimeTopQuery {
+export class GetCommunityListsAllTimeTopQueryDto extends PaginationDto implements GetCommunityListsAllTimeTopQueries {
   @IsOptional()
   @IsEnum(SortOrderEnum)
   sortDirection?: SortOrderEnum
 
   @IsOptional()
   @IsIn(sortByOptions)
-  sortBy: GetCommunityListsAllTimeTopQuery["sortBy"]
+  sortBy: GetCommunityListsAllTimeTopQueries["sortBy"]
 
   @IsOptional()
   @IsString()

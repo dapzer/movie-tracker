@@ -1,10 +1,8 @@
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { GetCommunityListsAllTimeTopQueryDto } from "@/routes/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
-import { GetCommunityListsByTitleQueryDto } from "@/routes/communityLists/dto/getCommunityListsByTitleQuery.dto"
-import {
-  GetCommunityListsNewToExploreQueryDto,
-} from "@/routes/communityLists/dto/getCommunityListsNewToExploreQuery.dto"
-import { GetNewToExploreDto } from "@/routes/communityLists/dto/getCommunityListsWeekTopQuery.dto"
+import { GetCommunityListsNewestQueryDto } from "@/routes/communityLists/dto/getCommunityListsNewestQueryDto"
+import { GetCommunityListsSearchQueryDto } from "@/routes/communityLists/dto/getCommunityListsSearchQuery.dto"
+import { GetCommunityListsWeekTopQueryDto } from "@/routes/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/routes/communityLists/dto/getCommunityListsWithMediaQuery.dto"
 import { User } from "@/routes/user/users.decorator"
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@movie-tracker/types"
@@ -17,8 +15,8 @@ export class CommunityListsController {
   }
 
   @Get("search")
-  getListsByTitle(@Query() query: GetCommunityListsByTitleQueryDto, @User() user: UserDto) {
-    return this.communityListsService.getListsByTitle({
+  getListsSearch(@Query() query: GetCommunityListsSearchQueryDto, @User() user: UserDto) {
+    return this.communityListsService.getListsSearch({
       title: query.title,
       currentUserId: user?.id,
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
@@ -27,7 +25,7 @@ export class CommunityListsController {
   }
 
   @Get("week-top")
-  getWeekTop(@Query() query: GetNewToExploreDto, @User() user: UserDto) {
+  getWeekTop(@Query() query: GetCommunityListsWeekTopQueryDto, @User() user: UserDto) {
     return this.communityListsService.getWeeklyTopLists({
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
       offset: query.offset || DEFAULT_PAGINATION_OFFSET,
@@ -50,8 +48,8 @@ export class CommunityListsController {
     })
   }
 
-  @Get("new-to-explore")
-  getNewToExplore(@Query() query: GetCommunityListsNewToExploreQueryDto, @User() user: UserDto) {
+  @Get("newest")
+  getNewestLists(@Query() query: GetCommunityListsNewestQueryDto, @User() user: UserDto) {
     return this.communityListsService.getNewestLists({
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
       offset: query.offset || DEFAULT_PAGINATION_OFFSET,

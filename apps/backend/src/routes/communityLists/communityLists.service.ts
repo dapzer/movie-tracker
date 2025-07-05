@@ -3,10 +3,8 @@ import {
   CommunityListsRepositorySymbol,
 } from "@/repositories/communityLists/CommunityListsRepositoryInterface"
 import { GetCommunityListsAllTimeTopQueryDto } from "@/routes/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
-import {
-  GetCommunityListsNewToExploreQueryDto,
-} from "@/routes/communityLists/dto/getCommunityListsNewToExploreQuery.dto"
-import { GetNewToExploreDto } from "@/routes/communityLists/dto/getCommunityListsWeekTopQuery.dto"
+import { GetCommunityListsNewestQueryDto } from "@/routes/communityLists/dto/getCommunityListsNewestQueryDto"
+import { GetCommunityListsWeekTopQueryDto } from "@/routes/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/routes/communityLists/dto/getCommunityListsWithMediaQuery.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { SortOrderEnum } from "@movie-tracker/types"
@@ -35,8 +33,8 @@ export class CommunityListsService {
     return monday
   }
 
-  async getListsByTitle(args: { title: string, currentUserId?: string } & PaginationDto) {
-    return this.communityListsRepository.getByTitle({
+  async getListsSearch(args: { title: string, currentUserId?: string } & PaginationDto) {
+    return this.communityListsRepository.getSearchResult({
       title: args.title,
       currentUserId: args.currentUserId,
       limit: args.limit,
@@ -44,7 +42,7 @@ export class CommunityListsService {
     })
   }
 
-  async getWeeklyTopLists(args: { currentUserId?: string } & GetNewToExploreDto) {
+  async getWeeklyTopLists(args: { currentUserId?: string } & GetCommunityListsWeekTopQueryDto) {
     return this.communityListsRepository.getWeakTop({
       limit: args.limit,
       offset: args.offset,
@@ -67,7 +65,7 @@ export class CommunityListsService {
     })
   }
 
-  async getNewestLists(args: { currentUserId?: string } & GetCommunityListsNewToExploreQueryDto) {
+  async getNewestLists(args: { currentUserId?: string } & GetCommunityListsNewestQueryDto) {
     return this.communityListsRepository.getNewest({
       limit: args.limit,
       offset: args.offset,

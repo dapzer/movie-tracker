@@ -88,7 +88,7 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
     }
   }
 
-  async getByTitle(args: Parameters<CommunityListsRepositoryInterface["getByTitle"]>[0]) {
+  async getSearchResult(args: Parameters<CommunityListsRepositoryInterface["getSearchResult"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
         title: {

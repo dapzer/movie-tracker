@@ -1,17 +1,17 @@
 import { PaginationDto } from "@/shared/dto/pagination.dto"
-import { GetCommunityListsWeekTopQuery, SortOrderEnum } from "@movie-tracker/types"
+import { GetCommunityListsWeekTopQueries, SortOrderEnum } from "@movie-tracker/types"
 import { IsEnum, IsIn, IsOptional, IsString } from "class-validator"
 
-const sortByOptions: GetCommunityListsWeekTopQuery["sortBy"][] = ["views", "createdAt", "updatedAt"]
+const sortByOptions: GetCommunityListsWeekTopQueries["sortBy"][] = ["views", "createdAt", "updatedAt"]
 
-export class GetNewToExploreDto extends PaginationDto implements GetCommunityListsWeekTopQuery {
+export class GetCommunityListsWeekTopQueryDto extends PaginationDto implements GetCommunityListsWeekTopQueries {
   @IsOptional()
   @IsEnum(SortOrderEnum)
   sortDirection?: SortOrderEnum
 
   @IsOptional()
   @IsIn(sortByOptions)
-  sortBy: GetCommunityListsWeekTopQuery["sortBy"]
+  sortBy: GetCommunityListsWeekTopQueries["sortBy"]
 
   @IsOptional()
   @IsString()

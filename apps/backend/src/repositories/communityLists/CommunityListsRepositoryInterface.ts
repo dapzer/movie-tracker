@@ -11,7 +11,7 @@ interface DefaultArgs {
 }
 
 export interface CommunityListsRepositoryInterface {
-  getByTitle: (args: Omit<DefaultArgs, "sortDirection">) => Promise<MediaListsPaginatedType>
+  getSearchResult: (args: Omit<DefaultArgs, "sortDirection">) => Promise<MediaListsPaginatedType>
   getWeakTop: (args: { fromDate: Date, sortBy: "views" | "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
   getAllTimeTop: (args: { sortBy: "likes" | "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
   getNewest: (args: { sortBy: "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
