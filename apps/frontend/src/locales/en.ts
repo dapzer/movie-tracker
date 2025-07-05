@@ -1201,6 +1201,15 @@ export default {
       updatedAt: "Sort by date updated",
     },
   },
+  communityLists: {
+    hero: {
+      title: "Community lists",
+      description: "Embark on a cinematic adventure through lists created by movie fans and uncover your next must-watch masterpiece",
+    },
+    topOfTheWeek: "This Week's Top Lists",
+    allTimeFavorites: "All-Time Favorite Lists",
+    newToExplore: "New to Explore",
+  },
   mediaRating: {
     rate: "Rate",
     howRate: "How would you rate",

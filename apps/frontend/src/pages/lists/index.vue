@@ -12,6 +12,7 @@ import {
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiListsGrid } from "~/shared/ui/UiListsGrid"
 import { getListDeclensionTranslationKey } from "~/shared/utils/getListDeclensionTranslationKey"
 import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 import { UiButton } from "../../shared/ui/UiButton"
@@ -90,7 +91,7 @@ const sortedMediaLists = computed(() => {
       </UiButton>
     </UiAttention>
 
-    <div :class="$style.lists">
+    <UiListsGrid>
       <template v-if="getMediaListsApi.data.value && !getMediaListsApi.isLoading.value">
         <MediaListCard
           v-for="list in sortedMediaLists"
@@ -103,35 +104,16 @@ const sortedMediaLists = computed(() => {
         v-else-if="getMediaListsApi.isLoading.value"
         :key="i"
       />
-    </div>
+    </UiListsGrid>
   </UiContainer>
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/breakpoints";
-@import "~/shared/styles/mixins";
-
 @layer external {
   .wrapper {
     padding-top: 60px !important;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-  }
-}
-
-.lists {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 40px;
-
-  @include tabletDevice {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  @include mobileDevice {
-    grid-template-columns: 1fr;
     gap: 16px;
   }
 }

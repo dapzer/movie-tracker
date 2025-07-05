@@ -16,37 +16,37 @@ import {
 } from "./communityListsApi"
 import { CommunityListsApiQueryKeys } from "./communityListsApiQueryKeys"
 
-export function useCommunityListsWeekTopApi(queries: Ref<GetCommunityListsWeekTopQueries>) {
+export function useCommunityListsWeekTopApi(queries?: Ref<GetCommunityListsWeekTopQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_WEEK_TOP, queries],
-    queryFn: () => getCommunityListsWeekTopApi({ queries: queries.value }),
+    queryFn: () => getCommunityListsWeekTopApi({ queries: queries?.value }),
   })
 }
 
-export function useCommunityListsAllTimeTopApi(queries: Ref<GetCommunityListsAllTimeTopQueries>) {
+export function useCommunityListsAllTimeTopApi(queries?: Ref<GetCommunityListsAllTimeTopQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_ALL_TIME_TOP, queries],
-    queryFn: () => getCommunityListsAllTimeTopApi({ queries: queries.value }),
+    queryFn: () => getCommunityListsAllTimeTopApi({ queries: queries?.value }),
   })
 }
 
-export function useCommunityListsNewestApi(queries: Ref<GetCommunityListsNewestQueries>) {
+export function useCommunityListsNewestApi(queries?: Ref<GetCommunityListsNewestQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_NEWEST, queries],
-    queryFn: () => getCommunityListsNewestApi({ queries: queries.value }),
+    queryFn: () => getCommunityListsNewestApi({ queries: queries?.value }),
   })
 }
 
-export function useCommunityListsSearchApi(queries: Ref<GetCommunityListsSearchQueries>) {
+export function useCommunityListsSearchApi(queries?: Ref<GetCommunityListsSearchQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_SEARCH, queries],
-    queryFn: () => getCommunityListsSearchApi({ queries: queries.value }),
+    queryFn: () => getCommunityListsSearchApi({ queries: queries?.value }),
   })
 }
 
-export function useCommunityListsWithMediaApi(queries: Ref<GetCommunityListsWithMediaQueries>) {
+export function useCommunityListsWithMediaApi(queries?: Ref<GetCommunityListsWithMediaQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_WITH_MEDIA, queries],
-    queryFn: () => getCommunityListsWithMediaApi({ queries: queries.value }),
+    queryFn: () => getCommunityListsWithMediaApi({ queries: queries?.value }),
   })
 }

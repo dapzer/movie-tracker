@@ -1,0 +1,103 @@
+<script setup lang="ts">
+import type {
+  GetCommunityListsAllTimeTopQueries,
+  GetCommunityListsNewestQueries,
+  GetCommunityListsWeekTopQueries,
+} from "@movie-tracker/types"
+import { useI18n } from "#imports"
+import { computed, ref } from "vue"
+import {
+  useCommunityListsAllTimeTopApi,
+  useCommunityListsNewestApi,
+  useCommunityListsWeekTopApi,
+} from "~/api/communityLists/useCommunityListsApi"
+import { MediaListCard } from "~/entities/mediaList"
+import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiListsGrid } from "~/shared/ui/UiListsGrid"
+import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
+
+const { t } = useI18n()
+
+const weekTopQueryParams = ref<GetCommunityListsWeekTopQueries>({
+  limit: 3,
+})
+const communityListsWeekTopApi = useCommunityListsWeekTopApi(weekTopQueryParams)
+
+const allTimeTopQueryParams = ref<GetCommunityListsAllTimeTopQueries>({
+  limit: 6,
+})
+const communityListsAllTimeTopApi = useCommunityListsAllTimeTopApi(allTimeTopQueryParams)
+
+const newestQueryParams = ref<GetCommunityListsNewestQueries>({
+  limit: 3,
+})
+const communityListsNewestApi = useCommunityListsNewestApi(newestQueryParams)
+
+await Promise.all([
+  communityListsWeekTopApi.suspense(),
+  communityListsAllTimeTopApi.suspense(),
+  communityListsNewestApi.suspense(),
+])
+
+const sections = computed(() => {
+  return [
+    {
+      title: t("communityLists.topOfTheWeek"),
+      items: communityListsWeekTopApi.data.value?.items || [],
+      seeMoreLink: "/lists/community/week-top",
+    },
+    {
+      title: t("communityLists.allTimeFavorites"),
+      items: communityListsAllTimeTopApi.data.value?.items || [],
+      seeMoreLink: "/lists/community/all-time-favorites",
+    },
+    {
+      title: t("communityLists.newToExplore"),
+      items: communityListsNewestApi.data.value?.items || [],
+      seeMoreLink: "/lists/community/new-to-explore",
+    },
+  ]
+})
+</script>
+
+<template>
+  <UiContainer :class="$style.wrapper">
+    <template
+      v-for="section in sections"
+      :key="section.title"
+    >
+      <UiSectionWithSeeMore
+        v-if="section.items.length"
+        :title="section.title"
+        :see-more-url="section.seeMoreLink"
+      >
+        <UiListsGrid>
+          <MediaListCard
+            v-for="communityList in section.items"
+            :key="communityList.id"
+            :list="communityList"
+          />
+        </UiListsGrid>
+      </UiSectionWithSeeMore>
+    </template>
+  </UiContainer>
+</template>
+
+<style module lang="scss">
+@import "~/shared/styles/breakpoints";
+@import "~/shared/styles/mixins";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+
+  @include tabletDevice {
+    gap: 60px;
+  }
+
+  @include mobileDevice {
+    gap: 24px;
+  }
+}
+</style>

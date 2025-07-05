@@ -8,7 +8,7 @@ import type {
 } from "@movie-tracker/types"
 import { api } from "~/api/instance"
 
-export function getCommunityListsWeekTopApi(args: { queries: GetCommunityListsWeekTopQueries }) {
+export function getCommunityListsWeekTopApi(args: { queries?: GetCommunityListsWeekTopQueries }) {
   return api.get<MediaListsPaginatedType>("community-lists/week-top", {
     params: {
       ...args.queries,
@@ -16,7 +16,7 @@ export function getCommunityListsWeekTopApi(args: { queries: GetCommunityListsWe
   })
 }
 
-export function getCommunityListsAllTimeTopApi(args: { queries: GetCommunityListsAllTimeTopQueries }) {
+export function getCommunityListsAllTimeTopApi(args: { queries?: GetCommunityListsAllTimeTopQueries }) {
   return api.get<MediaListsPaginatedType>("community-lists/all-time-top", {
     params: {
       ...args.queries,
@@ -24,15 +24,15 @@ export function getCommunityListsAllTimeTopApi(args: { queries: GetCommunityList
   })
 }
 
-export function getCommunityListsNewestApi(args: { queries: GetCommunityListsNewestQueries }) {
-  return api.get<MediaListsPaginatedType>("community-lists/new-to-explore", {
+export function getCommunityListsNewestApi(args: { queries?: GetCommunityListsNewestQueries }) {
+  return api.get<MediaListsPaginatedType>("community-lists/newest", {
     params: {
       ...args.queries,
     },
   })
 }
 
-export function getCommunityListsSearchApi(args: { queries: GetCommunityListsSearchQueries }) {
+export function getCommunityListsSearchApi(args: { queries?: GetCommunityListsSearchQueries }) {
   return api.get<MediaListsPaginatedType>("community-lists/search", {
     params: {
       ...args.queries,
@@ -40,7 +40,7 @@ export function getCommunityListsSearchApi(args: { queries: GetCommunityListsSea
   })
 }
 
-export function getCommunityListsWithMediaApi(args: { queries: GetCommunityListsWithMediaQueries }) {
+export function getCommunityListsWithMediaApi(args: { queries?: GetCommunityListsWithMediaQueries }) {
   return api.get<MediaListsPaginatedType>("community-lists/with-media", {
     params: {
       ...args.queries,
