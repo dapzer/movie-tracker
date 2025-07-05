@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
+import { SortOrderEnum } from "@movie-tracker/types"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
@@ -10,7 +11,6 @@ import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
 import { useForm } from "~/shared/composables/useForm"
-import { SortOrderEnum } from "~/shared/types/Sorting"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"

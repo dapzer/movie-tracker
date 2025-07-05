@@ -3,6 +3,7 @@ import type { MediaListType } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
+import { MediaListAccessLevelEnum } from "@movie-tracker/types"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -33,6 +34,19 @@ const listPageUrl = computed(() => localePath(`/lists/details/${props.list.human
 const posters = computed(() => {
   return props.list.poster?.[locale.value].map(el => el ? getProxiedImageUrl(el, 179) : el)
 })
+
+const accessLevel = computed(() => {
+  switch (props.list.accessLevel) {
+    case MediaListAccessLevelEnum.PRIVATE:
+      return t("mediaList.settingsForm.accessLevel.private")
+    case MediaListAccessLevelEnum.URL:
+      return t("mediaList.settingsForm.accessLevel.url")
+    case MediaListAccessLevelEnum.PUBLIC:
+      return t("mediaList.settingsForm.accessLevel.public")
+    default:
+      return ""
+  }
+})
 </script>
 
 <template>
@@ -51,7 +65,7 @@ const posters = computed(() => {
         {{ title }}
       </UiTypography>
       <UiButton
-        v-if="props.list.isPublic"
+        v-if="props.list.accessLevel !== MediaListAccessLevelEnum.PRIVATE"
         :class="$style.shareButton"
         variant="text"
         :disabled="copied"
@@ -84,24 +98,30 @@ const posters = computed(() => {
           variant="description"
         >
           <UiIcon
-            v-if="props.list.isPublic"
+            v-if="props.list.accessLevel === MediaListAccessLevelEnum.PUBLIC"
             name="icon:shared-planet"
             :width="16"
             :height="18"
           />
           <UiIcon
+            v-else-if="props.list.accessLevel === MediaListAccessLevelEnum.URL"
+            name="icon:link"
+            :width="14"
+            :height="18"
+          />
+          <UiIcon
             v-else
+            name="icon:locker"
             :width="16"
             :height="18"
-            name="icon:locker"
           />
-          {{ props.list.isPublic ? $t("ui.public") : $t("ui.private") }}
+          {{ accessLevel }}
         </UiTypography>
       </div>
 
       <div>
         <UiTypography
-          v-if="props.list.isPublic"
+          v-if="props.list.accessLevel !== MediaListAccessLevelEnum.PRIVATE"
           :class="$style.likes"
           variant="description"
         >

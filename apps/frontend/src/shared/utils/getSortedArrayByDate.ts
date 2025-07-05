@@ -1,4 +1,4 @@
-import type { SortOrderEnum } from "~/shared/types/Sorting"
+import type { SortOrderEnum } from "@movie-tracker/types"
 
 type FixArr<T> = T extends readonly any[] ? Omit<T, Exclude<keyof any[], number>> : T
 

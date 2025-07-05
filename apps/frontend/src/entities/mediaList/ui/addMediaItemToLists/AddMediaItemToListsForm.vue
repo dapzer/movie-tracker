@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, SortOrderEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
 import {
@@ -12,7 +12,6 @@ import {
 } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
-import { SortOrderEnum } from "~/shared/types/Sorting"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"

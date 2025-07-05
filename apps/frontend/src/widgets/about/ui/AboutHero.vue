@@ -33,14 +33,13 @@ const localePath = useLocalePath()
           {{ $t("about.hero.description") }}
         </UiTypography>
         <div :class="$style.actions">
-          <!-- TODO: Uncomment after implement community lists -->
-          <!--          <UiButton -->
-          <!--            :as="NuxtLink" -->
-          <!--            :to="localePath('/lists/community')" -->
-          <!--            variant="outlined" -->
-          <!--          > -->
-          <!--            {{ $t("navigation.communityLists") }} -->
-          <!--          </UiButton> -->
+          <UiButton
+            :as="NuxtLink"
+            :to="localePath('/lists/community')"
+            variant="outlined"
+          >
+            {{ $t("navigation.communityLists") }}
+          </UiButton>
           <UiButton
             :as="NuxtLink"
             :to="localePath('/')"

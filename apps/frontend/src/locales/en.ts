@@ -1188,13 +1188,27 @@ export default {
       description: "Description",
       poster: "Poster URL",
       posterPlaceholder: "Insert a link to an image or gif",
-      publicStatus: "View by public URL",
+      accessLevel: {
+        title: "Access level",
+        public: "Public",
+        private: "Private",
+        url: "By link",
+      },
     },
     sort: {
       title: "Sorting",
       createdAt: "Sort by date added",
       updatedAt: "Sort by date updated",
     },
+  },
+  communityLists: {
+    hero: {
+      title: "Community lists",
+      description: "Embark on a cinematic adventure through lists created by movie fans and uncover your next must-watch masterpiece",
+    },
+    topOfTheWeek: "This Week's Top Lists",
+    allTimeFavorites: "All-Time Favorite Lists",
+    newToExplore: "New to Explore",
   },
   mediaRating: {
     rate: "Rate",

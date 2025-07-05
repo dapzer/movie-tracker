@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { MediaItemType } from "@movie-tracker/types"
-import type { SortOrderEnum } from "~/shared/types/Sorting"
+import type { MediaItemType, SortOrderEnum } from "@movie-tracker/types"
 import { useCookie } from "#app"
 import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"

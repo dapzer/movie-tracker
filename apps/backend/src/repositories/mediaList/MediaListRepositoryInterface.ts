@@ -8,11 +8,6 @@ import {
 export const MediaListRepositorySymbol = Symbol()
 
 export interface MediaListRepositoryInterface {
-  getAllMedialLists: (
-    isPublicOnly?: boolean,
-    currentUserId?: string,
-  ) => Promise<MediaListType[]>
-
   getMedialListById: (id: string, currentUserId?: string) => Promise<MediaListType>
 
   getMedialListByMediaItemAndUserId: (
