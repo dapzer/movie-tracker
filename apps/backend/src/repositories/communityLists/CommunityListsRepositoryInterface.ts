@@ -1,11 +1,19 @@
-import { MediaListsPaginatedType } from "@movie-tracker/types"
+import { MediaListsPaginatedType, SortOrderEnum } from "@movie-tracker/types"
 
 export const CommunityListsRepositorySymbol = Symbol("communityListsRepository")
 
+interface DefaultArgs {
+  limit: number
+  offset: number
+  currentUserId?: string
+  sortDirection?: SortOrderEnum
+  title?: string
+}
+
 export interface CommunityListsRepositoryInterface {
-  getByTitle: (args: { title: string, currentUserId?: string, limit: number, offset: number }) => Promise<MediaListsPaginatedType>
-  getWeakTop: (args: { limit: number, offset: number, fromDate: Date, currentUserId?: string }) => Promise<MediaListsPaginatedType>
-  getAllTimeTop: (args: { limit: number, offset: number, currentUserId?: string }) => Promise<MediaListsPaginatedType>
-  getNewest: (args: { limit: number, offset: number, currentUserId?: string }) => Promise<MediaListsPaginatedType>
-  getListsWithMedia: (args: { mediaId: number, currentUserId?: string, limit: number, offset: number }) => Promise<MediaListsPaginatedType>
+  getByTitle: (args: Omit<DefaultArgs, "sortDirection">) => Promise<MediaListsPaginatedType>
+  getWeakTop: (args: { fromDate: Date, sortBy: "views" | "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
+  getAllTimeTop: (args: { sortBy: "likes" | "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
+  getNewest: (args: { sortBy: "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
+  getListsWithMedia: (args: { mediaId: number } & Omit<DefaultArgs, "sortDirection" | "title">) => Promise<MediaListsPaginatedType>
 }

@@ -101,9 +101,13 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
     })
   }
 
-  async getAllTimeTop(args: Parameters<CommunityListsRepositoryInterface["getWeakTop"]>[0]) {
+  async getAllTimeTop(args: Parameters<CommunityListsRepositoryInterface["getAllTimeTop"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
+        title: {
+          contains: args.title,
+          mode: "insensitive",
+        },
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         likes: {
           some: {},
@@ -112,11 +116,15 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
           some: {},
         },
       },
-      orderBy: {
-        likes: {
-          _count: "desc",
-        },
-      },
+      orderBy: args.sortBy === "likes"
+        ? {
+            likes: {
+              _count: args.sortDirection,
+            },
+          }
+        : {
+            [args.sortBy]: args.sortDirection,
+          },
       take: args.limit,
       skip: args.offset,
       include: getMediaListIncludeObject(args.currentUserId),
@@ -126,6 +134,10 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
   async getWeakTop(args: Parameters<CommunityListsRepositoryInterface["getWeakTop"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
+        title: {
+          contains: args.title,
+          mode: "insensitive",
+        },
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         views: {
           some: {},
@@ -137,11 +149,15 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
           gte: args.fromDate,
         },
       },
-      orderBy: {
-        views: {
-          _count: "desc",
-        },
-      },
+      orderBy: args.sortBy === "views"
+        ? {
+            views: {
+              _count: args.sortDirection,
+            },
+          }
+        : {
+            [args.sortBy]: args.sortDirection,
+          },
       take: args.limit,
       skip: args.offset,
       include: getMediaListIncludeObject(args.currentUserId),
@@ -151,13 +167,17 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
   async getNewest(args: Parameters<CommunityListsRepositoryInterface["getNewest"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
+        title: {
+          contains: args.title,
+          mode: "insensitive",
+        },
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         mediaItems: {
           some: {},
         },
       },
       orderBy: {
-        createdAt: "desc",
+        [args.sortBy]: args.sortDirection,
       },
       take: args.limit,
       skip: args.offset,

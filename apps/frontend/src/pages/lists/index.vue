@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onBeforeMount, useI18n, useSeoMeta } from "#imports"
-import { MEDIA_LIST_COUNT_LIMIT } from "@movie-tracker/types"
+import { MEDIA_LIST_COUNT_LIMIT, SortOrderEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import {
@@ -11,7 +11,6 @@ import {
 } from "~/entities/mediaList"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
-import { SortOrderEnum } from "~/shared/types/Sorting"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { getListDeclensionTranslationKey } from "~/shared/utils/getListDeclensionTranslationKey"
 import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"

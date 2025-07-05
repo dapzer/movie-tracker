@@ -2,7 +2,14 @@ import {
   CommunityListsRepositoryInterface,
   CommunityListsRepositorySymbol,
 } from "@/repositories/communityLists/CommunityListsRepositoryInterface"
+import { GetCommunityListsAllTimeTopQueryDto } from "@/routes/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
+import {
+  GetCommunityListsNewToExploreQueryDto,
+} from "@/routes/communityLists/dto/getCommunityListsNewToExploreQuery.dto"
+import { GetNewToExploreDto } from "@/routes/communityLists/dto/getCommunityListsWeekTopQuery.dto"
+import { GetCommunityListsWithMediaQueryDto } from "@/routes/communityLists/dto/getCommunityListsWithMediaQuery.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
+import { SortOrderEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
@@ -37,32 +44,41 @@ export class CommunityListsService {
     })
   }
 
-  async getWeeklyTopLists(args: { currentUserId?: string } & PaginationDto) {
+  async getWeeklyTopLists(args: { currentUserId?: string } & GetNewToExploreDto) {
     return this.communityListsRepository.getWeakTop({
       limit: args.limit,
       offset: args.offset,
       fromDate: this.getCurrentWeekMondayDate(),
       currentUserId: args.currentUserId,
+      sortBy: args.sortBy || "views",
+      sortDirection: args.sortDirection || SortOrderEnum.DESC,
+      title: args.title,
     })
   }
 
-  async getAllTimeTopLists(args: { currentUserId?: string } & PaginationDto) {
+  async getAllTimeTopLists(args: { currentUserId?: string } & GetCommunityListsAllTimeTopQueryDto) {
     return this.communityListsRepository.getAllTimeTop({
       limit: args.limit,
       offset: args.offset,
       currentUserId: args.currentUserId,
+      sortBy: args.sortBy || "likes",
+      sortDirection: args.sortDirection || SortOrderEnum.DESC,
+      title: args.title,
     })
   }
 
-  async getNewestLists(args: { currentUserId?: string } & PaginationDto) {
+  async getNewestLists(args: { currentUserId?: string } & GetCommunityListsNewToExploreQueryDto) {
     return this.communityListsRepository.getNewest({
       limit: args.limit,
       offset: args.offset,
       currentUserId: args.currentUserId,
+      sortBy: args.sortBy || "createdAt",
+      sortDirection: args.sortDirection || SortOrderEnum.DESC,
+      title: args.title,
     })
   }
 
-  async getListsWithMedia(args: { mediaId: number, currentUserId?: string, limit: number, offset: number }) {
+  async getListsWithMedia(args: { currentUserId?: string } & GetCommunityListsWithMediaQueryDto) {
     return this.communityListsRepository.getListsWithMedia({
       mediaId: args.mediaId,
       currentUserId: args.currentUserId,
