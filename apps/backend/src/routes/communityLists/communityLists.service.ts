@@ -28,10 +28,12 @@ export class CommunityListsService {
     return monday
   }
 
-  async getListByTitle(args: { title: string, currentUserId?: string } & PaginationDto) {
+  async getListsByTitle(args: { title: string, currentUserId?: string } & PaginationDto) {
     return this.communityListsRepository.getByTitle({
       title: args.title,
       currentUserId: args.currentUserId,
+      limit: args.limit,
+      offset: args.offset,
     })
   }
 
@@ -57,6 +59,15 @@ export class CommunityListsService {
       limit: args.limit,
       offset: args.offset,
       currentUserId: args.currentUserId,
+    })
+  }
+
+  async getListsWithMedia(args: { mediaId: number, currentUserId?: string, limit: number, offset: number }) {
+    return this.communityListsRepository.getListsWithMedia({
+      mediaId: args.mediaId,
+      currentUserId: args.currentUserId,
+      limit: args.limit,
+      offset: args.offset,
     })
   }
 }

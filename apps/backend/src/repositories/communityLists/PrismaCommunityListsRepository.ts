@@ -69,8 +69,27 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
     }
   }
 
+  private async selectMediaListsWithCount(arg: Prisma.MediaListFindManyArgs) {
+    const { take, skip, ...args } = arg
+    const [mediaLists, totalCount] = await this.prisma.$transaction([
+      this.prisma.mediaList.findMany({
+        ...args,
+        take,
+        skip,
+      }),
+      this.prisma.mediaList.count({
+        where: args.where,
+      }),
+    ])
+
+    return {
+      items: mediaLists.map(this.convertToInterface),
+      totalCount,
+    }
+  }
+
   async getByTitle(args: Parameters<CommunityListsRepositoryInterface["getByTitle"]>[0]) {
-    const mediaList = await this.prisma.mediaList.findFirst({
+    return this.selectMediaListsWithCount({
       where: {
         title: {
           contains: args.title,
@@ -80,15 +99,16 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
       },
       include: getMediaListIncludeObject(args.currentUserId),
     })
-
-    return this.convertToInterface(mediaList)
   }
 
   async getAllTimeTop(args: Parameters<CommunityListsRepositoryInterface["getWeakTop"]>[0]) {
-    const mediaLists = await this.prisma.mediaList.findMany({
+    return this.selectMediaListsWithCount({
       where: {
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         likes: {
+          some: {},
+        },
+        mediaItems: {
           some: {},
         },
       },
@@ -101,15 +121,16 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
       skip: args.offset,
       include: getMediaListIncludeObject(args.currentUserId),
     })
-
-    return mediaLists.map(this.convertToInterface)
   }
 
   async getWeakTop(args: Parameters<CommunityListsRepositoryInterface["getWeakTop"]>[0]) {
-    const mediaLists = await this.prisma.mediaList.findMany({
+    return this.selectMediaListsWithCount({
       where: {
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         views: {
+          some: {},
+        },
+        mediaItems: {
           some: {},
         },
         createdAt: {
@@ -125,14 +146,15 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
       skip: args.offset,
       include: getMediaListIncludeObject(args.currentUserId),
     })
-
-    return mediaLists.map(this.convertToInterface)
   }
 
   async getNewest(args: Parameters<CommunityListsRepositoryInterface["getNewest"]>[0]) {
-    const mediaLists = await this.prisma.mediaList.findMany({
+    return this.selectMediaListsWithCount({
       where: {
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
+        mediaItems: {
+          some: {},
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -141,7 +163,24 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
       skip: args.offset,
       include: getMediaListIncludeObject(args.currentUserId),
     })
+  }
 
-    return mediaLists.map(this.convertToInterface)
+  async getListsWithMedia(args: Parameters<CommunityListsRepositoryInterface["getListsWithMedia"]>[0]) {
+    return this.selectMediaListsWithCount({
+      where: {
+        mediaItems: {
+          some: {
+            mediaId: args.mediaId,
+          },
+        },
+        accessLevel: MediaListAccessLevelEnum.PUBLIC,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+      take: args.limit,
+      skip: args.offset,
+      include: getMediaListIncludeObject(args.currentUserId),
+    })
   }
 }

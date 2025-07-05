@@ -39,6 +39,11 @@ export type MediaListCreateBodyType = Pick<MediaListType, "title" | "description
 
 export type MediaListUpdateBodyType = Pick<MediaListType, "title" | "description" | "accessLevel">
 
+export interface MediaListsPaginatedType {
+  items: MediaListType[]
+  totalCount: number
+}
+
 export const MEDIA_LIST_COUNT_LIMIT = 12
 export const MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT = 3
 export const MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT = 64
