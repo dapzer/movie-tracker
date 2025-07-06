@@ -154,13 +154,14 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
         },
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         views: {
-          some: {},
+          some: {
+            updatedAt: {
+              gte: args.fromDate,
+            },
+          },
         },
         mediaItems: {
           some: {},
-        },
-        createdAt: {
-          gte: args.fromDate,
         },
       },
       orderBy: args.sortBy === "views"

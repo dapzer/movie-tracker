@@ -1,23 +1,32 @@
 <script setup lang="ts">
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { UiSkeleton } from "~/shared/ui/UiSkeleton"
+import { UiUserProfileLinkSkeleton } from "~/shared/ui/UiUserProfileLink"
+
+interface MediaListCardSkeletonProps {
+  horizontal?: boolean
+}
+
+const props = defineProps<MediaListCardSkeletonProps>()
 </script>
 
 <template>
   <UiListCard
+    :horizontal="props.horizontal"
     :width="560"
   >
-    <div :class="$style.header">
-      <UiSkeleton :width="110" />
-    </div>
-
-    <div :class="$style.content">
-      <div>
+    <template #header>
+      <UiUserProfileLinkSkeleton :class="$style.user" />
+    </template>
+    <template #content>
+      <div :class="$style.content">
         <UiSkeleton :width="70" />
         <UiSkeleton :width="90" />
       </div>
+    </template>
+    <template #footer>
       <UiSkeleton :width="30" />
-    </div>
+    </template>
   </UiListCard>
 </template>
 
@@ -28,18 +37,14 @@ import { UiSkeleton } from "~/shared/ui/UiSkeleton"
   align-items: center;
 }
 
-.content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.user {
+  width: 100%;
+}
 
-  & > div {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    row-gap: 4px;
-    width: 100%;
-  }
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 </style>

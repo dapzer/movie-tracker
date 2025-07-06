@@ -92,8 +92,21 @@
   }
 }
 
+@mixin untilMobileDevice() {
+  @media screen and (min-width: $bp-sm) {
+    @content;
+  }
+}
+
 @mixin mobilePlusDevice() {
   @media screen and (max-width: $bp-sm-plus) {
+    @content;
+  }
+}
+
+
+@mixin untilMobilePlusDevice() {
+  @media screen and (min-width: $bp-sm-plus) {
     @content;
   }
 }

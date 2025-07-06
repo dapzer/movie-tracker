@@ -14,7 +14,6 @@ useSeoMeta({
   ogDescription() {
     return t("communityLists.hero.description")
   },
-
 })
 </script>
 
