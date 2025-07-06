@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import type { MediaTypeEnum } from "@movie-tracker/types"
+import type { GetCommunityListsWithMediaQueries, MediaTypeEnum } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
+import { useCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetMediaRatingByUserApi } from "~/api/mediaRating/useMediaRatingApi"
 import {
   useGetTmdbMovieCreditsApi,
@@ -13,6 +14,7 @@ import {
   useGetTmdbVideosApi,
 } from "~/api/tmdb/useTmdbApi"
 import { EpisodeCard } from "~/entities/episodeCard"
+import { MediaListCard } from "~/entities/mediaList"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -47,6 +49,10 @@ const getVideosQueries = computed(() => ({
   includeVideoLanguage: locale.value === LanguagesEnum.RU ? [LanguagesEnum.EN, LanguagesEnum.RU].join(",") : undefined,
 }))
 
+const getCommunityListsWithMediaQueries = computed<GetCommunityListsWithMediaQueries>(() => ({
+  mediaId: props.mediaId,
+}))
+
 const isTv = computed(() => props.mediaType === TmdbMediaTypeEnum.TV)
 
 const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries)
@@ -58,6 +64,7 @@ const getMediaRatingApi = useGetMediaRatingByUserApi({
   mediaId: props.mediaId,
   mediaType: props.mediaType as unknown as MediaTypeEnum,
 })
+const communityListsWithMediaApi = useCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -73,6 +80,7 @@ await Promise.all([
   tmdbGetVideosApi.suspense(),
   (isTv.value && tmdbGetTvSeriesDetailsApi.suspense()),
   getMediaRatingApi.suspense(),
+  communityListsWithMediaApi.suspense(),
 ])
 
 useMovieDetailsSeo({
@@ -203,6 +211,25 @@ const latestEpisodes = computed(() => {
           :image-src="getProxiedImageUrl(person.profile_path, 260)"
         />
       </div>
+    </UiSectionWithSeeMore>
+
+    <UiSectionWithSeeMore
+      v-if="communityListsWithMediaApi.data.value?.items.length"
+      :title="$t(`details.listsWithMediaTitle`)"
+      :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/community-lists`)"
+    >
+      <UiSlider
+        :data="communityListsWithMediaApi.data.value?.items"
+        :max-width="396"
+        :buttons-top-offset="142"
+      >
+        <template #slide="{ item }">
+          <MediaListCard
+            full-height
+            :list="item"
+          />
+        </template>
+      </UiSlider>
     </UiSectionWithSeeMore>
 
     <UiSectionWithSeeMore

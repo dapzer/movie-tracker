@@ -82,6 +82,7 @@ export class CommunityListsService {
       currentUserId: args.currentUserId,
       limit: args.limit,
       offset: args.offset,
+      title: args.title,
     })
   }
 }

@@ -50,6 +50,7 @@ export default {
     videosTitle: "Videos",
     castTitle: "Actors",
     recommendationsTitle: "Similar films",
+    listsWithMediaTitle: "Contained in the lists",
     inNumberOfEpisodes: "In {episodes} episodes",
     role: "Role(s)",
     episodesList: "List of episodes",

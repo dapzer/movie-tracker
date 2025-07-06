@@ -4,6 +4,7 @@ import { watchDebounced } from "#imports"
 import { computed, ref } from "vue"
 import { MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
 import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiBackLink } from "~/shared/ui/UiBackLink"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -17,6 +18,7 @@ interface CommunityListsDetailsProps {
   lists: MediaListType[]
   totalCount: number
   getPageHref?: (page: number) => string
+  backButtonUrl: string
 }
 
 const props = defineProps<CommunityListsDetailsProps>()
@@ -39,6 +41,9 @@ const totalPages = computed(() => {
 
 <template>
   <UiContainer :class="$style.wrapper">
+    <UiBackLink
+      :url="props.backButtonUrl"
+    />
     <div :class="$style.header">
       <UiTypography
         variant="title2"
@@ -88,6 +93,7 @@ const totalPages = computed(() => {
     <template v-if="totalPages >= 1">
       <UiPagination
         v-model="currentPage"
+        :class="$style.pagination"
         :pages-on-sides="1"
         :items-per-page="20"
         :total-items="props.totalCount"
@@ -126,5 +132,9 @@ const totalPages = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.pagination {
+  margin-top: 4px;
 }
 </style>

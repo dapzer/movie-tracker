@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { GetCommunityListsWeekTopQueries } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
@@ -7,6 +8,7 @@ import { useCommunityListsWeekTopApi } from "~/api/communityLists/useCommunityLi
 import { CommunityListsDetails } from "~/widgets/communityLists"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 const currentPage = useRouteQuery<number>("page", 1, {
   transform: Number,
@@ -46,6 +48,7 @@ useSeoMeta({
   <CommunityListsDetails
     v-model:current-page="currentPage"
     v-model:search-term="searchTerm"
+    :back-button-url="localePath('/lists/community')"
     :title="$t('communityLists.topOfTheWeek')"
     :is-loading="communityListsWeekTopApi.isFetching.value"
     :lists="communityListsWeekTopApi.data?.value?.items || []"

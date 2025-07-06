@@ -26,7 +26,7 @@ function getMediaListIncludeObject(currentUserId?: string) {
       },
     },
     mediaItems: {
-      take: 6,
+      take: 10,
       orderBy: {
         createdAt: "desc",
       },
@@ -207,6 +207,10 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
           some: {
             mediaId: args.mediaId,
           },
+        },
+        title: {
+          contains: args.title,
+          mode: "insensitive",
         },
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
       },

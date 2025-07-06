@@ -51,6 +51,7 @@ export default {
     videosTitle: "Видеоматериалы",
     castTitle: "Актеры",
     recommendationsTitle: "Похожие кинокартины",
+    listsWithMediaTitle: "Содержится в списках",
     inNumberOfEpisodes: "В {episodes} эпизодах",
     role: "Роль(и)",
     episodesList: "Список эпизодов",

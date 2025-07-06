@@ -15,5 +15,5 @@ export interface CommunityListsRepositoryInterface {
   getWeakTop: (args: { fromDate: Date, sortBy: "views" | "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
   getAllTimeTop: (args: { sortBy: "likes" | "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
   getNewest: (args: { sortBy: "createdAt" | "updatedAt" } & DefaultArgs) => Promise<MediaListsPaginatedType>
-  getListsWithMedia: (args: { mediaId: number } & Omit<DefaultArgs, "sortDirection" | "title">) => Promise<MediaListsPaginatedType>
+  getListsWithMedia: (args: { mediaId: number } & Omit<DefaultArgs, "sortDirection">) => Promise<MediaListsPaginatedType>
 }

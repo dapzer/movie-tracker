@@ -70,6 +70,7 @@ export class CommunityListsController {
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
       offset: query.offset || DEFAULT_PAGINATION_OFFSET,
       currentUserId: user?.id,
+      title: query.title,
     })
   }
 }
