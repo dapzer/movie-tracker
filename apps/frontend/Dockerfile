@@ -42,8 +42,6 @@ RUN turbo run build --filter=frontend
 FROM base AS runner
 WORKDIR /app
 
-RUN npm install -g pnpm
-
 RUN addgroup --system --gid 1001 frontend
 RUN adduser --system --uid 1001 frontend
 
