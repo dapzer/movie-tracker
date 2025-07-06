@@ -67,20 +67,26 @@ const totalPages = computed(() => {
 
     <div :class="$style.content">
       <template v-if="props.lists.length && !props.isLoading">
-        <MediaListCard
-          v-for="communityList in props.lists"
+        <template
+          v-for="(communityList, index) in props.lists"
           :key="communityList.id"
-          horizontal
-          hide-access-level
-          :list="communityList"
-        />
+        >
+          <MediaListCard
+            horizontal
+            hide-access-level
+            :list="communityList"
+          />
+          <UiDivider v-if="index < props.lists.length - 1" />
+        </template>
       </template>
       <template v-else-if="props.isLoading">
-        <MediaListCardSkeleton
+        <template
           v-for="i in 20"
           :key="i"
-          horizontal
-        />
+        >
+          <MediaListCardSkeleton horizontal />
+          <UiDivider v-if="i < 20" />
+        </template>
       </template>
       <UiAttention
         v-if="!props.isLoading && !props.lists.length"
