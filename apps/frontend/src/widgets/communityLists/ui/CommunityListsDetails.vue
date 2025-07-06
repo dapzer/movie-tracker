@@ -81,11 +81,11 @@ const totalPages = computed(() => {
       </template>
       <template v-else-if="props.isLoading">
         <template
-          v-for="i in 20"
+          v-for="i in 3"
           :key="i"
         >
           <MediaListCardSkeleton horizontal />
-          <UiDivider v-if="i < 20" />
+          <UiDivider v-if="i < 3" />
         </template>
       </template>
       <UiAttention
