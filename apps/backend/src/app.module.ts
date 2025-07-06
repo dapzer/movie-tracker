@@ -1,9 +1,11 @@
 import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { AnalyticsModule } from "@/routes/analytics/analytics.module"
 import { AuthModule } from "@/routes/auth/auth.module"
+import { CommunityListsModule } from "@/routes/communityLists/communityLists.module"
 import { MediaDetailsModule } from "@/routes/mediaDetails/mediaDetails.module"
 import { MediaItemModule } from "@/routes/mediaItem/mediaItem.module"
 import { MediaListModule } from "@/routes/mediaList/mediaList.module"
+import { MediaListViewModule } from "@/routes/mediaListView/mediaListView.module"
 import { MediaRatingModule } from "@/routes/mediaRating/mediaRating.module"
 import { OpenGraphImageModule } from "@/routes/openGraphImage/openGraphImage.module"
 import { SitemapModule } from "@/routes/sitemap/sitemap.module"
@@ -63,6 +65,8 @@ import { UserModule } from "./routes/user/user.module"
     OpenGraphImageModule,
     MailModule,
     MediaRatingModule,
+    MediaListViewModule,
+    CommunityListsModule,
   ],
   controllers: [],
   providers: [

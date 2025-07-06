@@ -118,10 +118,13 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
         title="ListCard"
       >
         <UiListCard
-          :user-avatar-src="getPlaceholderImageUrl(32, 32)"
+          :user="{
+            id: '1',
+            image: getPlaceholderImageUrl(32, 32),
+            name: 'UserName',
+          }"
+          user-page-url="/"
           :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) => getPlaceholderImageUrl(179, 277))"
-          user-name="UserName"
-          user-url="/"
         >
           <UiTypography variant="listTitle">
             Title
@@ -134,7 +137,6 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
       >
         <UiListCard
           :images-src="Array(6).fill(0).map((_, i) => i).map((_, i) => getPlaceholderImageUrl(179, 277))"
-          :user-avatar-src="getPlaceholderImageUrl(32, 32)"
         >
           <UiTypography variant="listTitle">
             Title
@@ -146,8 +148,11 @@ import UiMediaCardHorizontalSkeleton from "./mediaCard/UiMediaCardHorizontalSkel
         title="ListCardWithoutImages"
       >
         <UiListCard
-          :user-avatar-src="getPlaceholderImageUrl(32, 32)"
-          user-name="UserName"
+          :user="{
+            id: '1',
+            image: getPlaceholderImageUrl(32, 32),
+            name: 'UserName',
+          }"
           user-url="/"
         >
           <UiTypography variant="listTitle">

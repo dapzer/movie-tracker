@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { MediaListType } from "@movie-tracker/types"
+import { MediaListAccessLevelEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { UiFormListItem } from "~/shared/ui/UiFormListItem"
@@ -32,10 +33,16 @@ const titlesInListCount = computed(() => {
   >
     <template #rightContent>
       <UiIcon
-        v-if="props.mediaList.isPublic"
+        v-if="props.mediaList.accessLevel === MediaListAccessLevelEnum.PUBLIC"
         block
         name="icon:shared-planet"
         :size="20"
+      />
+      <UiIcon
+        v-else-if="props.mediaList.accessLevel === MediaListAccessLevelEnum.URL"
+        block
+        name="icon:link"
+        :size="16"
       />
       <UiIcon
         v-else

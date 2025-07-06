@@ -1,5 +1,4 @@
-import type { MediaItemType } from "@movie-tracker/types"
-import type { SortOrderEnum } from "~/shared/types/Sorting"
+import type { MediaItemType, SortOrderEnum } from "@movie-tracker/types"
 import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
 export function filterMediaListItems(mediaItems: MediaItemType[], searchValue: string, sortOrder: SortOrderEnum, sortBy: keyof Pick<MediaItemType, "createdAt" | "updatedAt">) {

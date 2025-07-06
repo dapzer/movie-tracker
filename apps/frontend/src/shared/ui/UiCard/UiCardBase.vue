@@ -60,10 +60,15 @@ const slots = defineSlots()
 
     &.horizontal {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: stretch;
 
       .imageWrapper {
         max-width: var(--imageMaxWidth);
+      }
+
+      .info {
+        display: flex;
+        flex-direction: column;
       }
     }
 

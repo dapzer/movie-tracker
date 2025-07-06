@@ -17,10 +17,13 @@ export interface OptionType {
   icon?: string | VNode
 }
 
+type ValueGapSize = "default" | "large"
+
 interface UiSelectProps {
   options: OptionType[]
   placeholder?: string
   width?: number
+  valueGapSize?: ValueGapSize
 }
 
 const props = defineProps<UiSelectProps>()
@@ -37,7 +40,9 @@ const selectModel = defineModel<string>()
       }"
     >
       <SelectValue
-        :class="$style.value"
+        :class="[$style.value, {
+          [$style.valueLargeGap]: props.valueGapSize === 'large',
+        }]"
         :placeholder="props.placeholder"
       />
       <SelectIcon :class="$style.iconWrapper">
@@ -59,7 +64,9 @@ const selectModel = defineModel<string>()
             :class="$style.item"
           >
             <SelectItemText
-              :class="$style.value"
+              :class="[$style.value, {
+                [$style.valueLargeGap]: props.valueGapSize === 'large',
+              }]"
             >
               <component
                 :is="option.icon"
@@ -187,6 +194,10 @@ const selectModel = defineModel<string>()
     width: 16px;
     min-width: 16px;
   }
+}
+
+.valueLargeGap {
+  gap: 6px;
 }
 
 body:has(.content[data-side="bottom"][data-state="open"]) .trigger[data-state="open"] {

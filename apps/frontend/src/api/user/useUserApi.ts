@@ -15,6 +15,7 @@ export function useGetUserProfileApi() {
       return getUserProfileApi({ headers })
     },
     retry: false,
+    retryOnMount: false,
   })
 }
 

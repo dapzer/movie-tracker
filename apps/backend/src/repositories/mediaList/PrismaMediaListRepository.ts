@@ -4,6 +4,7 @@ import { MediaListLike, Prisma } from "@movie-tracker/database"
 import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
 import {
   MediaDetailsType,
+  MediaListAccessLevelEnum,
   MediaListCreateBodyType,
   MediaListLikeType,
   MediaListType,
@@ -68,7 +69,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       humanFriendlyId: data.humanFriendlyId,
       userId: data.userId,
       isSystem: data.isSystem,
-      isPublic: data.isPublic,
+      accessLevel: MediaListAccessLevelEnum[data.accessLevel],
       title: data.title,
       description: data.description,
       likesCount: data._count?.likes,
@@ -83,19 +84,6 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }
-  }
-
-  async getAllMedialLists(isPublicOnly = false, currentUserId?: string) {
-    const mediaLists = await this.prisma.mediaList.findMany({
-      where: {
-        ...(isPublicOnly && { isPublic: true }),
-      },
-      include: getMediaListIncludeObject(currentUserId),
-    })
-
-    return mediaLists.map((el) => {
-      return this.convertToInterface(el)
-    })
   }
 
   async getMedialListById(id: string, currentUserId?: string) {
@@ -124,7 +112,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
         userId,
-        ...(isPublicOnly && { isPublic: true }),
+        ...(isPublicOnly && { accessLevel: MediaListAccessLevelEnum.PUBLIC }),
       },
       include: getMediaListIncludeObject(currentUserId),
     })

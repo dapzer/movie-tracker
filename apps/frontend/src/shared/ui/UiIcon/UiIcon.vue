@@ -60,6 +60,7 @@ export type UiIconName = "icon:close"
   | "icon:double-arrow"
   | "icon:rating-star"
   | "icon:rating-star-filled"
+  | "icon:link"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

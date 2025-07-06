@@ -7,7 +7,7 @@ interface UiUserProfileLinkProps {
   userAvatarSrc?: string
   userId: string
   userName: string
-  userUrl?: string
+  userPageUrl?: string
 }
 
 const props = defineProps<UiUserProfileLinkProps>()
@@ -15,8 +15,8 @@ const props = defineProps<UiUserProfileLinkProps>()
 
 <template>
   <component
-    :is="props.userUrl ? NuxtLink : 'div'"
-    :href="props.userUrl || null"
+    :is="props.userPageUrl ? NuxtLink : 'div'"
+    :href="props.userPageUrl || null"
     :class="$style.wrapper"
   >
     <UiAvatar

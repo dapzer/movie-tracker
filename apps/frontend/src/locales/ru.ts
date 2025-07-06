@@ -51,6 +51,7 @@ export default {
     videosTitle: "Видеоматериалы",
     castTitle: "Актеры",
     recommendationsTitle: "Похожие кинокартины",
+    listsWithMediaTitle: "Содержится в списках",
     inNumberOfEpisodes: "В {episodes} эпизодах",
     role: "Роль(и)",
     episodesList: "Список эпизодов",
@@ -1189,13 +1190,27 @@ export default {
       titlePlaceholder: "Введите название",
       poster: "Постер",
       posterPlaceholder: "Вставьте ссылку на изображение или gif",
-      publicStatus: "Просмотр по публичному URL",
+      accessLevel: {
+        title: "Уровень доступа",
+        public: "Публичный",
+        private: "Приватный",
+        url: "По ссылке",
+      },
     },
     sort: {
       title: "Сортировка",
       createdAt: "По дате добавления",
       updatedAt: "По дате обновления",
     },
+  },
+  communityLists: {
+    hero: {
+      title: "Списки сообщества",
+      description: "Отправьтесь в кинематографическое приключение по спискам, составленным киноманами, и откройте для себя следующий шедевр, который обязательно нужно посмотреть.",
+    },
+    topOfTheWeek: "Лучшие списки этой недели",
+    allTimeFavorites: "Любимые списки за все время",
+    newToExplore: "Новые списки для исследования",
   },
   mediaRating: {
     rate: "Оценить",

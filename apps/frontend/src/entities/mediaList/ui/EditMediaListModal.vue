@@ -66,7 +66,7 @@ async function handleDeleteMediaList() {
         :initial-value="{
           title: props.mediaList.isSystem ? $t('mediaList.favorites') : props.mediaList.title,
           description: props.mediaList.description,
-          isPublic: props.mediaList.isPublic,
+          accessLevel: props.mediaList.accessLevel,
         }"
         :is-system="props.mediaList.isSystem"
         @on-submit="handleUpdateMediaList"

@@ -1,14 +1,19 @@
-import { MediaListUpdateBodyType } from "@movie-tracker/types"
+import {
+  MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
+  MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
+  MediaListAccessLevelEnum,
+  MediaListUpdateBodyType,
+} from "@movie-tracker/types"
 import { Transform } from "class-transformer"
-import { IsBoolean, IsOptional, IsString, Length } from "class-validator"
+import { IsEnum, IsOptional, IsString, Length } from "class-validator"
 
 export class UpdateMediaListDto
 implements MediaListUpdateBodyType {
-  @IsBoolean()
-  isPublic: boolean
+  @IsEnum(MediaListAccessLevelEnum)
+  accessLevel: MediaListAccessLevelEnum
 
   @Transform(({ value }) => value?.trim())
-  @Length(3, 64)
+  @Length(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT)
   @IsString()
   @IsOptional()
   title: string
