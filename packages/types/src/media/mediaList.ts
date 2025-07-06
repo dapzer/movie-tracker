@@ -1,7 +1,10 @@
+import { UserType } from "../user"
+
 export interface MediaListType {
   id: string
   humanFriendlyId: string
   userId: string
+  user?: Pick<UserType, "image" | "name" | "id">
   title?: string
   description?: string
   poster?: MediaListPosterType

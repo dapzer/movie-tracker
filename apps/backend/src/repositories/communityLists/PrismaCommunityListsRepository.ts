@@ -18,6 +18,13 @@ function getMediaListIncludeObject(currentUserId?: string) {
         userId: currentUserId,
       },
     },
+    user: {
+      select: {
+        id: true,
+        name: true,
+        image: true,
+      },
+    },
     mediaItems: {
       take: 6,
       orderBy: {
@@ -51,6 +58,13 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
       id: data.id,
       humanFriendlyId: data.humanFriendlyId,
       userId: data.userId,
+      user: data.user
+        ? {
+            id: data.user.id,
+            name: data.user.name,
+            image: data.user.image,
+          }
+        : undefined,
       isSystem: data.isSystem,
       accessLevel: MediaListAccessLevelEnum[data.accessLevel],
       title: data.title,

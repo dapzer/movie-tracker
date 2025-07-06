@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { UserType } from "@movie-tracker/types"
 import { UiCardBase } from "~/shared/ui/UiCard"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
@@ -6,10 +7,8 @@ import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 interface UiListCardProps {
   width?: number
   linkUrl?: string
-  userId?: string
-  userAvatarSrc?: string
-  userName?: string
-  userUrl?: string
+  user?: Pick<UserType, "image" | "name" | "id">
+  userPageUrl?: string
   imagesSrc?: Array<string | undefined>
 }
 
@@ -44,12 +43,12 @@ const props = withDefaults(defineProps<UiListCardProps>(), {
     <template #content>
       <div :class="$style.contentWrapper">
         <UiUserProfileLink
-          v-if="props.userName && props.userId"
+          v-if="props.user"
           :class="$style.userProfileLink"
-          :user-name="props.userName"
-          :user-url="props.userUrl"
-          :user-id="props.userId"
-          :user-avatar-src="props.userAvatarSrc"
+          :user-name="props.user.name"
+          :user-url="props.userPageUrl"
+          :user-id="props.user.id"
+          :user-avatar-src="props.user.image"
         />
 
         <div :class="$style.content">

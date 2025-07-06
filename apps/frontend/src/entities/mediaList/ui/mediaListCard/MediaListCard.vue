@@ -52,6 +52,7 @@ const accessLevel = computed(() => {
 <template>
   <UiListCard
     :width="560"
+    :user="props.list.user"
     :link-url="listPageUrl"
     :images-src="posters"
   >
