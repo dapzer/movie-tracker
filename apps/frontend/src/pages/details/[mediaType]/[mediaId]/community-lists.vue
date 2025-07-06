@@ -53,7 +53,7 @@ useMovieDetailsSeo({
   mediaId: Number(mediaId),
   mediaType,
   media: tmdbGetMovieDetailsApi?.data?.value,
-  getTitle: (title, titleChunk) => `${title} | ${t("details.recommendationsTitle")}${titleChunk ? ` | ${titleChunk}` : ""}`,
+  getTitle: (title, titleChunk) => `${title} | ${t("details.listsWithMediaTitle")}${titleChunk ? ` | ${titleChunk}` : ""}`,
 })
 </script>
 
@@ -62,7 +62,7 @@ useMovieDetailsSeo({
     v-model:current-page="currentPage"
     v-model:search-term="searchTerm"
     :back-button-url="localePath(`/details/${mediaType}/${mediaId}`)"
-    :title="$t('communityLists.allTimeFavorites')"
+    :title="$t('details.listsWithMediaTitle')"
     :is-loading="communityListsWithMediaApi.isFetching.value"
     :lists="communityListsWithMediaApi.data?.value?.items || []"
     :total-count="communityListsWithMediaApi.data?.value?.totalCount || 0"
