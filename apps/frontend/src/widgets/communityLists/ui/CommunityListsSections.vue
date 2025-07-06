@@ -76,6 +76,7 @@ const sections = computed(() => {
             v-for="communityList in section.items"
             :key="communityList.id"
             :list="communityList"
+            hide-access-level
           />
         </UiListsGrid>
       </UiSectionWithSeeMore>
