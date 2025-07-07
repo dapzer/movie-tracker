@@ -85,6 +85,7 @@ const accessLevel = computed(() => {
         />
       </UiButton>
     </template>
+
     <template #content>
       <div :class="$style.header">
         <UiTypography
@@ -110,11 +111,11 @@ const accessLevel = computed(() => {
       </div>
 
       <UiTypography
-        v-if="props.list.description"
+        v-if="props.list.description || props.horizontal"
         :class="$style.description"
         variant="text"
       >
-        {{ props.list.description }}
+        {{ props.list.description || "&zwnj;" }}
       </UiTypography>
     </template>
 
