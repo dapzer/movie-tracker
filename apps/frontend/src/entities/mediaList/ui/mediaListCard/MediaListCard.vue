@@ -112,7 +112,9 @@ const accessLevel = computed(() => {
 
       <UiTypography
         v-if="props.list.description || props.horizontal"
-        :class="$style.description"
+        :class="[$style.description, {
+          [$style.emptyDescription]: props.horizontal && !props.list.description,
+        }]"
         variant="text"
       >
         {{ props.list.description || "&zwnj;" }}
@@ -187,6 +189,12 @@ const accessLevel = computed(() => {
 .description {
   @include ellipsisText();
   color: var(--c-description);
+}
+
+.emptyDescription {
+  @include mobileDevice() {
+    display: none;
+  }
 }
 
 .shareButton {
