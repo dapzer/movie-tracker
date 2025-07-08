@@ -162,7 +162,7 @@ export class MediaItemService {
 
     const mediaIds = mediaItems.map(item => item.mediaId)
     const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaId({
-      userId,
+      userId: mediaList.userId,
       mediaIds,
     })
 
