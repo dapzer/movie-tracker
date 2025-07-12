@@ -24,7 +24,10 @@ export async function deleteMediaListsApi(mediaListId: string) {
 }
 
 export async function updateMediaListsApi(mediaListId: string, body: MediaListUpdateApiTypes) {
-  return api.patch<MediaListType>(`media-list/${mediaListId}`, body)
+  return api.patch<MediaListType>(`media-list/${mediaListId}`, {
+    ...body,
+    title: body.title || null,
+  })
 }
 
 export async function createLikeMediaListApi(mediaListId: string) {
