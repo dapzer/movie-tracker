@@ -102,13 +102,39 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
     }
   }
 
+  private getTileCondition(title?: string): Prisma.MediaListWhereInput {
+    const favoriteListTitles = ["избранное", "favorites"]
+
+    return title
+      ? {
+          OR: [
+            ...favoriteListTitles.map((el) => {
+              if (el.includes(title.toLowerCase())) {
+                return {
+                  title: {
+                    equals: null,
+                  },
+                }
+              }
+
+              return {}
+            }),
+            {
+              title: {
+                contains: title,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }
+      : {}
+  }
+
   async getSearchResult(args: Parameters<CommunityListsRepositoryInterface["getSearchResult"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
-        title: {
-          contains: args.title,
-          mode: "insensitive",
-        },
+        ...this.getTileCondition(args.title),
+
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
       },
       include: getMediaListIncludeObject(args.currentUserId),
@@ -118,10 +144,8 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
   async getAllTimeTop(args: Parameters<CommunityListsRepositoryInterface["getAllTimeTop"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
-        title: {
-          contains: args.title,
-          mode: "insensitive",
-        },
+        ...this.getTileCondition(args.title),
+
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         likes: {
           some: {},
@@ -148,10 +172,8 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
   async getWeakTop(args: Parameters<CommunityListsRepositoryInterface["getWeakTop"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
-        title: {
-          contains: args.title,
-          mode: "insensitive",
-        },
+        ...this.getTileCondition(args.title),
+
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         views: {
           some: {
@@ -182,10 +204,7 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
   async getNewest(args: Parameters<CommunityListsRepositoryInterface["getNewest"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
-        title: {
-          contains: args.title,
-          mode: "insensitive",
-        },
+        ...this.getTileCondition(args.title),
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
         mediaItems: {
           some: {},
@@ -208,10 +227,8 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
             mediaId: args.mediaId,
           },
         },
-        title: {
-          contains: args.title,
-          mode: "insensitive",
-        },
+        ...this.getTileCondition(args.title),
+
         accessLevel: MediaListAccessLevelEnum.PUBLIC,
       },
       orderBy: {
