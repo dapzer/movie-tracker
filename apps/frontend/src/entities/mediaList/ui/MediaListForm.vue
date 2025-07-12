@@ -6,7 +6,7 @@ import {
   MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
   MediaListAccessLevelEnum,
 } from "@movie-tracker/types"
-import { computed, h, watch } from "vue"
+import { computed, h } from "vue"
 import * as yup from "yup"
 import { useForm } from "~/shared/composables/useForm"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -34,22 +34,24 @@ const { formValue, onFormSubmit, errors } = useForm({
     accessLevel: MediaListAccessLevelEnum.PRIVATE,
   },
   onSubmit: (formValue) => {
-    if (props.isSystem) {
+    if (props.isSystem && !formValue.title) {
       formValue.title = undefined
     }
     emit("onSubmit", formValue)
   },
   validationSchema: yup.object().shape({
-    title: yup.string().trim().min(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, t("mediaList.errors.titleLength")),
+    title: yup.string().trim().test("length", t("mediaList.errors.titleLength"), (value) => {
+      if (value === "" && props.isSystem) {
+        return true
+      }
+      if (value === undefined) {
+        return false
+      }
+      return value?.length >= MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT
+    }).optional().nullable(),
     description: yup.string().nullable(),
     accessLevel: yup.string().required(t("validation.required")),
   }),
-})
-
-watch(() => props.isSystem, (isSystem) => {
-  if (isSystem) {
-    formValue.value.title = t("mediaList.favorites")
-  }
 })
 
 const privateAccessLevelIcon = h(UiIcon, { name: "icon:locker" })
@@ -84,10 +86,9 @@ const accessLevelOptions = computed(() => {
   >
     <UiInput
       v-model="formValue.title"
-      :disabled="props.isSystem"
       :error="errors?.title"
       :maxlength="MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT"
-      :placeholder="$t('mediaList.settingsForm.title')"
+      :placeholder="props.isSystem ? $t('mediaList.favorites') : $t('mediaList.settingsForm.title')"
     />
     <UiTextarea
       v-model="formValue.description"

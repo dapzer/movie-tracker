@@ -64,7 +64,7 @@ async function handleDeleteMediaList() {
     <template #content>
       <MediaListForm
         :initial-value="{
-          title: props.mediaList.isSystem ? $t('mediaList.favorites') : props.mediaList.title,
+          title: props.mediaList.title || '',
           description: props.mediaList.description,
           accessLevel: props.mediaList.accessLevel,
         }"

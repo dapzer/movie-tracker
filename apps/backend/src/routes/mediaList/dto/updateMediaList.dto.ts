@@ -12,7 +12,7 @@ implements MediaListUpdateBodyType {
   @IsEnum(MediaListAccessLevelEnum)
   accessLevel: MediaListAccessLevelEnum
 
-  @Transform(({ value }) => value?.trim())
+  @Transform(({ value }) => value?.trim() ?? null)
   @Length(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT)
   @IsString()
   @IsOptional()
