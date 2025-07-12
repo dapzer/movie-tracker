@@ -8,6 +8,7 @@ import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { UiSocialList } from "~/shared/ui/UiSocialList"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface TeamMemberCardProps {
@@ -42,18 +43,34 @@ const posters = computed(() => {
     :images-src="posters"
     :link-url="listPageUrl"
   >
-    <UiTypography
-      :as="NuxtLink"
-      :to="listPageUrl"
-      variant="listTitle"
+    <template
+      v-if="props.userId"
+      #header
     >
-      {{ props.position }}
-    </UiTypography>
-    <UiSocialList
-      :class="$style.socials"
-      :social-list="props.socials"
-      :size="24"
-    />
+      <UiUserProfileLink
+        :user-name="props.name"
+        :user-id="props.userId"
+        :user-avatar-src="props.avatar"
+      />
+    </template>
+
+    <template #content>
+      <UiTypography
+        :as="NuxtLink"
+        :to="listPageUrl"
+        variant="listTitle"
+      >
+        {{ props.position }}
+      </UiTypography>
+    </template>
+
+    <template #footer>
+      <UiSocialList
+        :class="$style.socials"
+        :social-list="props.socials"
+        :size="24"
+      />
+    </template>
   </UiListCard>
 </template>
 
