@@ -101,6 +101,7 @@ export default {
       tvs: "TV Shows",
       person: "Person",
       persons: "Persons",
+      lists: "Lists",
     },
     knowFor: {
       title: "Known for",

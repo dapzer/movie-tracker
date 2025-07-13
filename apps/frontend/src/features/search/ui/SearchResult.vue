@@ -1,28 +1,36 @@
 <script setup lang="ts">
+import type { MediaListType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { useRoute } from "#vue-router"
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-ignore
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { useRouter } from "vue-router"
+import { useGetCommunityListsSearchApi } from "~/api/communityLists/useCommunityListsApi"
 import {
   useGetTmdbSearchMovieByTermApi,
   useGetTmdbSearchPersonByTermApi,
   useGetTmdbSearchTvByTermApi,
 } from "~/api/tmdb/useTmdbApi"
+import { MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
 import { PersonCard } from "~/entities/personCard"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
+import SearchResultForMediaItems from "~/features/search/ui/SearchResultForMediaItems.vue"
+import SearchResultForMediaLists from "~/features/search/ui/SearchResultForMediaLists.vue"
 import SearchResultPagination from "~/features/search/ui/SearchResultPagination.vue"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiListsGrid } from "~/shared/ui/UiListsGrid"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getMatchesDeclensionTranslationKey } from "~/shared/utils/getMatchesDeclensionTranslationKey"
 
-type Tab = "all" | "movies" | "tvs" | "persons"
+type Tab = "all" | "movies" | "tvs" | "persons" | "lists"
 
 const { locale } = useI18n()
 
@@ -33,8 +41,9 @@ const contentCount = ref({
   movie: 0,
   tv: 0,
   person: 0,
+  lists: 0,
   get total() {
-    return this.movie + this.tv + this.person
+    return this.movie + this.tv + this.person + this.lists
   },
 })
 
@@ -76,23 +85,35 @@ const getTmdbSearchMovieByTerm = useGetTmdbSearchMovieByTermApi(searchQueries)
 const getTmdbSearchTvByTerm = useGetTmdbSearchTvByTermApi(searchQueries)
 const getTmdbSearchPersonByTerm = useGetTmdbSearchPersonByTermApi(searchQueries)
 
+const getCommunityListsSearchApiQueries = computed(() => ({
+  limit: 20,
+  offset: (currentPage.value - 1) * 20,
+  title: searchTerm.value,
+}))
+
+const getCommunityListsSearchApi = useGetCommunityListsSearchApi(getCommunityListsSearchApiQueries)
+
 await Promise.all([
   getTmdbSearchMovieByTerm.suspense(),
   getTmdbSearchTvByTerm.suspense(),
   getTmdbSearchPersonByTerm.suspense(),
+  getCommunityListsSearchApi.suspense(),
 ])
 
 watch([
   getTmdbSearchMovieByTerm.isPending,
   getTmdbSearchTvByTerm.isPending,
   getTmdbSearchPersonByTerm.isPending,
+  getCommunityListsSearchApi.isPending,
 ], () => {
-  if (getTmdbSearchMovieByTerm.isPending.value || getTmdbSearchTvByTerm.isPending.value || getTmdbSearchPersonByTerm.isPending.value) {
+  if (getTmdbSearchMovieByTerm.isPending.value || getTmdbSearchTvByTerm.isPending.value
+    || getTmdbSearchPersonByTerm.isPending.value || getCommunityListsSearchApi.isPending.value) {
     return
   }
   contentCount.value.movie = getTmdbSearchMovieByTerm.data.value?.total_results || 0
   contentCount.value.tv = getTmdbSearchTvByTerm.data.value?.total_results || 0
   contentCount.value.person = getTmdbSearchPersonByTerm.data.value?.total_results || 0
+  contentCount.value.lists = getCommunityListsSearchApi.data.value?.totalCount || 0
 }, { immediate: true })
 
 const dataToRender = computed(() => {
@@ -117,6 +138,13 @@ const dataToRender = computed(() => {
     }
   }
 
+  if (activeTab.value === "lists") {
+    return {
+      items: getCommunityListsSearchApi.data.value?.items,
+      totalPage: (getCommunityListsSearchApi.data.value?.totalCount || 0) / getCommunityListsSearchApiQueries.value.limit,
+    }
+  }
+
   return {
     items: [],
     totalPage: 0,
@@ -127,6 +155,7 @@ const isPending = computed(() => {
   return getTmdbSearchMovieByTerm.isPending.value
     || getTmdbSearchTvByTerm.isPending.value
     || getTmdbSearchPersonByTerm.isPending.value
+    || getCommunityListsSearchApi.isPending.value
 })
 
 function handleTabChange(tab: Tab) {
@@ -175,6 +204,10 @@ function handleTabChange(tab: Tab) {
         {
           label: `${$t('details.mediaType.persons')} (${contentCount.person})`,
           key: 'persons',
+        },
+        {
+          label: `${$t('details.mediaType.lists')} (${contentCount.lists})`,
+          key: 'lists',
         },
       ] as const"
     >
@@ -255,30 +288,43 @@ function handleTabChange(tab: Tab) {
               </template>
             </UiCardsGrid>
           </UiSectionWithSeeMore>
+          <UiSectionWithSeeMore
+            v-if="contentCount.lists"
+            see-more-align="end"
+            :title="$t('details.mediaType.lists')"
+            @on-click-see-more="() => handleTabChange('lists')"
+          >
+            <UiListsGrid>
+              <template v-if="!isPending">
+                <MediaListCard
+                  v-for="item in getCommunityListsSearchApi.data.value?.items.slice(0, 6)"
+                  :key="item.id"
+                  :list="item"
+                />
+              </template>
+              <template v-else>
+                <MediaListCardSkeleton
+                  v-for="index in 6"
+                  :key="index"
+                />
+              </template>
+            </UiListsGrid>
+          </UiSectionWithSeeMore>
         </div>
+
         <template v-else>
-          <UiCardsGrid>
-            <template v-if="isPending">
-              <UiMediaCardSkeleton
-                v-for="index in 20"
-                :key="index"
-              />
-            </template>
-            <template v-else-if="activeTab !== 'persons'">
-              <MovieCardWithHoverMenu
-                v-for="item in dataToRender.items"
-                :key="item.id"
-                :movie="{ ...item, media_type: activeTab === 'movies' ? MediaTypeEnum.MOVIE : MediaTypeEnum.TV }"
-              />
-            </template>
-            <template v-else>
-              <PersonCard
-                v-for="item in dataToRender.items"
-                :key="item.id"
-                :person="item"
-              />
-            </template>
-          </UiCardsGrid>
+          <SearchResultForMediaLists
+            v-if="activeTab === 'lists'"
+            :items="dataToRender.items as MediaListType[]"
+            :is-loading="isPending"
+          />
+          <SearchResultForMediaItems
+            v-else
+            :items="dataToRender.items as TmdbSearchResponseResultItemType[]"
+            :is-loading="isPending"
+            :active-tab="activeTab"
+          />
+
           <UiAttention
             v-if="!dataToRender.items?.length && !isPending"
             title-variant="text"

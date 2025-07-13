@@ -101,6 +101,7 @@ export default {
       tvs: "Сериалы",
       person: "Персона",
       persons: "Персоны",
+      lists: "Списки",
     },
     knowFor: {
       title: "Известность за",

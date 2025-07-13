@@ -4,7 +4,7 @@ import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
-import { useCommunityListsWeekTopApi } from "~/api/communityLists/useCommunityListsApi"
+import { useGetCommunityListsWeekTopApi } from "~/api/communityLists/useCommunityListsApi"
 import { CommunityListsDetails } from "~/widgets/communityLists"
 
 const { t } = useI18n()
@@ -23,13 +23,13 @@ const queryParams = computed<GetCommunityListsWeekTopQueries>(() => ({
   offset: (currentPage.value - 1) * 20,
   title: searchTerm.value,
 }))
-const communityListsWeekTopApi = useCommunityListsWeekTopApi(queryParams)
+const getCommunityListsWeekTopApi = useGetCommunityListsWeekTopApi(queryParams)
 
 watch([searchTerm], () => {
   currentPage.value = 1
 })
 
-await communityListsWeekTopApi.suspense()
+await getCommunityListsWeekTopApi.suspense()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
@@ -50,9 +50,9 @@ useSeoMeta({
     v-model:search-term="searchTerm"
     :back-button-url="localePath('/lists/community')"
     :title="$t('communityLists.topOfTheWeek')"
-    :is-loading="communityListsWeekTopApi.isFetching.value"
-    :lists="communityListsWeekTopApi.data?.value?.items || []"
-    :total-count="communityListsWeekTopApi.data?.value?.totalCount || 0"
+    :is-loading="getCommunityListsWeekTopApi.isFetching.value"
+    :lists="getCommunityListsWeekTopApi.data?.value?.items || []"
+    :total-count="getCommunityListsWeekTopApi.data?.value?.totalCount || 0"
   />
 </template>
 

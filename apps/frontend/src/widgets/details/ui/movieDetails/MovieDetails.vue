@@ -4,7 +4,7 @@ import { useLocalePath } from "#i18n"
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
-import { useCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
+import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetMediaRatingByUserApi } from "~/api/mediaRating/useMediaRatingApi"
 import {
   useGetTmdbMovieCreditsApi,
@@ -64,7 +64,7 @@ const getMediaRatingApi = useGetMediaRatingByUserApi({
   mediaId: props.mediaId,
   mediaType: props.mediaType as unknown as MediaTypeEnum,
 })
-const communityListsWithMediaApi = useCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
+const getCommunityListsWithMediaApi = useGetCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -80,7 +80,7 @@ await Promise.all([
   tmdbGetVideosApi.suspense(),
   (isTv.value && tmdbGetTvSeriesDetailsApi.suspense()),
   getMediaRatingApi.suspense(),
-  communityListsWithMediaApi.suspense(),
+  getCommunityListsWithMediaApi.suspense(),
 ])
 
 useMovieDetailsSeo({
@@ -214,12 +214,12 @@ const latestEpisodes = computed(() => {
     </UiSectionWithSeeMore>
 
     <UiSectionWithSeeMore
-      v-if="communityListsWithMediaApi.data.value?.items.length"
+      v-if="getCommunityListsWithMediaApi.data.value?.items.length"
       :title="$t(`details.listsWithMediaTitle`)"
       :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/community-lists`)"
     >
       <UiSlider
-        :data="communityListsWithMediaApi.data.value?.items"
+        :data="getCommunityListsWithMediaApi.data.value?.items"
         :max-width="396"
         :buttons-top-offset="142"
       >

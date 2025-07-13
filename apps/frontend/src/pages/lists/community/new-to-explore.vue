@@ -4,7 +4,7 @@ import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
-import { useCommunityListsNewestApi } from "~/api/communityLists/useCommunityListsApi"
+import { useGetCommunityListsNewestApi } from "~/api/communityLists/useCommunityListsApi"
 import { CommunityListsDetails } from "~/widgets/communityLists"
 
 const { t } = useI18n()
@@ -23,13 +23,13 @@ const queryParams = computed<GetCommunityListsNewestQueries>(() => ({
   offset: (currentPage.value - 1) * 20,
   title: searchTerm.value,
 }))
-const communityListsNewestApi = useCommunityListsNewestApi(queryParams)
+const getCommunityListsNewestApi = useGetCommunityListsNewestApi(queryParams)
 
 watch([searchTerm], () => {
   currentPage.value = 1
 })
 
-await communityListsNewestApi.suspense()
+await getCommunityListsNewestApi.suspense()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
@@ -50,9 +50,9 @@ useSeoMeta({
     v-model:search-term="searchTerm"
     :back-button-url="localePath('/lists/community')"
     :title="$t('communityLists.newToExplore')"
-    :is-loading="communityListsNewestApi.isFetching.value"
-    :lists="communityListsNewestApi.data?.value?.items || []"
-    :total-count="communityListsNewestApi.data?.value?.totalCount || 0"
+    :is-loading="getCommunityListsNewestApi.isFetching.value"
+    :lists="getCommunityListsNewestApi.data?.value?.items || []"
+    :total-count="getCommunityListsNewestApi.data?.value?.totalCount || 0"
   />
 </template>
 
