@@ -17,7 +17,7 @@ import {
 } from "./communityListsApi"
 import { CommunityListsApiQueryKeys } from "./communityListsApiQueryKeys"
 
-export function useCommunityListsWeekTopApi(queries?: Ref<GetCommunityListsWeekTopQueries>) {
+export function useGetCommunityListsWeekTopApi(queries?: Ref<GetCommunityListsWeekTopQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_WEEK_TOP, queries],
     queryFn: () => {
@@ -27,7 +27,7 @@ export function useCommunityListsWeekTopApi(queries?: Ref<GetCommunityListsWeekT
   })
 }
 
-export function useCommunityListsAllTimeTopApi(queries?: Ref<GetCommunityListsAllTimeTopQueries>) {
+export function useGetCommunityListsAllTimeTopApi(queries?: Ref<GetCommunityListsAllTimeTopQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_ALL_TIME_TOP, queries],
     queryFn: () => {
@@ -37,7 +37,7 @@ export function useCommunityListsAllTimeTopApi(queries?: Ref<GetCommunityListsAl
   })
 }
 
-export function useCommunityListsNewestApi(queries?: Ref<GetCommunityListsNewestQueries>) {
+export function useGetCommunityListsNewestApi(queries?: Ref<GetCommunityListsNewestQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_NEWEST, queries],
     queryFn: () => {
@@ -47,7 +47,7 @@ export function useCommunityListsNewestApi(queries?: Ref<GetCommunityListsNewest
   })
 }
 
-export function useCommunityListsSearchApi(queries?: Ref<GetCommunityListsSearchQueries>) {
+export function useGetCommunityListsSearchApi(queries?: Ref<GetCommunityListsSearchQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_SEARCH, queries],
     queryFn: () => {
@@ -57,7 +57,7 @@ export function useCommunityListsSearchApi(queries?: Ref<GetCommunityListsSearch
   })
 }
 
-export function useCommunityListsWithMediaApi(queries?: Ref<GetCommunityListsWithMediaQueries>) {
+export function useGetCommunityListsWithMediaApi(queries?: Ref<GetCommunityListsWithMediaQueries>) {
   return useQuery({
     queryKey: [CommunityListsApiQueryKeys.GET_WITH_MEDIA, queries],
     queryFn: () => {

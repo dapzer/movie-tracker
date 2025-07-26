@@ -8,6 +8,7 @@ import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiListHeader } from "~/shared/ui/UiListHeader"
 import { UiPagination } from "~/shared/ui/UiPagination"
+import { UiRating } from "~/shared/ui/UiRating"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getMediaTypeDeclensionTranslationKey } from "~/shared/utils/getMediTypeDeclensionTranslationKey"
@@ -177,6 +178,11 @@ function getDescription(jobs?: string[], departments?: string[], characters?: st
             >
               {{ item.releaseDate ? new Date(item.releaseDate).getFullYear() : '-' }}
             </UiTypography>
+          </template>
+          <template #afterTitle>
+            <UiRating
+              :value="item.movie.vote_average"
+            />
           </template>
           <template #description>
             <UiTypography

@@ -9,6 +9,7 @@ import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
+import { UiListsGridVertical } from "~/shared/ui/UiListsGrid"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
@@ -66,30 +67,26 @@ const totalPages = computed(() => {
     <UiDivider />
 
     <div :class="$style.content">
-      <template v-if="props.lists.length && !props.isLoading">
-        <template
-          v-for="(communityList, index) in props.lists"
-          :key="communityList.id"
-        >
+      <UiListsGridVertical
+        v-if="props.isLoading || props.lists.length"
+        :items="props.isLoading ? Array(3).fill('_') as MediaListType[]
+          : props.lists"
+      >
+        <template #default="{ item }">
           <MediaListCard
+            v-if="!props.isLoading"
+            :list="item"
             horizontal
             hide-access-level
-            :list="communityList"
           />
-          <UiDivider v-if="index < props.lists.length - 1" />
+          <MediaListCardSkeleton
+            v-else
+            horizontal
+          />
         </template>
-      </template>
-      <template v-else-if="props.isLoading">
-        <template
-          v-for="i in 3"
-          :key="i"
-        >
-          <MediaListCardSkeleton horizontal />
-          <UiDivider v-if="i < 3" />
-        </template>
-      </template>
+      </UiListsGridVertical>
       <UiAttention
-        v-if="!props.isLoading && !props.lists.length"
+        v-else
         title-variant="text"
         :indent="0"
         :title="$t('search.notingFound')"

@@ -9,6 +9,7 @@ import {
 } from "~/api/tmdb/useTmdbApi"
 import { MovieCardHorizontal } from "~/entities/movieCard"
 import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiRating } from "~/shared/ui/UiRating"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiSlider } from "~/shared/ui/UiSlider"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -106,6 +107,11 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value)
             :image-width="89"
             :sub-description="formatDate(item.release_date || item.first_air_date, locale)"
           >
+            <template #afterTitle>
+              <UiRating
+                :value="item.vote_average"
+              />
+            </template>
             <template #description>
               <UiTypography
                 ellipsis
@@ -127,6 +133,11 @@ usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value)
           :image-width="80"
           :sub-description="formatDate(item.release_date || item.first_air_date, locale)"
         >
+          <template #afterTitle>
+            <UiRating
+              :value="item.vote_average"
+            />
+          </template>
           <template #description>
             <UiTypography
               ellipsis

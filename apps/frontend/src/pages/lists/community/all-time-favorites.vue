@@ -4,7 +4,7 @@ import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
-import { useCommunityListsAllTimeTopApi } from "~/api/communityLists/useCommunityListsApi"
+import { useGetCommunityListsAllTimeTopApi } from "~/api/communityLists/useCommunityListsApi"
 import { CommunityListsDetails } from "~/widgets/communityLists"
 
 const { t } = useI18n()
@@ -23,13 +23,13 @@ const queryParams = computed<GetCommunityListsAllTimeTopQueries>(() => ({
   offset: (currentPage.value - 1) * 20,
   title: searchTerm.value,
 }))
-const communityListsAllTimeTopApi = useCommunityListsAllTimeTopApi(queryParams)
+const getCommunityListsAllTimeTopApi = useGetCommunityListsAllTimeTopApi(queryParams)
 
 watch([searchTerm], () => {
   currentPage.value = 1
 })
 
-await communityListsAllTimeTopApi.suspense()
+await getCommunityListsAllTimeTopApi.suspense()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
@@ -50,9 +50,9 @@ useSeoMeta({
     v-model:search-term="searchTerm"
     :back-button-url="localePath('/lists/community')"
     :title="$t('communityLists.allTimeFavorites')"
-    :is-loading="communityListsAllTimeTopApi.isFetching.value"
-    :lists="communityListsAllTimeTopApi.data?.value?.items || []"
-    :total-count="communityListsAllTimeTopApi.data?.value?.totalCount || 0"
+    :is-loading="getCommunityListsAllTimeTopApi.isFetching.value"
+    :lists="getCommunityListsAllTimeTopApi.data?.value?.items || []"
+    :total-count="getCommunityListsAllTimeTopApi.data?.value?.totalCount || 0"
   />
 </template>
 

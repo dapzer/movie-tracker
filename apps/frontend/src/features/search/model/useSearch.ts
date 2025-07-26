@@ -1,6 +1,7 @@
 import { useI18n } from "#imports"
 import { isOnlySpaces } from "@movie-tracker/utils"
 import { computed, ref, watch } from "vue"
+import { useGetCommunityListsSearchApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetTmdbSearchByTermApi } from "~/api/tmdb/useTmdbApi"
 
 export function useSearch() {
@@ -18,6 +19,14 @@ export function useSearch() {
   })
 
   const tmdbGetSearchByTermApi = useGetTmdbSearchByTermApi(searchQueries)
+
+  const getCommunityListsSearchApiQueries = computed(() => ({
+    limit: 2,
+    offset: 0,
+    title: searchTerm.value,
+  }))
+
+  const getCommunityListsSearchApi = useGetCommunityListsSearchApi(getCommunityListsSearchApiQueries)
 
   watch(() => searchValue.value, (value, oldValue, onCleanup) => {
     if (searchValue.value === searchTerm.value)
@@ -42,5 +51,6 @@ export function useSearch() {
     searchValue,
     tmdbGetSearchByTermApi,
     searchQueries,
+    getCommunityListsSearchApi,
   }
 }

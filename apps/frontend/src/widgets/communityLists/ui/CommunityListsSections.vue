@@ -7,9 +7,9 @@ import type {
 import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import {
-  useCommunityListsAllTimeTopApi,
-  useCommunityListsNewestApi,
-  useCommunityListsWeekTopApi,
+  useGetCommunityListsAllTimeTopApi,
+  useGetCommunityListsNewestApi,
+  useGetCommunityListsWeekTopApi,
 } from "~/api/communityLists/useCommunityListsApi"
 import { MediaListCard } from "~/entities/mediaList"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -21,39 +21,39 @@ const { t } = useI18n()
 const weekTopQueryParams = ref<GetCommunityListsWeekTopQueries>({
   limit: 3,
 })
-const communityListsWeekTopApi = useCommunityListsWeekTopApi(weekTopQueryParams)
+const getCommunityListsWeekTopApi = useGetCommunityListsWeekTopApi(weekTopQueryParams)
 
 const allTimeTopQueryParams = ref<GetCommunityListsAllTimeTopQueries>({
   limit: 6,
 })
-const communityListsAllTimeTopApi = useCommunityListsAllTimeTopApi(allTimeTopQueryParams)
+const getCommunityListsAllTimeTopApi = useGetCommunityListsAllTimeTopApi(allTimeTopQueryParams)
 
 const newestQueryParams = ref<GetCommunityListsNewestQueries>({
   limit: 3,
 })
-const communityListsNewestApi = useCommunityListsNewestApi(newestQueryParams)
+const getCommunityListsNewestApi = useGetCommunityListsNewestApi(newestQueryParams)
 
 await Promise.all([
-  communityListsWeekTopApi.suspense(),
-  communityListsAllTimeTopApi.suspense(),
-  communityListsNewestApi.suspense(),
+  getCommunityListsWeekTopApi.suspense(),
+  getCommunityListsAllTimeTopApi.suspense(),
+  getCommunityListsNewestApi.suspense(),
 ])
 
 const sections = computed(() => {
   return [
     {
       title: t("communityLists.topOfTheWeek"),
-      items: communityListsWeekTopApi.data.value?.items || [],
+      items: getCommunityListsWeekTopApi.data.value?.items || [],
       seeMoreLink: "/lists/community/week-top",
     },
     {
       title: t("communityLists.allTimeFavorites"),
-      items: communityListsAllTimeTopApi.data.value?.items || [],
+      items: getCommunityListsAllTimeTopApi.data.value?.items || [],
       seeMoreLink: "/lists/community/all-time-favorites",
     },
     {
       title: t("communityLists.newToExplore"),
-      items: communityListsNewestApi.data.value?.items || [],
+      items: getCommunityListsNewestApi.data.value?.items || [],
       seeMoreLink: "/lists/community/new-to-explore",
     },
   ]

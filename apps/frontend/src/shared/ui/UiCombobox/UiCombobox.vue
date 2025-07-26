@@ -10,6 +10,7 @@ interface UiComboboxProps {
   indent?: number
   align?: "start" | "center" | "end"
   side?: "top" | "right" | "bottom" | "left"
+  contentClass?: string
   placeholder?: string
 }
 
@@ -75,7 +76,7 @@ watch(() => open.value, (value) => {
         :side="props.side"
         :side-offset="props.indent"
       >
-        <ComboboxViewport :class="$style.content">
+        <ComboboxViewport :class="[$style.content, props.contentClass]">
           <slot />
         </ComboboxViewport>
       </ComboboxContent>
