@@ -102,6 +102,7 @@ export default {
       person: "Персона",
       persons: "Персоны",
       lists: "Списки",
+      list: "Список",
     },
     knowFor: {
       title: "Известность за",

@@ -102,6 +102,7 @@ export default {
       person: "Person",
       persons: "Persons",
       lists: "Lists",
+      list: "List",
     },
     knowFor: {
       title: "Known for",

@@ -10,7 +10,6 @@ const props = defineProps<ComboboxItemProps>()
 
 <template>
   <ComboboxItem
-    :class="$style.item"
     :value="props.value"
     @select.prevent
   >
@@ -19,6 +18,4 @@ const props = defineProps<ComboboxItemProps>()
 </template>
 
 <style module lang="scss">
-.item {
-}
 </style>

@@ -3,10 +3,10 @@ import type { TmdbPersonCastType, TmdbPersonCrewType, TmdbSearchResponseResultIt
 import type { UiMediaCardHorizontalSize } from "~/shared/ui/UiCard"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
+import { computed } from "vue"
 import { UiMediaCardHorizontal } from "~/shared/ui/UiCard"
-import { UiRating } from "~/shared/ui/UiRating"
-import { UiTypography } from "~/shared/ui/UiTypography"
 
+import { UiTypography } from "~/shared/ui/UiTypography"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
 interface MovieCardProps {
@@ -17,6 +17,7 @@ interface MovieCardProps {
   imageWidth?: number
   size?: UiMediaCardHorizontalSize
   subDescription?: string
+  withoutLink?: boolean
 }
 
 const props = defineProps<MovieCardProps>()
@@ -24,6 +25,13 @@ const props = defineProps<MovieCardProps>()
 const slots = defineSlots()
 
 const localePath = useLocalePath()
+
+const linkUrl = computed(() => {
+  if (props.withoutLink) {
+    return undefined
+  }
+  return localePath(`/details/${props.movie.media_type}/${props.movie.id}`)
+})
 </script>
 
 <template>
@@ -31,7 +39,7 @@ const localePath = useLocalePath()
     :sub-description="props.subDescription"
     :size="props.size"
     :image-src="getProxiedImageUrl(props.movie.poster_path, 360)"
-    :link-url="localePath(`/details/${movie.media_type}/${movie.id}`)"
+    :link-url="linkUrl"
     :width="props.width"
     :image-width="props.imageWidth"
     :full-height="props.fullHeight"
@@ -53,14 +61,12 @@ const localePath = useLocalePath()
         <UiTypography
           :class="$style.title"
           variant="cardTitle"
-          :as="NuxtLink"
-          :to="localePath(`/details/${movie.media_type}/${movie.id}`)"
+          :as="props.withoutLink ? 'p' : NuxtLink"
+          :to="linkUrl"
         >
           {{ movie.title || movie.name || movie.original_name }}
         </UiTypography>
-        <UiRating
-          :value="movie.vote_average"
-        />
+        <slot name="afterTitle" />
       </div>
     </template>
 
