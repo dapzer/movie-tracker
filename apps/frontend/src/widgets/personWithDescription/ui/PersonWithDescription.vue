@@ -47,12 +47,11 @@ const props = defineProps<PersonWithRoleProps>()
   .image {
     border-radius: 50%;
     aspect-ratio: 1 / 1;
-    width: 100%;
-    max-width: 70px;
+    width: 70px;
     object-fit: cover;
 
     @include mobileDevice() {
-      max-width: 80px;
+      width: 80px;
     }
   }
 
