@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
-import { computed, useI18n } from "#imports"
+import { computed, definePageMeta, useI18n } from "#imports"
 import { useRoute } from "#vue-router"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
 import { useRouteQuery } from "@vueuse/router"
 import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
@@ -10,8 +10,13 @@ import { PersonCard } from "~/entities/personCard"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getValidationForMediaDetailsParams } from "~/shared/utils/getValidationForMediaDetailsParams"
 import { ContentList } from "~/widgets/contentList"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
+
+definePageMeta({
+  validate: getValidationForMediaDetailsParams([TmdbMediaTypeEnum.TV, TmdbMediaTypeEnum.MOVIE]),
+})
 
 const { locale, t } = useI18n()
 const route = useRoute()

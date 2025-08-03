@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import type { GetCommunityListsWithMediaQueries, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import type { GetCommunityListsWithMediaQueries } from "@movie-tracker/types"
 import { useRoute } from "#app"
 import { useLocalePath } from "#i18n"
-import { useI18n } from "#imports"
+import { definePageMeta, useI18n } from "#imports"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
+import { getValidationForMediaDetailsParams } from "~/shared/utils/getValidationForMediaDetailsParams"
 import { CommunityListsDetails } from "~/widgets/communityLists"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
+
+definePageMeta({
+  validate: getValidationForMediaDetailsParams([TmdbMediaTypeEnum.TV, TmdbMediaTypeEnum.MOVIE]),
+})
 
 const { locale, t } = useI18n()
 const route = useRoute()
