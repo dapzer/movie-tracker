@@ -95,7 +95,19 @@ const videosList = computed(() => {
     return []
   }
 
-  return [...tmdbGetVideosApi.data.value.results].sort(a => (a.type === "Trailer" || a.type === "Teaser" ? -1 : 1))
+  return [...tmdbGetVideosApi.data.value.results].sort((a, b) => {
+    const isATrailer = a.type === "Trailer" || a.type === "Teaser"
+    const isBTrailer = b.type === "Trailer" || b.type === "Teaser"
+
+    if (isATrailer && !isBTrailer) {
+      return -1
+    }
+    if (!isATrailer && isBTrailer) {
+      return 1
+    }
+
+    return new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+  })
 })
 
 const castList = computed(() => {
