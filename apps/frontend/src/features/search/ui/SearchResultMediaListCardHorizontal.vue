@@ -59,11 +59,11 @@ const props = defineProps<SearchResultMediaListCardHorizontalProps>()
         }]"
         variant="description"
       >
-        {{ props.list.likesCount }}
         <UiIcon
           name="icon:like"
-          :size="15"
+          :size="16"
         />
+        {{ props.list.likesCount }}
       </UiTypography>
     </div>
   </div>
