@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
-import { useRoute } from "#app"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n, useSeoMeta } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
-import { ref } from "vue"
+import { useRouteQuery } from "@vueuse/router"
 import { useGetTmdbDiscoverTvApi } from "~/api/tmdb/useTmdbApi"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { getTodayWithoutTime } from "~/shared/constants/dates"
@@ -14,8 +13,10 @@ import { UiAttention } from "../../shared/ui/UiAttention"
 import { UiMediaCardSkeleton } from "../../shared/ui/UiCard"
 
 const { locale, t } = useI18n()
-const route = useRoute()
-const currentPage = ref(Number(route.query.page) || 1)
+const currentPage = useRouteQuery<number>("page", 1, {
+  transform: Number,
+  mode: "replace",
+})
 const localePath = useLocalePath()
 
 const queries = computed<TmdbDiscoverTvQueriesType>(() => {

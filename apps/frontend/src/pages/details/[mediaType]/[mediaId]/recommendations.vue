@@ -3,7 +3,8 @@ import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useRoute } from "#app"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { computed, ref } from "vue"
+import { useRouteQuery } from "@vueuse/router"
+import { computed } from "vue"
 import { useGetTmdbMovieDetailsApi, useGetTmdbRecommendationsApi } from "~/api/tmdb/useTmdbApi"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { UiAttention } from "~/shared/ui/UiAttention"
@@ -16,7 +17,10 @@ const { locale, t } = useI18n()
 const route = useRoute()
 const mediaId = Number(route.params.mediaId)
 const mediaType = route.params.mediaType as TmdbMediaTypeEnum
-const currentPage = ref(Number(route.query.page) || 1)
+const currentPage = useRouteQuery<number>("page", 1, {
+  transform: Number,
+  mode: "replace",
+})
 const localePath = useLocalePath()
 
 const queries = computed(() => ({
