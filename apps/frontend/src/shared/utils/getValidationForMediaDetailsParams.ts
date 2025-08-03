@@ -10,13 +10,13 @@ export function getValidationForMediaDetailsParams(allowedMediaTypes: TmdbMediaT
     })) {
       return {
         statusCode: 404,
-        message: "Page not found",
+        statusMessage: "Page not found",
       }
     }
     if (Number.isNaN(Number(params.mediaId))) {
       return {
         statusCode: 404,
-        message: "Page not found",
+        statusMessage: "Page not found",
       }
     }
     return true
