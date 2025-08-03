@@ -220,10 +220,14 @@ function getDescription(jobs?: string[], departments?: string[], characters?: st
     gap: 8px;
 
     .releaseDate {
-      width: 42px;
-      padding-right: 8px;
+      min-width: 42px;
+      margin-right: 8px;
       font-weight: var(--fw-regular);
       color: var(--c-description);
+
+      @include mobileDevice() {
+        margin-right: -4px;
+      }
     }
   }
 
