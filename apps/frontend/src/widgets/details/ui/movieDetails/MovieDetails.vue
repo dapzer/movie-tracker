@@ -106,7 +106,7 @@ const castList = computed(() => {
   return tmdbGetMovieCreditsApi.data.value.cast.slice(0, 12)
 })
 
-const latestEpisodes = computed(() => {
+const releasedEpisodes = computed(() => {
   const seasons = tmdbGetTvSeriesDetailsApi.data.value
   const lastEpisodeToAir = tmdbGetMovieDetailsApi.data.value?.last_episode_to_air
 
@@ -116,14 +116,15 @@ const latestEpisodes = computed(() => {
 
   const episodes = []
   const today = new Date()
+  const firstSeasonIndex = seasons.findIndex(season => season.season_number === 1)
 
-  for (let i = lastEpisodeToAir.season_number; i >= 0; i--) {
+  for (let i = firstSeasonIndex; i < seasons?.length; i++) {
     const season = seasons[i]
 
-    for (let j = season?.episodes.length - 1; j >= 0; j--) {
+    for (let j = 0; j < season?.episodes.length; j++) {
       const episode = season?.episodes[j]
 
-      if (episodes.length > 0 || (episode?.air_date && new Date(episode?.air_date) < today)) {
+      if (episode?.air_date && new Date(episode?.air_date) < today) {
         episodes.push(episode)
       }
       if (episodes.length >= 20) {
@@ -149,13 +150,13 @@ const latestEpisodes = computed(() => {
     />
 
     <UiSectionWithSeeMore
-      v-if="latestEpisodes.length"
-      :title="$t(`details.latestEpisodes`)"
+      v-if="releasedEpisodes.length"
+      :title="$t(`details.releasedEpisodes`)"
       :see-more-url="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.mediaId}/seasons`)"
       :see-more-text="$t(`details.episodesList`)"
     >
       <UiSlider
-        :data="latestEpisodes"
+        :data="releasedEpisodes"
         :max-width="295"
         :buttons-top-offset="78"
       >

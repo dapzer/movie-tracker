@@ -42,6 +42,7 @@ export default {
     episodesCount: "Episodes count",
     episodeRunTime: "Episode run time",
     latestEpisodes: "Latest episodes",
+    releasedEpisodes: "Released episodes",
     runTime: "Run time",
     runTimeMins: "min.",
     movieDescription: "Movie description",
