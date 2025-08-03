@@ -233,6 +233,7 @@ function handleTabChange(tab: Tab) {
                 <MovieCardWithHoverMenu
                   v-for="item in getTmdbSearchMovieByTerm.data.value?.results.slice(0, 6)"
                   :key="item.id"
+                  full-height
                   :movie="{ ...item, media_type: MediaTypeEnum.MOVIE }"
                 />
               </template>
@@ -255,6 +256,7 @@ function handleTabChange(tab: Tab) {
                 <MovieCardWithHoverMenu
                   v-for="item in getTmdbSearchTvByTerm.data.value?.results.slice(0, 6)"
                   :key="item.id"
+                  full-height
                   :movie="{ ...item, media_type: MediaTypeEnum.TV }"
                 />
               </template>
@@ -277,6 +279,7 @@ function handleTabChange(tab: Tab) {
                 <PersonCard
                   v-for="item in getTmdbSearchPersonByTerm.data.value?.results.slice(0, 6)"
                   :key="item.id"
+                  full-height
                   :person="item"
                 />
               </template>

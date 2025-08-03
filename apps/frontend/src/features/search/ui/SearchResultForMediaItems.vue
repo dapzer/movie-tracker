@@ -28,6 +28,7 @@ const props = defineProps<SearchResultForMediaItemsProps>()
         <MovieCardWithHoverMenu
           v-for="item in props.items"
           :key="item.id"
+          full-height
           :movie="{ ...item, media_type: activeTab === 'movies' ? MediaTypeEnum.MOVIE : MediaTypeEnum.TV }"
         />
       </template>
@@ -35,6 +36,7 @@ const props = defineProps<SearchResultForMediaItemsProps>()
         <PersonCard
           v-for="item in props.items"
           :key="item.id"
+          full-height
           :person="item"
         />
       </template>
