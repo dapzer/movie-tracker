@@ -37,6 +37,9 @@ export function getCommunityListsNewestApi(args: { queries?: GetCommunityListsNe
 }
 
 export function getCommunityListsSearchApi(args: { queries?: GetCommunityListsSearchQueries, options: RequestOptions }) {
+  if (!args.queries?.title || args.queries?.title.length === 0)
+    return null
+
   return api.get<MediaListsPaginatedType>("community-lists/search", {
     params: {
       ...args.queries,
