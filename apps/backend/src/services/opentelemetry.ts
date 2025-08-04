@@ -1,4 +1,5 @@
 import * as process from "node:process"
+import { Logger } from "@nestjs/common"
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node"
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http"
 import { registerInstrumentations } from "@opentelemetry/instrumentation"
@@ -11,6 +12,8 @@ import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base"
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
 import { PrismaInstrumentation } from "@prisma/instrumentation"
+
+const logger = new Logger("OpenTelemetry")
 
 if (process.env.UPTRACE_DSN) {
   try {
@@ -45,8 +48,10 @@ if (process.env.UPTRACE_DSN) {
     })
 
     provider.register()
+
+    logger.log("OpenTelemetry initialized successfully with Uptrace")
   }
   catch (error) {
-    console.error("OpenTelemetry initialization failed:", error)
+    logger.error("Failed to initialize OpenTelemetry", error)
   }
 }
