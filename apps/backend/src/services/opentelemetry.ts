@@ -13,35 +13,40 @@ import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
 import { PrismaInstrumentation } from "@prisma/instrumentation"
 
 if (process.env.UPTRACE_DSN) {
-  const provider = new NodeTracerProvider({
-    resource: new Resource({
-      [ATTR_SERVICE_NAME]: process.env.NODE_ENV === "production" ? "api" : "api-dev",
-    }),
-  })
-  provider.addSpanProcessor(new BatchSpanProcessor(new OTLPTraceExporter({
-    url: `${process.env.UPTRACE_HOST}/v1/traces`,
-    headers: { "uptrace-dsn": process.env.UPTRACE_DSN },
-    compression: CompressionAlgorithm.GZIP,
-  })))
+  try {
+    const provider = new NodeTracerProvider({
+      resource: new Resource({
+        [ATTR_SERVICE_NAME]: process.env.NODE_ENV === "production" ? "api" : "api-dev",
+      }),
+    })
+    provider.addSpanProcessor(new BatchSpanProcessor(new OTLPTraceExporter({
+      url: `${process.env.UPTRACE_HOST}/v1/traces`,
+      headers: { "uptrace-dsn": process.env.UPTRACE_DSN },
+      compression: CompressionAlgorithm.GZIP,
+    })))
 
-  registerInstrumentations({
-    tracerProvider: provider,
-    instrumentations: [
-      ...getNodeAutoInstrumentations(),
-      new RuntimeNodeInstrumentation({
-        monitoringPrecision: 5000,
-      }),
-      new NestInstrumentation({
-        enabled: true,
-      }),
-      new PrismaInstrumentation({
-        enabled: true,
-      }),
-      new RedisInstrumentation({
-        enabled: true,
-      }),
-    ],
-  })
+    registerInstrumentations({
+      tracerProvider: provider,
+      instrumentations: [
+        ...getNodeAutoInstrumentations(),
+        new RuntimeNodeInstrumentation({
+          monitoringPrecision: 5000,
+        }),
+        new NestInstrumentation({
+          enabled: true,
+        }),
+        new PrismaInstrumentation({
+          enabled: true,
+        }),
+        new RedisInstrumentation({
+          enabled: true,
+        }),
+      ],
+    })
 
-  provider.register()
+    provider.register()
+  }
+  catch (error) {
+    console.error("OpenTelemetry initialization failed:", error)
+  }
 }
