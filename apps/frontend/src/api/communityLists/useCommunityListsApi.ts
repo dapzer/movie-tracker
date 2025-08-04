@@ -64,5 +64,7 @@ export function useGetCommunityListsWithMediaApi(queries?: Ref<GetCommunityLists
       const headers = useRequestHeaders(["cookie"])
       return getCommunityListsWithMediaApi({ queries: queries?.value, options: { headers } })
     },
+    retry: false,
+    retryOnMount: false,
   })
 }
