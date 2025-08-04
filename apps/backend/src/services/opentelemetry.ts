@@ -21,12 +21,14 @@ if (process.env.UPTRACE_DSN) {
       resource: new Resource({
         [ATTR_SERVICE_NAME]: process.env.NODE_ENV === "production" ? "api" : "api-dev",
       }),
+      spanProcessors: [
+        new BatchSpanProcessor(new OTLPTraceExporter({
+          url: `${process.env.UPTRACE_HOST}/v1/traces`,
+          headers: { "uptrace-dsn": process.env.UPTRACE_DSN },
+          compression: CompressionAlgorithm.GZIP,
+        })),
+      ],
     })
-    provider.addSpanProcessor(new BatchSpanProcessor(new OTLPTraceExporter({
-      url: `${process.env.UPTRACE_HOST}/v1/traces`,
-      headers: { "uptrace-dsn": process.env.UPTRACE_DSN },
-      compression: CompressionAlgorithm.GZIP,
-    })))
 
     registerInstrumentations({
       tracerProvider: provider,
