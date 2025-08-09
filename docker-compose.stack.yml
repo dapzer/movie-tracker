@@ -27,7 +27,6 @@ services:
         constraints:
           - node.role == manager
   backup:
-    container_name: backup
     image: tiredofit/db-backup
     env_file:
       - .env
@@ -39,7 +38,7 @@ services:
       DEFAULT_ENCRYPT: "false"
       CONTAINER_ENABLE_MONITORING: "false"
       DB_BACKUP_LOCATION: s3
-      DEFAULT_BACKUP_INTERVAL: 5     # backup once a day
+      DEFAULT_BACKUP_INTERVAL: 480
       DEFAULT_COMPRESSION: GZ
       DEFAULT_EXTRA_OPTS: --inserts --data-only
 
