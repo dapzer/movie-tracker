@@ -30,6 +30,8 @@ if (process.env.UPTRACE_DSN) {
       ],
     })
 
+    provider.register()
+
     registerInstrumentations({
       tracerProvider: provider,
       instrumentations: [
@@ -48,8 +50,6 @@ if (process.env.UPTRACE_DSN) {
         }),
       ],
     })
-
-    provider.register()
 
     logger.log("OpenTelemetry initialized successfully with Uptrace")
   }
