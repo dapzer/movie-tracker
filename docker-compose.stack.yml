@@ -36,11 +36,12 @@ services:
     environment:
       DB_CHECKSUM: none
       COMPRESSION: GZ
-      DEFAULT_ENCRYPT: "true"
+      DEFAULT_ENCRYPT: "false"
       CONTAINER_ENABLE_MONITORING: "false"
       DB_BACKUP_LOCATION: s3
       DEFAULT_BACKUP_INTERVAL: 5     # backup once a day
       DEFAULT_COMPRESSION: GZ
+      DEFAULT_EXTRA_OPTS: --inserts --data-only
 
       DB01_TYPE: pgsql
       DB01_HOST: postgres
