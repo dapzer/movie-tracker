@@ -27,28 +27,29 @@ services:
         constraints:
           - node.role == manager
   backup:
-    image: eeshugerman/postgres-backup-s3:14
+    container_name: backup
+    image: tiredofit/db-backup
+    env_file:
+      - .env
     depends_on:
       - postgres
-    links:
-      - postgres
+    environment:
+      DB_CHECKSUM: none
+      COMPRESSION: GZ
+      DEFAULT_ENCRYPT: "true"
+      CONTAINER_ENABLE_MONITORING: "false"
+      DB_BACKUP_LOCATION: s3
+      DEFAULT_BACKUP_INTERVAL: 5     # backup once a day
+      DEFAULT_COMPRESSION: GZ
+
+      DB01_TYPE: pgsql
+      DB01_HOST: postgres
+      DB01_NAME: movietracker
+      DB01_USER: spaceman
+      DB01_S3_PATH: postgres
+    restart: always
     networks:
       - movie-tracker
-    environment:
-      SCHEDULE: "@every 8h"
-#      S3_REGION: ${S3_REGION}
-#      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
-#      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
-#      S3_BUCKET: ${S3_BUCKET}
-#      S3_ENDPOINT: ${S3_ENDPOINT}
-#      S3_PREFIX: ${S3_PREFIX:-backups}
-      POSTGRES_HOST: postgres
-      POSTGRES_DATABASE: movietracker
-#      POSTGRES_USER: ${DATABASE_USER:-spaceman}
-#      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-spaceman}
-      POSTGRES_BACKUP_ALL: "false"
-      POSTGRES_EXTRA_OPTS: --inserts --data-only
-    env_file: ./.env
     deploy:
       placement:
         constraints:
