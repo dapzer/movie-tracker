@@ -19,6 +19,15 @@ const currentPage = useRouteQuery<number>("page", 1, {
 })
 const localePath = useLocalePath()
 
+useSeoMeta({
+  titleTemplate(titleChunk) {
+    return `${t("feed.futureReleases")} | ${titleChunk}`
+  },
+  ogTitle() {
+    return `%s | ${t("feed.futureReleases")}`
+  },
+})
+
 const queries = computed<TmdbDiscoverMovieQueriesType>(() => {
   return {
     "language": locale.value,
@@ -27,15 +36,6 @@ const queries = computed<TmdbDiscoverMovieQueriesType>(() => {
     "primary_release_date.lte": getNextThirtyDaysWithoutTime(),
     "sort_by": "popularity.desc",
   }
-})
-
-useSeoMeta({
-  titleTemplate(titleChunk) {
-    return `${t("feed.futureReleases")} | ${titleChunk}`
-  },
-  ogTitle() {
-    return `%s | ${t("feed.futureReleases")}`
-  },
 })
 
 const getTmdbUpcomingMoviesApi = useGetTmdbDiscoverMovieApi(queries)

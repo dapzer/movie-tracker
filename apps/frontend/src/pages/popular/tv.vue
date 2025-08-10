@@ -17,15 +17,6 @@ const currentPage = useRouteQuery<number>("page", 1, {
 })
 const localePath = useLocalePath()
 
-const queries = computed(() => {
-  return {
-    language: locale.value,
-    mediaType: MediaTypeEnum.TV,
-    page: currentPage.value,
-    timeWindow: "week",
-  }
-})
-
 useSeoMeta({
   titleTemplate(titleChunk) {
     return `${t("feed.popularTv")} | ${titleChunk}`
@@ -33,6 +24,15 @@ useSeoMeta({
   ogTitle() {
     return `%s | ${t("feed.popularTv")}`
   },
+})
+
+const queries = computed(() => {
+  return {
+    language: locale.value,
+    mediaType: MediaTypeEnum.TV,
+    page: currentPage.value,
+    timeWindow: "week",
+  }
 })
 
 const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(queries)
