@@ -136,7 +136,7 @@ const title = computed(() => {
         </tr>
       </template>
       <tr v-if="!!props.details?.runtime || !!props.details?.episode_run_time?.length">
-        <td>{{ $t("details.runTime") }}</td>
+        <td>{{ $t(props.mediaType === TmdbMediaTypeEnum.TV ? "details.episodeRunTime" : "details.runTime") }}</td>
         <td>{{ props.details?.runtime || arrayToString(props.details?.episode_run_time) }} {{ $t("details.runTimeMins") }}</td>
       </tr>
     </template>
