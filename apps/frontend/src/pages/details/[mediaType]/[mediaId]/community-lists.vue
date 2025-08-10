@@ -45,14 +45,14 @@ const getCommunityListsWithMediaQueries = computed<GetCommunityListsWithMediaQue
 }))
 const getCommunityListsWithMediaApi = useGetCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
 
-watch([searchTerm], () => {
-  currentPage.value = 1
-})
-
 await Promise.all([
   getCommunityListsWithMediaApi.suspense(),
   tmdbGetMovieDetailsApi.suspense(),
 ])
+
+watch([searchTerm], () => {
+  currentPage.value = 1
+})
 
 useMovieDetailsSeo({
   withoutSchema: true,

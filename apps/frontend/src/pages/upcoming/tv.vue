@@ -19,6 +19,15 @@ const currentPage = useRouteQuery<number>("page", 1, {
 })
 const localePath = useLocalePath()
 
+useSeoMeta({
+  titleTemplate(titleChunk) {
+    return `${t("feed.futureTv")} | ${titleChunk}`
+  },
+  ogTitle() {
+    return `%s | ${t("feed.futureTv")}`
+  },
+})
+
 const queries = computed<TmdbDiscoverTvQueriesType>(() => {
   return {
     "language": locale.value,
@@ -27,15 +36,6 @@ const queries = computed<TmdbDiscoverTvQueriesType>(() => {
     "first_air_date.lte": getNextThirtyDaysWithoutTime(),
     "without_genres": [TmdbTvGenresEnum.NEWS, TmdbTvGenresEnum.WAR_POLITICS, TmdbTvGenresEnum.TALK, TmdbTvGenresEnum.REALITY].join(","),
   }
-})
-
-useSeoMeta({
-  titleTemplate(titleChunk) {
-    return `${t("feed.futureTv")} | ${titleChunk}`
-  },
-  ogTitle() {
-    return `%s | ${t("feed.futureTv")}`
-  },
 })
 
 const getTmdbTvOnTheAirApi = useGetTmdbDiscoverTvApi(queries)

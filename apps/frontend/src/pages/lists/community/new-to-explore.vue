@@ -25,11 +25,11 @@ const queryParams = computed<GetCommunityListsNewestQueries>(() => ({
 }))
 const getCommunityListsNewestApi = useGetCommunityListsNewestApi(queryParams)
 
+await getCommunityListsNewestApi.suspense()
+
 watch([searchTerm], () => {
   currentPage.value = 1
 })
-
-await getCommunityListsNewestApi.suspense()
 
 useSeoMeta({
   titleTemplate(titleChunk) {
