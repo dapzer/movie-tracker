@@ -29,8 +29,6 @@ if (!activeTab.value) {
         max-width="max-content"
         :spaceing="4"
         hide-buttons
-        with-shadow
-        shadow-size="medium"
       >
         <template #slide="{ item }">
           <UiTabTrigger
