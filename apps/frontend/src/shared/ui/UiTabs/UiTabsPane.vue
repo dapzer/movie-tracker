@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends readonly { key: string; label: string }[]">
 import type { VNode } from "vue"
+import { UiSlider } from "~/shared/ui/UiSlider"
 import UiTabTrigger from "~/shared/ui/UiTabs/UiTabTrigger.vue"
 
 const props = defineProps<{
@@ -23,16 +24,24 @@ if (!activeTab.value) {
 <template>
   <div :class="$style.wrapper">
     <div :class="$style.navigationWrapper">
-      <div :class="$style.navigation">
-        <UiTabTrigger
-          v-for="tab in props.tabs"
-          :key="tab.key"
-          :active="activeTab === tab.key"
-          @click="activeTab = tab.key"
-        >
-          {{ tab.label }}
-        </UiTabTrigger>
-      </div>
+      <UiSlider
+        :data="props.tabs as unknown as Array<{ key: string; label: string }>"
+        max-width="max-content"
+        :spaceing="4"
+        hide-buttons
+        with-shadow
+        shadow-size="medium"
+      >
+        <template #slide="{ item }">
+          <UiTabTrigger
+            :key="item.key"
+            :active="activeTab === item.key"
+            @click="activeTab = item.key"
+          >
+            {{ item.label }}
+          </UiTabTrigger>
+        </template>
+      </UiSlider>
       <slot name="afterTabs" />
     </div>
 
@@ -52,13 +61,6 @@ if (!activeTab.value) {
     flex-direction: row;
     gap: 24px;
     justify-content: space-between;
-
-    .navigation {
-      display: flex;
-      flex-direction: row;
-      overflow-x: auto;
-      gap: 4px;
-    }
   }
 }
 </style>

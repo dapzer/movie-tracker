@@ -1,15 +1,20 @@
 <script generic="T" setup lang="ts">
 import { watchEffect } from "#imports"
 import emblaCarouselVue from "embla-carousel-vue"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
+type UiSliderShadowSize = "medium"
+
 interface UiSliderProps<T> {
   data: T[]
-  maxWidth?: number
+  maxWidth?: number | string
+  spaceing?: number
   withShadow?: boolean
   buttonsTopOffset?: number
+  hideButtons?: boolean
+  shadowSize?: UiSliderShadowSize
 }
 
 const props = defineProps<UiSliderProps<T>>()
@@ -47,6 +52,18 @@ function onNextButtonClick() {
     return
   emblaApi?.value?.scrollNext()
 }
+
+const maxWidthStyle = computed(() => {
+  if (!props.maxWidth) {
+    return "100%"
+  }
+
+  if (typeof props.maxWidth === "number") {
+    return `${props.maxWidth}px`
+  }
+
+  return props.maxWidth
+})
 </script>
 
 <template>
@@ -55,6 +72,7 @@ function onNextButtonClick() {
     :class="[{
       'embla__shadow-left': props.withShadow && !prevBtnDisabled,
       'embla__shadow-right': props.withShadow && !nextBtnDisabled,
+      'embla__shadow-medium': props.shadowSize === 'medium',
     }]"
   >
     <div
@@ -67,7 +85,8 @@ function onNextButtonClick() {
           :key="index"
           class="embla__slide"
           :style="{
-            '--max-width': props.maxWidth ? `${props.maxWidth}px` : '100%',
+            '--max-width': maxWidthStyle,
+            '--slide-spacing': props.spaceing ? `${props.spaceing}px` : '6px',
           }"
         >
           <slot
@@ -86,7 +105,7 @@ function onNextButtonClick() {
         }"
       >
         <UiButton
-          v-if="!prevBtnDisabled"
+          v-if="!prevBtnDisabled && !props.hideButtons"
           class="embla__button-prev"
           variant="rounded"
           @click="onPrevButtonClick"
@@ -97,7 +116,7 @@ function onNextButtonClick() {
           />
         </UiButton>
         <UiButton
-          v-if="!nextBtnDisabled"
+          v-if="!nextBtnDisabled && !props.hideButtons"
           class="embla__button-next"
           variant="rounded"
           @click="onNextButtonClick"
@@ -137,10 +156,23 @@ function onNextButtonClick() {
     top: 0;
     pointer-events: none;
     background: linear-gradient(90deg, #0d0d0d 55.14%, rgba(13, 13, 13, 0) 100%);
+  }
 
-    @include mobileDevice() {
-      width: 50px;
-      left: -25px;
+  &.embla__shadow-medium {
+    &:before,
+    &:after {
+      width: 157px;
+    }
+  }
+
+  &,
+  &.embla__shadow-medium {
+    &:before,
+    &:after {
+      @include mobileDevice() {
+        width: 50px;
+        left: -25px;
+      }
     }
   }
 
