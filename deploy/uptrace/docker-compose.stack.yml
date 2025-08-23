@@ -69,8 +69,7 @@ services:
       - caddy-public
     ports:
       - "14317:4317"
-    expose:
-      - "14318:80"
+      - "14318:4318"
     depends_on:
       - clickhouse
       - postgres
