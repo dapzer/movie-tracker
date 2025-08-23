@@ -27,7 +27,6 @@ dist/
 .DS_Store
 *.pem
 apps/backend/sitemaps
-deploy/uptrace/uptrace.yml
 deploy/uptrace/otel-collector.yaml
 
 # debug
