@@ -1,5 +1,3 @@
-name: movie-tracker
-
 services:
   otelcol:
     image: otel/opentelemetry-collector-contrib:0.123.0

@@ -24,7 +24,7 @@ exporters:
     tls:
       insecure: true
     # TODO: Change <token> to your Uptrace project token.
-    headers: { 'uptrace-dsn': 'http://<token>@uptrace.movie-tracker.app:14318?grpc=14318' }
+    headers: { 'uptrace-dsn': 'http://<token>@uptrace.movie-tracker.app?grpc=14318' }
 
 processors:
   resourcedetection:
