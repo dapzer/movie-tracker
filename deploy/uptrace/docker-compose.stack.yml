@@ -1,8 +1,10 @@
 services:
   clickhouse:
-    image: clickhouse/clickhouse-server:24.7
+    image: clickhouse/clickhouse-server:25.3.5
     restart: on-failure
     environment:
+      CLICKHOUSE_USER: uptrace
+      CLICKHOUSE_PASSWORD: uptrace
       CLICKHOUSE_DB: uptrace
     healthcheck:
       test: [CMD, wget, --spider, -q, "localhost:8123/ping"]
@@ -10,7 +12,7 @@ services:
       timeout: 1s
       retries: 30
     volumes:
-      - ch_data2:/var/lib/clickhouse
+      - ch_data:/var/lib/clickhouse
     expose:
       - "8123"
       - "9000"
@@ -22,8 +24,20 @@ services:
           - node.role != manager
           - node.labels.databases != true
 
+
+  redis:
+    image: redis:6.2.2-alpine
+    restart: on-failure
+    networks:
+      - uptrace
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
+
   postgres:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     restart: on-failure
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
@@ -36,7 +50,7 @@ services:
       timeout: 1s
       retries: 30
     volumes:
-      - "pg_data3:/var/lib/postgresql/data/pgdata"
+      - "pg_data:/var/lib/postgresql/data/pgdata"
     expose:
       - "5432"
     networks:
@@ -47,22 +61,21 @@ services:
           - node.labels.databases == true
 
   uptrace:
-    image: "uptrace/uptrace:latest"
+    image: "uptrace/uptrace:2.0.1"
     restart: on-failure
-    configs:
-      - source: uptrace_config
-        target: /etc/uptrace/uptrace.yml
-    # environment:
-    #  - DEBUG=2
-    ports:
-      - "14317:14317"
-      - "14318:14318"
-    depends_on:
-      - clickhouse
-      - postgres
+    env_file: .env
     networks:
       - uptrace
       - caddy-public
+    ports:
+      - "14317:4317"
+      - "14318:80"
+    depends_on:
+      - clickhouse
+      - postgres
+    configs:
+      - source: uptrace_config
+        target: /etc/uptrace/uptrace.yml
     deploy:
       placement:
         constraints:
@@ -70,14 +83,14 @@ services:
           - node.labels.databases != true
 
   otelcol:
-    image: otel/opentelemetry-collector-contrib:0.88.0
+    image: otel/opentelemetry-collector-contrib:0.123.0
     restart: on-failure
     configs:
       - source: otel_collector_config
         target: /etc/otelcol-contrib/config.yaml
-    expose:
-      - "4317"
-      - "4318"
+    ports:
+      - "4317:4317"
+      - "4318:4318"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -91,26 +104,26 @@ services:
           - node.role != manager
           - node.labels.databases != true
 
-  mailpit:
-    image: axllent/mailpit
-    restart: always
-    expose:
-      - 1025
-      - 8025
-    environment:
-      MP_MAX_MESSAGES: 5000
-      MP_DATA_FILE: /data/mailpit.db
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
-    volumes:
-      - mailpit_data:/data
-    networks:
-      - uptrace
-    deploy:
-      placement:
-        constraints:
-          - node.role != manager
-          - node.labels.databases != true
+#  mailpit:
+#    image: axllent/mailpit
+#    restart: always
+#    expose:
+#      - 1025
+#      - 8025
+#    environment:
+#      MP_MAX_MESSAGES: 5000
+#      MP_DATA_FILE: /data/mailpit.db
+#      MP_SMTP_AUTH_ACCEPT_ANY: 1
+#      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+#    volumes:
+#      - mailpit_data:/data
+#    networks:
+#      - uptrace
+#    deploy:
+#      placement:
+#        constraints:
+#          - node.role != manager
+#          - node.labels.databases != true
 
   vector:
     image: timberio/vector:0.28.X-alpine
@@ -138,21 +151,23 @@ services:
   #    networks:
   #      - uptrace
 
-  #  prometheus:
-  #    image: prom/prometheus:v2.36.2
-  #    restart: always
-  #    volumes:
-  #      - ../../config/prometheus/:/etc/prometheus/
-  #      - prometheus_data:/prometheus
-  #    command:
-  #      - --config.file=/etc/prometheus/prometheus.yml
-  #      - --storage.tsdb.path=/prometheus
-  #      - --web.console.libraries=/usr/share/prometheus/console_libraries
-  #      - --web.console.templates=/usr/share/prometheus/consoles
-  #    extra_hosts:
-  #      - "host.docker.internal:host-gateway"
-  #    networks:
-  #      - uptrace
+  prometheus:
+    image: prom/prometheus:v2.36.2
+    restart: always
+    volumes:
+      - prometheus_data:/prometheus
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    networks:
+      - uptrace
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
@@ -176,10 +191,12 @@ configs:
     file: ./otel-collector.yaml
   vector_config:
     file: ./vector.toml
+  prometheus_config:
+    file: ./prometheus/prometheus.yml
 
 volumes:
-  ch_data2:
-  pg_data3:
+  ch_data:
+  pg_data:
   prometheus_data:
   mailpit_data:
 
