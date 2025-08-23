@@ -69,6 +69,7 @@ services:
       - caddy-public
     ports:
       - "14317:4317"
+    expose:
       - "14318:80"
     depends_on:
       - clickhouse
