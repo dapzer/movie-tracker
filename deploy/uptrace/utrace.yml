@@ -1,0 +1,423 @@
+# =============================================================================
+# Uptrace Configuration
+# =============================================================================
+# Complete configuration reference: https://uptrace.dev/get/hosted/config
+#
+# Environment Variable Support:
+#   - Simple substitution: foo: $FOO
+#   - With braces: bar: ${BAR}
+#   - With defaults: baz: ${BAZ:default_value}
+#   - To escape '$': foo: $$FOO_BAR
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Service Configuration
+# -----------------------------------------------------------------------------
+# Core service settings that define the runtime environment and security
+service:
+  env: hosted # Environment: hosted, development, production
+  secret: ${SERVICE_SECRET:default_value} # Secret key for cryptographic operations (CHANGE THIS!)
+
+# -----------------------------------------------------------------------------
+# Site Configuration
+# -----------------------------------------------------------------------------
+# External-facing URLs and endpoints for client connections
+site:
+  # Primary URL where users access the Uptrace UI and API
+  # This URL is used for:
+  # - Generating dashboard links in notifications
+  # - CORS validation for browser requests
+  # - Redirect URIs for authentication flows
+  # IMPORTANT: Must be accessible from all clients and match your reverse proxy setup
+  url: ${PRIMARY_URL}
+
+  # Dedicated URL for telemetry data ingestion (OTLP endpoints)
+  # Use this to separate data ingestion from UI traffic for:
+  # - Load balancing optimization
+  # - Different security policies
+  # - CDN/edge deployment scenarios
+  # If empty, defaults to site.url
+  #ingest_url: http://ingest.uptrace.local
+
+# -----------------------------------------------------------------------------
+# Network Listeners
+# -----------------------------------------------------------------------------
+# Configure network interfaces and ports for different protocols
+listen:
+  # HTTP server configuration
+  # Handles: OTLP/HTTP API, REST API, and Vue.js web interface
+  http:
+    # Network address and port to bind to
+    # Format: [host]:port or :port (binds to all interfaces)
+    # Common values: :80, :8080, localhost:8080
+    addr: :80
+
+  # gRPC server configuration
+  # Handles: OTLP/gRPC API for high-performance telemetry ingestion
+  # Standard OTLP gRPC port is 4317
+  grpc:
+    addr: :4317
+
+  # TLS/SSL configuration for HTTPS and secure gRPC
+  # Uncomment and configure for production deployments
+  # tls:
+  #   cert_file: /etc/uptrace/server.crt
+  #   key_file: /etc/uptrace/server.key
+
+# -----------------------------------------------------------------------------
+# Authentication & Authorization
+# -----------------------------------------------------------------------------
+# User authentication and access control settings
+auth:
+# Disable built-in username/password authentication
+# Useful when using only SSO providers (OAuth, SAML, etc.)
+# Note: SSO authentication methods will remain available
+#disabled: true
+
+# Email domain restriction for user registration
+# Only users with email addresses matching this regex can register/login
+# Examples:
+# - '^.+@example\.com$' - only @example.com domain
+# - '^.+@(example|acme)\.com$' - multiple domains
+# - '^[^@]+@example\.com$' - stricter validation
+#email_regexp: '^.+@example\.com$'
+
+# -----------------------------------------------------------------------------
+# Bootstrap Data
+# -----------------------------------------------------------------------------
+# Initial data created during first startup - defines default users, organizations, and projects
+# This data is only created once and can be modified through the UI afterward
+seed_data:
+  # Default users created on first startup
+  users:
+    - key: user1 # Internal reference key (used in relationships below)
+      name: Spaceman # Display name in UI
+      email: ${USER_EMAIL} # Login email (must be unique)
+      password: ${USER_PASSWORD:spaceman} # Plain text password (CHANGE THIS IMMEDIATELY!)
+      email_confirmed: true
+
+  # API tokens for user authentication
+  # These tokens can be used for API access and programmatic operations
+  user_tokens:
+    - key: user_token1 # Internal reference key
+      user_key: user1 # References user.key above
+      token: ${USER_TOKEN:default_value} # API token value (CHANGE THIS!)
+
+  # Organizations for multi-tenant deployments
+  # Organizations group users and projects together
+  orgs:
+    - key: movietracker # Internal reference key
+      name: MovieTracker # Organization display name
+
+  # Organization membership and roles
+  # Defines which users belong to which organizations
+  org_users:
+    - key: org_user1 # Internal reference key
+      org_key: movietracker # References org.key above
+      user_key: user1 # References user.key above
+      role: owner # Role: owner, admin, or member
+
+  # Projects contain telemetry data and are isolated from each other
+  # Each project has its own spans, logs, metrics, and dashboards
+  projects:
+    - key: movietracker # Internal reference key
+      name: MovieTracker # Project display name
+      org_key: movietracker # References org.key above
+
+  # Project-specific tokens for telemetry data ingestion
+  # These tokens are used in OTLP DSN strings for sending data
+  project_tokens:
+    - key: project_token1 # Internal reference key
+      project_key: movietracker # References project.key above
+      token: ${PROJECT_SECRET:default_value} # Token value for DSN (CHANGE THIS!)
+
+  # Project user permissions
+  # Controls who can access and modify project data
+  project_users:
+    - key: project_user1 # Internal reference key
+      project_key: movietracker # References project.key above
+      org_user_key: org_user1 # References org_user.key above
+      perm_level: admin # Permission level: admin, editor, or viewer
+
+# -----------------------------------------------------------------------------
+# ClickHouse Database Configuration
+# -----------------------------------------------------------------------------
+# Primary storage for high-volume telemetry data (spans, logs, metrics)
+# ClickHouse is optimized for analytical queries and time-series data
+ch_cluster:
+  # Cluster name for ClickHouse operations
+  # Used internally for distributed queries and table management
+  cluster: uptrace1
+
+  # Enable ClickHouse replicated tables for high availability
+  # Requires cluster configuration with multiple replicas
+  # Provides automatic failover and data redundancy
+  replicated: false
+
+  # Enable ClickHouse distributed tables for horizontal scaling
+  # Requires cluster configuration across multiple shards
+  # Only available in Premium Edition
+  distributed: false
+
+  # Database shards configuration
+  # Each shard can have multiple replicas for redundancy
+  shards:
+    - replicas:
+        - addr: clickhouse:9000 # ClickHouse server address
+          database: uptrace # Database name (must exist)
+          user: uptrace # Database user with write permissions
+          password: uptrace # Database password
+
+          # Connection timeout settings
+          dial_timeout: 3s # Time to wait for connection establishment
+          write_timeout: 5s # Time to wait for write operations
+          max_retries: 3 # Number of retry attempts for failed operations
+
+          # Query execution timeout
+          # Prevents long-running queries from consuming resources
+          max_execution_time: 15s
+
+          # TLS configuration for secure database connections
+          # Uncomment for production deployments with SSL/TLS
+          #tls:
+          #  insecure_skip_verify: true  # WARNING: Only use for self-signed certificates
+
+# -----------------------------------------------------------------------------
+# PostgreSQL Database Configuration
+# -----------------------------------------------------------------------------
+# Metadata storage for application data (users, projects, dashboards, alerts, etc.)
+# PostgreSQL provides ACID compliance for critical application state
+pg:
+  addr: postgres:5432 # PostgreSQL server address
+  user: uptrace # Database user with full permissions
+  password: uptrace # Database password
+  database: uptrace # Database name (must exist)
+  # tls:
+  # insecure_skip_verify: true # WARNING: Only use for self-signed certificates
+
+# -----------------------------------------------------------------------------
+# ClickHouse Schema Configuration
+# -----------------------------------------------------------------------------
+# Advanced schema settings for performance optimization
+# WARNING: Changes require 'ch reset' command and will delete all data
+ch_schema:
+  # Data compression algorithm for storage efficiency
+  # Options:
+  # - LZ4: Fast compression/decompression, moderate compression ratio
+  # - ZSTD(1): Better compression ratio, slightly slower
+  # - Default: ClickHouse default compression
+  compression: ZSTD(1)
+
+  # Storage policies for different data types
+  # Allows using different storage tiers (SSD, HDD, S3) for different data
+  spans_index: { storage_policy: default } # Span search indexes
+  spans_data: { storage_policy: default } # Raw span data
+  span_links: { storage_policy: default } # Span relationship data
+  logs_index: { storage_policy: default } # Log search indexes
+  logs_data: { storage_policy: default } # Raw log data
+  events_index: { storage_policy: default } # Event search indexes
+  events_data: { storage_policy: default } # Raw event data
+  metrics: { storage_policy: default } # Metrics time-series data
+
+# -----------------------------------------------------------------------------
+# Redis Cache Configuration
+# -----------------------------------------------------------------------------
+# In-memory cache for improved query performance and session storage
+# Reduces database load and improves response times
+redis_cache:
+  # Redis server addresses
+  # For cluster setup, add multiple addresses
+  addrs:
+    1: redis:6379
+
+  # Redis authentication credentials
+  username: "" # Redis username (Redis 6.0+)
+  password: "" # Redis password
+  db: 0 # Redis database number (0-15)
+
+  # TLS configuration for secure Redis connections
+  # Recommended for production deployments
+  #tls:
+  #  insecure_skip_verify: true  # WARNING: Only use for self-signed certificates
+
+# -----------------------------------------------------------------------------
+# SSL/TLS Certificate Management
+# -----------------------------------------------------------------------------
+# Automatic certificate issuance and renewal via Let's Encrypt ACME protocol
+certmagic:
+  enabled: false # Enable automatic certificate management
+  staging_ca: false # Use Let's Encrypt staging environment for testing
+  http_challenge_addr: :80 # Address for HTTP-01 challenge validation
+
+# -----------------------------------------------------------------------------
+# Email Configuration
+# -----------------------------------------------------------------------------
+# SMTP configuration for alert notifications and user management emails
+# Required for: password resets, alert notifications, user invitations
+# Documentation: https://uptrace.dev/features/alerting
+mailer:
+  smtp:
+    enabled: false # Enable email notifications
+    host: localhost # SMTP server hostname
+    port: 1025 # SMTP server port (25, 465, 587, 1025)
+    username: mailhog # SMTP authentication username
+    password: mailhog # SMTP authentication password
+    from: no-reply@uptrace.local # Sender email address (must be authorized)
+
+    # TLS configuration
+    # Most production SMTP servers require TLS
+    #tls: { disabled: true }     # Uncomment to disable opportunistic TLS
+
+# -----------------------------------------------------------------------------
+# Telemetry Data Processing Configuration
+# -----------------------------------------------------------------------------
+# Performance tuning for different types of telemetry data ingestion
+
+# Spans (distributed tracing data)
+# Contains trace information showing request flow across services
+spans:
+# Number of parallel processing threads
+# Default: GOMAXPROCS (number of CPU cores)
+# Increase for high-volume tracing workloads
+#max_threads: 10
+
+# Batch size for database insertions
+# Larger batches improve throughput but increase memory usage
+# Tune based on your ingestion rate and memory constraints
+#max_insert_size: 10000
+
+# In-memory buffer capacity for incoming spans
+# Spans are dropped when buffer is full (check metrics for drops)
+# Default scales with max_threads
+#max_buffered_records: 100e3
+
+# Span links (relationships between spans)
+# Used for connecting spans across trace boundaries
+span_links:
+# Uncomment to disable span link processing
+# This saves resources if you don't use span links
+#disabled: true
+
+#max_threads: 10              # Processing parallelism
+#max_insert_size: 10000       # Batch size for insertions
+#max_buffered_records: 100e3  # Buffer capacity
+
+# Application logs
+# Structured and unstructured log data from applications
+logs:
+#max_threads: 10              # Processing parallelism
+#max_insert_size: 10000       # Batch size for insertions
+#max_buffered_records: 100e3  # Buffer capacity
+
+# Custom events
+# Application-specific events and business metrics
+events:
+#max_threads: 10              # Processing parallelism
+#max_insert_size: 10000       # Batch size for insertions
+#max_buffered_records: 100e3  # Buffer capacity
+
+# Metrics and time series data
+# Numerical measurements over time (counters, gauges, histograms)
+metrics:
+#max_threads: 10              # Processing parallelism
+#max_insert_size: 10000       # Batch size for insertions
+#max_buffered_records: 100e3  # Buffer capacity
+
+# Memory limit for cumulative to delta conversion
+# Affects processing of cumulative counters from OpenTelemetry
+#max_cumulative_timeseries: 1e6
+
+# -----------------------------------------------------------------------------
+# Query & Performance Limits
+# -----------------------------------------------------------------------------
+# Resource limits to prevent expensive queries from affecting system performance
+
+# Trace query resource limits
+trace:
+# Maximum number of spans to return in a single query
+# Prevents UI timeouts and excessive memory usage
+# Users can adjust time ranges to stay within limits
+#query_limit: 200_000
+
+# Maximum memory usage per query (in bytes)
+# Prevents OOM errors from complex queries
+# Adjust based on available system memory
+#max_memory_usage_bytes: 200_000_000
+
+# -----------------------------------------------------------------------------
+# Feature Modules
+# -----------------------------------------------------------------------------
+# Optional features that can be enabled/disabled for performance or security
+
+# Monitoring and alerting system
+# Provides proactive monitoring with notifications
+alerting:
+# Uncomment to disable the entire alerting system
+# This saves resources if you don't use monitoring alerts
+#disabled: true
+
+# Service dependency graph generation
+# Automatically builds service topology from trace data
+service_graph:
+# Uncomment to disable service graph processing
+# This saves CPU and memory if you don't use the service map
+#disabled: true
+
+# JavaScript error sourcemap processing
+# Provides better error stack traces for frontend applications
+# Requires internet access to download source maps from URLs
+sourcemaps:
+# Uncomment to disable sourcemap processing
+# Disable in air-gapped environments or if not using JS error tracking
+#disabled: true
+
+# -----------------------------------------------------------------------------
+# External Services
+# -----------------------------------------------------------------------------
+# Integration with external services and self-monitoring
+
+# Internal telemetry collection
+# Uptrace monitors itself and sends telemetry to the configured DSN
+self_monitoring:
+  # Uncomment to disable self-monitoring
+  # This prevents Uptrace from generating its own telemetry data
+  disabled: true
+
+  # DSN for internal telemetry
+  # Format: http://project_token@host?grpc=port
+  # This can point to a project in this Uptrace instance or to the Uptrace Cloud
+  dsn: https://project1_secret@localhost:443?grpc=4317
+
+  tls:
+    insecure_skip_verify: true
+
+# Telegram bot for notifications
+# Enables sending alert notifications to Telegram channels/users
+# Setup guide: https://sendpulse.com/knowledge-base/chatbot/telegram/create-telegram-chatbot
+telegram:
+  # Telegram bot token obtained from @BotFather
+  # Required for sending notifications to Telegram
+  bot_token: ${TELEGRAM_BOT_TOKEN}
+
+# -----------------------------------------------------------------------------
+# System Configuration
+# -----------------------------------------------------------------------------
+# Global system settings and licensing
+
+# Application logging configuration
+# Controls Uptrace's own log output (not application logs)
+logging:
+  # Log level affects verbosity and performance
+  # DEBUG: Very verbose, use only for troubleshooting
+  # INFO: Standard operational information
+  # WARN: Warning messages and errors
+  # ERROR: Only error messages
+  level: INFO
+
+# Premium features license
+# Enables advanced features like distributed tables, SSO, etc.
+# Details: https://uptrace.dev/get/hosted#premium-edition
+license:
+  # Premium license key from Uptrace
+  # Required for enterprise features
+  key: ""
