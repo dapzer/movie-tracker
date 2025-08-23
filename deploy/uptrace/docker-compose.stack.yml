@@ -75,7 +75,7 @@ services:
       - postgres
     configs:
       - source: uptrace_config
-        target: /etc/uptrace/uptrace.yml
+        target: /etc/uptrace/config.yml
     deploy:
       placement:
         constraints:
