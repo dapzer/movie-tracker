@@ -16,7 +16,7 @@ api.movie-tracker.app {
 }
 
 uptrace.movie-tracker.app {
-    reverse_proxy uptrace:14318
+    reverse_proxy uptrace:80
 }
 
 adminer.movie-tracker.app {
