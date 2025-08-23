@@ -18,34 +18,10 @@ receivers:
     collection_interval: 10s
     tls:
       insecure: true
-  docker_stats:
-    endpoint: unix:///var/run/docker.sock
-    collection_interval: 15s
-    metrics:
-      container.cpu.usage.percpu:
-        enabled: true
-      container.network.io.usage.rx_bytes:
-        enabled: true
-      container.network.io.usage.tx_bytes:
-        enabled: true
-      container.network.io.usage.tx_dropped:
-        enabled: false
-      container.memory.usage.total:
-        enabled: true
-      container.memory.usage.max:
-        enabled: true
-      container.memory.percent:
-        enabled: true
-      container.memory.cache:
-        enabled: true
-      container.network.io.usage.rx_packets:
-        enabled: true
-      container.network.io.usage.tx_packets:
-        enabled: true
 
 exporters:
   otlp:
-    endpoint: http://uptrace.movie-tracker.app:14318
+    endpoint: http://uptrace:14318
     tls:
       insecure: true
     # TODO: Change <token> to your Uptrace project token.
@@ -65,6 +41,6 @@ service:
       processors: [batch]
       exporters: [otlp]
     metrics:
-      receivers: [otlp, redis, postgresql, docker_stats]
+      receivers: [otlp, redis, postgresql]
       processors: [cumulativetodelta, batch, resourcedetection]
       exporters: [otlp]

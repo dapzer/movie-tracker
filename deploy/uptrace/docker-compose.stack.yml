@@ -203,9 +203,6 @@ volumes:
 networks:
   uptrace:
     name: uptrace
-  movie-tracker-metrics:
-    name: movie-tracker-metrics
-    external: true
   caddy-public:
     name: caddy-public
     external: true
