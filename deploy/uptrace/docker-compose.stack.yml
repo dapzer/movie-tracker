@@ -68,7 +68,7 @@ services:
       - uptrace
       - caddy-public
     ports:
-      - "14317:4317"
+      - "14317:14317"
       - "14318:14318"
     depends_on:
       - clickhouse
