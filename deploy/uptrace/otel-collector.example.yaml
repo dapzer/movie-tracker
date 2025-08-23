@@ -66,7 +66,7 @@ exporters:
     tls: { insecure_skip_verify: true }
     headers: { "uptrace-dsn": "" }
   prometheusremotewrite/uptrace:
-    endpoint: "http://uptrace:4318/api/v1/prometheus/write"
+    endpoint: "http://uptrace:14318/api/v1/prometheus/write"
     tls: { insecure_skip_verify: true }
     # TODO: set dns
     headers: { "uptrace-dsn": "" }
