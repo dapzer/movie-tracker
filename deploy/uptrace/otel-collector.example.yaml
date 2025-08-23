@@ -61,7 +61,7 @@ processors:
 
 exporters:
   otlp/uptrace:
-    endpoint: https://uptrace:4317
+    endpoint: https://uptrace:14317
     # TODO: set dns
     tls: { insecure_skip_verify: true }
     headers: { "uptrace-dsn": "" }
