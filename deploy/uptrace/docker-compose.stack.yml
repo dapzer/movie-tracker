@@ -82,27 +82,27 @@ services:
           - node.role != manager
           - node.labels.databases != true
 
-  otelcol:
-    image: otel/opentelemetry-collector-contrib:0.123.0
-    restart: on-failure
-    configs:
-      - source: otel_collector_config
-        target: /etc/otelcol-contrib/config.yaml
-    ports:
-      - "4317:4317"
-      - "4318:4318"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-      - uptrace
-    networks:
-      - uptrace
-      - movie-tracker-metrics
-    deploy:
-      placement:
-        constraints:
-          - node.role != manager
-          - node.labels.databases != true
+#  otelcol:
+#    image: otel/opentelemetry-collector-contrib:0.123.0
+#    restart: on-failure
+#    configs:
+#      - source: otel_collector_config
+#        target: /etc/otelcol-contrib/config.yaml
+#    ports:
+#      - "4317:4317"
+#      - "4318:4318"
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    depends_on:
+#      - uptrace
+#    networks:
+#      - uptrace
+#      - movie-tracker-metrics
+#    deploy:
+#      placement:
+#        constraints:
+#          - node.role != manager
+#          - node.labels.databases != true
 
 #  mailpit:
 #    image: axllent/mailpit

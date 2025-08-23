@@ -1,0 +1,29 @@
+name: movie-tracker
+
+services:
+  otelcol:
+    image: otel/opentelemetry-collector-contrib:0.123.0
+    restart: on-failure
+    configs:
+      - source: otel_collector_config
+        target: /etc/otelcol-contrib/config.yaml
+    expose:
+      - "4317"
+      - "4318"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - movie-tracker-metrics
+    deploy:
+      placement:
+        constraints:
+          - node.role != manager
+          - node.labels.databases != true
+configs:
+  otel_collector_config:
+    file: ./otel-collector.yaml
+
+networks:
+  movie-tracker-metrics:
+    name: movie-tracker-metrics
+    external: true

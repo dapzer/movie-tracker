@@ -1,0 +1,45 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+  redis:
+    endpoint: redis:6379
+    collection_interval: 10s
+  postgresql:
+    endpoint: postgres:5432
+    transport: tcp
+    username: spaceman
+    # TODO: set password
+    password:
+    databases:
+      - movietracker
+    collection_interval: 10s
+    tls:
+      insecure: true
+
+exporters:
+  otlp:
+    endpoint: http://uptrace.movie-tracker.app
+    tls:
+      insecure: true
+    # TODO: Change <token> to your Uptrace project token.
+    headers: { 'uptrace-dsn': 'http://<token>@uptrace.movie-tracker.app:14318?grpc=14318' }
+
+processors:
+  resourcedetection:
+    detectors: [env, system]
+  cumulativetodelta:
+  batch:
+    timeout: 10s
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
+    metrics:
+      receivers: [otlp, redis, postgresql, docker_stats]
+      processors: [cumulativetodelta, batch, resourcedetection]
+      exporters: [otlp]
