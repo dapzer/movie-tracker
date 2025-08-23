@@ -47,8 +47,7 @@ services:
           - node.labels.databases == true
 
   uptrace:
-    image: "uptrace/uptrace:1.7.5"
-    # image: 'uptrace/uptrace-dev:latest'
+    image: "uptrace/uptrace:latest"
     restart: on-failure
     configs:
       - source: uptrace_config
