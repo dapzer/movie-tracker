@@ -6,6 +6,7 @@ receivers:
   redis:
     endpoint: redis:6379
     collection_interval: 10s
+
   postgresql:
     endpoint: postgres:5432
     transport: tcp

@@ -5,6 +5,8 @@ services:
     configs:
       - source: otel_collector_config
         target: /etc/otelcol-contrib/config.yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     expose:
       - "4317"
       - "4318"
