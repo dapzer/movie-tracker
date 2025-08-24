@@ -69,7 +69,7 @@ const options = [
     value: "16",
   },
 ] satisfies OptionType[]
-const value = ref(options[0].value)
+const value = ref(options[0]?.value)
 const disabled = ref(false)
 </script>
 

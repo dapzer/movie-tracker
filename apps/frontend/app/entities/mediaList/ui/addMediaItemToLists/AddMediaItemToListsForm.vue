@@ -88,8 +88,13 @@ function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
     action = "add"
   }
 
-  changes.value[mediaListId].checked = isChecked
-  changes.value[mediaListId].action = action
+  const currentChanges = changes.value[mediaListId]
+  if (!currentChanges) {
+    return
+  }
+
+  currentChanges.checked = isChecked
+  currentChanges.action = action
 }
 
 function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum) {
@@ -97,13 +102,17 @@ function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum
   if (!currentState) {
     return
   }
+  const currentChanges = changes.value[mediaListId]
+  if (!currentChanges) {
+    return
+  }
 
-  changes.value[mediaListId].currentStatus = status
+  currentChanges.currentStatus = status
 
   if (currentState.mediaItemId) {
     const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === currentState.mediaItemId)
     const isSameStatus = mediaItem?.trackingData.currentStatus === status
-    changes.value[mediaListId].action = isSameStatus ? "pass" : "update"
+    currentChanges.action = isSameStatus ? "pass" : "update"
   }
 }
 
@@ -194,7 +203,7 @@ const isHasChanges = computed(() => {
         <AddMediaItemToListsFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
-          v-model="changes[mediaList.id].checked"
+          v-model="changes[mediaList.id]!.checked"
           :current-status="changes[mediaList.id]!.currentStatus"
           :disabled="isLoading"
           :media-list="mediaList"

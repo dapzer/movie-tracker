@@ -47,7 +47,7 @@ watchEffect(() => {
       placeholder.value = storedPlaceholder
     }
     else {
-      const placeholderValue = getPlaceholder()
+      const placeholderValue = getPlaceholder()!
       placeholder.value = placeholderValue
       placeholdersStorage.value[props.placeholderId] = placeholderValue
     }

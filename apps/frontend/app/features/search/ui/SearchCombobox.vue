@@ -83,7 +83,7 @@ const itemsToRender = computed(() => {
           :movie="item"
           :value="`${item.id}`"
           :class="$style.card"
-          @select.prevent="(event) => handleSelectMedia(item, event)"
+          @select.prevent="(event: SelectEvent) => handleSelectMedia(item, event)"
         />
         <UiComboboxItem
           v-else
@@ -91,7 +91,7 @@ const itemsToRender = computed(() => {
           :person="item"
           :value="`${item.id}`"
           :class="$style.card"
-          @select.prevent="(event) => handleSelectMedia(item, event)"
+          @select.prevent="(event: SelectEvent) => handleSelectMedia(item, event)"
         />
         <UiComboboxSeparator />
       </template>
@@ -106,7 +106,7 @@ const itemsToRender = computed(() => {
           :list="item"
           :value="item.id"
           :class="$style.card"
-          @select.prevent="(event) => handleSelectList(item, event)"
+          @select.prevent="(event: SelectEvent) => handleSelectList(item, event)"
         />
         <UiComboboxSeparator />
       </template>
@@ -117,7 +117,7 @@ const itemsToRender = computed(() => {
         value="link"
         :as="UiTypography"
         schema="link"
-        @select.prevent="(event) => handleOpenSearchPage(event)"
+        @select.prevent="(event: SelectEvent) => handleOpenSearchPage(event)"
       >
         {{ $t("search.seeAllResults", { searchTerm: searchValue }) }}
         <UiIcon

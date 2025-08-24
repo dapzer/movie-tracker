@@ -15,7 +15,7 @@ const slots = defineSlots<{
 const activeTab = defineModel<string>({ default: "" })
 
 if (!activeTab.value) {
-  activeTab.value = props.tabs[0].key
+  activeTab.value = props.tabs[0]?.key ?? ""
 }
 </script>
 
