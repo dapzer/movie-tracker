@@ -132,8 +132,12 @@ const releasedEpisodes = computed(() => {
 
   for (let i = firstSeasonIndex; i < seasons?.length; i++) {
     const season = seasons[i]
+    const episodeCount = season?.episodes?.length
+    if (!episodeCount) {
+      continue
+    }
 
-    for (let j = 0; j < season?.episodes.length; j++) {
+    for (let j = 0; j < episodeCount; j++) {
       const episode = season?.episodes[j]
 
       if (episode?.air_date && new Date(episode?.air_date) < today) {

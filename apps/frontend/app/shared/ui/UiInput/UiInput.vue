@@ -34,8 +34,8 @@ const inputModel = defineModel<string>()
         v-bind="$attrs"
         v-model="inputModel"
         :class="{
-          [$style.withIcon]: !!slots.icon,
-          [$style.errored]: !!props.error,
+          [$style.withIcon as string]: !!slots.icon,
+          [$style.errored as string]: !!props.error,
           [$style.small]: props.size === 'small',
         }"
       >
