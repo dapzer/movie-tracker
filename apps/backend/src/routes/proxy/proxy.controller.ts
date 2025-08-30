@@ -15,7 +15,7 @@ export class ProxyController {
     @Param("everything") everything: string,
   ) {
     const { stream, contentType } = await this.proxyService.getImage(
-      everything.split(",").join("/"),
+      everything.replace(/,/g, "/"),
       queries.keepOriginalType,
       queries.size,
     )
@@ -30,6 +30,6 @@ export class ProxyController {
     @Param("everything") everything: string,
     @Query() queries: Record<string, string>,
   ) {
-    return this.proxyService.getResponse(everything.split(",").join("/"), queries)
+    return this.proxyService.getResponse(everything.replace(/,/g, "/"), queries)
   }
 }
