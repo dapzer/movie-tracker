@@ -1,14 +1,14 @@
-import { ProxyQueriesDto } from "@/routes/proxy/dto/proxyQueries..dto"
-import { ProxyService } from "@/routes/proxy/proxy.service"
 import { CacheInterceptor } from "@nestjs/cache-manager"
 import { Controller, Get, Param, Query, Res, UseInterceptors } from "@nestjs/common"
 import { Response } from "express"
+import { ProxyQueriesDto } from "@/routes/proxy/dto/proxyQueries..dto"
+import { ProxyService } from "@/routes/proxy/proxy.service"
 
 @Controller("proxy")
 export class ProxyController {
   constructor(private readonly proxyService: ProxyService) {}
 
-  @Get("image/:everything(*)")
+  @Get("image/*everything")
   async getImage(
     @Query() queries: ProxyQueriesDto,
     @Res() res: Response,
@@ -24,7 +24,7 @@ export class ProxyController {
     stream.pipe(res)
   }
 
-  @Get("content/:everything(*)")
+  @Get("content/*everything")
   @UseInterceptors(CacheInterceptor)
   async getResizedImage(
     @Param("everything") everything: string,
