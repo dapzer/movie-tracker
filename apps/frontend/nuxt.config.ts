@@ -49,7 +49,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: true,
     baseUrl: process.env.VITE_BASE_URL || "http://localhost:3000",
     restructureDir: "./app/",
     detectBrowserLanguage: false,
