@@ -30,6 +30,6 @@ export class ProxyController {
     @Param("everything") everything: string,
     @Query() queries: Record<string, string>,
   ) {
-    return this.proxyService.getResponse(everything, queries)
+    return this.proxyService.getResponse(everything.split(",").join("/"), queries)
   }
 }
