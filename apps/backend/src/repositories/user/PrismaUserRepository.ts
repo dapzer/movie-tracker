@@ -1,8 +1,8 @@
-import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
 import { User } from "@movie-tracker/database"
 import { SignUpMethodEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
+import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 @Injectable()
 export class PrismaUserRepository implements UserRepositoryInterface {
@@ -31,6 +31,15 @@ export class PrismaUserRepository implements UserRepositoryInterface {
     const user = await this.prisma.user.findUnique({ where: { id } })
 
     return this.convertToInterface(user)
+  }
+
+  async getUserStatsById(id: string) {
+    const [mediaListCount, mediaRatingsCount] = await Promise.all([
+      this.prisma.mediaList.count({ where: { userId: id } }),
+      this.prisma.mediaRating.count({ where: { userId: id } }),
+    ])
+
+    return { mediaListCount, mediaRatingsCount }
   }
 
   async getUserByEmail(email: string) {

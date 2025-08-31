@@ -1,9 +1,11 @@
-import { UserType } from "@movie-tracker/types"
+import { UserStatsType, UserType } from "@movie-tracker/types"
 
-export const UserRepositorySymbol = Symbol()
+export const UserRepositorySymbol = Symbol("UserRepository")
 
 export interface UserRepositoryInterface {
   getUserById: (id: string) => Promise<UserType>
+
+  getUserStatsById: (id: string) => Promise<UserStatsType>
 
   getUserByEmail: (email: string) => Promise<UserType>
 
