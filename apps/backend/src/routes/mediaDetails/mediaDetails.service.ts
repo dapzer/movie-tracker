@@ -1,3 +1,8 @@
+import { MediaDetailsType, MediaTypeEnum, TmdbMediaDetailsType } from "@movie-tracker/types"
+import { generateApiUrl } from "@movie-tracker/utils"
+import { HttpException, HttpStatus, Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
+import { Interval } from "@nestjs/schedule"
 import {
   MediaDetailsRepositoryInterface,
   MediaDetailsRepositorySymbol,
@@ -6,26 +11,13 @@ import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
 } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
+import {
+  MediaRatingRepositoryInterface,
+  MediaRatingRepositorySymbol,
+} from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { convertArrayToChunks } from "@/shared/utils/convertArrayToChunks"
 import { convertMediaDetailsToMediaDetailsInfo } from "@/shared/utils/convertMediaDetailsToMediaDetailsInfo"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
-import {
-  MediaDetailsType,
-  MediaItemType,
-  MediaTypeEnum,
-  TmdbMediaDetailsType,
-} from "@movie-tracker/types"
-import { generateApiUrl } from "@movie-tracker/utils"
-import {
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-  OnModuleInit,
-} from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
-import { Interval } from "@nestjs/schedule"
 
 @Injectable()
 export class MediaDetailsService implements OnModuleInit {
@@ -45,8 +37,11 @@ export class MediaDetailsService implements OnModuleInit {
     private mediaDetailsRepository: MediaDetailsRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
+    @Inject(MediaRatingRepositorySymbol)
+    private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+  }
 
   async onModuleInit() {
     // this.createOrUpdateAllMediaItemsDetails();
@@ -89,7 +84,7 @@ export class MediaDetailsService implements OnModuleInit {
       }
     }
     catch (error) {
-      this.logger.error("Failed to get data from TMDB.")
+      this.logger.error(`Failed to get data from TMDB with id ${mediaId} and type ${mediaType}.`)
 
       return {
         ru: null,
@@ -102,7 +97,6 @@ export class MediaDetailsService implements OnModuleInit {
     mediaId: number,
     mediaType: MediaTypeEnum,
     skipError: boolean = false,
-    mediaItem?: MediaItemType,
   ) {
     const { ru, en } = await this.getAllMediaDetails(mediaId, mediaType)
 
@@ -133,19 +127,14 @@ export class MediaDetailsService implements OnModuleInit {
           en.vote_average || 0,
         )
       }
-
-      mediaDetailsItem = await this.mediaDetailsRepository.updateMediaDetails(
-        mediaId,
-        mediaType,
-        convertMediaDetailsToMediaDetailsInfo(ru),
-        convertMediaDetailsToMediaDetailsInfo(en),
-        en?.vote_average || 0,
-      )
-
-      if (mediaDetails && mediaItem && !mediaItem?.mediaDetailsId) {
-        await this.mediaItemRepository.updateMediaItem(mediaItem.id, {
-          mediaDetailsId: mediaDetailsItem.id,
-        })
+      else {
+        mediaDetailsItem = await this.mediaDetailsRepository.updateMediaDetails(
+          mediaId,
+          mediaType,
+          convertMediaDetailsToMediaDetailsInfo(ru),
+          convertMediaDetailsToMediaDetailsInfo(en),
+          en?.vote_average || 0,
+        )
       }
 
       this.updatingProgress.successfulUpdates += 1
@@ -167,13 +156,30 @@ export class MediaDetailsService implements OnModuleInit {
   }
 
   async createOrUpdateAllMediaItemsDetails() {
-    const mediaItems = await this.mediaItemRepository.getAllMediaItems()
+    const [mediaItems, mediaRatings] = await Promise.all(
+      [this.mediaItemRepository.getAllMediaItems(), this.mediaRatingRepository.getAllMediaRatings(),
+      ],
+    )
 
-    if (!mediaItems) {
+    if (!mediaItems && !mediaRatings) {
       throw new HttpException("Media items not found", HttpStatus.NOT_FOUND)
     }
 
-    const chunks = convertArrayToChunks(mediaItems, 20)
+    const uniqueMediaIdsWithTypes = [
+      ...new Map(
+        [
+          ...mediaItems,
+          ...mediaRatings,
+        ].map(item => [
+          `${item.mediaId}-${item.mediaType}`,
+          { mediaId: item.mediaId, mediaType: item.mediaType },
+        ]),
+      ).values(),
+    ]
+
+    this.logger.log(`Starting media details update for ${uniqueMediaIdsWithTypes.length} media items.`)
+
+    const chunks = convertArrayToChunks(uniqueMediaIdsWithTypes, 20)
     let iteration = 1
     this.updatingProgress = {
       successfulUpdates: 0,
@@ -187,7 +193,6 @@ export class MediaDetailsService implements OnModuleInit {
           mediaItem.mediaId,
           mediaItem.mediaType,
           true,
-          mediaItem,
         )
       })
 
