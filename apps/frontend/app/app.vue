@@ -84,6 +84,7 @@ useSeoMeta({
 </template>
 
 <style module lang="scss">
+@use "~/shared/styles/global.scss";
 .progressBar {
   top: var(--s-header-height) !important;
 }

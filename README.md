@@ -1,4 +1,4 @@
-![alt](https://raw.githubusercontent.com/dapzer/movie-tracker/refs/heads/master/apps/frontend/src/public/ogImageEn.webp)
+![alt](https://raw.githubusercontent.com/dapzer/movie-tracker/refs/heads/master/apps/frontend/public/ogImageEn.webp)
 
 #### [Production](https://movie-tracker.app)
 

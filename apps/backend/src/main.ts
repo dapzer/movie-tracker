@@ -1,3 +1,9 @@
+import { ValidationPipe } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
+import { HttpAdapterHost, NestFactory } from "@nestjs/core"
+import { PrismaSessionStore } from "@quixo3/prisma-session-store"
+import * as cookieParser from "cookie-parser"
+import * as session from "express-session"
 import { AppModule } from "@/app.module"
 import { AllExceptionsFilter } from "@/filters/allException.filter"
 import { HttpExceptionFilter } from "@/filters/httpException.filter"
@@ -5,12 +11,6 @@ import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
 import { PrismaService } from "@/services/prisma/prisma.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
-import { ValidationPipe } from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
-import { HttpAdapterHost, NestFactory } from "@nestjs/core"
-import { PrismaSessionStore } from "@quixo3/prisma-session-store"
-import * as cookieParser from "cookie-parser"
-import * as session from "express-session"
 import "dotenv/config"
 import "@/services/opentelemetry"
 
@@ -42,7 +42,7 @@ async function bootstrap() {
         sameSite: "lax",
         httpOnly: true,
         domain: `.${new URL(configService.get("CLIENT_BASE_URL")).hostname}`,
-        maxAge: getMillisecondsFromDays(7),
+        maxAge: getMillisecondsFromDays(14),
       },
       store: new PrismaSessionStore(prisma, {
         checkPeriod: getMillisecondsFromMins(5),

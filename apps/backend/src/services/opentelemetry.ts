@@ -7,7 +7,7 @@ import { NestInstrumentation } from "@opentelemetry/instrumentation-nestjs-core"
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis"
 import { RuntimeNodeInstrumentation } from "@opentelemetry/instrumentation-runtime-node"
 import { CompressionAlgorithm } from "@opentelemetry/otlp-exporter-base"
-import { Resource } from "@opentelemetry/resources"
+import { resourceFromAttributes } from "@opentelemetry/resources"
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base"
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
@@ -18,7 +18,7 @@ const logger = new Logger("OpenTelemetry")
 if (process.env.UPTRACE_DSN) {
   try {
     const provider = new NodeTracerProvider({
-      resource: new Resource({
+      resource: resourceFromAttributes({
         [ATTR_SERVICE_NAME]: process.env.NODE_ENV === "production" ? "api" : "api-dev",
       }),
       spanProcessors: [

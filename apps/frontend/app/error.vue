@@ -30,6 +30,8 @@ const props = defineProps<ErrorPageProps>()
 </template>
 
 <style lang="scss" module>
+@use "~/shared/styles/global.scss";
+
 .wrapper {
   display: flex;
   flex-direction: column;

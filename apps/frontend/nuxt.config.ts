@@ -3,8 +3,6 @@ import process from "node:process"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  srcDir: "./src",
-
   app: {
     head: {
       title: "Movie Tracker",
@@ -51,9 +49,8 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: true,
     baseUrl: process.env.VITE_BASE_URL || "http://localhost:3000",
-    restructureDir: "./src/",
+    restructureDir: "./app/",
     detectBrowserLanguage: false,
     defaultLocale: "ru",
     locales: [
@@ -77,11 +74,11 @@ export default defineNuxtConfig({
     customCollections: [
       {
         prefix: "icon",
-        dir: "./src/assets/svg/icons",
+        dir: "./app/assets/svg/icons",
       },
       {
         prefix: "svg",
-        dir: "./src/assets/svg/images",
+        dir: "./app/assets/svg/images",
       },
     ],
   },
@@ -111,7 +108,7 @@ export default defineNuxtConfig({
     }],
   },
 
-  css: ["@/shared/styles/global.scss"],
+  // css: ["~/shared/styles/global.scss"],
 
   imports: {
     autoImport: false,
@@ -136,7 +133,7 @@ export default defineNuxtConfig({
       modules: {
         generateScopedName: (name, filename, css) => {
           const hash = crypto.createHash("md5").update(css).digest("hex").substring(0, 5)
-          const componentName = filename.split("/").pop()?.split(".")[0].replace(/[^a-z ]/gi, "") ?? ""
+          const componentName = filename.split("/").pop()?.split(".")[0]!.replace(/[^a-z ]/gi, "") ?? ""
 
           return `${componentName}_${name}_${hash}`
         },
