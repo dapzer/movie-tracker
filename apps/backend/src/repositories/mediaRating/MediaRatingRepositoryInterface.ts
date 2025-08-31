@@ -3,6 +3,8 @@ import { MediaRatingCreateBodyType, MediaRatingType, MediaRatingUpdateBodyType }
 export const MediaRatingRepositorySymbol = Symbol("MediaRatingRepository")
 
 export interface MediaRatingRepositoryInterface {
+  getAllMediaRatings: () => Promise<MediaRatingType[]>
+
   getMediaRatingId: (args: Pick<MediaRatingType, "id">) => Promise<MediaRatingType | undefined>
 
   getMediaRatingByUserId: (
