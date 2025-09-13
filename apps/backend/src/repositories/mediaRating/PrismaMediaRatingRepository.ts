@@ -1,8 +1,8 @@
-import { MediaRatingRepositoryInterface } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
 import { MediaRating } from "@movie-tracker/database"
 import { MediaRatingType, MediaTypeEnum } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
+import { MediaRatingRepositoryInterface } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 @Injectable()
 export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterface {
@@ -19,6 +19,11 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
   }
 
   constructor(private readonly prisma: PrismaService) {
+  }
+
+  async getAllMediaRatings() {
+    const mediaRatings = await this.prisma.mediaRating.findMany()
+    return mediaRatings.map(this.convertMediaRatingToInterface)
   }
 
   async getMediaRatingId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingId"]>[0]) {

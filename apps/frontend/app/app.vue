@@ -7,6 +7,7 @@ import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useAuth } from "~/shared/composables/useAuth"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
+// import "vue3-toastify/dist/index.css"
 
 const { t, locale } = useI18n()
 
@@ -84,7 +85,6 @@ useSeoMeta({
 </template>
 
 <style module lang="scss">
-@use "~/shared/styles/global.scss";
 .progressBar {
   top: var(--s-header-height) !important;
 }

@@ -96,10 +96,7 @@ export default defineNuxtConfig({
     },
   },
 
-  vitalizer: {
-    // Remove the render-blocking entry CSS
-    disableStylesheets: "entry",
-  },
+  vitalizer: {},
 
   components: {
     dirs: [{
@@ -108,7 +105,7 @@ export default defineNuxtConfig({
     }],
   },
 
-  // css: ["~/shared/styles/global.scss"],
+  css: ["~/shared/styles/global.scss"],
 
   imports: {
     autoImport: false,

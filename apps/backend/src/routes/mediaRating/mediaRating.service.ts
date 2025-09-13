@@ -1,17 +1,19 @@
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import {
   MediaRatingRepositoryInterface,
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import { CreateMediaRatingDto } from "@/routes/mediaRating/dto/createMediaRating.dto"
 import { GetMediaRatingByUserIdQueryDto } from "@/routes/mediaRating/dto/getMediaRatingByUserIdQuery.dto"
 import { UpdateMediaRatingDto } from "@/routes/mediaRating/dto/updateMediaRating.dto"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class MediaRatingService {
   constructor(
     @Inject(MediaRatingRepositorySymbol)
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
+    private readonly mediaDetailsService: MediaDetailsService,
   ) {}
 
   async getMediaRatingByUserId(args: {
@@ -37,6 +39,12 @@ export class MediaRatingService {
     userId: string
     body: CreateMediaRatingDto
   }) {
+    await this.mediaDetailsService.createOrUpdateMediaDetails(
+      args.body.mediaId,
+      args.body.mediaType,
+      null,
+    )
+
     return this.mediaRatingRepository.createMediaRating({
       userId: args.userId,
       ...args.body,
