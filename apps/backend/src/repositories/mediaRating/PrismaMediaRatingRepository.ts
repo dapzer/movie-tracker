@@ -26,7 +26,7 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
     return mediaRatings.map(this.convertMediaRatingToInterface)
   }
 
-  async getMediaRatingId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingId"]>[0]) {
+  async getMediaRatingById(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingById"]>[0]) {
     const { id } = args
     const mediaRating = await this.prisma.mediaRating.findUnique({
       where: { id },
@@ -35,20 +35,28 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
     return mediaRating ? this.convertMediaRatingToInterface(mediaRating) : undefined
   }
 
-  async getMediaRatingByUserId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingByUserId"]>[0]) {
-    const { userId, mediaId, mediaType } = args
+  async getMediaRatingsByUserId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingsByUserId"]>[0]) {
+    const { userId } = args
+    const mediaRatings = await this.prisma.mediaRating.findMany({
+      where: { userId },
+    })
+
+    return mediaRatings.map(this.convertMediaRatingToInterface)
+  }
+
+  async getMediaRatingByUserIdAndMediaId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingByUserIdAndMediaId"]>[0]) {
+    const { userId, mediaId } = args
     const mediaRating = await this.prisma.mediaRating.findFirst({
       where: {
         userId,
         mediaId,
-        mediaType,
       },
     })
 
     return mediaRating ? this.convertMediaRatingToInterface(mediaRating) : undefined
   }
 
-  async getMediaRatingsByUserIdAndMediaId(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingsByUserIdAndMediaId"]>[0]) {
+  async getMediaRatingsByUserIdAndMediaIds(args: Parameters<MediaRatingRepositoryInterface["getMediaRatingsByUserIdAndMediaIds"]>[0]) {
     const { userId, mediaIds } = args
     const mediaRatings = await this.prisma.mediaRating.findMany({
       where: {

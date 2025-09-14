@@ -8,11 +8,7 @@ import type {
 import { api } from "~/api/instance"
 
 export function getMediaRatingByUser(args: GetMediaRatingByUserArgs, options?: Omit<RequestOptions, "params">) {
-  return api.get<MediaRatingType>("media-rating", {
-    params: {
-      mediaId: args.mediaId,
-      mediaType: args.mediaType,
-    },
+  return api.get<MediaRatingType>(`media-rating/by-media/${args.mediaId}`, {
     ...options,
   })
 }

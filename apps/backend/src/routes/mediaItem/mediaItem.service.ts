@@ -1,4 +1,12 @@
 import {
+  MediaItemStatusNameEnum,
+  MediaItemType,
+  MediaListAccessLevelEnum,
+  MediaListType,
+  MediaTypeEnum,
+} from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
 } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
@@ -11,14 +19,6 @@ import {
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
-import {
-  MediaItemStatusNameEnum,
-  MediaItemType,
-  MediaListAccessLevelEnum,
-  MediaListType,
-  MediaTypeEnum,
-} from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class MediaItemService {
@@ -104,8 +104,7 @@ export class MediaItemService {
       undefined,
       currentStatus,
     )
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
-      mediaType,
+    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserIdAndMediaId({
       mediaId,
       userId,
     })
@@ -123,7 +122,7 @@ export class MediaItemService {
     }
 
     const mediaIds = mediaItems.map(item => item.mediaId)
-    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaId({
+    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaIds({
       userId,
       mediaIds,
     })
@@ -147,8 +146,8 @@ export class MediaItemService {
   ) {
     const mediaList = byHumanFriendlyId
       ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
-        mediaListId,
-      )
+          mediaListId,
+        )
       : await this.mediaListRepository.getMedialListById(mediaListId)
 
     if (mediaList && mediaList.userId !== userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
@@ -161,7 +160,7 @@ export class MediaItemService {
     }
 
     const mediaIds = mediaItems.map(item => item.mediaId)
-    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaId({
+    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaIds({
       userId: mediaList.userId,
       mediaIds,
     })
@@ -226,8 +225,7 @@ export class MediaItemService {
       isSaveCreationDate ? mediaItem.createdAt : undefined,
     )
 
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserId({
-      mediaType: mediaItem.mediaType,
+    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserIdAndMediaId({
       mediaId: mediaItem.mediaId,
       userId: mediaList.userId,
     })

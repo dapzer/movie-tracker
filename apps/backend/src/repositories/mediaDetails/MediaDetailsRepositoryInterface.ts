@@ -1,12 +1,14 @@
-import {
-  MediaDetailsInfoType,
-  MediaDetailsType,
-  MediaTypeEnum,
-} from "@movie-tracker/types"
+import { MediaDetailsInfoType, MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types"
 
-export const MediaDetailsRepositorySymbol = Symbol()
+export const MediaDetailsRepositorySymbol = Symbol("MediaDetailsRepository")
 
 export interface MediaDetailsRepositoryInterface {
+  getMediaDetailsByMediaIds: (
+    args: {
+      mediaIds: number[]
+    }
+  ) => Promise<MediaDetailsType[]>
+
   createMediaDetails: (
     mediaId: number,
     mediaType: MediaTypeEnum,
