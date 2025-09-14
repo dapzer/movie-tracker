@@ -1,3 +1,5 @@
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { isCuid } from "@paralleldrive/cuid2"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
 import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
@@ -8,26 +10,24 @@ import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
 import { MediaListService } from "@/routes/mediaList/mediaList.service"
 import { User } from "@/routes/user/users.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
-import { isCuid } from "@paralleldrive/cuid2"
 
 @Controller("media-list")
 export class MediaListController {
   constructor(private readonly mediaListService: MediaListService) {}
 
   @Get()
-  async getMedialListByUserId(
+  async getMedialListsByUserId(
     @Query() queries: GetAllMediaListsDto,
     @User() user: UserDto,
   ) {
     if (queries.userId) {
-      return this.mediaListService.getMedialListByUserId(
+      return this.mediaListService.getMedialListsByUserId(
         queries.userId,
         user?.id,
       )
     }
 
-    return this.mediaListService.getMedialListByUserId(user?.id, user?.id)
+    return this.mediaListService.getMedialListsByUserId(user?.id, user?.id)
   }
 
   @Get(":id")
