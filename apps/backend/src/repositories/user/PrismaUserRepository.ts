@@ -34,12 +34,13 @@ export class PrismaUserRepository implements UserRepositoryInterface {
   }
 
   async getUserStatsById(id: string) {
-    const [mediaListCount, mediaRatingsCount] = await Promise.all([
+    const [mediaListCount, mediaRatingsCount, mediaListLikeCount] = await Promise.all([
       this.prisma.mediaList.count({ where: { userId: id } }),
       this.prisma.mediaRating.count({ where: { userId: id } }),
+      this.prisma.mediaListLike.count({ where: { userId: id } }),
     ])
 
-    return { mediaListCount, mediaRatingsCount }
+    return { mediaListCount, mediaRatingsCount, mediaListLikeCount }
   }
 
   async getUserByEmail(email: string) {
