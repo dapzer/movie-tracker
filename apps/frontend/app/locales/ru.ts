@@ -1319,6 +1319,7 @@ export default {
   },
   userProfile: {
     trackSince: "Отселижавает кинокартыны с {date}",
+    notFound: "Пользователь не найден",
     stats: {
       mediaListCount: "Списков",
       mediaRatingsCount: "Оценок",

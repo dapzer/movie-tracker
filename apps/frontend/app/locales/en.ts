@@ -1318,6 +1318,7 @@ export default {
   },
   userProfile: {
     trackSince: "Tracks movies since {date}",
+    notFound: "The user was not found",
     stats: {
       mediaListCount: "Lists",
       mediaRatingsCount: "Ratings",

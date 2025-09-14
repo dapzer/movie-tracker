@@ -23,6 +23,7 @@ export function useGetUserProfileByIdApi(userId: string, options?: Omit<UseQuery
   return useQuery({
     queryKey: [UserQueryKeys.PROFILE_BY_ID, userId],
     queryFn: () => getUserProfileByIdApi(userId),
+    retry: false,
     ...options,
   })
 }
@@ -31,6 +32,7 @@ export function useGetUserStatsByIdApi(userId: string, options?: Omit<UseQueryOp
   return useQuery({
     queryKey: [UserQueryKeys.STATS_BY_ID, userId],
     queryFn: () => getUserStatsByIdApi(userId),
+    retry: false,
     ...options,
   })
 }

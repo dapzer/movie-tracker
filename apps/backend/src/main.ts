@@ -5,9 +5,6 @@ import { PrismaSessionStore } from "@quixo3/prisma-session-store"
 import * as cookieParser from "cookie-parser"
 import * as session from "express-session"
 import { AppModule } from "@/app.module"
-import { AllExceptionsFilter } from "@/filters/allException.filter"
-import { HttpExceptionFilter } from "@/filters/httpException.filter"
-import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
 import { PrismaService } from "@/services/prisma/prisma.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
@@ -27,9 +24,9 @@ async function bootstrap() {
   })
 
   app.setGlobalPrefix("/api")
-  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter))
-  app.useGlobalFilters(new HttpExceptionFilter())
-  app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter))
+  // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter))
+  // app.useGlobalFilters(new HttpExceptionFilter())
+  // app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter))
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
   app.use(cookieParser(configService.get("COOKIE_SECRET")))
   app.use(
