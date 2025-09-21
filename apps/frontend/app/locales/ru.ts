@@ -1320,6 +1320,12 @@ export default {
   userProfile: {
     trackSince: "Отселижавает кинокартыны с {date}",
     notFound: "Пользователь не найден",
+    noLists: "У пользователя нет публичных списков",
+    noRatings: "Пользователь ещё не оценил ни одной кинокартины",
+    tabs: {
+      lists: "Публичные списки",
+      ratings: "Оценки",
+    },
     stats: {
       mediaListCount: "Списков",
       mediaRatingsCount: "Оценок",

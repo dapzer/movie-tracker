@@ -1319,6 +1319,12 @@ export default {
   userProfile: {
     trackSince: "Tracks movies since {date}",
     notFound: "The user was not found",
+    noLists: "The user has no public lists",
+    noRatings: "The user has not rated any movies yet",
+    tabs: {
+      lists: "Public lists",
+      ratings: "Ratings",
+    },
     stats: {
       mediaListCount: "Lists",
       mediaRatingsCount: "Ratings",

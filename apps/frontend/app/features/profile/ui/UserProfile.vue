@@ -2,8 +2,8 @@
 import type { FetchError } from "@movie-tracker/utils"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
-import { createError, useI18n } from "#imports"
 import { useGetUserProfileByIdApi, useGetUserStatsByIdApi } from "~/api/user/useUserApi"
+import UserProfileContent from "~/features/profile/ui/UserProfileContent.vue"
 import UserProfileInfo from "~/features/profile/ui/UserProfileInfo.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import UiAttention from "../../../shared/ui/UiAttention/UiAttention.vue"
@@ -14,10 +14,8 @@ interface UserProfileProps {
 
 const props = defineProps<UserProfileProps>()
 
-const { t } = useI18n()
 const localePath = useLocalePath()
 
-// TODO: handle error
 const getUserProfileByIdApi = useGetUserProfileByIdApi(props.userId)
 const getUserStatsByIdApi = useGetUserStatsByIdApi(props.userId)
 
@@ -41,11 +39,13 @@ await Promise.all([
       {{ $t('ui.actions.backToMainPage') }}
     </UiTypography>
   </UiAttention>
-  <UserProfileInfo
-    v-if="getUserProfileByIdApi.data.value && getUserStatsByIdApi.data.value"
-    :user="getUserProfileByIdApi.data.value"
-    :stats="getUserStatsByIdApi.data.value"
-  />
+  <template v-else-if="getUserProfileByIdApi.data.value && getUserStatsByIdApi.data.value">
+    <UserProfileInfo
+      :user="getUserProfileByIdApi.data.value"
+      :stats="getUserStatsByIdApi.data.value"
+    />
+    <UserProfileContent :user="getUserProfileByIdApi.data.value" />
+  </template>
 </template>
 
 <style scoped lang="scss">
