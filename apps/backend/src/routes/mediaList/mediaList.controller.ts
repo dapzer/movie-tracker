@@ -24,10 +24,11 @@ export class MediaListController {
       return this.mediaListService.getMedialListsByUserId(
         queries.userId,
         user?.id,
+        true,
       )
     }
 
-    return this.mediaListService.getMedialListsByUserId(user?.id, user?.id)
+    return this.mediaListService.getMedialListsByUserId(user?.id, user?.id, false)
   }
 
   @Get(":id")
