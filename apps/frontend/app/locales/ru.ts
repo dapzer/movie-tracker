@@ -1230,6 +1230,7 @@ export default {
     about: "О сервисе",
     faq: "FAQ",
     features: "Возможности",
+    profile: "Профиль",
   },
   footer: {
     copyright: "Copyright © 2025 Movie Tracker. Все права защищены.",

@@ -1229,6 +1229,7 @@ export default {
     about: "About",
     faq: "FAQ",
     features: "Features",
+    profile: "Profile",
   },
   footer: {
     copyright: "Copyright © 2025 Movie Tracker. All rights reserved.",

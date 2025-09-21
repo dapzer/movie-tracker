@@ -61,6 +61,8 @@ export type UiIconName = "icon:close"
   | "icon:rating-star"
   | "icon:rating-star-filled"
   | "icon:link"
+  | "icon:user"
+  | "icon:dashboard"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {
