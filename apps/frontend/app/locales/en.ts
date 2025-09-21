@@ -1317,6 +1317,7 @@ export default {
     },
   },
   userProfile: {
+    pageTitle: "User profile",
     trackSince: "Tracks movies since {date}",
     notFound: "The user was not found",
     noLists: "The user has no public lists",
