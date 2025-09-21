@@ -1379,7 +1379,6 @@ export default {
     fullList: "Full list",
     settings: "Settings",
     edit: "Edit",
-    like: "Like",
     dislike: "Dislike",
     confirmAction: "Confirm action",
     yes: "Yes",
@@ -1402,6 +1401,16 @@ export default {
     multipleLists: "lists",
     manyLists: "list",
     singleLists: "lists",
+    like: {
+      single: "Like",
+      multiple: "Likes",
+      many: "Likes",
+    },
+    rating: {
+      single: "Rating",
+      multiple: "Ratings",
+      many: "Ratings",
+    },
     errors: {
       nothingFound: "Nothing found",
       pageNotFound: "Page not found.",

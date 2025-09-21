@@ -4,6 +4,8 @@ import { useI18n } from "#imports"
 import { computed } from "vue"
 import { UiSlider } from "~/shared/ui/UiSlider"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getDeclensionTranslationKey } from "~/shared/utils/getDeclensionTranslationKey"
+import { getListDeclensionTranslationKey } from "~/shared/utils/getListDeclensionTranslationKey"
 
 interface UserProfileStatsProps {
   stats: UserStatsType
@@ -16,15 +18,15 @@ const { t } = useI18n()
 const columns = computed(() => {
   return [
     {
-      label: t("userProfile.stats.mediaListCount"),
+      label: t(getListDeclensionTranslationKey(props.stats.mediaListCount)),
       value: props.stats.mediaListCount,
     },
     {
-      label: t("userProfile.stats.mediaListLikeCount"),
+      label: t(`ui.like.${getDeclensionTranslationKey(props.stats.mediaListLikeCount)}`),
       value: props.stats.mediaListLikeCount,
     },
     {
-      label: t("userProfile.stats.mediaRatingsCount"),
+      label: t(`ui.rating.${getDeclensionTranslationKey(props.stats.mediaRatingsCount)}`),
       value: props.stats.mediaRatingsCount,
     },
   ]

@@ -1382,7 +1382,6 @@ export default {
     fullList: "Полный список",
     settings: "Настройки",
     edit: "Редактировать",
-    like: "Нравится",
     dislike: "Не нравится",
     confirmAction: "Подтвердите действие",
     yes: "Да",
@@ -1405,6 +1404,16 @@ export default {
     manyLists: "списка",
     singleLists: "список",
     private: "Приватный",
+    like: {
+      single: "Лайк",
+      multiple: "Лайков",
+      many: "Лайка",
+    },
+    rating: {
+      single: "Оценка",
+      multiple: "Оценок",
+      many: "Оценки",
+    },
     errors: {
       nothingFound: "Ничего не найдено",
       pageNotFound: "Страница не найдена.",

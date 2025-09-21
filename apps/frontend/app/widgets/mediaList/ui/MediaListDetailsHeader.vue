@@ -142,7 +142,7 @@ async function handleLike() {
           @click="handleLike"
         >
           <UiIcon name="icon:like" />
-          {{ t("ui.like") }}
+          {{ t("ui.like.single") }}
         </UiButton>
       </div>
     </div>
