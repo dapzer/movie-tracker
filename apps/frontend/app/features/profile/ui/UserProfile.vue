@@ -2,10 +2,13 @@
 import type { FetchError } from "@movie-tracker/utils"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
+import { useI18n, useSeoMeta } from "#imports"
+import { computed } from "vue"
 import { useGetUserProfileByIdApi, useGetUserStatsByIdApi } from "~/api/user/useUserApi"
 import UserProfileContent from "~/features/profile/ui/UserProfileContent.vue"
 import UserProfileInfo from "~/features/profile/ui/UserProfileInfo.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getShortText } from "~/shared/utils/getShortText"
 import UiAttention from "../../../shared/ui/UiAttention/UiAttention.vue"
 
 interface UserProfileProps {
@@ -14,6 +17,7 @@ interface UserProfileProps {
 
 const props = defineProps<UserProfileProps>()
 
+const { t } = useI18n()
 const localePath = useLocalePath()
 
 const getUserProfileByIdApi = useGetUserProfileByIdApi(props.userId)
@@ -23,6 +27,19 @@ await Promise.all([
   getUserProfileByIdApi.suspense(),
   getUserStatsByIdApi.suspense(),
 ])
+
+const title = computed(() => {
+  return `${getShortText(getUserProfileByIdApi.data.value?.name, 12)} | ${t("userProfile.pageTitle")}`
+})
+
+useSeoMeta({
+  titleTemplate(titleChunk) {
+    return `${title.value} | ${titleChunk} `
+  },
+  ogTitle() {
+    return `%s | ${title.value}`
+  },
+})
 </script>
 
 <template>

@@ -1318,6 +1318,7 @@ export default {
     },
   },
   userProfile: {
+    pageTitle: "Профиль пользователя",
     trackSince: "Отселижавает кинокартыны с {date}",
     notFound: "Пользователь не найден",
     noLists: "У пользователя нет публичных списков",
