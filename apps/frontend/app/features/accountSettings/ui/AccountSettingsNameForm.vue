@@ -21,7 +21,7 @@ const formInitialValue = computed<Pick<UserApiUpdateTypes, "name">>(() => ({
 const { formValue, onFormSubmit, isFormValueChanged, errors } = useForm<Pick<UserApiUpdateTypes, "name">>({
   initialValue: formInitialValue,
   validationSchema: yup.object({
-    name: yup.string().required().min(1).max(32),
+    name: yup.string().trim().min(1, t("accountSettings.nameForm.errors.length")).max(32),
   }),
   onSubmit: (formValue) => {
     updateUserProfileApi.mutateAsync(formValue).then(() => {

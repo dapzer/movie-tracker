@@ -1227,6 +1227,9 @@ export default {
       label: "Имя",
       description: "Измените свое имя",
       placeholder: "Введите имя",
+      errors: {
+        length: "Минимальная длина имени 1 символ",
+      },
     },
     mediaRatingsAccessForm: {
       label: "Доступ к оценкам",

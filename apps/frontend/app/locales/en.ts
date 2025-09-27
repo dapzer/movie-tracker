@@ -1176,7 +1176,7 @@ export default {
     limitReached: "Limit reached",
     limitReachedDescription: "You have reached the limit in {limit} lists. Please delete one of the lists to create a new.",
     errors: {
-      titleLength: "Минимальная длина названия 3 символа",
+      titleLength: "Minimum length of name is 3 characters",
     },
     createClone: {
       title: "Clone list",
@@ -1226,6 +1226,9 @@ export default {
       label: "Name",
       description: "Edit your name",
       placeholder: "Enter the name",
+      errors: {
+        length: "Minimum length of name is 1 character",
+      },
     },
     mediaRatingsAccessForm: {
       label: "Access to ratings",
