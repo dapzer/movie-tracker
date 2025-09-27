@@ -25,6 +25,7 @@ const trackSince = computed(() => {
   <div :class="$style.wrapper">
     <UiAvatar
       :src="props.user.image"
+      :placeholder-id="props.user.id"
       :size="96"
       alt="User avatar"
     />
