@@ -1,12 +1,8 @@
+import { MediaDetails, Prisma } from "@movie-tracker/database"
+import { MediaDetailsInfoType, MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types"
+import { Injectable } from "@nestjs/common"
 import { MediaDetailsRepositoryInterface } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
-import { MediaDetails, Prisma } from "@movie-tracker/database"
-import {
-  MediaDetailsInfoType,
-  MediaDetailsType,
-  MediaTypeEnum,
-} from "@movie-tracker/types"
-import { Injectable } from "@nestjs/common"
 
 @Injectable()
 export class PrismaMediaDetailsRepository
@@ -24,6 +20,19 @@ implements MediaDetailsRepositoryInterface {
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }
+  }
+
+  async getMediaDetailsByMediaIds(args: Parameters<MediaDetailsRepositoryInterface["getMediaDetailsByMediaIds"]>[0]) {
+    const { mediaIds } = args
+    const mediaDetails = await this.prismaService.mediaDetails.findMany({
+      where: {
+        mediaId: {
+          in: mediaIds,
+        },
+      },
+    })
+
+    return mediaDetails.map(this.convertToInterface)
   }
 
   async createMediaDetails(

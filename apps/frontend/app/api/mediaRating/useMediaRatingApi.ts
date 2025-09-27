@@ -1,7 +1,8 @@
 import type { MediaItemType, MediaRatingType } from "@movie-tracker/types"
 import type {
   CreateMediaRatingBody,
-  GetMediaRatingByUserArgs,
+  GetMediaRatingByMediaIdArgs,
+  GetMediaRatingByUserIdArgs,
   UpdateMediaRatingArgs,
 } from "~/api/mediaRating/mediaRatingApiTypes"
 import { useRequestHeaders } from "#app"
@@ -10,14 +11,15 @@ import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
 import {
   createMediaRating,
   deleteMediaRating,
-  getMediaRatingByUser,
+  getMediaRatingByMediaId,
+  getMediaRatingByUserId,
   updateMediaRating,
 } from "~/api/mediaRating/mediaRatingApi"
 import { MediaRatingApiQueryKeys } from "~/api/mediaRating/mediaRatingApiQueryKeys"
 
-export function useGetMediaRatingByUserApi(args: GetMediaRatingByUserArgs) {
+export function useGetMediaRatingByMediaIdApi(args: GetMediaRatingByMediaIdArgs) {
   return useQuery({
-    queryKey: [MediaRatingApiQueryKeys.GET_BY_USER, args.mediaId, args.mediaType],
+    queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, args.mediaId],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
 
@@ -25,7 +27,17 @@ export function useGetMediaRatingByUserApi(args: GetMediaRatingByUserArgs) {
         throw new Error("No session cookie found")
       }
 
-      return getMediaRatingByUser(args, { headers })
+      return getMediaRatingByMediaId(args, { headers })
+    },
+    retry: false,
+    retryOnMount: false,
+  })
+}
+export function useGetMediaRatingByUserIdApi(args: GetMediaRatingByUserIdArgs) {
+  return useQuery({
+    queryKey: [MediaRatingApiQueryKeys.GET_ALL_BY_USER_ID, args.userId],
+    queryFn: () => {
+      return getMediaRatingByUserId(args)
     },
     retry: false,
     retryOnMount: false,
@@ -40,7 +52,7 @@ export function useCreateMediaRatingApi() {
       return createMediaRating(body)
     },
     onSuccess: async (data: MediaRatingType) => {
-      await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType], data)
+      await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data)
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         if (oldData) {
           return oldData.map((el) => {
@@ -66,7 +78,7 @@ export function useUpdateMediaRatingApi() {
       return updateMediaRating(args)
     },
     onSuccess: async (data: MediaRatingType) => {
-      await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType], data)
+      await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data)
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         if (oldData) {
           return oldData.map((el) => {
@@ -91,7 +103,7 @@ export function useDeleteMediaRatingApi() {
     mutationFn: deleteMediaRating,
     onSuccess: async (data, id) => {
       await queryClient.resetQueries({
-        queryKey: [MediaRatingApiQueryKeys.GET_BY_USER, data.mediaId, data.mediaType],
+        queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType],
       })
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         if (oldData) {

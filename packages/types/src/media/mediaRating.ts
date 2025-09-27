@@ -1,3 +1,4 @@
+import { MediaDetailsType } from "./mediaDetails"
 import { MediaTypeEnum } from "./mediaItem"
 
 export interface MediaRatingType {
@@ -6,6 +7,7 @@ export interface MediaRatingType {
   mediaId: number
   mediaType: MediaTypeEnum
   rating: number
+  mediaDetails?: MediaDetailsType
   createdAt: Date
   updatedAt: Date
 }

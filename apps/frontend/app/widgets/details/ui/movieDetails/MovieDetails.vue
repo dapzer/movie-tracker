@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { GetCommunityListsWithMediaQueries, MediaTypeEnum } from "@movie-tracker/types"
+import type { GetCommunityListsWithMediaQueries } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
-import { useGetMediaRatingByUserApi } from "~/api/mediaRating/useMediaRatingApi"
+import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRating/useMediaRatingApi"
 import {
   useGetTmdbMovieCreditsApi,
   useGetTmdbMovieDetailsApi,
@@ -60,9 +60,8 @@ const tmdbGetRecommendationsApi = useGetTmdbRecommendationsApi(queries)
 const tmdbGetMovieCreditsApi = useGetTmdbMovieCreditsApi(queries)
 const tmdbGetVideosApi = useGetTmdbVideosApi(getVideosQueries)
 const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries, isTv)
-const getMediaRatingApi = useGetMediaRatingByUserApi({
+const getMediaRatingApi = useGetMediaRatingByMediaIdApi({
   mediaId: props.mediaId,
-  mediaType: props.mediaType as unknown as MediaTypeEnum,
 })
 const getCommunityListsWithMediaApi = useGetCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
 

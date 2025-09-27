@@ -1,3 +1,5 @@
+import { MEDIA_LIST_COUNT_LIMIT, MediaItemType, MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
@@ -9,8 +11,6 @@ import {
 import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/routes/mediaList/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
-import { MEDIA_LIST_COUNT_LIMIT, MediaItemType, MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class MediaListService {
@@ -60,9 +60,9 @@ export class MediaListService {
   ) {
     const mediaList = byHumanFriendlyId
       ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
-        id,
-        currentUserId,
-      )
+          id,
+          currentUserId,
+        )
       : await this.mediaListRepository.getMedialListById(id, currentUserId)
     const isListOwner = await this.isListOwner(id, currentUserId, mediaList)
 
@@ -73,13 +73,7 @@ export class MediaListService {
     return mediaList
   }
 
-  async getMedialListByUserId(userId: string, currentUserId: string) {
-    const isPublicOnly = userId !== currentUserId
-
-    if (!userId) {
-      throw new HttpException("User ID is required.", HttpStatus.BAD_REQUEST)
-    }
-
+  async getMedialListsByUserId(userId: string, currentUserId: string, isPublicOnly?: boolean) {
     return this.mediaListRepository.getMedialListsByUserId(
       userId,
       currentUserId,

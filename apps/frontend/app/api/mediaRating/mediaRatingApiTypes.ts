@@ -1,8 +1,11 @@
-import type { MediaRatingCreateBodyType, MediaRatingUpdateBodyType, MediaTypeEnum } from "@movie-tracker/types"
+import type { MediaRatingCreateBodyType, MediaRatingUpdateBodyType } from "@movie-tracker/types"
 
-export interface GetMediaRatingByUserArgs {
+export interface GetMediaRatingByMediaIdArgs {
   mediaId: number
-  mediaType: MediaTypeEnum
+}
+
+export interface GetMediaRatingByUserIdArgs {
+  userId: string
 }
 
 export type CreateMediaRatingBody = MediaRatingCreateBodyType

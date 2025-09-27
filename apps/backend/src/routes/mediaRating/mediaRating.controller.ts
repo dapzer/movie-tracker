@@ -1,28 +1,37 @@
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
 import { CreateMediaRatingDto } from "@/routes/mediaRating/dto/createMediaRating.dto"
-import { GetMediaRatingByUserIdQueryDto } from "@/routes/mediaRating/dto/getMediaRatingByUserIdQuery.dto"
+import { GetMediaRatingByMediaIdParamsDto } from "@/routes/mediaRating/dto/getMediaRatingByMediaIdParamsDto"
+import { GetMediaRatingsByUserIdQueryDto } from "@/routes/mediaRating/dto/getMediaRatingsByUserIdQuery.dto"
 import { UpdateMediaRatingDto } from "@/routes/mediaRating/dto/updateMediaRating.dto"
 import { MediaRatingService } from "@/routes/mediaRating/mediaRating.service"
 import { User } from "@/routes/user/users.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 
 @Controller("media-rating")
 export class MediaRatingController {
   constructor(private readonly mediaRatingService: MediaRatingService) {}
 
-  @Get()
+  @Get("by-media/:mediaId")
   @UseGuards(AuthGuard)
-  async getMediaRatingByUserId(
-    @Query() query: GetMediaRatingByUserIdQueryDto,
+  async getMediaRatingByCurrentUserId(
+    @Param() params: GetMediaRatingByMediaIdParamsDto,
     @User() user: UserDto,
   ) {
     return this.mediaRatingService.getMediaRatingByUserId(
       {
-        mediaType: query.mediaType,
-        mediaId: query.mediaId,
+        mediaId: params.mediaId,
         userId: user.id,
+      },
+    )
+  }
+
+  @Get()
+  async getMediaRatingsByUserId(@Query() query: GetMediaRatingsByUserIdQueryDto) {
+    return this.mediaRatingService.getMediaRatingsByUserId(
+      {
+        userId: query.userId,
       },
     )
   }

@@ -1,7 +1,7 @@
 =
 <script lang="ts" setup>
-import UserProfileDropdownContent from "~/features/profile/ui/UserProfileDropdownContent.vue"
-import UserProfileDropdownTrigger from "~/features/profile/ui/UserProfileDropdownTrigger.vue"
+import UserProfileDropdownContent from "~/features/profile/ui/dropdown/UserProfileDropdownContent.vue"
+import UserProfileDropdownTrigger from "~/features/profile/ui/dropdown/UserProfileDropdownTrigger.vue"
 import { useAuth } from "~/shared/composables/useAuth"
 import { UiDropdown } from "~/shared/ui/UiDropdown"
 

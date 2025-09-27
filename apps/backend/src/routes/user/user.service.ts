@@ -1,7 +1,7 @@
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { UpdateUserDto } from "@/routes/user/dto/updateUser.dto"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class UserService {
@@ -14,7 +14,15 @@ export class UserService {
   async getUser(id: string) {
     const user = await this.userRepository.getUserById(id)
 
+    if (!user) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+    }
+
     return getUserWithoutPassword(user)
+  }
+
+  async getUserStats(id: string) {
+    return this.userRepository.getUserStatsById(id)
   }
 
   async deleteUser(id: string, currentUserId: string) {

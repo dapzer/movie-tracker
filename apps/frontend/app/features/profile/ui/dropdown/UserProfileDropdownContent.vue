@@ -51,6 +51,9 @@ const isAdmin = computed(() => {
       :as="NuxtLink"
       :to="localePath('/dashboard')"
     >
+      <template #iconStart>
+        <UiIcon name="icon:dashboard" />
+      </template>
       <template #content>
         {{ $t('dashboard.title') }}
       </template>
@@ -68,6 +71,18 @@ const isAdmin = computed(() => {
         {{ $t('navigation.accountSettings') }}
       </template>
     </UiDropdownItem>
+    <UiDropdownItem
+      :as="NuxtLink"
+      :to="localePath(`/profile/${props.profile.id}`)"
+    >
+      <template #iconStart>
+        <UiIcon name="icon:user" />
+      </template>
+      <template #content>
+        {{ $t('navigation.profile') }}
+      </template>
+    </UiDropdownItem>
+
     <UiDropdownItem
       :disabled="isProcessingLogout"
       @click="handleLogout"
