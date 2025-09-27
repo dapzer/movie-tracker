@@ -1,43 +1,27 @@
 <script lang="ts" setup>
-import { navigateTo } from "#app"
-import { useLocalePath } from "#i18n"
-import { watchEffect } from "#imports"
+import { definePageMeta } from "#imports"
 import { UserRoleEnum } from "@movie-tracker/types"
 import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard"
-import { useAuth } from "~/shared/composables/useAuth"
 import { UiContainer } from "../../shared/ui/UiContainer"
 import { UiDivider } from "../../shared/ui/UiDivider"
 import { UiTypography } from "../../shared/ui/UiTypography"
 
-const { isNotAuthorized, profile, isLoadingProfile } = useAuth()
-const localePath = useLocalePath()
-
-watchEffect(() => {
-  if ((isNotAuthorized.value || !profile.value?.roles.includes(UserRoleEnum.ADMIN)) && !isLoadingProfile.value) {
-    navigateTo(localePath("/"))
-  }
+definePageMeta({
+  middleware: "auth",
+  requiredRoles: [UserRoleEnum.ADMIN],
 })
 </script>
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <UiTypography
-      v-if="isLoadingProfile"
-      variant="title2"
-    >
-      {{ $t("ui.loading") }}
+    <UiTypography variant="title2">
+      {{ $t("dashboard.title") }}
     </UiTypography>
-
-    <template v-else>
-      <UiTypography variant="title2">
-        {{ $t("dashboard.title") }}
-      </UiTypography>
-      <UiDivider />
-      <div :class="$style.body">
-        <DashboardAnalyticsRecords />
-        <DashboardControls />
-      </div>
-    </template>
+    <UiDivider />
+    <div :class="$style.body">
+      <DashboardAnalyticsRecords />
+      <DashboardControls />
+    </div>
   </UiContainer>
 </template>
 
