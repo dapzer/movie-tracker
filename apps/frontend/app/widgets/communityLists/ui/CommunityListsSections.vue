@@ -4,6 +4,7 @@ import type {
   GetCommunityListsNewestQueries,
   GetCommunityListsWeekTopQueries,
 } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import {
@@ -17,6 +18,7 @@ import { UiListsGrid } from "~/shared/ui/UiListsGrid"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 const weekTopQueryParams = ref<GetCommunityListsWeekTopQueries>({
   limit: 3,
@@ -69,7 +71,7 @@ const sections = computed(() => {
       <UiSectionWithSeeMore
         v-if="section.items.length"
         :title="section.title"
-        :see-more-url="section.seeMoreLink"
+        :see-more-url="localePath(section.seeMoreLink)"
       >
         <UiListsGrid>
           <MediaListCard
