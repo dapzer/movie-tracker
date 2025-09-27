@@ -1221,6 +1221,22 @@ export default {
     deleteRate: "Удалить оценку",
     updateRate: "Обновить оценку",
   },
+  accountSettings: {
+    pageTitle: "Настройки аккаунта",
+    nameForm: {
+      label: "Имя",
+      description: "Измените свое имя",
+      placeholder: "Введите имя",
+    },
+    mediaRatingsAccessForm: {
+      label: "Доступ к оценкам",
+      description: "Кто может видеть ваши оценки на странице профиля",
+      options: {
+        private: "Только я",
+        public: "Все",
+      },
+    },
+  },
   navigation: {
     home: "Поиск",
     lists: "Списки",
@@ -1359,6 +1375,12 @@ export default {
       successDeleted: "Оценка успешно удалена",
       unsuccessfullyDeleted: "Произошла ошибка при удалении оценки",
     },
+    accountSettings: {
+      successNameChanged: "Имя успешно изменено",
+      unsuccessfullyNameChanged: "Произошла ошибка при изменении имени",
+      successMediaRatingsAccessLevelChanged: "Отображение оценок в профиле успешно изменено",
+      unsuccessfullyMediaRatingsAccessLevelChanged: "Произошла ошибка при изменении отображения оценок в профиле",
+    },
   },
   ui: {
     loading: "Загрузка",
@@ -1389,6 +1411,7 @@ export default {
     manyLists: "списка",
     singleLists: "список",
     private: "Приватный",
+    saveChanges: "Сохранить изменения",
     errors: {
       nothingFound: "Ничего не найдено",
       pageNotFound: "Страница не найдена.",

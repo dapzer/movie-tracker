@@ -1220,6 +1220,22 @@ export default {
     deleteRate: "Delete rating",
     updateRate: "Update rating",
   },
+  accountSettings: {
+    pageTitle: "Account settings",
+    nameForm: {
+      label: "Name",
+      description: "Edit your name",
+      placeholder: "Enter the name",
+    },
+    mediaRatingsAccessForm: {
+      label: "Access to ratings",
+      description: "Who can see your ratings on the profile page",
+      options: {
+        private: "Only me",
+        public: "Everyone",
+      },
+    },
+  },
   navigation: {
     home: "Search",
     lists: "Lists",
@@ -1355,6 +1371,12 @@ export default {
       unsuccessfullyUpdated: "An error occurred while updating the rating",
       successDeleted: "Rating deleted successfully",
       unsuccessfullyDeleted: "An error occurred while deleting the rating",
+    },
+    accountSettings: {
+      successNameChanged: "The name is successfully changed",
+      unsuccessfullyNameChanged: "An error occurred when a name changes",
+      successMediaRatingsAccessLevelChanged: "Display of ratings in profile successfully changed",
+      unsuccessfullyMediaRatingsAccessLevelChanged: "An error occurred while changing the display of ratings in the profile.",
     },
   },
   ui: {
