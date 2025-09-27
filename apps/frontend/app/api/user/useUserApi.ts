@@ -1,6 +1,6 @@
 import type { UseQueryOptions } from "@tanstack/vue-query"
 import { useRequestHeaders } from "#app"
-import { useMutation, useQuery } from "@tanstack/vue-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { getUserProfileApi, getUserProfileByIdApi, updateUserProfileApi } from "~/api/user/userApi"
 import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
 
@@ -28,8 +28,15 @@ export function useGetUserProfileByIdApi(userId: string, options?: Omit<UseQuery
 }
 
 export function useUpdateUserProfileApi() {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationKey: [UserQueryKeys.UPDATE_PROFILE],
     mutationFn: updateUserProfileApi,
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([UserQueryKeys.PROFILE], () => {
+        return data
+      })
+    },
   })
 }

@@ -1,3 +1,4 @@
+import type { UserRoleEnum } from "@movie-tracker/types"
 import type en from "./src/locales/en.ts"
 
 type Lang = typeof en
@@ -22,6 +23,12 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv
+}
+
+declare module "#app" {
+  interface PageMeta {
+    requiredRoles?: UserRoleEnum[]
+  }
 }
 
 // It is always important to ensure you import/export something when augmenting a type

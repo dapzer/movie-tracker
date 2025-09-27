@@ -37,14 +37,15 @@ model Account {
 }
 
 model User {
-  id              String           @id @default(uuid())
+  id                      String                          @id @default(uuid())
   // userName     String?     @unique
-  name            String?
-  email           String?          @unique
-  image           String?
-  isEmailVerified Boolean          @default(false) @map("is_email_verified")
-  signUpMethod    SignUpMethodEnum @map("sign_up_method")
-  password        String?
+  name                    String?
+  email                   String?                         @unique
+  image                   String?
+  isEmailVerified         Boolean                         @default(false) @map("is_email_verified")
+  signUpMethod            SignUpMethodEnum                @map("sign_up_method")
+  password                String?
+  mediaRatingsAccessLevel UserMediaRatingsAccessLevelEnum @default(PUBLIC) @map("media_ratings_access_level")
 
   roles     UserRoleEnum[] @default([USER])
   createdAt DateTime       @default(now()) @map("created_at")
@@ -195,5 +196,10 @@ enum SignUpMethodEnum {
 enum MediaListAccessLevelEnum {
   PUBLIC
   URL
+  PRIVATE
+}
+
+enum UserMediaRatingsAccessLevelEnum {
+  PUBLIC
   PRIVATE
 }
