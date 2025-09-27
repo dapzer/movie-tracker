@@ -1221,7 +1221,7 @@ export default {
     updateRate: "Update rating",
   },
   accountSettings: {
-    pageTitle: "Account settings",
+    pageTitle: "Account Settings",
     nameForm: {
       label: "Name",
       description: "Edit your name",
@@ -1408,6 +1408,7 @@ export default {
     multipleLists: "lists",
     manyLists: "list",
     singleLists: "lists",
+    saveChanges: "Save changes",
     errors: {
       nothingFound: "Nothing found",
       pageNotFound: "Page not found.",
