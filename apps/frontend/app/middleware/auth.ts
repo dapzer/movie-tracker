@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     await user.suspense()
   }
 
-  if (!user.data) {
+  if (!user.data.value) {
     return navigateTo("/sign-in", { redirectCode: 401 })
   }
 
