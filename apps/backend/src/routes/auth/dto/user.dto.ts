@@ -1,15 +1,5 @@
-import { SignUpMethodEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
-import {
-  IsBoolean,
-  IsDateString,
-  IsEmail,
-  IsEnum,
-  IsOptional,
-  IsString,
-  IsUrl,
-  IsUUID,
-  Length,
-} from "class-validator"
+import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { IsBoolean, IsDateString, IsEmail, IsEnum, IsOptional, IsString, IsUrl, IsUUID, Length } from "class-validator"
 
 export class UserDto implements UserType {
   @IsUUID()
@@ -44,6 +34,10 @@ export class UserDto implements UserType {
 
   @IsEnum(SignUpMethodEnum)
   signUpMethod: SignUpMethodEnum
+
+  @IsOptional()
+  @IsEnum(UserMediaRatingsAccessLevelEnum)
+  mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
 
   @IsDateString()
   createdAt: Date
