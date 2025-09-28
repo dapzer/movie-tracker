@@ -46,7 +46,10 @@ const columns = computed(() => {
         <UiTypography variant="title3">
           {{ item.value }}
         </UiTypography>
-        <UiTypography variant="description">
+        <UiTypography
+          variant="description"
+          :class="$style.description"
+        >
           {{ item.label }}
         </UiTypography>
       </div>
@@ -71,5 +74,9 @@ const columns = computed(() => {
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
+}
+
+.description {
+  text-transform: capitalize;
 }
 </style>
