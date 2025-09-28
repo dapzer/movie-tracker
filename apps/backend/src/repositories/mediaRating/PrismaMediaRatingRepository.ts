@@ -39,6 +39,9 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
     const { userId } = args
     const mediaRatings = await this.prisma.mediaRating.findMany({
       where: { userId },
+      orderBy: {
+        createdAt: "desc",
+      },
     })
 
     return mediaRatings.map(this.convertMediaRatingToInterface)
