@@ -31,4 +31,10 @@ export interface UserType {
   updatedAt: Date
 }
 
+export interface UserStatsType {
+  mediaListCount: number
+  mediaRatingsCount?: number
+  mediaListLikeCount: number
+}
+
 export type UserPublicType = Omit<UserType, "password" | "email" | "roles" | "updatedAt" | "isEmailVerified" | "signUpMethod">

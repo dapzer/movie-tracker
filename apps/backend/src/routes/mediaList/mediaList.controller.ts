@@ -28,14 +28,15 @@ export class MediaListController {
   constructor(private readonly mediaListService: MediaListService) {}
 
   @Get()
-  async getMedialListByUserId(
+  async getMedialListsByUserId(
     @Query() queries: GetAllMediaListsDto,
     @User() user: UserDto,
   ) {
     if (queries.userId) {
-      return this.mediaListService.getMedialListByUserId(
+      return this.mediaListService.getMedialListsByUserId(
         queries.userId,
         user?.id,
+        true,
       )
     }
 
@@ -43,7 +44,7 @@ export class MediaListController {
       throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaListService.getMedialListByUserId(user?.id, user?.id)
+    return this.mediaListService.getMedialListsByUserId(user?.id, user?.id, false)
   }
 
   @Get(":id")

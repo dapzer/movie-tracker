@@ -1,3 +1,4 @@
+import { Body, Controller, Delete, Get, Param, Patch, UseGuards } from "@nestjs/common"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
 import { UpdateUserDto } from "@/routes/user/dto/updateUser.dto"
@@ -5,7 +6,6 @@ import { UserService } from "@/routes/user/user.service"
 import { User } from "@/routes/user/users.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 import { getPublicUser } from "@/shared/utils/getPublicUser"
-import { Body, Controller, Delete, Get, Param, Patch, UseGuards } from "@nestjs/common"
 
 @Controller("user")
 export class UserController {
@@ -21,6 +21,14 @@ export class UserController {
   async getUserById(@Param() params: UuidDto) {
     const user = await this.userService.getUser(params.id)
     return getPublicUser(user)
+  }
+
+  @Get(":id/stats")
+  async getUserStatById(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.userService.getUserStats({
+      userId: params.id,
+      currentUserId: user?.id,
+    })
   }
 
   @Delete("/delete/:id")

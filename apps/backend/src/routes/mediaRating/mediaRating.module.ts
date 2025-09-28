@@ -1,6 +1,10 @@
 import { Module } from "@nestjs/common"
+import { MediaDetailsRepositorySymbol } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
+import { PrismaMediaDetailsRepository } from "@/repositories/mediaDetails/PrismaMediaDetailsRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { PrismaMediaRatingRepository } from "@/repositories/mediaRating/PrismaMediaRatingRepository"
+import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { MediaDetailsModule } from "@/routes/mediaDetails/mediaDetails.module"
 import { MediaRatingController } from "@/routes/mediaRating/mediaRating.controller"
 import { MediaRatingService } from "@/routes/mediaRating/mediaRating.service"
@@ -10,6 +14,14 @@ import { MediaRatingService } from "@/routes/mediaRating/mediaRating.service"
   controllers: [MediaRatingController],
   providers: [
     { provide: MediaRatingRepositorySymbol, useClass: PrismaMediaRatingRepository },
+    {
+      provide: MediaDetailsRepositorySymbol,
+      useClass: PrismaMediaDetailsRepository,
+    },
+    {
+      provide: UserRepositorySymbol,
+      useClass: PrismaUserRepository,
+    },
     MediaRatingService,
   ],
   exports: [],

@@ -26,7 +26,18 @@ export function useGetMediaListsApi() {
         throw new Error("No session cookie found")
       }
 
-      return getMediaListsApi({ headers })
+      return getMediaListsApi(undefined, { headers })
+    },
+    retry: false,
+    retryOnMount: false,
+  })
+}
+export function useGetMediaListsByUserIdApi(userId: string) {
+  return useQuery({
+    queryKey: [MediaListQueryKeys.GET_BY_USER_ID, userId],
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      return getMediaListsApi({ userId }, { headers })
     },
     retry: false,
     retryOnMount: false,

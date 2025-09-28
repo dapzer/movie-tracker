@@ -71,6 +71,7 @@ const accessLevel = computed(() => {
         :user-name="props.list.user?.name"
         :user-id="props.list.user?.id"
         :user-avatar-src="props.list.user?.image"
+        :user-page-url="localePath(`/profile/${props.list.user?.id}`)"
       />
       <UiButton
         v-if="props.list.accessLevel !== MediaListAccessLevelEnum.PRIVATE"

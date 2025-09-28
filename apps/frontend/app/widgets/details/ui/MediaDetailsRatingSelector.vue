@@ -2,7 +2,7 @@
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import type { UiButtonScheme, UiButtonVariant } from "~/shared/ui/UiButton"
 import { computed } from "vue"
-import { useGetMediaRatingByUserApi } from "~/api/mediaRating/useMediaRatingApi"
+import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRating/useMediaRatingApi"
 import { MediaRatingSelectModal } from "~/entities/mediaRating"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
@@ -20,9 +20,8 @@ const props = defineProps<MediaDetailsRatingSelectorProps>()
 const { isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
 
-const getMediaRatingApi = useGetMediaRatingByUserApi({
+const getMediaRatingApi = useGetMediaRatingByMediaIdApi({
   mediaId: props.mediaId,
-  mediaType: props.mediaType as unknown as MediaTypeEnum,
 })
 
 const scheme = computed<UiButtonScheme>(() => {

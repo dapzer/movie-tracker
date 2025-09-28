@@ -6,8 +6,7 @@ import { PrismaService } from "@/services/prisma/prisma.service"
 
 @Injectable()
 export class PrismaUserRepository implements UserRepositoryInterface {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   private convertToInterface(user: User | null): UserType | null {
     if (!user) {
@@ -33,6 +32,16 @@ export class PrismaUserRepository implements UserRepositoryInterface {
     const user = await this.prisma.user.findUnique({ where: { id } })
 
     return this.convertToInterface(user)
+  }
+
+  async getUserStatsById(id: string) {
+    const [mediaListCount, mediaRatingsCount, mediaListLikeCount] = await Promise.all([
+      this.prisma.mediaList.count({ where: { userId: id } }),
+      this.prisma.mediaRating.count({ where: { userId: id } }),
+      this.prisma.mediaListLike.count({ where: { userId: id } }),
+    ])
+
+    return { mediaListCount, mediaRatingsCount, mediaListLikeCount }
   }
 
   async getUserByEmail(email: string) {

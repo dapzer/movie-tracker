@@ -47,15 +47,17 @@ const isAdmin = computed(() => {
 
   <UiDropdownGroup>
     <UiDropdownItem
-      v-if="isAdmin"
       :as="NuxtLink"
-      :to="localePath('/dashboard')"
+      :to="localePath(`/profile/${props.profile.id}`)"
     >
+      <template #iconStart>
+        <UiIcon name="icon:user" />
+      </template>
       <template #content>
-        {{ $t('dashboard.title') }}
+        {{ $t('navigation.profile') }}
       </template>
     </UiDropdownItem>
-    <!-- TODO: show after implement page -->
+
     <UiDropdownItem
       :as="NuxtLink"
       :to="localePath('/settings/account')"
@@ -67,6 +69,23 @@ const isAdmin = computed(() => {
         {{ $t('navigation.accountSettings') }}
       </template>
     </UiDropdownItem>
+
+    <template v-if="isAdmin">
+      <UiDropdownSeparator />
+      <UiDropdownItem
+        :as="NuxtLink"
+        :to="localePath('/dashboard')"
+      >
+        <template #iconStart>
+          <UiIcon name="icon:dashboard" />
+        </template>
+        <template #content>
+          {{ $t('dashboard.title') }}
+        </template>
+      </UiDropdownItem>
+      <UiDropdownSeparator />
+    </template>
+
     <UiDropdownItem
       :disabled="isProcessingLogout"
       @click="handleLogout"

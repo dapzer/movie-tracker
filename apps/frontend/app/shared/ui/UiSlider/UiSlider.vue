@@ -74,6 +74,9 @@ const maxWidthStyle = computed(() => {
       'embla__shadow-right': props.withShadow && !nextBtnDisabled,
       'embla__shadow-medium': props.shadowSize === 'medium',
     }]"
+    :style="{
+      '--slide-spacing': props.spaceing ? `${props.spaceing}px` : '6px',
+    }"
   >
     <div
       ref="emblaRef"
@@ -86,7 +89,6 @@ const maxWidthStyle = computed(() => {
           class="embla__slide"
           :style="{
             '--max-width': maxWidthStyle,
-            '--slide-spacing': props.spaceing ? `${props.spaceing}px` : '6px',
           }"
         >
           <slot

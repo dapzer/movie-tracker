@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
@@ -20,6 +21,7 @@ interface MediaListHeaderProps {
 
 const props = defineProps<MediaListHeaderProps>()
 const { t } = useI18n()
+const localePath = useLocalePath()
 const { copy, copied } = useClipboard({ copiedDuring: 1000 })
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const { isAuthorized } = useAuth()
@@ -65,6 +67,7 @@ async function handleLike() {
             :user-id="props.userProfile.id"
             :user-name="props.userProfile.name"
             :user-avatar-src="props.userProfile.image"
+            :user-page-url="localePath(`/profile/${props.userProfile.id}`)"
           />
           <UiTypography
             :class="$style.likes"
@@ -142,7 +145,7 @@ async function handleLike() {
           @click="handleLike"
         >
           <UiIcon name="icon:like" />
-          {{ t("ui.like") }}
+          {{ t("ui.like.single") }}
         </UiButton>
       </div>
     </div>
