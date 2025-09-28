@@ -1342,6 +1342,7 @@ export default {
     notFound: "The user was not found",
     noLists: "The user has no public lists",
     noRatings: "The user has not rated any movies yet",
+    privateRatings: "This user's ratings are private",
     tabs: {
       lists: "Public lists",
       ratings: "Ratings",

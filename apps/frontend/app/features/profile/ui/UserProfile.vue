@@ -3,6 +3,7 @@ import type { FetchError } from "@movie-tracker/utils"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
+import { HttpStatus } from "@movie-tracker/utils"
 import { computed } from "vue"
 import { useGetUserProfileByIdApi, useGetUserStatsByIdApi } from "~/api/user/useUserApi"
 import UserProfileContent from "~/features/profile/ui/UserProfileContent.vue"
@@ -40,11 +41,15 @@ useSeoMeta({
     return `%s | ${title.value}`
   },
 })
+
+const notFound = computed(() => {
+  return (getUserProfileByIdApi.error.value as FetchError)?.statusCode === HttpStatus.NOT_FOUND
+})
 </script>
 
 <template>
   <UiAttention
-    v-if="(getUserProfileByIdApi.error.value as FetchError)?.statusCode === 404"
+    v-if="notFound"
     :title="$t('userProfile.notFound')"
   >
     <UiTypography

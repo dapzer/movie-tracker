@@ -33,7 +33,7 @@ export interface UserType {
 
 export interface UserStatsType {
   mediaListCount: number
-  mediaRatingsCount: number
+  mediaRatingsCount?: number
   mediaListLikeCount: number
 }
 

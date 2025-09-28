@@ -28,10 +28,11 @@ export class MediaRatingController {
   }
 
   @Get()
-  async getMediaRatingsByUserId(@Query() query: GetMediaRatingsByUserIdQueryDto) {
+  async getMediaRatingsByUserId(@Query() query: GetMediaRatingsByUserIdQueryDto, @User() user: UserDto) {
     return this.mediaRatingService.getMediaRatingsByUserId(
       {
         userId: query.userId,
+        currentUserId: user?.id,
       },
     )
   }

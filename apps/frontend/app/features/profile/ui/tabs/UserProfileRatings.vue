@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { UserPublicType } from "@movie-tracker/types"
+import type { FetchError } from "@movie-tracker/utils"
+import { HttpStatus } from "@movie-tracker/utils"
 import { computed, ref } from "vue"
 import { useGetMediaRatingByUserIdApi } from "~/api/mediaRating/useMediaRatingApi"
 import MediaRatingCard from "~/entities/mediaRating/ui/MediaRatingCard.vue"
@@ -37,11 +39,19 @@ const mediaItemsToRender = computed(() => {
   }
   return getMediaRatingByUserIdApi.data.value.slice((currentPage.value - 1) * 20, currentPage.value * 20)
 })
+
+const isPrivate = computed(() => {
+  return (getMediaRatingByUserIdApi.error.value as FetchError)?.statusCode === HttpStatus.FORBIDDEN
+})
 </script>
 
 <template>
   <UiAttention
-    v-if="!mediaItems.length"
+    v-if="isPrivate"
+    :title="$t('userProfile.privateRatings')"
+  />
+  <UiAttention
+    v-else-if="!mediaItems.length"
     :title="$t('userProfile.noRatings')"
   />
   <template v-else>

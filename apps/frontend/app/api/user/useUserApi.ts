@@ -31,7 +31,10 @@ export function useGetUserProfileByIdApi(userId: string, options?: Omit<UseQuery
 export function useGetUserStatsByIdApi(userId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [UserQueryKeys.STATS_BY_ID, userId],
-    queryFn: () => getUserStatsByIdApi(userId),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      return getUserStatsByIdApi(userId, { headers })
+    },
     retry: false,
     ...options,
   })

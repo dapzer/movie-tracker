@@ -37,7 +37,8 @@ export function useGetMediaRatingByUserIdApi(args: GetMediaRatingByUserIdArgs) {
   return useQuery({
     queryKey: [MediaRatingApiQueryKeys.GET_ALL_BY_USER_ID, args.userId],
     queryFn: () => {
-      return getMediaRatingByUserId(args)
+      const headers = useRequestHeaders(["cookie"])
+      return getMediaRatingByUserId(args, { headers })
     },
     retry: false,
     retryOnMount: false,

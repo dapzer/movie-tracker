@@ -24,8 +24,11 @@ export class UserController {
   }
 
   @Get(":id/stats")
-  async getUserStatById(@Param() params: UuidDto) {
-    return this.userService.getUserStats(params.id)
+  async getUserStatById(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.userService.getUserStats({
+      userId: params.id,
+      currentUserId: user?.id,
+    })
   }
 
   @Delete("/delete/:id")

@@ -1,3 +1,4 @@
+import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { UpdateUserDto } from "@/routes/user/dto/updateUser.dto"
@@ -21,8 +22,21 @@ export class UserService {
     return getUserWithoutPassword(user)
   }
 
-  async getUserStats(id: string) {
-    return this.userRepository.getUserStatsById(id)
+  async getUserStats(args: { currentUserId?: string, userId?: string }) {
+    const [user, stats] = await Promise.all([
+      this.userRepository.getUserById(args.userId),
+      this.userRepository.getUserStatsById(args.userId),
+    ])
+
+    if (!user) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+    }
+
+    if (user.mediaRatingsAccessLevel !== UserMediaRatingsAccessLevelEnum.PUBLIC && args.currentUserId !== args.userId) {
+      stats.mediaRatingsCount = undefined
+    }
+
+    return stats
   }
 
   async deleteUser(id: string, currentUserId: string) {

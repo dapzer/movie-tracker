@@ -3,6 +3,8 @@ import { MediaDetailsRepositorySymbol } from "@/repositories/mediaDetails/MediaD
 import { PrismaMediaDetailsRepository } from "@/repositories/mediaDetails/PrismaMediaDetailsRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { PrismaMediaRatingRepository } from "@/repositories/mediaRating/PrismaMediaRatingRepository"
+import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { MediaDetailsModule } from "@/routes/mediaDetails/mediaDetails.module"
 import { MediaRatingController } from "@/routes/mediaRating/mediaRating.controller"
 import { MediaRatingService } from "@/routes/mediaRating/mediaRating.service"
@@ -15,6 +17,10 @@ import { MediaRatingService } from "@/routes/mediaRating/mediaRating.service"
     {
       provide: MediaDetailsRepositorySymbol,
       useClass: PrismaMediaDetailsRepository,
+    },
+    {
+      provide: UserRepositorySymbol,
+      useClass: PrismaUserRepository,
     },
     MediaRatingService,
   ],

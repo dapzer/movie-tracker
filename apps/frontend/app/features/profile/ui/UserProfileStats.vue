@@ -26,10 +26,10 @@ const columns = computed(() => {
       value: props.stats.mediaListLikeCount,
     },
     {
-      label: t(`ui.rating.${getDeclensionTranslationKey(props.stats.mediaRatingsCount)}`),
+      label: t(`ui.rating.${getDeclensionTranslationKey(props.stats.mediaRatingsCount || 0)}`),
       value: props.stats.mediaRatingsCount,
     },
-  ]
+  ].filter(el => el.value !== undefined)
 })
 </script>
 

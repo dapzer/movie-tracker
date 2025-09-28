@@ -1,4 +1,4 @@
-import { MediaRatingType } from "@movie-tracker/types"
+import { MediaRatingType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import {
   MediaDetailsRepositoryInterface,
@@ -8,6 +8,7 @@ import {
   MediaRatingRepositoryInterface,
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import { CreateMediaRatingDto } from "@/routes/mediaRating/dto/createMediaRating.dto"
 import { GetMediaRatingByMediaIdParamsDto } from "@/routes/mediaRating/dto/getMediaRatingByMediaIdParamsDto"
@@ -20,6 +21,8 @@ export class MediaRatingService {
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     @Inject(MediaDetailsRepositorySymbol)
     private mediaDetailsRepository: MediaDetailsRepositoryInterface,
+    @Inject(UserRepositorySymbol)
+    private readonly userRepository: UserRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
   ) {}
 
@@ -44,7 +47,18 @@ export class MediaRatingService {
 
   async getMediaRatingsByUserId(args: {
     userId: string
+    currentUserId?: string
   }): Promise<MediaRatingType[]> {
+    const user = await this.userRepository.getUserById(args.userId)
+
+    if (!user) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+    }
+
+    if (user.mediaRatingsAccessLevel !== UserMediaRatingsAccessLevelEnum.PUBLIC && args.currentUserId !== args.userId) {
+      throw new HttpException("Permission denied", HttpStatus.FORBIDDEN)
+    }
+
     const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserId({
       userId: args.userId,
     })
