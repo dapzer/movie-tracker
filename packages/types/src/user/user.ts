@@ -11,6 +11,11 @@ export enum SignUpMethodEnum {
   YANDEX = "YANDEX",
 }
 
+export enum UserMediaRatingsAccessLevelEnum {
+  PUBLIC = "PUBLIC",
+  PRIVATE = "PRIVATE",
+}
+
 export interface UserType {
   id: string
   // userName: string;
@@ -20,6 +25,7 @@ export interface UserType {
   isEmailVerified: boolean
   signUpMethod: SignUpMethodEnum
   password?: string
+  mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
   roles: UserRoleEnum[]
   createdAt: Date
   updatedAt: Date

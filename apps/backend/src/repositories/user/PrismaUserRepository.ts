@@ -1,5 +1,5 @@
 import { User } from "@movie-tracker/database"
-import { SignUpMethodEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
@@ -22,6 +22,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
       isEmailVerified: user.isEmailVerified,
       password: user.password,
       roles: user.roles.map(el => UserRoleEnum[el]),
+      mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }
@@ -62,7 +63,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
   async updateUser(
     id: string,
-    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email">>,
+    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email" | "mediaRatingsAccessLevel">>,
   ) {
     const user = await this.prisma.user.update({ where: { id }, data: body })
 

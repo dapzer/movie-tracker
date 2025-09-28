@@ -60,9 +60,8 @@ const isAdmin = computed(() => {
     </UiDropdownItem>
     <!-- TODO: show after implement page -->
     <UiDropdownItem
-      v-if="false"
       :as="NuxtLink"
-      :to="localePath('/settings')"
+      :to="localePath('/settings/account')"
     >
       <template #iconStart>
         <UiIcon name="icon:settings" />

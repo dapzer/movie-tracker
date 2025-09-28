@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from "@nestjs/common"
 import { isCuid } from "@paralleldrive/cuid2"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
@@ -26,6 +38,10 @@ export class MediaListController {
         user?.id,
         true,
       )
+    }
+
+    if (!user) {
+      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
     }
 
     return this.mediaListService.getMedialListsByUserId(user?.id, user?.id, false)
