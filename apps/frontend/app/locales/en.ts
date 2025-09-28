@@ -1223,16 +1223,15 @@ export default {
   accountSettings: {
     pageTitle: "Account Settings",
     nameForm: {
-      label: "Name",
-      description: "Edit your name",
+      label: "Username",
       placeholder: "Enter the name",
       errors: {
         length: "Minimum length of name is 1 character",
       },
     },
     mediaRatingsAccessForm: {
-      label: "Access to ratings",
-      description: "Who can see your ratings on the profile page",
+      label: "Rating visibility",
+      description: "Select who can see your ratings",
       options: {
         private: "Only me",
         public: "Everyone",
@@ -1429,6 +1428,7 @@ export default {
     manyLists: "list",
     singleLists: "lists",
     saveChanges: "Save changes",
+    change: "Change",
     like: {
       single: "Like",
       multiple: "Likes",

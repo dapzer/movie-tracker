@@ -37,11 +37,11 @@ const { formValue, onFormSubmit, isFormValueChanged, errors } = useForm<Pick<Use
   <form @submit.prevent="onFormSubmit">
     <AccountSettingsFormItem
       :title="$t('accountSettings.nameForm.label')"
-      :description="$t('accountSettings.nameForm.description')"
       :disabled="!isFormValueChanged || updateUserProfileApi.isPending.value"
     >
       <UiInput
         v-model="formValue.name"
+        :class="$style.input"
         :disabled="updateUserProfileApi.isPending.value"
         :error="errors?.name"
         maxlength="32"
@@ -51,6 +51,8 @@ const { formValue, onFormSubmit, isFormValueChanged, errors } = useForm<Pick<Use
   </form>
 </template>
 
-<style scoped lang="scss">
-
+<style module lang="scss">
+.input {
+  max-height: 40px;
+}
 </style>

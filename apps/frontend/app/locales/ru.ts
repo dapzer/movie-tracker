@@ -1224,7 +1224,7 @@ export default {
   accountSettings: {
     pageTitle: "Настройки аккаунта",
     nameForm: {
-      label: "Имя",
+      label: "Имя пользователя",
       description: "Измените свое имя",
       placeholder: "Введите имя",
       errors: {
@@ -1232,8 +1232,8 @@ export default {
       },
     },
     mediaRatingsAccessForm: {
-      label: "Доступ к оценкам",
-      description: "Кто может видеть ваши оценки на странице профиля",
+      label: "Отображение оценок",
+      description: "Выберите, кто может видеть ваши оценки",
       options: {
         private: "Только я",
         public: "Все",
@@ -1432,6 +1432,7 @@ export default {
     singleLists: "список",
     private: "Приватный",
     saveChanges: "Сохранить изменения",
+    change: "Изменить",
     like: {
       single: "Лайк",
       multiple: "Лайков",

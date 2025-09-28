@@ -31,7 +31,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 }
 
 .content {
-  margin-top: 20px;
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;

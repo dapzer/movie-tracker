@@ -22,6 +22,7 @@ const props = defineProps<AccountSettingsFormItemProps>()
       </UiTypography>
       <UiTypography
         v-if="props.description"
+        variant="description"
         :class="$style.description"
       >
         {{ props.description }}
@@ -31,40 +32,66 @@ const props = defineProps<AccountSettingsFormItemProps>()
     <div :class="$style.content">
       <slot />
       <UiButton
+        :class="$style.submitButton"
         :disabled="props.disabled"
         type="submit"
       >
-        {{ $t("ui.saveChanges") }}
+        {{ $t("ui.change") }}
       </UiButton>
     </div>
   </div>
 </template>
 
 <style module lang="scss">
+@import "~/shared/styles/variables.scss";
+@import "~/shared/styles/mixins.scss";
+
 .wrapper {
   gap: 20px;
-  max-width: 416px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 
-  &,
-  > div {
-    display: flex;
+  @include mobileDevice() {
+    align-items: flex-start;
     flex-direction: column;
   }
 }
 
 .title {
-  color: var(--c-description);
-}
-
-.description {
   color: var(--c-text);
 }
 
 .header {
-  gap: 6px;
+  flex-shrink: 0;
+}
+
+.description {
+  margin-top: 8px;
 }
 
 .content {
-  gap: 24px;
+  max-width: 384px;
+  gap: 8px;
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+
+  @include mobileDevice() {
+    max-width: unset;
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.submitButton {
+  white-space: nowrap;
+
+  @include mobileDevice() {
+    width: 100%;
+  }
 }
 </style>
