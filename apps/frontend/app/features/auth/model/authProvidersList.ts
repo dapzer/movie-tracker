@@ -12,11 +12,12 @@ export const authProvidersList = [
     provider: "yandex",
     icon: h(UiIcon, { name: "icon:yandex" }),
   },
-  {
-    title: "VK",
-    provider: "vk",
-    icon: h(UiIcon, { name: "icon:vkontakte" }),
-  },
+  // * Removed VK provider, because of ban of api keys
+  // {
+  //   title: "VK",
+  //   provider: "vk",
+  //   icon: h(UiIcon, { name: "icon:vkontakte" }),
+  // },
   {
     title: "GitHub",
     provider: "github",
