@@ -9,9 +9,9 @@ export class VkProvider extends BaseService {
     super({
       name: "vk",
 
-      authorize_url: `https://oauth.vk.com/authorize?v=${vkApiVersion}`,
-      access_url: `https://oauth.vk.com/access_token?v=${vkApiVersion}`,
-      profile_url: `https://api.vk.com/method/users.get?v=${vkApiVersion}`,
+      authorize_url: `https://oauth.vk.ru/authorize?v=${vkApiVersion}`,
+      access_url: `https://oauth.vk.ru/access_token?v=${vkApiVersion}`,
+      profile_url: `https://api.vk.ru/method/users.get?v=${vkApiVersion}`,
 
       scopes: opts.scopes,
       client_id: opts.client_id,
@@ -30,7 +30,7 @@ export class VkProvider extends BaseService {
 }
 
 interface VkProfile {
-  // https://dev.vk.com/reference/objects/user
+  // https://dev.vk.ru/reference/objects/user
   response: Array<{
     id: number
     first_name: string
