@@ -27,8 +27,8 @@
     "yup": "1.7.0"
   },
   "devDependencies": {
-    "@histoire/plugin-nuxt": "1.0.0-alpha.2",
-    "@histoire/plugin-vue": "1.0.0-alpha.2",
+    "@histoire/plugin-nuxt": "1.0.0-alpha.3",
+    "@histoire/plugin-vue": "1.0.0-alpha.3  ",
     "@movie-tracker/types": "workspace:*",
     "@movie-tracker/utils": "workspace:*",
     "@nuxt/devtools": "2.6.3",

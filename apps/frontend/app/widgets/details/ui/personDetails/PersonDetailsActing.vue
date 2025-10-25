@@ -103,7 +103,19 @@ const filteredData = computed(() => {
       (filters.value.mediaType === "" || item.mediaTypes === filters.value.mediaType)
       && (filters.value.department === "" || item.departments.includes(filters.value.department))
     )
-  }).sort((a, b) => b.releaseDate ? new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime() : -1)
+  }).sort((a, b) => {
+    if (!a.releaseDate && !b.releaseDate) {
+      return 0
+    }
+    if (!a.releaseDate) {
+      return 1
+    }
+    if (!b.releaseDate) {
+      return -1
+    }
+
+    return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
+  })
 })
 
 function clearFilters() {
