@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useMediaQuery } from "@vueuse/core"
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from "radix-vue"
+import { ref } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiTooltipProps {
@@ -9,6 +11,15 @@ interface UiTooltipProps {
 }
 
 const props = defineProps<UiTooltipProps>()
+
+const mediaQueryTouch = useMediaQuery("(hover: none) and (pointer: coarse)")
+const tooltipOpen = ref<boolean>(false)
+
+function handleTriggerClick() {
+  if (mediaQueryTouch.value) {
+    tooltipOpen.value = !tooltipOpen.value
+  }
+}
 </script>
 
 <template>
@@ -17,10 +28,15 @@ const props = defineProps<UiTooltipProps>()
   </template>
   <template v-else>
     <TooltipProvider>
-      <TooltipRoot :delay-duration="0">
+      <TooltipRoot
+        v-model:open="tooltipOpen"
+        :delay-duration="0"
+        :disable-closing-trigger="true"
+      >
         <TooltipTrigger
           as="div"
           :class="$style.trigger"
+          @click="handleTriggerClick"
         >
           <slot name="trigger" />
         </TooltipTrigger>
