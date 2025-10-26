@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
-import { useI18n } from "#imports"
+import { nextTick, useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
+import { watch } from "vue"
 import { useCreateLikeMediaListApi, useDeleteLikeMediaListApi } from "~/api/mediaList/useMediaListApi"
 import { CloneMediaListModal, EditMediaListModal, MediaListsLimitTooltip } from "~/entities/mediaList"
 import { useAuth } from "~/shared/composables/useAuth"
+import { useIsTrimmed } from "~/shared/composables/useIsTrimmed"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 
@@ -23,10 +26,19 @@ const props = defineProps<MediaListHeaderProps>()
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { copy, copied } = useClipboard({ copiedDuring: 1000 })
+
+const { elementRef: titleRef, isTrimmed: isTitleTrimmed, handleCheckIsTrimmed } = useIsTrimmed()
+
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const { isAuthorized } = useAuth()
+
 const createLikeMediaListApi = useCreateLikeMediaListApi()
 const deleteLikeMediaListApi = useDeleteLikeMediaListApi()
+
+watch(() => props.mediaList.title, async () => {
+  await nextTick()
+  handleCheckIsTrimmed()
+})
 
 function copyLink() {
   copy(`${window.location.origin}/lists/details/${props.mediaList.humanFriendlyId}`)
@@ -56,7 +68,21 @@ async function handleLike() {
           variant="title2"
           :class="$style.title"
         >
-          {{ $t("mediaList.listTitle") }} ‘<span>{{ props.mediaList.title || t("mediaList.favorites") }}</span>’
+          {{ $t("mediaList.listTitle") }} ‘
+          <UiTooltip
+            as-child
+            :disabled="!isTitleTrimmed"
+          >
+            <template #trigger>
+              <span ref="titleRef">{{ props.mediaList.title || t("mediaList.favorites") }}</span>
+            </template>
+            <template #content>
+              <UiTypography>
+                {{ props.mediaList.title || t("mediaList.favorites") }}
+              </UiTypography>
+            </template>
+          </UiTooltip>
+          ’
         </UiTypography>
 
         <div
