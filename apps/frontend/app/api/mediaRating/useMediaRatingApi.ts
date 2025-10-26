@@ -1,6 +1,7 @@
 import type { MediaItemType, MediaRatingType } from "@movie-tracker/types"
 import type {
   CreateMediaRatingBody,
+  DeleteMediaRatingArgs,
   GetMediaRatingByMediaIdArgs,
   GetMediaRatingByUserIdArgs,
   UpdateMediaRatingArgs,
@@ -38,6 +39,11 @@ export function useGetMediaRatingByUserIdApi(args: GetMediaRatingByUserIdArgs) {
     queryKey: [MediaRatingApiQueryKeys.GET_ALL_BY_USER_ID, args.userId],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
+
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found")
+      }
+
       return getMediaRatingByUserId(args, { headers })
     },
     retry: false,
@@ -101,15 +107,15 @@ export function useDeleteMediaRatingApi() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationKey: [MediaRatingApiQueryKeys.DELETE],
-    mutationFn: deleteMediaRating,
-    onSuccess: async (data, id) => {
+    mutationFn: (args: DeleteMediaRatingArgs) => deleteMediaRating(args),
+    onSuccess: async (data, args) => {
       await queryClient.resetQueries({
         queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType],
       })
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         if (oldData) {
           return oldData.map((el) => {
-            if (el.mediaRating?.id === id) {
+            if (el.mediaRating?.id === args.id) {
               return {
                 ...el,
                 mediaRating: undefined,

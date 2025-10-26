@@ -71,7 +71,9 @@ async function handleDelete() {
     return
   }
 
-  await deleteMediaRatingApi.mutateAsync(props.currentRating.id).then(() => {
+  await deleteMediaRatingApi.mutateAsync({
+    id: props.currentRating.id,
+  }).then(() => {
     toast.success(t("toasts.mediaRating.successDeleted"))
   }).catch(() => {
     toast.error(t("toasts.mediaRating.unsuccessfullyDeleted"))

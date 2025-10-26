@@ -14,3 +14,7 @@ export interface UpdateMediaRatingArgs {
   id: string
   body: MediaRatingUpdateBodyType
 }
+
+export interface DeleteMediaRatingArgs {
+  id: string
+}
