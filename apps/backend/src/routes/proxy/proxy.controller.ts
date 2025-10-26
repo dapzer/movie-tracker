@@ -1,6 +1,6 @@
 import { CacheInterceptor } from "@nestjs/cache-manager"
-import { Controller, Get, Param, Query, Res, UseInterceptors } from "@nestjs/common"
-import { Response } from "express"
+import { Controller, Get, Param, Query, Req, Res, UseInterceptors } from "@nestjs/common"
+import { Request, Response } from "express"
 import { ProxyQueriesDto } from "@/routes/proxy/dto/proxyQueries..dto"
 import { ProxyService } from "@/routes/proxy/proxy.service"
 
@@ -12,6 +12,7 @@ export class ProxyController {
   async getImage(
     @Query() queries: ProxyQueriesDto,
     @Res() res: Response,
+    @Req() req: Request,
     @Param("everything") everything: string,
   ) {
     const { stream, contentType } = await this.proxyService.getImage(
@@ -19,6 +20,9 @@ export class ProxyController {
       queries.keepOriginalType,
       queries.size,
     )
+    req.on("close", () => {
+      stream.destroy()
+    })
     res.header("Content-Type", contentType)
 
     stream.pipe(res)
