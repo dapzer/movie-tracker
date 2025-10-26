@@ -8,6 +8,7 @@ interface UiTooltipProps {
   disabled?: boolean
   align?: "start" | "center" | "end"
   side?: "top" | "right" | "bottom" | "left"
+  asChild?: boolean
 }
 
 const props = defineProps<UiTooltipProps>()
@@ -35,7 +36,9 @@ function handleTriggerClick() {
       >
         <TooltipTrigger
           as="div"
+          :as-child="props.asChild"
           :class="$style.trigger"
+          v-bind="$attrs"
           @click="handleTriggerClick"
         >
           <slot name="trigger" />
