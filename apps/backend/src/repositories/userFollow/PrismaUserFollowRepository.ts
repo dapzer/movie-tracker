@@ -59,14 +59,24 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
   }
 
   async deleteFollow(args: Parameters<UserFollowRepositoryInterface["deleteFollow"]>[0]) {
-    const userFollow = await this.prisma.userFollow.deleteMany({
+    const userFollow = await this.prisma.userFollow.delete({
+      where: {
+        id: args.id,
+      },
+    })
+
+    return this.convertToInterface(userFollow)
+  }
+
+  async getFollow(args: Parameters<UserFollowRepositoryInterface["getFollow"]>[0]) {
+    const userFollow = await this.prisma.userFollow.findFirst({
       where: {
         followerId: args.followerId,
         followingId: args.followingUserId,
       },
     })
 
-    return this.convertToInterface(userFollow[0])
+    return this.convertToInterface(userFollow)
   }
 
   async getFollowers(args: Parameters<UserFollowRepositoryInterface["getFollowers"]>[0]) {
