@@ -18,6 +18,7 @@ import { MediaRatingModule } from "@/routes/mediaRating/mediaRating.module"
 import { OpenGraphImageModule } from "@/routes/openGraphImage/openGraphImage.module"
 import { SitemapModule } from "@/routes/sitemap/sitemap.module"
 import { TrackingDataModule } from "@/routes/trackingData/trackingData.module"
+import { UserFollowModule } from "@/routes/userFollow/userFollow.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { PrismaModule } from "@/services/prisma/prisma.module"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
@@ -67,8 +68,8 @@ import { UserModule } from "./routes/user/user.module"
     MediaRatingModule,
     MediaListViewModule,
     CommunityListsModule,
+    UserFollowModule,
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_GUARD,
