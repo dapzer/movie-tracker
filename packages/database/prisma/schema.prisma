@@ -1,7 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../dist"
-  previewFeatures = ["metrics", "queryCompiler", "driverAdapters"]
+  provider = "prisma-client-js"
+  output   = "../dist"
 }
 
 datasource db {
@@ -56,8 +55,22 @@ model User {
   mediaListLikes MediaListLike[]
   mediaListViews MediaListView[]
   mediaRatings   MediaRating[]
+  userFollowers  UserFollow[]    @relation("followerRelation")
+  userFollowing  UserFollow[]    @relation("followingRelation")
 
   @@map("users")
+}
+
+model UserFollow {
+  id          String   @id @default(uuid())
+  followerId  String   @map("follower_id")
+  follower    User     @relation("followerRelation", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String   @map("following_id")
+  following   User     @relation("followingRelation", fields: [followingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([followerId, followingId])
+  @@map("user_follows")
 }
 
 model MediaList {
