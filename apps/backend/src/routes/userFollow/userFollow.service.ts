@@ -5,6 +5,7 @@ import {
   UserFollowRepositoryInterface,
   UserFollowRepositorySymbol,
 } from "@/repositories/userFollow/UserFollowRepositoryInterface"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 
 @Injectable()
 export class UserFollowService {
@@ -22,30 +23,30 @@ export class UserFollowService {
     }
   }
 
-  async getUserFollowers(userId: string) {
-    await this.checkUserExists(userId)
+  async getUserFollowers(args: { userId: string } & PaginationDto) {
+    await this.checkUserExists(args.userId)
 
-    return this.userFollowRepository.getFollowers({ userId })
+    return this.userFollowRepository.getFollowers({ userId: args.userId, limit: args.limit, offset: args.offset })
   }
 
-  async createUserFollow(followerId: string, followingUserId: string) {
-    await this.checkUserExists(followingUserId)
+  async createUserFollow(args: { followerUserId: string, followingUserId: string }) {
+    await this.checkUserExists(args.followingUserId)
 
-    if (followerId === followingUserId) {
+    if (args.followerUserId === args.followingUserId) {
       throw new Error("Users cannot follow themselves.")
     }
 
-    return this.userFollowRepository.createFollow({ followerId, followingUserId })
+    return this.userFollowRepository.createFollow({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
   }
 
-  async deleteUserFollow(followerId: string, followingUserId: string) {
-    await this.checkUserExists(followingUserId)
+  async deleteUserFollow(args: { followerUserId: string, followingUserId: string }) {
+    await this.checkUserExists(args.followingUserId)
 
-    if (followerId === followingUserId) {
+    if (args.followerUserId === args.followingUserId) {
       throw new Error("Users cannot unfollow themselves.")
     }
 
-    const userFollow = await this.userFollowRepository.getFollow({ followerId, followingUserId })
+    const userFollow = await this.userFollowRepository.getFollow({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
 
     if (!userFollow) {
       throw new HttpException("Follow not found", HttpStatus.NOT_FOUND)
@@ -54,13 +55,13 @@ export class UserFollowService {
     return this.userFollowRepository.deleteFollow({ id: userFollow.id })
   }
 
-  async getUserFollowInformation(userId: string, currentUserId?: string): Promise<UserFollowInformationType> {
-    await this.checkUserExists(userId)
+  async getUserFollowInformation(args: { userId: string, currentUserId?: string }): Promise<UserFollowInformationType> {
+    await this.checkUserExists(args.userId)
 
     const [followersCount, follow] = await Promise.all([
-      this.userFollowRepository.getFollowersCount({ userId }),
-      currentUserId
-        ? this.userFollowRepository.getFollow({ followerId: currentUserId, followingUserId: userId })
+      this.userFollowRepository.getFollowersCount({ userId: args.userId }),
+      args.currentUserId
+        ? this.userFollowRepository.getFollow({ followerUserId: args.currentUserId, followingUserId: args.userId })
         : Promise.resolve(undefined),
     ])
 

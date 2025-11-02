@@ -50,7 +50,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
   async createFollow(args: Parameters<UserFollowRepositoryInterface["createFollow"]>[0]) {
     const userFollow = await this.prisma.userFollow.create({
       data: {
-        followerId: args.followerId,
+        followerId: args.followerUserId,
         followingId: args.followingUserId,
       },
     })
@@ -71,7 +71,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
   async getFollow(args: Parameters<UserFollowRepositoryInterface["getFollow"]>[0]) {
     const userFollow = await this.prisma.userFollow.findFirst({
       where: {
-        followerId: args.followerId,
+        followerId: args.followerUserId,
         followingId: args.followingUserId,
       },
     })
@@ -84,6 +84,8 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
       where: {
         followingId: args.userId,
       },
+      take: args.limit,
+      skip: args.offset,
       include: {
         follower: {
           select: {
