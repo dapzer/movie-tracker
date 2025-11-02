@@ -9,6 +9,16 @@ export interface UserFollowType {
   followingUserProfile?: UserFollowProfileType
 }
 
+export interface UserFollowersPaginatedType {
+  items: UserFollowType[]
+  totalCount: number
+}
+
+export interface UserFollowingPaginatedType {
+  items: UserFollowType[]
+  totalCount: number
+}
+
 export type UserFollowProfileType = Pick<UserType, "id" | "name" | "image"> & {
   followersCount: number
 }

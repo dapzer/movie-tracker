@@ -80,29 +80,36 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
   }
 
   async getFollowers(args: Parameters<UserFollowRepositoryInterface["getFollowers"]>[0]) {
-    const userFollowers = await this.prisma.userFollow.findMany({
-      where: {
-        followingId: args.userId,
-      },
-      take: args.limit,
-      skip: args.offset,
-      include: {
-        follower: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-            _count: {
-              select: {
-                userFollowers: true,
+    const [userFollowers, userFollowersCount] = await Promise.all([
+      this.prisma.userFollow.findMany({
+        where: {
+          followingId: args.userId,
+        },
+        take: args.limit,
+        skip: args.offset,
+        include: {
+          follower: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              _count: {
+                select: {
+                  userFollowers: true,
+                },
               },
             },
           },
         },
-      },
-    })
+      }),
+      this.prisma.userFollow.count({
+        where: {
+          followingId: args.userId,
+        },
+      }),
+    ])
 
-    return userFollowers.map(this.convertToInterface)
+    return { items: userFollowers.map(this.convertToInterface), totalCount: userFollowersCount }
   }
 
   getFollowersCount(args: Parameters<UserFollowRepositoryInterface["getFollowersCount"]>[0]) {
