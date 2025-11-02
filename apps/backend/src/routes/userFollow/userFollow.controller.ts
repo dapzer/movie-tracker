@@ -10,6 +10,11 @@ export class UserFollowController {
   constructor(private readonly userFollowService: UserFollowService) {
   }
 
+  @Get(":id/follow-information")
+  async getUserFollowInformation(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.userFollowService.getUserFollowInformation(params.id, user?.id)
+  }
+
   @Get(":id/followers")
   async getUserFollowers(@Param() params: UuidDto) {
     return this.userFollowService.getUserFollowers(params.id)

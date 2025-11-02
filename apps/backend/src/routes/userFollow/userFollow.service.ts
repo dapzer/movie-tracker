@@ -1,3 +1,4 @@
+import { UserFollowInformationType } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import {
@@ -51,5 +52,21 @@ export class UserFollowService {
     }
 
     return this.userFollowRepository.deleteFollow({ id: userFollow.id })
+  }
+
+  async getUserFollowInformation(userId: string, currentUserId?: string): Promise<UserFollowInformationType> {
+    await this.checkUserExists(userId)
+
+    const [followersCount, follow] = await Promise.all([
+      this.userFollowRepository.getFollowersCount({ userId }),
+      currentUserId
+        ? this.userFollowRepository.getFollow({ followerId: currentUserId, followingUserId: userId })
+        : Promise.resolve(undefined),
+    ])
+
+    return {
+      followersCount,
+      isFollowing: !!follow,
+    }
   }
 }

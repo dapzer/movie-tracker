@@ -12,3 +12,8 @@ export interface UserFollowType {
 export type UserFollowProfileType = Pick<UserType, "id" | "name" | "image"> & {
   followersCount: number
 }
+
+export interface UserFollowInformationType {
+  followersCount: number
+  isFollowing: boolean
+}
