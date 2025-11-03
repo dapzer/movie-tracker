@@ -56,6 +56,10 @@ const itemsToRender = computed(() => {
     return []
   return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5 - listsToRender.value.length)
 })
+
+const isLoading = computed(() => {
+  return tmdbGetSearchByTermApi.isFetching.value || getCommunityListsSearchApi.isFetching.value
+})
 </script>
 
 <template>
@@ -71,7 +75,7 @@ const itemsToRender = computed(() => {
     :placeholder="$t('search.placeholder')"
     :filter-function="(items: TmdbSearchResponseResultItemType[]) => items"
   >
-    <template v-if="!tmdbGetSearchByTermApi.isFetching.value || !getCommunityListsSearchApi.isFetching.value">
+    <template v-if="!isLoading">
       <template
         v-for="(item) in itemsToRender"
         :key="item.id"
