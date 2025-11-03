@@ -1398,6 +1398,12 @@ export default {
       successMediaRatingsAccessLevelChanged: "Display of ratings in profile successfully changed",
       unsuccessfullyMediaRatingsAccessLevelChanged: "An error occurred while changing the display of ratings in the profile.",
     },
+    follow: {
+      successFollowed: "You have successfully followed the user",
+      unsuccessfullyFollowed: "An error occurred while following to the user.",
+      successUnfollowed: "You have successfully unfollowed the user",
+      unsuccessfullyUnfollowed: "An error occurred while unfollowing from the user",
+    },
   },
   ui: {
     loading: "Loading",
@@ -1429,6 +1435,8 @@ export default {
     singleLists: "lists",
     saveChanges: "Save changes",
     change: "Change",
+    follow: "Follow",
+    unfollow: "Unfollow",
     like: {
       single: "Like",
       multiple: "Likes",
@@ -1438,6 +1446,11 @@ export default {
       single: "Rating",
       multiple: "Ratings",
       many: "Ratings",
+    },
+    followers: {
+      single: "Follower",
+      multiple: "Followers",
+      many: "Followers",
     },
     errors: {
       nothingFound: "Nothing found",

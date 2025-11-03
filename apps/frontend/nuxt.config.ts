@@ -53,6 +53,9 @@ export default defineNuxtConfig({
     restructureDir: "./app/",
     detectBrowserLanguage: false,
     defaultLocale: "ru",
+    // experimental: {
+    //   typedOptionsAndMessages: "all",
+    // },
     locales: [
       {
         code: "en",

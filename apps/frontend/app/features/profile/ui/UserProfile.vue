@@ -6,6 +6,7 @@ import { useI18n, useSeoMeta } from "#imports"
 import { HttpStatus } from "@movie-tracker/utils"
 import { computed } from "vue"
 import { useGetUserProfileByIdApi, useGetUserStatsByIdApi } from "~/api/user/useUserApi"
+import { useGetUserFollowInformationApi } from "~/api/userFollow/useUserFollowApi"
 import UserProfileContent from "~/features/profile/ui/UserProfileContent.vue"
 import UserProfileInfo from "~/features/profile/ui/UserProfileInfo.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -23,10 +24,12 @@ const localePath = useLocalePath()
 
 const getUserProfileByIdApi = useGetUserProfileByIdApi(props.userId)
 const getUserStatsByIdApi = useGetUserStatsByIdApi(props.userId)
+const getUserFollowInformationApi = useGetUserFollowInformationApi(props.userId)
 
 await Promise.all([
   getUserProfileByIdApi.suspense(),
   getUserStatsByIdApi.suspense(),
+  getUserFollowInformationApi.suspense(),
 ])
 
 const title = computed(() => {
@@ -61,9 +64,10 @@ const notFound = computed(() => {
       {{ $t('ui.actions.backToMainPage') }}
     </UiTypography>
   </UiAttention>
-  <template v-else-if="getUserProfileByIdApi.data.value && getUserStatsByIdApi.data.value">
+  <template v-else-if="getUserProfileByIdApi.data.value && getUserStatsByIdApi.data.value && getUserFollowInformationApi.data.value">
     <UserProfileInfo
       :user="getUserProfileByIdApi.data.value"
+      :follow-information="getUserFollowInformationApi.data.value"
       :stats="getUserStatsByIdApi.data.value"
     />
     <UserProfileContent :user="getUserProfileByIdApi.data.value" />

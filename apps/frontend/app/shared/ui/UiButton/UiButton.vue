@@ -164,7 +164,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     }
 
     &.medium {
-      padding: 6px 14px;
+      padding: 7px 12px;
       border-radius: var(--s-border-radius-medium);
     }
 

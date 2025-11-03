@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserPublicType, UserStatsType } from "@movie-tracker/types"
+import type { UserFollowInformationType, UserPublicType, UserStatsType } from "@movie-tracker/types"
 import UserProfileAbout from "~/features/profile/ui/UserProfileAbout.vue"
 import UserProfileStats from "~/features/profile/ui/UserProfileStats.vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -7,6 +7,7 @@ import { UiContainer } from "~/shared/ui/UiContainer"
 interface UserProfileInfoProps {
   user: UserPublicType
   stats: UserStatsType
+  followInformation: UserFollowInformationType
 }
 
 const props = defineProps<UserProfileInfoProps>()
@@ -15,7 +16,10 @@ const props = defineProps<UserProfileInfoProps>()
 <template>
   <div :class="$style.wrapper">
     <UiContainer :class="$style.content">
-      <UserProfileAbout :user="props.user" />
+      <UserProfileAbout
+        :user="props.user"
+        :follow-information="props.followInformation"
+      />
       <UserProfileStats :stats="stats" />
     </UiContainer>
   </div>

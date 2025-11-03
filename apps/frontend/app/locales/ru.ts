@@ -1402,6 +1402,12 @@ export default {
       successMediaRatingsAccessLevelChanged: "Отображение оценок в профиле успешно изменено",
       unsuccessfullyMediaRatingsAccessLevelChanged: "Произошла ошибка при изменении отображения оценок в профиле",
     },
+    follow: {
+      successFollowed: "Вы успешно подписались на пользователя",
+      unsuccessfullyFollowed: "Произошла ошибка при подписке на пользователя",
+      successUnfollowed: "Вы успешно отписались от пользователя",
+      unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
+    },
   },
   ui: {
     loading: "Загрузка",
@@ -1433,6 +1439,8 @@ export default {
     private: "Приватный",
     saveChanges: "Сохранить изменения",
     change: "Изменить",
+    follow: "Подписаться",
+    unfollow: "Отписаться",
     like: {
       single: "Лайк",
       multiple: "Лайков",
@@ -1442,6 +1450,11 @@ export default {
       single: "Оценка",
       multiple: "Оценок",
       many: "Оценки",
+    },
+    followers: {
+      single: "Подписчик",
+      multiple: "Подписчиков",
+      many: "Подписчика",
     },
     errors: {
       nothingFound: "Ничего не найдено",
