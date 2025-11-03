@@ -22,6 +22,7 @@ services:
     networks:
       - uptrace
     deploy:
+      endpoint_mode: dnsrr
       placement:
         constraints:
           - node.role != manager
