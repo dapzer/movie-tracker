@@ -1,6 +1,6 @@
 services:
   clickhouse:
-    image: clickhouse/clickhouse-server:25.3.5
+    image: clickhouse/clickhouse-server:25.5-alpine
     restart: on-failure
     environment:
       CLICKHOUSE_USER: uptrace
@@ -13,6 +13,9 @@ services:
       retries: 30
     volumes:
       - ch_data:/var/lib/clickhouse
+    configs:
+      - source: clickhouse_config
+        target: /etc/clickhouse-server/config.d/override.xml
     expose:
       - "8123"
       - "9000"
@@ -193,6 +196,8 @@ configs:
     file: ./vector.toml
   prometheus_config:
     file: ./prometheus/prometheus.yml
+  clickhouse_config:
+    file: ./clickhouse-config.xml
 
 volumes:
   ch_data:
