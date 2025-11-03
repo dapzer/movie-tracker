@@ -23,7 +23,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 const model = defineModel<boolean>()
 const router = useRouter()
 const localePath = useLocalePath()
-const { searchValue, tmdbGetSearchByTermApi, getCommunityListsSearchApi } = useSearch()
+const { searchValue, tmdbGetSearchByTermApi, getCommunityListsSearchApi, isLoading, isResultsEmpty } = useSearch()
 const inputRef = ref<VNodeRef | null>(null)
 
 onMounted(() => {
@@ -55,10 +55,6 @@ const itemsToRender = computed(() => {
   if (!tmdbGetSearchByTermApi.data.value?.results)
     return []
   return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5 - listsToRender.value.length)
-})
-
-const isLoading = computed(() => {
-  return tmdbGetSearchByTermApi.isFetching.value || getCommunityListsSearchApi.isFetching.value
 })
 </script>
 
@@ -131,7 +127,7 @@ const isLoading = computed(() => {
             </template>
 
             <UiTypography
-              v-if="itemsToRender.length"
+              v-if="!isResultsEmpty"
               :class="[$style.card, $style.seeAllResults]"
               schema="link"
               @click="() => handleOpenSearchPage()"
@@ -144,7 +140,7 @@ const isLoading = computed(() => {
             </UiTypography>
 
             <UiAttention
-              v-if="!itemsToRender.length && searchValue.length"
+              v-if="isResultsEmpty && searchValue.length"
               title-variant="text"
               :indent="0"
               :title="$t('search.notingFound')"
