@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TmdbSearchResponseResultItemType } from "@movie-tracker/types"
+import type { MediaListType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
 import type { VNodeRef } from "vue"
 import { useLocalePath } from "#i18n"
 import { computed, onMounted } from "#imports"
@@ -7,6 +7,7 @@ import { useRouter } from "#vue-router"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { ref } from "vue"
 import { useSearch } from "~/features/search/model/useSearch"
+import SearchResultMediaListCardHorizontal from "~/features/search/ui/SearchResultMediaListCardHorizontal.vue"
 import SearchResultMovieCardHorizontal from "~/features/search/ui/SearchResultMovieCardHorizontal.vue"
 import SearchResultPersonCardHorizontal from "~/features/search/ui/SearchResultPersonCardHorizontal.vue"
 import { UiAttention } from "~/shared/ui/UiAttention"
@@ -22,7 +23,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 const model = defineModel<boolean>()
 const router = useRouter()
 const localePath = useLocalePath()
-const { searchValue, tmdbGetSearchByTermApi } = useSearch()
+const { searchValue, tmdbGetSearchByTermApi, getCommunityListsSearchApi, isLoading, isResultsEmpty } = useSearch()
 const inputRef = ref<VNodeRef | null>(null)
 
 onMounted(() => {
@@ -34,15 +35,26 @@ function handleItemClick(item: TmdbSearchResponseResultItemType) {
   model.value = false
 }
 
+function handleSelectList(item: MediaListType) {
+  router.push(localePath(`/lists/details/${item.id}`))
+  model.value = false
+}
+
 function handleOpenSearchPage() {
   router.push(localePath(`/search?searchTerm=${searchValue.value}`))
   model.value = false
 }
 
+const listsToRender = computed(() => {
+  if (!getCommunityListsSearchApi.data.value?.items)
+    return []
+  return [...getCommunityListsSearchApi?.data.value?.items].splice(0, 2)
+})
+
 const itemsToRender = computed(() => {
   if (!tmdbGetSearchByTermApi.data.value?.results)
     return []
-  return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5)
+  return [...tmdbGetSearchByTermApi?.data.value?.results].splice(0, 5 - listsToRender.value.length)
 })
 </script>
 
@@ -81,7 +93,7 @@ const itemsToRender = computed(() => {
         <UiDivider />
 
         <UiContainer :class="$style.result">
-          <template v-if="!tmdbGetSearchByTermApi.isFetching.value">
+          <template v-if="!isLoading">
             <template
               v-for="(item) in itemsToRender"
               :key="item.id"
@@ -102,8 +114,20 @@ const itemsToRender = computed(() => {
               <UiDivider />
             </template>
 
+            <template
+              v-for="(item) in listsToRender"
+              :key="item.id"
+            >
+              <SearchResultMediaListCardHorizontal
+                :list="item"
+                :class="[$style.card, $style.listCard]"
+                @click="() => handleSelectList(item)"
+              />
+              <UiDivider />
+            </template>
+
             <UiTypography
-              v-if="itemsToRender.length"
+              v-if="!isResultsEmpty"
               :class="[$style.card, $style.seeAllResults]"
               schema="link"
               @click="() => handleOpenSearchPage()"
@@ -116,7 +140,7 @@ const itemsToRender = computed(() => {
             </UiTypography>
 
             <UiAttention
-              v-if="!itemsToRender.length && searchValue.length"
+              v-if="isResultsEmpty && searchValue.length"
               title-variant="text"
               :indent="0"
               :title="$t('search.notingFound')"
@@ -179,6 +203,10 @@ const itemsToRender = computed(() => {
 
     .card {
       cursor: pointer;
+    }
+
+    .listCard {
+      padding: 8px;
     }
   }
 }

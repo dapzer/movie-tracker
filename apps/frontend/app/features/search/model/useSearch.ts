@@ -47,10 +47,21 @@ export function useSearch() {
     onCleanup(() => clearTimeout(delayDebounceFn))
   })
 
+  const isResultsEmpty = computed(() => {
+    return (getCommunityListsSearchApi.data.value?.items.length || 0) === 0
+      && (tmdbGetSearchByTermApi.data.value?.results.length || 0) === 0
+  })
+
+  const isLoading = computed(() => {
+    return tmdbGetSearchByTermApi.isFetching.value || getCommunityListsSearchApi.isFetching.value
+  })
+
   return {
     searchValue,
     tmdbGetSearchByTermApi,
     searchQueries,
     getCommunityListsSearchApi,
+    isResultsEmpty,
+    isLoading,
   }
 }

@@ -22,7 +22,7 @@ const router = useRouter()
 const localePath = useLocalePath()
 
 const open = ref<boolean>(false)
-const { searchValue, tmdbGetSearchByTermApi, getCommunityListsSearchApi } = useSearch()
+const { searchValue, tmdbGetSearchByTermApi, getCommunityListsSearchApi, isLoading, isResultsEmpty } = useSearch()
 
 function handleSelect(url: string, event: SelectEvent) {
   if (event.detail.originalEvent.ctrlKey) {
@@ -71,7 +71,7 @@ const itemsToRender = computed(() => {
     :placeholder="$t('search.placeholder')"
     :filter-function="(items: TmdbSearchResponseResultItemType[]) => items"
   >
-    <template v-if="!tmdbGetSearchByTermApi.isFetching.value || !getCommunityListsSearchApi.isFetching.value">
+    <template v-if="!isLoading">
       <template
         v-for="(item) in itemsToRender"
         :key="item.id"
@@ -112,7 +112,7 @@ const itemsToRender = computed(() => {
       </template>
 
       <UiComboboxItem
-        v-if="itemsToRender.length"
+        v-if="!isResultsEmpty"
         :class="[$style.card, $style.seeAllResults]"
         value="link"
         :as="UiTypography"
@@ -127,7 +127,7 @@ const itemsToRender = computed(() => {
       </UiComboboxItem>
 
       <UiAttention
-        v-if="!itemsToRender.length"
+        v-if="isResultsEmpty"
         title-variant="text"
         :indent="0"
         :title="$t('search.notingFound')"
