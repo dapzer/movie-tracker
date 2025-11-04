@@ -1,0 +1,6 @@
+export { default as UiTable } from "./UiTable.vue"
+export { default as UiTableBody } from "./UiTableBody.vue"
+export { default as UiTableCell } from "./UiTableCell.vue"
+export { default as UiTableHead } from "./UiTableHead.vue"
+export { default as UiTableHeader } from "./UiTableHeader.vue"
+export { default as UiTableRow } from "./UiTableRow.vue"
