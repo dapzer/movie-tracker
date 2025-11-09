@@ -29,6 +29,16 @@ export class UserFollowController {
     })
   }
 
+  @Get(":id/followings")
+  async getUserFollowings(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
+    return this.userFollowService.getUserFollowings({
+      userId: params.id,
+      limit: query.limit,
+      offset: query.offset,
+      currentUserId: user?.id,
+    })
+  }
+
   @Post(":id/follow")
   @UseGuards(AuthGuard)
   async createUserFollow(@Param() params: UuidDto, @User() user: UserDto) {

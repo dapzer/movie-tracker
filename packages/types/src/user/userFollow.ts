@@ -14,7 +14,7 @@ export interface UserFollowersPaginatedType {
   totalCount: number
 }
 
-export interface UserFollowingPaginatedType {
+export interface UserFollowingsPaginatedType {
   items: UserFollowType[]
   totalCount: number
 }

@@ -1348,6 +1348,7 @@ export default {
       lists: "Публичные списки",
       ratings: "Оценки",
       followers: "Подписчики",
+      followings: "Подписки",
     },
     stats: {
       mediaListCount: "Списков",

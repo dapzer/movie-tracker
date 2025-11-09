@@ -36,7 +36,7 @@ const itemsCount = computed(() => {
 <template>
   <template v-if="itemsCount > 0">
     <UserFollowsTable
-      :items-count="itemsCount"
+      :loading-items-count="itemsCount"
       :loading="getUserFollowersApi.isPending.value"
       :data="getUserFollowersApi.data.value?.items"
     />

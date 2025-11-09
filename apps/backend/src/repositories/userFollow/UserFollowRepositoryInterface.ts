@@ -1,4 +1,4 @@
-import { UserFollowersPaginatedType, UserFollowType } from "@movie-tracker/types"
+import { UserFollowersPaginatedType, UserFollowingsPaginatedType, UserFollowType } from "@movie-tracker/types"
 
 export const UserFollowRepositorySymbol = Symbol("UserFollowRepository")
 
@@ -8,6 +8,6 @@ export interface UserFollowRepositoryInterface {
   getFollow: (args: { followerUserId: string, followingUserId: string }) => Promise<UserFollowType>
   getFollowers: (args: { userId: string, currentUserId: string, limit: number, offset: number }) => Promise<UserFollowersPaginatedType>
   getFollowersCount: (args: { userId: string }) => Promise<number>
-  getFollowing: (args: { userId: string, currentUserId: string }) => Promise<UserFollowType[]>
-  getFollowingCount: (args: { userId: string }) => Promise<number>
+  getFollowings: (args: { userId: string, currentUserId: string, limit: number, offset: number }) => Promise<UserFollowingsPaginatedType>
+  getFollowingsCount: (args: { userId: string }) => Promise<number>
 }

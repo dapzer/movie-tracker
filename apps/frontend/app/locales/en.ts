@@ -1346,6 +1346,7 @@ export default {
       lists: "Public lists",
       ratings: "Ratings",
       followers: "Followers",
+      followings: "Followings",
     },
     stats: {
       mediaListCount: "Lists",

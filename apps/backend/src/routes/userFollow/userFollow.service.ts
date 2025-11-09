@@ -29,6 +29,12 @@ export class UserFollowService {
     return this.userFollowRepository.getFollowers({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
   }
 
+  async getUserFollowings(args: { userId: string, currentUserId: string } & PaginationDto) {
+    await this.checkUserExists(args.userId)
+
+    return this.userFollowRepository.getFollowings({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
+  }
+
   async createUserFollow(args: { followerUserId: string, followingUserId: string }) {
     await this.checkUserExists(args.followingUserId)
 

@@ -1,6 +1,6 @@
-import type { UserFollowInformationType } from "@movie-tracker/types"
+import type { UserFollowInformationType, UserFollowingsPaginatedType } from "@movie-tracker/types"
 import type { Ref } from "vue"
-import type { GetUserFollowersApiArgs } from "~/api/userFollow/userFollowApiTypes"
+import type { GetUserFollowersApiArgs, GetUserFollowingsApiArgs } from "~/api/userFollow/userFollowApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
@@ -8,6 +8,7 @@ import {
   deleteUserFollowApi,
   getUserFollowersApi,
   getUserFollowInformationApi,
+  getUserFollowingsApi,
 } from "~/api/userFollow/userFollowApi"
 import { UserFollowApiQueryKeys } from "~/api/userFollow/userFollowApiQueryKeys"
 
@@ -15,6 +16,13 @@ export function useGetUserFollowersApi(args: Ref<GetUserFollowersApiArgs>) {
   return useQuery({
     queryKey: [UserFollowApiQueryKeys.FOLLOWERS, args.value.userId],
     queryFn: () => getUserFollowersApi(args.value),
+  })
+}
+
+export function useGetUserFollowingsApi(args: Ref<GetUserFollowingsApiArgs>) {
+  return useQuery({
+    queryKey: [UserFollowApiQueryKeys.FOLLOWINGS, args.value.userId],
+    queryFn: () => getUserFollowingsApi(args.value),
   })
 }
 
@@ -35,17 +43,43 @@ export function useCreateUserFollowApi() {
     mutationKey: [UserFollowApiQueryKeys.CREATE_FOLLOW],
     mutationFn: (id: string) => createUserFollowApi(id),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([UserFollowApiQueryKeys.FOLLOW_INFORMATION, data.followingId], (oldData: UserFollowInformationType) => {
-        if (!oldData) {
-          return oldData
-        }
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS] }),
+        queryClient.setQueryData([UserFollowApiQueryKeys.FOLLOW_INFORMATION, data.followingId], (oldData: UserFollowInformationType) => {
+          if (!oldData) {
+            return oldData
+          }
 
-        return {
-          isFollowing: true,
-          followersCount: oldData.followersCount + 1,
-        }
-      })
-      await queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS] })
+          return {
+            isFollowing: true,
+            followersCount: oldData.followersCount + 1,
+          }
+        }),
+        queryClient.setQueriesData<UserFollowingsPaginatedType>({
+          queryKey: [UserFollowApiQueryKeys.FOLLOWINGS],
+          exact: false,
+        }, (oldData) => {
+          if (!oldData) {
+            return oldData
+          }
+
+          return {
+            ...oldData,
+            items: oldData.items.map((el) => {
+              if (el?.followingUserProfile?.id === data.followingId) {
+                return {
+                  ...el,
+                  followingUserProfile: {
+                    ...el.followingUserProfile,
+                    isFollowing: true,
+                  },
+                }
+              }
+              return el
+            }),
+          }
+        }),
+      ])
     },
   })
 }
@@ -57,17 +91,43 @@ export function useDeleteUserFollowApi() {
     mutationKey: [UserFollowApiQueryKeys.DELETE_FOLLOW],
     mutationFn: (id: string) => deleteUserFollowApi(id),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([UserFollowApiQueryKeys.FOLLOW_INFORMATION, data.followingId], (oldData: UserFollowInformationType) => {
-        if (!oldData) {
-          return oldData
-        }
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS] }),
+        queryClient.setQueryData([UserFollowApiQueryKeys.FOLLOW_INFORMATION, data.followingId], (oldData: UserFollowInformationType) => {
+          if (!oldData) {
+            return oldData
+          }
 
-        return {
-          isFollowing: false,
-          followersCount: oldData.followersCount - 1,
-        }
-      })
-      await queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS] })
+          return {
+            isFollowing: false,
+            followersCount: oldData.followersCount - 1,
+          }
+        }),
+        queryClient.setQueriesData<UserFollowingsPaginatedType>({
+          queryKey: [UserFollowApiQueryKeys.FOLLOWINGS],
+          exact: false,
+        }, (oldData) => {
+          if (!oldData) {
+            return oldData
+          }
+
+          return {
+            ...oldData,
+            items: oldData.items.map((el) => {
+              if (el?.followingUserProfile?.id === data.followingId) {
+                return {
+                  ...el,
+                  followingUserProfile: {
+                    ...el.followingUserProfile,
+                    isFollowing: false,
+                  },
+                }
+              }
+              return el
+            }),
+          }
+        }),
+      ])
     },
   })
 }

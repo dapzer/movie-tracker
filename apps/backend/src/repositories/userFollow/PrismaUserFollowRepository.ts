@@ -126,8 +126,8 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
     })
   }
 
-  async getFollowing(args: Parameters<UserFollowRepositoryInterface["getFollowing"]>[0]) {
-    const userFollowing = await this.prisma.userFollow.findMany({
+  async getFollowings(args: Parameters<UserFollowRepositoryInterface["getFollowings"]>[0]) {
+    const [userFollowings, userFollowingsCount] = await Promise.all([this.prisma.userFollow.findMany({
       where: {
         followerId: args.userId,
       },
@@ -146,12 +146,19 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
           },
         },
       },
-    })
+    }), this.prisma.userFollow.count({
+      where: {
+        followerId: args.userId,
+      },
+    })])
 
-    return userFollowing.map(this.convertToInterface)
+    return {
+      items: userFollowings.map(this.convertToInterface),
+      totalCount: userFollowingsCount,
+    }
   }
 
-  getFollowingCount(args: Parameters<UserFollowRepositoryInterface["getFollowingCount"]>[0]) {
+  getFollowingsCount(args: Parameters<UserFollowRepositoryInterface["getFollowingsCount"]>[0]) {
     return this.prisma.userFollow.count({
       where: {
         followerId: args.userId,

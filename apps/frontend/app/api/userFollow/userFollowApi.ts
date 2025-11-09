@@ -1,10 +1,24 @@
-import type { UserFollowersPaginatedType, UserFollowInformationType, UserFollowType } from "@movie-tracker/types"
+import type {
+  UserFollowersPaginatedType,
+  UserFollowInformationType,
+  UserFollowingsPaginatedType,
+  UserFollowType,
+} from "@movie-tracker/types"
 import type { RequestOptions } from "@movie-tracker/utils"
-import type { GetUserFollowersApiArgs } from "~/api/userFollow/userFollowApiTypes"
+import type { GetUserFollowersApiArgs, GetUserFollowingsApiArgs } from "~/api/userFollow/userFollowApiTypes"
 import { api } from "~/api/instance"
 
 export function getUserFollowersApi(args: GetUserFollowersApiArgs) {
   return api.get<UserFollowersPaginatedType>(`user/${args.userId}/followers`, {
+    params: {
+      offset: args.offset,
+      limit: args.limit,
+    },
+  })
+}
+
+export function getUserFollowingsApi(args: GetUserFollowingsApiArgs) {
+  return api.get<UserFollowingsPaginatedType>(`user/${args.userId}/followings`, {
     params: {
       offset: args.offset,
       limit: args.limit,

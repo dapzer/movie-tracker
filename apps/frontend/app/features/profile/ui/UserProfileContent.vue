@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import UserProfileFollowers from "~/features/profile/ui/tabs/UserProfileFollowers.vue"
+import UserProfileFollowings from "~/features/profile/ui/tabs/UserProfileFollowings.vue"
 import UserProfileLists from "~/features/profile/ui/tabs/UserProfileLists.vue"
 import UserProfileRatings from "~/features/profile/ui/tabs/UserProfileRatings.vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -30,6 +31,10 @@ const props = defineProps<UserProfileContentProps>()
           key: 'followers',
           label: $t('userProfile.tabs.followers'),
         },
+        {
+          key: 'followings',
+          label: $t('userProfile.tabs.followings'),
+        },
       ] as const"
     >
       <template #lists>
@@ -43,6 +48,9 @@ const props = defineProps<UserProfileContentProps>()
           :user="props.user"
           :follow-information="props.followInformation"
         />
+      </template>
+      <template #followings>
+        <UserProfileFollowings :user="props.user" />
       </template>
     </UiTabs>
   </UiContainer>
