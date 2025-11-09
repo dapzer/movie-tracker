@@ -1356,6 +1356,8 @@ export default {
     },
   },
   userFollow: {
+    noFollowers: "У пользователя нет подписчиков",
+    noFollowings: "У пользователя нет подписок",
     table: {
       user: "Пользователь",
       following: "Отслеживает",

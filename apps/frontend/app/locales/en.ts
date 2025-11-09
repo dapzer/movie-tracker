@@ -1354,6 +1354,8 @@ export default {
     },
   },
   userFollow: {
+    noFollowers: "The user has no followers",
+    noFollowings: "The user has no followings",
     table: {
       user: "User",
       following: "Following",
