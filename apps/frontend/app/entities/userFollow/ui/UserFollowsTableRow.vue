@@ -31,6 +31,7 @@ const followUserProfile = computed(() => {
       <UiUserProfileLink
         :user-id="followUserProfile!.id"
         :user-name="followUserProfile!.name"
+        :user-avatar-src="followUserProfile!.image"
         :user-page-url="localePath(`/profile/${followUserProfile!.id}`)"
       />
     </UiTableCell>
