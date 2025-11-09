@@ -2,10 +2,9 @@
 import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed } from "vue"
-import { useUserFollow } from "~/entities/userFollow/model/useUserFollow"
+import UserFollowButton from "~/entities/userFollow/ui/UserFollowButton.vue"
 import { useAuth } from "~/shared/composables/useAuth"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
-import { UiButton } from "~/shared/ui/UiButton"
 import { UiDelimiter } from "~/shared/ui/UiDelimiter"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getDeclensionTranslationKey } from "~/shared/utils/getDeclensionTranslationKey"
@@ -20,7 +19,6 @@ const props = defineProps<UserProfileAboutProps>()
 
 const { t } = useI18n()
 const { profile } = useAuth()
-const { handleFollow, isPending } = useUserFollow()
 
 const trackSince = computed(() => {
   const date = new Date(props.user.createdAt)
@@ -55,19 +53,12 @@ const trackSince = computed(() => {
           {{ $t("userProfile.trackSince", { date: trackSince }) }}
         </UiTypography>
       </div>
-      <UiButton
+      <UserFollowButton
         v-if="props.user.id !== profile?.id"
         :class="$style.followButton"
-        size="medium"
-        :scheme="props.followInformation.isFollowing ? 'gray' : 'primary'"
-        :disabled="isPending"
-        @click="handleFollow({
-          userId: props.user.id,
-          isFollowing: props.followInformation.isFollowing,
-        })"
-      >
-        {{ props.followInformation.isFollowing ? $t("ui.unfollow") : $t("ui.follow") }}
-      </UiButton>
+        :user-id="props.user.id"
+        :is-following="props.followInformation!.isFollowing"
+      />
     </div>
   </div>
 </template>

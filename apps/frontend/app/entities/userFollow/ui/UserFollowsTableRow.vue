@@ -3,9 +3,8 @@ import type { UserFollowType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { computed } from "vue"
-import { useUserFollow } from "~/entities/userFollow/model/useUserFollow"
+import UserFollowButton from "~/entities/userFollow/ui/UserFollowButton.vue"
 import { useAuth } from "~/shared/composables/useAuth"
-import { UiButton } from "~/shared/ui/UiButton"
 import { UiTableCell, UiTableRow } from "~/shared/ui/UiTable"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 import { getDeclensionTranslationKey } from "~/shared/utils/getDeclensionTranslationKey"
@@ -19,7 +18,6 @@ const props = defineProps<UserFollowsTableRowProps>()
 
 const localePath = useLocalePath()
 const { profile } = useAuth()
-const { handleFollow, isPending } = useUserFollow()
 const { locale } = useI18n()
 
 const followUserProfile = computed(() => {
@@ -47,18 +45,11 @@ const followUserProfile = computed(() => {
     <UiTableCell
       align="right"
     >
-      <UiButton
+      <UserFollowButton
         v-if="followUserProfile!.id !== profile?.id"
-        size="medium"
-        :scheme="followUserProfile?.isFollowing ? 'gray' : 'primary'"
-        :disabled="isPending"
-        @click="handleFollow({
-          userId: followUserProfile!.id,
-          isFollowing: followUserProfile!.isFollowing,
-        })"
-      >
-        {{ followUserProfile!.isFollowing ? $t("ui.unfollow") : $t("ui.follow") }}
-      </UiButton>
+        :user-id="followUserProfile!.id"
+        :is-following="followUserProfile!.isFollowing"
+      />
     </UiTableCell>
   </UiTableRow>
 </template>
