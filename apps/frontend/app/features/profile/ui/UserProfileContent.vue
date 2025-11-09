@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserPublicType } from "@movie-tracker/types"
+import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import UserProfileFollowers from "~/features/profile/ui/tabs/UserProfileFollowers.vue"
 import UserProfileLists from "~/features/profile/ui/tabs/UserProfileLists.vue"
 import UserProfileRatings from "~/features/profile/ui/tabs/UserProfileRatings.vue"
@@ -8,6 +8,7 @@ import { UiTabs } from "~/shared/ui/UiTabs"
 
 interface UserProfileContentProps {
   user: UserPublicType
+  followInformation: UserFollowInformationType
 }
 
 const props = defineProps<UserProfileContentProps>()
@@ -38,7 +39,10 @@ const props = defineProps<UserProfileContentProps>()
         <UserProfileRatings :user="props.user" />
       </template>
       <template #followers>
-        <UserProfileFollowers :user="props.user" />
+        <UserProfileFollowers
+          :user="props.user"
+          :follow-information="props.followInformation"
+        />
       </template>
     </UiTabs>
   </UiContainer>

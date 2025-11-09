@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserPublicType } from "@movie-tracker/types"
+import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import type { GetUserFollowersApiArgs } from "~/api/userFollow/userFollowApiTypes"
 import { computed, ref } from "vue"
 import { useGetUserFollowersApi } from "~/api/userFollow/useUserFollowApi"
@@ -8,6 +8,7 @@ import { UiPagination } from "~/shared/ui/UiPagination"
 
 interface UserProfileFollowersProps {
   user: UserPublicType
+  followInformation: UserFollowInformationType
 }
 
 const props = defineProps<UserProfileFollowersProps>()
@@ -22,10 +23,21 @@ const getUserFollowersApiArgs = computed<GetUserFollowersApiArgs>(() => {
 })
 
 const getUserFollowersApi = useGetUserFollowersApi(getUserFollowersApiArgs)
+
+const itemsCount = computed(() => {
+  return Math.min(
+    (getUserFollowersApi.data.value?.items.length || getUserFollowersApiArgs.value.limit!),
+    props.followInformation.followersCount,
+  )
+})
 </script>
 
 <template>
-  <UserFollowsTable :data="getUserFollowersApi.data.value?.items" />
+  <UserFollowsTable
+    :items-count="itemsCount"
+    :loading="getUserFollowersApi.isPending.value"
+    :data="getUserFollowersApi.data.value?.items"
+  />
   <UiPagination
     v-if="getUserFollowersApi.data.value?.totalCount"
     v-model="currentPage"

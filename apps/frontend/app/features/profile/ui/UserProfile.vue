@@ -70,7 +70,10 @@ const notFound = computed(() => {
       :follow-information="getUserFollowInformationApi.data.value"
       :stats="getUserStatsByIdApi.data.value"
     />
-    <UserProfileContent :user="getUserProfileByIdApi.data.value" />
+    <UserProfileContent
+      :user="getUserProfileByIdApi.data.value"
+      :follow-information="getUserFollowInformationApi.data.value"
+    />
   </template>
 </template>
 
