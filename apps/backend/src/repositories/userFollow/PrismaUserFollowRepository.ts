@@ -1,12 +1,9 @@
-import * as util from "node:util"
 import { UserFollow } from "@movie-tracker/database"
 import { UserFollowProfileType, UserFollowType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { UserFollowRepositoryInterface } from "@/repositories/userFollow/UserFollowRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
-// * Disable limit for console log object
-util.inspect.defaultOptions.depth = null
-util.inspect.defaultOptions.maxArrayLength = null
+
 interface FollowProfile {
   name: string
   id: string
