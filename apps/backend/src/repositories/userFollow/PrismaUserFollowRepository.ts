@@ -87,6 +87,9 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
         where: {
           followingId: args.userId,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
         take: args.limit,
         skip: args.offset,
         include: {
@@ -127,6 +130,9 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
     const [userFollowings, userFollowingsCount] = await Promise.all([this.prisma.userFollow.findMany({
       where: {
         followerId: args.userId,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
       include: {
         following: {
