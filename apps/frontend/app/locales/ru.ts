@@ -1347,11 +1347,22 @@ export default {
     tabs: {
       lists: "Публичные списки",
       ratings: "Оценки",
+      followers: "Подписчики",
+      followings: "Подписки",
     },
     stats: {
       mediaListCount: "Списков",
       mediaRatingsCount: "Оценок",
       mediaListLikeCount: "Лайков",
+    },
+  },
+  userFollow: {
+    noFollowers: "У пользователя нет подписчиков",
+    noFollowings: "У пользователя нет подписок",
+    table: {
+      user: "Пользователь",
+      following: "Отслеживает",
+      userFollowers: "Подписчики",
     },
   },
   seo: {
@@ -1402,6 +1413,12 @@ export default {
       successMediaRatingsAccessLevelChanged: "Отображение оценок в профиле успешно изменено",
       unsuccessfullyMediaRatingsAccessLevelChanged: "Произошла ошибка при изменении отображения оценок в профиле",
     },
+    follow: {
+      successFollowed: "Вы успешно подписались на пользователя",
+      unsuccessfullyFollowed: "Произошла ошибка при подписке на пользователя",
+      successUnfollowed: "Вы успешно отписались от пользователя",
+      unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
+    },
   },
   ui: {
     loading: "Загрузка",
@@ -1433,6 +1450,8 @@ export default {
     private: "Приватный",
     saveChanges: "Сохранить изменения",
     change: "Изменить",
+    follow: "Подписаться",
+    unfollow: "Отписаться",
     like: {
       single: "Лайк",
       multiple: "Лайков",
@@ -1442,6 +1461,11 @@ export default {
       single: "Оценка",
       multiple: "Оценок",
       many: "Оценки",
+    },
+    followers: {
+      single: "Подписчик",
+      multiple: "Подписчиков",
+      many: "Подписчика",
     },
     errors: {
       nothingFound: "Ничего не найдено",

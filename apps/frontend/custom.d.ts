@@ -1,14 +1,6 @@
 import type { UserRoleEnum } from "@movie-tracker/types"
-import type en from "./src/locales/en.ts"
-
-type Lang = typeof en
 
 /// <reference types="@histoire/plugin-vue/components" />
-
-declare module "vue-i18n" {
-  export interface DefineLocaleMessage extends Lang {
-  }
-}
 
 declare module "*.svg" {
   import type { DefineComponent } from "vue"

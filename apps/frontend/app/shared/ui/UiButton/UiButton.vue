@@ -3,7 +3,7 @@ import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"
-export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold"
+export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold" | "gray"
 
 interface UiButtonProps {
   variant?: UiButtonVariant
@@ -29,6 +29,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.secondary]: props.scheme === 'secondary',
       [$style.tertiary]: props.scheme === 'tertiary',
       [$style.gold]: props.scheme === 'gold',
+      [$style.gray]: props.scheme === 'gray',
       [$style.link]: props.scheme === 'link',
       [$style.boxed]: props.variant === 'boxed',
       [$style.text]: props.variant === 'text',
@@ -114,6 +115,17 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       }
     }
 
+    &.gray {
+      color: var(--c-white-75);
+      background: var(--c-white-10);
+
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-white-15);
+      }
+    }
+
     &.large {
       padding: 12px 24px;
       border-radius: var(--s-border-radius-medium);
@@ -164,7 +176,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     }
 
     &.medium {
-      padding: 6px 14px;
+      padding: 7px 12px;
       border-radius: var(--s-border-radius-medium);
     }
 
