@@ -1,4 +1,6 @@
 import type { UserFollowInformationType } from "@movie-tracker/types"
+import type { Ref } from "vue"
+import type { GetUserFollowersApiArgs } from "~/api/userFollow/userFollowApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
@@ -9,10 +11,10 @@ import {
 } from "~/api/userFollow/userFollowApi"
 import { UserFollowApiQueryKeys } from "~/api/userFollow/userFollowApiQueryKeys"
 
-export function useGetUserFollowersApi(id: string) {
+export function useGetUserFollowersApi(args: Ref<GetUserFollowersApiArgs>) {
   return useQuery({
-    queryKey: [UserFollowApiQueryKeys.FOLLOWERS, id],
-    queryFn: () => getUserFollowersApi(id),
+    queryKey: [UserFollowApiQueryKeys.FOLLOWERS, args.value.userId],
+    queryFn: () => getUserFollowersApi(args.value),
   })
 }
 
@@ -34,12 +36,16 @@ export function useCreateUserFollowApi() {
     mutationFn: (id: string) => createUserFollowApi(id),
     onSuccess: async (data) => {
       await queryClient.setQueryData([UserFollowApiQueryKeys.FOLLOW_INFORMATION, data.followingId], (oldData: UserFollowInformationType) => {
+        if (!oldData) {
+          return oldData
+        }
+
         return {
           isFollowing: true,
           followersCount: oldData.followersCount + 1,
         }
       })
-      await queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS, data.followerId] })
+      await queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS] })
     },
   })
 }
@@ -52,12 +58,16 @@ export function useDeleteUserFollowApi() {
     mutationFn: (id: string) => deleteUserFollowApi(id),
     onSuccess: async (data) => {
       await queryClient.setQueryData([UserFollowApiQueryKeys.FOLLOW_INFORMATION, data.followingId], (oldData: UserFollowInformationType) => {
+        if (!oldData) {
+          return oldData
+        }
+
         return {
           isFollowing: false,
           followersCount: oldData.followersCount - 1,
         }
       })
-      await queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS, data.followerId] })
+      await queryClient.invalidateQueries({ queryKey: [UserFollowApiQueryKeys.FOLLOWERS] })
     },
   })
 }

@@ -2,8 +2,7 @@
 import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed } from "vue"
-import { toast } from "vue3-toastify"
-import { useCreateUserFollowApi, useDeleteUserFollowApi } from "~/api/userFollow/useUserFollowApi"
+import { useUserFollow } from "~/entities/userFollow/model/useUserFollow"
 import { useAuth } from "~/shared/composables/useAuth"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -21,26 +20,7 @@ const props = defineProps<UserProfileAboutProps>()
 
 const { t } = useI18n()
 const { profile } = useAuth()
-
-const createUserFollowApi = useCreateUserFollowApi()
-const deleteUserFollowApi = useDeleteUserFollowApi()
-
-async function handleFollow() {
-  if (props.followInformation.isFollowing) {
-    await deleteUserFollowApi.mutateAsync(props.user.id).then(() => {
-      toast.success(t("toasts.follow.successUnfollowed"))
-    }).catch(() => {
-      toast.error(t("toasts.follow.unsuccessfullyUnfollowed"))
-    })
-    return
-  }
-
-  await createUserFollowApi.mutateAsync(props.user.id).then(() => {
-    toast.success(t("toasts.follow.successFollowed"))
-  }).catch(() => {
-    toast.error(t("toasts.follow.unsuccessfullyFollowed"))
-  })
-}
+const { handleFollow, isPending } = useUserFollow()
 
 const trackSince = computed(() => {
   const date = new Date(props.user.createdAt)
@@ -79,9 +59,12 @@ const trackSince = computed(() => {
         v-if="props.user.id !== profile?.id"
         :class="$style.followButton"
         size="medium"
-        :variant="props.followInformation.isFollowing ? 'outlined' : 'boxed'"
-        :disabled="createUserFollowApi.isPending.value || deleteUserFollowApi.isPending.value"
-        @click="handleFollow"
+        :scheme="props.followInformation.isFollowing ? 'gray' : 'primary'"
+        :disabled="isPending"
+        @click="handleFollow({
+          userId: props.user.id,
+          isFollowing: props.followInformation.isFollowing,
+        })"
       >
         {{ props.followInformation.isFollowing ? $t("ui.unfollow") : $t("ui.follow") }}
       </UiButton>

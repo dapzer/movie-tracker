@@ -34,7 +34,7 @@ const props = defineProps<UiTableCellProps>()
 }
 
 .maxWidth {
-  max-width: var(--width);
-  width: 100%;
+  //max-width: var(--width);
+  width: var(--width);
 }
 </style>

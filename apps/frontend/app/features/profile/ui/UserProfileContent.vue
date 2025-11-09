@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UserPublicType } from "@movie-tracker/types"
+import UserProfileFollowers from "~/features/profile/ui/tabs/UserProfileFollowers.vue"
 import UserProfileLists from "~/features/profile/ui/tabs/UserProfileLists.vue"
 import UserProfileRatings from "~/features/profile/ui/tabs/UserProfileRatings.vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -15,19 +16,29 @@ const props = defineProps<UserProfileContentProps>()
 <template>
   <UiContainer :class="$style.wrapper">
     <UiTabs
-      :tabs="[{
-        key: 'lists',
-        label: $t('userProfile.tabs.lists'),
-      }, {
-        key: 'ratings',
-        label: $t('userProfile.tabs.ratings'),
-      }] as const"
+      :tabs="[
+        {
+          key: 'lists',
+          label: $t('userProfile.tabs.lists'),
+        },
+        {
+          key: 'ratings',
+          label: $t('userProfile.tabs.ratings'),
+        },
+        {
+          key: 'followers',
+          label: $t('userProfile.tabs.followers'),
+        },
+      ] as const"
     >
       <template #lists>
         <UserProfileLists :user-id="props.user.id" />
       </template>
       <template #ratings>
         <UserProfileRatings :user="props.user" />
+      </template>
+      <template #followers>
+        <UserProfileFollowers :user="props.user" />
       </template>
     </UiTabs>
   </UiContainer>

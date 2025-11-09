@@ -1,15 +1,19 @@
+import * as util from "node:util"
 import { UserFollow } from "@movie-tracker/database"
 import { UserFollowProfileType, UserFollowType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { UserFollowRepositoryInterface } from "@/repositories/userFollow/UserFollowRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
-
+// * Disable limit for console log object
+util.inspect.defaultOptions.depth = null
+util.inspect.defaultOptions.maxArrayLength = null
 interface FollowProfile {
   name: string
   id: string
   image: string
+  userFollowing?: UserFollow[]
   _count: {
-    userFollowers: number
+    userFollowing?: number
   }
 }
 
@@ -26,7 +30,8 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
       id: profile.id,
       name: profile.name,
       image: profile.image,
-      followersCount: profile._count.userFollowers,
+      followersCount: profile._count.userFollowing,
+      isFollowing: profile.userFollowing.length > 0,
     }
   }
 
@@ -95,9 +100,10 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
               image: true,
               _count: {
                 select: {
-                  userFollowers: true,
+                  userFollowing: true,
                 },
               },
+              userFollowing: true,
             },
           },
         },
@@ -133,9 +139,10 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
             image: true,
             _count: {
               select: {
-                userFollowers: true,
+                userFollowing: true,
               },
             },
+            userFollowing: true,
           },
         },
       },

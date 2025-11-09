@@ -20,11 +20,12 @@ export class UserFollowController {
   }
 
   @Get(":id/followers")
-  async getUserFollowers(@Param() params: UuidDto, @Query() query: PaginationDto) {
+  async getUserFollowers(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
     return this.userFollowService.getUserFollowers({
       userId: params.id,
       limit: query.limit,
       offset: query.offset,
+      currentUserId: user?.id,
     })
   }
 

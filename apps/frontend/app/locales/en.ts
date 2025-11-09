@@ -1345,11 +1345,19 @@ export default {
     tabs: {
       lists: "Public lists",
       ratings: "Ratings",
+      followers: "Followers",
     },
     stats: {
       mediaListCount: "Lists",
       mediaRatingsCount: "Ratings",
       mediaListLikeCount: "Likes",
+    },
+  },
+  userFollow: {
+    table: {
+      user: "User",
+      following: "Following",
+      userFollowers: "User followers",
     },
   },
   seo: {

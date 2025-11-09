@@ -21,6 +21,7 @@ export interface UserFollowingPaginatedType {
 
 export type UserFollowProfileType = Pick<UserType, "id" | "name" | "image"> & {
   followersCount: number
+  isFollowing: boolean
 }
 
 export interface UserFollowInformationType {

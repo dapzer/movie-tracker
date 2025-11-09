@@ -1347,11 +1347,19 @@ export default {
     tabs: {
       lists: "Публичные списки",
       ratings: "Оценки",
+      followers: "Подписчики",
     },
     stats: {
       mediaListCount: "Списков",
       mediaRatingsCount: "Оценок",
       mediaListLikeCount: "Лайков",
+    },
+  },
+  userFollow: {
+    table: {
+      user: "Пользователь",
+      following: "Отслеживает",
+      userFollowers: "Подписчики",
     },
   },
   seo: {
