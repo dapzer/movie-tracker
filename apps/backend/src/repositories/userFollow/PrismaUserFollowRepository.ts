@@ -28,7 +28,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
       name: profile.name,
       image: profile.image,
       followersCount: profile._count.userFollowing,
-      isFollowing: profile.userFollowing.length > 0,
+      isFollowing: profile.userFollowing?.length > 0,
     }
   }
 
@@ -103,7 +103,13 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
                   userFollowing: true,
                 },
               },
-              userFollowing: true,
+              userFollowing: args.currentUserId
+                ? {
+                    where: {
+                      followerId: args.currentUserId,
+                    },
+                  }
+                : false,
             },
           },
         },
@@ -145,7 +151,13 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
                 userFollowing: true,
               },
             },
-            userFollowing: true,
+            userFollowing: args.currentUserId
+              ? {
+                  where: {
+                    followerId: args.currentUserId,
+                  },
+                }
+              : false,
           },
         },
       },
