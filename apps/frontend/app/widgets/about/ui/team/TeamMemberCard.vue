@@ -51,6 +51,7 @@ const posters = computed(() => {
         :user-name="props.name"
         :user-id="props.userId"
         :user-avatar-src="props.avatar"
+        :user-page-url="localePath(`/profile/${props.userId}`)"
       />
     </template>
 
