@@ -128,6 +128,7 @@ const itemsToRender = computed(() => {
 
       <UiAttention
         v-if="isResultsEmpty"
+        :class="$style.noFoundText"
         title-variant="text"
         :indent="0"
         :title="$t('search.notingFound')"
@@ -178,5 +179,9 @@ const itemsToRender = computed(() => {
     background: var(--c-card-background-hovered);
     cursor: pointer;
   }
+}
+
+.noFoundText {
+  padding: 12px;
 }
 </style>

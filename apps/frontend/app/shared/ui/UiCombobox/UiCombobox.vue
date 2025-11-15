@@ -116,6 +116,10 @@ watch(() => open.value, (value) => {
 
   .input {
     @include input;
+
+    &.small {
+      padding-right: 34px;
+    }
   }
 }
 
