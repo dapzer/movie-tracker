@@ -37,7 +37,7 @@ const { handleCloseModal, bodyRef } = useModalContent(() => emits("handleClose")
   top: var(--indent-top);
   left: 0;
   width: 100%;
-  height: calc(100vh - var(--indent-top));
+  height: calc(100svh - var(--indent-top));
   z-index: var(--i-modal-fullcreen);
   background: var(--c-main-background);
 
