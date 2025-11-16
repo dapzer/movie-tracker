@@ -1,14 +1,18 @@
 export const movieTrackerLinks = [
   {
     title: "navigation.about",
-    href: "",
+    href: "/about",
   },
   {
-    title: "navigation.faq",
-    href: "",
+    title: "ui.termsOfUse",
+    href: "/legal/terms-of-use",
   },
   {
-    title: "navigation.features",
-    href: "",
+    title: "ui.privacyPolicy",
+    href: "/legal/privacy-policy",
+  },
+  {
+    title: "ui.communityPolicy",
+    href: "/legal/community-policy",
   },
 ]
