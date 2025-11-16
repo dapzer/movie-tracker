@@ -22,21 +22,11 @@ import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFoot
           </UiTypography>
         </div>
         <div :class="$style.navigationItem">
-          <!-- TODO: show after implement pages -->
-          <UiTypography
-            v-if="false"
-            variant="label"
-            :class="$style.title"
-          >
+          <UiTypography variant="label">
             Movie Tracker
           </UiTypography>
 
-          <div
-            v-if="false"
-            :class="$style.links"
-          >
-            <DefaultFooterLinkList :links="movieTrackerLinks" />
-          </div>
+          <DefaultFooterLinkList :links="movieTrackerLinks" />
         </div>
         <div :class="$style.navigationItem">
           <PublicResources />
@@ -70,12 +60,12 @@ import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFoot
 
     .navigation {
       display: flex;
-      gap: 32px 72px;
+      gap: 32px 56px;
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
 
-      @include mobileDevice() {
+      @include tabletDevice() {
         flex-direction: column;
       }
 
@@ -88,11 +78,9 @@ import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFoot
           gap: 16px;
         }
 
-        .title {
-        }
-
         .description {
           white-space: pre-wrap;
+          max-width: 480px;
         }
       }
     }

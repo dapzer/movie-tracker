@@ -11,6 +11,7 @@ const generate = computed(() => props.id && ((typeof headings?.anchorLinks === "
 <template>
   <UiTypography
     :id="props.id"
+    :class="$style.body"
     as="h1"
     variant="title"
   >
@@ -23,3 +24,9 @@ const generate = computed(() => props.id && ((typeof headings?.anchorLinks === "
     <slot v-else />
   </UiTypography>
 </template>
+
+<style module lang="scss">
+.body:not(:last-child) {
+  margin-bottom: 16px;
+}
+</style>

@@ -43,6 +43,11 @@ const localePath = useLocalePath()
     color: var(--c-white-60);
     line-height: var(--lh-input);
     font-weight: var(--fw-regular);
+    max-width: 188px;
+
+    @include tabletDevice() {
+      max-width: unset;
+    }
   }
 
   @include mobileDevice() {
