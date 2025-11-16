@@ -4,8 +4,6 @@ interface UiMarkdownProps {
 }
 
 const props = defineProps<UiMarkdownProps>()
-
-console.log(props.value)
 </script>
 
 <template>
