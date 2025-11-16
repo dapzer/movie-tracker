@@ -1418,6 +1418,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
 - This policy is a living document: it is constantly updated to reflect new trends and evidence. Our moderating team of humans strives to understand evolving behavior, terms, stereotypes, context and forms of expression (including language related to empowerment and counter-speech in marginalized communities).
 - Basically, be excellent to each other.`,
   },
+  brand: {
+    pageTitle: "Бренд",
+    title: "Бренд Movie Tracker",
+    description: `Если вам необходимо использовать наш логотип (например, для ссылки на нас или в редакционном контенте), загрузите соответствующий файл ниже и используйте его с уважением. Вы не имеете права использовать элементы нашего бренда в коммерческих целях или таким образом, который может создать впечатление, что вы официально представляете Movie Tracker или связаны с ним в каком-либо качестве, помимо использования нашей платформы.`,
+    logo: "Логотип",
+  },
   seo: {
     title: "Movie Tracker - ваш незаменимый помощник в мире кино и сериалов",
     description: "Здесь вы можете легко находить фильмы, сериалы и актеров, а также создавать свои списки, которыми можно делиться с друзьями по ссылке.",

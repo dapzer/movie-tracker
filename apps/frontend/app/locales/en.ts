@@ -1416,6 +1416,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
 - This policy is a living document: it is constantly updated to reflect new trends and evidence. Our moderating team of humans strives to understand evolving behavior, terms, stereotypes, context and forms of expression (including language related to empowerment and counter-speech in marginalized communities).
 - Basically, be excellent to each other.`,
   },
+  brand: {
+    pageTitle: "Brand",
+    title: "Movie Tracker brand",
+    description: `If you need to use our logo (for example, to link to us or in editorial content), grab the appropriate file below, and please use it respectfully. You may not use our brand elements in any commercial endeavors, or in a way that suggests that you officially represent or are affiliated with Movie Tracker in any capacity beyond using our platform.`,
+    logo: "Logo",
+  },
   seo: {
     title: "Movie Tracker - your indispensable assistant in the world of movies and TV series",
     description: "Here you can easily find films, TV series and actors, and also create your own lists that you can share with friends using the link.",
