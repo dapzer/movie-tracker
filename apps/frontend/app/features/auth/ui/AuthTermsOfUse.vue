@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 const { locale } = useI18n()
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -17,6 +19,7 @@ const { locale } = useI18n()
     <UiTypography
       schema="link"
       :as="NuxtLink"
+      :to="localePath('/legal/terms-of-use')"
     >
       {{ $t("ui.termsOfUse") }}
     </UiTypography>
@@ -24,8 +27,9 @@ const { locale } = useI18n()
     <UiTypography
       schema="link"
       :as="NuxtLink"
+      :to="localePath('/legal/privacy-policy')"
     >
-      {{ $t("ui.privacyPolicy") }}
+      {{ $t("auth.privacyPolicy") }}
     </UiTypography>
     <template v-if="locale === LanguagesEnum.RU">
       Movie Tracker

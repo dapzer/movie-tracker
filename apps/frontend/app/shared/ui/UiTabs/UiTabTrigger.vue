@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { NuxtLink } from "#components"
 import { UiButton } from "~/shared/ui/UiButton"
 
 interface UiTabTriggerProps {
   active?: boolean
+  href?: string
 }
 
 const props = defineProps<UiTabTriggerProps>()
@@ -10,8 +12,10 @@ const props = defineProps<UiTabTriggerProps>()
 
 <template>
   <UiButton
+    :as="props.href ? NuxtLink : 'button'"
     variant="default"
     scheme="default"
+    :to="props.href ? props.href : undefined"
     :class="[$style.body, {
       [$style.active]: props.active,
     }]"
@@ -36,6 +40,7 @@ const props = defineProps<UiTabTriggerProps>()
   white-space: nowrap;
   padding: 8px 24px;
   border-bottom: 1px solid transparent;
+  display: inline-block;
 
   @include tabletDevice {
     padding: 8px 18px;

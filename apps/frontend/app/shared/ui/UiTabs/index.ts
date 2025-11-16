@@ -1,2 +1,5 @@
+export * from "./model/types"
 export { default as UiTabs } from "./UiTabs.vue"
 export { default as UiTabsPane } from "./UiTabsPane.vue"
+export { default as UiTabsPaneWrapper } from "./UiTabsPaneWrapper.vue"
+export { default as UiTabsWrapper } from "./UiTabsWrapper.vue"

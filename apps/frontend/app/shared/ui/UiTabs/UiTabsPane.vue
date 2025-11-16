@@ -1,6 +1,9 @@
-<script setup lang="ts" generic="T extends readonly { key: string; label: string }[]">
+<script setup lang="ts" generic="T extends readonly UiTab[]">
 import type { VNode } from "vue"
+import type { UiTab } from "~/shared/ui/UiTabs/model/types"
 import { UiSlider } from "~/shared/ui/UiSlider"
+import UiTabsPaneWrapper from "~/shared/ui/UiTabs/UiTabsPaneWrapper.vue"
+import UiTabsWrapper from "~/shared/ui/UiTabs/UiTabsWrapper.vue"
 import UiTabTrigger from "~/shared/ui/UiTabs/UiTabTrigger.vue"
 
 const props = defineProps<{
@@ -22,10 +25,10 @@ if (!activeTab.value) {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.navigationWrapper">
+  <UiTabsWrapper>
+    <UiTabsPaneWrapper>
       <UiSlider
-        :data="props.tabs as unknown as Array<{ key: string; label: string }>"
+        :data="props.tabs as unknown as Array<UiTab>"
         max-width="max-content"
         :spaceing="4"
         hide-buttons
@@ -34,6 +37,7 @@ if (!activeTab.value) {
           <UiTabTrigger
             :key="item.key"
             :active="activeTab === item.key"
+            :href="item.href"
             @click="activeTab = item.key"
           >
             {{ item.label }}
@@ -41,24 +45,8 @@ if (!activeTab.value) {
         </template>
       </UiSlider>
       <slot name="afterTabs" />
-    </div>
+    </UiTabsPaneWrapper>
 
     <slot name="content" />
-  </div>
+  </UiTabsWrapper>
 </template>
-
-<style module lang="scss">
-.wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  .navigationWrapper {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    justify-content: space-between;
-  }
-}
-</style>

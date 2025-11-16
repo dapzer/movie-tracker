@@ -1,5 +1,6 @@
-<script setup lang="ts" generic="T extends readonly { key: string; label: string }[]">
+<script setup lang="ts" generic="T extends readonly UiTab[]">
 import type { VNode } from "vue"
+import type { UiTab } from "~/shared/ui/UiTabs/model/types"
 import UiTabsPane from "~/shared/ui/UiTabs/UiTabsPane.vue"
 
 const props = defineProps<{
@@ -35,6 +36,3 @@ if (!activeTab.value) {
     </template>
   </UiTabsPane>
 </template>
-
-<style module lang="scss">
-</style>

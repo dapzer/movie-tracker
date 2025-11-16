@@ -5,7 +5,3 @@ import { UiDivider } from "~/shared/ui/UiDivider"
 <template>
   <UiDivider />
 </template>
-
-<style scoped lang="scss">
-
-</style>

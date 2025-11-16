@@ -5,14 +5,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 <template>
   <UiTypography
     variant="text"
-    :class="$style.body"
+    as="li"
   >
     <slot />
   </UiTypography>
 </template>
-
-<style module lang="scss">
-.body:not(:last-child) {
-  margin-bottom: 1em;
-}
-</style>
