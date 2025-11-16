@@ -1253,7 +1253,7 @@ export default {
   footer: {
     copyright: "Copyright © 2025 Movie Tracker. All rights reserved.",
     dataSource: "Data source for all movies",
-    description: `Stay up to date with all your favorite movies and TV shows, create personalized \nwatchlists and discover new experiences.`,
+    description: `Stay up to date with all your favorite movies and TV shows, create personalized watchlists and discover new experiences.`,
   },
   search: {
     title: "Search results",
