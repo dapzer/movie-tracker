@@ -34,6 +34,7 @@ export async function getTmdbSearchApi(queries: TmdbSearchQueriesType) {
       query: queries.searchValue,
       page: queries.page,
       language: queries.language,
+      include_adult: true,
     },
   })
 }
@@ -47,6 +48,7 @@ export async function getTmdbSearchMovieApi(queries: TmdbSearchQueriesType) {
       query: queries.searchValue,
       page: queries.page,
       language: queries.language,
+      include_adult: true,
     },
   })
 }
@@ -60,6 +62,7 @@ export async function getTmdbSearchTvApi(queries: TmdbSearchQueriesType) {
       query: queries.searchValue,
       page: queries.page,
       language: queries.language,
+      include_adult: true,
     },
   })
 }
@@ -73,6 +76,7 @@ export async function getTmdbSearchPersonApi(queries: TmdbSearchQueriesType) {
       query: queries.searchValue,
       page: queries.page,
       language: queries.language,
+      include_adult: true,
     },
   })
 }
