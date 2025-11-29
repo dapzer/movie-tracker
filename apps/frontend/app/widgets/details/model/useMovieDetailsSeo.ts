@@ -1,6 +1,7 @@
-import type { TmdbCreditsType, TmdbMediaDetailsType, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import type { TmdbCreditsType, TmdbMediaDetailsType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { defineMovie, useI18n, useSchemaOrg, useSeoMeta } from "#imports"
+import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { generateApiUrl, getMovieDirectors } from "@movie-tracker/utils"
 import { computed } from "vue"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
@@ -53,8 +54,7 @@ export function useMovieDetailsSeo(args: Args) {
     twitterTitle: getTitle?.(title.value, "%s") ?? `%s | ${title.value}`,
     twitterDescription: getDescription?.(media?.overview) ?? media?.overview ?? t("seo.description"),
   })
-
-  if (!withoutSchema) {
+  if (!withoutSchema && args.mediaType === TmdbMediaTypeEnum.MOVIE) {
     useSchemaOrg([
       defineMovie({
         name: title.value || "",

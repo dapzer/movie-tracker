@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   sitemap: {
     exclude: ["/dashboard"],
     cacheMaxAgeSeconds: 24 * 60 * 60,
-    defaultSitemapsChunkSize: 2000,
+    defaultSitemapsChunkSize: 50000,
     sitemaps: {
       index: [
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/sitemap-index.xml.gz` },
@@ -46,6 +46,11 @@ export default defineNuxtConfig({
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml.gz` },
       ],
     },
+  },
+
+  schemaOrg: {
+    defaults: false,
+    // ident
   },
 
   i18n: {

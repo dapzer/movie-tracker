@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import { NuxtLink } from "#components"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -10,10 +11,12 @@ interface UiSectionWithSeeMoreProps {
   seeMoreUrl?: string
   seeMoreMobileOnly?: boolean
   seeMoreAlign?: "start" | "end"
+  titleAs?: ComponentOrTag
 }
 
 const props = withDefaults(defineProps<UiSectionWithSeeMoreProps>(), {
   seeMoreAlign: "start",
+  titleAs: "h2",
 })
 const emits = defineEmits<{
   (e: "onClickSeeMore"): void
@@ -28,7 +31,7 @@ const emits = defineEmits<{
       }]"
     >
       <UiTypography
-        as="h3"
+        :as="props.titleAs"
         variant="title3"
       >
         {{ props.title }}

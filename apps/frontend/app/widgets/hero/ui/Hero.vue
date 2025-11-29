@@ -21,7 +21,7 @@ const { isAuthorized } = useAuth()
     />
     <UiContainer :class="$style.body">
       <UiTypography
-        as="h1"
+        as="p"
         variant="title"
         :class="$style.title"
       >

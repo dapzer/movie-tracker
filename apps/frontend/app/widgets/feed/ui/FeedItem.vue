@@ -18,6 +18,7 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i)
 
 <template>
   <UiSectionWithSeeMore
+    title-as="h2"
     :title="props.title"
     :class="$style.wrapper"
     see-more-align="end"
