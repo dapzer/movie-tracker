@@ -35,6 +35,7 @@ onServerPrefetch(async () => {
       <MediaListCardSkeleton
         v-for="i in props.listsCount"
         :key="i"
+        hide-user
       />
     </template>
   </UiListsGrid>

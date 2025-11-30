@@ -5,6 +5,7 @@ import { UiUserProfileLinkSkeleton } from "~/shared/ui/UiUserProfileLink"
 
 interface MediaListCardSkeletonProps {
   horizontal?: boolean
+  hideUser?: boolean
 }
 
 const props = defineProps<MediaListCardSkeletonProps>()
@@ -15,7 +16,10 @@ const props = defineProps<MediaListCardSkeletonProps>()
     :horizontal="props.horizontal"
     :width="560"
   >
-    <template #header>
+    <template
+      v-if="!props.hideUser"
+      #header
+    >
       <UiUserProfileLinkSkeleton :class="$style.user" />
     </template>
     <template #content>
