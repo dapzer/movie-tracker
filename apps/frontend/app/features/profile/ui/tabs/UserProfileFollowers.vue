@@ -24,6 +24,7 @@ const getUserFollowersApiArgs = computed<GetUserFollowersApiArgs>(() => {
 })
 
 const getUserFollowersApi = useGetUserFollowersApi(getUserFollowersApiArgs)
+await getUserFollowersApi.suspense()
 
 const itemsCount = computed(() => {
   return Math.min(
@@ -46,7 +47,7 @@ const itemsCount = computed(() => {
       :class="$style.pagination"
       :total-items="getUserFollowersApi.data.value?.totalCount"
       :pages-on-sides="1"
-      :items-per-page="20"
+      :items-per-page="10"
     />
   </template>
   <UiAttention

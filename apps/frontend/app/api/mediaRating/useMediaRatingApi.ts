@@ -1,4 +1,5 @@
 import type { MediaItemType, MediaRatingType } from "@movie-tracker/types"
+import type { UseQueryOptions } from "@tanstack/vue-query"
 import type {
   CreateMediaRatingBody,
   DeleteMediaRatingArgs,
@@ -34,20 +35,16 @@ export function useGetMediaRatingByMediaIdApi(args: GetMediaRatingByMediaIdArgs)
     retryOnMount: false,
   })
 }
-export function useGetMediaRatingByUserIdApi(args: GetMediaRatingByUserIdArgs) {
+export function useGetMediaRatingByUserIdApi(args: GetMediaRatingByUserIdArgs, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [MediaRatingApiQueryKeys.GET_ALL_BY_USER_ID, args.userId],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
-
-      if (!headers.cookie?.includes("session") && import.meta.server) {
-        throw new Error("No session cookie found")
-      }
-
       return getMediaRatingByUserId(args, { headers })
     },
     retry: false,
     retryOnMount: false,
+    ...options,
   })
 }
 

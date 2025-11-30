@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import type { UserPublicType } from "@movie-tracker/types"
 import type { FetchError } from "@movie-tracker/utils"
+import { onServerPrefetch } from "#imports"
 import { HttpStatus } from "@movie-tracker/utils"
 import { computed, ref } from "vue"
 import { useGetMediaRatingByUserIdApi } from "~/api/mediaRating/useMediaRatingApi"
 import MediaRatingCard from "~/entities/mediaRating/ui/MediaRatingCard.vue"
 import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiPagination } from "~/shared/ui/UiPagination"
 
 interface UserProfileRatingsProps {
   user: UserPublicType
+  ratingsCount?: number
 }
 
 const props = defineProps<UserProfileRatingsProps>()
@@ -22,7 +25,9 @@ const getMediaRatingByUserIdArgs = computed(() => {
 })
 
 const getMediaRatingByUserIdApi = useGetMediaRatingByUserIdApi(getMediaRatingByUserIdArgs.value)
-await getMediaRatingByUserIdApi.suspense()
+onServerPrefetch(async () => {
+  await getMediaRatingByUserIdApi.suspense()
+})
 
 const currentPage = ref(1)
 
@@ -43,6 +48,10 @@ const mediaItemsToRender = computed(() => {
 const isPrivate = computed(() => {
   return (getMediaRatingByUserIdApi.error.value as FetchError)?.statusCode === HttpStatus.FORBIDDEN
 })
+
+const loadingSleletonCount = computed(() => {
+  return props.ratingsCount ? Math.min(props.ratingsCount, 20) : 0
+})
 </script>
 
 <template>
@@ -51,19 +60,30 @@ const isPrivate = computed(() => {
     :title="$t('userProfile.privateRatings')"
   />
   <UiAttention
-    v-else-if="!mediaItems.length"
+    v-else-if="(!mediaItems.length && !getMediaRatingByUserIdApi.isLoading.value) || !props.ratingsCount"
     :title="$t('userProfile.noRatings')"
   />
   <template v-else>
     <UiCardsGrid>
-      <MediaRatingCard
-        v-for="movie in mediaItemsToRender"
-        :key="movie.id"
-        :media-rating="movie"
-        :user="props.user"
-        full-height
-        hide-tracking-menu
-      />
+      <template v-if="!getMediaRatingByUserIdApi.isLoading.value">
+        <MediaRatingCard
+          v-for="movie in mediaItemsToRender"
+          :key="movie.id"
+          :media-rating="movie"
+          :user="props.user"
+          full-height
+          hide-tracking-menu
+        />
+      </template>
+      <template v-else>
+        <UiMediaCardSkeleton
+          v-for="i in loadingSleletonCount"
+          :key="i"
+          loading-skeleton
+          full-height
+          hide-tracking-menu
+        />
+      </template>
     </UiCardsGrid>
     <UiPagination
       v-if="mediaItems.length"

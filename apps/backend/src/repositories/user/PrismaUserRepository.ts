@@ -1,4 +1,4 @@
-import { User } from "@movie-tracker/database"
+import { MediaListAccessLevelEnum, User } from "@movie-tracker/database"
 import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
@@ -36,7 +36,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
   async getUserStatsById(id: string) {
     const [mediaListCount, mediaRatingsCount, mediaListLikeCount] = await Promise.all([
-      this.prisma.mediaList.count({ where: { userId: id } }),
+      this.prisma.mediaList.count({ where: { userId: id, accessLevel: MediaListAccessLevelEnum.PUBLIC } }),
       this.prisma.mediaRating.count({ where: { userId: id } }),
       this.prisma.mediaListLike.count({ where: { userId: id } }),
     ])

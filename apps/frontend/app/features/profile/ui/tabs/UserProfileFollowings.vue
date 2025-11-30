@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { UserPublicType } from "@movie-tracker/types"
 import type { GetUserFollowingsApiArgs } from "~/api/userFollow/userFollowApiTypes"
+import { onServerPrefetch } from "#imports"
 import { computed, ref } from "vue"
 import { useGetUserFollowingsApi } from "~/api/userFollow/useUserFollowApi"
 import { UserFollowsTable } from "~/entities/userFollow"
@@ -23,6 +24,9 @@ const getUserFollowingsApiArgs = computed<GetUserFollowingsApiArgs>(() => {
 })
 
 const getUserFollowingsApi = useGetUserFollowingsApi(getUserFollowingsApiArgs)
+onServerPrefetch(async () => {
+  await getUserFollowingsApi.suspense()
+})
 </script>
 
 <template>
@@ -42,7 +46,7 @@ const getUserFollowingsApi = useGetUserFollowingsApi(getUserFollowingsApiArgs)
       :class="$style.pagination"
       :total-items="getUserFollowingsApi.data.value?.totalCount"
       :pages-on-sides="1"
-      :items-per-page="20"
+      :items-per-page="10"
     />
   </template>
 </template>

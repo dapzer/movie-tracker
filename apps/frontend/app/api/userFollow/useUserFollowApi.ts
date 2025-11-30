@@ -15,14 +15,20 @@ import { UserFollowApiQueryKeys } from "~/api/userFollow/userFollowApiQueryKeys"
 export function useGetUserFollowersApi(args: Ref<GetUserFollowersApiArgs>) {
   return useQuery({
     queryKey: [UserFollowApiQueryKeys.FOLLOWERS, args.value.userId],
-    queryFn: () => getUserFollowersApi(args.value),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      return getUserFollowersApi(args.value, { headers })
+    },
   })
 }
 
 export function useGetUserFollowingsApi(args: Ref<GetUserFollowingsApiArgs>) {
   return useQuery({
     queryKey: [UserFollowApiQueryKeys.FOLLOWINGS, args.value.userId],
-    queryFn: () => getUserFollowingsApi(args.value),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      return getUserFollowingsApi(args.value, { headers })
+    },
   })
 }
 
