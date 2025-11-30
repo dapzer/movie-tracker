@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import type { GetUserFollowersApiArgs } from "~/api/userFollow/userFollowApiTypes"
+import { onServerPrefetch } from "#imports"
 import { computed, ref } from "vue"
 import { useGetUserFollowersApi } from "~/api/userFollow/useUserFollowApi"
 import { UserFollowsTable } from "~/entities/userFollow"
@@ -24,7 +25,9 @@ const getUserFollowersApiArgs = computed<GetUserFollowersApiArgs>(() => {
 })
 
 const getUserFollowersApi = useGetUserFollowersApi(getUserFollowersApiArgs)
-await getUserFollowersApi.suspense()
+onServerPrefetch(async () => {
+  await getUserFollowersApi.suspense()
+})
 
 const itemsCount = computed(() => {
   return Math.min(
