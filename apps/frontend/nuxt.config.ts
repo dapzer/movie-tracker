@@ -104,7 +104,7 @@ export default defineNuxtConfig({
     },
   },
 
-  vitalizer: {},
+  vitalizer: { disablePrefetchLinks: true, disablePreloadLinks: true, disableStylesheets: "entry" },
 
   components: {
     dirs: [{
