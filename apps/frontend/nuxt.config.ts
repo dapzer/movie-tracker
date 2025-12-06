@@ -135,6 +135,8 @@ export default defineNuxtConfig({
       },
     },
     css: {
+      devSourcemap: process.env.NODE_ENV !== "production",
+      preprocessorMaxWorkers: true,
       modules: {
         generateScopedName: (name, filename, css) => {
           const hash = crypto.createHash("md5").update(css).digest("hex").substring(0, 5)
