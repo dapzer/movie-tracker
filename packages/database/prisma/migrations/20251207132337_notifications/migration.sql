@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "NotificationTypeEnum" AS ENUM ('MEDIA_LIST_LIKE', 'FOLLOW');
+CREATE TYPE "NotificationTypeEnum" AS ENUM ('MEDIA_LIST_LIKE', 'USER_FOLLOW');
 
 -- CreateTable
 CREATE TABLE "notifications" (

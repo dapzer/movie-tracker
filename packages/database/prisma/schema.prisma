@@ -232,5 +232,5 @@ enum UserMediaRatingsAccessLevelEnum {
 
 enum NotificationTypeEnum {
   MEDIA_LIST_LIKE
-  FOLLOW
+  USER_FOLLOW
 }
