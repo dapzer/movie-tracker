@@ -188,7 +188,7 @@ model Notification {
   user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   type      NotificationTypeEnum
   meta      Json
-  readAt    DateTime?            @map("readed_at")
+  readAt    DateTime?            @map("read_at")
   createdAt DateTime             @default(now()) @map("created_at")
 
   @@map("notifications")
