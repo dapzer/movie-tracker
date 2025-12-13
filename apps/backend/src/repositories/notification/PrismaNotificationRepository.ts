@@ -113,4 +113,21 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
       totalCount: notificationsCount,
     }
   }
+
+  async markNotificationsAsRead(args: Parameters<NotificationRepositoryInterface["markNotificationsAsRead"]>[0]) {
+    const notifications = await this.prisma.notification.updateManyAndReturn({
+      where: {
+        userId: args.userId,
+        readAt: null,
+        id: {
+          in: args.ids,
+        },
+      },
+      data: {
+        readAt: new Date(),
+      },
+    })
+
+    return notifications.map(this.convertToInterface)
+  }
 }

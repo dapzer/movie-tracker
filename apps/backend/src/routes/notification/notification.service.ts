@@ -40,4 +40,8 @@ export class NotificationService {
   async getByUserId(args: { userId: string } & PaginationDto): Promise<NotificationResponseType> {
     return this.notificationRepository.getNotificationsByUserId(args)
   }
+
+  async markAsRead(args: { userId: string, ids: Array<string> }): Promise<Array<NotificationType>> {
+    return this.notificationRepository.markNotificationsAsRead(args)
+  }
 }
