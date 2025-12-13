@@ -55,6 +55,10 @@ export class NotificationService {
     return this.notificationRepository.markNotificationsAsRead(args)
   }
 
+  async markAllAsRead(args: { userId: string }): Promise<Array<NotificationType>> {
+    return this.notificationRepository.markAllNotificationsAsRead(args)
+  }
+
   async getCount(args: { userId: string }): Promise<NotificationCountType> {
     return this.notificationRepository.getNotificationCount(args)
   }

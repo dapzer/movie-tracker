@@ -23,6 +23,12 @@ export class NotificationController {
     return this.notificationService.markAsRead({ userId: user.id, ids: body.ids })
   }
 
+  @Post("mark-as-read/all")
+  @UseGuards(AuthGuard)
+  async markAllNotificationsAsRead(@User() user: UserDto) {
+    return this.notificationService.markAllAsRead({ userId: user.id })
+  }
+
   @Get("count")
   @UseGuards(AuthGuard)
   async getUnreadNotificationCount(@User() user: UserDto) {
