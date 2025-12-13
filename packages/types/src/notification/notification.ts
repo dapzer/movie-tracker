@@ -15,6 +15,10 @@ export interface NotificationResponseType {
   totalCount: number
 }
 
+export interface NotificationCountType {
+  unread: number
+}
+
 export enum NotificationTypeEnum {
   MEDIA_LIST_LIKE = "MEDIA_LIST_LIKE",
   USER_FOLLOW = "USER_FOLLOW",

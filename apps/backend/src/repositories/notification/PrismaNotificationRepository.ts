@@ -130,4 +130,17 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
 
     return notifications.map(this.convertToInterface)
   }
+
+  async getNotificationCount(args: Parameters<NotificationRepositoryInterface["getNotificationCount"]>[0]) {
+    const unreadCount = await this.prisma.notification.count({
+      where: {
+        userId: args.userId,
+        readAt: null,
+      },
+    })
+
+    return {
+      unread: unreadCount,
+    }
+  }
 }
