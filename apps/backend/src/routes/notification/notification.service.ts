@@ -1,6 +1,7 @@
 import {
   CreateNotificationArgsType,
   NotificationCountType,
+  NotificationMetaType,
   NotificationResponseType,
   NotificationType,
   NotificationTypeEnum,
@@ -23,18 +24,26 @@ export class NotificationService {
   ) {
   }
 
-  async create(args: CreateNotificationArgsType): Promise<NotificationType> {
-    if (args.type === NotificationTypeEnum.USER_FOLLOW || args.type === NotificationTypeEnum.MEDIA_LIST_LIKE) {
-      const existingNotificationKey = `notification:${args.userId}:${args.type}:${args.meta.actorUserId}`
-      const existingNotification = await this.cacheManager.get(existingNotificationKey)
+  async create<T extends NotificationTypeEnum>(args: CreateNotificationArgsType<T>): Promise<NotificationType> {
+    let existingNotification = null
+    let existingNotificationKey = null
 
-      if (existingNotification) {
-        return null
-      }
-
-      await this.cacheManager.set(existingNotificationKey, true, getMillisecondsFromDays(1))
+    if (args.type === NotificationTypeEnum.USER_FOLLOW) {
+      const meta = args.meta as unknown as Extract<NotificationMetaType, { type: NotificationTypeEnum.USER_FOLLOW }>
+      existingNotificationKey = `notification:${args.userId}:${args.type}:${meta.actorUserId}`
+      existingNotification = await this.cacheManager.get(existingNotificationKey)
+    }
+    else if (args.type === NotificationTypeEnum.MEDIA_LIST_LIKE) {
+      const meta = args.meta as unknown as Extract<NotificationMetaType, { type: NotificationTypeEnum.MEDIA_LIST_LIKE }>
+      existingNotificationKey = `notification:${args.userId}:${args.type}:${args.meta.actorUserId}:${meta.mediaListId}`
+      existingNotification = await this.cacheManager.get(existingNotificationKey)
     }
 
+    if (existingNotification) {
+      return null
+    }
+
+    await this.cacheManager.set(existingNotificationKey, true, getMillisecondsFromDays(1))
     return this.notificationRepository.createNotification(args)
   }
 
