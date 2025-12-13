@@ -1,17 +1,18 @@
-import { MediaListLikeType, MediaListType } from "../media"
+import { MediaListType } from "../media"
 import { UserPublicType } from "../user"
 
 export interface NotificationType {
   id: string
   userId: string
   type: NotificationTypeEnum
-  meta: NotificationMetaType
+  meta: NotificationMetaType | NotificationMetaResponseType
   readAt: Date | undefined
   createdAt: Date
 }
 
-export type NotificationResponseType = Omit<NotificationType, "meta"> & {
-  meta: NotificationMetaResponseType
+export interface NotificationResponseType {
+  items: NotificationType[]
+  totalCount: number
 }
 
 export enum NotificationTypeEnum {
@@ -31,16 +32,19 @@ export type NotificationMetaType
     mediaListLikeId: string
   }
 
+export type NotificationMediaListType = Pick<MediaListType, "id" | "title">
+
+export type NotificationUserType = Pick<UserPublicType, "id" | "image" | "name">
+
 export type NotificationMetaResponseType
   = | {
     type: NotificationTypeEnum.USER_FOLLOW
-    actorUser: UserPublicType
+    actorUser: NotificationUserType
   }
   | {
     type: NotificationTypeEnum.MEDIA_LIST_LIKE
-    actorUser: UserPublicType
-    mediaList: MediaListType
-    mediaListLike: MediaListLikeType | undefined
+    actorUser: NotificationUserType
+    mediaList: NotificationMediaListType
   }
 
 export interface CreateNotificationArgsType<T extends NotificationTypeEnum = NotificationTypeEnum> {

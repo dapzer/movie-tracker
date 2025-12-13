@@ -1,4 +1,9 @@
-import { CreateNotificationArgsType, NotificationTypeEnum } from "@movie-tracker/types"
+import {
+  CreateNotificationArgsType,
+  NotificationResponseType,
+  NotificationType,
+  NotificationTypeEnum,
+} from "@movie-tracker/types"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { Inject, Injectable } from "@nestjs/common"
 import { Cache } from "cache-manager"
@@ -6,6 +11,7 @@ import {
   NotificationRepositoryInterface,
   NotificationRepositorySymbol,
 } from "@/repositories/notification/NotificationRepositoryInterface"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 
 @Injectable()
@@ -16,7 +22,7 @@ export class NotificationService {
   ) {
   }
 
-  async create(args: CreateNotificationArgsType) {
+  async create(args: CreateNotificationArgsType): Promise<NotificationType> {
     if (args.type === NotificationTypeEnum.USER_FOLLOW || args.type === NotificationTypeEnum.MEDIA_LIST_LIKE) {
       const existingNotificationKey = `notification:${args.userId}:${args.type}:${args.meta.actorUserId}`
       const existingNotification = await this.cacheManager.get(existingNotificationKey)
@@ -29,5 +35,9 @@ export class NotificationService {
     }
 
     return this.notificationRepository.createNotification(args)
+  }
+
+  async getByUserId(args: { userId: string } & PaginationDto): Promise<NotificationResponseType> {
+    return this.notificationRepository.getNotificationsByUserId(args)
   }
 }
