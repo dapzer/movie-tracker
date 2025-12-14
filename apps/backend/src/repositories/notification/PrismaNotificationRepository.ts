@@ -36,7 +36,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
           break
         case NotificationTypeEnum.MEDIA_LIST_LIKE:
           meta = {
-            type: NotificationTypeEnum[data.type],
+            type: NotificationTypeEnum.MEDIA_LIST_LIKE,
             actorUser: {
               id: data.actorUser_id!,
               name: data.actorUser_name!,

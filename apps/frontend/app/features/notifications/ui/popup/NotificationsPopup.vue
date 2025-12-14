@@ -12,6 +12,7 @@ await getNotificationCountApi.suspense()
   <UiPopover
     :indent="10"
     align="end"
+    :class="$style.content"
   >
     <template #trigger>
       <NotificationsPopupTrigger
@@ -24,6 +25,8 @@ await getNotificationCountApi.suspense()
   </UiPopover>
 </template>
 
-<style scoped lang="scss">
-
+<style module lang="scss">
+.content {
+  padding: 0;
+}
 </style>
