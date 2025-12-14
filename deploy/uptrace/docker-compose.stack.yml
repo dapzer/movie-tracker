@@ -22,6 +22,10 @@ services:
     networks:
       - uptrace
     deploy:
+      resources:
+        limits:
+          cpus: '.5'
+          memory: 3G
       endpoint_mode: dnsrr
       placement:
         constraints:
