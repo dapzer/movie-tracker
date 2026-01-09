@@ -3,6 +3,7 @@ import { useGetNotificationCountApi } from "~/api/notifications/useNotifications
 import NotificationList from "~/features/notifications/ui/popup/NotificationList.vue"
 import NotificationsPopupTrigger from "~/features/notifications/ui/popup/NotificationsPopupTrigger.vue"
 import { UiPopover } from "~/shared/ui/UiPopover"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 const getNotificationCountApi = useGetNotificationCountApi()
 await getNotificationCountApi.suspense()
@@ -20,6 +21,14 @@ await getNotificationCountApi.suspense()
       />
     </template>
     <template #content>
+      <div :class="$style.titleWrapper">
+        <UiTypography
+          :class="$style.title"
+          variant="description"
+        >
+          {{ $t("notifications.title") }}
+        </UiTypography>
+      </div>
       <NotificationList />
     </template>
   </UiPopover>
@@ -29,5 +38,14 @@ await getNotificationCountApi.suspense()
 .content {
   padding: 0;
   max-width: 318px;
+}
+
+.titleWrapper {
+  padding: 10px 12px;
+}
+
+.title {
+  font-weight: var(--fw-medium);
+  color: var(--c-text);
 }
 </style>
