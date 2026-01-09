@@ -28,5 +28,6 @@ await getNotificationCountApi.suspense()
 <style module lang="scss">
 .content {
   padding: 0;
+  max-width: 318px;
 }
 </style>

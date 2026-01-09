@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { PaginationType } from "@movie-tracker/types"
+import type { NotificationType, PaginationType } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetNotificationsApi } from "~/api/notifications/useNotificationsApi"
-import NotificationItem from "~/features/notifications/ui/popup/NotificationItem.vue"
-import { UiDivider } from "~/shared/ui/UiDivider"
+import NotificationGroup from "~/features/notifications/ui/popup/NotificationGroup.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 const getNotificationsApiArgs = computed<PaginationType>(() => {
@@ -14,19 +13,36 @@ const getNotificationsApiArgs = computed<PaginationType>(() => {
 })
 
 const getNotifications = useGetNotificationsApi(getNotificationsApiArgs)
+
+const notificationGroups = computed(() => {
+  const groupsByDate = new Map<string, NotificationType[]>()
+
+  for (const notification of getNotifications.data.value?.items || []) {
+    const date = new Date(notification.createdAt)
+    const dateKey = date.toLocaleDateString()
+
+    if (!groupsByDate.has(dateKey)) {
+      groupsByDate.set(dateKey, [])
+    }
+
+    groupsByDate.get(dateKey)?.push(notification)
+  }
+
+  return groupsByDate
+})
 </script>
 
 <template>
   <div :class="$style.wrapper">
     <template v-if="getNotifications.data.value?.items.length">
       <template
-        v-for="(el, index) in getNotifications.data.value?.items"
-        :key="el.id"
+        v-for="([date, notifications]) in notificationGroups"
+        :key="date"
       >
-        <NotificationItem
-          :notification="el"
+        <NotificationGroup
+          :date="date"
+          :notifications="notifications"
         />
-        <UiDivider v-if="index < getNotifications.data.value.items.length - 1" />
       </template>
     </template>
     <template v-else>
@@ -41,5 +57,6 @@ const getNotifications = useGetNotificationsApi(getNotificationsApiArgs)
 .wrapper {
   display: flex;
   flex-direction: column;
+  max-height: 608px;
 }
 </style>

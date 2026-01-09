@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { NotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { NotificationTypeEnum } from "@movie-tracker/types"
 import { computed } from "vue"
@@ -7,6 +8,7 @@ import { UiAvatar } from "~/shared/ui/UiAvatar"
 import { UiBadge } from "~/shared/ui/UiBadge"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getShortText } from "~/shared/utils/getShortText"
 import { getTimeSinceDate } from "~/shared/utils/getTimeSinceDate"
 
 interface NotificationItem {
@@ -15,18 +17,8 @@ interface NotificationItem {
 
 const props = defineProps<NotificationItem>()
 
-const { locale } = useI18n()
-
-const getNotificationMessage = computed(() => {
-  switch (props.notification.type) {
-    case NotificationTypeEnum.MEDIA_LIST_LIKE:
-      return "Someone liked your media list."
-    case NotificationTypeEnum.USER_FOLLOW:
-      return "Someone started following you."
-    default:
-      return "You have a new notification."
-  }
-})
+const { locale, t } = useI18n()
+const localePath = useLocalePath()
 
 const metaData = computed(() => {
   switch (props.notification.type) {
@@ -38,10 +30,44 @@ const metaData = computed(() => {
       return undefined
   }
 })
+
+const notificationMessage = computed(() => {
+  switch (props.notification.type) {
+    case NotificationTypeEnum.MEDIA_LIST_LIKE: {
+      const typedMeta = metaData?.value as Extract<NotificationMetaResponseType, { type: NotificationTypeEnum.MEDIA_LIST_LIKE }>
+      return t("notifications.mediaListLike", {
+        userName: metaData.value?.actorUser.name,
+        listTitle: getShortText(typedMeta.mediaList.title, 12) || t("mediaList.favorites"),
+      })
+    }
+    case NotificationTypeEnum.USER_FOLLOW: {
+      const typedMeta = metaData?.value as Extract<NotificationMetaResponseType, { type: NotificationTypeEnum.USER_FOLLOW }>
+      return t("notifications.userFollow", {
+        userName: typedMeta.actorUser.name,
+      })
+    }
+    default:
+      return ""
+  }
+})
+
+const linkTo = computed(() => {
+  switch (props.notification.type) {
+    case NotificationTypeEnum.MEDIA_LIST_LIKE:
+      return `/profile/${metaData.value?.actorUser.id}`
+    case NotificationTypeEnum.USER_FOLLOW:
+      return `/profile/${metaData.value?.actorUser.id}`
+    default:
+      return "/notifications"
+  }
+})
 </script>
 
 <template>
-  <div :class="$style.wrapper">
+  <NuxtLink
+    :class="$style.wrapper"
+    :to="localePath(linkTo)"
+  >
     <div :class="$style.leftSection">
       <span
         :class="[$style.readStatus, {
@@ -56,7 +82,7 @@ const metaData = computed(() => {
             :size="36"
             :placeholder-id="metaData?.actorUser.id"
             :alt="`${metaData?.actorUser.name} avatar`"
-            src=""
+            :src="metaData.actorUser.image"
           />
           <UiBadge
             :class="$style.badge"
@@ -65,7 +91,7 @@ const metaData = computed(() => {
             <UiIcon
               v-if="props.notification.type === NotificationTypeEnum.USER_FOLLOW"
               name="icon:like"
-              :size="12"
+              :size="10"
             />
             <UiIcon
               v-else
@@ -82,13 +108,13 @@ const metaData = computed(() => {
         variant="description"
         :class="$style.title"
       >
-        {{ getNotificationMessage }}
+        {{ notificationMessage }}
       </UiTypography>
       <UiTypography variant="description">
         {{ getTimeSinceDate(props.notification.createdAt, locale) }}
       </UiTypography>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style module lang="scss">
