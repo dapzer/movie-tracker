@@ -42,6 +42,7 @@ await getNotificationCountApi.suspense()
 
 .titleWrapper {
   padding: 10px 12px;
+  border-bottom: 1px solid var(--c-charcoal);
 }
 
 .title {
