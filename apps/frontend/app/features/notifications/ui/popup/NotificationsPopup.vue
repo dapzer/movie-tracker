@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { provide } from "#imports"
+import { ref } from "vue"
 import { useGetNotificationCountApi } from "~/api/notifications/useNotificationsApi"
+import { notificationPopupOpenInjectionKey } from "~/features/notifications/model/constants"
 import NotificationList from "~/features/notifications/ui/popup/NotificationList.vue"
 import NotificationsPopupTrigger from "~/features/notifications/ui/popup/NotificationsPopupTrigger.vue"
 import { UiPopover } from "~/shared/ui/UiPopover"
@@ -7,10 +10,15 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 
 const getNotificationCountApi = useGetNotificationCountApi()
 await getNotificationCountApi.suspense()
+
+const open = ref(false)
+
+provide(notificationPopupOpenInjectionKey, open)
 </script>
 
 <template>
   <UiPopover
+    v-model="open"
     :indent="10"
     align="end"
     :class="$style.content"

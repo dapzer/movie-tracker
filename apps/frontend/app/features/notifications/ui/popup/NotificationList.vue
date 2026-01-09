@@ -54,7 +54,7 @@ const notificationGroups = computed(() => {
 </script>
 
 <template>
-  <div :class="[$style.wrapper]">
+  <div :class="$style.wrapper">
     <template v-if="getNotificationsApi.isLoading.value">
       <NotificationItemSkeleton
         v-for="i in 6"
@@ -82,6 +82,7 @@ const notificationGroups = computed(() => {
 
 <style module lang="scss">
 .wrapper {
+  overflow: auto;
   display: flex;
   flex-direction: column;
   max-height: 608px;

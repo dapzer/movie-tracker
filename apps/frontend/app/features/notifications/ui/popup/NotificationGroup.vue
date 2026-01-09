@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { NotificationType } from "@movie-tracker/types"
-import { useI18n } from "#imports"
+import type { Ref } from "vue"
+import { inject, useI18n } from "#imports"
 import { computed } from "vue"
+import { notificationPopupOpenInjectionKey } from "~/features/notifications/model/constants"
 import NotificationItem from "~/features/notifications/ui/popup/NotificationItem.vue"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -13,6 +15,13 @@ interface NotificationGroupProps {
 
 const props = defineProps<NotificationGroupProps>()
 const { locale } = useI18n()
+const popupOpen = inject<Ref<boolean>>(notificationPopupOpenInjectionKey)
+
+function handleClosePopup() {
+  if (popupOpen) {
+    popupOpen.value = false
+  }
+}
 
 const dateString = computed(() => {
   const date = new Date(props.date)
@@ -48,6 +57,7 @@ const dateString = computed(() => {
   >
     <NotificationItem
       :notification="el"
+      @click="handleClosePopup"
     />
     <UiDivider v-if="index < props.notifications.length - 1" />
   </template>
