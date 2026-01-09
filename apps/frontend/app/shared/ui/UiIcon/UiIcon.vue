@@ -63,6 +63,8 @@ export type UiIconName = "icon:close"
   | "icon:link"
   | "icon:user"
   | "icon:dashboard"
+  | "icon:bell"
+  | "icon:thumb-up"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

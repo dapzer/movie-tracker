@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SignInLink } from "~/features/auth"
 import { LanguageSelectorDropdown } from "~/features/languegeSelector"
+import { NotificationsPopup } from "~/features/notifications"
 import { UserProfileDropdown } from "~/features/profile"
 import { useAuth } from "~/shared/composables/useAuth"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -39,7 +40,10 @@ const { profile } = useAuth()
         {{ $t('auth.signIn') }}
       </UiButton>
     </SignInLink>
-    <UserProfileDropdown v-else />
+    <template v-else>
+      <NotificationsPopup />
+      <UserProfileDropdown />
+    </template>
   </div>
 </template>
 

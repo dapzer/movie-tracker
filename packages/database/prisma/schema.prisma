@@ -57,6 +57,7 @@ model User {
   mediaRatings   MediaRating[]
   userFollowers  UserFollow[]    @relation("followerRelation")
   userFollowing  UserFollow[]    @relation("followingRelation")
+  notifications  Notification[]
 
   @@map("users")
 }
@@ -181,6 +182,19 @@ model MediaRating {
   @@map("media_ratings")
 }
 
+model Notification {
+  id        String               @id @default(uuid())
+  userId    String?              @map("user_id")
+  user      User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationTypeEnum
+  meta      Json
+  readAt    DateTime?            @map("read_at")
+  createdAt DateTime             @default(now()) @map("created_at")
+
+  @@index([meta], type: Hash)
+  @@map("notifications")
+}
+
 enum StatusNameEnum {
   VIEWED
   WATCHING_NOW
@@ -215,4 +229,9 @@ enum MediaListAccessLevelEnum {
 enum UserMediaRatingsAccessLevelEnum {
   PUBLIC
   PRIVATE
+}
+
+enum NotificationTypeEnum {
+  MEDIA_LIST_LIKE
+  USER_FOLLOW
 }

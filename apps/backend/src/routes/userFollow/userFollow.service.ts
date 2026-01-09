@@ -1,17 +1,21 @@
-import { UserFollowInformationType } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { NotificationTypeEnum, UserFollowInformationType } from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import {
   UserFollowRepositoryInterface,
   UserFollowRepositorySymbol,
 } from "@/repositories/userFollow/UserFollowRepositoryInterface"
+import { NotificationService } from "@/routes/notification/notification.service"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 
 @Injectable()
 export class UserFollowService {
+  private readonly logger = new Logger("UserFollowService")
+
   constructor(
     @Inject(UserFollowRepositorySymbol) private readonly userFollowRepository: UserFollowRepositoryInterface,
     @Inject(UserRepositorySymbol) private readonly userRepository: UserRepositoryInterface,
+    private readonly notificationService: NotificationService,
   ) {
   }
 
@@ -42,7 +46,22 @@ export class UserFollowService {
       throw new Error("Users cannot follow themselves.")
     }
 
-    return this.userFollowRepository.createFollow({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
+    const follow = await this.userFollowRepository.createFollow({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
+
+    if (follow) {
+      await this.notificationService.create({
+        userId: args.followingUserId,
+        type: NotificationTypeEnum.USER_FOLLOW,
+        meta: {
+          actorUserId: args.followerUserId,
+        },
+        createdAt: follow.createdAt,
+      }).catch((err) => {
+        this.logger.error("Failed to create follow notification", err)
+      })
+    }
+
+    return follow
   }
 
   async deleteUserFollow(args: { followerUserId: string, followingUserId: string }) {

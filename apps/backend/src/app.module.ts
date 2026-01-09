@@ -22,6 +22,7 @@ import { UserFollowModule } from "@/routes/userFollow/userFollow.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { PrismaModule } from "@/services/prisma/prisma.module"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
+import { NotificationModule } from "./routes/notification/notification.module"
 import { ProxyModule } from "./routes/proxy/proxy.module"
 import { UserModule } from "./routes/user/user.module"
 
@@ -69,6 +70,7 @@ import { UserModule } from "./routes/user/user.module"
     MediaListViewModule,
     CommunityListsModule,
     UserFollowModule,
+    NotificationModule,
   ],
   providers: [
     {

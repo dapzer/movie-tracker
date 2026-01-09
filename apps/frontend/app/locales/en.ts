@@ -1364,6 +1364,12 @@ export default {
       userFollowers: "User followers",
     },
   },
+  notifications: {
+    title: "Notifications",
+    mediaListLike: "Your list '{listTitle}' was liked by {userName}",
+    userFollow: "{userName} started following you",
+    noNotifications: "You have no new notifications",
+  },
   legals: {
     privacyPolicy: `## Privacy policy
 1. **Your privacy**: Movie Tracker is committed to ensuring the privacy of your information.

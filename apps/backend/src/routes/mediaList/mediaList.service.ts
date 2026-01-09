@@ -1,5 +1,11 @@
-import { MEDIA_LIST_COUNT_LIMIT, MediaItemType, MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import {
+  MEDIA_LIST_COUNT_LIMIT,
+  MediaItemType,
+  MediaListAccessLevelEnum,
+  MediaListType,
+  NotificationTypeEnum,
+} from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
 import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
@@ -11,14 +17,18 @@ import {
 import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/routes/mediaList/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
+import { NotificationService } from "@/routes/notification/notification.service"
 
 @Injectable()
 export class MediaListService {
+  private readonly logger = new Logger("MediaListService")
+
   constructor(
     @Inject(MediaListRepositorySymbol)
     private readonly mediaListRepository: MediaListRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
+    private readonly notificationService: NotificationService,
   ) {
   }
 
@@ -182,6 +192,22 @@ export class MediaListService {
     }
 
     const mediaListLike = await this.mediaListRepository.createMediaListLike(mediaListId, userId)
+
+    if (mediaList) {
+      await this.notificationService.create({
+        userId: mediaList.userId,
+        type: NotificationTypeEnum.MEDIA_LIST_LIKE,
+        meta: {
+          actorUserId: userId,
+          mediaListId: mediaList.id,
+          mediaListLikeId: mediaListLike.id,
+        },
+        createdAt: mediaListLike.createdAt,
+      }).catch((err) => {
+        this.logger.error("Failed to create media list like notification", err)
+      })
+    }
+
     return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
   }
 

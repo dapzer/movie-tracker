@@ -1366,6 +1366,12 @@ export default {
       userFollowers: "Подписчики",
     },
   },
+  notifications: {
+    title: "Уведомления",
+    mediaListLike: "Ваш список ’{listTitle}’ понравился пользователю {userName}",
+    userFollow: "{userName} начал(а) вас отслеживать",
+    noNotifications: "У вас нет новых уведомлений",
+  },
   legals: {
     privacyPolicy: `## Политика конфиденциальности
 1. **Ваша конфиденциальность**: Movie Tracker стремится обеспечить конфиденциальность вашей информации.

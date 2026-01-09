@@ -3,11 +3,12 @@ import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
 import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { PrismaUserFollowRepository } from "@/repositories/userFollow/PrismaUserFollowRepository"
 import { UserFollowRepositorySymbol } from "@/repositories/userFollow/UserFollowRepositoryInterface"
+import { NotificationModule } from "@/routes/notification/notification.module"
 import { UserFollowController } from "@/routes/userFollow/userFollow.controller"
 import { UserFollowService } from "@/routes/userFollow/userFollow.service"
 
 @Module({
-  imports: [],
+  imports: [NotificationModule],
   controllers: [UserFollowController],
   providers: [
     UserFollowService,
