@@ -89,6 +89,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
   }
 
   async getNotificationsByUserId(args: Parameters<NotificationRepositoryInterface["getNotificationsByUserId"]>[0]) {
+  // TODO: Use limit in query after create separated page LIMIT ${args.limit}
     const [notifications, notificationsCount] = await Promise.all([this.prisma.$queryRaw<NotificationRawResult[]>`
         SELECT n.*,
                actor.id    as "actorUser_id",
@@ -101,7 +102,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
                  LEFT JOIN media_lists ml ON ml.id::text = n.meta ->> 'mediaListId'
         WHERE n.user_id = ${args.userId}
         ORDER BY n.created_at DESC
-        LIMIT ${args.limit} OFFSET ${args.offset};
+        OFFSET ${args.offset};
     `, this.prisma.notification.count({
       where: {
         userId: args.userId,

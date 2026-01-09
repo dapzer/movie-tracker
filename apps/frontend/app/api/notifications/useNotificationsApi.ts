@@ -22,6 +22,7 @@ export function useGetNotificationsApi(args: Ref<PaginationType>) {
 
       return getNotificationsApi(args.value, { headers })
     },
+    refetchOnMount: true,
   })
 }
 
@@ -46,14 +47,14 @@ export function useMarkNotificationsAsReadApi() {
   return useMutation({
     mutationKey: [NotificationsApiQueryKeys.MARK_AS_READ],
     mutationFn: markNotificationsAsRead,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.setQueryData<NotificationCountType>([NotificationsApiQueryKeys.NOTIFICATION_COUNT], (oldData) => {
         if (!oldData) {
           return oldData
         }
         return {
           ...oldData,
-          unread: Math.max(0, oldData.unread - 1),
+          unread: Math.max(0, oldData.unread - data.length),
         }
       })
     },

@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { NotificationType, PaginationType } from "@movie-tracker/types"
+import { onUnmounted } from "#imports"
 import { computed } from "vue"
-import { useGetNotificationsApi } from "~/api/notifications/useNotificationsApi"
+import {
+  useGetNotificationCountApi,
+  useGetNotificationsApi,
+  useMarkNotificationsAsReadApi,
+} from "~/api/notifications/useNotificationsApi"
 import NotificationGroup from "~/features/notifications/ui/popup/NotificationGroup.vue"
 import NotificationItemSkeleton from "~/features/notifications/ui/popup/NotificationItemSkeleton.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -14,6 +19,21 @@ const getNotificationsApiArgs = computed<PaginationType>(() => {
 })
 
 const getNotificationsApi = useGetNotificationsApi(getNotificationsApiArgs)
+const getNotificationCountApi = useGetNotificationCountApi()
+const markNotificationsAsReadApi = useMarkNotificationsAsReadApi()
+
+const readTimeout = setTimeout(() => {
+  if (!getNotificationsApi.data.value?.items.length || !getNotificationCountApi.data.value?.unread) {
+    return
+  }
+  markNotificationsAsReadApi.mutateAsync({
+    ids: getNotificationsApi.data.value.items.map(el => el.id),
+  })
+}, 1500)
+
+onUnmounted(() => {
+  clearTimeout(readTimeout)
+})
 
 const notificationGroups = computed(() => {
   const groupsByDate = new Map<string, NotificationType[]>()

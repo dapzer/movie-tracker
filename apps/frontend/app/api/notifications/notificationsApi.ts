@@ -23,7 +23,7 @@ export function getNotificationCountApi(options?: RequestOptions) {
 }
 
 export function markNotificationsAsRead(args: PostMarkNotificationsAsReadApiArgs) {
-  return api.post<Array<NotificationType>>("notification", {
+  return api.post<Array<NotificationType>>("notification/mark-as-read", {
     ids: args.ids,
   })
 }
