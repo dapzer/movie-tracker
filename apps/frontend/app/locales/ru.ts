@@ -1370,6 +1370,7 @@ export default {
     title: "Уведомления",
     mediaListLike: "Ваш список ’{listTitle}’ понравился пользователю {userName}",
     userFollow: "{userName} начал(а) вас отслеживать",
+    noNotifications: "У вас нет новых уведомлений",
   },
   legals: {
     privacyPolicy: `## Политика конфиденциальности

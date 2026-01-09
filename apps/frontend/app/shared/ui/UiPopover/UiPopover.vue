@@ -6,6 +6,7 @@ export type UiPopoverSide = "top" | "right" | "bottom" | "left"
 
 interface UiPopoverProps {
   triggerClass?: string
+  width?: number
   indent?: number
   align?: UiPopoverAlign
   side?: UiPopoverSide
@@ -36,15 +37,22 @@ const model = defineModel<boolean>()
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent
-        v-bind="$attrs"
         :class="$style.contentWrapper"
+        :style="{
+          '--width': props.width ? `${props.width}px` : 'max-content',
+        }"
         :align="props.align"
         :side="props.side"
         :side-offset="props.indent"
         :collision-padding="24"
         update-position-strategy="always"
       >
-        <slot name="content" />
+        <div
+          v-bind="$attrs"
+          :class="$style.content"
+        >
+          <slot name="content" />
+        </div>
       </PopoverContent>
     </PopoverPortal>
   </PopoverRoot>
@@ -59,11 +67,15 @@ const model = defineModel<boolean>()
 
 .contentWrapper {
   z-index: var(--i-popover);
-  width: max-content;
+  width: var(--width);
   cursor: auto;
-  overflow-y: auto;
   max-width: min(var(--radix-popover-content-available-width), var(--s-container));
   max-height: var(--radix-popover-content-available-height);
+}
+
+.content {
+  overflow-y: auto;
+  width: 100%;
   padding: 10px;
   background: var(--c-card-background-hovered);
   border: 1px solid var(--c-charcoal);

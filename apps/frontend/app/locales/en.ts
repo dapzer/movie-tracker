@@ -1368,6 +1368,7 @@ export default {
     title: "Notifications",
     mediaListLike: "Your list '{listTitle}' was liked by {userName}",
     userFollow: "{userName} started following you",
+    noNotifications: "You have no new notifications",
   },
   legals: {
     privacyPolicy: `## Privacy policy

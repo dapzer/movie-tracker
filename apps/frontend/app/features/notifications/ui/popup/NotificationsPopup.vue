@@ -14,6 +14,7 @@ await getNotificationCountApi.suspense()
     :indent="10"
     align="end"
     :class="$style.content"
+    :width="318"
   >
     <template #trigger>
       <NotificationsPopupTrigger
@@ -37,7 +38,7 @@ await getNotificationCountApi.suspense()
 <style module lang="scss">
 .content {
   padding: 0;
-  max-width: 318px;
+  width: 100%;
 }
 
 .titleWrapper {
