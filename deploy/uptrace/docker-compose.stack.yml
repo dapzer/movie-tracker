@@ -24,7 +24,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '.5'
+          cpus: '2.0'
           memory: 3G
       endpoint_mode: dnsrr
       placement:
