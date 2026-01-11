@@ -1251,7 +1251,7 @@ export default {
     profile: "Profile",
   },
   footer: {
-    copyright: "Copyright © 2025 Movie Tracker. All rights reserved.",
+    copyright: "Copyright © {year} Movie Tracker. All rights reserved.",
     dataSource: "Data source for all movies",
     description: `Stay up to date with all your favorite movies and TV shows, create personalized watchlists and discover new experiences.`,
   },

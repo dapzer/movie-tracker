@@ -1253,7 +1253,7 @@ export default {
     profile: "Профиль",
   },
   footer: {
-    copyright: "Copyright © 2025 Movie Tracker. Все права защищены.",
+    copyright: "Copyright © {year} Movie Tracker. Все права защищены.",
     dataSource: "Источник данных для всех фильмов",
     description: `Будьте в курсе всех ваших любимых фильмов и сериалов, создавайте персонализированные списки наблюдения и ищите новые впечатления.`,
   },

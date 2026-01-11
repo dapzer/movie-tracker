@@ -6,6 +6,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 import { movieTrackerLinks } from "~/widgets/footer/model/movieTrackerLinks"
 import DefaultFooterDataSource from "~/widgets/footer/ui/defaultFooter/DefaultFooterDataSource.vue"
 import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFooterLinkList.vue"
+
+const currentYear = new Date().getFullYear()
 </script>
 
 <template>
@@ -34,8 +36,11 @@ import DefaultFooterLinkList from "~/widgets/footer/ui/defaultFooter/DefaultFoot
       </div>
 
       <div :class="$style.about">
-        <UiTypography variant="description">
-          {{ $t('footer.copyright') }}
+        <UiTypography
+          variant="description"
+          data-allow-mismatch
+        >
+          {{ $t('footer.copyright', { year: currentYear }) }}
         </UiTypography>
         <DefaultFooterDataSource />
       </div>
