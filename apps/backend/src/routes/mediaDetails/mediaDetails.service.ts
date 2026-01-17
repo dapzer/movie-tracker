@@ -103,8 +103,8 @@ export class MediaDetailsService implements OnModuleInit {
         en,
       }
     }
-    catch (error) {
-      this.logger.error(`Failed to get data from TMDB with id ${mediaId} and type ${mediaType}.`, error)
+    catch {
+      this.logger.error(`Failed to get data from TMDB with id ${mediaId} and type ${mediaType}.`)
 
       return {
         ru: null,
