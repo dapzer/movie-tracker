@@ -1,5 +1,5 @@
-import { MediaDetailsInfoDto } from "@/routes/mediaDetails/dto/mediaDetailsInfo.dto"
 import { TmdbMediaDetailsType } from "@movie-tracker/types"
+import { MediaDetailsInfoDto } from "@/routes/mediaDetails/dto/mediaDetailsInfo.dto"
 
 export function convertMediaDetailsToMediaDetailsInfo(details: TmdbMediaDetailsType): MediaDetailsInfoDto {
   return {
@@ -7,5 +7,6 @@ export function convertMediaDetailsToMediaDetailsInfo(details: TmdbMediaDetailsT
     title: details?.title || details?.name,
     poster: details?.poster_path,
     seasons: details?.seasons,
+    status: details?.status,
   }
 }
