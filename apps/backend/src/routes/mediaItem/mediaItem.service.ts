@@ -91,9 +91,12 @@ export class MediaItemService {
 
     const mediaDetails
       = await this.mediaDetailsService.createOrUpdateMediaDetails(
-        mediaId,
-        mediaType,
-        null,
+        {
+          mediaId,
+          mediaType,
+          skipError: false,
+          currentDetails: null,
+        },
       )
 
     const createdMediaItem = await this.mediaItemRepository.createMediaItem(

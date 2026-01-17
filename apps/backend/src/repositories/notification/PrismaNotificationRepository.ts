@@ -88,6 +88,19 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     return this.convertToInterface(notification)
   }
 
+  async createBulkNotifications(args: Parameters<NotificationRepositoryInterface["createBulkNotifications"]>[0]) {
+    const notifications = await this.prisma.notification.createManyAndReturn({
+      data: args.map(arg => ({
+        userId: arg.userId,
+        type: arg.type,
+        meta: arg.meta,
+        createdAt: arg.createdAt,
+      })),
+    })
+
+    return notifications.map(this.convertToInterface)
+  }
+
   async getNotificationsByUserId(args: Parameters<NotificationRepositoryInterface["getNotificationsByUserId"]>[0]) {
   // TODO: Use limit in query after create separated page LIMIT ${args.limit}
     const [notifications, notificationsCount] = await Promise.all([this.prisma.$queryRaw<NotificationRawResult[]>`

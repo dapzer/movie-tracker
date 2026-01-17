@@ -42,6 +42,8 @@ export type NotificationMetaType
   } | {
     type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
     mediaDetailsId: string
+    previousStatus: string
+    currentStatus: string
   }
 
 export type NotificationMediaListType = Pick<MediaListType, "id" | "title">
@@ -63,6 +65,8 @@ export type NotificationMetaResponseType
   } | {
     type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
     mediaDetailsId: MediaDetailsType
+    previousStatus: string
+    currentStatus: string
   }
 
 export interface CreateNotificationArgsType<T extends NotificationTypeEnum = NotificationTypeEnum> {

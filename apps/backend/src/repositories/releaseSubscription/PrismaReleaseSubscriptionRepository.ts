@@ -89,6 +89,19 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     return releaseSubscriptions.map(this.convertToInterface)
   }
 
+  async getUncompletedByMediaDetailsId(
+    args: Parameters<ReleaseSubscriptionRepositoryInterface["getUncompletedByMediaDetailsId"]>[0],
+  ) {
+    const releaseSubscriptions = await this.prisma.releaseSubscription.findMany({
+      where: {
+        mediaDetailsId: args.mediaDetailsId,
+        completedAt: null,
+      },
+    })
+
+    return releaseSubscriptions.map(this.convertToInterface)
+  }
+
   async getByUserId(
     args: Parameters<ReleaseSubscriptionRepositoryInterface["getByUserId"]>[0],
   ): Promise<ReleaseSubscriptionsResponseType> {
@@ -143,6 +156,20 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     })
 
     return this.convertToInterface(releaseSubscription)
+  }
+
+  async updateManyByIds(
+    args: Parameters<ReleaseSubscriptionRepositoryInterface["updateManyByIds"]>[0],
+  ) {
+    const releaseSubscriptions = await this.prisma.releaseSubscription.updateManyAndReturn({
+      where: { id: { in: args.ids } },
+      data: {
+        completedAt: args.completedAt,
+        lastReleasedAt: args.lastReleasedAt,
+      },
+    })
+
+    return releaseSubscriptions.map(this.convertToInterface)
   }
 
   async delete(

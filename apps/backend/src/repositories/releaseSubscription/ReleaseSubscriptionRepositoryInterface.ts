@@ -13,7 +13,11 @@ export interface ReleaseSubscriptionRepositoryInterface {
   getById: (args: Pick<ReleaseSubscriptionType, "id">) => Promise<ReleaseSubscriptionType | undefined>
 
   getByMediaDetailsId: (
-    args: Pick<ReleaseSubscriptionType, | "mediaDetailsId">
+    args: Pick<ReleaseSubscriptionType, "mediaDetailsId">
+  ) => Promise<ReleaseSubscriptionType[] | undefined>
+
+  getUncompletedByMediaDetailsId: (
+    args: Pick<ReleaseSubscriptionType, "mediaDetailsId">
   ) => Promise<ReleaseSubscriptionType[] | undefined>
 
   getByUserId: (
@@ -33,6 +37,12 @@ export interface ReleaseSubscriptionRepositoryInterface {
   update: (
     args: Pick<ReleaseSubscriptionType, "id"> & UpdateReleaseSubscriptionType
   ) => Promise<ReleaseSubscriptionType>
+
+  updateManyByIds: (
+    args: {
+      ids: string[]
+    } & UpdateReleaseSubscriptionType
+  ) => Promise<ReleaseSubscriptionType[]>
 
   delete: (args: Pick<ReleaseSubscriptionType, "id">) => Promise<ReleaseSubscriptionType>
 }

@@ -31,4 +31,6 @@ export interface MediaDetailsRepositoryInterface {
   ) => Promise<MediaDetailsType>
 
   getMediaDetailsCount: () => Promise<number>
+
+  getAllMediaDetails: () => Promise<MediaDetailsType[]>
 }

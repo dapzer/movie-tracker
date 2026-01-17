@@ -13,7 +13,7 @@ implements MediaDetailsRepositoryInterface {
     return {
       id: data.id,
       mediaId: data.mediaId,
-      mediaType: MediaTypeEnum[data.mediaType],
+      mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       score: data.score.toNumber(),
       en: data.en as unknown as MediaDetailsInfoType,
       ru: data.ru as unknown as MediaDetailsInfoType,
@@ -90,6 +90,12 @@ implements MediaDetailsRepositoryInterface {
     })
 
     return mediaDetails ? this.convertToInterface(mediaDetails) : null
+  }
+
+  async getAllMediaDetails() {
+    const mediaDetails = await this.prismaService.mediaDetails.findMany()
+
+    return mediaDetails.map(this.convertToInterface)
   }
 
   async getMediaDetailsCount() {

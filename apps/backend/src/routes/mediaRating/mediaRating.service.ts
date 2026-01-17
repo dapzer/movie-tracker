@@ -78,9 +78,12 @@ export class MediaRatingService {
     body: CreateMediaRatingDto
   }) {
     await this.mediaDetailsService.createOrUpdateMediaDetails(
-      args.body.mediaId,
-      args.body.mediaType,
-      null,
+      {
+        mediaId: args.body.mediaId,
+        mediaType: args.body.mediaType,
+        skipError: false,
+        currentDetails: null,
+      },
     )
 
     return this.mediaRatingRepository.createMediaRating({
