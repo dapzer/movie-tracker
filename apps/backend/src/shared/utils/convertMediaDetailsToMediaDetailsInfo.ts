@@ -1,12 +1,34 @@
-import { TmdbMediaDetailsType } from "@movie-tracker/types"
-import { MediaDetailsInfoDto } from "@/routes/mediaDetails/dto/mediaDetailsInfo.dto"
+import { MediaDetailsInfoSeasonType, MediaDetailsInfoType } from "@movie-tracker/types"
+import { TmdbDetailsWithSeasonsResponseType } from "@/api/tmdb/tmdbApiTypes"
 
-export function convertMediaDetailsToMediaDetailsInfo(details: TmdbMediaDetailsType): MediaDetailsInfoDto {
+export function convertMediaDetailsToMediaDetailsInfo(data: TmdbDetailsWithSeasonsResponseType): MediaDetailsInfoType {
   return {
-    originalTitle: details?.original_title || details?.original_name,
-    title: details?.title || details?.name,
-    poster: details?.poster_path,
-    seasons: details?.seasons,
-    status: details?.status,
+    originalTitle: data.details?.original_title || data.details?.original_name,
+    title: data.details?.title || data.details?.name,
+    poster: data.details?.poster_path,
+    seasons: getSeasons(data),
+    status: data.details?.status,
   }
+}
+
+function getSeasons(data: TmdbDetailsWithSeasonsResponseType): MediaDetailsInfoSeasonType[] {
+  return data.details?.seasons?.map((el) => {
+    return {
+      airDate: el.air_date,
+      episodeCount: el.episode_count,
+      name: el.name,
+      episodes: data.seasons
+        .find(season => season.season_number === el.season_number)
+        ?.episodes
+        .map((ep) => {
+          return {
+            airDate: ep.air_date,
+            episodeNumber: ep.episode_number,
+            name: ep.name,
+            seasonNumber: ep.season_number,
+          }
+        }) || [],
+      seasonNumber: el.season_number,
+    }
+  })
 }

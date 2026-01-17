@@ -21,21 +21,24 @@ export class FetchClient {
 
   private createSearchParams(params: SearchParams) {
     const searchParams = new URLSearchParams()
+    const allParams = { ...this.params, ...params }
 
     for (const key in { ...this.params, ...params }) {
-      if (Object.prototype.hasOwnProperty.call(params, key)) {
-        const value = params[key]
+      const value = allParams[key]
 
-        if (Array.isArray(value)) {
-          value.forEach((currentValue) => {
-            if (currentValue) {
-              searchParams.append(key, currentValue.toString())
-            }
-          })
-        }
-        else if (value) {
-          searchParams.set(key, value.toString())
-        }
+      if (!value) {
+        continue
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((currentValue) => {
+          if (currentValue) {
+            searchParams.append(key, currentValue.toString())
+          }
+        })
+      }
+      else if (value) {
+        searchParams.set(key, value.toString())
       }
     }
 

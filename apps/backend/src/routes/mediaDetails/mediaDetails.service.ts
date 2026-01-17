@@ -1,8 +1,8 @@
-import { MediaDetailsType, MediaTypeEnum, TmdbMediaDetailsType } from "@movie-tracker/types"
-import { generateApiUrl } from "@movie-tracker/utils"
+import { MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
 import { Interval } from "@nestjs/schedule"
+import { getTmdbDetailApi, getTmdbDetailsWithSeasonsApi } from "@/api/tmdb/tmdbApi"
+import { TmdbDetailsWithSeasonsResponseType } from "@/api/tmdb/tmdbApiTypes"
 import {
   MediaDetailsRepositoryInterface,
   MediaDetailsRepositorySymbol,
@@ -28,9 +28,6 @@ export class MediaDetailsService implements OnModuleInit {
   }
 
   private readonly logger = new Logger("MediaDetailsService")
-  private getApiUrl = generateApiUrl(this.configService.get("TMDB_API_URL"), {
-    api_key: this.configService.get("TMDB_API_KEY"),
-  })
 
   constructor(
     @Inject(MediaDetailsRepositorySymbol)
@@ -39,7 +36,6 @@ export class MediaDetailsService implements OnModuleInit {
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     @Inject(MediaRatingRepositorySymbol)
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
-    private readonly configService: ConfigService,
   ) {
   }
 
@@ -56,17 +52,23 @@ export class MediaDetailsService implements OnModuleInit {
     mediaId: number,
     mediaType: MediaTypeEnum,
     language: string,
-  ): Promise<TmdbMediaDetailsType | null> {
-    const response = await fetch(
-      this.getApiUrl(`/${mediaType.toLowerCase()}/${mediaId}`, {
-        language,
-      }),
-    )
+  ): Promise<TmdbDetailsWithSeasonsResponseType | null> {
+    try {
+      if (mediaType === MediaTypeEnum.TV) {
+        return getTmdbDetailsWithSeasonsApi({
+          mediaId,
+          mediaType,
+          language,
+        })
+      }
 
-    if (response.ok) {
-      return await response.json()
+      return getTmdbDetailApi({
+        mediaId,
+        mediaType,
+        language,
+      })
     }
-    else {
+    catch {
       return null
     }
   }
@@ -83,8 +85,8 @@ export class MediaDetailsService implements OnModuleInit {
         en,
       }
     }
-    catch (error) {
-      this.logger.error(`Failed to get data from TMDB with id ${mediaId} and type ${mediaType}.`)
+    catch (err) {
+      this.logger.error(`Failed to get data from TMDB with id ${mediaId} and type ${mediaType}.`, err)
 
       return {
         ru: null,
@@ -124,7 +126,7 @@ export class MediaDetailsService implements OnModuleInit {
           mediaType,
           convertMediaDetailsToMediaDetailsInfo(ru),
           convertMediaDetailsToMediaDetailsInfo(en),
-          en.vote_average || 0,
+          en?.details?.vote_average || 0,
         )
       }
       else {
@@ -133,7 +135,7 @@ export class MediaDetailsService implements OnModuleInit {
           mediaType,
           convertMediaDetailsToMediaDetailsInfo(ru),
           convertMediaDetailsToMediaDetailsInfo(en),
-          en?.vote_average || 0,
+          en?.details?.vote_average || 0,
         )
       }
 
@@ -141,7 +143,7 @@ export class MediaDetailsService implements OnModuleInit {
 
       return mediaDetailsItem
     }
-    catch (error) {
+    catch {
       this.updatingProgress.failedUpdatesByDb += 1
 
       if (skipError) {
@@ -186,7 +188,6 @@ export class MediaDetailsService implements OnModuleInit {
       failedUpdatesByApi: 0,
       failedUpdatesByDb: 0,
     }
-
     for (const chunk of chunks) {
       const promiseArr = chunk.map((mediaItem) => {
         return this.createOrUpdateMediaDetails(
