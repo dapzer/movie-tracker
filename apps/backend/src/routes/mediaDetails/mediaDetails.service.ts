@@ -27,8 +27,9 @@ import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHour
 interface NotificationType {
   subscriptionId: string
   body: CreateNotificationArgsType
-  mediaType: MediaTypeEnum
 }
+
+type NotificationsToSendType = Record<MediaTypeEnum, NotificationType[]>
 
 @Injectable()
 export class MediaDetailsService implements OnModuleInit {
@@ -38,7 +39,7 @@ export class MediaDetailsService implements OnModuleInit {
     failedUpdatesByDb: 0,
   }
 
-  private notificationsToSend: Array<NotificationType> = []
+  private notificationsToSend: NotificationsToSendType
 
   private readonly logger = new Logger("MediaDetailsService")
 
@@ -53,6 +54,7 @@ export class MediaDetailsService implements OnModuleInit {
     private readonly releaseSubscriptionRepository: ReleaseSubscriptionRepositoryInterface,
     private readonly notificationService: NotificationService,
   ) {
+    this.resetNotificationsToSend()
   }
 
   async onModuleInit() {
@@ -62,6 +64,13 @@ export class MediaDetailsService implements OnModuleInit {
   @Interval(getMillisecondsFromHours(8))
   async autoUpdateAllMediaDetails() {
     this.createOrUpdateAllMediaItemsDetails()
+  }
+
+  private resetNotificationsToSend() {
+    this.notificationsToSend = {
+      tv: [],
+      movie: [],
+    }
   }
 
   private async getMediaDetailsItemFromApi(
@@ -165,9 +174,8 @@ export class MediaDetailsService implements OnModuleInit {
       }
 
       if (releaseChanged) {
-        this.notificationsToSend.push({
+        this.notificationsToSend[args.mediaDetails.mediaType].push({
           subscriptionId: subscription.id,
-          mediaType: args.mediaDetails.mediaType,
           body: {
             userId: subscription.userId,
             type: NotificationTypeEnum.MEDIA_RELEASE,
@@ -179,9 +187,8 @@ export class MediaDetailsService implements OnModuleInit {
       }
 
       if (statusChanged) {
-        this.notificationsToSend.push({
+        this.notificationsToSend[args.mediaDetails.mediaType].push({
           subscriptionId: subscription.id,
-          mediaType: args.mediaDetails.mediaType,
           body: {
             userId: subscription.userId,
             type: NotificationTypeEnum.MEDIA_STATUS_UPDATE,
@@ -197,20 +204,17 @@ export class MediaDetailsService implements OnModuleInit {
   }
 
   private async sendNotifications() {
-    if (this.notificationsToSend.length > 0) {
-      this.logger.log(`Sending ${this.notificationsToSend.length} notifications.`)
-      try {
-        await this.notificationService.createBulk(this.notificationsToSend.map(el => el.body))
-        const notificationsByMediaType = this.notificationsToSend.reduce((acc, curr) => {
-          if (!acc[curr.mediaType]) {
-            acc[curr.mediaType] = []
-          }
-          acc[curr.mediaType].push(curr)
-          return acc
-        }, {} as Record<MediaTypeEnum, NotificationType[]>)
+    const allNotifications = [
+      ...this.notificationsToSend[MediaTypeEnum.MOVIE],
+      ...this.notificationsToSend[MediaTypeEnum.TV],
+    ]
 
+    if (allNotifications.length > 0) {
+      this.logger.log(`Sending ${allNotifications.length} notifications.`)
+      try {
+        await this.notificationService.createBulk(allNotifications.map(el => el.body))
         await Promise.all(
-          Object.entries(notificationsByMediaType).map(([mediaType, notifications]) => {
+          Object.entries(this.notificationsToSend).map(([mediaType, notifications]) => {
             return this.releaseSubscriptionRepository.updateManyByIds(
               {
                 ids: notifications.map(el => el.subscriptionId),
@@ -222,7 +226,7 @@ export class MediaDetailsService implements OnModuleInit {
             )
           }),
         )
-        this.notificationsToSend = []
+        this.resetNotificationsToSend()
 
         this.logger.log("Notifications sent successfully.")
       }
