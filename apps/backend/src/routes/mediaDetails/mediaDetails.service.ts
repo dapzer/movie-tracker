@@ -62,11 +62,14 @@ export class MediaDetailsService implements OnModuleInit {
         })
       }
 
-      return getTmdbDetailApi({
+      const details = await getTmdbDetailApi({
         mediaId,
         mediaType,
         language,
+
       })
+
+      return { details }
     }
     catch {
       return null

@@ -1,7 +1,10 @@
 import type { TmdbMediaDetailsSeasonKey, TmdbMediaDetailsType, TmdbSeasonDetailsType } from "@movie-tracker/types"
-import type { TmdbDefaultQueriesType } from "frontend/app/api/tmdb/tmdbApiTypes"
 import { tmdbApi } from "@/api/instance"
-import { TmdbDetailsWithSeasonsResponseType, TmdbSeasonsQueriesType } from "@/api/tmdb/tmdbApiTypes"
+import {
+  TmdbDefaultQueriesType,
+  TmdbDetailsWithSeasonsResponseType,
+  TmdbSeasonsQueriesType,
+} from "@/api/tmdb/tmdbApiTypes"
 
 export async function getTmdbDetailApi<T = TmdbMediaDetailsType>(queries: TmdbDefaultQueriesType) {
   return tmdbApi.get<T>(`${queries.mediaType}/${queries.mediaId}`, {
