@@ -8,6 +8,7 @@ export function convertMediaDetailsToMediaDetailsInfo(data: TmdbDetailsWithSeaso
     poster: data.details?.poster_path,
     seasons: getSeasons(data),
     status: data.details?.status,
+    releaseDate: data.details?.release_date || data.details?.first_air_date,
   }
 }
 

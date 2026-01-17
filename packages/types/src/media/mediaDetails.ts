@@ -17,6 +17,7 @@ export interface MediaDetailsInfoType {
   poster: string | null
   seasons?: MediaDetailsInfoSeasonType[]
   status?: string
+  releaseDate?: string | null
 }
 
 export interface MediaDetailsInfoSeasonType {
