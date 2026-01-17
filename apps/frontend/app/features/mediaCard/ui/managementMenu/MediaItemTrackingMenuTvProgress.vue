@@ -46,7 +46,7 @@ const seasonOptions = computed(() => {
 
 const episodeOptions = computed(() => {
   const result: Array<OptionType> = []
-  const episodeCount = currentMediaDetails.value?.seasons?.[Number(currentValue.value.currentSeason)]?.episode_count
+  const episodeCount = currentMediaDetails.value?.seasons?.[Number(currentValue.value.currentSeason)]?.episodeCount
 
   if (!episodeCount) {
     return result

@@ -21,6 +21,7 @@ import { TrackingDataModule } from "@/routes/trackingData/trackingData.module"
 import { UserFollowModule } from "@/routes/userFollow/userFollow.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { PrismaModule } from "@/services/prisma/prisma.module"
+import { envSchema } from "@/shared/schemas/envSchema"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { NotificationModule } from "./routes/notification/notification.module"
 import { ProxyModule } from "./routes/proxy/proxy.module"
@@ -28,7 +29,7 @@ import { UserModule } from "./routes/user/user.module"
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ validate: env => envSchema.parse(env), isGlobal: true }),
     ScheduleModule.forRoot(),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
