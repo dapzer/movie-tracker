@@ -17,4 +17,5 @@ export interface MediaDetailsInfoType {
   originalTitle: string | null
   poster: string | null
   seasons?: TmdbMediaDetailsSeasonType[]
+  status?: string
 }
