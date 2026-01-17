@@ -4,6 +4,7 @@ export interface ReleaseSubscriptionType {
   id: string
   mediaDetailsId: string
   userId: string
+  lastReleasedAt: Date | null
   completedAt: Date | null
   createdAt: Date
 }
@@ -19,4 +20,4 @@ export interface ReleaseSubscriptionsResponseType {
 
 export type CreateReleaseSubscriptionType = Pick<ReleaseSubscriptionType, "userId" | "mediaDetailsId">
 
-export type UpdateReleaseSubscriptionType = Pick<ReleaseSubscriptionType, "completedAt">
+export type UpdateReleaseSubscriptionType = Partial<Pick<ReleaseSubscriptionType, "completedAt" | "lastReleasedAt">>

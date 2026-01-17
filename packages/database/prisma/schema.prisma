@@ -203,6 +203,7 @@ model ReleaseSubscription {
   mediaDetails   MediaDetails @relation(fields: [mediaDetailsId], references: [id], onDelete: Cascade)
   userId         String       @map("user_id")
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReleasedAt DateTime?    @map("last_released_at")
   completedAt    DateTime?    @map("completed_at")
   createdAt      DateTime     @default(now()) @map("created_at")
 

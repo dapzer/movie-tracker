@@ -41,6 +41,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
       id: data.id,
       mediaDetailsId: data.mediaDetailsId,
       userId: data.userId,
+      lastReleasedAt: data.lastReleasedAt,
       completedAt: data.completedAt,
       createdAt: data.createdAt,
     }
@@ -137,6 +138,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
       where: { id: args.id },
       data: {
         completedAt: args.completedAt,
+        lastReleasedAt: args.lastReleasedAt,
       },
     })
 
