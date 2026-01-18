@@ -1372,6 +1372,10 @@ export default {
     userFollow: "{userName} начал(а) вас отслеживать",
     noNotifications: "У вас нет новых уведомлений",
   },
+  releaseSubscription: {
+    subscribe: "Подписаться",
+    unsubscribe: "Отписаться",
+  },
   legals: {
     privacyPolicy: `## Политика конфиденциальности
 1. **Ваша конфиденциальность**: Movie Tracker стремится обеспечить конфиденциальность вашей информации.
@@ -1483,6 +1487,20 @@ export default {
       unsuccessfullyFollowed: "Произошла ошибка при подписке на пользователя",
       successUnfollowed: "Вы успешно отписались от пользователя",
       unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
+    },
+    releaseSubscription: {
+      tv: {
+        successSubscribed: "Вы успешно подписались на уведомления о выходе новых эпизодов",
+        unsuccessfullySubscribed: "Произошла ошибка при подписке на уведомления о выходе новых эпизодов",
+        successUnsubscribed: "Вы успешно отписались от уведомлений о выоде новых эпизодав",
+        unsuccessfullyUnsubscribed: "Произошла ошибка при отписке от уведомлений о выоде новых эпизодав",
+      },
+      movie: {
+        successSubscribed: "Вы успешно подписались на уведомления о выходе фильма",
+        unsuccessfullySubscribed: "Произошла ошибка при подписке на уведомления о выходе фильма",
+        successUnsubscribed: "Вы успешно отписались от уведомлений о выходе фильма",
+        unsuccessfullyUnsubscribed: "Произошла ошибка при отписке от уведомлений о выходе фильма",
+      },
     },
   },
   ui: {

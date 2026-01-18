@@ -6,6 +6,7 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRating/useMediaRatingApi"
+import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
 import {
   useGetTmdbMovieCreditsApi,
   useGetTmdbMovieDetailsApi,
@@ -64,6 +65,9 @@ const getMediaRatingApi = useGetMediaRatingByMediaIdApi({
   mediaId: props.mediaId,
 })
 const getCommunityListsWithMediaApi = useGetCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
+const getReleaseSubscriptionApi = useGetReleaseSubscriptionByMediaIdApi({
+  mediaId: props.mediaId,
+})
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
@@ -80,6 +84,7 @@ await Promise.all([
   (isTv.value && tmdbGetTvSeriesDetailsApi.suspense()),
   getMediaRatingApi.suspense(),
   getCommunityListsWithMediaApi.suspense(),
+  getReleaseSubscriptionApi.suspense(),
 ])
 
 useMovieDetailsSeo({

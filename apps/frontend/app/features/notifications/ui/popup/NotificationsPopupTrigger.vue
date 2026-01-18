@@ -45,6 +45,7 @@ const value = computed(() => {
   width: 24px;
   height: 24px;
   position: relative;
+  color: var(--c-white-50);
 }
 
 .badge {

@@ -1370,6 +1370,10 @@ export default {
     userFollow: "{userName} started following you",
     noNotifications: "You have no new notifications",
   },
+  releaseSubscription: {
+    subscribe: "Subscribe",
+    unsubscribe: "Unsubscribe",
+  },
   legals: {
     privacyPolicy: `## Privacy policy
 1. **Your privacy**: Movie Tracker is committed to ensuring the privacy of your information.
@@ -1480,6 +1484,21 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successUnfollowed: "You have successfully unfollowed the user",
       unsuccessfullyUnfollowed: "An error occurred while unfollowing from the user",
     },
+    releaseSubscription: {
+      tv: {
+        successSubscribed: "You have successfully subscribed to notifications about new episodes releases",
+        unsuccessfullySubscribed: "An error occurred while subscribing to notifications about new episodes releases",
+        successUnsubscribed: "You have successfully unsubscribed from notifications about new episodes releases",
+        unsuccessfullyUnsubscribed: "An error occurred while unsubscribing from notifications about new episodes releases",
+      },
+      movie: {
+        successSubscribed: "You have successfully subscribed to movie release notifications",
+        unsuccessfullySubscribed: "An error occurred while subscribing to movie release notifications",
+        successUnsubscribed: "You have successfully unsubscribed from notifications about the movie release",
+        unsuccessfullyUnsubscribed: "An error occurred while unsubscribing from notifications about the movie release",
+      },
+    },
+
   },
   ui: {
     loading: "Loading",

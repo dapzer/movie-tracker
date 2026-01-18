@@ -87,14 +87,25 @@ const totalDuration = computed(() => {
 .actionsMobile {
   display: none !important;
 
-  @include mobileDevice() {
+  @include mobilePlusDevice() {
     display: flex !important;
+    &,
+    button {
+      width: 100%;
+    }
   }
 }
+
 .actionsPc {
   margin-top: auto;
+  flex-direction: row;
+  gap: 8px;
 
-  @include mobileDevice() {
+  button {
+    margin: 0 !important;
+  }
+
+  @include mobilePlusDevice() {
     display: none !important;
   }
 }

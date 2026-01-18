@@ -1,3 +1,5 @@
+export { default as MediaDetailsRatingSelector } from "./ui/MediaDetailsRatingSelector.vue"
+export { default as MediaDetailsReleaseSubscription } from "./ui/MediaDetailsReleaseSubscription.vue"
 export { default as MovieDetails } from "./ui/movieDetails/MovieDetails.vue"
 export { default as PersonDetails } from "./ui/personDetails/PersonDetails.vue"
 export { default as TvDetailsSeasons } from "./ui/tvDetailsSeasons/TvDetailsSeasons.vue"

@@ -64,6 +64,8 @@ export type UiIconName = "icon:close"
   | "icon:user"
   | "icon:dashboard"
   | "icon:bell"
+  | "icon:bell-off"
+  | "icon:bell-outlined"
   | "icon:thumb-up"
   | "svg:landing-add-to-list"
 
