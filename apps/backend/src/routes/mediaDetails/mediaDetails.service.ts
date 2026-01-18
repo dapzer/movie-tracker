@@ -1,4 +1,10 @@
-import { CreateNotificationArgsType, MediaDetailsType, MediaTypeEnum, NotificationTypeEnum } from "@movie-tracker/types"
+import {
+  CreateNotificationArgsType,
+  MediaDetailsType,
+  MediaTypeEnum,
+  NotificationMediaReleaseEpisodeType,
+  NotificationTypeEnum,
+} from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
 import { Interval } from "@nestjs/schedule"
 import { getTmdbDetailApi, getTmdbDetailsWithSeasonsApi } from "@/api/tmdb/tmdbApi"
@@ -140,19 +146,30 @@ export class MediaDetailsService implements OnModuleInit {
 
     for (const subscription of subscriptions) {
       let releaseChanged
+      const releasedEpisodes: Array<NotificationMediaReleaseEpisodeType> = []
 
       if (args.mediaDetails.mediaType === MediaTypeEnum.TV) {
         for (const season of args.mediaDetails.en.seasons || []) {
           for (const episode of season.episodes || []) {
             if (episode.airDate) {
               const episodeAirDate = new Date(episode.airDate)
-              const subscriptionCreatedAt = new Date(subscription.createdAt)
+              const subscriptionUpdatedAt = new Date(subscription.lastReleasedAt || subscription.createdAt)
 
-              const isNotToday = episodeAirDate.getTime() !== today.getTime()
-              const isAfterSubscription = episodeAirDate > subscriptionCreatedAt
+              const isAfterSubscription = episodeAirDate > subscriptionUpdatedAt
+              const isNotLaterThanToday = episodeAirDate <= today
 
-              if (isNotToday && isAfterSubscription) {
-                releaseChanged = true
+              if (isAfterSubscription && isNotLaterThanToday) {
+                releasedEpisodes.push({
+                  seasonNumber: season.seasonNumber,
+                  episodeNumber: episode.episodeNumber,
+                })
+
+                if (!releaseChanged) {
+                  releaseChanged = true
+                }
+              }
+
+              if (!isNotLaterThanToday) {
                 break
               }
             }
@@ -162,12 +179,12 @@ export class MediaDetailsService implements OnModuleInit {
       else {
         if (args.mediaDetails.en.releaseDate) {
           const releaseDate = new Date(args.mediaDetails.en.releaseDate)
-          const subscriptionCreatedAt = new Date(subscription.createdAt)
+          const subscriptionUpdatedAt = new Date(subscription.lastReleasedAt || subscription.createdAt)
 
-          const isNotToday = releaseDate.getTime() !== today.getTime()
-          const isAfterSubscription = releaseDate > subscriptionCreatedAt
+          const isAfterSubscription = releaseDate > subscriptionUpdatedAt
+          const isNotLaterThanToday = releaseDate <= today
 
-          if (isNotToday && isAfterSubscription) {
+          if (isAfterSubscription && isNotLaterThanToday) {
             releaseChanged = true
           }
         }
@@ -181,6 +198,12 @@ export class MediaDetailsService implements OnModuleInit {
             type: NotificationTypeEnum.MEDIA_RELEASE,
             meta: {
               mediaDetailsId: args.mediaDetails.id,
+              ...(args.mediaDetails.mediaType === MediaTypeEnum.TV
+                ? {
+                    episodes: releasedEpisodes,
+                  }
+                : {}
+              ),
             },
           },
         })

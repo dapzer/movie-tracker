@@ -1369,6 +1369,10 @@ export default {
     mediaListLike: "Your list '{listTitle}' was liked by {userName}",
     userFollow: "{userName} started following you",
     noNotifications: "You have no new notifications",
+    episodeReleased: "Episode {episode} of season {season} of the series ‘{title}’ have been released",
+    episodesReleased: "Episodes {episode} of season {season} of the series ‘{title}’ have been released",
+    movieReleased: "The film '{title}' has been released",
+    statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
   },
   releaseSubscription: {
     subscribe: "Subscribe",
@@ -1498,7 +1502,6 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
         unsuccessfullyUnsubscribed: "An error occurred while unsubscribing from notifications about the movie release",
       },
     },
-
   },
   ui: {
     loading: "Loading",

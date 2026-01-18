@@ -1371,6 +1371,10 @@ export default {
     mediaListLike: "Ваш список ’{listTitle}’ понравился пользователю {userName}",
     userFollow: "{userName} начал(а) вас отслеживать",
     noNotifications: "У вас нет новых уведомлений",
+    episodeReleased: "Вышла {episode} серия {season} сезона сериала ’{title}’",
+    episodesReleased: "Вышли {episode} серия {season} сезона сериала ’{title}’",
+    movieReleased: "Кинокартина ’{title}’ вышла",
+    statusUpdated: "Статус сериала ’{title}’ изменился с ’{oldStatus}’ на ’{newStatus}’",
   },
   releaseSubscription: {
     subscribe: "Подписаться",

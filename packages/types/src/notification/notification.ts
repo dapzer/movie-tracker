@@ -26,6 +26,11 @@ export enum NotificationTypeEnum {
   MEDIA_STATUS_UPDATE = "MEDIA_STATUS_UPDATE",
 }
 
+export interface NotificationMediaReleaseEpisodeType {
+  seasonNumber: number
+  episodeNumber: number
+}
+
 export type NotificationMetaType
   = | {
     type: NotificationTypeEnum.USER_FOLLOW
@@ -39,12 +44,15 @@ export type NotificationMetaType
   } | {
     type: NotificationTypeEnum.MEDIA_RELEASE
     mediaDetailsId: string
+    episodes?: NotificationMediaReleaseEpisodeType[]
   } | {
     type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
     mediaDetailsId: string
     previousStatus: string
     currentStatus: string
   }
+
+export type ExtractNotificationMetaType<T extends NotificationTypeEnum> = Extract<NotificationMetaType, { type: T }>
 
 export type NotificationMediaListType = Pick<MediaListType, "id" | "title">
 
@@ -62,12 +70,15 @@ export type NotificationMetaResponseType
   } | {
     type: NotificationTypeEnum.MEDIA_RELEASE
     mediaDetails: MediaDetailsType
+    episodes?: NotificationMediaReleaseEpisodeType[]
   } | {
     type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
-    mediaDetailsId: MediaDetailsType
+    mediaDetails: MediaDetailsType
     previousStatus: string
     currentStatus: string
   }
+
+export type ExtractNotificationMetaResponseType<T extends NotificationTypeEnum> = Extract<NotificationMetaResponseType, { type: T }>
 
 export interface CreateNotificationArgsType<T extends NotificationTypeEnum = NotificationTypeEnum> {
   userId: string

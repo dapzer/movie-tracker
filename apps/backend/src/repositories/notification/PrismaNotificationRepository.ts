@@ -1,5 +1,11 @@
 import { Notification, Prisma } from "@movie-tracker/database"
-import { NotificationType, NotificationTypeEnum } from "@movie-tracker/types"
+import {
+  ExtractNotificationMetaResponseType,
+  MediaDetailsInfoType,
+  MediaTypeEnum,
+  NotificationType,
+  NotificationTypeEnum,
+} from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { NotificationRepositoryInterface } from "@/repositories/notification/NotificationRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
@@ -16,13 +22,22 @@ interface NotificationRawResult {
   actorUser_image: string | null
   mediaList_id: string | null
   mediaList_title: string | null
+  mediaDetails_id: string | null
+  mediaDetails_mediaId: number | null
+  mediaDetails_mediaType: string | null
+  mediaDetails_score: Prisma.Decimal | null
+  mediaDetails_en: Prisma.JsonValue | null
+  mediaDetails_ru: Prisma.JsonValue | null
+  mediaDetails_createdAt: Date | null
+  mediaDetails_updatedAt: Date | null
 }
 
 @Injectable()
 export class PrismaNotificationRepository implements NotificationRepositoryInterface {
   private convertToInterface(data: Notification | NotificationRawResult): NotificationType {
     if ("user_id" in data) {
-      let meta: NotificationType["meta"]
+      let meta = data.meta as unknown
+
       switch (data.type) {
         case NotificationTypeEnum.USER_FOLLOW:
           meta = {
@@ -48,6 +63,44 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
             },
           }
           break
+        case NotificationTypeEnum.MEDIA_RELEASE: {
+          const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_RELEASE>
+          meta = {
+            type: NotificationTypeEnum.MEDIA_RELEASE,
+            mediaDetails: {
+              id: data.mediaDetails_id!,
+              mediaId: data.mediaDetails_mediaId!,
+              mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
+              score: data.mediaDetails_score?.toNumber() || 0,
+              en: data.mediaDetails_en as unknown as MediaDetailsInfoType,
+              ru: data.mediaDetails_ru as unknown as MediaDetailsInfoType,
+              createdAt: data.mediaDetails_createdAt!,
+              updatedAt: data.mediaDetails_updatedAt!,
+            },
+            episodes: typedMeta?.episodes,
+          } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_RELEASE>
+          break
+        }
+        case NotificationTypeEnum.MEDIA_STATUS_UPDATE: {
+          const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
+
+          meta = {
+            type: NotificationTypeEnum.MEDIA_STATUS_UPDATE,
+            mediaDetails: {
+              id: data.mediaDetails_id!,
+              mediaId: data.mediaDetails_mediaId!,
+              mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
+              score: data.mediaDetails_score?.toNumber() || 0,
+              en: data.mediaDetails_en as unknown as MediaDetailsInfoType,
+              ru: data.mediaDetails_ru as unknown as MediaDetailsInfoType,
+              createdAt: data.mediaDetails_createdAt!,
+              updatedAt: data.mediaDetails_updatedAt!,
+            },
+            previousStatus: typedMeta.previousStatus,
+            currentStatus: typedMeta.currentStatus,
+          } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
+          break
+        }
         default:
           throw new Error(`Unknown notification type: ${data.type}`)
       }
@@ -56,7 +109,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
         id: data.id,
         userId: data.user_id,
         type: NotificationTypeEnum[data.type],
-        meta,
+        meta: meta as NotificationType["meta"],
         readAt: data.read_at,
         createdAt: data.created_at,
       }
@@ -109,10 +162,19 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
                actor.name  as "actorUser_name",
                actor.image as "actorUser_image",
                ml.id       as "mediaList_id",
-               ml.title    as "mediaList_title"
+               ml.title    as "mediaList_title",
+               md.id       as "mediaDetails_id",
+               md.media_id as "mediaDetails_mediaId",
+               md.media_type as "mediaDetails_mediaType",
+               md.score    as "mediaDetails_score",
+               md.en       as "mediaDetails_en",
+               md.ru       as "mediaDetails_ru",
+               md.created_at as "mediaDetails_createdAt",
+               md.updated_at as "mediaDetails_updatedAt"
         FROM notifications n
                  LEFT JOIN users actor ON actor.id::text = n.meta ->> 'actorUserId'
                  LEFT JOIN media_lists ml ON ml.id::text = n.meta ->> 'mediaListId'
+                 LEFT JOIN media_details md ON md.id::text = n.meta ->> 'mediaDetailsId'
         WHERE n.user_id = ${args.userId}
         ORDER BY n.created_at DESC
         OFFSET ${args.offset};
