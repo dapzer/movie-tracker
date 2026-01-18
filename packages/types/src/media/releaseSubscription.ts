@@ -1,7 +1,10 @@
 import type { MediaDetailsType } from "./mediaDetails"
+import { MediaTypeEnum } from "./mediaItem"
 
 export interface ReleaseSubscriptionType {
   id: string
+  mediaId: number
+  mediaType: MediaTypeEnum
   mediaDetailsId: string
   userId: string
   lastReleasedAt: Date | null
@@ -18,6 +21,6 @@ export interface ReleaseSubscriptionsResponseType {
   totalCount: number
 }
 
-export type CreateReleaseSubscriptionType = Pick<ReleaseSubscriptionType, "userId" | "mediaDetailsId">
+export type CreateReleaseSubscriptionType = Pick<ReleaseSubscriptionType, "userId" | "mediaId" | "mediaType" | "mediaDetailsId">
 
 export type UpdateReleaseSubscriptionType = Partial<Pick<ReleaseSubscriptionType, "completedAt" | "lastReleasedAt">>

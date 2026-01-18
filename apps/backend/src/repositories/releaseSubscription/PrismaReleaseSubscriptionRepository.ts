@@ -40,6 +40,8 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     const record: ReleaseSubscriptionType = {
       id: data.id,
       mediaDetailsId: data.mediaDetailsId,
+      mediaId: data.mediaId,
+      mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       userId: data.userId,
       lastReleasedAt: data.lastReleasedAt,
       completedAt: data.completedAt,
@@ -62,6 +64,8 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     const releaseSubscription = await this.prisma.releaseSubscription.create({
       data: {
         userId: args.userId,
+        mediaId: args.mediaId,
+        mediaType: args.mediaType,
         mediaDetailsId: args.mediaDetailsId,
       },
     })
