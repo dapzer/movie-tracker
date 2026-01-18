@@ -63,7 +63,7 @@ export class MediaRatingService {
       userId: args.userId,
     })
     const mediaIds = mediaRatings.map(el => el.mediaId)
-    const mediaDetails = await this.mediaDetailsRepository.getMediaDetailsByMediaIds({
+    const mediaDetails = await this.mediaDetailsRepository.getByMediaIds({
       mediaIds,
     })
 

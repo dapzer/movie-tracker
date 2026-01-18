@@ -240,8 +240,8 @@ export class MediaDetailsService implements OnModuleInit {
     args: {
       mediaId: number
       mediaType: MediaTypeEnum
-      currentDetails: MediaDetailsType | null
-      skipError: boolean
+      currentDetails?: MediaDetailsType
+      skipError?: boolean
       generateSubscriptionNotifications?: boolean
     },
   ) {
@@ -257,26 +257,33 @@ export class MediaDetailsService implements OnModuleInit {
       throw new HttpException("Media details not found", HttpStatus.NOT_FOUND)
     }
 
-    let mediaDetailsItem: MediaDetailsType | null = null
+    let mediaDetailsItem: MediaDetailsType | null = args.currentDetails
+
+    if (!mediaDetailsItem) {
+      mediaDetailsItem = await this.mediaDetailsRepository.getByMediaData({
+        mediaId: args.mediaId,
+        mediaType: args.mediaType,
+      })
+    }
 
     try {
-      if (!args.currentDetails) {
-        mediaDetailsItem = await this.mediaDetailsRepository.createMediaDetails(
-          args.mediaId,
-          args.mediaType,
-          convertMediaDetailsToMediaDetailsInfo(ru),
-          convertMediaDetailsToMediaDetailsInfo(en),
-          en?.details?.vote_average || 0,
-        )
+      if (!mediaDetailsItem) {
+        mediaDetailsItem = await this.mediaDetailsRepository.create({
+          mediaId: args.mediaId,
+          mediaType: args.mediaType,
+          mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
+          mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
+          score: en?.details?.vote_average || 0,
+        })
       }
       else {
-        mediaDetailsItem = await this.mediaDetailsRepository.updateMediaDetails(
-          args.mediaId,
-          args.mediaType,
-          convertMediaDetailsToMediaDetailsInfo(ru),
-          convertMediaDetailsToMediaDetailsInfo(en),
-          en?.details?.vote_average || 0,
-        )
+        mediaDetailsItem = await this.mediaDetailsRepository.update({
+          mediaId: args.mediaId,
+          mediaType: args.mediaType,
+          mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
+          mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
+          score: en?.details?.vote_average || 0,
+        })
       }
 
       if (args.generateSubscriptionNotifications) {
@@ -309,7 +316,7 @@ export class MediaDetailsService implements OnModuleInit {
       [
         this.mediaItemRepository.getAllMediaItems(),
         this.mediaRatingRepository.getAllMediaRatings(),
-        this.mediaDetailsRepository.getAllMediaDetails(),
+        this.mediaDetailsRepository.getAll(),
       ],
     )
     if (!mediaItems && !mediaRatings) {

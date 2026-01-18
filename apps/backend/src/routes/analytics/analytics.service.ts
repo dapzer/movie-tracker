@@ -1,3 +1,5 @@
+import { AnalyticsRecords } from "@movie-tracker/types"
+import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaDetailsRepositoryInterface,
   MediaDetailsRepositorySymbol,
@@ -15,8 +17,6 @@ import {
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
-import { AnalyticsRecords } from "@movie-tracker/types"
-import { Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class AnalyticsService {
@@ -35,7 +35,7 @@ export class AnalyticsService {
 
   async getRecords(): Promise<AnalyticsRecords> {
     const [mediaDetails, mediaItems, users, mediaLists, mediaRatings] = await Promise.all([
-      this.mediaDetailsRepository.getMediaDetailsCount(),
+      this.mediaDetailsRepository.getCount(),
       this.mediaItemRepository.getMediaItemsCount(),
       this.userRepository.getUsersCount(),
       this.mediaListRepository.getMediaListsCount(),

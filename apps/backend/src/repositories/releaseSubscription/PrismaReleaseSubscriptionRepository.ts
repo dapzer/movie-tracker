@@ -58,8 +58,8 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     return record
   }
 
-  async createReleaseSubscription(
-    args: Parameters<ReleaseSubscriptionRepositoryInterface["createReleaseSubscription"]>[0],
+  async create(
+    args: Parameters<ReleaseSubscriptionRepositoryInterface["create"]>[0],
   ) {
     const releaseSubscription = await this.prisma.releaseSubscription.create({
       data: {
@@ -146,6 +146,19 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     })
 
     return releaseSubscriptions.map(this.convertToInterface)
+  }
+
+  async getByMediaIdUserId(
+    args: Parameters<ReleaseSubscriptionRepositoryInterface["getByMediaIdUserId"]>[0],
+  ) {
+    const releaseSubscription = await this.prisma.releaseSubscription.findFirst({
+      where: {
+        mediaId: args.mediaId,
+        userId: args.userId,
+      },
+    })
+
+    return this.convertToInterface(releaseSubscription)
   }
 
   async update(

@@ -8,13 +8,17 @@ import {
 export const ReleaseSubscriptionRepositorySymbol = Symbol("ReleaseSubscriptionRepository")
 
 export interface ReleaseSubscriptionRepositoryInterface {
-  createReleaseSubscription: (args: CreateReleaseSubscriptionType) => Promise<ReleaseSubscriptionType>
+  create: (args: CreateReleaseSubscriptionType) => Promise<ReleaseSubscriptionType>
 
   getById: (args: Pick<ReleaseSubscriptionType, "id">) => Promise<ReleaseSubscriptionType | undefined>
 
   getByMediaDetailsId: (
     args: Pick<ReleaseSubscriptionType, "mediaDetailsId">
   ) => Promise<ReleaseSubscriptionType[] | undefined>
+
+  getByMediaIdUserId: (
+    args: { mediaId: number, userId: string }
+  ) => Promise<ReleaseSubscriptionType | undefined>
 
   getUncompletedByMediaDetailsId: (
     args: Pick<ReleaseSubscriptionType, "mediaDetailsId">
