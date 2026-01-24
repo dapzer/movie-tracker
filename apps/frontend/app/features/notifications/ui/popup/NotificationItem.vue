@@ -59,15 +59,19 @@ const notificationMessage = computed(() => {
 
       if (metaData.value.mediaDetails.mediaType === MediaTypeEnum.TV && metaData.value.episodes) {
         const multipleEpisodes = metaData.value.episodes && metaData.value.episodes.length > 1
+        const firstEpisode = metaData.value.episodes[0]!
         const episodeString = multipleEpisodes
-          ? `${metaData.value.episodes[0]!.episodeNumber} - ${metaData.value.episodes.at(-1)!.episodeNumber}`
-          : `${metaData.value.episodes[0]!.episodeNumber}`
+          ? `${firstEpisode.episodeNumber} - ${metaData.value.episodes.at(-1)!.episodeNumber}`
+          : `${firstEpisode.episodeNumber}`
+        const isSpecial = firstEpisode.seasonNumber === 0
+        const specialSeasonTranslationKey = multipleEpisodes ? "notifications.episodeReleasedInSpecialSeason" : "notifications.episodesReleasedInSpecialSeason"
+        const usualSeasonTranslationKey = multipleEpisodes ? "notifications.episodesReleased" : "notifications.episodeReleased"
 
-        return t(metaData.value.episodes!.length > 1
-          ? "notifications.episodesReleased"
-          : "notifications.episodeReleased", {
+        return t(isSpecial ? specialSeasonTranslationKey : usualSeasonTranslationKey, {
           episode: episodeString,
-          season: metaData.value.episodes[0]!.seasonNumber + 1,
+          season: isSpecial
+            ? details.seasons![0]!.name
+            : firstEpisode.seasonNumber,
           title: getShortText(details.title || details.originalTitle!, 16),
         })
       }
