@@ -4,7 +4,6 @@ import type { UserApiUpdateTypes } from "~/api/user/userApiTypes"
 import { api } from "~/api/instance"
 
 export async function getUserProfileApi(options?: RequestOptions) {
-  console.log("call")
   return api.get<UserType>("user", options)
 }
 
