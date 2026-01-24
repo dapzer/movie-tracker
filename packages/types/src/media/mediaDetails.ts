@@ -4,7 +4,7 @@ export interface MediaDetailsType {
   id: string
   mediaId: number
   mediaType: MediaTypeEnum
-  score: number | null
+  score: number
   en: MediaDetailsInfoType
   ru: MediaDetailsInfoType
   createdAt: Date
@@ -12,12 +12,12 @@ export interface MediaDetailsType {
 }
 
 export interface MediaDetailsInfoType {
-  title: string | null
-  originalTitle: string | null
-  poster: string | null
+  title: string
+  originalTitle: string
+  poster: string
   seasons?: MediaDetailsInfoSeasonType[]
   status?: string
-  releaseDate?: string | null
+  releaseDate?: string
 }
 
 export interface MediaDetailsInfoSeasonType {
@@ -32,5 +32,6 @@ export interface MediaDetailsInfoSeasonEpisodeType {
   airDate: string
   episodeNumber: number
   seasonNumber: number
+  poster?: string
   name: string
 }

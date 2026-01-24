@@ -97,6 +97,7 @@ export class MediaDetailsService implements OnModuleInit {
         mediaId,
         mediaType,
         language,
+
       })
 
       return { details }
