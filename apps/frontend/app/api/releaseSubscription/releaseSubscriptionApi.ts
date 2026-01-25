@@ -21,6 +21,8 @@ export function getReleaseSubscriptionsByUserId(args: GetReleaseSubscriptionsByU
       limit: args.limit,
       offset: args.offset,
       search: args.search,
+      sortBy: args.sortBy,
+      sortDirection: args.sortDirection,
     },
   })
 }

@@ -1,3 +1,4 @@
+import type { PaginationType, SortOrderEnum } from "../common"
 import type { MediaDetailsType } from "./mediaDetails"
 import { MediaTypeEnum } from "./mediaItem"
 
@@ -19,6 +20,12 @@ export interface ReleaseSubscriptionWithDetailsType extends ReleaseSubscriptionT
 export interface ReleaseSubscriptionsResponseType {
   items: ReleaseSubscriptionWithDetailsType[]
   totalCount: number
+}
+
+export interface GetReleaseSubscriptionsByUserIdQueries extends PaginationType {
+  search?: string
+  sortBy?: "createdAt" | "lastReleasedAt"
+  sortDirection?: SortOrderEnum
 }
 
 export type CreateReleaseSubscriptionType = Pick<ReleaseSubscriptionType, "userId" | "mediaId" | "mediaType" | "mediaDetailsId">

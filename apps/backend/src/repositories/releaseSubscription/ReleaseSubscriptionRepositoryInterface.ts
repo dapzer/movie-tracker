@@ -2,6 +2,7 @@ import {
   CreateReleaseSubscriptionType,
   ReleaseSubscriptionsResponseType,
   ReleaseSubscriptionType,
+  SortOrderEnum,
   UpdateReleaseSubscriptionType,
 } from "@movie-tracker/types"
 
@@ -30,6 +31,8 @@ export interface ReleaseSubscriptionRepositoryInterface {
       limit: number
       offset: number
       search?: string
+      sortBy?: "createdAt" | "lastReleasedAt"
+      sortDirection?: SortOrderEnum
     }
   ) => Promise<ReleaseSubscriptionsResponseType>
 

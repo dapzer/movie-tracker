@@ -6,6 +6,7 @@ import {
   ReleaseSubscriptionsResponseType,
   ReleaseSubscriptionType,
   ReleaseSubscriptionWithDetailsType,
+  SortOrderEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import {
@@ -110,6 +111,8 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     args: Parameters<ReleaseSubscriptionRepositoryInterface["getByUserId"]>[0],
   ): Promise<ReleaseSubscriptionsResponseType> {
     const search = args.search?.trim()
+    const sortBy = args.sortBy ?? "createdAt"
+    const sortDirection = args.sortDirection ?? SortOrderEnum.DESC
     const where: Prisma.ReleaseSubscriptionWhereInput = {
       userId: args.userId,
       ...(search
@@ -145,7 +148,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
           mediaDetails: true,
         },
         orderBy: {
-          createdAt: "desc",
+          [sortBy]: sortDirection,
         },
         take: args.limit,
         skip: args.offset,

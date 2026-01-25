@@ -25,6 +25,8 @@ export class ReleaseSubscriptionController {
       limit: query.limit,
       offset: query.offset,
       search: query.search,
+      sortBy: query.sortBy,
+      sortDirection: query.sortDirection,
     })
   }
 

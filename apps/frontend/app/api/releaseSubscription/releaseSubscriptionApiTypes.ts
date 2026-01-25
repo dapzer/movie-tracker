@@ -1,12 +1,10 @@
-import type { CreateReleaseSubscriptionType, PaginationType } from "@movie-tracker/types"
+import type { CreateReleaseSubscriptionType, GetReleaseSubscriptionsByUserIdQueries } from "@movie-tracker/types"
 
 export interface GetReleaseSubscriptionByMediaIdArgs {
   mediaId: number
 }
 
-export type GetReleaseSubscriptionsByUserIdArgs = PaginationType & {
-  search?: string
-}
+export type GetReleaseSubscriptionsByUserIdArgs = GetReleaseSubscriptionsByUserIdQueries
 
 export type CreateReleaseSubscriptionBody = Pick<CreateReleaseSubscriptionType, "mediaId" | "mediaType">
 
