@@ -161,7 +161,6 @@ const linkTo = computed(() => {
           :class="$style.poster"
           width="42"
           height="64"
-          :placeholder-id="metaData?.mediaDetails.id"
           :alt="`${metaData?.mediaDetails.en.originalTitle} poster`"
           :src="getProxiedImageUrl(getCurrentMediaDetails(metaData.mediaDetails, locale)?.poster, 100)"
         />

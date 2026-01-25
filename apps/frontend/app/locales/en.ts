@@ -1377,8 +1377,13 @@ export default {
     statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
   },
   releaseSubscription: {
+    title: "Release subscriptions",
     subscribe: "Subscribe",
     unsubscribe: "Unsubscribe",
+    table: {
+      title: "Title",
+      latestUpdate: "Latest update",
+    },
   },
   legals: {
     privacyPolicy: `## Privacy policy

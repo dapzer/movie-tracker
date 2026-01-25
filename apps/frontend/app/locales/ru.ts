@@ -1379,8 +1379,13 @@ export default {
     statusUpdated: "Статус сериала ’{title}’ изменился с ’{oldStatus}’ на ’{newStatus}’",
   },
   releaseSubscription: {
+    pageTitle: "Подписки на релизы",
     subscribe: "Подписаться",
     unsubscribe: "Отписаться",
+    table: {
+      title: "Название",
+      latestUpdate: "Последнее обновление",
+    },
   },
   legals: {
     privacyPolicy: `## Политика конфиденциальности

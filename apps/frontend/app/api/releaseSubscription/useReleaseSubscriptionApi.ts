@@ -1,5 +1,6 @@
 import type { ReleaseSubscriptionType } from "@movie-tracker/types"
 import type { UseQueryOptions } from "@tanstack/vue-query"
+import type { Ref } from "vue"
 import type {
   GetReleaseSubscriptionByMediaIdArgs,
   GetReleaseSubscriptionsByUserIdArgs,
@@ -31,9 +32,9 @@ export function useGetReleaseSubscriptionByMediaIdApi(args: GetReleaseSubscripti
   })
 }
 
-export function useGetReleaseSubscriptionsByUserIdApi(args: GetReleaseSubscriptionsByUserIdArgs, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+export function useGetReleaseSubscriptionsByUserIdApi(args: Ref<GetReleaseSubscriptionsByUserIdArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
-    queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID, args.limit, args.offset],
+    queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID, args],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
 
@@ -41,7 +42,7 @@ export function useGetReleaseSubscriptionsByUserIdApi(args: GetReleaseSubscripti
         throw new Error("No session cookie found")
       }
 
-      return getReleaseSubscriptionsByUserId(args, { headers })
+      return getReleaseSubscriptionsByUserId(args.value, { headers })
     },
     retry: false,
     retryOnMount: false,
@@ -56,6 +57,9 @@ export function useCreateReleaseSubscriptionApi() {
     mutationFn: createReleaseSubscription,
     onSuccess: async (data: ReleaseSubscriptionType) => {
       await queryClient.setQueryData([ReleaseSubscriptionApiQueryKeys.GET_BY_MEDIA_ID, data.mediaId], data)
+      await queryClient.refetchQueries({
+        queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID],
+      })
     },
   })
 }
@@ -67,6 +71,9 @@ export function useDeleteReleaseSubscriptionApi() {
     mutationFn: deleteReleaseSubscription,
     onSuccess: async (data) => {
       await queryClient.setQueryData([ReleaseSubscriptionApiQueryKeys.GET_BY_MEDIA_ID, data.mediaId], null)
+      await queryClient.refetchQueries({
+        queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID],
+      })
     },
   })
 }
