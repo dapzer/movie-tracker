@@ -29,6 +29,10 @@ const mediaDetailsUrl = computed(() => {
   return localePath(`/details/${props.subscription.mediaType}/${props.subscription.mediaId}`)
 })
 
+const mediaDetailsSeasonsUrl = computed(() => {
+  return localePath(`/details/${props.subscription.mediaType}/${props.subscription.mediaId}/seasons`)
+})
+
 const lastRelease = computed(() => {
   if (props.subscription.mediaType === MediaTypeEnum.MOVIE) {
     return undefined
@@ -93,14 +97,18 @@ const lastRelease = computed(() => {
         v-if="lastRelease"
         :class="$style.episode"
       >
-        <UiImage
-          :class="$style.episodePoster"
-          :src="getProxiedImageUrl(lastRelease.poster, 100)"
-          height="44"
-          width="80"
-        />
+        <NuxtLink :to="mediaDetailsSeasonsUrl">
+          <UiImage
+            :class="$style.episodePoster"
+            :src="getProxiedImageUrl(lastRelease.poster, 100)"
+            height="44"
+            width="80"
+          />
+        </NuxtLink>
         <div>
           <UiTypography
+            :as="NuxtLink"
+            :to="mediaDetailsSeasonsUrl"
             variant="cardTitle"
             :class="$style.episodeTitle"
           >
