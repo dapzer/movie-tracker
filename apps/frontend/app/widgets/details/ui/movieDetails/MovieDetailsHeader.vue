@@ -148,7 +148,7 @@ const title = computed(() => {
 .actions {
   button,
   > * {
-    width: 100%;
+    width: 100% !important;
   }
 }
 </style>
