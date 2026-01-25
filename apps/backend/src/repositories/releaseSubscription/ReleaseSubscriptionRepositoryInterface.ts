@@ -45,6 +45,8 @@ export interface ReleaseSubscriptionRepositoryInterface {
     }
   ) => Promise<ReleaseSubscriptionType[]>
 
+  getAll: () => Promise<ReleaseSubscriptionType[]>
+
   update: (
     args: Pick<ReleaseSubscriptionType, "id"> & UpdateReleaseSubscriptionType
   ) => Promise<ReleaseSubscriptionType>

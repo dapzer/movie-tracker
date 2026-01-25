@@ -208,6 +208,12 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     return this.convertToInterface(releaseSubscription)
   }
 
+  async getAll() {
+    const releaseSubscriptions = await this.prisma.releaseSubscription.findMany()
+
+    return releaseSubscriptions.map(this.convertToInterface)
+  }
+
   async update(
     args: Parameters<ReleaseSubscriptionRepositoryInterface["update"]>[0],
   ) {

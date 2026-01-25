@@ -336,10 +336,11 @@ export class MediaDetailsService implements OnModuleInit {
   }
 
   async createOrUpdateAllMediaItemsDetails() {
-    const [mediaItems, mediaRatings, mediaDetails] = await Promise.all(
+    const [mediaItems, mediaRatings, releaseSubscriptions, mediaDetails] = await Promise.all(
       [
         this.mediaItemRepository.getAllMediaItems(),
         this.mediaRatingRepository.getAllMediaRatings(),
+        this.releaseSubscriptionRepository.getAll(),
         this.mediaDetailsRepository.getAll(),
       ],
     )
@@ -352,7 +353,7 @@ export class MediaDetailsService implements OnModuleInit {
         [
           ...mediaItems,
           ...mediaRatings,
-          ...mediaDetails,
+          ...releaseSubscriptions,
         ].map(item => [
           `${item.mediaId}-${item.mediaType}`,
           {
