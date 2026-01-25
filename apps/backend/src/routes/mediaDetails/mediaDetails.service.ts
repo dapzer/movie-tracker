@@ -266,21 +266,10 @@ export class MediaDetailsService implements OnModuleInit {
       mediaType: MediaTypeEnum
       currentDetails?: MediaDetailsType
       skipError?: boolean
+      updateDetails?: boolean
       generateSubscriptionNotifications?: boolean
     },
   ) {
-    const { ru, en } = await this.getAllMediaDetails(args.mediaId, args.mediaType)
-
-    if (!ru || !en) {
-      this.updatingProgress.failedUpdatesByApi += 1
-
-      if (args.skipError) {
-        return null
-      }
-
-      throw new HttpException("Media details not found", HttpStatus.NOT_FOUND)
-    }
-
     let mediaDetailsItem: MediaDetailsType | null = args.currentDetails
 
     if (!mediaDetailsItem) {
@@ -290,48 +279,65 @@ export class MediaDetailsService implements OnModuleInit {
       })
     }
 
-    try {
-      if (!mediaDetailsItem) {
-        mediaDetailsItem = await this.mediaDetailsRepository.create({
-          mediaId: args.mediaId,
-          mediaType: args.mediaType,
-          mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
-          mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
-          score: en?.details?.vote_average || 0,
-        })
-      }
-      else {
-        mediaDetailsItem = await this.mediaDetailsRepository.update({
-          mediaId: args.mediaId,
-          mediaType: args.mediaType,
-          mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
-          mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
-          score: en?.details?.vote_average || 0,
-        })
+    if (!mediaDetailsItem || args.updateDetails) {
+      const { ru, en } = await this.getAllMediaDetails(args.mediaId, args.mediaType)
+
+      if (!ru || !en) {
+        this.updatingProgress.failedUpdatesByApi += 1
+
+        if (args.skipError) {
+          return null
+        }
+
+        throw new HttpException("Media details not found", HttpStatus.NOT_FOUND)
       }
 
-      if (args.generateSubscriptionNotifications) {
-        await this.handeSubscriptionNotifications({
-          mediaDetails: mediaDetailsItem,
-          previousMediaDetails: args.currentDetails,
-        })
+      try {
+        if (!mediaDetailsItem) {
+          mediaDetailsItem = await this.mediaDetailsRepository.create({
+            mediaId: args.mediaId,
+            mediaType: args.mediaType,
+            mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
+            mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
+            score: en?.details?.vote_average || 0,
+          })
+        }
+        else if (args.updateDetails) {
+          mediaDetailsItem = await this.mediaDetailsRepository.update({
+            mediaId: args.mediaId,
+            mediaType: args.mediaType,
+            mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
+            mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
+            score: en?.details?.vote_average || 0,
+          })
+        }
+
+        if (args.generateSubscriptionNotifications) {
+          await this.handeSubscriptionNotifications({
+            mediaDetails: mediaDetailsItem,
+            previousMediaDetails: args.currentDetails,
+          })
+        }
+
+        this.updatingProgress.successfulUpdates += 1
+
+        return mediaDetailsItem
       }
+      catch {
+        this.updatingProgress.failedUpdatesByDb += 1
 
-      this.updatingProgress.successfulUpdates += 1
+        if (args.skipError) {
+          return null
+        }
 
-      return mediaDetailsItem
+        throw new HttpException(
+          "Failed to create or update media details",
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        )
+      }
     }
-    catch {
-      this.updatingProgress.failedUpdatesByDb += 1
-
-      if (args.skipError) {
-        return null
-      }
-
-      throw new HttpException(
-        "Failed to create or update media details",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
+    else {
+      return mediaDetailsItem
     }
   }
 
@@ -385,6 +391,7 @@ export class MediaDetailsService implements OnModuleInit {
           currentDetails: el.currentDetails,
           skipError: true,
           generateSubscriptionNotifications: true,
+          updateDetails: true,
         },
         )
       })
