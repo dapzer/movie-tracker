@@ -1,10 +1,11 @@
 import type { UserType } from "@movie-tracker/types"
 import { defineNuxtRouteMiddleware, navigateTo, useRequestHeaders } from "#app"
+import { useQueryClient } from "@tanstack/vue-query"
 import { getUserProfileApi } from "~/api/user/userApi"
 import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
-import { queryClient } from "~/plugins/vue-query"
 
 export default defineNuxtRouteMiddleware(async (to) => {
+  const queryClient = useQueryClient()
   let user = queryClient.getQueryData<UserType | null>([UserQueryKeys.PROFILE])
 
   if (!user) {
