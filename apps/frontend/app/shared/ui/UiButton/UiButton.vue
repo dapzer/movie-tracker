@@ -3,7 +3,7 @@ import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"
-export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold" | "gray"
+export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold" | "gray" | "light-gray"
 
 interface UiButtonProps {
   variant?: UiButtonVariant
@@ -30,6 +30,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       [$style.tertiary]: props.scheme === 'tertiary',
       [$style.gold]: props.scheme === 'gold',
       [$style.gray]: props.scheme === 'gray',
+      [$style.lightGray]: props.scheme === 'light-gray',
       [$style.link]: props.scheme === 'link',
       [$style.boxed]: props.variant === 'boxed',
       [$style.text]: props.variant === 'text',
@@ -123,6 +124,17 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:active,
       &:hover {
         background: var(--c-white-15);
+      }
+    }
+
+    &.lightGray {
+      color: var(--c-white-90);
+      background: var(--c-white-08);
+
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-white-10);
       }
     }
 

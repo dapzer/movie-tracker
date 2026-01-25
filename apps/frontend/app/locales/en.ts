@@ -1245,6 +1245,7 @@ export default {
     communityLists: "Community lists",
     myLists: "My lists",
     accountSettings: "Account settings",
+    releaseSubscription: "Movie subscriptions",
     about: "About",
     faq: "FAQ",
     features: "Features",
@@ -1369,6 +1370,42 @@ export default {
     mediaListLike: "Your list '{listTitle}' was liked by {userName}",
     userFollow: "{userName} started following you",
     noNotifications: "You have no new notifications",
+    episodeReleased: "Episode {episode} of season {season} of the series ‘{title}’ have been released",
+    episodeReleasedInSpecialSeason: "Episode {episode} of season ’{season}’ of the series ‘{title}’ have been released",
+    episodesReleased: "Episodes {episode} of season {season} of the series ‘{title}’ have been released",
+    episodesReleasedInSpecialSeason: "Episodes {episode} of season ’{season}’ of the series ‘{title}’ have been released",
+    movieReleased: "The film '{title}' has been released",
+    statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
+  },
+  releaseSubscription: {
+    title: "Movie subscriptions",
+    subscribe: "Subscribe",
+    unsubscribe: "Unsubscribe",
+    tabs: {
+      completed: "Completed",
+    },
+    sort: {
+      createdAt: "Sort by subscription date",
+      lastReleasedAt: "Sort by update date",
+    },
+    table: {
+      title: "Title",
+      latestUpdate: "Latest update",
+    },
+    tooltip: {
+      title: "Release notifications",
+      tv: {
+        subscribe: `By subscribing, you will receive notifications about the release of new episodes and changes of the status of the series ’{title}’`,
+      },
+      movie: {
+        subscribe: "By subscribing, you will receive notification when the film ’{title}’ is released ",
+        alreadyReleased: "You cannot subscribe to this film because it has already been released",
+      },
+    },
+    noSubscriptions: {
+      title: "You do not have subscriptions to the films",
+      description: "To receive notifications about the release of new films and TV series, subscribe to the films you are interested in.",
+    },
   },
   legals: {
     privacyPolicy: `## Privacy policy
@@ -1480,6 +1517,20 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successUnfollowed: "You have successfully unfollowed the user",
       unsuccessfullyUnfollowed: "An error occurred while unfollowing from the user",
     },
+    releaseSubscription: {
+      tv: {
+        successSubscribed: "You have successfully subscribed to notifications about new episodes releases",
+        unsuccessfullySubscribed: "An error occurred while subscribing to notifications about new episodes releases",
+        successUnsubscribed: "You have successfully unsubscribed from notifications about new episodes releases",
+        unsuccessfullyUnsubscribed: "An error occurred while unsubscribing from notifications about new episodes releases",
+      },
+      movie: {
+        successSubscribed: "You have successfully subscribed to movie release notifications",
+        unsuccessfullySubscribed: "An error occurred while subscribing to movie release notifications",
+        successUnsubscribed: "You have successfully unsubscribed from notifications about the movie release",
+        unsuccessfullyUnsubscribed: "An error occurred while unsubscribing from notifications about the movie release",
+      },
+    },
   },
   ui: {
     loading: "Loading",
@@ -1514,6 +1565,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     change: "Change",
     follow: "Follow",
     unfollow: "Unfollow",
+    nothingFound: "Nothing found",
     like: {
       single: "Like",
       multiple: "Likes",

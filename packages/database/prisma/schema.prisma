@@ -50,14 +50,15 @@ model User {
   createdAt DateTime       @default(now()) @map("created_at")
   updatedAt DateTime       @updatedAt() @map("updated_at")
 
-  mediaLists     MediaList[]
-  accounts       Account[]
-  mediaListLikes MediaListLike[]
-  mediaListViews MediaListView[]
-  mediaRatings   MediaRating[]
-  userFollowers  UserFollow[]    @relation("followerRelation")
-  userFollowing  UserFollow[]    @relation("followingRelation")
-  notifications  Notification[]
+  mediaLists           MediaList[]
+  accounts             Account[]
+  mediaListLikes       MediaListLike[]
+  mediaListViews       MediaListView[]
+  mediaRatings         MediaRating[]
+  userFollowers        UserFollow[]          @relation("followerRelation")
+  userFollowing        UserFollow[]          @relation("followingRelation")
+  notifications        Notification[]
+  releaseSubscriptions ReleaseSubscription[]
 
   @@map("users")
 }
@@ -162,7 +163,8 @@ model MediaDetails {
   createdAt DateTime      @default(now()) @map("created_at")
   updatedAt DateTime      @updatedAt() @map("updated_at")
 
-  mediaItem MediaItem[]
+  mediaItem            MediaItem[]
+  releaseSubscriptions ReleaseSubscription[]
 
   @@unique([mediaId, mediaType])
   @@map("media_details")
@@ -193,6 +195,21 @@ model Notification {
 
   @@index([meta], type: Hash)
   @@map("notifications")
+}
+
+model ReleaseSubscription {
+  id             String        @id @default(uuid())
+  mediaId        Int           @map("media_id")
+  mediaType      MediaTypeEnum @map("media_type")
+  mediaDetailsId String        @map("media_details_id")
+  mediaDetails   MediaDetails  @relation(fields: [mediaDetailsId], references: [id], onDelete: Cascade)
+  userId         String        @map("user_id")
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReleasedAt DateTime?     @map("last_released_at")
+  completedAt    DateTime?     @map("completed_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  @@map("release_subscriptions")
 }
 
 enum StatusNameEnum {
@@ -234,4 +251,6 @@ enum UserMediaRatingsAccessLevelEnum {
 enum NotificationTypeEnum {
   MEDIA_LIST_LIKE
   USER_FOLLOW
+  MEDIA_RELEASE
+  MEDIA_STATUS_UPDATE
 }

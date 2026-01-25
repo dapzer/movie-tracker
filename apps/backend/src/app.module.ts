@@ -25,6 +25,7 @@ import { envSchema } from "@/shared/schemas/envSchema"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { NotificationModule } from "./routes/notification/notification.module"
 import { ProxyModule } from "./routes/proxy/proxy.module"
+import { ReleaseSubscriptionModule } from "./routes/releaseSubscription/releaseSubscription.module"
 import { UserModule } from "./routes/user/user.module"
 
 @Module({
@@ -72,6 +73,7 @@ import { UserModule } from "./routes/user/user.module"
     CommunityListsModule,
     UserFollowModule,
     NotificationModule,
+    ReleaseSubscriptionModule,
   ],
   providers: [
     {

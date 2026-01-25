@@ -54,6 +54,7 @@ const title = computed(() => {
         :title="title"
         :media-id="props.details.id"
         :media-type="props.mediaType"
+        :release-date="props.details.release_date"
       />
     </template>
 
@@ -145,7 +146,8 @@ const title = computed(() => {
 
 <style lang="scss" module>
 .actions {
-  button {
+  button,
+  > * {
     width: 100%;
   }
 }

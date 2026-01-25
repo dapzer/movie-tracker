@@ -1,4 +1,4 @@
-import { MediaListType } from "../media"
+import { MediaDetailsType, MediaListType } from "../media"
 import { UserPublicType } from "../user"
 
 export interface NotificationType {
@@ -22,6 +22,13 @@ export interface NotificationCountType {
 export enum NotificationTypeEnum {
   MEDIA_LIST_LIKE = "MEDIA_LIST_LIKE",
   USER_FOLLOW = "USER_FOLLOW",
+  MEDIA_RELEASE = "MEDIA_RELEASE",
+  MEDIA_STATUS_UPDATE = "MEDIA_STATUS_UPDATE",
+}
+
+export interface NotificationMediaReleaseEpisodeType {
+  seasonNumber: number
+  episodeNumber: number
 }
 
 export type NotificationMetaType
@@ -34,7 +41,18 @@ export type NotificationMetaType
     actorUserId: string
     mediaListId: string
     mediaListLikeId: string
+  } | {
+    type: NotificationTypeEnum.MEDIA_RELEASE
+    mediaDetailsId: string
+    episodes?: NotificationMediaReleaseEpisodeType[]
+  } | {
+    type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
+    mediaDetailsId: string
+    previousStatus: string
+    currentStatus: string
   }
+
+export type ExtractNotificationMetaType<T extends NotificationTypeEnum> = Extract<NotificationMetaType, { type: T }>
 
 export type NotificationMediaListType = Pick<MediaListType, "id" | "title">
 
@@ -49,7 +67,18 @@ export type NotificationMetaResponseType
     type: NotificationTypeEnum.MEDIA_LIST_LIKE
     actorUser: NotificationUserType
     mediaList: NotificationMediaListType
+  } | {
+    type: NotificationTypeEnum.MEDIA_RELEASE
+    mediaDetails: MediaDetailsType
+    episodes?: NotificationMediaReleaseEpisodeType[]
+  } | {
+    type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
+    mediaDetails: MediaDetailsType
+    previousStatus: string
+    currentStatus: string
   }
+
+export type ExtractNotificationMetaResponseType<T extends NotificationTypeEnum> = Extract<NotificationMetaResponseType, { type: T }>
 
 export interface CreateNotificationArgsType<T extends NotificationTypeEnum = NotificationTypeEnum> {
   userId: string

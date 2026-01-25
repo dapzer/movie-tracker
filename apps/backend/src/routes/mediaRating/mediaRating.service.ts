@@ -63,7 +63,7 @@ export class MediaRatingService {
       userId: args.userId,
     })
     const mediaIds = mediaRatings.map(el => el.mediaId)
-    const mediaDetails = await this.mediaDetailsRepository.getMediaDetailsByMediaIds({
+    const mediaDetails = await this.mediaDetailsRepository.getByMediaIds({
       mediaIds,
     })
 
@@ -78,9 +78,12 @@ export class MediaRatingService {
     body: CreateMediaRatingDto
   }) {
     await this.mediaDetailsService.createOrUpdateMediaDetails(
-      args.body.mediaId,
-      args.body.mediaType,
-      null,
+      {
+        mediaId: args.body.mediaId,
+        mediaType: args.body.mediaType,
+        skipError: false,
+        currentDetails: null,
+      },
     )
 
     return this.mediaRatingRepository.createMediaRating({

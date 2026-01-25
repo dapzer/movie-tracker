@@ -1,14 +1,14 @@
 import { useI18n } from "#imports"
-import { isOnlySpaces } from "@movie-tracker/utils"
-import { computed, ref, watch } from "vue"
+import { computed, ref } from "vue"
 import { useGetCommunityListsSearchApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetTmdbSearchByTermApi } from "~/api/tmdb/useTmdbApi"
+import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 
 export function useSearch() {
   const { locale } = useI18n()
 
-  const searchValue = ref<string>("")
   const searchTerm = ref<string>("")
+  const { searchValue } = useDebouncedSearchTerm(searchTerm)
 
   const searchQueries = computed(() => {
     return {
@@ -27,25 +27,6 @@ export function useSearch() {
   }))
 
   const getCommunityListsSearchApi = useGetCommunityListsSearchApi(getCommunityListsSearchApiQueries)
-
-  watch(() => searchValue.value, (value, oldValue, onCleanup) => {
-    if (searchValue.value === searchTerm.value)
-      return
-
-    const delayDebounceFn = setTimeout(() => {
-      if (isOnlySpaces(searchValue.value) && isOnlySpaces(searchTerm.value))
-        return
-      if (isOnlySpaces(searchValue.value)) {
-        searchValue.value = ""
-        searchTerm.value = ""
-        return
-      }
-
-      searchTerm.value = searchValue.value
-    }, 500)
-
-    onCleanup(() => clearTimeout(delayDebounceFn))
-  })
 
   const isResultsEmpty = computed(() => {
     return (getCommunityListsSearchApi.data.value?.items.length || 0) === 0

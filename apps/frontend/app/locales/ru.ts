@@ -1175,7 +1175,7 @@ export default {
     noPermission: "Список не найден или является приватным",
     editList: "Редактирование списка",
     deleteList: "Удалить список",
-    limitReached: "Limit reached",
+    limitReached: "Лимит достигнут",
     limitReachedDescription: "Вы достигли лимита в {limit} списков. Пожалуйста, удалите один из списков, чтобы создать новый.",
     errors: {
       titleLength: "Минимальная длина названия 3 символа",
@@ -1247,6 +1247,7 @@ export default {
     communityLists: "Списки сообщества",
     myLists: "Мои списки",
     accountSettings: "Настройки аккаунта",
+    releaseSubscription: "Подписки на кинокартины",
     about: "О сервисе",
     faq: "FAQ",
     features: "Возможности",
@@ -1371,6 +1372,42 @@ export default {
     mediaListLike: "Ваш список ’{listTitle}’ понравился пользователю {userName}",
     userFollow: "{userName} начал(а) вас отслеживать",
     noNotifications: "У вас нет новых уведомлений",
+    episodeReleased: "Вышла {episode} серия {season} сезона сериала ’{title}’",
+    episodeReleasedInSpecialSeason: "Вышел {episode} серия сезона ’{season}’ сериала ’{title}’",
+    episodesReleased: "Вышли {episode} серия {season} сезона сериала ’{title}’",
+    episodesReleasedInSpecialSeason: "Вышли {episode} серии сезона ’{season}’ сериала ’{title}’",
+    movieReleased: "Кинокартина ’{title}’ вышла",
+    statusUpdated: "Статус сериала ’{title}’ изменился с ’{oldStatus}’ на ’{newStatus}’",
+  },
+  releaseSubscription: {
+    pageTitle: "Подписки на кинокартины",
+    subscribe: "Подписаться",
+    unsubscribe: "Отписаться",
+    tabs: {
+      completed: "Завершенные",
+    },
+    sort: {
+      createdAt: "По дате подписки",
+      lastReleasedAt: "По дате обновления",
+    },
+    table: {
+      title: "Название",
+      latestUpdate: "Последнее обновление",
+    },
+    tooltip: {
+      title: "Уведомления о релизe",
+      tv: {
+        subscribe: "Подписавшись, вы будете получать уведомления о выходе новых эпизодов и изменении статуса сериала ’{title}’",
+      },
+      movie: {
+        subscribe: "Подписавшись, вы получите уведомление о выходе фильма ’{title}’",
+        alreadyReleased: "Вы не можете подписаться на данную кинокартину, так как она уже вышла",
+      },
+    },
+    noSubscriptions: {
+      title: "У вас нет подписок на кинокартины",
+      description: "Чтобы получать уведомления о выходе новых фильмов и сериалов, подпишитесь на интересующие вас кинокартины.",
+    },
   },
   legals: {
     privacyPolicy: `## Политика конфиденциальности
@@ -1484,6 +1521,20 @@ export default {
       successUnfollowed: "Вы успешно отписались от пользователя",
       unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
     },
+    releaseSubscription: {
+      tv: {
+        successSubscribed: "Вы успешно подписались на уведомления о выходе новых эпизодов",
+        unsuccessfullySubscribed: "Произошла ошибка при подписке на уведомления о выходе новых эпизодов",
+        successUnsubscribed: "Вы успешно отписались от уведомлений о выоде новых эпизодав",
+        unsuccessfullyUnsubscribed: "Произошла ошибка при отписке от уведомлений о выоде новых эпизодав",
+      },
+      movie: {
+        successSubscribed: "Вы успешно подписались на уведомления о выходе фильма",
+        unsuccessfullySubscribed: "Произошла ошибка при подписке на уведомления о выходе фильма",
+        successUnsubscribed: "Вы успешно отписались от уведомлений о выходе фильма",
+        unsuccessfullyUnsubscribed: "Произошла ошибка при отписке от уведомлений о выходе фильма",
+      },
+    },
   },
   ui: {
     loading: "Загрузка",
@@ -1518,6 +1569,7 @@ export default {
     change: "Изменить",
     follow: "Подписаться",
     unfollow: "Отписаться",
+    nothingFound: "Ничего не найдено",
     like: {
       single: "Лайк",
       multiple: "Лайков",

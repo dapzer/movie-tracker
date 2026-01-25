@@ -1,7 +1,7 @@
 import {
   CreateNotificationArgsType,
+  ExtractNotificationMetaType,
   NotificationCountType,
-  NotificationMetaType,
   NotificationResponseType,
   NotificationType,
   NotificationTypeEnum,
@@ -29,13 +29,13 @@ export class NotificationService {
     let existingNotificationKey = null
 
     if (args.type === NotificationTypeEnum.USER_FOLLOW) {
-      const meta = args.meta as unknown as Extract<NotificationMetaType, { type: NotificationTypeEnum.USER_FOLLOW }>
+      const meta = args.meta as unknown as ExtractNotificationMetaType<NotificationTypeEnum.USER_FOLLOW>
       existingNotificationKey = `notification:${args.userId}:${args.type}:${meta.actorUserId}`
       existingNotification = await this.cacheManager.get(existingNotificationKey)
     }
     else if (args.type === NotificationTypeEnum.MEDIA_LIST_LIKE) {
-      const meta = args.meta as unknown as Extract<NotificationMetaType, { type: NotificationTypeEnum.MEDIA_LIST_LIKE }>
-      existingNotificationKey = `notification:${args.userId}:${args.type}:${args.meta.actorUserId}:${meta.mediaListId}`
+      const meta = args.meta as unknown as ExtractNotificationMetaType<NotificationTypeEnum.MEDIA_LIST_LIKE>
+      existingNotificationKey = `notification:${args.userId}:${args.type}:${meta.actorUserId}:${meta.mediaListId}`
       existingNotification = await this.cacheManager.get(existingNotificationKey)
     }
 
@@ -45,6 +45,10 @@ export class NotificationService {
 
     await this.cacheManager.set(existingNotificationKey, true, getMillisecondsFromDays(1))
     return this.notificationRepository.createNotification(args)
+  }
+
+  async createBulk(args: Array<CreateNotificationArgsType>): Promise<Array<NotificationType>> {
+    return this.notificationRepository.createBulkNotifications(args)
   }
 
   async getByUserId(args: { userId: string } & PaginationDto): Promise<NotificationResponseType> {

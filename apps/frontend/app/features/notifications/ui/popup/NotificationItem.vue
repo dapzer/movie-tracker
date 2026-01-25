@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import type { NotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
+import type { ExtractNotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { NotificationTypeEnum } from "@movie-tracker/types"
+import { MediaTypeEnum, NotificationTypeEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
 import { UiBadge } from "~/shared/ui/UiBadge"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiImage } from "~/shared/ui/UiImage"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import { getShortText } from "~/shared/utils/getShortText"
 import { getTimeSinceDate } from "~/shared/utils/getTimeSinceDate"
 
@@ -23,40 +26,91 @@ const localePath = useLocalePath()
 const metaData = computed(() => {
   switch (props.notification.type) {
     case NotificationTypeEnum.MEDIA_LIST_LIKE:
-      return props.notification.meta as Extract<NotificationMetaResponseType, { type: NotificationTypeEnum.MEDIA_LIST_LIKE }>
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_LIST_LIKE>
     case NotificationTypeEnum.USER_FOLLOW:
-      return props.notification.meta as Extract<NotificationMetaResponseType, { type: NotificationTypeEnum.USER_FOLLOW }>
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_FOLLOW>
+    case NotificationTypeEnum.MEDIA_RELEASE:
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_RELEASE>
+    case NotificationTypeEnum.MEDIA_STATUS_UPDATE:
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
     default:
       return undefined
   }
 })
 
 const notificationMessage = computed(() => {
-  switch (props.notification.type) {
+  switch (metaData.value?.type) {
     case NotificationTypeEnum.MEDIA_LIST_LIKE: {
-      const typedMeta = metaData?.value as Extract<NotificationMetaResponseType, { type: NotificationTypeEnum.MEDIA_LIST_LIKE }>
       return t("notifications.mediaListLike", {
         userName: metaData.value?.actorUser.name,
-        listTitle: getShortText(typedMeta.mediaList.title, 12) || t("mediaList.favorites"),
+        listTitle: getShortText(metaData.value.mediaList.title, 12) || t("mediaList.favorites"),
       })
     }
     case NotificationTypeEnum.USER_FOLLOW: {
-      const typedMeta = metaData?.value as Extract<NotificationMetaResponseType, { type: NotificationTypeEnum.USER_FOLLOW }>
       return t("notifications.userFollow", {
-        userName: typedMeta.actorUser.name,
+        userName: metaData.value.actorUser.name,
       })
     }
+    case NotificationTypeEnum.MEDIA_RELEASE: {
+      const details = getCurrentMediaDetails(metaData.value.mediaDetails, locale.value)
+      if (!details) {
+        return ""
+      }
+
+      if (metaData.value.mediaDetails.mediaType === MediaTypeEnum.TV && metaData.value.episodes) {
+        const multipleEpisodes = metaData.value.episodes && metaData.value.episodes.length > 1
+        const firstEpisode = metaData.value.episodes[0]!
+        const episodeString = multipleEpisodes
+          ? `${firstEpisode.episodeNumber} - ${metaData.value.episodes.at(-1)!.episodeNumber}`
+          : `${firstEpisode.episodeNumber}`
+        const isSpecial = firstEpisode.seasonNumber === 0
+        const specialSeasonTranslationKey = multipleEpisodes ? "notifications.episodeReleasedInSpecialSeason" : "notifications.episodesReleasedInSpecialSeason"
+        const usualSeasonTranslationKey = multipleEpisodes ? "notifications.episodesReleased" : "notifications.episodeReleased"
+
+        return t(isSpecial ? specialSeasonTranslationKey : usualSeasonTranslationKey, {
+          episode: episodeString,
+          season: isSpecial
+            ? details.seasons![0]!.name
+            : firstEpisode.seasonNumber,
+          title: getShortText(details.title || details.originalTitle!, 16),
+        })
+      }
+
+      return t("notifications.movieReleased", {
+        title: getShortText(details.title || details.originalTitle!, 16),
+      })
+    }
+    case NotificationTypeEnum.MEDIA_STATUS_UPDATE: {
+      const details = getCurrentMediaDetails(metaData.value.mediaDetails, locale.value)
+      if (!details) {
+        return ""
+      }
+
+      return t("notifications.statusUpdated", {
+        title: getShortText(details.title || details.originalTitle!, 16),
+        oldStatus: t(`details.seriesStatusName.${metaData.value?.previousStatus.toLowerCase()}`),
+        newStatus: t(`details.seriesStatusName.${metaData.value?.currentStatus.toLowerCase()}`),
+      })
+    }
+
     default:
       return ""
   }
 })
 
 const linkTo = computed(() => {
-  switch (props.notification.type) {
+  switch (metaData.value?.type) {
     case NotificationTypeEnum.MEDIA_LIST_LIKE:
       return `/profile/${metaData.value?.actorUser.id}`
     case NotificationTypeEnum.USER_FOLLOW:
       return `/profile/${metaData.value?.actorUser.id}`
+    case NotificationTypeEnum.MEDIA_RELEASE:
+      if (metaData.value?.mediaDetails.mediaType === MediaTypeEnum.TV) {
+        return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}/seasons`
+      }
+      return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}`
+    case NotificationTypeEnum.MEDIA_STATUS_UPDATE:
+      return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}`
     default:
       return "/notifications"
   }
@@ -101,6 +155,15 @@ const linkTo = computed(() => {
             />
           </UiBadge>
         </div>
+      </template>
+      <template v-else-if="metaData?.type === NotificationTypeEnum.MEDIA_RELEASE || metaData?.type === NotificationTypeEnum.MEDIA_STATUS_UPDATE">
+        <UiImage
+          :class="$style.poster"
+          width="42"
+          height="64"
+          :alt="`${metaData?.mediaDetails.en.originalTitle} poster`"
+          :src="getProxiedImageUrl(getCurrentMediaDetails(metaData.mediaDetails, locale)?.poster, 100)"
+        />
       </template>
     </div>
     <div>
@@ -162,5 +225,12 @@ const linkTo = computed(() => {
 }
 
 .avatarWithBadgeWrapper {
+}
+
+.poster {
+  border-radius: var(--s-border-radius-small);
+  width: 42px;
+  height: 64px;
+  object-fit: cover;
 }
 </style>

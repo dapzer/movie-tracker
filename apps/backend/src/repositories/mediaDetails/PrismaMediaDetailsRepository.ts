@@ -13,7 +13,7 @@ implements MediaDetailsRepositoryInterface {
     return {
       id: data.id,
       mediaId: data.mediaId,
-      mediaType: MediaTypeEnum[data.mediaType],
+      mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       score: data.score.toNumber(),
       en: data.en as unknown as MediaDetailsInfoType,
       ru: data.ru as unknown as MediaDetailsInfoType,
@@ -22,12 +22,11 @@ implements MediaDetailsRepositoryInterface {
     }
   }
 
-  async getMediaDetailsByMediaIds(args: Parameters<MediaDetailsRepositoryInterface["getMediaDetailsByMediaIds"]>[0]) {
-    const { mediaIds } = args
+  async getByMediaIds(args: Parameters<MediaDetailsRepositoryInterface["getByMediaIds"]>[0]) {
     const mediaDetails = await this.prismaService.mediaDetails.findMany({
       where: {
         mediaId: {
-          in: mediaIds,
+          in: args.mediaIds,
         },
       },
     })
@@ -35,56 +34,44 @@ implements MediaDetailsRepositoryInterface {
     return mediaDetails.map(this.convertToInterface)
   }
 
-  async createMediaDetails(
-    mediaId: number,
-    mediaType: MediaTypeEnum,
-    mediaDetailsInfoRu: MediaDetailsInfoType,
-    mediaDetailsInfoEn: MediaDetailsInfoType,
-    score: number,
-  ) {
+  async create(args: Parameters<MediaDetailsRepositoryInterface["create"]>[0]) {
     const mediaDetails = await this.prismaService.mediaDetails.create({
       data: {
-        mediaId,
-        mediaType,
-        ru: mediaDetailsInfoRu as unknown as Prisma.JsonArray,
-        en: mediaDetailsInfoEn as unknown as Prisma.JsonArray,
-        score,
+        mediaId: args.mediaId,
+        mediaType: args.mediaType,
+        ru: args.mediaDetailsInfoRu as unknown as Prisma.JsonArray,
+        en: args.mediaDetailsInfoEn as unknown as Prisma.JsonArray,
+        score: args.score,
       },
     })
 
     return this.convertToInterface(mediaDetails)
   }
 
-  async updateMediaDetails(
-    mediaId: number,
-    mediaType: MediaTypeEnum,
-    mediaDetailsInfoRu: MediaDetailsInfoType,
-    mediaDetailsInfoEn: MediaDetailsInfoType,
-    score: number,
-  ) {
+  async update(args: Parameters<MediaDetailsRepositoryInterface["update"]>[0]) {
     const mediaDetails = await this.prismaService.mediaDetails.update({
       where: {
         mediaId_mediaType: {
-          mediaId,
-          mediaType,
+          mediaId: args.mediaId,
+          mediaType: args.mediaType,
         },
       },
       data: {
-        ru: mediaDetailsInfoRu as unknown as Prisma.JsonArray,
-        en: mediaDetailsInfoEn as unknown as Prisma.JsonArray,
-        score,
+        ru: args.mediaDetailsInfoRu as unknown as Prisma.JsonArray,
+        en: args.mediaDetailsInfoEn as unknown as Prisma.JsonArray,
+        score: args.score,
       },
     })
 
     return this.convertToInterface(mediaDetails)
   }
 
-  async getMediaDetailsItem(mediaId: number, mediaType: MediaTypeEnum) {
+  async getByMediaData(args: Parameters<MediaDetailsRepositoryInterface["getByMediaData"]>[0]) {
     const mediaDetails = await this.prismaService.mediaDetails.findUnique({
       where: {
         mediaId_mediaType: {
-          mediaId,
-          mediaType,
+          mediaId: args.mediaId,
+          mediaType: args.mediaType,
         },
       },
     })
@@ -92,7 +79,13 @@ implements MediaDetailsRepositoryInterface {
     return mediaDetails ? this.convertToInterface(mediaDetails) : null
   }
 
-  async getMediaDetailsCount() {
+  async getAll() {
+    const mediaDetails = await this.prismaService.mediaDetails.findMany()
+
+    return mediaDetails.map(this.convertToInterface)
+  }
+
+  async getCount() {
     return this.prismaService.mediaDetails.count()
   }
 }

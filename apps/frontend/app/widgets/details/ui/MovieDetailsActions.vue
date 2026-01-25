@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { MediaListSelectorModal } from "~/entities/mediaList"
+import { MediaDetailsReleaseSubscription } from "~/widgets/details"
 import MediaDetailsRatingSelector from "~/widgets/details/ui/MediaDetailsRatingSelector.vue"
 
 interface MovieDetailsActionsProps {
@@ -8,6 +9,7 @@ interface MovieDetailsActionsProps {
   mediaType: TmdbMediaTypeEnum | MediaTypeEnum
   hideRating?: boolean
   title?: string
+  releaseDate?: string
 }
 
 const props = defineProps<MovieDetailsActionsProps>()
@@ -22,6 +24,12 @@ const props = defineProps<MovieDetailsActionsProps>()
     <MediaDetailsRatingSelector
       v-if="!props.hideRating"
       :title="props.title"
+      :media-id="props.mediaId"
+      :media-type="props.mediaType"
+    />
+    <MediaDetailsReleaseSubscription
+      :title="props.title"
+      :release-date="props.releaseDate"
       :media-id="props.mediaId"
       :media-type="props.mediaType"
     />

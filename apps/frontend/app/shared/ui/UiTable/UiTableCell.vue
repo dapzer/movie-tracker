@@ -16,7 +16,7 @@ const props = defineProps<UiTableCellProps>()
     }]"
     :style="{
       '--width': props.width ? `${props.width}px` : 'auto',
-      '--align': props.align || 'left',
+      '--align': !!props.align ? `-webkit-${props.align}` : 'left',
     }"
   >
     <slot />

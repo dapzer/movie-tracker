@@ -27,6 +27,10 @@ const totalDuration = computed(() => {
     }, 0) ?? 0,
   )
 })
+
+const title = computed(() => {
+  return props.details.title || props.details.name
+})
 </script>
 
 <template>
@@ -35,7 +39,7 @@ const totalDuration = computed(() => {
     :description="$t(`details.mediaType.tv`)"
     :image="props.details?.poster_path && getProxiedImageUrl(props.details?.poster_path, 350)"
     fallback-image="/defaultMoviePoster.svg"
-    :title="props.details.title || props.details.name"
+    :title="title"
     :back-button-text="$t('details.backToTvPage')"
     :back-button-url="localePath(`/details/${MediaTypeEnum.TV}/${props.details.id}`)"
   >
@@ -43,6 +47,7 @@ const totalDuration = computed(() => {
       <MovieDetailsActions
         hide-rating
         :class="$style.actionsMobile"
+        :title="title"
         :media-id="props.details.id"
         :media-type="MediaTypeEnum.TV"
       />
@@ -51,6 +56,7 @@ const totalDuration = computed(() => {
       <MovieDetailsActions
         hide-rating
         :class="$style.actionsPc"
+        :title="title"
         :media-id="props.details.id"
         :media-type="MediaTypeEnum.TV"
       />
@@ -87,14 +93,25 @@ const totalDuration = computed(() => {
 .actionsMobile {
   display: none !important;
 
-  @include mobileDevice() {
+  @include mobilePlusDevice() {
     display: flex !important;
+    &,
+    button {
+      width: 100%;
+    }
   }
 }
+
 .actionsPc {
   margin-top: auto;
+  flex-direction: row;
+  gap: 8px;
 
-  @include mobileDevice() {
+  button {
+    margin: 0 !important;
+  }
+
+  @include mobilePlusDevice() {
     display: none !important;
   }
 }
