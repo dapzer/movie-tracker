@@ -2,9 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@n
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
 import { CreateReleaseSubscriptionDto } from "@/routes/releaseSubscription/dto/createReleaseSubscription.dto"
+import { GetReleaseSubscriptionsByUserIdQueryDto } from "@/routes/releaseSubscription/dto/getReleaseSubscriptionsByUserIdQuery.dto"
 import { ReleaseSubscriptionService } from "@/routes/releaseSubscription/releaseSubscription.service"
 import { User } from "@/routes/user/users.decorator"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
 
 @Controller("release-subscription")
 export class ReleaseSubscriptionController {
@@ -19,8 +19,13 @@ export class ReleaseSubscriptionController {
 
   @Get()
   @UseGuards(AuthGuard)
-  async getReleaseSubscriptionsByUserId(@Query() query: PaginationDto, @User() user: UserDto) {
-    return this.releaseSubscriptionService.getByUserId({ userId: user.id, limit: query.limit, offset: query.offset })
+  async getReleaseSubscriptionsByUserId(@Query() query: GetReleaseSubscriptionsByUserIdQueryDto, @User() user: UserDto) {
+    return this.releaseSubscriptionService.getByUserId({
+      userId: user.id,
+      limit: query.limit,
+      offset: query.offset,
+      search: query.search,
+    })
   }
 
   @Get("by-media/:mediaId")

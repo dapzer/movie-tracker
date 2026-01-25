@@ -29,6 +29,7 @@ export interface ReleaseSubscriptionRepositoryInterface {
       userId: string
       limit: number
       offset: number
+      search?: string
     }
   ) => Promise<ReleaseSubscriptionsResponseType>
 

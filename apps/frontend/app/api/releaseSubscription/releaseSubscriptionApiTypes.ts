@@ -4,7 +4,9 @@ export interface GetReleaseSubscriptionByMediaIdArgs {
   mediaId: number
 }
 
-export type GetReleaseSubscriptionsByUserIdArgs = PaginationType
+export type GetReleaseSubscriptionsByUserIdArgs = PaginationType & {
+  search?: string
+}
 
 export type CreateReleaseSubscriptionBody = Pick<CreateReleaseSubscriptionType, "mediaId" | "mediaType">
 

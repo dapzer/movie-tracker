@@ -3,7 +3,7 @@ import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed } from "vue"
 import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
-import { ReleaseSubscruptionButton } from "~/features/releaseSubscriptions"
+import { ReleaseSubscriptionButton } from "~/features/releaseSubscriptions"
 import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
@@ -44,7 +44,7 @@ const tooltipContent = computed(() => {
     side="bottom"
   >
     <template #trigger>
-      <ReleaseSubscruptionButton
+      <ReleaseSubscriptionButton
         :media-id="props.mediaId"
         :media-type="props.mediaType"
         :subscription="getReleaseSubscriptionApi.data.value || undefined"

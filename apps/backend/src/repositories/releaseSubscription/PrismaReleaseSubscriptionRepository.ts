@@ -1,4 +1,4 @@
-import { MediaDetails, ReleaseSubscription } from "@movie-tracker/database"
+import { MediaDetails, Prisma, ReleaseSubscription } from "@movie-tracker/database"
 import {
   MediaDetailsInfoType,
   MediaDetailsType,
@@ -109,11 +109,38 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
   async getByUserId(
     args: Parameters<ReleaseSubscriptionRepositoryInterface["getByUserId"]>[0],
   ): Promise<ReleaseSubscriptionsResponseType> {
+    const search = args.search?.trim()
+    const where: Prisma.ReleaseSubscriptionWhereInput = {
+      userId: args.userId,
+      ...(search
+        ? {
+            mediaDetails: {
+              is: {
+                OR: [
+                  {
+                    en: {
+                      path: ["title"],
+                      string_contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    ru: {
+                      path: ["title"],
+                      string_contains: search,
+                      mode: "insensitive",
+                    },
+                  },
+                ],
+              },
+            },
+          }
+        : {}),
+    }
+
     const [items, totalCount] = await Promise.all([
       this.prisma.releaseSubscription.findMany({
-        where: {
-          userId: args.userId,
-        },
+        where,
         include: {
           mediaDetails: true,
         },
@@ -124,9 +151,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
         skip: args.offset,
       }),
       this.prisma.releaseSubscription.count({
-        where: {
-          userId: args.userId,
-        },
+        where,
       }),
     ])
 

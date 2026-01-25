@@ -6,7 +6,7 @@ import {
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import { CreateReleaseSubscriptionDto } from "@/routes/releaseSubscription/dto/createReleaseSubscription.dto"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
+import { GetReleaseSubscriptionsByUserIdQueryDto } from "@/routes/releaseSubscription/dto/getReleaseSubscriptionsByUserIdQuery.dto"
 
 @Injectable()
 export class ReleaseSubscriptionService {
@@ -35,7 +35,7 @@ export class ReleaseSubscriptionService {
     return this.releaseSubscriptionRepository.getByMediaIdUserId({ mediaId: args.mediaId, userId: args.userId })
   }
 
-  async getByUserId(args: { userId: string } & PaginationDto): Promise<ReleaseSubscriptionsResponseType> {
+  async getByUserId(args: { userId: string } & GetReleaseSubscriptionsByUserIdQueryDto): Promise<ReleaseSubscriptionsResponseType> {
     return this.releaseSubscriptionRepository.getByUserId(args)
   }
 

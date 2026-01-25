@@ -1247,6 +1247,7 @@ export default {
     communityLists: "Списки сообщества",
     myLists: "Мои списки",
     accountSettings: "Настройки аккаунта",
+    releaseSubscription: "Подписки на кинокартины",
     about: "О сервисе",
     faq: "FAQ",
     features: "Возможности",
@@ -1379,7 +1380,7 @@ export default {
     statusUpdated: "Статус сериала ’{title}’ изменился с ’{oldStatus}’ на ’{newStatus}’",
   },
   releaseSubscription: {
-    pageTitle: "Подписки на релизы",
+    pageTitle: "Подписки на кинокартины",
     subscribe: "Подписаться",
     unsubscribe: "Отписаться",
     table: {
@@ -1395,6 +1396,10 @@ export default {
         subscribe: "Подписавшись, вы получите уведомление о выходе фильма ’{title}’",
         alreadyReleased: "Вы не можете подписаться на данную кинокартину, так как она уже вышла",
       },
+    },
+    noSubscriptions: {
+      title: "У вас нет подписок на кинокартины",
+      description: "Чтобы получать уведомления о выходе новых фильмов и сериалов, подпишитесь на интересующие вас кинокартины.",
     },
   },
   legals: {
@@ -1557,6 +1562,7 @@ export default {
     change: "Изменить",
     follow: "Подписаться",
     unfollow: "Отписаться",
+    nothingFound: "Ничего не найдено",
     like: {
       single: "Лайк",
       multiple: "Лайков",

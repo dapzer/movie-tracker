@@ -1,6 +1,8 @@
-import { IsUUID } from "class-validator"
+import { IsOptional, IsString } from "class-validator"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 
-export class GetReleaseSubscriptionsByUserIdQueryDto {
-  @IsUUID()
-  userId: string
+export class GetReleaseSubscriptionsByUserIdQueryDto extends PaginationDto {
+  @IsOptional()
+  @IsString()
+  search?: string
 }

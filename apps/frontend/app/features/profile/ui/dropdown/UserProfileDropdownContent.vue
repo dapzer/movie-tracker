@@ -70,6 +70,20 @@ const isAdmin = computed(() => {
       </template>
     </UiDropdownItem>
 
+    <UiDropdownSeparator />
+
+    <UiDropdownItem
+      :as="NuxtLink"
+      :to="localePath('/release-subscriptions')"
+    >
+      <template #iconStart>
+        <UiIcon name="icon:bell-outlined" />
+      </template>
+      <template #content>
+        {{ $t('navigation.releaseSubscription') }}
+      </template>
+    </UiDropdownItem>
+
     <template v-if="isAdmin">
       <UiDropdownSeparator />
       <UiDropdownItem
@@ -83,8 +97,9 @@ const isAdmin = computed(() => {
           {{ $t('dashboard.title') }}
         </template>
       </UiDropdownItem>
-      <UiDropdownSeparator />
     </template>
+
+    <UiDropdownSeparator />
 
     <UiDropdownItem
       :disabled="isProcessingLogout"

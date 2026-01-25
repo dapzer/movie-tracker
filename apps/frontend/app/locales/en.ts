@@ -1245,6 +1245,7 @@ export default {
     communityLists: "Community lists",
     myLists: "My lists",
     accountSettings: "Account settings",
+    releaseSubscription: "Movie subscriptions",
     about: "About",
     faq: "FAQ",
     features: "Features",
@@ -1377,7 +1378,7 @@ export default {
     statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
   },
   releaseSubscription: {
-    title: "Release subscriptions",
+    title: "Movie subscriptions",
     subscribe: "Subscribe",
     unsubscribe: "Unsubscribe",
     table: {
@@ -1393,6 +1394,10 @@ export default {
         subscribe: "By subscribing, you will receive notification when the film ’{title}’ is released ",
         alreadyReleased: "You cannot subscribe to this film because it has already been released",
       },
+    },
+    noSubscriptions: {
+      title: "You do not have subscriptions to the films",
+      description: "To receive notifications about the release of new films and TV series, subscribe to the films you are interested in.",
     },
   },
   legals: {
@@ -1553,6 +1558,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     change: "Change",
     follow: "Follow",
     unfollow: "Unfollow",
+    nothingFound: "Nothing found",
     like: {
       single: "Like",
       multiple: "Likes",
