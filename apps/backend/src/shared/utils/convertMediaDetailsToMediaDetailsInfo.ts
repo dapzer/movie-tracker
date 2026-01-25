@@ -25,8 +25,9 @@ function getSeasons(data: TmdbDetailsWithSeasonsResponseType): MediaDetailsInfoS
           return {
             airDate: ep.air_date,
             episodeNumber: ep.episode_number,
-            name: ep.name,
             seasonNumber: ep.season_number,
+            name: ep.name,
+            poster: ep.still_path,
           }
         }) || [],
       seasonNumber: el.season_number,
