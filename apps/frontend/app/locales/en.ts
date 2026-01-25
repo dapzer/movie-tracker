@@ -1384,6 +1384,16 @@ export default {
       title: "Title",
       latestUpdate: "Latest update",
     },
+    tooltip: {
+      title: "Release notifications",
+      tv: {
+        subscribe: `By subscribing, you will receive notifications about the release of new episodes and changes of the status of the series ’{title}’`,
+      },
+      movie: {
+        subscribe: "By subscribing, you will receive notification when the film ’{title}’ is released ",
+        alreadyReleased: "You cannot subscribe to this film because it has already been released",
+      },
+    },
   },
   legals: {
     privacyPolicy: `## Privacy policy

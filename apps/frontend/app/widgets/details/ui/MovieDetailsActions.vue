@@ -28,6 +28,7 @@ const props = defineProps<MovieDetailsActionsProps>()
       :media-type="props.mediaType"
     />
     <MediaDetailsReleaseSubscription
+      :title="props.title"
       :release-date="props.releaseDate"
       :media-id="props.mediaId"
       :media-type="props.mediaType"

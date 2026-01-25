@@ -146,7 +146,8 @@ const title = computed(() => {
 
 <style lang="scss" module>
 .actions {
-  button {
+  button,
+  > * {
     width: 100%;
   }
 }
