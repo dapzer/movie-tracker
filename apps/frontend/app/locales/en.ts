@@ -1381,6 +1381,9 @@ export default {
     title: "Movie subscriptions",
     subscribe: "Subscribe",
     unsubscribe: "Unsubscribe",
+    tabs: {
+      completed: "Completed",
+    },
     table: {
       title: "Title",
       latestUpdate: "Latest update",

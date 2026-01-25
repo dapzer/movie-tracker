@@ -20,10 +20,12 @@ export interface ReleaseSubscriptionWithDetailsType extends ReleaseSubscriptionT
 export interface ReleaseSubscriptionsResponseType {
   items: ReleaseSubscriptionWithDetailsType[]
   totalCount: number
+  totalSubscriptionsCount: number
 }
 
 export interface GetReleaseSubscriptionsByUserIdQueries extends PaginationType {
   search?: string
+  completed?: boolean
   sortBy?: "createdAt" | "lastReleasedAt"
   sortDirection?: SortOrderEnum
 }

@@ -31,6 +31,7 @@ export interface ReleaseSubscriptionRepositoryInterface {
       limit: number
       offset: number
       search?: string
+      completed?: boolean
       sortBy?: "createdAt" | "lastReleasedAt"
       sortDirection?: SortOrderEnum
     }

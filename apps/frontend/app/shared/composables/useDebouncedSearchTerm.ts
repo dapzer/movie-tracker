@@ -3,7 +3,7 @@ import { isOnlySpaces } from "@movie-tracker/utils"
 import { ref, watch } from "vue"
 
 export function useDebouncedSearchTerm(searchTerm: Ref<string>) {
-  const searchValue = ref<string>("")
+  const searchValue = ref<string>(searchTerm.value)
 
   watch(() => searchValue.value, (value, oldValue, onCleanup) => {
     if (searchValue.value === searchTerm.value)

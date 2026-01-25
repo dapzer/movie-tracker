@@ -113,6 +113,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     const search = args.search?.trim()
     const sortBy = args.sortBy ?? "createdAt"
     const sortDirection = args.sortDirection ?? SortOrderEnum.DESC
+    const hasFilters = Boolean(search) || typeof args.completed === "boolean"
     const where: Prisma.ReleaseSubscriptionWhereInput = {
       userId: args.userId,
       ...(search
@@ -139,9 +140,14 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
             },
           }
         : {}),
+      ...(args.completed === true
+        ? { completedAt: { not: null } }
+        : args.completed === false
+          ? { completedAt: null }
+          : {}),
     }
 
-    const [items, totalCount] = await Promise.all([
+    const [items, totalCount, totalSubscriptionsCount] = await Promise.all([
       this.prisma.releaseSubscription.findMany({
         where,
         include: {
@@ -156,6 +162,13 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
       this.prisma.releaseSubscription.count({
         where,
       }),
+      hasFilters
+        ? this.prisma.releaseSubscription.count({
+            where: {
+              userId: args.userId,
+            },
+          })
+        : Promise.resolve(0),
     ])
 
     return {
@@ -163,6 +176,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
         item => this.convertToInterface(item) as ReleaseSubscriptionWithDetailsType,
       ),
       totalCount,
+      totalSubscriptionsCount: hasFilters ? totalSubscriptionsCount : totalCount,
     }
   }
 

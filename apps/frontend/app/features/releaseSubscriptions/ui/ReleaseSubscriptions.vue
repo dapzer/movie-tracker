@@ -10,11 +10,15 @@ import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
+import { UiTabsPane } from "~/shared/ui/UiTabs"
 
 const PAGE_SIZE = 10
 
 const page = useRouteQuery<number>("page", 1, {
   transform: Number,
+  mode: "replace",
+})
+const activeTab = useRouteQuery<string>("tab", "all", {
   mode: "replace",
 })
 const searchTerm = useRouteQuery<string>("searchTerm", "", {
@@ -27,6 +31,7 @@ const getReleaseSubscriptionsByUserIdQueryParams = computed(() => {
     limit: PAGE_SIZE,
     offset: (page.value - 1) * PAGE_SIZE,
     search: searchTerm.value || undefined,
+    completed: activeTab.value === "completed" ? true : undefined,
   }
 })
 
@@ -39,13 +44,19 @@ watch(() => getReleaseSubscriptionsByUserIdApi.data.value?.items, (newValue) => 
     page.value = 1
   }
 })
+
+watch([searchTerm, activeTab], () => {
+  page.value = 1
+})
 </script>
 
 <template>
   <UiContainer :class="$style.wrapper">
     <ReleaseSubscriptionsHeader />
 
-    <template v-if="getReleaseSubscriptionsByUserIdApi.data.value?.totalCount === 0 && !searchTerm && page === 1">
+    <template
+      v-if="getReleaseSubscriptionsByUserIdApi.data.value?.totalSubscriptionsCount === 0"
+    >
       <UiDivider />
       <UiAttention
         :indent="42"
@@ -70,18 +81,34 @@ watch(() => getReleaseSubscriptionsByUserIdApi.data.value?.items, (newValue) => 
       </UiInput>
 
       <UiDivider />
-      <ReleaseSubscriptionsTable
-        v-if="getReleaseSubscriptionsByUserIdApi.data.value?.items?.length"
-        v-model:current-page="page"
-        :data="getReleaseSubscriptionsByUserIdApi.data.value?.items"
-        :total-count="getReleaseSubscriptionsByUserIdApi.data.value?.totalCount"
-        :loading="getReleaseSubscriptionsByUserIdApi.isFetching.value"
-      />
-      <UiAttention
-        v-else
-        :title="$t('ui.nothingFound')"
-        :indent="24"
-      />
+      <UiTabsPane
+        v-model="activeTab"
+        :tabs="[
+          {
+            label: $t('ui.all'),
+            key: 'all',
+          },
+          {
+            label: $t('releaseSubscription.tabs.completed'),
+            key: 'completed',
+          },
+        ] as const"
+      >
+        <template #content>
+          <ReleaseSubscriptionsTable
+            v-if="getReleaseSubscriptionsByUserIdApi.data.value?.items?.length"
+            v-model:current-page="page"
+            :data="getReleaseSubscriptionsByUserIdApi.data.value?.items"
+            :total-count="getReleaseSubscriptionsByUserIdApi.data.value?.totalCount"
+            :loading="getReleaseSubscriptionsByUserIdApi.isFetching.value"
+          />
+          <UiAttention
+            v-else
+            :title="$t('ui.nothingFound')"
+            :indent="24"
+          />
+        </template>
+      </UiTabsPane>
     </div>
   </UiContainer>
 </template>

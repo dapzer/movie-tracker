@@ -1383,6 +1383,9 @@ export default {
     pageTitle: "Подписки на кинокартины",
     subscribe: "Подписаться",
     unsubscribe: "Отписаться",
+    tabs: {
+      completed: "Завершенные",
+    },
     table: {
       title: "Название",
       latestUpdate: "Последнее обновление",

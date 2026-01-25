@@ -14,13 +14,14 @@ export function getReleaseSubscriptionByMediaId(args: GetReleaseSubscriptionByMe
   })
 }
 
-export function getReleaseSubscriptionsByUserId(args: GetReleaseSubscriptionsByUserIdArgs, options?: Omit<RequestOptions, "params">) {
+export async function getReleaseSubscriptionsByUserId(args: GetReleaseSubscriptionsByUserIdArgs, options?: Omit<RequestOptions, "params">) {
   return api.get<ReleaseSubscriptionsResponseType>(`release-subscription`, {
     ...options,
     params: {
       limit: args.limit,
       offset: args.offset,
       search: args.search,
+      completed: args.completed,
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
     },
