@@ -1,5 +1,6 @@
 import {
   CreateReleaseSubscriptionType,
+  MediaTypeEnum,
   ReleaseSubscriptionsResponseType,
   ReleaseSubscriptionType,
   SortOrderEnum,
@@ -32,6 +33,7 @@ export interface ReleaseSubscriptionRepositoryInterface {
       offset: number
       search?: string
       completed?: boolean
+      mediaType?: MediaTypeEnum
       sortBy?: "createdAt" | "lastReleasedAt"
       sortDirection?: SortOrderEnum
     }

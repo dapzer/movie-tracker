@@ -1386,6 +1386,10 @@ export default {
     tabs: {
       completed: "Завершенные",
     },
+    sort: {
+      createdAt: "По дате подписки",
+      lastReleasedAt: "По дате обновления",
+    },
     table: {
       title: "Название",
       latestUpdate: "Последнее обновление",

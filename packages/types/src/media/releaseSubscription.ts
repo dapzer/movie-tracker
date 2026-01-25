@@ -26,6 +26,7 @@ export interface ReleaseSubscriptionsResponseType {
 export interface GetReleaseSubscriptionsByUserIdQueries extends PaginationType {
   search?: string
   completed?: boolean
+  mediaType?: MediaTypeEnum
   sortBy?: "createdAt" | "lastReleasedAt"
   sortDirection?: SortOrderEnum
 }

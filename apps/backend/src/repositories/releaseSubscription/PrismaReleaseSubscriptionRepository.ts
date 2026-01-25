@@ -113,7 +113,7 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
     const search = args.search?.trim()
     const sortBy = args.sortBy ?? "createdAt"
     const sortDirection = args.sortDirection ?? SortOrderEnum.DESC
-    const hasFilters = Boolean(search) || typeof args.completed === "boolean"
+    const hasFilters = Boolean(search) || typeof args.completed === "boolean" || Boolean(args.mediaType)
     const where: Prisma.ReleaseSubscriptionWhereInput = {
       userId: args.userId,
       ...(search
@@ -138,6 +138,11 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
                 ],
               },
             },
+          }
+        : {}),
+      ...(args.mediaType
+        ? {
+            mediaType: args.mediaType,
           }
         : {}),
       ...(args.completed === true

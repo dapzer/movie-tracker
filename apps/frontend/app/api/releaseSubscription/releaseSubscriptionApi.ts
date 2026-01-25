@@ -22,6 +22,7 @@ export async function getReleaseSubscriptionsByUserId(args: GetReleaseSubscripti
       offset: args.offset,
       search: args.search,
       completed: args.completed,
+      mediaType: args.mediaType,
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
     },

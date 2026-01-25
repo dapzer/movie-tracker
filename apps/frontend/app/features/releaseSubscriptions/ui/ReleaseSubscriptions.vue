@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import type { GetReleaseSubscriptionsByUserIdQueries, MediaTypeEnum } from "@movie-tracker/types"
+import { SortOrderEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
 import { useGetReleaseSubscriptionsByUserIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
 import { ReleaseSubscriptionsTable } from "~/features/releaseSubscriptions"
+import ReleaseSubscriptionsFilters from "~/features/releaseSubscriptions/ui/ReleaseSubscriptionsFilters.vue"
 import ReleaseSubscriptionsHeader from "~/features/releaseSubscriptions/ui/ReleaseSubscriptionsHeader.vue"
-import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDivider } from "~/shared/ui/UiDivider"
-import { UiIcon } from "~/shared/ui/UiIcon"
-import { UiInput } from "~/shared/ui/UiInput"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 
 const PAGE_SIZE = 10
@@ -24,7 +24,21 @@ const activeTab = useRouteQuery<string>("tab", "all", {
 const searchTerm = useRouteQuery<string>("searchTerm", "", {
   mode: "replace",
 })
-const { searchValue } = useDebouncedSearchTerm(searchTerm)
+const sortType = useRouteQuery<string>("sort", "desc_createdAt", {
+  mode: "replace",
+})
+const mediaType = useRouteQuery<MediaTypeEnum | "all">("mediaType", "all", {
+  mode: "replace",
+})
+
+const sortParams = computed(() => {
+  const [direction, sortBy] = (sortType.value || "desc_createdAt").split("_")
+
+  return {
+    sortBy,
+    sortDirection: SortOrderEnum[direction!.toUpperCase() as keyof typeof SortOrderEnum],
+  }
+})
 
 const getReleaseSubscriptionsByUserIdQueryParams = computed(() => {
   return {
@@ -32,6 +46,9 @@ const getReleaseSubscriptionsByUserIdQueryParams = computed(() => {
     offset: (page.value - 1) * PAGE_SIZE,
     search: searchTerm.value || undefined,
     completed: activeTab.value === "completed" ? true : undefined,
+    mediaType: mediaType.value === "all" ? undefined : mediaType.value,
+    sortBy: (sortParams.value.sortBy || undefined) as GetReleaseSubscriptionsByUserIdQueries["sortBy"],
+    sortDirection: sortParams.value.sortDirection as GetReleaseSubscriptionsByUserIdQueries["sortDirection"],
   }
 })
 
@@ -45,7 +62,7 @@ watch(() => getReleaseSubscriptionsByUserIdApi.data.value?.items, (newValue) => 
   }
 })
 
-watch([searchTerm, activeTab], () => {
+watch([searchTerm, activeTab, mediaType, sortType], () => {
   page.value = 1
 })
 </script>
@@ -69,18 +86,14 @@ watch([searchTerm, activeTab], () => {
       v-else
       :class="$style.content"
     >
-      <UiInput
-        v-model="searchValue"
-        :class="$style.search"
-        size="small"
-        :placeholder="$t('search.placeholder')"
-      >
-        <template #icon>
-          <UiIcon name="icon:search" />
-        </template>
-      </UiInput>
-
       <UiDivider />
+
+      <ReleaseSubscriptionsFilters
+        v-model:search-term="searchTerm"
+        v-model:sort-type="sortType"
+        v-model:media-type="mediaType"
+      />
+
       <UiTabsPane
         v-model="activeTab"
         :tabs="[
@@ -96,7 +109,8 @@ watch([searchTerm, activeTab], () => {
       >
         <template #content>
           <ReleaseSubscriptionsTable
-            v-if="getReleaseSubscriptionsByUserIdApi.data.value?.items?.length"
+            v-if="getReleaseSubscriptionsByUserIdApi.data.value?.items?.length
+              || getReleaseSubscriptionsByUserIdApi.isPending.value"
             v-model:current-page="page"
             :data="getReleaseSubscriptionsByUserIdApi.data.value?.items"
             :total-count="getReleaseSubscriptionsByUserIdApi.data.value?.totalCount"
@@ -114,21 +128,6 @@ watch([searchTerm, activeTab], () => {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/breakpoints";
-@import "~/shared/styles/mixins";
-
-.search {
-  max-width: 384px;
-  display: flex;
-  gap: 10px;
-
-  @include mobileDevice {
-    max-width: 100%;
-
-    height: 40px;
-  }
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;

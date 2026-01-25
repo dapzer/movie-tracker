@@ -1,4 +1,4 @@
-import { GetReleaseSubscriptionsByUserIdQueries, SortOrderEnum } from "@movie-tracker/types"
+import { GetReleaseSubscriptionsByUserIdQueries, MediaTypeEnum, SortOrderEnum } from "@movie-tracker/types"
 import { Transform } from "class-transformer"
 import { IsBoolean, IsEnum, IsIn, IsOptional, IsString } from "class-validator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
@@ -20,6 +20,10 @@ export class GetReleaseSubscriptionsByUserIdQueryDto extends PaginationDto imple
     return value
   })
   completed?: boolean
+
+  @IsOptional()
+  @IsEnum(MediaTypeEnum)
+  mediaType?: MediaTypeEnum
 
   @IsOptional()
   @IsEnum(SortOrderEnum)

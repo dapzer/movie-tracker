@@ -26,6 +26,7 @@ export class ReleaseSubscriptionController {
       offset: query.offset,
       search: query.search,
       completed: query.completed,
+      mediaType: query.mediaType,
       sortBy: query.sortBy,
       sortDirection: query.sortDirection,
     })

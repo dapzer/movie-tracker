@@ -1384,6 +1384,10 @@ export default {
     tabs: {
       completed: "Completed",
     },
+    sort: {
+      createdAt: "Sort by subscription date",
+      lastReleasedAt: "Sort by update date",
+    },
     table: {
       title: "Title",
       latestUpdate: "Latest update",
