@@ -1378,7 +1378,7 @@ export default {
     statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
   },
   releaseSubscription: {
-    title: "Movie subscriptions",
+    pageTitle: "Movie subscriptions",
     subscribe: "Subscribe",
     unsubscribe: "Unsubscribe",
     tabs: {

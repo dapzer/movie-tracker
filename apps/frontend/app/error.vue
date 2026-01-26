@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { NuxtError } from "#app"
 import { NuxtLink } from "#components"
+import { useLocalePath } from "#i18n"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -10,6 +11,8 @@ interface ErrorPageProps {
 }
 
 const props = defineProps<ErrorPageProps>()
+
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -22,7 +25,7 @@ const props = defineProps<ErrorPageProps>()
     </UiTypography>
     <UiButton
       :as="NuxtLink"
-      to="/"
+      :to="localePath('/')"
     >
       {{ $t("ui.actions.backToMainPage") }}
     </UiButton>
