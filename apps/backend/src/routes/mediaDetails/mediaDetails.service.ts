@@ -210,7 +210,7 @@ export class MediaDetailsService implements OnModuleInit {
         })
       }
 
-      if (statusChanged) {
+      if (statusChanged && args.mediaDetails.mediaType === MediaTypeEnum.TV) {
         this.notificationsToSend[args.mediaDetails.mediaType].push({
           subscriptionId: subscription.id,
           body: {
@@ -350,7 +350,7 @@ export class MediaDetailsService implements OnModuleInit {
         this.mediaDetailsRepository.getAll(),
       ],
     )
-    if (!mediaItems && !mediaRatings) {
+    if (!mediaItems && !mediaRatings && !releaseSubscriptions) {
       throw new HttpException("Media items not found", HttpStatus.NOT_FOUND)
     }
 
