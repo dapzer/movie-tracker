@@ -144,9 +144,14 @@ export class AuthService {
       profile.id,
     )
 
-    let user = account?.userId
-      ? await this.usersRepository.getUserById(account?.userId)
-      : null
+    let user = null
+
+    if (account) {
+      user = await this.usersRepository.getUserById(account.userId)
+    }
+    else if (profile.email) {
+      user = await this.usersRepository.getUserByEmail(profile.email)
+    }
 
     if (user && account) {
       return user
