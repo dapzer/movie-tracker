@@ -11,7 +11,7 @@
     "prestart:prod": "pnpm --filter=database run migrate"
   },
   "dependencies": {
-    "@keyv/redis": "^5.1.6",
+    "@keyv/redis": "5.1.6",
     "@movie-tracker/database": "workspace:*",
     "@movie-tracker/email-templates": "workspace:*",
     "@movie-tracker/types": "workspace:*",
@@ -49,7 +49,7 @@
     "dotenv": "17.2.1",
     "express-session": "1.18.2",
     "nodemailer": "6.9.15",
-    "redis": "5.8.2",
+    "redis": "5.10.0",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
     "satori": "0.18.1",
