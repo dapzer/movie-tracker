@@ -1,8 +1,15 @@
 import * as crypto from "node:crypto"
-import {
-  AccountRepositoryInterface,
-  AccountRepositorySymbol,
-} from "@/repositories/account/AccountRepositoryInterface"
+import { ConfirmEmailChangingEmail, WelcomeEmail } from "@movie-tracker/email-templates"
+import ConfirmationEmail from "@movie-tracker/email-templates/dist/emails/confirmation-email"
+import PasswordRecoveryEmail from "@movie-tracker/email-templates/dist/emails/password-recovery-email"
+import { SignUpMethodEnum, UserType } from "@movie-tracker/types"
+import { CACHE_MANAGER } from "@nestjs/cache-manager"
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
+import { render } from "@react-email/render"
+import * as bcrypt from "bcrypt"
+import { Cache } from "cache-manager"
+import { AccountRepositoryInterface, AccountRepositorySymbol } from "@/repositories/account/AccountRepositoryInterface"
 import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
@@ -15,16 +22,6 @@ import { ProvidersService } from "@/routes/auth/providers/providers.service"
 import { MailService } from "@/services/mail/mail.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
-import { ConfirmEmailChangingEmail, WelcomeEmail } from "@movie-tracker/email-templates"
-import ConfirmationEmail from "@movie-tracker/email-templates/dist/emails/confirmation-email"
-import PasswordRecoveryEmail from "@movie-tracker/email-templates/dist/emails/password-recovery-email"
-import { SignUpMethodEnum, UserType } from "@movie-tracker/types"
-import { CACHE_MANAGER } from "@nestjs/cache-manager"
-import { HttpException, HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
-import { render } from "@react-email/render"
-import * as bcrypt from "bcrypt"
-import { Cache } from "cache-manager"
 
 @Injectable()
 export class AuthService {
@@ -49,8 +46,24 @@ export class AuthService {
     return `${this.configService.get("CLIENT_BASE_URL")}/auth/confirm-email?token=${token}`
   }
 
+  private async getKeysByPattern(pattern: string): Promise<string[]> {
+    const storeIterator = this.cacheManager.stores[0]?.iterator
+    if (storeIterator) {
+      const result: string[] = []
+      const prefix = pattern.replace(/\*.*$/, "")
+
+      for await (const [key] of storeIterator({})) {
+        if (key.startsWith(prefix)) {
+          result.push(key)
+        }
+      }
+      return result
+    }
+    return []
+  }
+
   private async checkEmailConfirmation(email: string, token: string) {
-    const storedTokensKeys = await this.cacheManager.store.keys(
+    const storedTokensKeys = await this.getKeysByPattern(
       `emailConfirmation:${email}:*`,
     )
 
@@ -58,12 +71,11 @@ export class AuthService {
       return false
     }
 
-    const tokens = await this.cacheManager.store.mget(...storedTokensKeys)
-
+    const tokens = await this.cacheManager.mget<string>(storedTokensKeys)
     const isValid = tokens.includes(token)
 
     if (isValid) {
-      await this.cacheManager.store.mdel(...storedTokensKeys)
+      await this.cacheManager.mdel(storedTokensKeys)
     }
 
     return isValid
@@ -92,7 +104,7 @@ export class AuthService {
   private async getCacheRecordKeyByCryptedToken(key: string, token: string): Promise<string | null> {
     let recordKey: string | null = null
 
-    const recoveryKeys = await this.cacheManager.store.keys(
+    const recoveryKeys = await this.getKeysByPattern(
       `${key}:*`,
     )
 
@@ -237,7 +249,6 @@ export class AuthService {
     if (user.isEmailVerified) {
       throw new HttpException("Email already confirmed", HttpStatus.BAD_REQUEST)
     }
-
     const confirmationUrl = await this.getEmailConfirmationLink(user.email)
 
     try {
@@ -253,7 +264,7 @@ export class AuthService {
         ),
       })
     }
-    catch (e) {
+    catch {
       throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
@@ -300,7 +311,7 @@ export class AuthService {
         ),
       })
     }
-    catch (e) {
+    catch {
       throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
@@ -329,12 +340,6 @@ export class AuthService {
   }
 
   async confirmEmail(email: string, token: string) {
-    const isTokenValid = await this.checkEmailConfirmation(email, token)
-
-    if (!isTokenValid) {
-      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
-    }
-
     const user = await this.usersRepository.getUserByEmail(email)
 
     if (!user) {
@@ -343,6 +348,12 @@ export class AuthService {
 
     if (user.isEmailVerified) {
       throw new HttpException("Email already confirmed", HttpStatus.BAD_REQUEST)
+    }
+
+    const isTokenValid = await this.checkEmailConfirmation(email, token)
+
+    if (!isTokenValid) {
+      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
     }
 
     await this.usersRepository.updateUser(user.id, {
@@ -379,7 +390,7 @@ export class AuthService {
         ),
       })
     }
-    catch (error) {
+    catch {
       throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }

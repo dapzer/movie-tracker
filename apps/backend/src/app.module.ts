@@ -1,3 +1,4 @@
+import KeyvRedis from "@keyv/redis"
 import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis"
 import { CacheModule } from "@nestjs/cache-manager"
 import { Module } from "@nestjs/common"
@@ -5,7 +6,6 @@ import { ConfigModule, ConfigService } from "@nestjs/config"
 import { APP_GUARD } from "@nestjs/core"
 import { ScheduleModule } from "@nestjs/schedule"
 import { ThrottlerModule } from "@nestjs/throttler"
-import { redisStore } from "cache-manager-redis-yet"
 import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { AnalyticsModule } from "@/routes/analytics/analytics.module"
 import { AuthModule } from "@/routes/auth/auth.module"
@@ -49,9 +49,9 @@ import { UserModule } from "./routes/user/user.module"
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
         return {
-          store: redisStore,
+          stores: [new KeyvRedis(configService.get("REDIS_URL"))],
+          namespace: "MT",
           ttl: getMillisecondsFromHours(4),
-          url: configService.get("REDIS_URL")!,
         }
       },
       inject: [ConfigService],

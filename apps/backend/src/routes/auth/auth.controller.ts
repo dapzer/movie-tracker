@@ -1,17 +1,3 @@
-import { AllowedProvider } from "@/routes/auth/dto/allowedProvider"
-import { ConfirmChangeEmailDto } from "@/routes/auth/dto/confirmChangeEmail.dto"
-import { ConfirmEmailDto } from "@/routes/auth/dto/confirmEmail.dto"
-import { GetRecoverPasswordEmailDto } from "@/routes/auth/dto/getRecoverPasswordEmail.dto"
-import { RequestChangeEmailDto } from "@/routes/auth/dto/requestChangeEmail.dto"
-import { ResetPasswordByTokenDto } from "@/routes/auth/dto/resetPasswordByToken.dto"
-import { SignInDto } from "@/routes/auth/dto/signIn.dto"
-import { SignUpDto } from "@/routes/auth/dto/signUp.dto"
-import { UserDto } from "@/routes/auth/dto/user.dto"
-import { ProvidersService } from "@/routes/auth/providers/providers.service"
-import { User } from "@/routes/user/users.decorator"
-import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
-import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
 import {
   Body,
   Controller,
@@ -29,6 +15,20 @@ import {
 import { ConfigService } from "@nestjs/config"
 import { Throttle } from "@nestjs/throttler"
 import { Request, Response } from "express"
+import { AllowedProvider } from "@/routes/auth/dto/allowedProvider"
+import { ConfirmChangeEmailDto } from "@/routes/auth/dto/confirmChangeEmail.dto"
+import { ConfirmEmailDto } from "@/routes/auth/dto/confirmEmail.dto"
+import { GetRecoverPasswordEmailDto } from "@/routes/auth/dto/getRecoverPasswordEmail.dto"
+import { RequestChangeEmailDto } from "@/routes/auth/dto/requestChangeEmail.dto"
+import { ResetPasswordByTokenDto } from "@/routes/auth/dto/resetPasswordByToken.dto"
+import { SignInDto } from "@/routes/auth/dto/signIn.dto"
+import { SignUpDto } from "@/routes/auth/dto/signUp.dto"
+import { UserDto } from "@/routes/auth/dto/user.dto"
+import { ProvidersService } from "@/routes/auth/providers/providers.service"
+import { User } from "@/routes/user/users.decorator"
+import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
+import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
+import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
 import { AuthService } from "./auth.service"
 import { AuthGuard } from "./guards/auth.guard"
 import { AuthProviderGuard } from "./guards/provider.guard"
@@ -125,6 +125,7 @@ export class AuthController {
     },
   })
   @Get("/confirm-email")
+  @UseGuards(AuthGuard)
   async getConfirmEmail(@User() user: UserDto) {
     return this.authService.sendConfirmationEmail(user.email)
   }
