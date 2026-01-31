@@ -128,7 +128,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
   constructor(private readonly prisma: PrismaService) {
   }
 
-  async createNotification(args: Parameters<NotificationRepositoryInterface["createNotification"]>[0]) {
+  async create(args: Parameters<NotificationRepositoryInterface["create"]>[0]) {
     const notification = await this.prisma.notification.create({
       data: {
         userId: args.userId,
@@ -141,7 +141,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     return this.convertToInterface(notification)
   }
 
-  async createBulkNotifications(args: Parameters<NotificationRepositoryInterface["createBulkNotifications"]>[0]) {
+  async createBulk(args: Parameters<NotificationRepositoryInterface["createBulk"]>[0]) {
     const notifications = await this.prisma.notification.createManyAndReturn({
       data: args.map(arg => ({
         userId: arg.userId,
@@ -154,7 +154,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     return notifications.map(this.convertToInterface)
   }
 
-  async getNotificationsByUserId(args: Parameters<NotificationRepositoryInterface["getNotificationsByUserId"]>[0]) {
+  async getByUserId(args: Parameters<NotificationRepositoryInterface["getByUserId"]>[0]) {
   // TODO: Use limit in query after create separated page LIMIT ${args.limit}
     const [notifications, notificationsCount] = await Promise.all([this.prisma.$queryRaw<NotificationRawResult[]>`
         SELECT n.*,
@@ -190,7 +190,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     }
   }
 
-  async markNotificationsAsRead(args: Parameters<NotificationRepositoryInterface["markNotificationsAsRead"]>[0]) {
+  async markBulkAsRead(args: Parameters<NotificationRepositoryInterface["markBulkAsRead"]>[0]) {
     const notifications = await this.prisma.notification.updateManyAndReturn({
       where: {
         userId: args.userId,
@@ -207,7 +207,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     return notifications.map(this.convertToInterface)
   }
 
-  async markAllNotificationsAsRead(args: Parameters<NotificationRepositoryInterface["markAllNotificationsAsRead"]>[0]) {
+  async markAllAsRead(args: Parameters<NotificationRepositoryInterface["markAllAsRead"]>[0]) {
     const notifications = await this.prisma.notification.updateManyAndReturn({
       where: {
         userId: args.userId,
@@ -221,7 +221,7 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
     return notifications.map(this.convertToInterface)
   }
 
-  async getNotificationCount(args: Parameters<NotificationRepositoryInterface["getNotificationCount"]>[0]) {
+  async getCountByUserId(args: Parameters<NotificationRepositoryInterface["getCountByUserId"]>[0]) {
     const unreadCount = await this.prisma.notification.count({
       where: {
         userId: args.userId,

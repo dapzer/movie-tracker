@@ -3,25 +3,25 @@ import { UserStatsType, UserType } from "@movie-tracker/types"
 export const UserRepositorySymbol = Symbol("UserRepository")
 
 export interface UserRepositoryInterface {
-  getUserById: (id: string) => Promise<UserType>
+  getById: (id: string) => Promise<UserType>
 
-  getUserStatsById: (id: string) => Promise<UserStatsType>
+  getStatsById: (id: string) => Promise<UserStatsType>
 
-  getUserByEmail: (email: string) => Promise<UserType>
+  getByEmail: (email: string) => Promise<UserType>
 
-  createUser: (
+  create: (args: {
     body: Pick<
       UserType,
       "email" | "name" | "image" | "password" | "isEmailVerified" | "signUpMethod"
-    >,
-  ) => Promise<UserType>
+    >
+  }) => Promise<UserType>
 
-  updateUser: (
-    id: string,
-    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email" | "mediaRatingsAccessLevel">>,
-  ) => Promise<UserType>
+  update: (args: {
+    id: string
+    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email" | "mediaRatingsAccessLevel">>
+  }) => Promise<UserType>
 
-  deleteUser: (id: string) => Promise<UserType>
+  delete: (id: string) => Promise<UserType>
 
-  getUsersCount: () => Promise<number>
+  getCount: () => Promise<number>
 }

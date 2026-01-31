@@ -28,13 +28,13 @@ export class PrismaUserRepository implements UserRepositoryInterface {
     }
   }
 
-  async getUserById(id: string) {
+  async getById(id: string) {
     const user = await this.prisma.user.findUnique({ where: { id } })
 
     return this.convertToInterface(user)
   }
 
-  async getUserStatsById(id: string) {
+  async getStatsById(id: string) {
     const [mediaListCount, mediaRatingsCount, mediaListLikeCount] = await Promise.all([
       this.prisma.mediaList.count({ where: { userId: id, accessLevel: MediaListAccessLevelEnum.PUBLIC } }),
       this.prisma.mediaRating.count({ where: { userId: id } }),
@@ -44,39 +44,31 @@ export class PrismaUserRepository implements UserRepositoryInterface {
     return { mediaListCount, mediaRatingsCount, mediaListLikeCount }
   }
 
-  async getUserByEmail(email: string) {
+  async getByEmail(email: string) {
     const user = await this.prisma.user.findUnique({ where: { email } })
 
     return this.convertToInterface(user)
   }
 
-  async createUser(
-    body: Pick<
-      UserType,
-      "email" | "name" | "image" | "password" | "isEmailVerified" | "signUpMethod"
-    >,
-  ) {
-    const user = await this.prisma.user.create({ data: body })
+  async create(args: Parameters<UserRepositoryInterface["create"]>[0]) {
+    const user = await this.prisma.user.create({ data: args.body })
 
     return this.convertToInterface(user)
   }
 
-  async updateUser(
-    id: string,
-    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email" | "mediaRatingsAccessLevel">>,
-  ) {
-    const user = await this.prisma.user.update({ where: { id }, data: body })
+  async update(args: Parameters<UserRepositoryInterface["update"]>[0]) {
+    const user = await this.prisma.user.update({ where: { id: args.id }, data: args.body })
 
     return this.convertToInterface(user)
   }
 
-  async deleteUser(id: string) {
+  async delete(id: string) {
     const user = await this.prisma.user.delete({ where: { id } })
 
     return this.convertToInterface(user)
   }
 
-  async getUsersCount() {
+  async getCount() {
     return this.prisma.user.count()
   }
 }

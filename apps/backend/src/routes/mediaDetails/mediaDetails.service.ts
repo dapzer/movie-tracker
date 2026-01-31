@@ -363,8 +363,8 @@ export class MediaDetailsService implements OnModuleInit {
   async createOrUpdateAllMediaItemsDetails() {
     const [mediaItems, mediaRatings, releaseSubscriptions, mediaDetails] = await Promise.all(
       [
-        this.mediaItemRepository.getAllMediaItems(),
-        this.mediaRatingRepository.getAllMediaRatings(),
+        this.mediaItemRepository.getAll(),
+        this.mediaRatingRepository.getAll(),
         this.releaseSubscriptionRepository.getAll(),
         this.mediaDetailsRepository.getAll(),
       ],

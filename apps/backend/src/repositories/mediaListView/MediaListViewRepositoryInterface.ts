@@ -3,18 +3,16 @@ import { MediaListViewType } from "@movie-tracker/types"
 export const MediaListViewRepositorySymbol = Symbol("mediaListViewRepository")
 
 export interface MediaListViewRepositoryInterface {
-  createMediaListView: (
-    args: {
-      mediaListId: string
-      userId: string
-    }
-  ) => Promise<void>
+  create: (args: {
+    mediaListId: string
+    userId: string
+  }) => Promise<void>
 
-  updateMediaListView: (args: {
+  update: (args: {
     id: string
   }) => Promise<void>
 
-  getMediaListView: (args: {
+  getByUseerAndMediaListId: (args: {
     mediaListId: string
     userId: string
   }) => Promise<MediaListViewType>

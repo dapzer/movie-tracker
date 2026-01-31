@@ -36,10 +36,10 @@ export class AnalyticsService {
   async getRecords(): Promise<AnalyticsRecords> {
     const [mediaDetails, mediaItems, users, mediaLists, mediaRatings] = await Promise.all([
       this.mediaDetailsRepository.getCount(),
-      this.mediaItemRepository.getMediaItemsCount(),
-      this.userRepository.getUsersCount(),
-      this.mediaListRepository.getMediaListsCount(),
-      this.mediaRatingRepository.getMediaRatingsCount(),
+      this.mediaItemRepository.getAllCount(),
+      this.userRepository.getCount(),
+      this.mediaListRepository.getCount(),
+      this.mediaRatingRepository.getCount(),
     ])
 
     return {

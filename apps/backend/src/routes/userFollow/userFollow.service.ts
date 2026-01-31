@@ -20,7 +20,7 @@ export class UserFollowService {
   }
 
   private async checkUserExists(userId: string) {
-    const user = await this.userRepository.getUserById(userId)
+    const user = await this.userRepository.getById(userId)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -30,7 +30,7 @@ export class UserFollowService {
   async getUserFollowers(args: { userId: string, currentUserId: string } & PaginationDto) {
     await this.checkUserExists(args.userId)
 
-    return this.userFollowRepository.getFollowers({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
+    return this.userFollowRepository.getByUserId({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
   }
 
   async getUserFollowings(args: { userId: string, currentUserId: string } & PaginationDto) {
@@ -46,7 +46,7 @@ export class UserFollowService {
       throw new Error("Users cannot follow themselves.")
     }
 
-    const follow = await this.userFollowRepository.createFollow({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
+    const follow = await this.userFollowRepository.create({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
 
     if (follow) {
       await this.notificationService.create({
@@ -71,13 +71,13 @@ export class UserFollowService {
       throw new Error("Users cannot unfollow themselves.")
     }
 
-    const userFollow = await this.userFollowRepository.getFollow({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
+    const userFollow = await this.userFollowRepository.getByFollowerAndFollowingUserId({ followerUserId: args.followerUserId, followingUserId: args.followingUserId })
 
     if (!userFollow) {
       throw new HttpException("Follow not found", HttpStatus.NOT_FOUND)
     }
 
-    return this.userFollowRepository.deleteFollow({ id: userFollow.id })
+    return this.userFollowRepository.delete({ id: userFollow.id })
   }
 
   async getUserFollowInformation(args: { userId: string, currentUserId?: string }): Promise<UserFollowInformationType> {
@@ -86,7 +86,7 @@ export class UserFollowService {
     const [followersCount, follow] = await Promise.all([
       this.userFollowRepository.getFollowersCount({ userId: args.userId }),
       args.currentUserId
-        ? this.userFollowRepository.getFollow({ followerUserId: args.currentUserId, followingUserId: args.userId })
+        ? this.userFollowRepository.getByFollowerAndFollowingUserId({ followerUserId: args.currentUserId, followingUserId: args.userId })
         : Promise.resolve(undefined),
     ])
 

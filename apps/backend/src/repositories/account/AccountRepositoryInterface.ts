@@ -1,4 +1,4 @@
-export const AccountRepositorySymbol = Symbol()
+export const AccountRepositorySymbol = Symbol("AccountRepositorySymbol")
 
 export interface AccountType {
   id: string
@@ -14,20 +14,24 @@ export interface AccountType {
 }
 
 export interface AccountRepositoryInterface {
-  getAccountById: (id: string) => Promise<AccountType>
+  getById: (id: string) => Promise<AccountType>
 
-  getAccountByProvider: (
-    provider: string,
-    providerAccountId: string,
+  getByProvider: (
+    args: {
+      provider: string
+      providerAccountId: string
+    }
   ) => Promise<AccountType>
 
-  createAccount: (
-    body: Omit<AccountType, "id" | "createdAt" | "updatedAt">,
+  create: (
+    args: Omit<AccountType, "id" | "createdAt" | "updatedAt">
   ) => Promise<AccountType>
 
-  updateAccount: (
-    id: string,
-    body: Omit<AccountType, "id" | "createdAt" | "updatedAt">,
+  updateById: (
+    args: {
+      id: string
+      body: Omit<AccountType, "id" | "createdAt" | "updatedAt">
+    }
   ) => Promise<AccountType>
 
   deleteAccount: (id: string) => Promise<AccountType>

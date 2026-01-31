@@ -34,7 +34,7 @@ export class MediaItemService {
 
   private async isMediaListOwner(mediaListId: string, userId: string, mediaListBase?: MediaListType) {
     const mediaList
-      = mediaListBase || await this.mediaListRepository.getMedialListById(mediaListId)
+      = mediaListBase || await this.mediaListRepository.getById({ id: mediaListId })
 
     if (!mediaList) {
       throw new HttpException(
@@ -52,7 +52,7 @@ export class MediaItemService {
     mediaItemBase?: MediaItemType,
   ) {
     const mediaItem
-      = mediaItemBase ?? (await this.mediaItemRepository.getMediaItemById(id))
+      = mediaItemBase ?? (await this.mediaItemRepository.getById(id))
     const isMediaListOwner = await this.isMediaListOwner(
       mediaItem.mediaListId,
       userId,
@@ -76,7 +76,7 @@ export class MediaItemService {
     currentStatus: MediaItemStatusNameEnum,
   ) {
     const mediaList
-      = await this.mediaListRepository.getMedialListById(mediaListId)
+      = await this.mediaListRepository.getById({ id: mediaListId })
 
     if (!mediaList) {
       throw new HttpException(
@@ -99,15 +99,14 @@ export class MediaItemService {
         },
       )
 
-    const createdMediaItem = await this.mediaItemRepository.createMediaItem(
+    const createdMediaItem = await this.mediaItemRepository.create({
       mediaId,
       mediaType,
       mediaListId,
-      mediaDetails.id,
-      undefined,
+      mediaDetailsId: mediaDetails.id,
       currentStatus,
-    )
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserIdAndMediaId({
+    })
+    const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId({
       mediaId,
       userId,
     })
@@ -119,13 +118,13 @@ export class MediaItemService {
   }
 
   async getMediaItemsByUserId(userId: string) {
-    const mediaItems = await this.mediaItemRepository.getMediaItemsByUserId(userId)
+    const mediaItems = await this.mediaItemRepository.getByUserId(userId)
     if (!mediaItems || mediaItems.length === 0) {
       return []
     }
 
     const mediaIds = mediaItems.map(item => item.mediaId)
-    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaIds({
+    const mediaRatings = await this.mediaRatingRepository.getByUserIdAndMediaIds({
       userId,
       mediaIds,
     })
@@ -148,22 +147,22 @@ export class MediaItemService {
     byHumanFriendlyId = false,
   ) {
     const mediaList = byHumanFriendlyId
-      ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
-          mediaListId,
-        )
-      : await this.mediaListRepository.getMedialListById(mediaListId)
+      ? await this.mediaListRepository.getByHumanFriendlyId({
+          id: mediaListId,
+        })
+      : await this.mediaListRepository.getById({ id: mediaListId })
 
     if (mediaList && mediaList.userId !== userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
       throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED)
     }
 
-    const mediaItems = await this.mediaItemRepository.getMediaItemsByListId(mediaList.id)
+    const mediaItems = await this.mediaItemRepository.getByListId(mediaList.id)
     if (!mediaItems || mediaItems.length === 0) {
       return []
     }
 
     const mediaIds = mediaItems.map(item => item.mediaId)
-    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserIdAndMediaIds({
+    const mediaRatings = await this.mediaRatingRepository.getByUserIdAndMediaIds({
       userId: mediaList.userId,
       mediaIds,
     })
@@ -187,7 +186,7 @@ export class MediaItemService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaItemRepository.deleteMediaItem(id)
+    return this.mediaItemRepository.delete(id)
   }
 
   async updateMediaItem(
@@ -201,7 +200,7 @@ export class MediaItemService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaItemRepository.updateMediaItem(id, data)
+    return this.mediaItemRepository.update({ id, data })
   }
 
   async createMediaItemClone(
@@ -211,24 +210,24 @@ export class MediaItemService {
     isSaveCreationDate = false,
   ) {
     const isMediaItemOwner = await this.isMediaItemOwner(id, userId)
-    const mediaList = await this.mediaListRepository.getMedialListById(mediaListId)
+    const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isMediaListOwner = await this.isMediaListOwner(mediaListId, userId, mediaList)
 
     if (!isMediaItemOwner || !isMediaListOwner) {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    const mediaItem = await this.mediaItemRepository.getMediaItemById(id)
-    const createdMediaItem = await this.mediaItemRepository.createMediaItemWithExistedData(
-      mediaItem.mediaId,
-      mediaItem.mediaType,
+    const mediaItem = await this.mediaItemRepository.getById(id)
+    const createdMediaItem = await this.mediaItemRepository.createWithExistedData({
+      mediaId: mediaItem.mediaId,
+      mediaType: mediaItem.mediaType,
       mediaListId,
-      mediaItem.mediaDetailsId,
-      mediaItem.trackingData,
-      isSaveCreationDate ? mediaItem.createdAt : undefined,
-    )
+      mediaDetailsId: mediaItem.mediaDetailsId,
+      trackingData: mediaItem.trackingData,
+      createdAt: isSaveCreationDate ? mediaItem.createdAt : undefined,
+    })
 
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserIdAndMediaId({
+    const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId({
       mediaId: mediaItem.mediaId,
       userId: mediaList.userId,
     })

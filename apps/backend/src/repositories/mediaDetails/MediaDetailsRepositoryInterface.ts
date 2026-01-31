@@ -3,38 +3,30 @@ import { MediaDetailsInfoType, MediaDetailsType, MediaTypeEnum } from "@movie-tr
 export const MediaDetailsRepositorySymbol = Symbol("MediaDetailsRepository")
 
 export interface MediaDetailsRepositoryInterface {
-  getByMediaIds: (
-    args: {
-      mediaIds: number[]
-    }
-  ) => Promise<MediaDetailsType[]>
+  getByMediaIds: (args: {
+    mediaIds: number[]
+  }) => Promise<MediaDetailsType[]>
 
-  create: (
-    args: {
-      mediaId: number
-      mediaType: MediaTypeEnum
-      mediaDetailsInfoRu: MediaDetailsInfoType
-      mediaDetailsInfoEn: MediaDetailsInfoType
-      score: number
-    }
-  ) => Promise<MediaDetailsType>
+  create: (args: {
+    mediaId: number
+    mediaType: MediaTypeEnum
+    mediaDetailsInfoRu: MediaDetailsInfoType
+    mediaDetailsInfoEn: MediaDetailsInfoType
+    score: number
+  }) => Promise<MediaDetailsType>
 
-  update: (
-    args: {
-      mediaId: number
-      mediaType: MediaTypeEnum
-      mediaDetailsInfoRu: MediaDetailsInfoType
-      mediaDetailsInfoEn: MediaDetailsInfoType
-      score: number
-    }
-  ) => Promise<MediaDetailsType>
+  update: (args: {
+    mediaId: number
+    mediaType: MediaTypeEnum
+    mediaDetailsInfoRu: MediaDetailsInfoType
+    mediaDetailsInfoEn: MediaDetailsInfoType
+    score: number
+  }) => Promise<MediaDetailsType>
 
-  getByMediaData: (
-    args: {
-      mediaId: number
-      mediaType: MediaTypeEnum
-    }
-  ) => Promise<MediaDetailsType>
+  getByMediaData: (args: {
+    mediaId: number
+    mediaType: MediaTypeEnum
+  }) => Promise<MediaDetailsType>
 
   getCount: () => Promise<number>
 

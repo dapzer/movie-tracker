@@ -1,13 +1,13 @@
+import { Injectable } from "@nestjs/common"
 import { MediaListViewRepositoryInterface } from "@/repositories/mediaListView/MediaListViewRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
-import { Injectable } from "@nestjs/common"
 
 @Injectable()
 export class PrismaMediaListViewRepository implements MediaListViewRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {
   }
 
-  async createMediaListView(args: Parameters<MediaListViewRepositoryInterface["createMediaListView"]>[0]) {
+  async create(args: Parameters<MediaListViewRepositoryInterface["create"]>[0]) {
     await this.prisma.mediaListView.create({
       data: {
         mediaListId: args.mediaListId,
@@ -16,7 +16,7 @@ export class PrismaMediaListViewRepository implements MediaListViewRepositoryInt
     })
   }
 
-  async updateMediaListView(args: Parameters<MediaListViewRepositoryInterface["updateMediaListView"]>[0]) {
+  async update(args: Parameters<MediaListViewRepositoryInterface["update"]>[0]) {
     await this.prisma.mediaListView.update({
       where: {
         id: args.id,
@@ -27,7 +27,7 @@ export class PrismaMediaListViewRepository implements MediaListViewRepositoryInt
     })
   }
 
-  async getMediaListView(args: Parameters<MediaListViewRepositoryInterface["getMediaListView"]>[0]): ReturnType<MediaListViewRepositoryInterface["getMediaListView"]> {
+  async getByUseerAndMediaListId(args: Parameters<MediaListViewRepositoryInterface["getByUseerAndMediaListId"]>[0]): ReturnType<MediaListViewRepositoryInterface["getByUseerAndMediaListId"]> {
     return this.prisma.mediaListView.findUnique({
       where: {
         mediaListId_userId: {

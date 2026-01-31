@@ -49,7 +49,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
       }
     }
 
-  async createFollow(args: Parameters<UserFollowRepositoryInterface["createFollow"]>[0]) {
+  async create(args: Parameters<UserFollowRepositoryInterface["create"]>[0]) {
     const userFollow = await this.prisma.userFollow.create({
       data: {
         followerId: args.followerUserId,
@@ -60,7 +60,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
     return this.convertToInterface(userFollow)
   }
 
-  async deleteFollow(args: Parameters<UserFollowRepositoryInterface["deleteFollow"]>[0]) {
+  async delete(args: Parameters<UserFollowRepositoryInterface["delete"]>[0]) {
     const userFollow = await this.prisma.userFollow.delete({
       where: {
         id: args.id,
@@ -70,7 +70,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
     return this.convertToInterface(userFollow)
   }
 
-  async getFollow(args: Parameters<UserFollowRepositoryInterface["getFollow"]>[0]) {
+  async getByFollowerAndFollowingUserId(args: Parameters<UserFollowRepositoryInterface["getByFollowerAndFollowingUserId"]>[0]) {
     const userFollow = await this.prisma.userFollow.findFirst({
       where: {
         followerId: args.followerUserId,
@@ -81,7 +81,7 @@ export class PrismaUserFollowRepository implements UserFollowRepositoryInterface
     return this.convertToInterface(userFollow)
   }
 
-  async getFollowers(args: Parameters<UserFollowRepositoryInterface["getFollowers"]>[0]) {
+  async getByUserId(args: Parameters<UserFollowRepositoryInterface["getByUserId"]>[0]) {
     const [userFollowers, userFollowersCount] = await Promise.all([
       this.prisma.userFollow.findMany({
         where: {

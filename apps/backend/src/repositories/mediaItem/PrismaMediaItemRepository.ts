@@ -1,11 +1,4 @@
-import { MediaItemRepositoryInterface } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
-import {
-  MediaDetails,
-  MediaItem,
-  Prisma,
-  TrackingData,
-} from "@movie-tracker/database"
+import { MediaDetails, MediaItem, Prisma, TrackingData } from "@movie-tracker/database"
 import {
   MediaDetailsInfoType,
   MediaItemSiteToViewType,
@@ -16,6 +9,8 @@ import {
   MediaTypeEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
+import { MediaItemRepositoryInterface } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 @Injectable()
 export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
@@ -71,7 +66,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     }
   }
 
-  async getAllMediaItems() {
+  async getAll() {
     const mediaItems = await this.prisma.mediaItem.findMany({
       include: {
         mediaDetails: true,
@@ -82,7 +77,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return mediaItems.map(this.convertToInterface)
   }
 
-  async getMediaItemById(id: string) {
+  async getById(id: string) {
     const mediaItem = await this.prisma.mediaItem.findUnique({
       where: { id },
       include: {
@@ -94,7 +89,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
-  async getMediaItemsByUserId(userId: string) {
+  async getByUserId(userId: string) {
     const mediaItems = await this.prisma.mediaItem.findMany({
       where: {
         mediaList: {
@@ -110,7 +105,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return mediaItems.map(this.convertToInterface)
   }
 
-  async getMediaItemsByListId(mediaListId: string) {
+  async getByListId(mediaListId: string) {
     const mediaItems = await this.prisma.mediaItem.findMany({
       where: {
         mediaListId,
@@ -124,21 +119,16 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return mediaItems.map(this.convertToInterface)
   }
 
-  async createMediaItem(
-    mediaId: number,
-    mediaType: MediaTypeEnum,
-    mediaListId: string,
-    mediaDetailsId: string,
-    createdAt?: Date,
-    currentStatus?: MediaItemStatusNameEnum,
+  async create(
+    args: Parameters<MediaItemRepositoryInterface["create"]>[0],
   ) {
     const mediaItem = await this.prisma.mediaItem.create({
       data: {
-        mediaListId,
-        mediaId,
-        mediaType,
-        mediaDetailsId,
-        ...(createdAt && { createdAt }),
+        mediaListId: args.mediaListId,
+        mediaId: args.mediaId,
+        mediaType: args.mediaType,
+        mediaDetailsId: args.mediaDetailsId,
+        ...(args.createdAt && { createdAt: args.createdAt }),
         trackingData: {
           create: {
             score: null,
@@ -147,8 +137,8 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
               currentSeason: 0,
               currentEpisode: 1,
             },
-            ...(createdAt && { createdAt }),
-            ...(currentStatus && { currentStatus }),
+            ...(args.createdAt && { createdAt: args.createdAt }),
+            ...(args.currentStatus && { currentStatus: args.currentStatus }),
           },
         },
       },
@@ -161,32 +151,24 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
-  async createMediaItemWithExistedData(
-    mediaId: number,
-    mediaType: MediaTypeEnum,
-    mediaListId: string,
-    mediaDetailsId: string,
-    trackingData: Omit<
-      MediaItemTrackingDataType,
-      "id" | "updatedAt" | "createdAt" | "mediaItemId"
-    >,
-    createdAt?: Date,
+  async createWithExistedData(
+    args: Parameters<MediaItemRepositoryInterface["createWithExistedData"]>[0],
   ) {
     const mediaItem = await this.prisma.mediaItem.create({
       data: {
-        mediaListId,
-        mediaId,
-        mediaType,
-        mediaDetailsId,
-        ...(createdAt && { createdAt }),
+        mediaListId: args.mediaListId,
+        mediaId: args.mediaId,
+        mediaType: args.mediaType,
+        mediaDetailsId: args.mediaDetailsId,
+        ...(args.createdAt && { createdAt: args.createdAt }),
         trackingData: {
           create: {
-            score: trackingData.score,
-            note: trackingData.note,
+            score: args.trackingData.score,
+            note: args.trackingData.note,
             sitesToView:
-              trackingData.sitesToView as unknown as Prisma.JsonArray,
-            tvProgress: trackingData.tvProgress as unknown as Prisma.JsonObject,
-            ...(createdAt && { createdAt }),
+              args.trackingData.sitesToView as unknown as Prisma.JsonArray,
+            tvProgress: args.trackingData.tvProgress as unknown as Prisma.JsonObject,
+            ...(args.createdAt && { createdAt: args.createdAt }),
           },
         },
       },
@@ -199,7 +181,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
-  async deleteMediaItem(id: string) {
+  async delete(id: string) {
     const mediaItem = await this.prisma.mediaItem.delete({
       where: {
         id,
@@ -212,13 +194,12 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
-  async updateMediaItem(
-    id: string,
-    data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>,
+  async update(
+    args: Parameters<MediaItemRepositoryInterface["update"]>[0],
   ) {
     const mediaItem = await this.prisma.mediaItem.update({
-      where: { id },
-      data,
+      where: { id: args.id },
+      data: args.data,
       include: {
         mediaDetails: true,
         trackingData: true,
@@ -228,7 +209,7 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
-  async getMediaItemsCount() {
+  async getAllCount() {
     return this.prisma.mediaItem.count()
   }
 }
