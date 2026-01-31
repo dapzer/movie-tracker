@@ -12,50 +12,49 @@ export const ReleaseSubscriptionRepositorySymbol = Symbol("ReleaseSubscriptionRe
 export interface ReleaseSubscriptionRepositoryInterface {
   create: (args: CreateReleaseSubscriptionType) => Promise<ReleaseSubscriptionType>
 
-  getById: (args: Pick<ReleaseSubscriptionType, "id">) => Promise<ReleaseSubscriptionType | undefined>
+  getById: (args: {
+    id: string
+  }) => Promise<ReleaseSubscriptionType | undefined>
 
-  getByMediaDetailsId: (
-    args: Pick<ReleaseSubscriptionType, "mediaDetailsId">
-  ) => Promise<ReleaseSubscriptionType[] | undefined>
+  getByMediaDetailsId: (args: {
+    mediaDetailsId: string
+  }) => Promise<ReleaseSubscriptionType[] | undefined>
 
-  getByMediaIdUserId: (
-    args: { mediaId: number, userId: string }
-  ) => Promise<ReleaseSubscriptionType | undefined>
+  getByMediaIdUserId: (args: {
+    mediaId: number
+    userId: string
+  }) => Promise<ReleaseSubscriptionType | undefined>
 
-  getUncompletedByMediaDetailsId: (
-    args: Pick<ReleaseSubscriptionType, "mediaDetailsId">
-  ) => Promise<ReleaseSubscriptionType[] | undefined>
+  getUncompletedByMediaDetailsId: (args: {
+    mediaDetailsId: string
+  }) => Promise<ReleaseSubscriptionType[] | undefined>
 
-  getByUserId: (
-    args: {
-      userId: string
-      limit: number
-      offset: number
-      search?: string
-      completed?: boolean
-      mediaType?: MediaTypeEnum
-      sortBy?: "createdAt" | "lastReleasedAt"
-      sortDirection?: SortOrderEnum
-    }
-  ) => Promise<ReleaseSubscriptionsResponseType>
+  getByUserId: (args: {
+    userId: string
+    limit: number
+    offset: number
+    search?: string
+    completed?: boolean
+    mediaType?: MediaTypeEnum
+    sortBy?: "createdAt" | "lastReleasedAt"
+    sortDirection?: SortOrderEnum
+  }) => Promise<ReleaseSubscriptionsResponseType>
 
-  getAllByUserId: (
-    args: {
-      userId: string
-    }
-  ) => Promise<ReleaseSubscriptionType[]>
+  getAllByUserId: (args: {
+    userId: string
+  }) => Promise<ReleaseSubscriptionType[]>
 
   getAll: () => Promise<ReleaseSubscriptionType[]>
 
-  update: (
-    args: Pick<ReleaseSubscriptionType, "id"> & UpdateReleaseSubscriptionType
-  ) => Promise<ReleaseSubscriptionType>
+  update: (args: {
+    id: string
+  } & UpdateReleaseSubscriptionType) => Promise<ReleaseSubscriptionType>
 
-  updateManyByIds: (
-    args: {
-      ids: string[]
-    } & UpdateReleaseSubscriptionType
-  ) => Promise<ReleaseSubscriptionType[]>
+  updateManyByIds: (args: {
+    ids: string[]
+  } & UpdateReleaseSubscriptionType) => Promise<ReleaseSubscriptionType[]>
 
-  delete: (args: Pick<ReleaseSubscriptionType, "id">) => Promise<ReleaseSubscriptionType>
+  delete: (args: {
+    id: string
+  }) => Promise<ReleaseSubscriptionType>
 }

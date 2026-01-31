@@ -1,57 +1,49 @@
-import {
-  AccountRepositoryInterface,
-  AccountType,
-} from "@/repositories/account/AccountRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
 import { Injectable } from "@nestjs/common"
+import { AccountRepositoryInterface } from "@/repositories/account/AccountRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 @Injectable()
 export class PrismaAccountRepository implements AccountRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAccountById(id: string) {
+  async getById(id: string) {
     return this.prisma.account.findUnique({ where: { id } })
   }
 
-  async getAccountByProvider(provider: string, providerAccountId: string) {
+  async getByProvider(args: Parameters<AccountRepositoryInterface["getByProvider"]>[0]) {
     return this.prisma.account.findUnique({
       where: {
         provider_providerAccountId: {
-          provider,
-          providerAccountId,
+          provider: args.provider,
+          providerAccountId: args.providerAccountId,
         },
       },
     })
   }
 
-  async createAccount(
-    body: Omit<AccountType, "id" | "createdAt" | "updatedAt">,
-  ) {
+  async create(args: Parameters<AccountRepositoryInterface["create"]>[0]) {
     return this.prisma.account.create({
       data: {
-        provider: body.provider,
-        providerAccountId: body.providerAccountId,
-        access_token: body.access_token,
-        refresh_token: body.refresh_token,
-        expires_at: body.expires_at,
-        userId: body.userId,
-        type: body.type,
+        provider: args.provider,
+        providerAccountId: args.providerAccountId,
+        access_token: args.access_token,
+        refresh_token: args.refresh_token,
+        expires_at: args.expires_at,
+        userId: args.userId,
+        type: args.type,
       },
     })
   }
 
-  async updateAccount(
-    id: string,
-    body: Omit<AccountType, "id" | "createdAt" | "updatedAt">,
-  ) {
+  async updateById(args: Parameters<AccountRepositoryInterface["updateById"]>[0]) {
     return this.prisma.account.update({
-      where: { id },
+      where: { id: args.id },
       data: {
-        provider: body.provider,
-        providerAccountId: body.providerAccountId,
-        access_token: body.access_token,
-        refresh_token: body.refresh_token,
-        expires_at: body.expires_at,
+        provider: args.body.provider,
+        providerAccountId: args.body.providerAccountId,
+        access_token: args.body.access_token,
+        refresh_token: args.body.refresh_token,
+        expires_at: args.body.expires_at,
       },
     })
   }

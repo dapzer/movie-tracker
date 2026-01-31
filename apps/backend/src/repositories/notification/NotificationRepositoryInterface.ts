@@ -8,10 +8,21 @@ import {
 export const NotificationRepositorySymbol = Symbol("NotificationRepository")
 
 export interface NotificationRepositoryInterface {
-  createNotification: (args: CreateNotificationArgsType) => Promise<NotificationType>
-  createBulkNotifications: (args: Array<CreateNotificationArgsType>) => Promise<Array<NotificationType>>
-  getNotificationsByUserId: (args: { userId: string, limit: number, offset: number }) => Promise<NotificationResponseType>
-  markNotificationsAsRead: (args: { userId: string, ids: Array<string> }) => Promise<Array<NotificationType>>
-  markAllNotificationsAsRead: (args: { userId: string }) => Promise<Array<NotificationType>>
-  getNotificationCount: (args: { userId: string }) => Promise<NotificationCountType>
+  create: (args: CreateNotificationArgsType) => Promise<NotificationType>
+  createBulk: (args: Array<CreateNotificationArgsType>) => Promise<Array<NotificationType>>
+  getByUserId: (args: {
+    userId: string
+    limit: number
+    offset: number
+  }) => Promise<NotificationResponseType>
+  markBulkAsRead: (args: {
+    userId: string
+    ids: Array<string>
+  }) => Promise<Array<NotificationType>>
+  markAllAsRead: (args: {
+    userId: string
+  }) => Promise<Array<NotificationType>>
+  getCountByUserId: (args: {
+    userId: string
+  }) => Promise<NotificationCountType>
 }

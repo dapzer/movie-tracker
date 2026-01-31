@@ -13,7 +13,7 @@ export class UserService {
   }
 
   async getUser(id: string) {
-    const user = await this.userRepository.getUserById(id)
+    const user = await this.userRepository.getById(id)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -24,8 +24,8 @@ export class UserService {
 
   async getUserStats(args: { currentUserId?: string, userId?: string }) {
     const [user, stats] = await Promise.all([
-      this.userRepository.getUserById(args.userId),
-      this.userRepository.getUserStatsById(args.userId),
+      this.userRepository.getById(args.userId),
+      this.userRepository.getStatsById(args.userId),
     ])
 
     if (!user) {
@@ -44,13 +44,13 @@ export class UserService {
       throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
     }
 
-    const deletedUser = await this.userRepository.deleteUser(id)
+    const deletedUser = await this.userRepository.delete(id)
 
     return getUserWithoutPassword(deletedUser)
   }
 
   async updateUser(id: string, body: UpdateUserDto) {
-    const updatedUser = await this.userRepository.updateUser(id, body)
+    const updatedUser = await this.userRepository.update({ id, body })
 
     return getUserWithoutPassword(updatedUser)
   }

@@ -1,8 +1,8 @@
+import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaListViewRepositoryInterface,
   MediaListViewRepositorySymbol,
 } from "@/repositories/mediaListView/MediaListViewRepositoryInterface"
-import { Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class MediaListViewService {
@@ -11,13 +11,13 @@ export class MediaListViewService {
   ) {}
 
   async sendMediaListView(args: { mediaListId: string, userId: string }): Promise<void> {
-    const mediaListView = await this.mediaListViewRepository.getMediaListView(args)
+    const mediaListView = await this.mediaListViewRepository.getByUseerAndMediaListId(args)
 
     if (mediaListView) {
-      return this.mediaListViewRepository.updateMediaListView({
+      return this.mediaListViewRepository.update({
         id: mediaListView.id,
       })
     }
-    return this.mediaListViewRepository.createMediaListView(args)
+    return this.mediaListViewRepository.create(args)
   }
 }

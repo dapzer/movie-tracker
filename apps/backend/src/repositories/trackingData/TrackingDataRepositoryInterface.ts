@@ -1,17 +1,17 @@
 import { MediaItemTrackingDataType } from "@movie-tracker/types"
 
-export const TrackingDataRepositorySymbol = Symbol()
+export const TrackingDataRepositorySymbol = Symbol("TrackingDataRepository")
 
 export interface TrackingDataRepositoryInterface {
-  getTrackingDataById: (id: string) => Promise<MediaItemTrackingDataType>
+  getById: (id: string) => Promise<MediaItemTrackingDataType>
 
-  updateTrackingData: (
-    id: string,
+  update: (args: {
+    id: string
     data: Partial<
       Omit<
         MediaItemTrackingDataType,
         "id" | "createdAt" | "updatedAt" | "mediaItemId"
       >
-    >,
-  ) => Promise<MediaItemTrackingDataType>
+    >
+  }) => Promise<MediaItemTrackingDataType>
 }

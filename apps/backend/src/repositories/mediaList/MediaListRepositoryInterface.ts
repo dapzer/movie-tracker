@@ -5,52 +5,55 @@ import {
   MediaListUpdateBodyType,
 } from "@movie-tracker/types"
 
-export const MediaListRepositorySymbol = Symbol()
+export const MediaListRepositorySymbol = Symbol("MediaListRepository")
 
 export interface MediaListRepositoryInterface {
-  getMedialListById: (id: string, currentUserId?: string) => Promise<MediaListType>
+  getById: (args: {
+    id: string
+    currentUserId?: string
+  }) => Promise<MediaListType>
 
-  getMedialListByMediaItemAndUserId: (
-    mediaItemId: string,
-    userId: string,
-    currentUserId?: string,
-  ) => Promise<MediaListType>
+  getByMediaItemAndUserId: (args: {
+    mediaItemId: string
+    userId: string
+    currentUserId?: string
+  }) => Promise<MediaListType>
 
-  getMedialListByHumanFriendlyId: (
-    id: string,
-    currentUserId?: string,
-  ) => Promise<MediaListType>
+  getByHumanFriendlyId: (args: {
+    id: string
+    currentUserId?: string
+  }) => Promise<MediaListType>
 
-  getMedialListsByUserId: (
-    userId: string,
-    currentUserId?: string,
-    isPublicOnly?: boolean,
-  ) => Promise<MediaListType[]>
+  getByUserId: (args: {
+    userId: string
+    currentUserId?: string
+    isPublicOnly?: boolean
+  }) => Promise<MediaListType[]>
 
-  createMediaList: (
-    userId: string,
-    isSystem?: boolean,
-    body?: MediaListCreateBodyType,
-  ) => Promise<MediaListType>
+  create: (args: {
+    userId: string
+    isSystem?: boolean
+    body?: MediaListCreateBodyType
+  }) => Promise<MediaListType>
 
-  deleteMediaList: (id: string) => Promise<MediaListType>
+  delete: (id: string) => Promise<MediaListType>
 
-  updateMediaList: (
-    id: string,
-    body: MediaListUpdateBodyType,
-  ) => Promise<MediaListType>
+  update: (args: {
+    id: string
+    body: MediaListUpdateBodyType
+  }) => Promise<MediaListType>
 
-  getMediaListsCount: () => Promise<number>
+  getCount: () => Promise<number>
 
-  getMediaListsCountByUserId: (userId: string) => Promise<number>
+  getCountByUserId: (userId: string) => Promise<number>
 
-  createMediaListLike: (
-    mediaListId: string,
-    userId: string,
-  ) => Promise<MediaListLikeType>
+  createLike: (args: {
+    mediaListId: string
+    userId: string
+  }) => Promise<MediaListLikeType>
 
-  deleteMediaListLike: (
-    mediaListId: string,
-    userId: string,
-  ) => Promise<MediaListLikeType>
+  deleteLike: (args: {
+    mediaListId: string
+    userId: string
+  }) => Promise<MediaListLikeType>
 }

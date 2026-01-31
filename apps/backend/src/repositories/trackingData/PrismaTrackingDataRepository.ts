@@ -1,5 +1,3 @@
-import { TrackingDataRepositoryInterface } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
 import { Prisma, TrackingData } from "@movie-tracker/database"
 import {
   MediaItemSiteToViewType,
@@ -8,6 +6,8 @@ import {
   MediaItemTvProgressType,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
+import { TrackingDataRepositoryInterface } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 @Injectable()
 export class PrismaTrackingDataRepository
@@ -28,7 +28,7 @@ implements TrackingDataRepositoryInterface {
     }
   }
 
-  async getTrackingDataById(id: string) {
+  async getById(id: string) {
     const trackingData
       = await this.prismaService.trackingData.findUniqueOrThrow({
         where: {
@@ -39,25 +39,19 @@ implements TrackingDataRepositoryInterface {
     return this.convertToInterface(trackingData)
   }
 
-  async updateTrackingData(
-    id: string,
-    data: Partial<
-      Omit<
-        MediaItemTrackingDataType,
-        "id" | "createdAt" | "updatedAt" | "mediaItemId"
-      >
-    >,
+  async update(
+    args: Parameters<TrackingDataRepositoryInterface["update"]>[0],
   ) {
     const trackingData = await this.prismaService.trackingData.update({
       where: {
-        id,
+        id: args.id,
       },
       data: {
-        note: data.note,
-        score: data.score,
-        currentStatus: data.currentStatus,
-        sitesToView: data.sitesToView as unknown as Prisma.JsonArray,
-        tvProgress: data.tvProgress as unknown as Prisma.JsonObject,
+        note: args.data.note,
+        score: args.data.score,
+        currentStatus: args.data.currentStatus,
+        sitesToView: args.data.sitesToView as unknown as Prisma.JsonArray,
+        tvProgress: args.data.tvProgress as unknown as Prisma.JsonObject,
       },
     })
 

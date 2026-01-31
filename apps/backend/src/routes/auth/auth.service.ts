@@ -139,18 +139,18 @@ export class AuthService {
     const providerInstance = this.providersService.findService(provider)
     const profile = await providerInstance.getUserByCode(code)
 
-    const account = await this.accountRepository.getAccountByProvider(
-      profile.provider,
-      profile.id,
-    )
+    const account = await this.accountRepository.getByProvider({
+      provider: profile.provider,
+      providerAccountId: profile.id,
+    })
 
     let user = null
 
     if (account) {
-      user = await this.usersRepository.getUserById(account.userId)
+      user = await this.usersRepository.getById(account.userId)
     }
     else if (profile.email) {
-      user = await this.usersRepository.getUserByEmail(profile.email)
+      user = await this.usersRepository.getByEmail(profile.email)
     }
 
     if (user && account) {
@@ -161,15 +161,20 @@ export class AuthService {
       const signUpMethod = SignUpMethodEnum[profile.provider.toUpperCase()]
       const isEmailVerified = [SignUpMethodEnum.YANDEX, SignUpMethodEnum.GOOGLE].includes(signUpMethod)
 
-      user = await this.usersRepository.createUser({
-        email: profile.email,
-        name: profile.name,
-        image: profile.avatarUrl,
-        isEmailVerified,
-        signUpMethod,
+      user = await this.usersRepository.create({
+        body: {
+          email: profile.email,
+          name: profile.name,
+          image: profile.avatarUrl,
+          isEmailVerified,
+          signUpMethod,
+        },
       })
 
-      await this.mediaListRepository.createMediaList(user.id, true)
+      await this.mediaListRepository.create({
+        userId: user.id,
+        isSystem: true,
+      })
 
       // if (user.email && !isEmailVerified) {
       //   await this.sendWelcomeEmail(user);
@@ -177,7 +182,7 @@ export class AuthService {
     }
 
     if (!account) {
-      await this.accountRepository.createAccount({
+      await this.accountRepository.create({
         userId: user.id,
         type: "oauth",
         provider: profile.provider,
@@ -192,7 +197,7 @@ export class AuthService {
   }
 
   async signUp(body: SignUpDto) {
-    const user = await this.usersRepository.getUserByEmail(body.email)
+    const user = await this.usersRepository.getByEmail(body.email)
 
     if (user) {
       throw new HttpException("User already exists", HttpStatus.CONFLICT)
@@ -200,15 +205,20 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(body.password, this.saltRounds)
 
-    const newUser = await this.usersRepository.createUser({
-      email: body.email,
-      name: body.name,
-      password: passwordHash,
-      isEmailVerified: false,
-      signUpMethod: SignUpMethodEnum.EMAIL,
+    const newUser = await this.usersRepository.create({
+      body: {
+        email: body.email,
+        name: body.name,
+        password: passwordHash,
+        isEmailVerified: false,
+        signUpMethod: SignUpMethodEnum.EMAIL,
+      },
     })
 
-    await this.mediaListRepository.createMediaList(newUser.id, true)
+    await this.mediaListRepository.create({
+      userId: newUser.id,
+      isSystem: true,
+    })
 
     await this.sendWelcomeEmail(newUser)
 
@@ -216,7 +226,7 @@ export class AuthService {
   }
 
   async signIn(body: SignInDto) {
-    const user = await this.usersRepository.getUserByEmail(body.email)
+    const user = await this.usersRepository.getByEmail(body.email)
 
     if (!user) {
       throw new HttpException(
@@ -245,7 +255,7 @@ export class AuthService {
   }
 
   async sendConfirmationEmail(email: string) {
-    const user = await this.usersRepository.getUserByEmail(email)
+    const user = await this.usersRepository.getByEmail(email)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -275,13 +285,13 @@ export class AuthService {
   }
 
   async requestChangeEmail(id: string, email: string) {
-    const user = await this.usersRepository.getUserById(id)
+    const user = await this.usersRepository.getById(id)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
     }
 
-    const userByEmail = await this.usersRepository.getUserByEmail(email)
+    const userByEmail = await this.usersRepository.getByEmail(email)
 
     if (userByEmail || user.email === email) {
       throw new HttpException("Email already in use", HttpStatus.BAD_REQUEST)
@@ -334,9 +344,12 @@ export class AuthService {
       throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
     }
 
-    const user = await this.usersRepository.updateUser(userId, {
-      email,
-      isEmailVerified: true,
+    const user = await this.usersRepository.update({
+      id: userId,
+      body: {
+        email,
+        isEmailVerified: true,
+      },
     })
 
     await this.cacheManager.del(recordKey)
@@ -345,7 +358,7 @@ export class AuthService {
   }
 
   async confirmEmail(email: string, token: string) {
-    const user = await this.usersRepository.getUserByEmail(email)
+    const user = await this.usersRepository.getByEmail(email)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -361,13 +374,16 @@ export class AuthService {
       throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
     }
 
-    await this.usersRepository.updateUser(user.id, {
-      isEmailVerified: true,
+    await this.usersRepository.update({
+      id: user.id,
+      body: {
+        isEmailVerified: true,
+      },
     })
   }
 
   async sendPasswordRecoveryEmail(email: string) {
-    const user = await this.usersRepository.getUserByEmail(email)
+    const user = await this.usersRepository.getByEmail(email)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -420,7 +436,7 @@ export class AuthService {
       throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
     }
 
-    const user = await this.usersRepository.getUserById(userId as string)
+    const user = await this.usersRepository.getById(userId as string)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -428,8 +444,11 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(password, this.saltRounds)
 
-    await this.usersRepository.updateUser(user.id, {
-      password: passwordHash,
+    await this.usersRepository.update({
+      id: user.id,
+      body: {
+        password: passwordHash,
+      },
     })
 
     await this.cacheManager.del(recordKey)

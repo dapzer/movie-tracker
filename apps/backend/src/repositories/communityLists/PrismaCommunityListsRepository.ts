@@ -1,9 +1,9 @@
-import { CommunityListsRepositoryInterface } from "@/repositories/communityLists/CommunityListsRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
 import { Prisma } from "@movie-tracker/database"
 import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
 import { MediaDetailsType, MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
+import { CommunityListsRepositoryInterface } from "@/repositories/communityLists/CommunityListsRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 function getMediaListIncludeObject(currentUserId?: string) {
   return ({
@@ -219,7 +219,7 @@ export class PrismaCommunityListsRepository implements CommunityListsRepositoryI
     })
   }
 
-  async getListsWithMedia(args: Parameters<CommunityListsRepositoryInterface["getListsWithMedia"]>[0]) {
+  async getAllWithMedia(args: Parameters<CommunityListsRepositoryInterface["getAllWithMedia"]>[0]) {
     return this.selectMediaListsWithCount({
       where: {
         mediaItems: {

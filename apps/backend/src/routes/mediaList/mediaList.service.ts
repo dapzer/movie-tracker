@@ -38,7 +38,7 @@ export class MediaListService {
     mediaListBase?: MediaListType,
   ) {
     const mediaList
-      = mediaListBase ?? (await this.mediaListRepository.getMedialListById(id))
+      = mediaListBase ?? (await this.mediaListRepository.getById({ id }))
 
     if (!mediaList) {
       throw new HttpException(
@@ -51,7 +51,7 @@ export class MediaListService {
   }
 
   private async isMediaListsLimitReached(userId: string) {
-    const mediaListsCount = await this.mediaListRepository.getMediaListsCountByUserId(userId)
+    const mediaListsCount = await this.mediaListRepository.getCountByUserId(userId)
 
     if (mediaListsCount >= MEDIA_LIST_COUNT_LIMIT) {
       throw new HttpException(
@@ -69,11 +69,11 @@ export class MediaListService {
     byHumanFriendlyId = false,
   ) {
     const mediaList = byHumanFriendlyId
-      ? await this.mediaListRepository.getMedialListByHumanFriendlyId(
+      ? await this.mediaListRepository.getByHumanFriendlyId({
           id,
           currentUserId,
-        )
-      : await this.mediaListRepository.getMedialListById(id, currentUserId)
+        })
+      : await this.mediaListRepository.getById({ id, currentUserId })
     const isListOwner = await this.isListOwner(id, currentUserId, mediaList)
 
     if (!isListOwner && (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE)) {
@@ -84,16 +84,20 @@ export class MediaListService {
   }
 
   async getMedialListsByUserId(userId: string, currentUserId: string, isPublicOnly?: boolean) {
-    return this.mediaListRepository.getMedialListsByUserId(
+    return this.mediaListRepository.getByUserId({
       userId,
       currentUserId,
       isPublicOnly,
-    )
+    })
   }
 
   async createMediaList(userId: string, body?: CreateMediaListDto) {
     await this.isMediaListsLimitReached(userId)
-    return this.mediaListRepository.createMediaList(userId, false, body)
+    return this.mediaListRepository.create({
+      userId,
+      isSystem: false,
+      body,
+    })
   }
 
   async updateMediaList(id: string, body: UpdateMediaListDto, userId: string) {
@@ -103,11 +107,11 @@ export class MediaListService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaListRepository.updateMediaList(id, body)
+    return this.mediaListRepository.update({ id, body })
   }
 
   async deleteMediaList(id: string, userId: string) {
-    const mediaList = await this.mediaListRepository.getMedialListById(id)
+    const mediaList = await this.mediaListRepository.getById({ id })
     const isListOwner = await this.isListOwner(id, userId, mediaList)
 
     if (!isListOwner) {
@@ -121,7 +125,7 @@ export class MediaListService {
       )
     }
 
-    return this.mediaListRepository.deleteMediaList(id)
+    return this.mediaListRepository.delete(id)
   }
 
   async createMediaListClone(
@@ -131,7 +135,7 @@ export class MediaListService {
   ) {
     await this.isMediaListsLimitReached(userId)
 
-    const mediaList = await this.mediaListRepository.getMedialListById(id)
+    const mediaList = await this.mediaListRepository.getById({ id })
 
     if (!mediaList) {
       throw new HttpException(
@@ -144,15 +148,15 @@ export class MediaListService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    const mediaItems = await this.mediaItemRepository.getMediaItemsByListId(id)
-    const newMediaList = await this.mediaListRepository.createMediaList(
+    const mediaItems = await this.mediaItemRepository.getByListId(id)
+    const newMediaList = await this.mediaListRepository.create({
       userId,
-      false,
-      {
+      isSystem: false,
+      body: {
         title: body.title,
         accessLevel: MediaListAccessLevelEnum.PRIVATE,
       },
-    )
+    })
 
     const promises: Promise<MediaItemType>[] = []
 
@@ -161,16 +165,15 @@ export class MediaListService {
         body.selectedStatuses.includes(mediaItem.trackingData.currentStatus)
       ) {
         promises.push(
-          this.mediaItemRepository.createMediaItem(
-            mediaItem.mediaId,
-            mediaItem.mediaType,
-            newMediaList.id,
-            mediaItem.mediaDetailsId,
-            undefined,
-            body.isKeepStatus
+          this.mediaItemRepository.create({
+            mediaId: mediaItem.mediaId,
+            mediaType: mediaItem.mediaType,
+            mediaListId: newMediaList.id,
+            mediaDetailsId: mediaItem.mediaDetailsId,
+            currentStatus: body.isKeepStatus
               ? mediaItem.trackingData.currentStatus
               : undefined,
-          ),
+          }),
         )
       }
     }
@@ -181,7 +184,7 @@ export class MediaListService {
   }
 
   async createMediaListLike(mediaListId: string, userId: string) {
-    const mediaList = await this.mediaListRepository.getMedialListById(mediaListId)
+    const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
     if (isListOwner) {
@@ -191,7 +194,10 @@ export class MediaListService {
       )
     }
 
-    const mediaListLike = await this.mediaListRepository.createMediaListLike(mediaListId, userId)
+    const mediaListLike = await this.mediaListRepository.createLike({
+      mediaListId,
+      userId,
+    })
 
     if (mediaList) {
       await this.notificationService.create({
@@ -212,7 +218,7 @@ export class MediaListService {
   }
 
   async deleteMediaListLike(mediaListId: string, userId: string) {
-    const mediaList = await this.mediaListRepository.getMedialListById(mediaListId)
+    const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
     if (isListOwner) {
@@ -222,7 +228,10 @@ export class MediaListService {
       )
     }
 
-    const mediaListLike = await this.mediaListRepository.deleteMediaListLike(mediaListId, userId)
+    const mediaListLike = await this.mediaListRepository.deleteLike({
+      mediaListId,
+      userId,
+    })
     return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
   }
 }

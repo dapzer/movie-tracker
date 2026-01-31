@@ -1,17 +1,10 @@
-import { MediaListRepositoryInterface } from "@/repositories/mediaList/MediaListRepositoryInterface"
-import { PrismaService } from "@/services/prisma/prisma.service"
 import { MediaListLike, Prisma } from "@movie-tracker/database"
 import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
-import {
-  MediaDetailsType,
-  MediaListAccessLevelEnum,
-  MediaListCreateBodyType,
-  MediaListLikeType,
-  MediaListType,
-  MediaListUpdateBodyType,
-} from "@movie-tracker/types"
+import { MediaDetailsType, MediaListAccessLevelEnum, MediaListLikeType, MediaListType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { init } from "@paralleldrive/cuid2"
+import { MediaListRepositoryInterface } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import { PrismaService } from "@/services/prisma/prisma.service"
 
 function getMediaListIncludeObject(currentUserId?: string) {
   return ({
@@ -86,35 +79,39 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     }
   }
 
-  async getMedialListById(id: string, currentUserId?: string) {
+  async getById(args: Parameters<MediaListRepositoryInterface["getById"]>[0]) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
-        id,
+        id: args.id,
       },
-      include: getMediaListIncludeObject(currentUserId),
+      include: getMediaListIncludeObject(args.currentUserId),
     })
 
     return this.convertToInterface(mediaList)
   }
 
-  async getMedialListByHumanFriendlyId(id: string, currentUserId?: string) {
+  async getByHumanFriendlyId(
+    args: Parameters<MediaListRepositoryInterface["getByHumanFriendlyId"]>[0],
+  ) {
     const mediaList = await this.prisma.mediaList.findUnique({
       where: {
-        humanFriendlyId: id,
+        humanFriendlyId: args.id,
       },
-      include: getMediaListIncludeObject(currentUserId),
+      include: getMediaListIncludeObject(args.currentUserId),
     })
 
     return this.convertToInterface(mediaList)
   }
 
-  async getMedialListsByUserId(userId: string, currentUserId: string, isPublicOnly = false) {
+  async getByUserId(
+    args: Parameters<MediaListRepositoryInterface["getByUserId"]>[0],
+  ) {
     const mediaLists = await this.prisma.mediaList.findMany({
       where: {
-        userId,
-        ...(isPublicOnly && { accessLevel: MediaListAccessLevelEnum.PUBLIC }),
+        userId: args.userId,
+        ...(args.isPublicOnly && { accessLevel: MediaListAccessLevelEnum.PUBLIC }),
       },
-      include: getMediaListIncludeObject(currentUserId),
+      include: getMediaListIncludeObject(args.currentUserId),
     })
 
     return mediaLists.map((el) => {
@@ -122,36 +119,34 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     })
   }
 
-  async getMedialListByMediaItemAndUserId(mediaItemId: string, userId: string, currentUserId?: string) {
+  async getByMediaItemAndUserId(
+    args: Parameters<MediaListRepositoryInterface["getByMediaItemAndUserId"]>[0],
+  ) {
     const mediaList = await this.prisma.mediaList.findFirst({
       where: {
-        userId,
+        userId: args.userId,
         AND: {
           mediaItems: {
             some: {
-              id: mediaItemId,
+              id: args.mediaItemId,
             },
           },
         },
       },
-      include: getMediaListIncludeObject(currentUserId),
+      include: getMediaListIncludeObject(args.currentUserId),
     })
 
     return this.convertToInterface(mediaList)
   }
 
-  async createMediaList(
-    userId: string,
-    isSystem = false,
-    body?: MediaListCreateBodyType,
-  ) {
+  async create(args: Parameters<MediaListRepositoryInterface["create"]>[0]) {
     const generateCuid = init({ length: 10 })
     const mediaList = await this.prisma.mediaList.create({
       data: {
-        userId,
+        userId: args.userId,
         humanFriendlyId: generateCuid(),
-        isSystem,
-        ...(body ?? {}),
+        isSystem: args.isSystem ?? false,
+        ...(args.body ?? {}),
       },
       include: getMediaListIncludeObject(),
     })
@@ -159,7 +154,7 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     return this.convertToInterface(mediaList)
   }
 
-  async deleteMediaList(id: string) {
+  async delete(id: string) {
     const mediaList = await this.prisma.mediaList.delete({
       where: {
         id,
@@ -169,14 +164,11 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     return this.convertToInterface(mediaList)
   }
 
-  async updateMediaList(
-    id: string,
-    body: MediaListUpdateBodyType,
-  ) {
+  async update(args: Parameters<MediaListRepositoryInterface["update"]>[0]) {
     const mediaList = await this.prisma.mediaList.update({
-      where: { id },
+      where: { id: args.id },
       data: {
-        ...body,
+        ...args.body,
       },
       include: getMediaListIncludeObject(),
     })
@@ -184,11 +176,11 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     return this.convertToInterface(mediaList)
   }
 
-  async getMediaListsCount() {
+  async getCount() {
     return this.prisma.mediaList.count()
   }
 
-  async getMediaListsCountByUserId(userId: string) {
+  async getCountByUserId(userId: string) {
     return this.prisma.mediaList.count({
       where: {
         userId,
@@ -196,23 +188,27 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     })
   }
 
-  async createMediaListLike(mediaListId: string, userId: string) {
+  async createLike(
+    args: Parameters<MediaListRepositoryInterface["createLike"]>[0],
+  ) {
     const mediaListLike = await this.prisma.mediaListLike.create({
       data: {
-        mediaListId,
-        userId,
+        mediaListId: args.mediaListId,
+        userId: args.userId,
       },
     })
 
     return this.convertLikeToInterface(mediaListLike)
   }
 
-  async deleteMediaListLike(mediaListId: string, userId: string) {
+  async deleteLike(
+    args: Parameters<MediaListRepositoryInterface["deleteLike"]>[0],
+  ) {
     const mediaListLike = await this.prisma.mediaListLike.delete({
       where: {
         mediaListId_userId: {
-          mediaListId,
-          userId,
+          mediaListId: args.mediaListId,
+          userId: args.userId,
         },
       },
     })

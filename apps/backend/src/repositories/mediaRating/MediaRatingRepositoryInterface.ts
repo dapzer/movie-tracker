@@ -3,38 +3,35 @@ import { MediaRatingCreateBodyType, MediaRatingType, MediaRatingUpdateBodyType }
 export const MediaRatingRepositorySymbol = Symbol("MediaRatingRepository")
 
 export interface MediaRatingRepositoryInterface {
-  getAllMediaRatings: () => Promise<MediaRatingType[]>
+  getAll: () => Promise<MediaRatingType[]>
 
-  getMediaRatingById: (args: Pick<MediaRatingType, "id">) => Promise<MediaRatingType | undefined>
+  getById: (args: {
+    id: string
+  }) => Promise<MediaRatingType | undefined>
 
-  getMediaRatingByUserIdAndMediaId: (
-    args: {
-      userId: string
-    } & Pick<MediaRatingType, "mediaId">
-  ) => Promise<MediaRatingType | undefined>
+  getByUserIdAndMediaId: (args: {
+    userId: string
+    mediaId: number
+  }) => Promise<MediaRatingType | undefined>
 
-  getMediaRatingsByUserId: (args: { userId: string }) => Promise<MediaRatingType[]>
+  getByUserId: (args: {
+    userId: string
+  }) => Promise<MediaRatingType[]>
 
-  getMediaRatingsByUserIdAndMediaIds: (
-    args: {
-      userId: string
-      mediaIds: number[]
-    }
-  ) => Promise<MediaRatingType[] | undefined>
+  getByUserIdAndMediaIds: (args: {
+    userId: string
+    mediaIds: number[]
+  }) => Promise<MediaRatingType[] | undefined>
 
-  createMediaRating: (
-    args: {
-      userId: string
-    } & MediaRatingCreateBodyType
-  ) => Promise<MediaRatingType>
+  create: (args: {
+    userId: string
+  } & MediaRatingCreateBodyType) => Promise<MediaRatingType>
 
-  updateMediaRating: (
-    args: {
-      id: string
-    } & MediaRatingUpdateBodyType
-  ) => Promise<MediaRatingType>
+  update: (args: {
+    id: string
+  } & MediaRatingUpdateBodyType) => Promise<MediaRatingType>
 
-  deleteMediaRating: (id: string) => Promise<MediaRatingType>
+  delete: (id: string) => Promise<MediaRatingType>
 
-  getMediaRatingsCount: () => Promise<number>
+  getCount: () => Promise<number>
 }

@@ -44,26 +44,26 @@ export class NotificationService {
     }
 
     await this.cacheManager.set(existingNotificationKey, true, getMillisecondsFromDays(1))
-    return this.notificationRepository.createNotification(args)
+    return this.notificationRepository.create(args)
   }
 
   async createBulk(args: Array<CreateNotificationArgsType>): Promise<Array<NotificationType>> {
-    return this.notificationRepository.createBulkNotifications(args)
+    return this.notificationRepository.createBulk(args)
   }
 
   async getByUserId(args: { userId: string } & PaginationDto): Promise<NotificationResponseType> {
-    return this.notificationRepository.getNotificationsByUserId(args)
+    return this.notificationRepository.getByUserId(args)
   }
 
   async markAsRead(args: { userId: string, ids: Array<string> }): Promise<Array<NotificationType>> {
-    return this.notificationRepository.markNotificationsAsRead(args)
+    return this.notificationRepository.markBulkAsRead(args)
   }
 
   async markAllAsRead(args: { userId: string }): Promise<Array<NotificationType>> {
-    return this.notificationRepository.markAllNotificationsAsRead(args)
+    return this.notificationRepository.markAllAsRead(args)
   }
 
   async getCount(args: { userId: string }): Promise<NotificationCountType> {
-    return this.notificationRepository.getNotificationCount(args)
+    return this.notificationRepository.getCountByUserId(args)
   }
 }

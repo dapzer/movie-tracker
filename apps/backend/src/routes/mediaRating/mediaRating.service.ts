@@ -29,7 +29,7 @@ export class MediaRatingService {
   async getMediaRatingByUserId(args: {
     userId: string
   } & GetMediaRatingByMediaIdParamsDto) {
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingByUserIdAndMediaId(args)
+    const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId(args)
 
     if (!mediaRating) {
       throw new HttpException(
@@ -49,7 +49,7 @@ export class MediaRatingService {
     userId: string
     currentUserId?: string
   }): Promise<MediaRatingType[]> {
-    const user = await this.userRepository.getUserById(args.userId)
+    const user = await this.userRepository.getById(args.userId)
 
     if (!user) {
       throw new HttpException("User not found", HttpStatus.NOT_FOUND)
@@ -59,7 +59,7 @@ export class MediaRatingService {
       throw new HttpException("Permission denied", HttpStatus.FORBIDDEN)
     }
 
-    const mediaRatings = await this.mediaRatingRepository.getMediaRatingsByUserId({
+    const mediaRatings = await this.mediaRatingRepository.getByUserId({
       userId: args.userId,
     })
     const mediaIds = mediaRatings.map(el => el.mediaId)
@@ -86,7 +86,7 @@ export class MediaRatingService {
       },
     )
 
-    return this.mediaRatingRepository.createMediaRating({
+    return this.mediaRatingRepository.create({
       userId: args.userId,
       ...args.body,
     })
@@ -97,7 +97,7 @@ export class MediaRatingService {
     userId: string
     body: UpdateMediaRatingDto
   }) {
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingById({ id: args.id })
+    const mediaRating = await this.mediaRatingRepository.getById({ id: args.id })
 
     if (!mediaRating) {
       throw new HttpException(
@@ -110,14 +110,14 @@ export class MediaRatingService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaRatingRepository.updateMediaRating({
+    return this.mediaRatingRepository.update({
       id: args.id,
       ...args.body,
     })
   }
 
   async deleteMediaRating(args: { id: string, userId: string }) {
-    const mediaRating = await this.mediaRatingRepository.getMediaRatingById({ id: args.id })
+    const mediaRating = await this.mediaRatingRepository.getById({ id: args.id })
 
     if (!mediaRating) {
       throw new HttpException(
@@ -130,6 +130,6 @@ export class MediaRatingService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaRatingRepository.deleteMediaRating(args.id)
+    return this.mediaRatingRepository.delete(args.id)
   }
 }

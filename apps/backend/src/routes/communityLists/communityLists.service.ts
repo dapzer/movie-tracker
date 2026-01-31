@@ -1,3 +1,5 @@
+import { SortOrderEnum } from "@movie-tracker/types"
+import { Inject, Injectable } from "@nestjs/common"
 import {
   CommunityListsRepositoryInterface,
   CommunityListsRepositorySymbol,
@@ -7,8 +9,6 @@ import { GetCommunityListsNewestQueryDto } from "@/routes/communityLists/dto/get
 import { GetCommunityListsWeekTopQueryDto } from "@/routes/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/routes/communityLists/dto/getCommunityListsWithMediaQuery.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
-import { SortOrderEnum } from "@movie-tracker/types"
-import { Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class CommunityListsService {
@@ -77,7 +77,7 @@ export class CommunityListsService {
   }
 
   async getListsWithMedia(args: { currentUserId?: string } & GetCommunityListsWithMediaQueryDto) {
-    return this.communityListsRepository.getListsWithMedia({
+    return this.communityListsRepository.getAllWithMedia({
       mediaId: args.mediaId,
       currentUserId: args.currentUserId,
       limit: args.limit,

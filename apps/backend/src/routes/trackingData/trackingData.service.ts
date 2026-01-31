@@ -1,3 +1,5 @@
+import { MediaItemTrackingDataType } from "@movie-tracker/types"
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
@@ -6,8 +8,6 @@ import {
   TrackingDataRepositoryInterface,
   TrackingDataRepositorySymbol,
 } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
-import { MediaItemTrackingDataType } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class TrackingDataService {
@@ -20,12 +20,12 @@ export class TrackingDataService {
 
   private async checkIsMediaListOwner(trackingDataId: string, userId: string) {
     const trackingData
-      = await this.trackingDataRepository.getTrackingDataById(trackingDataId)
+      = await this.trackingDataRepository.getById(trackingDataId)
     const mediaList
-      = await this.mediaListRepository.getMedialListByMediaItemAndUserId(
-        trackingData.mediaItemId,
+      = await this.mediaListRepository.getByMediaItemAndUserId({
+        mediaItemId: trackingData.mediaItemId,
         userId,
-      )
+      })
 
     if (!mediaList) {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
@@ -44,6 +44,6 @@ export class TrackingDataService {
   ) {
     await this.checkIsMediaListOwner(id, userId)
 
-    return this.trackingDataRepository.updateTrackingData(id, data)
+    return this.trackingDataRepository.update({ id, data })
   }
 }
