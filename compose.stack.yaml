@@ -46,7 +46,7 @@ services:
       DB01_HOST: postgres
       DB01_NAME: movietracker
       DB01_USER: spaceman
-      DB01_S3_PATH: postgres
+      DB01_S3_PATH: backups/postgres
     restart: always
     networks:
       - movie-tracker
