@@ -5,10 +5,8 @@ import {
   NotificationMediaReleaseEpisodeType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
-import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { HttpException, HttpStatus, Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
 import { Cron } from "@nestjs/schedule"
-import { Cache } from "cache-manager"
 import { getTmdbDetailApi, getTmdbDetailsWithSeasonsApi } from "@/api/tmdb/tmdbApi"
 import { TmdbDetailsWithSeasonsResponseType } from "@/api/tmdb/tmdbApiTypes"
 import {
@@ -28,9 +26,10 @@ import {
   ReleaseSubscriptionRepositorySymbol,
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
 import { NotificationService } from "@/routes/notification/notification.service"
+import { Redlock } from "@/services/redlock/redlock.decorator"
 import { convertArrayToChunks } from "@/shared/utils/convertArrayToChunks"
 import { convertMediaDetailsToMediaDetailsInfo } from "@/shared/utils/convertMediaDetailsToMediaDetailsInfo"
-import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
+import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 
 interface NotificationType {
   subscriptionId: string
@@ -50,8 +49,6 @@ export class MediaDetailsService implements OnModuleInit {
   private notificationsToSend: NotificationsToSendType
 
   private readonly logger = new Logger("MediaDetailsService")
-  private readonly autoUpdateLockKey = "lock:media-details-auto-update"
-  private readonly autoUpdateLockTtlMs = getMillisecondsFromHours(7)
 
   constructor(
     @Inject(MediaDetailsRepositorySymbol)
@@ -63,7 +60,6 @@ export class MediaDetailsService implements OnModuleInit {
     @Inject(ReleaseSubscriptionRepositorySymbol)
     private readonly releaseSubscriptionRepository: ReleaseSubscriptionRepositoryInterface,
     private readonly notificationService: NotificationService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     this.resetNotificationsToSend()
   }
@@ -73,22 +69,12 @@ export class MediaDetailsService implements OnModuleInit {
   }
 
   @Cron("0 8,16,0 * * *")
+  @Redlock({
+    key: "media-details-auto-update",
+    ttl: getMillisecondsFromMins(45),
+  })
   async autoUpdateAllMediaDetails() {
-    const isLocked = await this.cacheManager.get(this.autoUpdateLockKey)
-
-    if (isLocked) {
-      this.logger.log("Auto update is already in progress. Skipping this run.")
-      return
-    }
-
-    await this.cacheManager.set(this.autoUpdateLockKey, true, this.autoUpdateLockTtlMs)
-
-    try {
-      await this.createOrUpdateAllMediaItemsDetails()
-    }
-    finally {
-      await this.cacheManager.del(this.autoUpdateLockKey)
-    }
+    await this.createOrUpdateAllMediaItemsDetails()
   }
 
   private resetNotificationsToSend() {
