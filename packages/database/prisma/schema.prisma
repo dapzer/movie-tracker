@@ -129,7 +129,7 @@ model MediaItem {
   mediaListId    String        @map("media_list_id")
   mediaList      MediaList     @relation(fields: [mediaListId], references: [id], onDelete: Cascade)
   mediaDetailsId String?       @map("media_details_id")
-  mediaDetails   MediaDetails? @relation(fields: [mediaDetailsId], references: [id], onDelete: Cascade)
+  mediaDetails   MediaDetails? @relation(fields: [mediaDetailsId], references: [id], onDelete: SetNull)
   trackingData   TrackingData?
 
   @@unique([mediaId, mediaType, mediaListId])
