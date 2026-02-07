@@ -1383,6 +1383,7 @@ export default {
     unsubscribe: "Unsubscribe",
     tabs: {
       completed: "Completed",
+      active: "Active",
     },
     sort: {
       createdAt: "Sort by subscription date",
