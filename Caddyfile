@@ -2,18 +2,7 @@
     email danilavoronkov2002@gmail.com
 }
 
-mmovie-tracker.app {
-    reverse_proxy cf.movie-tracker.app {
-      header_up Host movie-tracker.app
-      header_up X-Forwarded-Host {http.request.host}
-      header_up X-Forwarded-Proto  https
-      header_up X-Forwarded-For    {remote_host}
-      header_up X-Real-IP          {remote_host}
-      header_up X-Ru-Detected-IP {remote_host}
-  }
-}
-
-cf.movie-tracker.app {
+movie-tracker.app {
     handle_path /sitemaps/* {
         rewrite * /api/sitemaps{path}
         reverse_proxy backend:1337
