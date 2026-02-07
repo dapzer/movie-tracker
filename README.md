@@ -45,7 +45,7 @@ The main goal in the creation of this project was the realization of personal li
 1. Clone repository `git clone https://github.com/dapzer/movie-tracker.git`
 2. Init swarm `docker swarm init`
 3. Set labels for node `docker node update --label-add databases=true <node_id>` and `docker node update --label-add 
-   reverseproxy=true <node_id>
+   reverseproxy=true <node_id>`
 4. Create shared networks `docker networkcreate --driver overlay --attachable caddy-public`, `docker network create 
 --driver overlay --attachable movie-tracker-metrics`, `docker network create --driver overlay --attachable movie-tracker-shared`
 5. Create `.emv` file and transfer the data from `.env.development` into it `cp .env.development .env`
