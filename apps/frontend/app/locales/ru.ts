@@ -1385,6 +1385,7 @@ export default {
     unsubscribe: "Отписаться",
     tabs: {
       completed: "Завершенные",
+      active: "Активные",
     },
     sort: {
       createdAt: "По дате подписки",

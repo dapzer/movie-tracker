@@ -40,12 +40,24 @@ const sortParams = computed(() => {
   }
 })
 
+const completed = computed(() => {
+  if (activeTab.value === "completed") {
+    return true
+  }
+
+  if (activeTab.value === "active") {
+    return false
+  }
+
+  return undefined
+})
+
 const getReleaseSubscriptionsByUserIdQueryParams = computed(() => {
   return {
     limit: PAGE_SIZE,
     offset: (page.value - 1) * PAGE_SIZE,
     search: searchTerm.value || undefined,
-    completed: activeTab.value === "completed" ? true : undefined,
+    completed: completed.value,
     mediaType: mediaType.value === "all" ? undefined : mediaType.value,
     sortBy: (sortParams.value.sortBy || undefined) as GetReleaseSubscriptionsByUserIdQueries["sortBy"],
     sortDirection: sortParams.value.sortDirection as GetReleaseSubscriptionsByUserIdQueries["sortDirection"],
@@ -100,6 +112,10 @@ watch([searchTerm, activeTab, mediaType, sortType], () => {
           {
             label: $t('ui.all'),
             key: 'all',
+          },
+          {
+            label: $t('releaseSubscription.tabs.active'),
+            key: 'active',
           },
           {
             label: $t('releaseSubscription.tabs.completed'),

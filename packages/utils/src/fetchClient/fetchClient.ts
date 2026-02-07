@@ -26,18 +26,18 @@ export class FetchClient {
     for (const key in { ...this.params, ...params }) {
       const value = allParams[key]
 
-      if (!value) {
+      if (value === undefined || value === null) {
         continue
       }
 
       if (Array.isArray(value)) {
         value.forEach((currentValue) => {
-          if (currentValue) {
+          if (currentValue !== undefined && currentValue !== null) {
             searchParams.append(key, currentValue.toString())
           }
         })
       }
-      else if (value) {
+      else {
         searchParams.set(key, value.toString())
       }
     }
