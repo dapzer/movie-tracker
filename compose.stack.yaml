@@ -66,8 +66,10 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
+    configs:
+      - source: caddy_config
+        target: /etc/caddy/Caddyfile
     deploy:
       placement:
         constraints:
@@ -119,6 +121,10 @@ services:
       placement:
         constraints:
           - node.labels.databases == true
+
+configs:
+  caddy_config:
+    file: ./Caddyfile
 
 volumes:
   caddy_data:
