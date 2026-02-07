@@ -71,7 +71,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.role == manager
+          - node.labels.reverseproxy == true
   frontend:
     image: danilavoronkov/movie-tracker-frontend
     restart: unless-stopped
