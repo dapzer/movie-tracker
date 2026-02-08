@@ -35,6 +35,14 @@ export default defineNuxtConfig({
     name: "Movie Tracker",
   },
 
+  runtimeConfig: {
+    public: {
+      sentry: {
+        dsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
+      },
+    },
+  },
+
   sitemap: {
     exclude: ["/dashboard"],
     cacheMaxAgeSeconds: 24 * 60 * 60,

@@ -1,7 +1,8 @@
+import * as process from "node:process"
 import * as Sentry from "@sentry/nuxt"
 
 Sentry.init({
-  dsn: "https://ac11250d629580687a07b7c30b784490@o4509383644086272.ingest.de.sentry.io/4509383661977680",
+  dsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
 
   // We recommend adjusting this value in production, or using tracesSampler
   // for finer control
