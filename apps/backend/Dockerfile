@@ -16,7 +16,6 @@ FROM turbo-base AS pruner
 WORKDIR /app
 
 COPY . .
-RUN rm -rf apps/frontend
 
 RUN turbo prune --scope=backend --docker
 

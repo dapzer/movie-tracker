@@ -1,31 +1,40 @@
-FROM node:22.18.0-alpine AS base
+FROM node:24.13.0-alpine AS base
+
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
-FROM base AS builder
-WORKDIR /app
+FROM base AS pnpm-base
+ARG PNPM_VERSION=10.29.1
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 
-RUN npm install -g turbo
+FROM pnpm-base AS turbo-base
+ARG TURBO_VERSION=2.8.3
+RUN npm install -g turbo@${TURBO_VERSION}
+ENV TURBO_TELEMETRY_DISABLED=1
+
+FROM turbo-base AS pruner
+WORKDIR /app
 
 COPY . .
 
 RUN turbo prune --scope=frontend --docker
 
-FROM base as installer
+FROM turbo-base as installer
 WORKDIR /app
 
-RUN npm install -g pnpm
-RUN npm install -g turbo
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/out/full/ .
+RUN pnpm install --frozen-lockfile --prefer-offline
+
+FROM installer as builder
+WORKDIR /app
+
+COPY --from=pruner /app/out/full/ .
 COPY tsconfig.json tsconfig.json
 COPY turbo.json turbo.json
 
 WORKDIR /app/apps/frontend
-
-RUN pnpm install
 
 ARG VITE_BASE_URL
 ARG VITE_API_LOCAL_URL
@@ -33,11 +42,11 @@ ARG VITE_API_URL
 ARG NUXT_PUBLIC_SENTRY_DSN
 ARG SENTRY_AUTH_TOKEN
 
-ENV VITE_BASE_URL $VITE_BASE_URL
-ENV VITE_API_LOCAL_URL $VITE_API_LOCAL_URL
-ENV VITE_API_URL $VITE_API_URL
-ENV NUXT_PUBLIC_SENTRY_DSN $NUXT_PUBLIC_SENTRY_DSN
-ENV SENTRY_AUTH_TOKEN $SENTRY_AUTH_TOKEN
+ENV VITE_BASE_URL=$VITE_BASE_URL
+ENV VITE_API_LOCAL_URL=$VITE_API_LOCAL_URL
+ENV VITE_API_URL=$VITE_API_URL
+ENV NUXT_PUBLIC_SENTRY_DSN=$NUXT_PUBLIC_SENTRY_DSN
+ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 
 RUN turbo run build --filter=frontend
 
@@ -48,7 +57,7 @@ RUN addgroup --system --gid 1001 frontend
 RUN adduser --system --uid 1001 frontend
 
 USER frontend
-COPY --from=installer /app/apps/frontend/.output .
+COPY --from=builder /app/apps/frontend/.output .
 
 ENV NODE_ENV production
 
