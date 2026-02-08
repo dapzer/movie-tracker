@@ -34,8 +34,6 @@ COPY --from=pruner /app/out/full/ .
 COPY tsconfig.json tsconfig.json
 COPY turbo.json turbo.json
 
-WORKDIR /app/apps/frontend
-
 ARG VITE_BASE_URL
 ARG VITE_API_LOCAL_URL
 ARG VITE_API_URL
@@ -48,6 +46,10 @@ ENV VITE_API_URL=$VITE_API_URL
 ENV NUXT_PUBLIC_SENTRY_DSN=$NUXT_PUBLIC_SENTRY_DSN
 ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 
+WORKDIR /app/apps/frontend
+RUN pnpm nuxi prepare
+
+WORKDIR /app
 RUN turbo run build --filter=frontend
 
 FROM base AS runner
