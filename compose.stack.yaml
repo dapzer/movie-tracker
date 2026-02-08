@@ -75,7 +75,7 @@ services:
         constraints:
           - node.labels.reverseproxy == true
   frontend:
-    image: danilavoronkov/movie-tracker-frontend
+    image: registry.movie-tracker.app/movie-tracker/frontend:latest
     restart: unless-stopped
     networks:
       - movie-tracker
@@ -93,7 +93,7 @@ services:
         - VITE_API_URL=${VITE_API_URL}
     env_file: ./.env
   backend:
-    image: danilavoronkov/movie-tracker-backend
+    image: registry.movie-tracker.app/movie-tracker/backend:latest
     restart: unless-stopped
     networks:
       - movie-tracker

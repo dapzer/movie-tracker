@@ -1,0 +1,27 @@
+services:
+  registry:
+    image: registry:3.0.0
+    restart: unless-stopped
+    networks:
+      - caddy-public
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+    volumes:
+      - ./auth:/auth
+      - data:/data
+    expose:
+      - 5000
+    deploy:
+      placement:
+        constraints:
+          - node.labels.registry == true
+
+volumes:
+  data:
+
+networks:
+  caddy-public:
+    external: true

@@ -1,0 +1,26 @@
+services:
+  registry:
+    image: registry:3.0.0
+    restart: unless-stopped
+    networks:
+      - caddy-public
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+      REGISTRY_PROXY_REMOTEURL: ${REGISTRY_PROXY_REMOTEURL:-https://registry-1.docker.io}
+      REGISTRY_PROXY_USERNAME: ${REGISTRY_PROXY_USERNAME}
+      REGISTRY_PROXY_PASSWORD: ${REGISTRY_PROXY_PASSWORD}
+    volumes:
+      - ./auth:/auth
+      - data:/data
+    expose:
+      - 5000
+
+volumes:
+  data:
+
+networks:
+  caddy-public:
+    external: true

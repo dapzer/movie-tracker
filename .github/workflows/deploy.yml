@@ -21,6 +21,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
+          registry: ${{ secrets.DOCKER_REGISTRY_URL }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
@@ -30,7 +31,7 @@ jobs:
           push: true
           context: .
           file: ./apps/frontend/Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/movie-tracker-frontend:latest
+          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracke/frontend:latest
           build-args: |
             VITE_BASE_URL=${{ secrets.BASE_URL }}
             VITE_API_LOCAL_URL=${{ secrets.API_LOCAL_URL }}
@@ -52,6 +53,7 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
+          registry: ${{ secrets.DOCKER_REGISTRY_URL }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
@@ -61,4 +63,4 @@ jobs:
           push: true
           context: .
           file: ./apps/backend/Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/movie-tracker-backend:latest
+          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/backend:latest

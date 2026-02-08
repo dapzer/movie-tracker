@@ -30,3 +30,8 @@ umami.movie-tracker.app {
 grafana.movie-tracker.app {
     reverse_proxy grafana:3000
 }
+
+
+registry.movie-tracker.app {
+    reverse_proxy registry:5000
+}
