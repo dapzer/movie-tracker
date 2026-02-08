@@ -91,7 +91,7 @@ export class GenerateDetailsSitemapService {
 
   async generate() {
     // const modifiedDate = this.getLastModifiedDate()
-
+    await this.clearSitemapFolder()
     for (const mediaType of this.mediaTypes) {
       const data = await this.getSourceData(mediaType.fileMame)
 
