@@ -40,13 +40,19 @@ export class GenerateDetailsSitemapService {
     return `${month}_${day}_${year}`
   }
 
-  private readonly getLastModifiedDate = () => {
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1).toString().padStart(2, "0")
-    const day = date.getDate().toString().padStart(2, "0")
+  private getLastModifiedDate(): string {
+    const now = new Date()
+    const pad = (n: number) => n.toString().padStart(2, "0")
 
-    return `${year}-${month}-${day}`
+    // UTC to match common expectations + no ms
+    const year = now.getUTCFullYear()
+    const month = pad(now.getUTCMonth() + 1)
+    const day = pad(now.getUTCDate())
+    const hour = pad(now.getUTCHours())
+    const minute = pad(now.getUTCMinutes())
+    const second = pad(now.getUTCSeconds())
+
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}+00:00`
   }
 
   private async getSourceData(baseFileName: string) {
@@ -84,7 +90,7 @@ export class GenerateDetailsSitemapService {
   }
 
   async generate() {
-    const modifiedDate = this.getLastModifiedDate()
+    // const modifiedDate = this.getLastModifiedDate()
 
     for (const mediaType of this.mediaTypes) {
       const data = await this.getSourceData(mediaType.fileMame)
@@ -112,7 +118,7 @@ export class GenerateDetailsSitemapService {
             },
           ],
           changefreq: EnumChangefreq.DAILY,
-          lastmod: modifiedDate,
+          // lastmod: modifiedDate,
           priority: 0.6,
         })
       }
