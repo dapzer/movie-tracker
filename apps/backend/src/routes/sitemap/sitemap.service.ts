@@ -2,11 +2,10 @@ import { createReadStream, statSync } from "node:fs"
 import { join, resolve } from "node:path"
 import * as process from "node:process"
 import { Worker } from "node:worker_threads"
-import { createGunzip } from "node:zlib"
-import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { Interval } from "@nestjs/schedule"
+import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 
 @Injectable()
 export class SitemapService {
@@ -31,10 +30,7 @@ export class SitemapService {
 
       statSync(filePath)
 
-      const file = createReadStream(filePath)
-      const gunzip = createGunzip()
-
-      return file.pipe(gunzip)
+      return createReadStream(filePath)
     }
     catch (error) {
       throw new HttpException(
