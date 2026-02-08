@@ -55,7 +55,7 @@ The main goal in the creation of this project was the realization of personal li
 
 ```bash
 function dsu() {
-    docker service update --with-registry-auth --force --image danilavoronkov/movie-tracker-$1 movie-tracker_$1
+    docker service update --with-registry-auth --force --image registry.movie-tracker.app/movie-tracker/$1 movie-tracker_$1
 }
 function dsl() {
     docker service logs -f --since $1m movie-tracker_$2

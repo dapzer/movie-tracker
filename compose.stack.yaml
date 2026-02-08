@@ -67,6 +67,7 @@ services:
       - NET_ADMIN
     volumes:
       - caddy_data:/data
+      - ./Caddyfile:/etc/caddy/Caddyfile
 #    configs:
 #      - source: caddy_config
 #        target: /etc/caddy/Caddyfile
