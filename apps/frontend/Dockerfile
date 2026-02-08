@@ -19,7 +19,7 @@ COPY . .
 
 RUN turbo prune --scope=frontend --docker
 
-FROM turbo-base as installer
+FROM turbo-base AS installer
 WORKDIR /app
 
 COPY --from=pruner /app/out/json/ .
@@ -27,7 +27,7 @@ COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
 RUN pnpm install --frozen-lockfile --prefer-offline
 
-FROM installer as builder
+FROM installer AS builder
 WORKDIR /app
 
 COPY --from=pruner /app/out/full/ .
@@ -59,6 +59,6 @@ RUN adduser --system --uid 1001 frontend
 USER frontend
 COPY --from=builder /app/apps/frontend/.output .
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 CMD ["node", "--import", "./server/sentry.server.config.mjs", "./server/index.mjs"]
