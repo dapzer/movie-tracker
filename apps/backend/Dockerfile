@@ -1,42 +1,47 @@
-FROM node:22.18.0-alpine AS base
+FROM node:24.13.0-alpine AS base
 
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
-FROM base AS builder
+FROM base AS pnpm-base
+ARG PNPM_VERSION=10.29.1
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+
+FROM pnpm-base AS turbo-base
+ARG TURBO_VERSION=2.8.3
+RUN npm install -g turbo@${TURBO_VERSION}
+ENV TURBO_TELEMETRY_DISABLED=1
+
+FROM turbo-base AS pruner
 WORKDIR /app
 
-RUN npm install -g turbo
-
 COPY . .
+RUN rm -rf apps/frontend
 
 RUN turbo prune --scope=backend --docker
 
-
-FROM base as installer
+FROM turbo-base as installer
 WORKDIR /app
 
-RUN npm install -g pnpm
-RUN npm install -g turbo
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install --frozen-lockfile --prefer-offline
 
-RUN pnpm install
+FROM installer as builder
+WORKDIR /app
 
-COPY --from=builder /app/out/full/ .
+COPY --from=pruner /app/out/full/ .
 COPY tsconfig.json tsconfig.json
 COPY turbo.json turbo.json
 
 RUN turbo run build --filter=backend
 
-FROM base AS runner
+FROM pnpm-base AS runner
 WORKDIR /app
-
-RUN npm install -g pnpm
 
 ENV NODE_ENV production
 
-COPY --from=installer /app .
+COPY --from=builder /app .
 
 CMD ["pnpm", "--filter=backend", "run", "start:prod"]
