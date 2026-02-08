@@ -1,7 +1,8 @@
 import * as Sentry from "@sentry/nuxt"
 
 Sentry.init({
-  dsn: import.meta.env.NUXT_PUBLIC_SENTRY_DSN,
+  // eslint-disable-next-line node/prefer-global/process
+  dsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
 
   // We recommend adjusting this value in production, or using tracesSampler
   // for finer control

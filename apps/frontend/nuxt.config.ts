@@ -162,6 +162,7 @@ export default defineNuxtConfig({
     sourceMapsUploadOptions: {
       org: "movietracker",
       project: "frontend",
+      telemetry: false,
     },
   },
 
