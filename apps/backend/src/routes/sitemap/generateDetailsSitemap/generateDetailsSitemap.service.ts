@@ -132,6 +132,7 @@ export class GenerateDetailsSitemapService {
         sitemapHostname: `${this.configService.get("CLIENT_BASE_URL")}/sitemaps/details/${mediaType.type}/`,
         destinationDir: `./sitemaps/details/${mediaType.type}/`,
         sourceData: sitemapItems,
+        gzip: false,
       })
         .then(() => {
           this.logger.log(`Finish generate sitemap for ${mediaType.type}!`)
