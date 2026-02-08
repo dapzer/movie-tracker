@@ -32,6 +32,8 @@ jobs:
           context: .
           file: ./apps/frontend/Dockerfile
           tags: ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/frontend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             VITE_BASE_URL=${{ secrets.BASE_URL }}
             VITE_API_LOCAL_URL=${{ secrets.API_LOCAL_URL }}
@@ -65,3 +67,5 @@ jobs:
           context: .
           file: ./apps/backend/Dockerfile
           tags: ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
