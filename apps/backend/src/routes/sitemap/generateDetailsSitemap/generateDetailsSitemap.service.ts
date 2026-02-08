@@ -22,10 +22,10 @@ export class GenerateDetailsSitemapService {
       type: "tv",
       fileMame: "tv_series",
     },
-    {
-      type: "person",
-      fileMame: "person",
-    },
+    // {
+    //   type: "person",
+    //   fileMame: "person",
+    // },
   ]
 
   constructor(private readonly configService: ConfigService) {}
