@@ -67,9 +67,9 @@ services:
       - NET_ADMIN
     volumes:
       - caddy_data:/data
-    configs:
-      - source: caddy_config
-        target: /etc/caddy/Caddyfile
+#    configs:
+#      - source: caddy_config
+#        target: /etc/caddy/Caddyfile
     deploy:
       placement:
         constraints:
@@ -122,9 +122,9 @@ services:
         constraints:
           - node.labels.databases == true
 
-configs:
-  caddy_config:
-    file: ./Caddyfile
+#configs:
+#  caddy_config:
+#    file: ./Caddyfile
 
 volumes:
   caddy_data:
