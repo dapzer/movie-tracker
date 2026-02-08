@@ -37,6 +37,7 @@ jobs:
             VITE_API_LOCAL_URL=${{ secrets.API_LOCAL_URL }}
             VITE_API_URL=${{ secrets.API_URL }}
             NUXT_PUBLIC_SENTRY_DSN=${{ secrets.NUXT_PUBLIC_SENTRY_DSN }}
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
 
   backend:
     runs-on: ubuntu-latest
