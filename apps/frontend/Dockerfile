@@ -18,21 +18,27 @@ WORKDIR /app
 COPY . .
 
 RUN turbo prune --scope=frontend --docker
+RUN ls -la out
+RUN ls -la out/full
+
 
 FROM turbo-base AS installer
 WORKDIR /app
 
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/full/ .
+COPY --from=pruner /app/tsconfig.json tsconfig.json
+COPY --from=pruner /app/turbo.json turbo.json
 
-RUN pnpm install --frozen-lockfile --prefer-offline
+WORKDIR /app/apps/frontend
+
+RUN pnpm install
 
 FROM installer AS builder
 WORKDIR /app
 
-COPY --from=pruner /app/out/full/ .
-COPY tsconfig.json tsconfig.json
-COPY turbo.json turbo.json
+COPY --from=installer /app .
 
 ARG VITE_BASE_URL
 ARG VITE_API_LOCAL_URL
@@ -46,10 +52,6 @@ ENV VITE_API_URL=$VITE_API_URL
 ENV NUXT_PUBLIC_SENTRY_DSN=$NUXT_PUBLIC_SENTRY_DSN
 ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 
-WORKDIR /app/apps/frontend
-RUN pnpm nuxi prepare
-
-WORKDIR /app
 RUN turbo run build --filter=frontend
 
 FROM base AS runner
