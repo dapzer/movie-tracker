@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@n
 import { isCuid } from "@paralleldrive/cuid2"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
+import { BulkCreateMediaItemDto } from "@/routes/mediaItem/dto/bulkCreateMediaItem.dto"
+import { BulkDeleteMediaItemDto } from "@/routes/mediaItem/dto/bulkDeleteMediaItem.dto"
 import { CreateMediaItemDto } from "@/routes/mediaItem/dto/createMediaItem.dto"
 import { CreateMediaItemCloneDto } from "@/routes/mediaItem/dto/createMediaItemClone.dto"
 import { GetMediaItemsByMediaIdParams } from "@/routes/mediaItem/dto/getMediaItemsByMediaIdParams.dto"
@@ -30,6 +32,18 @@ export class MediaItemController {
     })
   }
 
+  @Post("bulk")
+  @UseGuards(AuthGuard)
+  async bulkCreateMediaItem(
+    @Body() body: BulkCreateMediaItemDto,
+    @User() user: UserDto,
+  ) {
+    return this.mediaItemService.createBulk({
+      userId: user?.id,
+      items: body.items,
+    })
+  }
+
   @Get()
   @UseGuards(AuthGuard)
   async getMediaItemsByUserId(@User() user: UserDto) {
@@ -45,7 +59,7 @@ export class MediaItemController {
     })
   }
 
-  @Get("/media-list/:mediaListId")
+  @Get("media-list/:mediaListId")
   async getMediaItemsByListId(
     @Param() param: MediaItemListIdDto,
     @User() user: UserDto,
@@ -61,6 +75,18 @@ export class MediaItemController {
   @UseGuards(AuthGuard)
   async deleteMediaItem(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaItemService.delete({ id: params.id, userId: user?.id })
+  }
+
+  @Post("bulk/delete")
+  @UseGuards(AuthGuard)
+  async bulkDeleteMediaItem(
+    @Body() body: BulkDeleteMediaItemDto,
+    @User() user: UserDto,
+  ) {
+    return this.mediaItemService.deleteBulk({
+      ids: body.ids,
+      userId: user?.id,
+    })
   }
 
   @Patch(":id")

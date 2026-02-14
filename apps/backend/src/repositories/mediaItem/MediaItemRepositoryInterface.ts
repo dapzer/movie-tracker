@@ -7,6 +7,8 @@ export interface MediaItemRepositoryInterface {
 
   getById: (id: string) => Promise<MediaItemType>
 
+  getByIds: (ids: string[]) => Promise<MediaItemType[]>
+
   getByListId: (mediaListId: string) => Promise<MediaItemType[]>
 
   getByUserId: (userId: string) => Promise<MediaItemType[]>
@@ -19,6 +21,15 @@ export interface MediaItemRepositoryInterface {
     createdAt?: Date
     currentStatus?: MediaItemStatusNameEnum
   }) => Promise<MediaItemType>
+
+  createMany: (args: Array<{
+    mediaId: number
+    mediaType: MediaTypeEnum
+    mediaListId: string
+    mediaDetailsId: string
+    createdAt?: Date
+    currentStatus?: MediaItemStatusNameEnum
+  }>) => Promise<MediaItemType[]>
 
   createWithExistedData: (args: {
     mediaId: number
@@ -43,6 +54,13 @@ export interface MediaItemRepositoryInterface {
     id: string
     data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
   }) => Promise<MediaItemType>
+
+  updateMany: (args: Array<{
+    id: string
+    data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
+  }>) => Promise<MediaItemType[]>
+
+  deleteMany: (ids: string[]) => Promise<MediaItemType[]>
 
   getAllCount: () => Promise<number>
 }

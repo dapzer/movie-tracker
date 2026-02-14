@@ -2,6 +2,9 @@ import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/ty
 import type { RequestOptions } from "@movie-tracker/utils"
 import type {
   GetMediaItemsByMediaIdApiArgs,
+  MediaItemBulkCreateApiTypes,
+  MediaItemBulkDeleteApiTypes,
+  MediaItemBulkUpdateTrackingDataApiTypes,
   MediaItemCreateApiTypes,
   MediaItemCreateCloneApiTypes,
   MediaItemUpdateApiTypes,
@@ -41,4 +44,16 @@ export async function createMediaItemCloneApi(args: MediaItemCreateCloneApiTypes
 
 export async function updateMediaItemApi(mediaItemId: string, body: MediaItemUpdateApiTypes) {
   return api.patch<MediaItemType>(`media-item/${mediaItemId}`, body)
+}
+
+export async function bulkCreateMediaItemsApi(body: MediaItemBulkCreateApiTypes) {
+  return api.post<MediaItemType[]>("media-item/bulk", body)
+}
+
+export async function bulkDeleteMediaItemsApi(body: MediaItemBulkDeleteApiTypes) {
+  return api.post<MediaItemType[]>("media-item/bulk/delete", body)
+}
+
+export async function bulkUpdateMediaItemTrackingDataApi(body: MediaItemBulkUpdateTrackingDataApiTypes) {
+  return api.post<MediaItemTrackingDataType[]>("tracking-data/bulk/update", body)
 }

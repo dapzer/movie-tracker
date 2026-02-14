@@ -93,6 +93,22 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
+  async getByIds(ids: string[]) {
+    const mediaItems = await this.prisma.mediaItem.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      include: {
+        mediaDetails: true,
+        trackingData: true,
+      },
+    })
+
+    return mediaItems.map(this.convertToInterface)
+  }
+
   async getByUserId(userId: string) {
     const mediaItems = await this.prisma.mediaItem.findMany({
       where: {
@@ -171,6 +187,44 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     return this.convertToInterface(mediaItem)
   }
 
+  async createMany(
+    args: Parameters<MediaItemRepositoryInterface["createMany"]>[0],
+  ) {
+    if (args.length === 0) {
+      return []
+    }
+
+    const mediaItems = await this.prisma.$transaction(
+      args.map(item => this.prisma.mediaItem.create({
+        data: {
+          mediaListId: item.mediaListId,
+          mediaId: item.mediaId,
+          mediaType: item.mediaType,
+          mediaDetailsId: item.mediaDetailsId,
+          ...(item.createdAt && { createdAt: item.createdAt }),
+          trackingData: {
+            create: {
+              score: null,
+              sitesToView: [],
+              tvProgress: {
+                currentSeason: 0,
+                currentEpisode: 1,
+              },
+              ...(item.createdAt && { createdAt: item.createdAt }),
+              ...(item.currentStatus && { currentStatus: item.currentStatus }),
+            },
+          },
+        },
+        include: {
+          mediaDetails: true,
+          trackingData: true,
+        },
+      })),
+    )
+
+    return mediaItems.map(this.convertToInterface)
+  }
+
   async createWithExistedData(
     args: Parameters<MediaItemRepositoryInterface["createWithExistedData"]>[0],
   ) {
@@ -227,6 +281,45 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
     })
 
     return this.convertToInterface(mediaItem)
+  }
+
+  async updateMany(
+    args: Parameters<MediaItemRepositoryInterface["updateMany"]>[0],
+  ) {
+    if (args.length === 0) {
+      return []
+    }
+
+    const mediaItems = await this.prisma.$transaction(
+      args.map(item => this.prisma.mediaItem.update({
+        where: { id: item.id },
+        data: item.data,
+        include: {
+          mediaDetails: true,
+          trackingData: true,
+        },
+      })),
+    )
+
+    return mediaItems.map(this.convertToInterface)
+  }
+
+  async deleteMany(ids: string[]) {
+    if (ids.length === 0) {
+      return []
+    }
+
+    const mediaItems = await this.prisma.$transaction(
+      ids.map(id => this.prisma.mediaItem.delete({
+        where: { id },
+        include: {
+          mediaDetails: true,
+          trackingData: true,
+        },
+      })),
+    )
+
+    return mediaItems.map(this.convertToInterface)
   }
 
   async getAllCount() {

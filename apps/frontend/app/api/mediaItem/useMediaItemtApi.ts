@@ -2,12 +2,18 @@ import type { MediaItemTrackingDataType, MediaItemType, MediaListType } from "@m
 import type { UseQueryOptions } from "@tanstack/vue-query"
 import type {
   GetMediaItemsByMediaIdApiArgs,
+  MediaItemBulkCreateApiTypes,
+  MediaItemBulkDeleteApiTypes,
+  MediaItemBulkUpdateTrackingDataApiTypes,
   MediaItemCreateApiTypes,
   MediaItemUpdateApiTypes,
 } from "~/api/mediaItem/mediaItemApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
+  bulkCreateMediaItemsApi,
+  bulkDeleteMediaItemsApi,
+  bulkUpdateMediaItemTrackingDataApi,
   createMediaItemApi,
   createMediaItemCloneApi,
   deleteMediaItemApi,
@@ -151,6 +157,81 @@ export function useUpdateMediaItemApi() {
     onSuccess: async (data) => {
       await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
         return oldData.map(item => item.id !== data.id ? item : data)
+      })
+    },
+  })
+}
+
+export function useBulkCreateMediaItemsApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.BULK_CREATE],
+    mutationFn: (args: MediaItemBulkCreateApiTypes) => bulkCreateMediaItemsApi(args),
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, ...data])
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaListCounts = new Map<string, number>()
+        for (const item of data) {
+          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
+        }
+
+        for (const list of oldData) {
+          const diff = mediaListCounts.get(list.id)
+          if (diff) {
+            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+          }
+        }
+        return oldData
+      })
+    },
+  })
+}
+
+export function useBulkDeleteMediaItemsApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.BULK_DELETE],
+    mutationFn: (args: MediaItemBulkDeleteApiTypes) => bulkDeleteMediaItemsApi(args),
+    onSuccess: async (data) => {
+      const deletedIds = new Set(data.map(item => item.id))
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        return oldData.filter(item => !deletedIds.has(item.id))
+      })
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaListCounts = new Map<string, number>()
+        for (const item of data) {
+          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) - 1)
+        }
+
+        for (const list of oldData) {
+          const diff = mediaListCounts.get(list.id)
+          if (diff) {
+            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+          }
+        }
+        return oldData
+      })
+    },
+  })
+}
+
+export function useBulkUpdateMediaItemTrackingDataApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.BULK_UPDATE_TRACKING_DATA],
+    mutationFn: (args: MediaItemBulkUpdateTrackingDataApiTypes) => bulkUpdateMediaItemTrackingDataApi(args),
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
+        const updatedByItemId = new Map(data.map(item => [item.mediaItemId, item]))
+        return oldData.map(item => updatedByItemId.get(item.id)
+          ? {
+              ...item,
+              trackingData: updatedByItemId.get(item.id),
+            }
+          : item)
       })
     },
   })
