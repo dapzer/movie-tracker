@@ -19,6 +19,10 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
   private convertTrackingDataToInterface(
     data: TrackingData,
   ): MediaItemTrackingDataType {
+    if (!data) {
+      return null
+    }
+
     return {
       id: data.id,
       mediaItemId: data.mediaItemId,
@@ -35,20 +39,20 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
   private convertToInterface = (
     data: MediaItem & {
       mediaDetails?: MediaDetails
-      trackingData: TrackingData
+      trackingData?: TrackingData
     },
   ): MediaItemType => {
-    const convertedTrackingData = this.convertTrackingDataToInterface(
-      data.trackingData,
-    )
-
     return {
       id: data.id,
       mediaDetailsId: data.mediaDetailsId,
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       mediaListId: data.mediaListId,
-      trackingData: convertedTrackingData,
+      trackingData: data.trackingData
+        ? this.convertTrackingDataToInterface(
+            data.trackingData,
+          )
+        : null,
       mediaDetails: data.mediaDetails
         ? {
             id: data.mediaDetails.id,
@@ -112,6 +116,22 @@ export class PrismaMediaItemRepository implements MediaItemRepositoryInterface {
       },
       include: {
         mediaDetails: true,
+        trackingData: true,
+      },
+    })
+
+    return mediaItems.map(this.convertToInterface)
+  }
+
+  async getByMediaId(args: Parameters<MediaItemRepositoryInterface["getByMediaId"]>[0]) {
+    const mediaItems = await this.prisma.mediaItem.findMany({
+      where: {
+        mediaId: args.mediaId,
+        mediaList: {
+          userId: args.userId,
+        },
+      },
+      include: {
         trackingData: true,
       },
     })

@@ -1,15 +1,11 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from "@nestjs/common"
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from "@nestjs/common"
 import { HttpAdapterHost } from "@nestjs/core"
 import { isArray } from "class-validator"
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  logger = new Logger("AllExceptions")
+
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(exception: unknown, host: ArgumentsHost): void {
@@ -36,11 +32,17 @@ export class AllExceptionsFilter implements ExceptionFilter {
         }`
         : "Unknown error"
 
+    const path = httpAdapter.getRequestUrl(ctx.getRequest())
+
     const responseBody = {
       statusCode: httpStatus,
       message: errorMessage,
       timestamp: new Date().toISOString(),
-      path: httpAdapter.getRequestUrl(ctx.getRequest()),
+      path,
+    }
+
+    if (!(exception instanceof HttpException)) {
+      this.logger.error(`Error during request to ${path}`, exception)
     }
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus)

@@ -32,6 +32,11 @@ export interface MediaItemRepositoryInterface {
     createdAt?: Date
   }) => Promise<MediaItemType>
 
+  getByMediaId: (args: {
+    mediaId: number
+    userId: string
+  }) => Promise<MediaItemType[]>
+
   delete: (id: string) => Promise<MediaItemType>
 
   update: (args: {
