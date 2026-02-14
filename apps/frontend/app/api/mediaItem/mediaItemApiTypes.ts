@@ -14,3 +14,7 @@ export interface MediaItemCreateCloneApiTypes {
   mediaListId: string
   isSaveCreationDate: boolean
 }
+
+export interface GetMediaItemsByMediaIdApiArgs {
+  mediaId: number
+}

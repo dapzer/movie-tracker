@@ -1,6 +1,10 @@
 import type { MediaItemTrackingDataType, MediaItemType, MediaListType } from "@movie-tracker/types"
 import type { UseQueryOptions } from "@tanstack/vue-query"
-import type { MediaItemCreateApiTypes, MediaItemUpdateApiTypes } from "~/api/mediaItem/mediaItemApiTypes"
+import type {
+  GetMediaItemsByMediaIdApiArgs,
+  MediaItemCreateApiTypes,
+  MediaItemUpdateApiTypes,
+} from "~/api/mediaItem/mediaItemApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
@@ -8,6 +12,7 @@ import {
   createMediaItemCloneApi,
   deleteMediaItemApi,
   getMediaItemsApi,
+  getMediaItemsByMediaIdApi,
   getMediaItemsByMediaListIdApi,
   updateMediaItemApi,
   updateMediaItemTrackingDataApi,
@@ -31,6 +36,17 @@ export function useGetMediaItemsApi() {
     },
     retry: false,
     retryOnMount: false,
+  })
+}
+
+export function useGetMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs) {
+  return useQuery({
+    queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_ID, args.mediaId],
+    queryFn: () => {
+      return getMediaItemsByMediaIdApi(args)
+    },
+    retry: false,
+    retryOnMount: true,
   })
 }
 

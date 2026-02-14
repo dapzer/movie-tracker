@@ -7,12 +7,13 @@ import { toast } from "vue3-toastify"
 import {
   useCreateMediaItemApi,
   useDeleteMediaItemApi,
-  useGetMediaItemsApi,
+  useGetMediaItemsByMediaIdApi,
   useUpdateMediaItemTrackingDataApi,
 } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -40,7 +41,9 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
+const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
+  mediaId: props.mediaId,
+})
 const createMediaItemApi = useCreateMediaItemApi()
 const deleteMediaItemApi = useDeleteMediaItemApi()
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
@@ -50,10 +53,8 @@ const changes = ref<Record<string, MediaListChangeType>>({})
 
 function setCurrentListStates() {
   for (const mediaList of getMediaListsApi.data.value || []) {
-    const mediaItem = getMediaItemsApi.data.value?.find(
-      item => item.mediaListId === mediaList.id
-        && item.mediaId === props.mediaId
-        && item.mediaType === props.mediaType,
+    const mediaItem = getMediaItemsByMediaId.data.value?.find(
+      item => item.mediaListId === mediaList.id,
     )
 
     changes.value[mediaList.id] = {
@@ -66,7 +67,7 @@ function setCurrentListStates() {
   }
 }
 
-watch(() => getMediaItemsApi.data, () => {
+watch([() => getMediaItemsByMediaId.data.value, () => getMediaListsApi.data.value], () => {
   setCurrentListStates()
 }, { immediate: true })
 
@@ -110,7 +111,7 @@ function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum
   currentChanges.currentStatus = status
 
   if (currentState.mediaItemId) {
-    const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === currentState.mediaItemId)
+    const mediaItem = getMediaItemsByMediaId.data.value?.find(item => item.id === currentState.mediaItemId)
     const isSameStatus = mediaItem?.trackingData.currentStatus === status
     currentChanges.action = isSameStatus ? "pass" : "update"
   }
@@ -132,7 +133,7 @@ function handleSaveChanges() {
         }
         break
       case "update": {
-        const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === value.mediaItemId)
+        const mediaItem = getMediaItemsByMediaId.data.value?.find(item => item.id === value.mediaItemId)
         if (mediaItem) {
           return updateMediaItemTrackingDataApi.mutateAsync({
             trackingDataId: mediaItem.trackingData.id,
@@ -199,7 +200,13 @@ const isHasChanges = computed(() => {
     <div
       :class="$style.list"
     >
-      <template v-if="sortedMediaLists.length">
+      <template v-if="getMediaItemsByMediaId.isPending.value || getMediaListsApi.isPending.value">
+        <UiFormListItemSkeleton
+          v-for="i in 5"
+          :key="i"
+        />
+      </template>
+      <template v-else-if="sortedMediaLists.length">
         <AddMediaItemToListsFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"

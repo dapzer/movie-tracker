@@ -1,6 +1,7 @@
 import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types"
 import type { RequestOptions } from "@movie-tracker/utils"
 import type {
+  GetMediaItemsByMediaIdApiArgs,
   MediaItemCreateApiTypes,
   MediaItemCreateCloneApiTypes,
   MediaItemUpdateApiTypes,
@@ -9,6 +10,10 @@ import { api } from "~/api/instance"
 
 export async function getMediaItemsApi(options?: RequestOptions) {
   return api.get<MediaItemType[]>("media-item", options)
+}
+
+export async function getMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs, options?: RequestOptions) {
+  return api.get<MediaItemType[]>(`media-item/by-media-id/${args.mediaId}`, options)
 }
 
 export async function getMediaItemsByMediaListIdApi(mediaListId: string) {
