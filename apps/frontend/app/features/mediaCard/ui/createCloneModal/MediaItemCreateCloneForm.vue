@@ -22,7 +22,10 @@ interface MediaItemCreateCloneFormProps {
 
 const props = defineProps<MediaItemCreateCloneFormProps>()
 const model = defineModel<boolean>()
-const getMediaListsApi = useGetMediaListsApi()
+const getMediaListsApi = useGetMediaListsApi({
+  refetchOnMount: true,
+  staleTime: 0,
+})
 const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
   mediaId: props.mediaItem.mediaId,
 }, {

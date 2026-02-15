@@ -41,9 +41,15 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-const getMediaListsApi = useGetMediaListsApi()
+const getMediaListsApi = useGetMediaListsApi({
+  refetchOnMount: true,
+  staleTime: 0,
+})
 const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
   mediaId: props.mediaId,
+}, {
+  refetchOnMount: true,
+  staleTime: 0,
 })
 const bulkCreateMediaItemsApi = useBulkCreateMediaItemsApi()
 const bulkDeleteMediaItemsApi = useBulkDeleteMediaItemsApi()
@@ -218,7 +224,7 @@ const isHasChanges = computed(() => {
     <div
       :class="$style.list"
     >
-      <template v-if="getMediaItemsByMediaId.isPending.value || getMediaListsApi.isPending.value">
+      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value">
         <UiFormListItemSkeleton
           v-for="i in 5"
           :key="i"

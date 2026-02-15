@@ -16,7 +16,7 @@ import {
 } from "~/api/mediaList/mediaListApi"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 
-export function useGetMediaListsApi() {
+export function useGetMediaListsApi(options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [MediaListQueryKeys.GET_ALL],
     queryFn: () => {
@@ -28,6 +28,7 @@ export function useGetMediaListsApi() {
 
       return getMediaListsApi(undefined, { headers })
     },
+    ...options,
   })
 }
 
