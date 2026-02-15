@@ -1,5 +1,5 @@
 import { Type } from "class-transformer"
-import { IsArray, IsUUID, ValidateNested } from "class-validator"
+import { ArrayNotEmpty, IsArray, IsUUID, ValidateNested } from "class-validator"
 import { UpdateMediaItemDto } from "@/routes/mediaItem/dto/updateMediaItem.dto"
 
 export class BulkUpdateMediaItemDto {
@@ -13,6 +13,7 @@ export class BulkUpdateMediaItemDto {
 
 export class BulkUpdateMediaItemsDto {
   @IsArray()
+  @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => BulkUpdateMediaItemDto)
   items: BulkUpdateMediaItemDto[]

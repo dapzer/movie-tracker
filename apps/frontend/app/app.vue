@@ -5,7 +5,6 @@ import { useHead, useI18n, useSeoMeta } from "#imports"
 import { ConfigProvider } from "radix-vue"
 import { useAuth } from "~/shared/composables/useAuth"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
-// import "vue3-toastify/dist/index.css"
 
 const { t, locale } = useI18n()
 
