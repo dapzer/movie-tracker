@@ -16,7 +16,9 @@ import { getShortText } from "~/shared/utils/getShortText"
 import { MediaListDetails } from "~/widgets/mediaList"
 
 const { t } = useI18n()
-const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params
+const route = useRoute()
+const mediaListHumanFriendlyId = route.params.mediaListId
+
 const localePath = useLocalePath()
 const { isInitialLoadingProfile, profile, isAuthorized } = useAuth()
 

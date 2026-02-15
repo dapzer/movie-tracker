@@ -48,7 +48,11 @@ export function useGetMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs
   return useQuery({
     queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_ID, args.mediaId],
     queryFn: () => {
-      return getMediaItemsByMediaIdApi(args)
+      const headers = useRequestHeaders(["cookie"])
+
+      return getMediaItemsByMediaIdApi(args, {
+        headers,
+      })
     },
     retry: false,
     retryOnMount: true,
@@ -59,7 +63,13 @@ export function useGetMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs
 export function useGetMediaItemsByMediaListIdApi(args: Ref<GetMediaItemsByMediaListIdApiArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID, args],
-    queryFn: () => getMediaItemsByMediaListIdApi(args.value),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+
+      return getMediaItemsByMediaListIdApi(args.value, {
+        headers,
+      })
+    },
     ...options,
   })
 }
@@ -67,7 +77,11 @@ export function useGetMediaItemsByMediaListIdApi(args: Ref<GetMediaItemsByMediaL
 export function useGetMediaItemsCountByMediaListIdApi(args: Ref<GetMediaItemsCountByMediaListIdApiArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [MediaItemQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID, args],
-    queryFn: () => getMediaItemsCountByMediaListIdApi(args.value),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+
+      return getMediaItemsCountByMediaListIdApi(args.value, { headers })
+    },
     ...options,
   })
 }

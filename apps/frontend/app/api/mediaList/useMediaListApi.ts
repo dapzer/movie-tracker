@@ -48,7 +48,6 @@ export function useGetMediaListByIdApi(mediaListId: string, options?: Omit<UseQu
     queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
-
       return getMediaListsByIdApi(mediaListId, { headers })
     },
     ...options,

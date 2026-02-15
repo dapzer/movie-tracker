@@ -27,8 +27,9 @@ export async function getMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiA
   return api.get<MediaItemType[]>(`media-item/by-media-id/${args.mediaId}`, options)
 }
 
-export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaListIdApiArgs) {
+export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaListIdApiArgs, options?: RequestOptions) {
   return api.get<MediaItemsByListIdResponseType>(`media-item/media-list/${args.mediaListId}`, {
+    ...options,
     params: {
       limit: args.limit,
       offset: args.offset,
@@ -41,8 +42,9 @@ export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaLi
   })
 }
 
-export async function getMediaItemsCountByMediaListIdApi(args: GetMediaItemsCountByMediaListIdApiArgs) {
+export async function getMediaItemsCountByMediaListIdApi(args: GetMediaItemsCountByMediaListIdApiArgs, options?: RequestOptions) {
   return api.get<MediaItemsCountByStatusType>(`media-item/media-list/${args.mediaListId}/count`, {
+    ...options,
     params: {
       search: args.search,
     },
