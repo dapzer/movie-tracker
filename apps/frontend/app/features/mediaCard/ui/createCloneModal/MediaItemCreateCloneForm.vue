@@ -4,11 +4,12 @@ import { useI18n } from "#imports"
 import { SortOrderEnum } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useCreateMediaItemCloneApi, useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
+import { useCreateMediaItemCloneApi, useGetMediaItemsByMediaIdApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
 import { useForm } from "~/shared/composables/useForm"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiSwitch } from "~/shared/ui/UiSwitch"
@@ -22,7 +23,12 @@ interface MediaItemCreateCloneFormProps {
 const props = defineProps<MediaItemCreateCloneFormProps>()
 const model = defineModel<boolean>()
 const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
+const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
+  mediaId: props.mediaItem.mediaId,
+}, {
+  staleTime: 0,
+  refetchOnMount: true,
+})
 const { t } = useI18n()
 const searchTerm = ref("")
 const createMediaItemCloneApi = useCreateMediaItemCloneApi()
@@ -53,7 +59,7 @@ const availableMediaLists = computed(() => {
     return []
 
   return getMediaListsApi.data.value.filter((item) => {
-    if (getMediaItemsApi.data.value?.some((el) => {
+    if (getMediaItemsByMediaId.data.value?.some((el) => {
       return el.mediaType === props.mediaItem.mediaType && el.mediaId === props.mediaItem.mediaId && el.mediaListId === item.id
     })) {
       return false
@@ -85,7 +91,13 @@ const sortedMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div :class="$style.list">
-      <template v-if="sortedMediaLists.length">
+      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value">
+        <UiFormListItemSkeleton
+          v-for="i in 5"
+          :key="i"
+        />
+      </template>
+      <template v-else-if="sortedMediaLists.length">
         <MediaItemCreateCloneFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"

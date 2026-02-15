@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaItemType, MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
+import type { MediaListType, UserPublicType, UserType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { nextTick, useI18n } from "#imports"
 import { useClipboard } from "@vueuse/core"
@@ -17,7 +17,6 @@ import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
 
 interface MediaListHeaderProps {
   mediaList: MediaListType
-  mediaItems: MediaItemType[]
   userProfile: UserType | UserPublicType
   isUserListOwner: boolean
 }
@@ -127,10 +126,7 @@ async function handleLike() {
       </div>
 
       <div :class="$style.actions">
-        <CloneMediaListModal
-          :media-list="props.mediaList"
-          :media-items="props.mediaItems"
-        >
+        <CloneMediaListModal :media-list="props.mediaList">
           <template #trigger="{ openModal }">
             <MediaListsLimitTooltip>
               <template #default="{ isLimitReached }">

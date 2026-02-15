@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onBeforeMount, useI18n, useSeoMeta } from "#imports"
+import { useI18n, useSeoMeta } from "#imports"
 import { MEDIA_LIST_COUNT_LIMIT, SortOrderEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
@@ -23,12 +23,9 @@ import { UiListHeader } from "../../shared/ui/UiListHeader"
 const { isLoadingProfile, isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const getMediaListsApi = useGetMediaListsApi()
+await getMediaListsApi.suspense()
 
 const { t } = useI18n()
-
-onBeforeMount(() => {
-  getMediaListsApi.refetch()
-})
 
 useSeoMeta({
   titleTemplate(titleChunk) {

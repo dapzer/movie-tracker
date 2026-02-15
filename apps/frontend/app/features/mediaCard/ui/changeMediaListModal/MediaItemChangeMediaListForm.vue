@@ -5,13 +5,14 @@ import { SortOrderEnum } from "@movie-tracker/types"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useGetMediaItemsApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi"
+import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi"
 import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
 import { useForm } from "~/shared/composables/useForm"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -24,7 +25,12 @@ interface MediaItemChangeMediaListFormProps {
 const props = defineProps<MediaItemChangeMediaListFormProps>()
 const model = defineModel<boolean>()
 const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
+const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
+  mediaId: props.mediaItem.mediaId,
+}, {
+  staleTime: 0,
+  refetchOnMount: true,
+})
 const { t } = useI18n()
 const searchTerm = ref("")
 const updateMediaItemApi = useUpdateMediaItemApi()
@@ -66,7 +72,7 @@ const availableMediaLists = computed(() => {
     return []
 
   return getMediaListsApi.data.value.filter((item) => {
-    if (getMediaItemsApi.data.value?.some((el) => {
+    if (getMediaItemsByMediaId.data.value?.some((el) => {
       return el.mediaType === props.mediaItem.mediaType && el.mediaId === props.mediaItem.mediaId && el.mediaListId === item.id
     })) {
       return false
@@ -98,7 +104,13 @@ const sortedMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div :class="$style.list">
-      <template v-if="sortedMediaLists.length">
+      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value">
+        <UiFormListItemSkeleton
+          v-for="i in 5"
+          :key="i"
+        />
+      </template>
+      <template v-else-if="sortedMediaLists.length">
         <MediaItemChangeMediaListFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"

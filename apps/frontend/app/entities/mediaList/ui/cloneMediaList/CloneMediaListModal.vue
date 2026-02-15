@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { MediaItemType, MediaListType } from "@movie-tracker/types"
+import type { MediaListType } from "@movie-tracker/types"
 import { ref } from "vue"
 import CloneMediaListForm from "~/entities/mediaList/ui/cloneMediaList/CloneMediaListForm.vue"
 import { UiModal } from "~/shared/ui/UiModal"
 
 interface CloneMediaListModalProps {
   mediaList: MediaListType
-  mediaItems: MediaItemType[]
 }
 
 const props = defineProps<CloneMediaListModalProps>()
@@ -36,7 +35,6 @@ const isModalOpen = ref(model.value ?? false)
     <template #content>
       <CloneMediaListForm
         v-model="isModalOpen"
-        :media-items="props.mediaItems"
         :media-list="props.mediaList"
       />
     </template>

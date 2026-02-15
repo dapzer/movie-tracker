@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { isCuid } from "@paralleldrive/cuid2"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
@@ -6,7 +6,9 @@ import { BulkCreateMediaItemDto } from "@/routes/mediaItem/dto/bulkCreateMediaIt
 import { BulkDeleteMediaItemDto } from "@/routes/mediaItem/dto/bulkDeleteMediaItem.dto"
 import { CreateMediaItemDto } from "@/routes/mediaItem/dto/createMediaItem.dto"
 import { CreateMediaItemCloneDto } from "@/routes/mediaItem/dto/createMediaItemClone.dto"
+import { GetMediaItemsByListIdQueryDto } from "@/routes/mediaItem/dto/getMediaItemsByListIdQuery.dto"
 import { GetMediaItemsByMediaIdParams } from "@/routes/mediaItem/dto/getMediaItemsByMediaIdParams.dto"
+import { GetMediaItemsCountByListIdQueryDto } from "@/routes/mediaItem/dto/getMediaItemsCountByListIdQuery.dto"
 import { UpdateMediaItemDto } from "@/routes/mediaItem/dto/updateMediaItem.dto"
 import { MediaItemService } from "@/routes/mediaItem/mediaItem.service"
 import { User } from "@/routes/user/users.decorator"
@@ -62,12 +64,27 @@ export class MediaItemController {
   @Get("media-list/:mediaListId")
   async getMediaItemsByListId(
     @Param() param: MediaItemListIdDto,
+    @Query() query: GetMediaItemsByListIdQueryDto,
     @User() user: UserDto,
   ) {
     return this.mediaItemService.getByListId({
       mediaListId: param.mediaListId,
       userId: user?.id,
       byHumanFriendlyId: isCuid(param.mediaListId),
+      ...query,
+    })
+  }
+
+  @Get("media-list/:mediaListId/count")
+  async getMediaItemsCountByListId(
+    @Param() param: MediaItemListIdDto,
+    @User() user: UserDto,
+    @Query() query: GetMediaItemsCountByListIdQueryDto,
+  ) {
+    return this.mediaItemService.getCountByListId({
+      mediaListId: param.mediaListId,
+      userId: user?.id,
+      search: query.search,
     })
   }
 

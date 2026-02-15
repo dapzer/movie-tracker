@@ -57,6 +57,10 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   private convertToInterface(
     data: Partial<MediaListReturnType>,
   ): MediaListType {
+    if (!data) {
+      return null
+    }
+
     return {
       id: data.id,
       humanFriendlyId: data.humanFriendlyId,

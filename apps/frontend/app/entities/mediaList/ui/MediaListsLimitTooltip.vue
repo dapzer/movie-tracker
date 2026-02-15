@@ -23,7 +23,7 @@ const isLimitReached = computed(() => {
     :disabled="!isLimitReached"
   >
     <template #trigger>
-      <slot :is-limit-reached="isLimitReached" />
+      <slot :is-limit-reached="isLimitReached || getMediaListsApi.isFetching.value" />
     </template>
     <template #content>
       <div :class="$style.wrapper">

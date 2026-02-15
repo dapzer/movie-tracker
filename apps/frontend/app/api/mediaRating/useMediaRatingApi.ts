@@ -1,4 +1,4 @@
-import type { MediaItemType, MediaRatingType } from "@movie-tracker/types"
+import type { MediaRatingType } from "@movie-tracker/types"
 import type { UseQueryOptions } from "@tanstack/vue-query"
 import type {
   CreateMediaRatingBody,
@@ -56,20 +56,12 @@ export function useCreateMediaRatingApi() {
       return createMediaRating(body)
     },
     onSuccess: async (data: MediaRatingType) => {
-      await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data)
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        if (oldData) {
-          return oldData.map((el) => {
-            if (el.mediaId === data.mediaId && el.mediaType === data.mediaType) {
-              return {
-                ...el,
-                mediaRating: data,
-              }
-            }
-            return el
-          })
-        }
-      })
+      await Promise.all([
+        queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
     },
   })
 }
@@ -82,20 +74,12 @@ export function useUpdateMediaRatingApi() {
       return updateMediaRating(args)
     },
     onSuccess: async (data: MediaRatingType) => {
-      await queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data)
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        if (oldData) {
-          return oldData.map((el) => {
-            if (el.mediaId === data.mediaId && el.mediaType === data.mediaType) {
-              return {
-                ...el,
-                mediaRating: data,
-              }
-            }
-            return el
-          })
-        }
-      })
+      await Promise.all([
+        queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
     },
   })
 }
@@ -105,23 +89,15 @@ export function useDeleteMediaRatingApi() {
   return useMutation({
     mutationKey: [MediaRatingApiQueryKeys.DELETE],
     mutationFn: (args: DeleteMediaRatingArgs) => deleteMediaRating(args),
-    onSuccess: async (data, args) => {
-      await queryClient.resetQueries({
-        queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType],
-      })
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        if (oldData) {
-          return oldData.map((el) => {
-            if (el.mediaRating?.id === args.id) {
-              return {
-                ...el,
-                mediaRating: undefined,
-              }
-            }
-            return el
-          })
-        }
-      })
+    onSuccess: async (data) => {
+      await Promise.all([
+        queryClient.resetQueries({
+          queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
     },
   })
 }

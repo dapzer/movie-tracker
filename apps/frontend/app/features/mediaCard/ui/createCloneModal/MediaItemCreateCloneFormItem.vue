@@ -2,7 +2,6 @@
 import type { MediaListType } from "@movie-tracker/types"
 import { MediaListAccessLevelEnum } from "@movie-tracker/types"
 import { computed } from "vue"
-import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
 import { UiFormListItem } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { getElementDeclensionTranslationKey } from "~/shared/utils/getElementDeclensionTranslationKey"
@@ -14,12 +13,8 @@ interface MediaItemCreateCloneFormItemProps {
 const props = defineProps<MediaItemCreateCloneFormItemProps>()
 const model = defineModel()
 
-const getMediaItemsApi = useGetMediaItemsApi()
-
 const titlesInListCount = computed(() => {
-  return getMediaItemsApi.data.value?.filter((item) => {
-    return item.mediaListId === props.mediaList.id
-  }).length || 0
+  return props.mediaList.mediaItemsCount || 0
 })
 </script>
 

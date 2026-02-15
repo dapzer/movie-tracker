@@ -1,18 +1,15 @@
 <script setup lang="ts">
-import type { MediaItemType, MediaListType } from "@movie-tracker/types"
+import type { MediaItemStatusNameEnum, MediaListType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import {
-  MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
-  MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
-  MediaItemStatusNameEnum,
-} from "@movie-tracker/types"
+import { MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT, MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT } from "@movie-tracker/types"
 import { computed } from "vue"
 import { toast } from "vue3-toastify"
 import * as yup from "yup"
+import { useGetMediaItemsCountByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi"
 import { useCreateMediaListCloneApi } from "~/api/mediaList/useMediaListApi"
 import { useForm } from "~/shared/composables/useForm"
 import { UiButton } from "~/shared/ui/UiButton"
-import { UiFormListItem } from "~/shared/ui/UiFormListItem"
+import { UiFormListItem, UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -20,12 +17,19 @@ import { getElementDeclensionTranslationKey } from "~/shared/utils/getElementDec
 
 interface CloneMediaListFormProps {
   mediaList: MediaListType
-  mediaItems: MediaItemType[]
 }
 
 const props = defineProps<CloneMediaListFormProps>()
 const model = defineModel<boolean>()
 const createMediaListCloneApi = useCreateMediaListCloneApi()
+
+const getMediaItemsCountByMediaListIdApiArgs = computed(() => {
+  return {
+    mediaListId: props.mediaList.id,
+  }
+})
+
+const getMediaItemsCountByMediaListIdApi = useGetMediaItemsCountByMediaListIdApi(getMediaItemsCountByMediaListIdApiArgs)
 const { t } = useI18n()
 
 const { formValue, onFormSubmit, errors } = useForm({
@@ -55,25 +59,19 @@ const { formValue, onFormSubmit, errors } = useForm({
 })
 
 const groupedByStatus = computed(() => {
-  const result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
-    [MediaItemStatusNameEnum.WATCHING_NOW]: [],
-    [MediaItemStatusNameEnum.NOT_VIEWED]: [],
-    [MediaItemStatusNameEnum.WAIT_NEW_PART]: [],
-    [MediaItemStatusNameEnum.VIEWED]: [],
-  }
-
-  for (const item of props.mediaItems) {
-    result[item.trackingData.currentStatus].push(item)
-  }
-
-  return result
+  return getMediaItemsCountByMediaListIdApi.data.value
 })
 
 const availableStatuses = computed(() => {
+  if (!groupedByStatus.value) {
+    return []
+  }
+
   const res = []
+  const { total, ...groupedByStatusLocal } = groupedByStatus.value
 
   for (const key in groupedByStatus.value) {
-    if (groupedByStatus.value[key as MediaItemStatusNameEnum].length > 0) {
+    if (groupedByStatusLocal[key as MediaItemStatusNameEnum] > 0) {
       res.push(key)
     }
   }
@@ -88,14 +86,22 @@ const availableStatuses = computed(() => {
     @submit.prevent="onFormSubmit"
   >
     <div :class="$style.list">
-      <UiFormListItem
-        v-for="status in availableStatuses"
-        :key="status"
-        v-model="formValue.selectedStatuses"
-        :value="status"
-        :title="$t(`mediaItem.status.${status}`) "
-        :description="`${groupedByStatus[status as MediaItemStatusNameEnum].length} ${$t(getElementDeclensionTranslationKey(groupedByStatus[status as MediaItemStatusNameEnum].length))}`"
-      />
+      <template v-if="getMediaItemsCountByMediaListIdApi.isPending.value">
+        <UiFormListItemSkeleton
+          v-for="index in 4"
+          :key="index"
+        />
+      </template>
+      <template v-else>
+        <UiFormListItem
+          v-for="status in availableStatuses"
+          :key="status"
+          v-model="formValue.selectedStatuses"
+          :value="status"
+          :title="$t(`mediaItem.status.${status}`) "
+          :description="`${groupedByStatus?.[status as MediaItemStatusNameEnum]} ${$t(getElementDeclensionTranslationKey(groupedByStatus?.[status as MediaItemStatusNameEnum] || 0))}`"
+        />
+      </template>
     </div>
 
     <div :class="$style.switch">

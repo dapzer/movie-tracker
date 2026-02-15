@@ -1,4 +1,12 @@
-import { MediaItemStatusNameEnum, MediaItemTrackingDataType, MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
+import {
+  GetMediaItemsByListIdQueries,
+  MediaItemsByListIdResponseType,
+  MediaItemsCountByStatusType,
+  MediaItemStatusNameEnum,
+  MediaItemTrackingDataType,
+  MediaItemType,
+  MediaTypeEnum,
+} from "@movie-tracker/types"
 
 export const MediaItemRepositorySymbol = Symbol("MediaItemRepository")
 
@@ -9,7 +17,9 @@ export interface MediaItemRepositoryInterface {
 
   getByIds: (ids: string[]) => Promise<MediaItemType[]>
 
-  getByListId: (mediaListId: string) => Promise<MediaItemType[]>
+  getByListId: (args: { mediaListId: string } & Omit<GetMediaItemsByListIdQueries, "mediaListId">) => Promise<MediaItemsByListIdResponseType>
+
+  getCountByListId: (args: { mediaListId: string, search?: string }) => Promise<MediaItemsCountByStatusType>
 
   getByUserId: (userId: string) => Promise<MediaItemType[]>
 
