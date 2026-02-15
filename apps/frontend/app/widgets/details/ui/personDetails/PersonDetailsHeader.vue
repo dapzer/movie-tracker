@@ -29,7 +29,7 @@ const birthdayAge = computed(() => {
 <template>
   <UiInfoHeader
     v-if="props.details"
-    :image="getProxiedImageUrl(props.details?.profile_path, 350)"
+    :image="props.details?.profile_path && getProxiedImageUrl(props.details?.profile_path, 350)"
     :title="props.details?.name ?? ''"
     :overview="props.details?.biography"
     fallback-image="/avatarPoster.svg"
