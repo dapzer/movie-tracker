@@ -7,6 +7,7 @@ import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 const getMediaListsApi = useGetMediaListsApi()
+await getMediaListsApi.suspense()
 
 const currentListsCount = computed(() => {
   return getMediaListsApi.data.value?.length || 0
