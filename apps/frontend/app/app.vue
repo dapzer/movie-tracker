@@ -3,11 +3,8 @@ import { useId } from "#app"
 import { useLocaleHead } from "#i18n"
 import { useHead, useI18n, useSeoMeta } from "#imports"
 import { ConfigProvider } from "radix-vue"
-import { useGetMediaItemsApi } from "~/api/mediaItem/useMediaItemtApi"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import { useAuth } from "~/shared/composables/useAuth"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
-// import "vue3-toastify/dist/index.css"
 
 const { t, locale } = useI18n()
 
@@ -19,14 +16,8 @@ const i18nHead = useLocaleHead({
 
 const useIdFunction = () => useId()!
 const { suspenseProfile } = useAuth()
-const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
 
-await Promise.all([
-  suspenseProfile(),
-  getMediaItemsApi.suspense(),
-  getMediaListsApi.suspense(),
-])
+await suspenseProfile()
 
 useHead({
   htmlAttrs: {

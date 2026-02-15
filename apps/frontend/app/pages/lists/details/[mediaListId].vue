@@ -2,10 +2,9 @@
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n, useSeoMeta } from "#imports"
-import { computed, watch } from "vue"
+import { computed } from "vue"
 import { useRoute } from "vue-router"
-import { useGetMediaItemsApi, useGetMediaItemsByMediaListIdApi } from "~/api/mediaItem/useMediaItemtApi"
-import { useGetMediaListsApi, useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaListByIdApi } from "~/api/mediaList/useMediaListApi"
 import { useSendMediaListViewApi } from "~/api/mediaListView/useMediaListViewApi"
 import { useGetUserProfileByIdApi } from "~/api/user/useUserApi"
 import { useAuth } from "~/shared/composables/useAuth"
@@ -21,37 +20,22 @@ const { mediaListId: mediaListHumanFriendlyId = "" } = useRoute().params
 const localePath = useLocalePath()
 const { isInitialLoadingProfile, profile, isAuthorized } = useAuth()
 
-const mediaListsApi = useGetMediaListsApi()
-const mediaItemsApi = useGetMediaItemsApi()
 const sendMediaListViewApi = useSendMediaListViewApi()
+const getMediaListByIdApi = useGetMediaListByIdApi(mediaListHumanFriendlyId as string, {
+  retry: false,
+  retryOnMount: false,
+})
+await getMediaListByIdApi.suspense()
 
 const isUserListOwner = computed(() => {
-  return !!mediaListsApi.data.value?.some(list => list.humanFriendlyId === mediaListHumanFriendlyId)
+  return getMediaListByIdApi.data.value?.userId === profile.value?.id
 })
 
-const isUseExternalData = computed(() => {
-  return !isUserListOwner.value && !(mediaListsApi.isPending.value && mediaListsApi.errorUpdateCount.value === 0) && !isInitialLoadingProfile.value
-})
-
-const externalMediaListApi = useGetMediaListsByIdApi(mediaListHumanFriendlyId as string, {
-  enabled: isUseExternalData.value,
-  retry: false,
-})
-
-const externalMediaItemsApi = useGetMediaItemsByMediaListIdApi(mediaListHumanFriendlyId as
-    string, {
-  enabled: isUseExternalData.value,
-  retry: false,
-})
-
-if (isUseExternalData.value) {
-  await Promise.all([
-    externalMediaListApi.suspense(),
-    externalMediaItemsApi.suspense(),
-  ])
-}
 const externalUserId = computed(() => {
-  return externalMediaListApi.data.value?.userId
+  if (isUserListOwner.value) {
+    return undefined
+  }
+  return getMediaListByIdApi.data.value?.userId
 })
 
 const externalUserProfileApi = useGetUserProfileByIdApi(externalUserId.value!, {
@@ -63,33 +47,12 @@ if (externalUserId.value) {
   await externalUserProfileApi.suspense()
 }
 
-watch(isUseExternalData, (value) => {
-  if (value) {
-    externalMediaListApi.refetch().then(() => {
-      externalUserProfileApi.refetch()
-    })
-    externalMediaItemsApi.refetch()
-  }
-})
-
 const isNotPublicList = computed(() => {
-  return externalMediaListApi.error.value && checkIsAuthError(externalMediaListApi.error.value)
+  return getMediaListByIdApi.error.value && checkIsAuthError(getMediaListByIdApi.error.value)
 })
 
 const currentMediaList = computed(() => {
-  if (!isUserListOwner.value) {
-    return externalMediaListApi.data.value
-  }
-
-  return mediaListsApi.data.value?.find(list => list.humanFriendlyId === mediaListHumanFriendlyId)
-})
-
-const currentMediaItems = computed(() => {
-  if (!isUserListOwner.value) {
-    return externalMediaItemsApi.data.value
-  }
-
-  return mediaItemsApi.data.value?.filter(item => item.mediaListId === currentMediaList.value?.id)
+  return getMediaListByIdApi.data.value
 })
 
 const currentUserProfile = computed(() => {
@@ -101,12 +64,10 @@ if (isAuthorized.value && !isNotPublicList.value && !isUserListOwner.value && cu
 }
 
 const isLoading = computed(() => {
-  const isLoadingMediaItems = externalMediaItemsApi.isLoading.value || mediaItemsApi.isLoading.value
-  const isLoadingMediaList = externalMediaListApi.isLoading.value || mediaListsApi.isLoading.value
+  const isLoadingMediaList = getMediaListByIdApi.isLoading.value
   const isLoadingProfiles = isInitialLoadingProfile.value || externalUserProfileApi.isLoading.value
 
-  return (isLoadingMediaItems || isLoadingMediaList)
-    && (!currentMediaItems.value?.length || isLoadingProfiles)
+  return isLoadingMediaList || isLoadingProfiles
 })
 
 const title = computed(() => {
@@ -144,10 +105,8 @@ useSeoMeta({
     <MediaListDetails
       v-else
       :user-profile="currentUserProfile"
-      :is-loading="isLoading"
       :is-user-list-owner="isUserListOwner"
       :media-list="currentMediaList"
-      :media-list-items="currentMediaItems"
     />
   </UiContainer>
 </template>

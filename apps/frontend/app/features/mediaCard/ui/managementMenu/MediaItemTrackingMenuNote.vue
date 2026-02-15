@@ -36,7 +36,8 @@ async function handleSave() {
     },
   }).then(() => {
     toast.success(t("toasts.mediaItem.successNoteChanged"))
-  }).catch(() => {
+  }).catch((e) => {
+    console.log(e)
     toast.error(t("toasts.mediaItem.unsuccessfullyNoteChanged"))
   })
 }

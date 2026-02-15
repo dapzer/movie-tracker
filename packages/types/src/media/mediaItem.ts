@@ -1,3 +1,4 @@
+import type { PaginationType, SortOrderEnum } from "../common"
 import type { MediaDetailsType } from "./mediaDetails"
 import { MediaRatingType } from "./mediaRating"
 
@@ -47,4 +48,29 @@ export interface MediaItemTvProgressType {
 
 export interface MediaItemSiteToViewType {
   url: string
+}
+
+export interface MediaItemsCountByStatusType {
+  [MediaItemStatusNameEnum.WATCHING_NOW]: number
+  [MediaItemStatusNameEnum.NOT_VIEWED]: number
+  [MediaItemStatusNameEnum.WAIT_NEW_PART]: number
+  [MediaItemStatusNameEnum.VIEWED]: number
+  total: number
+}
+
+export interface MediaItemsCountByStatusQueries {
+  search?: string
+}
+
+export interface MediaItemsByListIdResponseType {
+  items: MediaItemType[]
+  totalCount: number
+}
+
+export interface GetMediaItemsByListIdQueries extends PaginationType {
+  search?: string
+  status?: MediaItemStatusNameEnum
+  mediaType?: MediaTypeEnum
+  sortBy?: "createdAt" | "updatedAt"
+  sortDirection?: SortOrderEnum
 }

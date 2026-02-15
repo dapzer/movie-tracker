@@ -13,6 +13,11 @@ export interface MediaListRepositoryInterface {
     currentUserId?: string
   }) => Promise<MediaListType>
 
+  getByIds: (args: {
+    ids: string[]
+    currentUserId?: string
+  }) => Promise<MediaListType[]>
+
   getByMediaItemAndUserId: (args: {
     mediaItemId: string
     userId: string

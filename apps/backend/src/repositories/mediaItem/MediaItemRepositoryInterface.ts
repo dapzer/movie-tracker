@@ -1,4 +1,12 @@
-import { MediaItemStatusNameEnum, MediaItemTrackingDataType, MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
+import {
+  GetMediaItemsByListIdQueries,
+  MediaItemsByListIdResponseType,
+  MediaItemsCountByStatusType,
+  MediaItemStatusNameEnum,
+  MediaItemTrackingDataType,
+  MediaItemType,
+  MediaTypeEnum,
+} from "@movie-tracker/types"
 
 export const MediaItemRepositorySymbol = Symbol("MediaItemRepository")
 
@@ -7,7 +15,11 @@ export interface MediaItemRepositoryInterface {
 
   getById: (id: string) => Promise<MediaItemType>
 
-  getByListId: (mediaListId: string) => Promise<MediaItemType[]>
+  getByIds: (ids: string[]) => Promise<MediaItemType[]>
+
+  getByListId: (args: { mediaListId: string } & Omit<GetMediaItemsByListIdQueries, "mediaListId">) => Promise<MediaItemsByListIdResponseType>
+
+  getCountByListId: (args: { mediaListId: string, search?: string }) => Promise<MediaItemsCountByStatusType>
 
   getByUserId: (userId: string) => Promise<MediaItemType[]>
 
@@ -19,6 +31,15 @@ export interface MediaItemRepositoryInterface {
     createdAt?: Date
     currentStatus?: MediaItemStatusNameEnum
   }) => Promise<MediaItemType>
+
+  createMany: (args: Array<{
+    mediaId: number
+    mediaType: MediaTypeEnum
+    mediaListId: string
+    mediaDetailsId: string
+    createdAt?: Date
+    currentStatus?: MediaItemStatusNameEnum
+  }>) => Promise<MediaItemType[]>
 
   createWithExistedData: (args: {
     mediaId: number
@@ -32,12 +53,24 @@ export interface MediaItemRepositoryInterface {
     createdAt?: Date
   }) => Promise<MediaItemType>
 
+  getByMediaId: (args: {
+    mediaId: number
+    userId: string
+  }) => Promise<MediaItemType[]>
+
   delete: (id: string) => Promise<MediaItemType>
 
   update: (args: {
     id: string
     data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
   }) => Promise<MediaItemType>
+
+  updateMany: (args: Array<{
+    id: string
+    data: Partial<Pick<MediaItemType, "mediaDetailsId" | "mediaListId">>
+  }>) => Promise<MediaItemType[]>
+
+  deleteMany: (ids: string[]) => Promise<MediaItemType[]>
 
   getAllCount: () => Promise<number>
 }

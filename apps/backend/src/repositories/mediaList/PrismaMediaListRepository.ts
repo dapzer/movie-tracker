@@ -57,6 +57,10 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
   private convertToInterface(
     data: Partial<MediaListReturnType>,
   ): MediaListType {
+    if (!data) {
+      return null
+    }
+
     return {
       id: data.id,
       humanFriendlyId: data.humanFriendlyId,
@@ -88,6 +92,19 @@ export class PrismaMediaListRepository implements MediaListRepositoryInterface {
     })
 
     return this.convertToInterface(mediaList)
+  }
+
+  async getByIds(args: Parameters<MediaListRepositoryInterface["getByIds"]>[0]) {
+    const mediaLists = await this.prisma.mediaList.findMany({
+      where: {
+        id: {
+          in: args.ids,
+        },
+      },
+      include: getMediaListIncludeObject(args.currentUserId),
+    })
+
+    return mediaLists.map(this.convertToInterface)
   }
 
   async getByHumanFriendlyId(

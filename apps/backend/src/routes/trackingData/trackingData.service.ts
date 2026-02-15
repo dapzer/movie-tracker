@@ -32,7 +32,7 @@ export class TrackingDataService {
     }
   }
 
-  async updateTrackingData(
+  async update(
     id: string,
     userId: string,
     data: Partial<
@@ -45,5 +45,25 @@ export class TrackingDataService {
     await this.checkIsMediaListOwner(id, userId)
 
     return this.trackingDataRepository.update({ id, data })
+  }
+
+  async updateBulk(
+    userId: string,
+    items: Array<{
+      id: string
+      data: Partial<
+        Omit<
+          MediaItemTrackingDataType,
+          "id" | "createdAt" | "updatedAt" | "mediaItemId"
+        >
+      >
+    }>,
+  ) {
+    if (!items.length) {
+      return []
+    }
+
+    await Promise.all(items.map(item => this.checkIsMediaListOwner(item.id, userId)))
+    return this.trackingDataRepository.updateMany(items)
   }
 }

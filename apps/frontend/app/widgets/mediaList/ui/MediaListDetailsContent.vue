@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import type { MediaItemType, SortOrderEnum } from "@movie-tracker/types"
+import type { MediaListType, SortOrderEnum } from "@movie-tracker/types"
 import { useCookie } from "#app"
-import { useI18n } from "#imports"
+import { useI18n, watchEffect } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, h, ref, watch } from "vue"
+import {
+  useGetMediaItemsByMediaListIdApi,
+  useGetMediaItemsCountByMediaListIdApi,
+} from "~/api/mediaItem/useMediaItemtApi"
 import { MediaCard } from "~/features/mediaCard"
 import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
@@ -17,11 +21,9 @@ import { UiInput } from "~/shared/ui/UiInput"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
-import { filterMediaListItems } from "~/widgets/mediaList/model/filterMediaListItems"
 
 interface MediaListDetailsProps {
-  mediaListItems?: MediaItemType[]
-  isLoading: boolean
+  mediaList: MediaListType
   isUserListOwner?: boolean
 }
 
@@ -43,6 +45,43 @@ const currentPage = useRouteQuery<number>("page", 1, {
   mode: "replace",
 })
 const { t } = useI18n()
+
+const sortConfig = computed(() => {
+  const [sortDirection, sortBy] = sortType.value.split("_") as [SortOrderEnum, "createdAt" | "updatedAt"]
+  return {
+    sortDirection,
+    sortBy,
+  }
+})
+
+const mediaItemsQueryArgs = computed(() => {
+  return {
+    mediaListId: props.mediaList.id,
+    search: searchTerm.value || undefined,
+    status: activeTab.value === "all" ? undefined : activeTab.value as MediaItemStatusNameEnum,
+    sortBy: sortConfig.value.sortBy,
+    sortDirection: sortConfig.value.sortDirection,
+    limit: 20,
+    offset: (currentPage.value - 1) * 20,
+  }
+})
+
+const getMediaItemsCountByMediaListIdArgs = computed(() => {
+  return {
+    mediaListId: props.mediaList.id,
+    search: searchTerm.value || undefined,
+  }
+})
+
+const getMediaItemsByMediaListIdApi = useGetMediaItemsByMediaListIdApi(mediaItemsQueryArgs, {
+  staleTime: 0,
+})
+const getMediaItemsCountByMediaListIdApi = useGetMediaItemsCountByMediaListIdApi(getMediaItemsCountByMediaListIdArgs)
+
+await Promise.all([
+  getMediaItemsByMediaListIdApi.suspense(),
+  getMediaItemsCountByMediaListIdApi.suspense(),
+])
 
 watch(() => sortType.value, () => {
   storedMediaListSortingType.value = sortType.value
@@ -80,41 +119,27 @@ const options = computed(() => {
   ]
 })
 
-const sortedMediaItems = computed(() => {
-  const [sortOrder, sortBy] = sortType.value.split("_")
-  return filterMediaListItems(props.mediaListItems ?? [], searchTerm.value, sortOrder as SortOrderEnum, sortBy as keyof
-  Pick<MediaItemType, "createdAt" | "updatedAt">)
+const pagedResponse = computed(() => {
+  return getMediaItemsByMediaListIdApi.data.value
 })
 
 const groupedByStatus = computed(() => {
-  const result: Record<MediaItemStatusNameEnum, MediaItemType[]> = {
-    [MediaItemStatusNameEnum.WATCHING_NOW]: [],
-    [MediaItemStatusNameEnum.NOT_VIEWED]: [],
-    [MediaItemStatusNameEnum.WAIT_NEW_PART]: [],
-    [MediaItemStatusNameEnum.VIEWED]: [],
-  }
-  for (const item of sortedMediaItems.value) {
-    result[item.trackingData.currentStatus].push(item)
-  }
-
-  return result
+  return getMediaItemsCountByMediaListIdApi.data.value
 })
 
-const currentTabMediaItems = computed(() => {
-  if (activeTab.value === "all") {
-    return sortedMediaItems.value
-  }
+const totalItems = computed(() => pagedResponse.value?.totalCount ?? 0)
+const currentTabContent = computed(() => pagedResponse.value?.items ?? [])
 
-  return groupedByStatus.value[activeTab.value as MediaItemStatusNameEnum]
+const loadingSkeletonsCount = computed(() => {
+  const countByStatus = groupedByStatus.value?.[activeTab.value as keyof typeof groupedByStatus.value] ?? 0
+  const itemsOnPreviousPages = (currentPage.value - 1) * 20
+
+  return Math.min(((countByStatus - itemsOnPreviousPages) || 6), 20)
 })
 
-const currentTabContent = computed(() => {
-  return currentTabMediaItems.value.slice((currentPage.value - 1) * 20, currentPage.value * 20)
-})
-
-watch(currentTabMediaItems, () => {
-  if (currentPage.value > Math.ceil(currentTabMediaItems.value.length / 20)) {
-    currentPage.value = 1
+watchEffect(() => {
+  if (!getMediaItemsByMediaListIdApi.isFetching.value && currentTabContent.value.length === 0) {
+    currentPage.value = Math.max(currentPage.value - 1, 1)
   }
 })
 </script>
@@ -169,23 +194,25 @@ watch(currentTabMediaItems, () => {
       :class="$style.tabs"
       :tabs="[
         {
-          label: `${$t('ui.all')} (${sortedMediaItems.length})`,
+          label: `${$t('ui.all')} (${groupedByStatus?.total || 0})`,
           key: 'all',
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${groupedByStatus.WATCHING_NOW.length})`,
+          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${groupedByStatus?.WATCHING_NOW || 0})`,
           key: MediaItemStatusNameEnum.WATCHING_NOW,
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${groupedByStatus.NOT_VIEWED.length})`,
+          label:
+            `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${groupedByStatus?.NOT_VIEWED || 0})`,
           key: MediaItemStatusNameEnum.NOT_VIEWED,
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${groupedByStatus.WAIT_NEW_PART.length})`,
+          label:
+            `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${groupedByStatus?.WAIT_NEW_PART || 0})`,
           key: MediaItemStatusNameEnum.WAIT_NEW_PART,
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${groupedByStatus.VIEWED.length})`,
+          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${groupedByStatus?.VIEWED || 0})`,
           key: MediaItemStatusNameEnum.VIEWED,
         },
       ] as const"
@@ -199,14 +226,14 @@ watch(currentTabMediaItems, () => {
         />
       </template>
       <template #content>
-        <UiCardsGrid v-if="props.isLoading || currentTabMediaItems.length">
-          <template v-if="props.isLoading">
+        <UiCardsGrid v-if="getMediaItemsByMediaListIdApi.isPending.value || currentTabContent.length">
+          <template v-if="getMediaItemsByMediaListIdApi.isPending.value">
             <UiMediaCardSkeleton
-              v-for="index in 20"
+              v-for="index in loadingSkeletonsCount"
               :key="index"
             />
           </template>
-          <template v-else-if="currentTabMediaItems.length">
+          <template v-else>
             <MediaCard
               v-for="movie in currentTabContent"
               :key="movie.id"
@@ -217,7 +244,7 @@ watch(currentTabMediaItems, () => {
             />
           </template>
         </UiCardsGrid>
-        <template v-if="!props.isLoading && !currentTabMediaItems.length">
+        <template v-else>
           <UiAttention
             :title="searchTerm.length ? $t('search.notingFound') : activeTab !== 'all' ? $t('mediaList.noMediaItems')
               : $t('mediaList.noMediaItemsAll')"
@@ -225,12 +252,12 @@ watch(currentTabMediaItems, () => {
           />
         </template>
         <UiPagination
-          v-if="currentTabMediaItems.length"
+          v-if="currentTabContent.length"
           v-model="currentPage"
           :class="$style.pagination"
           :pages-on-sides="1"
           :items-per-page="20"
-          :total-items="currentTabMediaItems.length"
+          :total-items="totalItems"
         />
       </template>
     </UiTabsPane>

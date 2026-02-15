@@ -1,4 +1,4 @@
-import type { MediaItemType, MediaListType } from "@movie-tracker/types"
+import type { MediaListType } from "@movie-tracker/types"
 import type { UseQueryOptions } from "@tanstack/vue-query"
 import type { MediaListCreateCloneApiTypes, MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
 import { useRequestHeaders } from "#app"
@@ -28,10 +28,9 @@ export function useGetMediaListsApi() {
 
       return getMediaListsApi(undefined, { headers })
     },
-    retry: false,
-    retryOnMount: false,
   })
 }
+
 export function useGetMediaListsByUserIdApi(userId: string) {
   return useQuery({
     queryKey: [MediaListQueryKeys.GET_BY_USER_ID, userId],
@@ -44,7 +43,7 @@ export function useGetMediaListsByUserIdApi(userId: string) {
   })
 }
 
-export function useGetMediaListsByIdApi(mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+export function useGetMediaListByIdApi(mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [MediaListQueryKeys.GET_BY_ID, mediaListId],
     queryFn: () => {
@@ -93,8 +92,15 @@ export function useDeleteMediaListApi() {
     mutationKey: [MediaListQueryKeys.DELETE],
     mutationFn: async (id: string) => await deleteMediaListsApi(id),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => oldData.filter(list => list.id !== data.id))
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => oldData.filter(item => item.mediaListId !== data.id))
+      await Promise.all([
+        queryClient.resetQueries({
+          queryKey: [MediaListQueryKeys.GET_BY_ID, data.id],
+        }),
+        queryClient.resetQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID, data.id],
+          exact: false,
+        }),
+      ])
     },
   })
 }
@@ -109,7 +115,7 @@ export function useUpdateMediaListApi() {
       body: MediaListUpdateApiTypes
     }) => await updateMediaListsApi(args.mediaListId, args.body),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => oldData.map(listItem => listItem.id === data.id ? data : listItem))
+      await queryClient.setQueryData([MediaListQueryKeys.GET_BY_ID, data.humanFriendlyId], data)
     },
   })
 }

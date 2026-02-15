@@ -1,14 +1,24 @@
-import type { MediaItemTrackingDataType, MediaItemType, MediaListType } from "@movie-tracker/types"
+import type { MediaListType } from "@movie-tracker/types"
 import type { UseQueryOptions } from "@tanstack/vue-query"
-import type { MediaItemCreateApiTypes, MediaItemUpdateApiTypes } from "~/api/mediaItem/mediaItemApiTypes"
+import type { Ref } from "vue"
+import type {
+  GetMediaItemsByMediaIdApiArgs,
+  GetMediaItemsByMediaListIdApiArgs,
+  GetMediaItemsCountByMediaListIdApiArgs,
+} from "~/api/mediaItem/mediaItemApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
+  bulkCreateMediaItemsApi,
+  bulkDeleteMediaItemsApi,
+  bulkUpdateMediaItemTrackingDataApi,
   createMediaItemApi,
   createMediaItemCloneApi,
   deleteMediaItemApi,
   getMediaItemsApi,
+  getMediaItemsByMediaIdApi,
   getMediaItemsByMediaListIdApi,
+  getMediaItemsCountByMediaListIdApi,
   updateMediaItemApi,
   updateMediaItemTrackingDataApi,
 } from "~/api/mediaItem/mediaItemApi"
@@ -34,10 +44,30 @@ export function useGetMediaItemsApi() {
   })
 }
 
-export function useGetMediaItemsByMediaListIdApi(mediaListId: string, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+export function useGetMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
-    queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID, mediaListId],
-    queryFn: () => getMediaItemsByMediaListIdApi(mediaListId),
+    queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_ID, args.mediaId],
+    queryFn: () => {
+      return getMediaItemsByMediaIdApi(args)
+    },
+    retry: false,
+    retryOnMount: true,
+    ...options,
+  })
+}
+
+export function useGetMediaItemsByMediaListIdApi(args: Ref<GetMediaItemsByMediaListIdApiArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID, args],
+    queryFn: () => getMediaItemsByMediaListIdApi(args.value),
+    ...options,
+  })
+}
+
+export function useGetMediaItemsCountByMediaListIdApi(args: Ref<GetMediaItemsCountByMediaListIdApiArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [MediaItemQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID, args],
+    queryFn: () => getMediaItemsCountByMediaListIdApi(args.value),
     ...options,
   })
 }
@@ -47,13 +77,14 @@ export function useCreateMediaItemApi() {
 
   return useMutation({
     mutationKey: [MediaItemQueryKeys.CREATE],
-    mutationFn: (args: MediaItemCreateApiTypes) => createMediaItemApi(args),
+    mutationFn: createMediaItemApi,
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data])
-      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[] | undefined) => {
+        if (!oldData)
+          return oldData
         const mediaList = oldData.find(el => el.id === data.mediaListId)
         if (!mediaList)
-          return mediaList
+          return oldData
         mediaList.mediaItemsCount = (mediaList.mediaItemsCount || 0) + 1
         return oldData
       })
@@ -66,18 +97,16 @@ export function useDeleteMediaItemApi() {
 
   return useMutation({
     mutationKey: [MediaItemQueryKeys.DELETE],
-    mutationFn: (id: string) => deleteMediaItemApi(id),
-    onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        return oldData.filter(item => item.id !== data.id)
-      })
-      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
-        const mediaList = oldData.find(el => el.id === data.mediaListId)
-        if (!mediaList)
-          return mediaList
-        mediaList.mediaItemsCount = (mediaList.mediaItemsCount || 1) - 1
-        return oldData
-      })
+    mutationFn: deleteMediaItemApi,
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
     },
   })
 }
@@ -87,19 +116,16 @@ export function useUpdateMediaItemTrackingDataApi() {
 
   return useMutation({
     mutationKey: [MediaItemQueryKeys.UPDATE_TRACKING_DATA],
-    mutationFn: (args: {
-      trackingDataId: string
-      body: MediaItemTrackingDataType
-    }) => updateMediaItemTrackingDataApi(args.trackingDataId, args.body),
-    onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        return oldData.map(item => item.id !== data.mediaItemId
-          ? item
-          : {
-              ...item,
-              trackingData: data,
-            })
-      })
+    mutationFn: updateMediaItemTrackingDataApi,
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
     },
   })
 }
@@ -111,7 +137,6 @@ export function useCreateMediaItemCloneApi() {
     mutationKey: [MediaItemQueryKeys.CREATE_CLONE],
     mutationFn: createMediaItemCloneApi,
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => [...oldData, data])
       await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
         const mediaList = oldData.find(el => el.id === data.mediaListId)
         if (!mediaList)
@@ -128,14 +153,73 @@ export function useUpdateMediaItemApi() {
 
   return useMutation({
     mutationKey: [MediaItemQueryKeys.UPDATE],
-    mutationFn: (args: {
-      mediaItemId: string
-      body: MediaItemUpdateApiTypes
-    }) => updateMediaItemApi(args.mediaItemId, args.body),
+    mutationFn: updateMediaItemApi,
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
+    },
+  })
+}
+
+export function useBulkCreateMediaItemsApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.BULK_CREATE],
+    mutationFn: bulkCreateMediaItemsApi,
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaItemQueryKeys.GET_ALL], (oldData: MediaItemType[]) => {
-        return oldData.map(item => item.id !== data.id ? item : data)
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaListCounts = new Map<string, number>()
+        for (const item of data) {
+          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
+        }
+
+        for (const list of oldData) {
+          const diff = mediaListCounts.get(list.id)
+          if (diff) {
+            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+          }
+        }
+        return oldData
       })
     },
+  })
+}
+
+export function useBulkDeleteMediaItemsApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.BULK_DELETE],
+    mutationFn: bulkDeleteMediaItemsApi,
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaListCounts = new Map<string, number>()
+        for (const item of data) {
+          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) - 1)
+        }
+
+        for (const list of oldData) {
+          const diff = mediaListCounts.get(list.id)
+          if (diff) {
+            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+          }
+        }
+        return oldData
+      })
+    },
+  })
+}
+
+export function useBulkUpdateMediaItemTrackingDataApi() {
+  return useMutation({
+    mutationKey: [MediaItemQueryKeys.BULK_UPDATE_TRACKING_DATA],
+    mutationFn: bulkUpdateMediaItemTrackingDataApi,
   })
 }

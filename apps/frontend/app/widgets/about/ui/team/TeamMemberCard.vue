@@ -4,7 +4,7 @@ import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { computed } from "vue"
-import { useGetMediaListsByIdApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaListByIdApi } from "~/api/mediaList/useMediaListApi"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { UiSocialList } from "~/shared/ui/UiSocialList"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -22,7 +22,7 @@ interface TeamMemberCardProps {
 
 const props = defineProps<TeamMemberCardProps>()
 
-const mediaListApi = useGetMediaListsByIdApi(props.mediaListHumanFriendlyId)
+const mediaListApi = useGetMediaListByIdApi(props.mediaListHumanFriendlyId)
 await mediaListApi.suspense()
 
 const { locale } = useI18n()

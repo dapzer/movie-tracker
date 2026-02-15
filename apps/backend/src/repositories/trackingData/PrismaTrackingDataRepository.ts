@@ -57,4 +57,29 @@ implements TrackingDataRepositoryInterface {
 
     return this.convertToInterface(trackingData)
   }
+
+  async updateMany(
+    args: Parameters<TrackingDataRepositoryInterface["updateMany"]>[0],
+  ) {
+    if (args.length === 0) {
+      return []
+    }
+
+    const trackingDataList = await this.prismaService.$transaction(
+      args.map(item => this.prismaService.trackingData.update({
+        where: {
+          id: item.id,
+        },
+        data: {
+          note: item.data.note,
+          score: item.data.score,
+          currentStatus: item.data.currentStatus,
+          sitesToView: item.data.sitesToView as unknown as Prisma.JsonArray,
+          tvProgress: item.data.tvProgress as unknown as Prisma.JsonObject,
+        },
+      })),
+    )
+
+    return trackingDataList.map(this.convertToInterface)
+  }
 }

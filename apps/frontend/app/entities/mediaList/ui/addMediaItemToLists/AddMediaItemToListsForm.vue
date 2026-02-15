@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import type { MediaItemTrackingDataType, MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import type { MediaItemCreateApiTypes } from "~/api/mediaItem/mediaItemApiTypes"
 import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum, SortOrderEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
 import {
-  useCreateMediaItemApi,
-  useDeleteMediaItemApi,
-  useGetMediaItemsApi,
-  useUpdateMediaItemTrackingDataApi,
+  useBulkCreateMediaItemsApi,
+  useBulkDeleteMediaItemsApi,
+  useBulkUpdateMediaItemTrackingDataApi,
+  useGetMediaItemsByMediaIdApi,
 } from "~/api/mediaItem/useMediaItemtApi"
 import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -40,20 +42,20 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const getMediaListsApi = useGetMediaListsApi()
-const getMediaItemsApi = useGetMediaItemsApi()
-const createMediaItemApi = useCreateMediaItemApi()
-const deleteMediaItemApi = useDeleteMediaItemApi()
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
+const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
+  mediaId: props.mediaId,
+})
+const bulkCreateMediaItemsApi = useBulkCreateMediaItemsApi()
+const bulkDeleteMediaItemsApi = useBulkDeleteMediaItemsApi()
+const bulkUpdateMediaItemTrackingDataApi = useBulkUpdateMediaItemTrackingDataApi()
 
 const searchTerm = ref("")
 const changes = ref<Record<string, MediaListChangeType>>({})
 
 function setCurrentListStates() {
   for (const mediaList of getMediaListsApi.data.value || []) {
-    const mediaItem = getMediaItemsApi.data.value?.find(
-      item => item.mediaListId === mediaList.id
-        && item.mediaId === props.mediaId
-        && item.mediaType === props.mediaType,
+    const mediaItem = getMediaItemsByMediaId.data.value?.find(
+      item => item.mediaListId === mediaList.id,
     )
 
     changes.value[mediaList.id] = {
@@ -66,11 +68,11 @@ function setCurrentListStates() {
   }
 }
 
-watch(() => getMediaItemsApi.data, () => {
+watch([() => getMediaItemsByMediaId.data.value, () => getMediaListsApi.data.value], () => {
   setCurrentListStates()
 }, { immediate: true })
 
-const isLoading = computed(() => createMediaItemApi.isPending.value || deleteMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value)
+const isLoading = computed(() => bulkCreateMediaItemsApi.isPending.value || bulkDeleteMediaItemsApi.isPending.value || bulkUpdateMediaItemTrackingDataApi.isPending.value)
 
 function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
   const currentState = changes.value[mediaListId]
@@ -110,43 +112,60 @@ function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum
   currentChanges.currentStatus = status
 
   if (currentState.mediaItemId) {
-    const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === currentState.mediaItemId)
+    const mediaItem = getMediaItemsByMediaId.data.value?.find(item => item.id === currentState.mediaItemId)
     const isSameStatus = mediaItem?.trackingData.currentStatus === status
     currentChanges.action = isSameStatus ? "pass" : "update"
   }
 }
 
 function handleSaveChanges() {
-  Promise.all(Object.entries(changes.value).map(([mediaListId, value]) => {
-    switch (value.action) {
-      case "add":
-        return createMediaItemApi.mutateAsync({
-          mediaId: props.mediaId,
-          mediaType: props.mediaType as MediaTypeEnum,
-          mediaListId,
-          currentStatus: value.currentStatus,
-        })
-      case "remove":
-        if (value.mediaItemId) {
-          return deleteMediaItemApi.mutateAsync(value.mediaItemId)
-        }
-        break
-      case "update": {
-        const mediaItem = getMediaItemsApi.data.value?.find(item => item.id === value.mediaItemId)
-        if (mediaItem) {
-          return updateMediaItemTrackingDataApi.mutateAsync({
-            trackingDataId: mediaItem.trackingData.id,
-            body: {
-              ...mediaItem.trackingData,
-              currentStatus: value.currentStatus,
-            },
-          })
-        }
-      }
+  const createItems: Array<MediaItemCreateApiTypes> = []
+  const deleteIds: string[] = []
+  const updateItems: Array<{
+    trackingDataId: string
+    body: MediaItemTrackingDataType
+  }> = []
+
+  for (const [mediaListId, value] of Object.entries(changes.value)) {
+    if (value.action === "add") {
+      createItems.push({
+        mediaId: props.mediaId,
+        mediaType: props.mediaType as MediaTypeEnum,
+        mediaListId,
+        currentStatus: value.currentStatus,
+      })
     }
 
-    return Promise.resolve()
-  })).then(() => {
+    if (value.action === "remove" && value.mediaItemId) {
+      deleteIds.push(value.mediaItemId)
+    }
+
+    if (value.action === "update" && value.mediaItemId) {
+      const mediaItem = getMediaItemsByMediaId.data.value?.find(item => item.id === value.mediaItemId)
+      if (mediaItem?.trackingData) {
+        updateItems.push({
+          trackingDataId: mediaItem.trackingData.id,
+          body: {
+            ...mediaItem.trackingData,
+            currentStatus: value.currentStatus,
+          },
+        })
+      }
+    }
+  }
+
+  const requests: Array<Promise<unknown>> = []
+  if (createItems.length) {
+    requests.push(bulkCreateMediaItemsApi.mutateAsync({ items: createItems }))
+  }
+  if (deleteIds.length) {
+    requests.push(bulkDeleteMediaItemsApi.mutateAsync({ ids: deleteIds }))
+  }
+  if (updateItems.length) {
+    requests.push(bulkUpdateMediaItemTrackingDataApi.mutateAsync({ items: updateItems }))
+  }
+
+  Promise.all(requests).then(() => {
     toast.success(t("toasts.changesSuccessfullySaved"))
     emit("onAfterSave")
   }).catch(() => {
@@ -199,7 +218,13 @@ const isHasChanges = computed(() => {
     <div
       :class="$style.list"
     >
-      <template v-if="sortedMediaLists.length">
+      <template v-if="getMediaItemsByMediaId.isPending.value || getMediaListsApi.isPending.value">
+        <UiFormListItemSkeleton
+          v-for="i in 5"
+          :key="i"
+        />
+      </template>
+      <template v-else-if="sortedMediaLists.length">
         <AddMediaItemToListsFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"

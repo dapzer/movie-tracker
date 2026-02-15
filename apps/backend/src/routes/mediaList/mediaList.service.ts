@@ -148,7 +148,9 @@ export class MediaListService {
       throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
     }
 
-    const mediaItems = await this.mediaItemRepository.getByListId(id)
+    const mediaItems = await this.mediaItemRepository.getByListId({
+      mediaListId: id,
+    })
     const newMediaList = await this.mediaListRepository.create({
       userId,
       isSystem: false,
@@ -160,11 +162,12 @@ export class MediaListService {
 
     const promises: Promise<MediaItemType>[] = []
 
-    for (const mediaItem of mediaItems) {
+    for (const mediaItem of mediaItems.items) {
       if (
         body.selectedStatuses.includes(mediaItem.trackingData.currentStatus)
       ) {
         promises.push(
+          // TODO: optimize this by creating media items in bulk
           this.mediaItemRepository.create({
             mediaId: mediaItem.mediaId,
             mediaType: mediaItem.mediaType,

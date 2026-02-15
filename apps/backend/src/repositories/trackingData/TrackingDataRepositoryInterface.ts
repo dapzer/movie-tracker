@@ -14,4 +14,14 @@ export interface TrackingDataRepositoryInterface {
       >
     >
   }) => Promise<MediaItemTrackingDataType>
+
+  updateMany: (args: Array<{
+    id: string
+    data: Partial<
+      Omit<
+        MediaItemTrackingDataType,
+        "id" | "createdAt" | "updatedAt" | "mediaItemId"
+      >
+    >
+  }>) => Promise<MediaItemTrackingDataType[]>
 }
