@@ -78,10 +78,12 @@ export function useCreateMediaListCloneApi() {
       body: MediaListCreateCloneApiTypes
     }) => await createMediaListsCloneApi(args.mediaListId, args.body),
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => [...oldData, data])
-      await queryClient.refetchQueries({
-        queryKey: [MediaItemQueryKeys.GET_ALL],
-      })
+      await Promise.all([
+        queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => [...oldData, data]),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemQueryKeys.GET_ALL],
+        }),
+      ])
     },
   })
 }

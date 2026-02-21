@@ -1,4 +1,3 @@
-import { navigateTo, useRoute } from "#app"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed } from "vue"
 import { useLogoutApi } from "~/api/auth/useAuthApi"
@@ -10,8 +9,6 @@ import { useGetUserProfileApi } from "~/api/user/useUserApi"
 export function useAuth() {
   const getUserProfileApi = useGetUserProfileApi()
   const logoutApi = useLogoutApi()
-
-  const route = useRoute()
 
   const isAuthorized = computed(() => {
     return !!getUserProfileApi.data.value
@@ -36,12 +33,6 @@ export function useAuth() {
 
   const handleLogout = async () => {
     await logoutApi.mutateAsync()
-    if (
-      !!route.meta.middleware?.length
-      && (route.meta.middleware === "auth" || (Array.isArray(route.meta.middleware) && route.meta.middleware.includes("auth")))
-    ) {
-      await navigateTo("/sign-in")
-    }
 
     await Promise.all([
       queryClient.resetQueries({ queryKey: [UserQueryKeys.PROFILE] }),
