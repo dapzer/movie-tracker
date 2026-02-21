@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { definePageMeta, useI18n, useSeoMeta } from "#imports"
+import { useI18n, useSeoMeta } from "#imports"
 import { ReleaseSubscriptions } from "~/features/releaseSubscriptions"
+import { useProtectedRoute } from "~/shared/composables/useProtectedRoute"
 
 const { t } = useI18n()
 
-definePageMeta({
-  middleware: ["auth"],
-})
+useProtectedRoute()
 
 useSeoMeta({
   titleTemplate(titleChunk) {

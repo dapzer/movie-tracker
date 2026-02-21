@@ -28,6 +28,7 @@ export function useGetMediaListsApi(options?: Omit<UseQueryOptions, "queryKey" |
 
       return getMediaListsApi(undefined, { headers })
     },
+    retry: false,
     ...options,
   })
 }

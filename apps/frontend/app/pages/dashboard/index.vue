@@ -1,15 +1,12 @@
 <script lang="ts" setup>
-import { definePageMeta } from "#imports"
 import { UserRoleEnum } from "@movie-tracker/types"
 import { DashboardAnalyticsRecords, DashboardControls } from "~/features/dashboard"
+import { useProtectedRoute } from "~/shared/composables/useProtectedRoute"
 import { UiContainer } from "../../shared/ui/UiContainer"
 import { UiDivider } from "../../shared/ui/UiDivider"
 import { UiTypography } from "../../shared/ui/UiTypography"
 
-definePageMeta({
-  middleware: "auth",
-  requiredRoles: [UserRoleEnum.ADMIN],
-})
+useProtectedRoute([UserRoleEnum.ADMIN])
 </script>
 
 <template>

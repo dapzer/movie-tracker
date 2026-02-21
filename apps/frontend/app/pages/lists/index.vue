@@ -88,7 +88,7 @@ const sortedMediaLists = computed(() => {
       </UiButton>
     </UiAttention>
 
-    <UiListsGrid>
+    <UiListsGrid v-else>
       <template v-if="getMediaListsApi.data.value && !getMediaListsApi.isLoading.value">
         <MediaListCard
           v-for="list in sortedMediaLists"
