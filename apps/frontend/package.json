@@ -27,8 +27,8 @@
     "yup": "1.7.1"
   },
   "devDependencies": {
-    "@histoire/plugin-nuxt": "1.0.0-alpha.3",
-    "@histoire/plugin-vue": "1.0.0-alpha.3  ",
+    "@histoire/plugin-nuxt": "1.0.0-beta.1",
+    "@histoire/plugin-vue": "1.0.0-beta.1",
     "@movie-tracker/types": "workspace:*",
     "@movie-tracker/utils": "workspace:*",
     "@nuxt/devtools": "3.2.1",
@@ -40,7 +40,7 @@
     "@nuxtjs/sitemap": "7.6.0",
     "@vueuse/core": "14.2.1",
     "@vueuse/nuxt": "14.2.1",
-    "histoire": "1.0.0-alpha.3",
+    "histoire": "1.0.0-beta.1",
     "nuxt": "4.3.1",
     "nuxt-schema-org": "5.0.10",
     "nuxt-umami": "3.2.1",
