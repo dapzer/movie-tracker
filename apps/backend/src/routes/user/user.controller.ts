@@ -14,18 +14,18 @@ export class UserController {
   @Get()
   @UseGuards(AuthGuard)
   async getUser(@User() user: UserDto) {
-    return this.userService.getUser(user?.id)
+    return this.userService.getById(user?.id)
   }
 
   @Get(":id")
   async getUserById(@Param() params: UuidDto) {
-    const user = await this.userService.getUser(params.id)
+    const user = await this.userService.getById(params.id)
     return getPublicUser(user)
   }
 
   @Get(":id/stats")
   async getUserStatById(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.userService.getUserStats({
+    return this.userService.getStatsByUserId({
       userId: params.id,
       currentUserId: user?.id,
     })
@@ -34,12 +34,12 @@ export class UserController {
   @Delete("/delete/:id")
   @UseGuards(AuthGuard)
   async deleteUser(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.userService.deleteUser(params.id, user?.id)
+    return this.userService.delete(params.id, user?.id)
   }
 
   @Patch()
   @UseGuards(AuthGuard)
   async updateUser(@User() user: UserDto, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(user?.id, updateUserDto)
+    return this.userService.update(user?.id, updateUserDto)
   }
 }

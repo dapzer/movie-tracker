@@ -33,7 +33,7 @@ export class MediaListController {
     @User() user: UserDto,
   ) {
     if (queries.userId) {
-      return this.mediaListService.getMedialListsByUserId(
+      return this.mediaListService.getByUserId(
         queries.userId,
         user?.id,
         true,
@@ -44,7 +44,7 @@ export class MediaListController {
       throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
     }
 
-    return this.mediaListService.getMedialListsByUserId(user?.id, user?.id, false)
+    return this.mediaListService.getByUserId(user?.id, user?.id, false)
   }
 
   @Get(":id")
@@ -52,7 +52,7 @@ export class MediaListController {
     @Param() params: GetMedialListByIdDto,
     @User() user: UserDto,
   ) {
-    return this.mediaListService.getMedialListById(
+    return this.mediaListService.getById(
       params.id,
       user?.id,
       isCuid(params.id),
@@ -65,7 +65,7 @@ export class MediaListController {
     @User() user: UserDto,
     @Body() body: CreateMediaListDto,
   ) {
-    return this.mediaListService.createMediaList(user?.id, body)
+    return this.mediaListService.create(user?.id, body)
   }
 
   @Post(":id/clone")
@@ -75,7 +75,7 @@ export class MediaListController {
     @User() user: UserDto,
     @Body() body: CreateMediaListCloneDto,
   ) {
-    return this.mediaListService.createMediaListClone(
+    return this.mediaListService.createClone(
       params.id,
       user?.id,
       body,
@@ -85,13 +85,13 @@ export class MediaListController {
   @Post(":id/like")
   @UseGuards(AuthGuard)
   async createMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaListService.createMediaListLike(params.id, user?.id)
+    return this.mediaListService.createLike(params.id, user?.id)
   }
 
   @Delete(":id/like")
   @UseGuards(AuthGuard)
   async deleteMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaListService.deleteMediaListLike(params.id, user?.id)
+    return this.mediaListService.deleteLike(params.id, user?.id)
   }
 
   @Patch(":id")
@@ -101,12 +101,12 @@ export class MediaListController {
     @Body() body: UpdateMediaListDto,
     @User() user: UserDto,
   ) {
-    return this.mediaListService.updateMediaList(params.id, body, user?.id)
+    return this.mediaListService.update(params.id, body, user?.id)
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteMediaList(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaListService.deleteMediaList(params.id, user?.id)
+    return this.mediaListService.delete(params.id, user?.id)
   }
 }

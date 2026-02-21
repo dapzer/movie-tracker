@@ -80,7 +80,7 @@ export class OpenGraphImageService {
     return Math.floor(optimal * safetyFactor)
   }
 
-  async getOpenGraphImage(title: string, imageUrl: string, isAvatarPlaceholder: boolean) {
+  async get(title: string, imageUrl: string, isAvatarPlaceholder: boolean) {
     const [libreFranklin, inter, logoSvg, backgroundSvg, circleBackgroundSvg, defaultMoviePosterSvg, avatarPosterSvg] = await Promise.all([
       readFile(path.join(process.cwd(), "assets/fonts/LibreFranklin-Bold.ttf")),
       readFile(path.join(process.cwd(), "assets/fonts/Inter-SemiBold.ttf")),

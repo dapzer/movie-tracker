@@ -1,10 +1,5 @@
 import { generateApiUrl } from "@movie-tracker/utils"
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  StreamableFile,
-} from "@nestjs/common"
+import { HttpException, HttpStatus, Injectable, StreamableFile } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import * as sharp from "sharp"
 
@@ -16,13 +11,13 @@ export class ProxyService {
 
   constructor(private readonly configService: ConfigService) {}
 
-  async getResponse(path: string, queries?: Record<string, string>) {
+  async getData(path: string, queries?: Record<string, string>) {
     let response: Response | undefined
 
     try {
       response = await fetch(this.getApiUrl(`/${path}`, queries))
     }
-    catch (err) {
+    catch {
       throw new HttpException(
         `Failed to get data from remote server.`,
         HttpStatus.BAD_GATEWAY,
@@ -52,7 +47,7 @@ export class ProxyService {
         }
       }
     }
-    catch (err) {
+    catch {
       throw new HttpException(
         `Failed to process data received from remote server.`,
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -111,7 +106,7 @@ export class ProxyService {
         contentType: "image/webp",
       }
     }
-    catch (err) {
+    catch {
       throw new HttpException(
         `Failed to process data received from remote server.`,
         HttpStatus.INTERNAL_SERVER_ERROR,

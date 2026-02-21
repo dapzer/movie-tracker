@@ -27,7 +27,7 @@ export class MediaRatingService {
     private readonly mediaDetailsService: MediaDetailsService,
   ) {}
 
-  async getMediaRatingByUserId(args: {
+  async getByMediaId(args: {
     userId: string
   } & GetMediaRatingByMediaIdParamsDto) {
     const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId(args)
@@ -46,7 +46,7 @@ export class MediaRatingService {
     return mediaRating
   }
 
-  async getMediaRatingsByUserId(args: {
+  async getByUserId(args: {
     userId: string
     currentUserId?: string
   } & PaginationDto): Promise<MediaRatingByUserIdResponseType> {
@@ -79,11 +79,11 @@ export class MediaRatingService {
     }
   }
 
-  async createMediaRating(args: {
+  async create(args: {
     userId: string
     body: CreateMediaRatingDto
   }) {
-    await this.mediaDetailsService.createOrUpdateMediaDetails(
+    await this.mediaDetailsService.createOrUpdate(
       {
         mediaId: args.body.mediaId,
         mediaType: args.body.mediaType,
@@ -98,7 +98,7 @@ export class MediaRatingService {
     })
   }
 
-  async updateMediaRating(args: {
+  async update(args: {
     id: string
     userId: string
     body: UpdateMediaRatingDto
@@ -122,7 +122,7 @@ export class MediaRatingService {
     })
   }
 
-  async deleteMediaRating(args: { id: string, userId: string }) {
+  async delete(args: { id: string, userId: string }) {
     const mediaRating = await this.mediaRatingRepository.getById({ id: args.id })
 
     if (!mediaRating) {

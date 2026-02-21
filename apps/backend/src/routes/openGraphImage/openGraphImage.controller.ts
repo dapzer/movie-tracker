@@ -9,7 +9,7 @@ export class OpenGraphImageController {
   @Get("")
   @Header("Content-Type", "image/webp")
   async getOpenGraphImage(@Query() queries: GetOpenGraphImageDto) {
-    const image = await this.openGraphImageService.getOpenGraphImage(
+    const image = await this.openGraphImageService.get(
       queries.title,
       queries.imageUrl,
       queries.isAvatarPlaceholder,

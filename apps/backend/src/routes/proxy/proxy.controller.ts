@@ -34,6 +34,6 @@ export class ProxyController {
     @Param("everything") everything: string,
     @Query() queries: Record<string, string>,
   ) {
-    return this.proxyService.getResponse(everything.replace(/,/g, "/"), queries)
+    return this.proxyService.getData(everything.replace(/,/g, "/"), queries)
   }
 }

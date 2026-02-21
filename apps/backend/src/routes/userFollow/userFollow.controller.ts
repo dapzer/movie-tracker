@@ -21,7 +21,7 @@ export class UserFollowController {
 
   @Get(":id/followers")
   async getUserFollowers(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
-    return this.userFollowService.getUserFollowers({
+    return this.userFollowService.getFollowers({
       userId: params.id,
       limit: query.limit,
       offset: query.offset,
@@ -31,7 +31,7 @@ export class UserFollowController {
 
   @Get(":id/followings")
   async getUserFollowings(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
-    return this.userFollowService.getUserFollowings({
+    return this.userFollowService.getFollowings({
       userId: params.id,
       limit: query.limit,
       offset: query.offset,
@@ -42,7 +42,7 @@ export class UserFollowController {
   @Post(":id/follow")
   @UseGuards(AuthGuard)
   async createUserFollow(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.userFollowService.createUserFollow({
+    return this.userFollowService.create({
       followerUserId: user.id,
       followingUserId: params.id,
     })
@@ -51,7 +51,7 @@ export class UserFollowController {
   @Delete(":id/follow")
   @UseGuards(AuthGuard)
   async deleteUserFollow(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.userFollowService.deleteUserFollow({
+    return this.userFollowService.deleteUser({
       followerUserId: user.id,
       followingUserId: params.id,
     })

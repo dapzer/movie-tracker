@@ -27,19 +27,19 @@ export class UserFollowService {
     }
   }
 
-  async getUserFollowers(args: { userId: string, currentUserId: string } & PaginationDto) {
+  async getFollowers(args: { userId: string, currentUserId: string } & PaginationDto) {
     await this.checkUserExists(args.userId)
 
     return this.userFollowRepository.getByUserId({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
   }
 
-  async getUserFollowings(args: { userId: string, currentUserId: string } & PaginationDto) {
+  async getFollowings(args: { userId: string, currentUserId: string } & PaginationDto) {
     await this.checkUserExists(args.userId)
 
     return this.userFollowRepository.getFollowings({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
   }
 
-  async createUserFollow(args: { followerUserId: string, followingUserId: string }) {
+  async create(args: { followerUserId: string, followingUserId: string }) {
     await this.checkUserExists(args.followingUserId)
 
     if (args.followerUserId === args.followingUserId) {
@@ -64,7 +64,7 @@ export class UserFollowService {
     return follow
   }
 
-  async deleteUserFollow(args: { followerUserId: string, followingUserId: string }) {
+  async deleteUser(args: { followerUserId: string, followingUserId: string }) {
     await this.checkUserExists(args.followingUserId)
 
     if (args.followerUserId === args.followingUserId) {

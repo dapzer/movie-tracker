@@ -12,7 +12,7 @@ export class UserService {
   ) {
   }
 
-  async getUser(id: string) {
+  async getById(id: string) {
     const user = await this.userRepository.getById(id)
 
     if (!user) {
@@ -22,7 +22,7 @@ export class UserService {
     return getUserWithoutPassword(user)
   }
 
-  async getUserStats(args: { currentUserId?: string, userId?: string }) {
+  async getStatsByUserId(args: { currentUserId?: string, userId?: string }) {
     const [user, stats] = await Promise.all([
       this.userRepository.getById(args.userId),
       this.userRepository.getStatsById(args.userId),
@@ -39,7 +39,7 @@ export class UserService {
     return stats
   }
 
-  async deleteUser(id: string, currentUserId: string) {
+  async delete(id: string, currentUserId: string) {
     if (currentUserId !== id) {
       throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
     }
@@ -49,7 +49,7 @@ export class UserService {
     return getUserWithoutPassword(deletedUser)
   }
 
-  async updateUser(id: string, body: UpdateUserDto) {
+  async update(id: string, body: UpdateUserDto) {
     const updatedUser = await this.userRepository.update({ id, body })
 
     return getUserWithoutPassword(updatedUser)

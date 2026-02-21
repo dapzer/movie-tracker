@@ -95,7 +95,7 @@ export class MediaItemService {
     }
 
     const mediaDetails
-      = await this.mediaDetailsService.createOrUpdateMediaDetails(
+      = await this.mediaDetailsService.createOrUpdate(
         {
           mediaId: args.mediaId,
           mediaType: args.mediaType,
@@ -142,7 +142,7 @@ export class MediaItemService {
       mediaType: item.mediaType,
     }])).values())]
 
-    const mediaDetailsList = await Promise.all(uniqueMediaItems.map(item => this.mediaDetailsService.createOrUpdateMediaDetails({
+    const mediaDetailsList = await Promise.all(uniqueMediaItems.map(item => this.mediaDetailsService.createOrUpdate({
       mediaId: item.mediaId,
       mediaType: item.mediaType,
       skipError: false,

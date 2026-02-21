@@ -74,7 +74,7 @@ export class MediaDetailsService implements OnModuleInit {
     ttl: getMillisecondsFromMins(45),
   })
   async autoUpdateAllMediaDetails() {
-    await this.createOrUpdateAllMediaItemsDetails()
+    await this.createOrUpdateAll()
   }
 
   private resetNotificationsToSend() {
@@ -84,7 +84,7 @@ export class MediaDetailsService implements OnModuleInit {
     }
   }
 
-  private async getMediaDetailsItemFromApi(
+  private async getDetailsFromApi(
     mediaId: number,
     mediaType: MediaTypeEnum,
     language: string,
@@ -115,8 +115,8 @@ export class MediaDetailsService implements OnModuleInit {
   private async getAllMediaDetails(mediaId: number, mediaType: MediaTypeEnum) {
     try {
       const [ru, en] = await Promise.all([
-        this.getMediaDetailsItemFromApi(mediaId, mediaType, "ru"),
-        this.getMediaDetailsItemFromApi(mediaId, mediaType, "en"),
+        this.getDetailsFromApi(mediaId, mediaType, "ru"),
+        this.getDetailsFromApi(mediaId, mediaType, "en"),
       ])
 
       return {
@@ -265,7 +265,7 @@ export class MediaDetailsService implements OnModuleInit {
     }
   }
 
-  async createOrUpdateMediaDetails(
+  async createOrUpdate(
     args: {
       mediaId: number
       mediaType: MediaTypeEnum
@@ -346,7 +346,7 @@ export class MediaDetailsService implements OnModuleInit {
     }
   }
 
-  async createOrUpdateAllMediaItemsDetails() {
+  async createOrUpdateAll() {
     const [mediaItems, mediaRatings, releaseSubscriptions, mediaDetails] = await Promise.all(
       [
         this.mediaItemRepository.getAll(),
@@ -390,7 +390,7 @@ export class MediaDetailsService implements OnModuleInit {
 
     for (const chunk of chunks) {
       const promiseArr = chunk.map((el) => {
-        return this.createOrUpdateMediaDetails({
+        return this.createOrUpdate({
           mediaId: el.mediaId,
           mediaType: el.mediaType,
           currentDetails: el.currentDetails,

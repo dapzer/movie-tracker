@@ -19,7 +19,7 @@ export class MediaRatingController {
     @Param() params: GetMediaRatingByMediaIdParamsDto,
     @User() user: UserDto,
   ) {
-    return this.mediaRatingService.getMediaRatingByUserId(
+    return this.mediaRatingService.getByMediaId(
       {
         mediaId: params.mediaId,
         userId: user.id,
@@ -29,7 +29,7 @@ export class MediaRatingController {
 
   @Get("by-user-id/:id")
   async getMediaRatingsByUserId(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
-    return this.mediaRatingService.getMediaRatingsByUserId(
+    return this.mediaRatingService.getByUserId(
       {
         userId: params.id,
         currentUserId: user?.id,
@@ -42,7 +42,7 @@ export class MediaRatingController {
   @Post()
   @UseGuards(AuthGuard)
   async createMediaRating(@User() user: UserDto, @Body() body: CreateMediaRatingDto) {
-    return this.mediaRatingService.createMediaRating({
+    return this.mediaRatingService.create({
       userId: user.id,
       body,
     })
@@ -51,7 +51,7 @@ export class MediaRatingController {
   @Patch(":id")
   @UseGuards(AuthGuard)
   async updateMediaRating(@Param() params: UuidDto, @User() user: UserDto, @Body() body: UpdateMediaRatingDto) {
-    return this.mediaRatingService.updateMediaRating({
+    return this.mediaRatingService.update({
       id: params.id,
       userId: user.id,
       body,
@@ -61,7 +61,7 @@ export class MediaRatingController {
   @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteMediaRating(@Param() params: UuidDto, @User() user: UserDto) {
-    return this.mediaRatingService.deleteMediaRating({
+    return this.mediaRatingService.delete({
       id: params.id,
       userId: user.id,
     })

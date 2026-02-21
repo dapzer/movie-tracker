@@ -6,7 +6,9 @@ import {
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
 import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import { CreateReleaseSubscriptionDto } from "@/routes/releaseSubscription/dto/createReleaseSubscription.dto"
-import { GetReleaseSubscriptionsByUserIdQueryDto } from "@/routes/releaseSubscription/dto/getReleaseSubscriptionsByUserIdQuery.dto"
+import {
+  GetReleaseSubscriptionsByUserIdQueryDto,
+} from "@/routes/releaseSubscription/dto/getReleaseSubscriptionsByUserIdQuery.dto"
 
 @Injectable()
 export class ReleaseSubscriptionService {
@@ -17,7 +19,7 @@ export class ReleaseSubscriptionService {
   }
 
   async create(args: { userId: string } & CreateReleaseSubscriptionDto): Promise<ReleaseSubscriptionType> {
-    const mediaDetails = await this.mediaDetailsService.createOrUpdateMediaDetails({
+    const mediaDetails = await this.mediaDetailsService.createOrUpdate({
       mediaId: args.mediaId,
       mediaType: args.mediaType,
       skipError: false,

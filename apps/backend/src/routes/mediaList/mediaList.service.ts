@@ -62,7 +62,7 @@ export class MediaListService {
     return false
   }
 
-  async getMedialListById(
+  async getById(
     id: string,
     currentUserId: string,
     byHumanFriendlyId = false,
@@ -82,7 +82,7 @@ export class MediaListService {
     return mediaList
   }
 
-  async getMedialListsByUserId(userId: string, currentUserId: string, isPublicOnly?: boolean) {
+  async getByUserId(userId: string, currentUserId: string, isPublicOnly?: boolean) {
     return this.mediaListRepository.getByUserId({
       userId,
       currentUserId,
@@ -90,7 +90,7 @@ export class MediaListService {
     })
   }
 
-  async createMediaList(userId: string, body?: CreateMediaListDto) {
+  async create(userId: string, body?: CreateMediaListDto) {
     await this.isMediaListsLimitReached(userId)
     return this.mediaListRepository.create({
       userId,
@@ -99,7 +99,7 @@ export class MediaListService {
     })
   }
 
-  async updateMediaList(id: string, body: UpdateMediaListDto, userId: string) {
+  async update(id: string, body: UpdateMediaListDto, userId: string) {
     const isListOwner = await this.isListOwner(id, userId)
 
     if (!isListOwner) {
@@ -109,7 +109,7 @@ export class MediaListService {
     return this.mediaListRepository.update({ id, body })
   }
 
-  async deleteMediaList(id: string, userId: string) {
+  async delete(id: string, userId: string) {
     const mediaList = await this.mediaListRepository.getById({ id })
     const isListOwner = await this.isListOwner(id, userId, mediaList)
 
@@ -127,7 +127,7 @@ export class MediaListService {
     return this.mediaListRepository.delete(id)
   }
 
-  async createMediaListClone(
+  async createClone(
     id: string,
     userId: string,
     body: CreateMediaListCloneDto,
@@ -172,7 +172,7 @@ export class MediaListService {
     return newMediaList
   }
 
-  async createMediaListLike(mediaListId: string, userId: string) {
+  async createLike(mediaListId: string, userId: string) {
     const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
@@ -206,7 +206,7 @@ export class MediaListService {
     return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
   }
 
-  async deleteMediaListLike(mediaListId: string, userId: string) {
+  async deleteLike(mediaListId: string, userId: string) {
     const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
