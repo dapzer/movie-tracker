@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import type { GetUserFollowersApiArgs } from "~/api/userFollow/userFollowApiTypes"
-import { onServerPrefetch } from "#imports"
-import { computed, ref } from "vue"
+import { onBeforeUnmount, onServerPrefetch } from "#imports"
+import { useRouteQuery } from "@vueuse/router"
+import { computed } from "vue"
 import { useGetUserFollowersApi } from "~/api/userFollow/useUserFollowApi"
 import { UserFollowsTable } from "~/entities/userFollow"
 import { UiAttention } from "~/shared/ui/UiAttention"
@@ -15,12 +16,16 @@ interface UserProfileFollowersProps {
 
 const props = defineProps<UserProfileFollowersProps>()
 
-const currentPage = ref(1)
+const currentPage = useRouteQuery<number>("page", 1, {
+  transform: Number,
+  mode: "replace",
+})
+
 const getUserFollowersApiArgs = computed<GetUserFollowersApiArgs>(() => {
   return {
     userId: props.user.id,
-    page: currentPage,
     limit: 10,
+    offset: (currentPage.value - 1) * 10,
   }
 })
 
@@ -29,7 +34,11 @@ onServerPrefetch(async () => {
   await getUserFollowersApi.suspense()
 })
 
-const itemsCount = computed(() => {
+onBeforeUnmount(() => {
+  currentPage.value = 1
+})
+
+const skeletonsCount = computed(() => {
   return Math.min(
     (getUserFollowersApi.data.value?.items.length || getUserFollowersApiArgs.value.limit!),
     props.followInformation.followersCount,
@@ -38,9 +47,9 @@ const itemsCount = computed(() => {
 </script>
 
 <template>
-  <template v-if="itemsCount > 0">
+  <template v-if="skeletonsCount > 0">
     <UserFollowsTable
-      :loading-items-count="itemsCount"
+      :loading-items-count="skeletonsCount"
       :loading="getUserFollowersApi.isPending.value"
       :data="getUserFollowersApi.data.value?.items"
     />
