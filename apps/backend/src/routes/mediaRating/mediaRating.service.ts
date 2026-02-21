@@ -1,4 +1,4 @@
-import { MediaRatingType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
+import { MediaRatingByUserIdResponseType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import {
   MediaDetailsRepositoryInterface,
@@ -13,6 +13,7 @@ import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import { CreateMediaRatingDto } from "@/routes/mediaRating/dto/createMediaRating.dto"
 import { GetMediaRatingByMediaIdParamsDto } from "@/routes/mediaRating/dto/getMediaRatingByMediaIdParamsDto"
 import { UpdateMediaRatingDto } from "@/routes/mediaRating/dto/updateMediaRating.dto"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 
 @Injectable()
 export class MediaRatingService {
@@ -48,7 +49,7 @@ export class MediaRatingService {
   async getMediaRatingsByUserId(args: {
     userId: string
     currentUserId?: string
-  }): Promise<MediaRatingType[]> {
+  } & PaginationDto): Promise<MediaRatingByUserIdResponseType> {
     const user = await this.userRepository.getById(args.userId)
 
     if (!user) {
@@ -61,16 +62,21 @@ export class MediaRatingService {
 
     const mediaRatings = await this.mediaRatingRepository.getByUserId({
       userId: args.userId,
+      limit: args.limit,
+      offset: args.offset,
     })
-    const mediaIds = mediaRatings.map(el => el.mediaId)
+    const mediaIds = mediaRatings.items.map(el => el.mediaId)
     const mediaDetails = await this.mediaDetailsRepository.getByMediaIds({
       mediaIds,
     })
 
-    return mediaRatings.map(el => ({
-      ...el,
-      mediaDetails: mediaDetails.find(deteils => deteils.mediaId === el.mediaId) || undefined,
-    }))
+    return {
+      items: mediaRatings.items.map(el => ({
+        ...el,
+        mediaDetails: mediaDetails.find(details => details.mediaId === el.mediaId) || undefined,
+      })),
+      totalCount: mediaRatings.totalCount,
+    }
   }
 
   async createMediaRating(args: {

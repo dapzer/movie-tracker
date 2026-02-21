@@ -37,14 +37,24 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
 
   async getByUserId(args: Parameters<MediaRatingRepositoryInterface["getByUserId"]>[0]) {
     const { userId } = args
-    const mediaRatings = await this.prisma.mediaRating.findMany({
-      where: { userId },
-      orderBy: {
-        createdAt: "desc",
-      },
-    })
+    const [items, totalCount] = await Promise.all([
+      this.prisma.mediaRating.findMany({
+        where: { userId },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: args.limit,
+        skip: args.offset,
+      }),
+      this.prisma.mediaRating.count({
+        where: { userId },
+      }),
+    ])
 
-    return mediaRatings.map(this.convertMediaRatingToInterface)
+    return {
+      items: items.map(this.convertMediaRatingToInterface),
+      totalCount,
+    }
   }
 
   async getByUserIdAndMediaId(args: Parameters<MediaRatingRepositoryInterface["getByUserIdAndMediaId"]>[0]) {

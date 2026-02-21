@@ -1,5 +1,6 @@
 import type { MediaRatingType } from "@movie-tracker/types"
 import type { UseQueryOptions } from "@tanstack/vue-query"
+import type { Ref } from "vue"
 import type {
   CreateMediaRatingBody,
   DeleteMediaRatingArgs,
@@ -35,12 +36,13 @@ export function useGetMediaRatingByMediaIdApi(args: GetMediaRatingByMediaIdArgs)
     retryOnMount: false,
   })
 }
-export function useGetMediaRatingByUserIdApi(args: GetMediaRatingByUserIdArgs, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+
+export function useGetMediaRatingByUserIdApi(args: Ref<GetMediaRatingByUserIdArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
-    queryKey: [MediaRatingApiQueryKeys.GET_ALL_BY_USER_ID, args.userId],
+    queryKey: [MediaRatingApiQueryKeys.GET_ALL_BY_USER_ID, args],
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
-      return getMediaRatingByUserId(args, { headers })
+      return getMediaRatingByUserId(args.value, { headers })
     },
     retry: false,
     retryOnMount: false,

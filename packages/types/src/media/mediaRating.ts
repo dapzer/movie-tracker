@@ -15,3 +15,8 @@ export interface MediaRatingType {
 export type MediaRatingCreateBodyType = Pick<MediaRatingType, "mediaId" | "mediaType" | "rating">
 
 export type MediaRatingUpdateBodyType = Pick<MediaRatingType, "rating">
+
+export interface MediaRatingByUserIdResponseType {
+  items: MediaRatingType[]
+  totalCount: number
+}
