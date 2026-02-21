@@ -1,12 +1,12 @@
-import type { MediaRatingCreateBodyType, MediaRatingUpdateBodyType } from "@movie-tracker/types"
+import type { MediaRatingCreateBodyType, MediaRatingUpdateBodyType, PaginationType } from "@movie-tracker/types"
 
 export interface GetMediaRatingByMediaIdArgs {
   mediaId: number
 }
 
-export interface GetMediaRatingByUserIdArgs {
+export type GetMediaRatingByUserIdArgs = {
   userId: string
-}
+} & PaginationType
 
 export type CreateMediaRatingBody = MediaRatingCreateBodyType
 

@@ -3,10 +3,10 @@ import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
 import { CreateMediaRatingDto } from "@/routes/mediaRating/dto/createMediaRating.dto"
 import { GetMediaRatingByMediaIdParamsDto } from "@/routes/mediaRating/dto/getMediaRatingByMediaIdParamsDto"
-import { GetMediaRatingsByUserIdQueryDto } from "@/routes/mediaRating/dto/getMediaRatingsByUserIdQuery.dto"
 import { UpdateMediaRatingDto } from "@/routes/mediaRating/dto/updateMediaRating.dto"
 import { MediaRatingService } from "@/routes/mediaRating/mediaRating.service"
 import { User } from "@/routes/user/users.decorator"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 
 @Controller("media-rating")
@@ -27,12 +27,14 @@ export class MediaRatingController {
     )
   }
 
-  @Get()
-  async getMediaRatingsByUserId(@Query() query: GetMediaRatingsByUserIdQueryDto, @User() user: UserDto) {
+  @Get("by-user-id/:id")
+  async getMediaRatingsByUserId(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
     return this.mediaRatingService.getMediaRatingsByUserId(
       {
-        userId: query.userId,
+        userId: params.id,
         currentUserId: user?.id,
+        limit: query.limit,
+        offset: query.offset,
       },
     )
   }
