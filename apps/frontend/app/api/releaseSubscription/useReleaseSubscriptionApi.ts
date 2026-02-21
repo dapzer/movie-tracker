@@ -56,10 +56,12 @@ export function useCreateReleaseSubscriptionApi() {
     mutationKey: [ReleaseSubscriptionApiQueryKeys.CREATE],
     mutationFn: createReleaseSubscription,
     onSuccess: async (data: ReleaseSubscriptionType) => {
-      await queryClient.setQueryData([ReleaseSubscriptionApiQueryKeys.GET_BY_MEDIA_ID, data.mediaId], data)
-      await queryClient.refetchQueries({
-        queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID],
-      })
+      await Promise.all([
+        queryClient.setQueryData([ReleaseSubscriptionApiQueryKeys.GET_BY_MEDIA_ID, data.mediaId], data),
+        queryClient.refetchQueries({
+          queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID],
+        }),
+      ])
     },
   })
 }
@@ -70,10 +72,12 @@ export function useDeleteReleaseSubscriptionApi() {
     mutationKey: [ReleaseSubscriptionApiQueryKeys.DELETE],
     mutationFn: deleteReleaseSubscription,
     onSuccess: async (data) => {
-      await queryClient.setQueryData([ReleaseSubscriptionApiQueryKeys.GET_BY_MEDIA_ID, data.mediaId], null)
-      await queryClient.refetchQueries({
-        queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID],
-      })
+      await Promise.all([
+        queryClient.setQueryData([ReleaseSubscriptionApiQueryKeys.GET_BY_MEDIA_ID, data.mediaId], null),
+        queryClient.refetchQueries({
+          queryKey: [ReleaseSubscriptionApiQueryKeys.GET_ALL_BY_USER_ID],
+        }),
+      ])
     },
   })
 }
