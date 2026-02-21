@@ -1,6 +1,5 @@
 import {
   MEDIA_LIST_COUNT_LIMIT,
-  MediaItemType,
   MediaListAccessLevelEnum,
   MediaListType,
   NotificationTypeEnum,
@@ -160,28 +159,15 @@ export class MediaListService {
       },
     })
 
-    const promises: Promise<MediaItemType>[] = []
-
-    for (const mediaItem of mediaItems.items) {
-      if (
-        body.selectedStatuses.includes(mediaItem.trackingData.currentStatus)
-      ) {
-        promises.push(
-          // TODO: optimize this by creating media items in bulk
-          this.mediaItemRepository.create({
-            mediaId: mediaItem.mediaId,
-            mediaType: mediaItem.mediaType,
-            mediaListId: newMediaList.id,
-            mediaDetailsId: mediaItem.mediaDetailsId,
-            currentStatus: body.isKeepStatus
-              ? mediaItem.trackingData.currentStatus
-              : undefined,
-          }),
-        )
-      }
-    }
-
-    await Promise.all(promises)
+    await this.mediaItemRepository.createMany(mediaItems.items.map(el => ({
+      mediaId: el.mediaId,
+      mediaType: el.mediaType,
+      mediaListId: newMediaList.id,
+      mediaDetailsId: el.mediaDetailsId,
+      currentStatus: body.isKeepStatus
+        ? el.trackingData.currentStatus
+        : undefined,
+    })))
 
     return newMediaList
   }
