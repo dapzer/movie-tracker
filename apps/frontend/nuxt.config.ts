@@ -11,6 +11,10 @@ export default defineNuxtConfig({
     },
   },
 
+  experimental: {
+    emitRouteChunkError: "automatic-immediate",
+  },
+
   devtools: { enabled: true },
 
   modules: [
