@@ -73,7 +73,7 @@ await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
     if ((res.error as Error)?.message.startsWith("404")) {
       throw createError({
-        statusCode: 404,
+        status: 404,
         message: t("ui.errors.pageNotFound"),
       })
     }

@@ -18,7 +18,7 @@ const localePath = useLocalePath()
 <template>
   <UiContainer :class="$style.wrapper">
     <UiTypography variant="title2">
-      {{ props.error?.statusCode }}
+      {{ props.error?.status }}
     </UiTypography>
     <UiTypography variant="title">
       {{ props.error?.message }}

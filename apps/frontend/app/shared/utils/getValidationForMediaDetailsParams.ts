@@ -9,14 +9,14 @@ export function getValidationForMediaDetailsParams(allowedMediaTypes: TmdbMediaT
       return el === mediaType
     })) {
       return {
-        statusCode: 404,
-        statusMessage: "Page not found",
+        status: 404,
+        message: "Page not found",
       }
     }
     if (Number.isNaN(Number(params.mediaId))) {
       return {
-        statusCode: 404,
-        statusMessage: "Page not found",
+        status: 404,
+        message: "Page not found",
       }
     }
     return true
