@@ -1,4 +1,3 @@
-import { useRoute } from "#app"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed } from "vue"
 import { useLogoutApi } from "~/api/auth/useAuthApi"
@@ -10,8 +9,6 @@ import { useGetUserProfileApi } from "~/api/user/useUserApi"
 export function useAuth() {
   const getUserProfileApi = useGetUserProfileApi()
   const logoutApi = useLogoutApi()
-
-  const route = useRoute()
 
   const isAuthorized = computed(() => {
     return !!getUserProfileApi.data.value
