@@ -73,7 +73,7 @@ export function useCreateMediaRatingApi() {
     },
     onSuccess: async (data: MediaRatingType) => {
       await Promise.all([
-        queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data),
+        queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId], data),
         queryClient.refetchQueries({
           queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
         }),
@@ -91,7 +91,7 @@ export function useUpdateMediaRatingApi() {
     },
     onSuccess: async (data: MediaRatingType) => {
       await Promise.all([
-        queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType], data),
+        queryClient.setQueryData([MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId], data),
         queryClient.refetchQueries({
           queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
         }),
@@ -108,7 +108,7 @@ export function useDeleteMediaRatingApi() {
     onSuccess: async (data) => {
       await Promise.all([
         queryClient.resetQueries({
-          queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId, data.mediaType],
+          queryKey: [MediaRatingApiQueryKeys.GET_BY_MEDA_ID, data.mediaId],
         }),
         queryClient.refetchQueries({
           queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID],
