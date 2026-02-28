@@ -6,6 +6,7 @@ import type {
   DeleteMediaRatingArgs,
   GetMediaRatingByMediaIdArgs,
   GetMediaRatingByUserIdArgs,
+  GetRecentlyCreatedMediaRatingsArgs,
   UpdateMediaRatingArgs,
 } from "~/api/mediaRating/mediaRatingApiTypes"
 import { useRequestHeaders } from "#app"
@@ -16,6 +17,7 @@ import {
   deleteMediaRating,
   getMediaRatingByMediaId,
   getMediaRatingByUserId,
+  getMediaRatingsGetRecentlyCreated,
   updateMediaRating,
 } from "~/api/mediaRating/mediaRatingApi"
 import { MediaRatingApiQueryKeys } from "~/api/mediaRating/mediaRatingApiQueryKeys"
@@ -43,6 +45,18 @@ export function useGetMediaRatingByUserIdApi(args: Ref<GetMediaRatingByUserIdArg
     queryFn: () => {
       const headers = useRequestHeaders(["cookie"])
       return getMediaRatingByUserId(args.value, { headers })
+    },
+    retry: false,
+    retryOnMount: false,
+    ...options,
+  })
+}
+
+export function useMediaRatingsGetRecentlyCreatedApi(args: Ref<GetRecentlyCreatedMediaRatingsArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [MediaRatingApiQueryKeys.GET_RECENTLY_CREATED, args],
+    queryFn: () => {
+      return getMediaRatingsGetRecentlyCreated(args.value)
     },
     retry: false,
     retryOnMount: false,

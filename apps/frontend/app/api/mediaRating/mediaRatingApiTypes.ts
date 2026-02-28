@@ -8,6 +8,8 @@ export type GetMediaRatingByUserIdArgs = {
   userId: string
 } & PaginationType
 
+export type GetRecentlyCreatedMediaRatingsArgs = PaginationType
+
 export type CreateMediaRatingBody = MediaRatingCreateBodyType
 
 export interface UpdateMediaRatingArgs {

@@ -1,9 +1,11 @@
+import { UserPublicType } from "../user"
 import { MediaDetailsType } from "./mediaDetails"
 import { MediaTypeEnum } from "./mediaItem"
 
 export interface MediaRatingType {
   id: string
   userId: string
+  user?: UserPublicType
   mediaId: number
   mediaType: MediaTypeEnum
   rating: number

@@ -9,7 +9,7 @@ import { formatDate } from "~/shared/utils/formatDate"
 import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
-interface MediaRatingCardProps {
+export interface MediaRatingCardProps {
   mediaRating: MediaRatingType
   user: UserPublicType
   width?: number
@@ -47,12 +47,16 @@ const details = computed(() => {
         :value="props.mediaRating?.rating"
       >
         <template #beforeContent>
-          <UiAvatar
-            :size="16"
-            :src="props.user?.image"
-            :placeholder-id="props.user?.id"
-            :alt="`${props.user?.name} avatar`"
-          />
+          <NuxtLink
+            :to="localePath(`/profile/${props.user.id}`)"
+          >
+            <UiAvatar
+              :size="16"
+              :src="props.user?.image"
+              :placeholder-id="props.user?.id"
+              :alt="`${props.user?.name} avatar`"
+            />
+          </NuxtLink>
         </template>
       </UiRating>
     </template>

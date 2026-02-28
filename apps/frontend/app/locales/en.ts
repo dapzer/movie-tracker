@@ -1107,6 +1107,7 @@ export default {
   feed: {
     popularMovies: "Popular movies",
     popularTv: "Popular TV shows",
+    recentlyRated: "Recently Rated",
     futureReleases: "Future releases",
     upcomingMovies: "Upcoming movies",
     latestReleases: "Latest releases",

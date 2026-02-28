@@ -5,6 +5,7 @@ import type {
   DeleteMediaRatingArgs,
   GetMediaRatingByMediaIdArgs,
   GetMediaRatingByUserIdArgs,
+  GetRecentlyCreatedMediaRatingsArgs,
   UpdateMediaRatingArgs,
 } from "~/api/mediaRating/mediaRatingApiTypes"
 import { api } from "~/api/instance"
@@ -21,6 +22,16 @@ export function getMediaRatingByUserId(args: GetMediaRatingByUserIdArgs, options
     params: {
       offset: args.offset,
       limit: args.limit,
+    },
+  })
+}
+
+export function getMediaRatingsGetRecentlyCreated(args: GetRecentlyCreatedMediaRatingsArgs, options?: Omit<RequestOptions, "params">) {
+  return api.get<MediaRatingPaginatedType>(`media-rating/recently-created`, {
+    ...options,
+    params: {
+      limit: args.limit,
+      offset: args.offset,
     },
   })
 }

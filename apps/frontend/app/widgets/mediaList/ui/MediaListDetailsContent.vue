@@ -21,6 +21,7 @@ import { UiInput } from "~/shared/ui/UiInput"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
+import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 
 interface MediaListDetailsProps {
   mediaList: MediaListType
@@ -61,8 +62,10 @@ const mediaItemsQueryArgs = computed(() => {
     status: activeTab.value === "all" ? undefined : activeTab.value as MediaItemStatusNameEnum,
     sortBy: sortConfig.value.sortBy,
     sortDirection: sortConfig.value.sortDirection,
-    limit: 20,
-    offset: (currentPage.value - 1) * 20,
+    ...getPaginationParams({
+      itemsPerPage: 20,
+      page: currentPage.value,
+    }),
   }
 })
 

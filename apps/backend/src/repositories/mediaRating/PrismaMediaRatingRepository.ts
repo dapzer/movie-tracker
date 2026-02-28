@@ -1,21 +1,54 @@
-import { MediaDetails, MediaRating } from "@movie-tracker/database"
+import { MediaDetails, MediaRating, User } from "@movie-tracker/database"
 import {
   MediaDetailsInfoType,
   MediaRatingType,
   MediaTypeEnum,
+  SignUpMethodEnum,
   UserMediaRatingsAccessLevelEnum,
+  UserPublicType,
+  UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { MediaRatingRepositoryInterface } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { PrismaService } from "@/services/prisma/prisma.service"
+import { getPublicUser } from "@/shared/utils/getPublicUser"
 
 @Injectable()
 export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterface {
-  private convertMediaRatingToInterface(data: MediaRating & {
+  private convertUserToInterface(user: User | null): UserPublicType | null {
+    if (!user) {
+      return null
+    }
+
+    return getPublicUser({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      signUpMethod: SignUpMethodEnum[user.signUpMethod],
+      isEmailVerified: user.isEmailVerified,
+      password: user.password,
+      roles: user.roles?.map(el => UserRoleEnum[el]),
+      mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    })
+  }
+
+  private convertMediaRatingToInterface = (data: MediaRating & {
     mediaDetails?: MediaDetails
-  }): MediaRatingType {
-    const { seasons: _, ...enMediaDetails } = data.mediaDetails.en as unknown as MediaDetailsInfoType
-    const { seasons: __, ...ruMediaDetails } = data.mediaDetails.ru as unknown as MediaDetailsInfoType
+    user?: User
+  }): MediaRatingType => {
+    let enMediaDetails: Omit<MediaDetailsInfoType, "seasons"> | undefined
+    let ruMediaDetails: Omit<MediaDetailsInfoType, "seasons"> | undefined
+    if (data.mediaDetails?.en) {
+      const { seasons: _, ...rest } = data.mediaDetails.en as unknown as MediaDetailsInfoType
+      enMediaDetails = rest
+    }
+    if (data.mediaDetails?.ru) {
+      const { seasons: _, ...rest } = data.mediaDetails.ru as unknown as MediaDetailsInfoType
+      ruMediaDetails = rest
+    }
 
     return {
       id: data.id,
@@ -23,6 +56,7 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       mediaDetailsId: data.mediaDetailsId,
+      user: this.convertUserToInterface(data.user),
       mediaDetails: data.mediaDetails
         ? {
             id: data.mediaDetails.id,
@@ -62,6 +96,7 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
         },
         include: {
           mediaDetails: true,
+          user: true,
         },
         take: args.limit,
         skip: args.offset,
