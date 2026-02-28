@@ -7,16 +7,17 @@ export interface MediaRatingType {
   mediaId: number
   mediaType: MediaTypeEnum
   rating: number
+  mediaDetailsId: string
   mediaDetails?: MediaDetailsType
   createdAt: Date
   updatedAt: Date
 }
 
-export type MediaRatingCreateBodyType = Pick<MediaRatingType, "mediaId" | "mediaType" | "rating">
+export type MediaRatingCreateBodyType = Pick<MediaRatingType, "mediaId" | "mediaType" | "rating" | "mediaDetailsId">
 
 export type MediaRatingUpdateBodyType = Pick<MediaRatingType, "rating">
 
-export interface MediaRatingByUserIdResponseType {
+export interface MediaRatingPaginatedType {
   items: MediaRatingType[]
   totalCount: number
 }

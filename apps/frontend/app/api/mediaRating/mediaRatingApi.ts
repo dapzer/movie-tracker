@@ -1,4 +1,4 @@
-import type { MediaRatingByUserIdResponseType, MediaRatingType } from "@movie-tracker/types"
+import type { MediaRatingPaginatedType, MediaRatingType } from "@movie-tracker/types"
 import type { RequestOptions } from "@movie-tracker/utils"
 import type {
   CreateMediaRatingBody,
@@ -16,7 +16,7 @@ export function getMediaRatingByMediaId(args: GetMediaRatingByMediaIdArgs, optio
 }
 
 export function getMediaRatingByUserId(args: GetMediaRatingByUserIdArgs, options?: Omit<RequestOptions, "params">) {
-  return api.get<MediaRatingByUserIdResponseType>(`media-rating/by-user-id/${args.userId}`, {
+  return api.get<MediaRatingPaginatedType>(`media-rating/by-user-id/${args.userId}`, {
     ...options,
     params: {
       offset: args.offset,
@@ -25,7 +25,7 @@ export function getMediaRatingByUserId(args: GetMediaRatingByUserIdArgs, options
   })
 }
 
-export function createMediaRating(body: CreateMediaRatingBody, options?: RequestOptions) {
+export function createMediaRating(body: Omit<CreateMediaRatingBody, "mediaDetailsId">, options?: RequestOptions) {
   return api.post<MediaRatingType>("media-rating", body, options)
 }
 

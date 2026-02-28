@@ -1,4 +1,4 @@
-import { MediaRatingByUserIdResponseType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
+import { MediaRatingPaginatedType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import {
   MediaDetailsRepositoryInterface,
@@ -46,10 +46,14 @@ export class MediaRatingService {
     return mediaRating
   }
 
+  async getRecentlyCreated(args: PaginationDto): Promise<MediaRatingPaginatedType> {
+    return this.mediaRatingRepository.getRecentlyCreated(args)
+  }
+
   async getByUserId(args: {
     userId: string
     currentUserId?: string
-  } & PaginationDto): Promise<MediaRatingByUserIdResponseType> {
+  } & PaginationDto): Promise<MediaRatingPaginatedType> {
     const user = await this.userRepository.getById(args.userId)
 
     if (!user) {
@@ -65,16 +69,9 @@ export class MediaRatingService {
       limit: args.limit,
       offset: args.offset,
     })
-    const mediaIds = mediaRatings.items.map(el => el.mediaId)
-    const mediaDetails = await this.mediaDetailsRepository.getByMediaIds({
-      mediaIds,
-    })
 
     return {
-      items: mediaRatings.items.map(el => ({
-        ...el,
-        mediaDetails: mediaDetails.find(details => details.mediaId === el.mediaId) || undefined,
-      })),
+      items: mediaRatings.items,
       totalCount: mediaRatings.totalCount,
     }
   }
@@ -83,7 +80,7 @@ export class MediaRatingService {
     userId: string
     body: CreateMediaRatingDto
   }) {
-    await this.mediaDetailsService.createOrUpdate(
+    const mediaDetails = await this.mediaDetailsService.createOrUpdate(
       {
         mediaId: args.body.mediaId,
         mediaType: args.body.mediaType,
@@ -92,8 +89,16 @@ export class MediaRatingService {
       },
     )
 
+    if (!mediaDetails) {
+      throw new HttpException(
+        `Media details with mediaId '${args.body.mediaId}' and mediaType '${args.body.mediaType}' doesn't exist and couldn't be created.`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      )
+    }
+
     return this.mediaRatingRepository.create({
       userId: args.userId,
+      mediaDetailsId: mediaDetails.id,
       ...args.body,
     })
   }

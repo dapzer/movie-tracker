@@ -54,7 +54,7 @@ export function useCreateMediaRatingApi() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationKey: [MediaRatingApiQueryKeys.CREATE],
-    mutationFn: (body: CreateMediaRatingBody) => {
+    mutationFn: (body: Omit<CreateMediaRatingBody, "mediaDetailsId">) => {
       return createMediaRating(body)
     },
     onSuccess: async (data: MediaRatingType) => {
