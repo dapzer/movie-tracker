@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import type { GetRecentlyCreatedMediaRatingsArgs } from "~/api/mediaRating/mediaRatingApiTypes"
 import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
+import { useMediaRatingsGetRecentlyCreatedApi } from "~/api/mediaRating/useMediaRatingApi"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
+import { MediaRatingCardWithHoverMenu } from "~/features/mediaRatingCardWithHoverMenu"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/constants/dates"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
@@ -62,11 +65,19 @@ const tvAiringTodayQueries = computed<TmdbDiscoverTvQueriesType>(() => {
   }
 })
 
+const mediaRatingQueries = computed<GetRecentlyCreatedMediaRatingsArgs>(() => {
+  return {
+    limit: 20,
+    offset: 0,
+  }
+})
+
 const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(movieQueries)
 const getTmdbTvPopularListApi = useGetTmdbPopularListApi(tvQueries)
 const getTmdbUpcomingMoviesApi = useGetTmdbDiscoverMovieApi(upcomingMoviesQueries)
 const getTmdbTvOnTheAirApi = useGetTmdbDiscoverTvApi(tvOnTheAirQueries)
 const getTmdbTvAiringTodayApi = useGetTmdbDiscoverTvApi(tvAiringTodayQueries)
+const getMediaRatingsGetRecentlyCreatedApi = useMediaRatingsGetRecentlyCreatedApi(mediaRatingQueries)
 
 await Promise.all([
   getTmdbMoviePopularListApi.suspense(),
@@ -74,6 +85,7 @@ await Promise.all([
   getTmdbUpcomingMoviesApi.suspense(),
   getTmdbTvOnTheAirApi.suspense(),
   getTmdbTvAiringTodayApi.suspense(),
+  getMediaRatingsGetRecentlyCreatedApi.suspense(),
 ])
 </script>
 
@@ -110,6 +122,28 @@ await Promise.all([
           full-height
           :width="195"
           :movie="{ ...item, media_type: MediaTypeEnum.TV }"
+        />
+      </template>
+
+      <template #skeleton>
+        <UiMediaCardSkeleton :width="195" />
+      </template>
+    </FeedItem>
+
+    <FeedItem
+      :title="$t('feed.recentlyRated')"
+      :see-more-url="localePath('/recently-rated')"
+      :data="getMediaRatingsGetRecentlyCreatedApi.data.value?.items"
+      :is-loading="getMediaRatingsGetRecentlyCreatedApi.isPending.value"
+      :slide-width="195"
+    >
+      <template #slide="{ item }">
+        <MediaRatingCardWithHoverMenu
+          v-if="item.user"
+          :media-rating="item"
+          :user="item.user"
+          full-height
+          :width="195"
         />
       </template>
 

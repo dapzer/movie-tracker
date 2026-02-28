@@ -1,7 +1,7 @@
 import type { PaginationType } from "@movie-tracker/types"
 import {
-  MediaRatingByUserIdResponseType,
   MediaRatingCreateBodyType,
+  MediaRatingPaginatedType,
   MediaRatingType,
   MediaRatingUpdateBodyType,
 } from "@movie-tracker/types"
@@ -10,6 +10,8 @@ export const MediaRatingRepositorySymbol = Symbol("MediaRatingRepository")
 
 export interface MediaRatingRepositoryInterface {
   getAll: () => Promise<MediaRatingType[]>
+
+  getRecentlyCreated: (args: PaginationType) => Promise<MediaRatingPaginatedType>
 
   getById: (args: {
     id: string
@@ -22,7 +24,7 @@ export interface MediaRatingRepositoryInterface {
 
   getByUserId: (args: {
     userId: string
-  } & PaginationType) => Promise<MediaRatingByUserIdResponseType>
+  } & PaginationType) => Promise<MediaRatingPaginatedType>
 
   getByUserIdAndMediaIds: (args: {
     userId: string

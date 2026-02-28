@@ -5,8 +5,8 @@ import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { getMovieDirectors } from "@movie-tracker/utils"
 import { useGetTmdbMovieCreditsApi, useGetTmdbMovieDetailsApi } from "~/api/tmdb/useTmdbApi"
-import MovieCardHoverMenuHeader from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuHeader.vue"
-import MovieCardHoverMenuSkeleton from "~/features/movieCardWithHoverMenu/ui/MovieCardHoverMenuSkeleton.vue"
+import MovieHoverMenuHeader from "~/entities/movieHoverMenu/ui/MovieHoverMenuHeader.vue"
+import MovieHoverMenuSkeleton from "~/entities/movieHoverMenu/ui/MovieHoverMenuSkeleton.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -40,12 +40,12 @@ const producers = computed(() => {
 
 <template>
   <div :class="$style.wrapper">
-    <MovieCardHoverMenuSkeleton
+    <MovieHoverMenuSkeleton
       v-if="tmdbGetMovieCreditsApi.isLoading.value || tmdbGetMovieDetailsApi.isLoading.value"
     />
 
     <template v-else>
-      <MovieCardHoverMenuHeader
+      <MovieHoverMenuHeader
         v-if="tmdbGetMovieDetailsApi.data.value"
         :movie="tmdbGetMovieDetailsApi.data.value"
         :media-type="props.mediaType"

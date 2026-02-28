@@ -1,7 +1,7 @@
 import { MediaRatingCreateBodyType, MediaTypeEnum } from "@movie-tracker/types"
 import { IsEnum, IsNumber, Max, Min } from "class-validator"
 
-export class CreateMediaRatingDto implements MediaRatingCreateBodyType {
+export class CreateMediaRatingDto implements Omit<MediaRatingCreateBodyType, "mediaDetailsId"> {
   @IsNumber()
   mediaId: number
 

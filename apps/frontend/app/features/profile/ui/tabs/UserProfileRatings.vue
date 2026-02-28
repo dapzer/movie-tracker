@@ -76,7 +76,6 @@ const loadingSkeletonCount = computed(() => {
           :media-rating="movie"
           :user="props.user"
           full-height
-          hide-tracking-menu
         />
       </template>
       <template v-else>

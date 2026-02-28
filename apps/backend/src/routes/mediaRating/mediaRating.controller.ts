@@ -13,6 +13,14 @@ import { UuidDto } from "@/shared/dto/uuid.dto"
 export class MediaRatingController {
   constructor(private readonly mediaRatingService: MediaRatingService) {}
 
+  @Get("recently-created")
+  async getRecentlyCreatedMediaRatings(@Query() query: PaginationDto) {
+    return this.mediaRatingService.getRecentlyCreated({
+      limit: query.limit,
+      offset: query.offset,
+    })
+  }
+
   @Get("by-media/:mediaId")
   @UseGuards(AuthGuard)
   async getMediaRatingByCurrentUserId(
