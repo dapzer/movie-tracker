@@ -18,6 +18,7 @@ const { isAuthorized } = useAuth()
       loading="eager"
       preload
       fetchpriority="high"
+      alt="Hero background"
     />
     <UiContainer :class="$style.body">
       <UiTypography

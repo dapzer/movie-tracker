@@ -50,6 +50,7 @@ const imagesCount = computed(() => {
             v-if="number <= props.imagesSrc?.length"
             :src="props.imagesSrc?.[number - 1] || '/defaultMoviePoster.svg'"
             fallback-src="/defaultMoviePoster.svg"
+            :alt="`List item image ${number}`"
           />
         </div>
       </div>
