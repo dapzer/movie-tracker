@@ -29,6 +29,7 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
           :src="props.previewSrc"
           height="157"
           width="279"
+          :alt="`${props.title} poster`"
         />
 
         <div :class="$style.previewOverlay">

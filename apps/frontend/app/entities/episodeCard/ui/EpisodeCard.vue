@@ -31,6 +31,7 @@ const episodeTitle = computed(() => `S${props.season}.E${props.episode} ∙ ${pr
         :src="props.imageSrc"
         height="157"
         width="250"
+        :alt="`${props.title} poster`"
       />
     </template>
 

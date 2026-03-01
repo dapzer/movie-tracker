@@ -46,6 +46,7 @@ const emits = defineEmits<{
         :to="props.seeMoreUrl"
         variant="label"
         schema="link"
+        :aria-label="props.title"
         @click="emits('onClickSeeMore')"
       >
         {{ props.seeMoreText ?? $t("ui.seeMore") }}

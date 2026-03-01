@@ -21,6 +21,7 @@ const props = defineProps<PersonWithRoleProps>()
       :class="$style.image"
       :src="props.imageSrc"
       fallback-src="/avatar.svg"
+      :alt="`${props.name} avatar`"
     />
     <div :class="$style.info">
       <UiTypography variant="cardTitle">

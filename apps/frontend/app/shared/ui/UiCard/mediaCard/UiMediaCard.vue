@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
         :fallback-src="props.fallbackImageSrc"
         height="277"
         width="179"
+        :alt="`${props.title} poster`"
       />
     </template>
 
