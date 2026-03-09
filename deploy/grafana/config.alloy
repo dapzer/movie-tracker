@@ -7,7 +7,7 @@ discovery.relabel "backend_only" {
 
   rule {
     action        = "keep"
-    source_labels = ["__meta_docker_swarm_service_name"]
+    source_labels = ["__meta_docker_container_label_com_docker_swarm_service_name"]
     regex         = "movie-tracker_backend"
   }
 }
