@@ -7,8 +7,8 @@ loki.source.docker "app_logs" {
   targets = discovery.docker.local.targets
 
   labels = {
-    app     = "movie-tracker"
-    service = "movie-tracker_backend"
+    app     = "movie-tracker",
+    service = "movie-tracker_backend",
   }
 
   forward_to = [loki.write.grafana_loki.receiver]
