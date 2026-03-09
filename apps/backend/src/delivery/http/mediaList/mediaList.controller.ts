@@ -1,0 +1,101 @@
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { isCuid } from "@paralleldrive/cuid2"
+import { UserDto } from "@/services/auth/dto/user.dto"
+import { AuthGuard } from "@/services/auth/guards/auth.guard"
+import { CreateMediaListDto } from "@/services/mediaList/dto/createMediaList.dto"
+import { CreateMediaListCloneDto } from "@/services/mediaList/dto/createMediaListClone.dto"
+import { GetAllMediaListsDto } from "@/services/mediaList/dto/getAllMediaLists.dto"
+import { GetMedialListByIdDto } from "@/services/mediaList/dto/getMedialListById.dto"
+import { UpdateMediaListDto } from "@/services/mediaList/dto/updateMediaList.dto"
+import { MediaListService } from "@/services/mediaList/mediaList.service"
+import { User } from "@/services/user/users.decorator"
+import { UuidDto } from "@/shared/dto/uuid.dto"
+import { UnauthorizedError } from "@/shared/errors/core"
+
+@Controller("media-list")
+export class MediaListController {
+  constructor(private readonly mediaListService: MediaListService) {}
+
+  @Get()
+  async getMedialListsByUserId(
+    @Query() queries: GetAllMediaListsDto,
+    @User() user: UserDto,
+  ) {
+    if (queries.userId) {
+      return this.mediaListService.getByUserId(
+        queries.userId,
+        user?.id,
+        true,
+      )
+    }
+
+    if (!user) {
+      throw new UnauthorizedError()
+    }
+
+    return this.mediaListService.getByUserId(user?.id, user?.id, false)
+  }
+
+  @Get(":id")
+  async getMedialListById(
+    @Param() params: GetMedialListByIdDto,
+    @User() user: UserDto,
+  ) {
+    return this.mediaListService.getById(
+      params.id,
+      user?.id,
+      isCuid(params.id),
+    )
+  }
+
+  @Post()
+  @UseGuards(AuthGuard)
+  async createMediaList(
+    @User() user: UserDto,
+    @Body() body: CreateMediaListDto,
+  ) {
+    return this.mediaListService.create(user?.id, body)
+  }
+
+  @Post(":id/clone")
+  @UseGuards(AuthGuard)
+  async createMediaListClone(
+    @Param() params: UuidDto,
+    @User() user: UserDto,
+    @Body() body: CreateMediaListCloneDto,
+  ) {
+    return this.mediaListService.createClone(
+      params.id,
+      user?.id,
+      body,
+    )
+  }
+
+  @Post(":id/like")
+  @UseGuards(AuthGuard)
+  async createMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.mediaListService.createLike(params.id, user?.id)
+  }
+
+  @Delete(":id/like")
+  @UseGuards(AuthGuard)
+  async deleteMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.mediaListService.deleteLike(params.id, user?.id)
+  }
+
+  @Patch(":id")
+  @UseGuards(AuthGuard)
+  async updateMediaList(
+    @Param() params: UuidDto,
+    @Body() body: UpdateMediaListDto,
+    @User() user: UserDto,
+  ) {
+    return this.mediaListService.update(params.id, body, user?.id)
+  }
+
+  @Delete(":id")
+  @UseGuards(AuthGuard)
+  async deleteMediaList(@Param() params: UuidDto, @User() user: UserDto) {
+    return this.mediaListService.delete(params.id, user?.id)
+  }
+}

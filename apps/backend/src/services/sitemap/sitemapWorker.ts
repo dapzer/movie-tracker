@@ -1,0 +1,18 @@
+import { parentPort } from "node:worker_threads"
+import { ConfigService } from "@nestjs/config"
+import { GenerateDetailsSitemapService } from "@/services/sitemap/generateDetailsSitemap/generateDetailsSitemap.service"
+import "dotenv/config"
+
+const configService = new ConfigService()
+let generateDetailsSitemapService = new GenerateDetailsSitemapService(
+  configService,
+)
+
+parentPort.on("message", async (message) => {
+  if (message === "generate") {
+    await generateDetailsSitemapService.generate()
+    generateDetailsSitemapService = new GenerateDetailsSitemapService(
+      configService,
+    )
+  }
+})
