@@ -60,14 +60,60 @@ services:
         constraints:
           - node.role != manager
           - node.labels.databases != true
+  loki:
+    image: grafana/loki:3.6.7
+    restart: unless-stopped
+    networks:
+      - grafana
+    expose:
+      - 3100
+    command: -config.file=/etc/loki/local-config.yaml
+    configs:
+      - source: loki_config
+        target: /etc/loki/local-config.yaml
+    volumes:
+      - loki_data:/loki
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+  alloy:
+    image: grafana/alloy:v1.14.0
+    restart: unless-stopped
+    networks:
+      - grafana
+      - movie-tracker-metrics
+    configs:
+      - source: alloy_config
+        target: /etc/alloy/config.alloy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - alloy_data:/var/lib/alloy/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: --config.file=/etc/alloy/config.alloy --storage.path=/var/lib/alloy/data
+    depends_on:
+      - loki
+    deploy:
+      mode: global
+      placement:
+          constraints:
+          - node.role == manager
 
 configs:
   prometheus_config:
     file: ./prometheus.yml
+  alloy_config:
+    file: ./config.alloy
+  loki_config:
+    file: ./loki.yaml
 
 volumes:
   grafana-storage:
   prometheus_data:
+  loki_data:
+  alloy_data:
 
 networks:
   grafana:

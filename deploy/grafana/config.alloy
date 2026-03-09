@@ -1,0 +1,21 @@
+discovery.docker "local" {
+  host = "unix:///var/run/docker.sock"
+}
+
+loki.source.docker "app_logs" {
+  host    = "unix:///var/run/docker.sock"
+  targets = discovery.docker.local.targets
+
+  labels = {
+    app     = "movie-tracker"
+    service = "movie-tracker_backend"
+  }
+
+  forward_to = [loki.write.grafana_loki.receiver]
+}
+
+loki.write "grafana_loki" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
