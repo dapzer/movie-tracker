@@ -41,6 +41,7 @@
     "migrate": "dotenv -e ../../.env drizzle-kit migrate"
   },
   "dependencies": {
+    "@movie-tracker/types": "workspace:*",
     "@prisma/client": "6.18.0",
     "drizzle-orm": "0.45.1",
     "pg": "8.19.0"
