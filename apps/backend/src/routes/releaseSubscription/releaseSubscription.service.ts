@@ -1,5 +1,5 @@
 import { ReleaseSubscriptionsResponseType, ReleaseSubscriptionType } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { Inject, Injectable } from "@nestjs/common"
 import {
   ReleaseSubscriptionRepositoryInterface,
   ReleaseSubscriptionRepositorySymbol,
@@ -9,6 +9,10 @@ import { CreateReleaseSubscriptionDto } from "@/routes/releaseSubscription/dto/c
 import {
   GetReleaseSubscriptionsByUserIdQueryDto,
 } from "@/routes/releaseSubscription/dto/getReleaseSubscriptionsByUserIdQuery.dto"
+import {
+  ReleaseSubscriptionNotFoundError,
+  ReleaseSubscriptionPermissionDeniedError,
+} from "@/shared/errors/releaseSubscription"
 
 @Injectable()
 export class ReleaseSubscriptionService {
@@ -45,11 +49,11 @@ export class ReleaseSubscriptionService {
     const releaseSubscription = await this.releaseSubscriptionRepository.getById({ id: args.id })
 
     if (!releaseSubscription) {
-      throw new HttpException("Release subscription not found", HttpStatus.NOT_FOUND)
+      throw new ReleaseSubscriptionNotFoundError({ subscriptionId: args.id })
     }
 
     if (releaseSubscription.userId !== args.userId) {
-      throw new HttpException("Permission denied", HttpStatus.FORBIDDEN)
+      throw new ReleaseSubscriptionPermissionDeniedError({ userId: args.userId, subscriptionId: args.id })
     }
 
     return this.releaseSubscriptionRepository.delete({ id: args.id })

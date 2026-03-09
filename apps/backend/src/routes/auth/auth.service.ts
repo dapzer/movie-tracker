@@ -4,7 +4,7 @@ import ConfirmationEmail from "@movie-tracker/email-templates/dist/emails/confir
 import PasswordRecoveryEmail from "@movie-tracker/email-templates/dist/emails/password-recovery-email"
 import { SignUpMethodEnum, UserType } from "@movie-tracker/types"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
-import { HttpException, HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
+import { Inject, Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { render } from "@react-email/render"
 import * as bcrypt from "bcrypt"
@@ -20,6 +20,16 @@ import { SignInDto } from "@/routes/auth/dto/signIn.dto"
 import { SignUpDto } from "@/routes/auth/dto/signUp.dto"
 import { ProvidersService } from "@/routes/auth/providers/providers.service"
 import { MailService } from "@/services/mail/mail.service"
+import {
+  EmailAlreadyConfirmedError,
+  EmailAlreadyInUseError,
+  FailedToSendEmailError,
+  InvalidCredentialsError,
+  InvalidTokenError,
+  NoTokenProvidedError,
+  UserAlreadyExistsError,
+  UserNotFoundError,
+} from "@/shared/errors/auth"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 
@@ -200,7 +210,7 @@ export class AuthService {
     const user = await this.usersRepository.getByEmail(body.email)
 
     if (user) {
-      throw new HttpException("User already exists", HttpStatus.CONFLICT)
+      throw new UserAlreadyExistsError({ email: body.email })
     }
 
     const passwordHash = await bcrypt.hash(body.password, this.saltRounds)
@@ -229,26 +239,17 @@ export class AuthService {
     const user = await this.usersRepository.getByEmail(body.email)
 
     if (!user) {
-      throw new HttpException(
-        "Email or password not valid",
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new InvalidCredentialsError()
     }
 
     if (!user.password) {
-      throw new HttpException(
-        "Email or password not valid",
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new InvalidCredentialsError()
     }
 
     const passwordMatch = await bcrypt.compare(body.password, user.password)
 
     if (!passwordMatch) {
-      throw new HttpException(
-        "Email or password not valid",
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new InvalidCredentialsError()
     }
 
     return user
@@ -258,11 +259,11 @@ export class AuthService {
     const user = await this.usersRepository.getByEmail(email)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ email })
     }
 
     if (user.isEmailVerified) {
-      throw new HttpException("Email already confirmed", HttpStatus.BAD_REQUEST)
+      throw new EmailAlreadyConfirmedError({ email })
     }
     const confirmationUrl = await this.getEmailConfirmationLink(user.email)
 
@@ -280,7 +281,7 @@ export class AuthService {
       })
     }
     catch {
-      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new FailedToSendEmailError({ email })
     }
   }
 
@@ -288,17 +289,17 @@ export class AuthService {
     const user = await this.usersRepository.getById(id)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ userId: id })
     }
 
     const userByEmail = await this.usersRepository.getByEmail(email)
 
     if (userByEmail || user.email === email) {
-      throw new HttpException("Email already in use", HttpStatus.BAD_REQUEST)
+      throw new EmailAlreadyInUseError({ email })
     }
 
     if (user.isEmailVerified) {
-      throw new HttpException("Email already confirmed", HttpStatus.BAD_REQUEST)
+      throw new EmailAlreadyConfirmedError({ email: user.email })
     }
 
     const token = crypto.randomBytes(32).toString("hex")
@@ -327,7 +328,7 @@ export class AuthService {
       })
     }
     catch {
-      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new FailedToSendEmailError({ email })
     }
   }
 
@@ -335,13 +336,13 @@ export class AuthService {
     const recordKey = await this.getCacheRecordKeyByCryptedToken("changeEmail", token)
 
     if (!recordKey) {
-      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
+      throw new InvalidTokenError()
     }
 
     const { userId, email } = await this.cacheManager.get<{ userId: string, email: string }>(recordKey)
 
     if (!userId || !email) {
-      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
+      throw new InvalidTokenError()
     }
 
     const user = await this.usersRepository.update({
@@ -361,17 +362,17 @@ export class AuthService {
     const user = await this.usersRepository.getByEmail(email)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ email })
     }
 
     if (user.isEmailVerified) {
-      throw new HttpException("Email already confirmed", HttpStatus.BAD_REQUEST)
+      throw new EmailAlreadyConfirmedError({ email })
     }
 
     const isTokenValid = await this.checkEmailConfirmation(email, token)
 
     if (!isTokenValid) {
-      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
+      throw new InvalidTokenError()
     }
 
     await this.usersRepository.update({
@@ -386,7 +387,7 @@ export class AuthService {
     const user = await this.usersRepository.getByEmail(email)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ email })
     }
 
     const token = crypto.randomBytes(32).toString("hex")
@@ -412,13 +413,13 @@ export class AuthService {
       })
     }
     catch {
-      throw new HttpException("Failed to send an email", HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new FailedToSendEmailError({ email })
     }
   }
 
   async resetPasswordByToken(token: string, password: string) {
     if (!token) {
-      throw new HttpException("No token provided", HttpStatus.BAD_REQUEST)
+      throw new NoTokenProvidedError()
     }
 
     const recordKey = await this.getCacheRecordKeyByCryptedToken(
@@ -427,19 +428,19 @@ export class AuthService {
     )
 
     if (!recordKey) {
-      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
+      throw new InvalidTokenError()
     }
 
-    const userId = await this.cacheManager.get(recordKey)
+    const userId = await this.cacheManager.get<string | undefined>(recordKey)
 
     if (!userId) {
-      throw new HttpException("Invalid token", HttpStatus.BAD_REQUEST)
+      throw new InvalidTokenError()
     }
 
-    const user = await this.usersRepository.getById(userId as string)
+    const user = await this.usersRepository.getById(userId)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ userId })
     }
 
     const passwordHash = await bcrypt.hash(password, this.saltRounds)

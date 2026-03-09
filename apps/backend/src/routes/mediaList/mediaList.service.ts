@@ -4,7 +4,7 @@ import {
   MediaListType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
+import { Inject, Injectable, Logger } from "@nestjs/common"
 import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
@@ -17,6 +17,14 @@ import { CreateMediaListDto } from "@/routes/mediaList/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/routes/mediaList/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
 import { NotificationService } from "@/routes/notification/notification.service"
+import {
+  MediaListLimitReachedError,
+  MediaListNotFoundError,
+  MediaListSelfDislikeError,
+  MediaListSelfLikeError,
+  MediaListUnauthorizedError,
+  SystemMediaListDeletionError,
+} from "@/shared/errors/mediaList"
 
 @Injectable()
 export class MediaListService {
@@ -40,10 +48,7 @@ export class MediaListService {
       = mediaListBase ?? (await this.mediaListRepository.getById({ id }))
 
     if (!mediaList) {
-      throw new HttpException(
-        `Media list with id '${id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaListNotFoundError({ mediaListId: id })
     }
 
     return mediaList.userId === currentUserId
@@ -53,10 +58,7 @@ export class MediaListService {
     const mediaListsCount = await this.mediaListRepository.getCountByUserId(userId)
 
     if (mediaListsCount >= MEDIA_LIST_COUNT_LIMIT) {
-      throw new HttpException(
-        `You have reached the limit of ${MEDIA_LIST_COUNT_LIMIT} media lists.`,
-        HttpStatus.FORBIDDEN,
-      )
+      throw new MediaListLimitReachedError({ userId, limit: MEDIA_LIST_COUNT_LIMIT })
     }
 
     return false
@@ -76,7 +78,7 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, currentUserId, mediaList)
 
     if (!isListOwner && (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE)) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaListUnauthorizedError({ userId: currentUserId, mediaListId: id })
     }
 
     return mediaList
@@ -103,7 +105,7 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, userId)
 
     if (!isListOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaListUnauthorizedError({ userId, mediaListId: id })
     }
 
     return this.mediaListRepository.update({ id, body })
@@ -114,14 +116,11 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(id, userId, mediaList)
 
     if (!isListOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaListUnauthorizedError({ userId, mediaListId: id })
     }
 
     if (mediaList.isSystem) {
-      throw new HttpException(
-        "System media list cannot be deleted.",
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new SystemMediaListDeletionError({ mediaListId: id })
     }
 
     return this.mediaListRepository.delete(id)
@@ -137,14 +136,11 @@ export class MediaListService {
     const mediaList = await this.mediaListRepository.getById({ id })
 
     if (!mediaList) {
-      throw new HttpException(
-        `Media list with id '${id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaListNotFoundError({ mediaListId: id })
     }
 
     if (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE && mediaList.userId !== userId) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaListUnauthorizedError({ userId, mediaListId: id })
     }
 
     const mediaItems = await this.mediaItemRepository.getByListId({
@@ -177,10 +173,7 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
     if (isListOwner) {
-      throw new HttpException(
-        "You cannot like your own media list.",
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new MediaListSelfLikeError({ userId, mediaListId })
     }
 
     const mediaListLike = await this.mediaListRepository.createLike({
@@ -211,10 +204,7 @@ export class MediaListService {
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
     if (isListOwner) {
-      throw new HttpException(
-        "You cannot dislike your own media list.",
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new MediaListSelfDislikeError({ userId, mediaListId })
     }
 
     const mediaListLike = await this.mediaListRepository.deleteLike({

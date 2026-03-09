@@ -1,7 +1,8 @@
 import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { UpdateUserDto } from "@/routes/user/dto/updateUser.dto"
+import { UserNotFoundError, UserUnauthorizedError } from "@/shared/errors/user"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
 
 @Injectable()
@@ -16,7 +17,7 @@ export class UserService {
     const user = await this.userRepository.getById(id)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ userId: id })
     }
 
     return getUserWithoutPassword(user)
@@ -29,7 +30,7 @@ export class UserService {
     ])
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ userId: args.userId })
     }
 
     if (user.mediaRatingsAccessLevel !== UserMediaRatingsAccessLevelEnum.PUBLIC && args.currentUserId !== args.userId) {
@@ -41,7 +42,7 @@ export class UserService {
 
   async delete(id: string, currentUserId: string) {
     if (currentUserId !== id) {
-      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
+      throw new UserUnauthorizedError({ userId: currentUserId, targetUserId: id })
     }
 
     const deletedUser = await this.userRepository.delete(id)

@@ -1,5 +1,5 @@
 import { MediaItemTrackingDataType } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
@@ -8,6 +8,7 @@ import {
   TrackingDataRepositoryInterface,
   TrackingDataRepositorySymbol,
 } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import { TrackingDataUnauthorizedError } from "@/shared/errors/trackingData"
 
 @Injectable()
 export class TrackingDataService {
@@ -28,7 +29,7 @@ export class TrackingDataService {
       })
 
     if (!mediaList) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new TrackingDataUnauthorizedError({ userId, trackingDataId })
     }
   }
 

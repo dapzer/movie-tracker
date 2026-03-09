@@ -3,9 +3,10 @@ import { resolve } from "node:path"
 import * as process from "node:process"
 import { promisify } from "node:util"
 import { unzip } from "node:zlib"
-import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common"
+import { Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { EnumChangefreq, simpleSitemapAndIndex, SitemapItemLoose } from "sitemap"
+import { SitemapSourceDataFetchError } from "@/shared/errors/sitemap"
 
 const unzipAsync = promisify(unzip)
 const idRegex = /"id":(\d+)/g
@@ -73,10 +74,7 @@ export class GenerateDetailsSitemapService {
       tryCount = tryCount + 1
     }
 
-    throw new HttpException(
-      `Failed to get data from TMDB.`,
-      HttpStatus.BAD_GATEWAY,
-    )
+    throw new SitemapSourceDataFetchError()
   }
 
   private async clearSitemapFolder() {

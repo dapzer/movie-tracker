@@ -5,7 +5,7 @@ import {
   MediaListType,
   MediaTypeEnum,
 } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
@@ -22,6 +22,8 @@ import { MediaDetailsService } from "@/routes/mediaDetails/mediaDetails.service"
 import { CreateMediaItemDto } from "@/routes/mediaItem/dto/createMediaItem.dto"
 import { GetMediaItemsCountByListIdQueryDto } from "@/routes/mediaItem/dto/getMediaItemsCountByListIdQuery.dto"
 import { UpdateMediaItemDto } from "@/routes/mediaItem/dto/updateMediaItem.dto"
+import { MediaItemNotFoundError, MediaItemUnauthorizedError } from "@/shared/errors/mediaItem"
+import { MediaListNotFoundError } from "@/shared/errors/mediaList"
 
 @Injectable()
 export class MediaItemService {
@@ -40,10 +42,7 @@ export class MediaItemService {
       = args.mediaListBase || await this.mediaListRepository.getById({ id: args.mediaListId })
 
     if (!mediaList) {
-      throw new HttpException(
-        `Media list with id '${args.mediaListId}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
     }
 
     return mediaList.userId === args.userId
@@ -64,10 +63,7 @@ export class MediaItemService {
     })
 
     if (!mediaItem) {
-      throw new HttpException(
-        `Media item with id '${args.id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaItemNotFoundError({ mediaItemId: args.id })
     }
 
     return isMediaListOwner
@@ -84,14 +80,11 @@ export class MediaItemService {
       = await this.mediaListRepository.getById({ id: args.mediaListId })
 
     if (!mediaList) {
-      throw new HttpException(
-        `Media list with id '${args.mediaListId}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
     }
 
     if (mediaList.userId !== args.userId) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     const mediaDetails
@@ -137,7 +130,7 @@ export class MediaItemService {
     })
     const mediaListById = new Map(mediaLists.map((list) => {
       if (list.userId !== args.userId) {
-        throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+        throw new MediaItemUnauthorizedError({ userId: args.userId })
       }
       return [list?.id, list]
     }))
@@ -159,10 +152,7 @@ export class MediaItemService {
     const createMediaItemsArgs: Parameters<MediaItemRepositoryInterface["createMany"]>[0] = args.items.map((item) => {
       const mediaList = mediaListById.get(item.mediaListId)
       if (!mediaList) {
-        throw new HttpException(
-          `Media list with id '${item.mediaListId}' doesn't exist.`,
-          HttpStatus.NOT_FOUND,
-        )
+        throw new MediaListNotFoundError({ mediaListId: item.mediaListId })
       }
 
       return {
@@ -221,7 +211,7 @@ export class MediaItemService {
     const mediaList = await this.mediaListRepository.getById({ id: args.mediaListId })
 
     if (mediaList && mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
-      throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     return this.mediaItemRepository.getCountByListId({
@@ -242,7 +232,7 @@ export class MediaItemService {
       : await this.mediaListRepository.getById({ id: args.mediaListId })
 
     if (mediaList && mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
-      throw new HttpException(`Unauthorized.`, HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     const response = await this.mediaItemRepository.getByListId({
@@ -301,7 +291,7 @@ export class MediaItemService {
     const isMediaItemOwner = await this.isMediaItemOwner({ id: args.id, userId: args.userId })
 
     if (!isMediaItemOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.id })
     }
 
     return this.mediaItemRepository.delete(args.id)
@@ -320,7 +310,7 @@ export class MediaItemService {
     })))
 
     if (ownerChecks.some(isOwner => !isOwner)) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId })
     }
 
     return this.mediaItemRepository.deleteMany(args.ids)
@@ -334,7 +324,7 @@ export class MediaItemService {
     const isMediaItemOwner = await this.isMediaItemOwner({ id: args.id, userId: args.userId })
 
     if (!isMediaItemOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.id })
     }
 
     return this.mediaItemRepository.update({ id: args.id, data: args.data })
@@ -359,7 +349,7 @@ export class MediaItemService {
     })))
 
     if (ownerChecks.some(isOwner => !isOwner)) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId })
     }
 
     return this.mediaItemRepository.updateMany(args.items)
@@ -376,7 +366,7 @@ export class MediaItemService {
     const isMediaListOwner = await this.isMediaListOwner({ mediaListId: args.mediaListId, userId: args.userId, mediaListBase: mediaList })
 
     if (!isMediaItemOwner || !isMediaListOwner) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.id })
     }
 
     const mediaItem = await this.mediaItemRepository.getById(args.id)

@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Query,
-  Req,
-  Res,
-  UseGuards,
-} from "@nestjs/common"
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Query, Req, Res, UseGuards } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { Throttle } from "@nestjs/throttler"
 import { Request, Response } from "express"
@@ -26,6 +13,7 @@ import { SignUpDto } from "@/routes/auth/dto/signUp.dto"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { ProvidersService } from "@/routes/auth/providers/providers.service"
 import { User } from "@/routes/user/users.decorator"
+import { AlreadyAuthenticatedError, NoCodeProvidedError, SessionError } from "@/shared/errors/auth"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
@@ -40,7 +28,7 @@ export class AuthController {
       req.session.save((err) => {
         if (err) {
           return reject(
-            new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR),
+            new SessionError({ message: err.message, cause: err }),
           )
         }
         resolve(true)
@@ -66,7 +54,7 @@ export class AuthController {
   @Post("/sign-in")
   async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: UserDto) {
     if (currentUser) {
-      throw new HttpException("Already authenticated", HttpStatus.FORBIDDEN)
+      throw new AlreadyAuthenticatedError()
     }
 
     const user = await this.authService.signIn(body)
@@ -151,7 +139,7 @@ export class AuthController {
     @Param("provider") provider: AllowedProvider,
   ) {
     if (!code)
-      throw new HttpException("No code provided", HttpStatus.BAD_REQUEST)
+      throw new NoCodeProvidedError()
     const user = await this.authService.extractProfileFromCode(provider, code)
 
     req.session.user = getUserWithoutPassword(user)
@@ -175,7 +163,7 @@ export class AuthController {
       req.session.destroy((err) => {
         if (err) {
           reject(
-            new HttpException(err?.message, HttpStatus.INTERNAL_SERVER_ERROR),
+            new SessionError({ message: err?.message, cause: err }),
           )
         }
         resolve(true)

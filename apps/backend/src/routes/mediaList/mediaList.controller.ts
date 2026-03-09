@@ -1,16 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Query,
-  UseGuards,
-} from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { isCuid } from "@paralleldrive/cuid2"
 import { UserDto } from "@/routes/auth/dto/user.dto"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
@@ -22,6 +10,7 @@ import { UpdateMediaListDto } from "@/routes/mediaList/dto/updateMediaList.dto"
 import { MediaListService } from "@/routes/mediaList/mediaList.service"
 import { User } from "@/routes/user/users.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
+import { UnauthorizedError } from "@/shared/errors/core"
 
 @Controller("media-list")
 export class MediaListController {
@@ -41,7 +30,7 @@ export class MediaListController {
     }
 
     if (!user) {
-      throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
+      throw new UnauthorizedError()
     }
 
     return this.mediaListService.getByUserId(user?.id, user?.id, false)
