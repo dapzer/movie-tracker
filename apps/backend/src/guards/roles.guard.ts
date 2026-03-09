@@ -1,13 +1,8 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from "@nestjs/common"
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
 import { Reflector } from "@nestjs/core"
 import { Request } from "express"
 import { Roles } from "@/decorators/roles.decorator"
+import { PermissionDeniedError } from "@/shared/errors/guard"
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -27,6 +22,6 @@ export class RolesGuard implements CanActivate {
       return true
     }
 
-    throw new HttpException("Permission denied", HttpStatus.FORBIDDEN)
+    throw new PermissionDeniedError({ userId: user?.id, requiredRoles: roles })
   }
 }

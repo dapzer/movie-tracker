@@ -1,6 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import { BaseProviderOptsType } from "@/routes/auth/providers/services/types/baseProviderOpts.type"
 import { BaseUserInfoType } from "@/routes/auth/providers/services/types/baseUserInfo.type"
+import { OAuthNoTokensError, OAuthTokenExternalServiceError, OAuthUserExternalServiceError } from "@/shared/errors/auth"
 
 @Injectable()
 export class BaseService {
@@ -50,25 +51,21 @@ export class BaseService {
     })
 
     if (!tokensRequest.ok) {
-      throw new HttpException(
-        {
-          message: `Failed to fetch tokens from ${this.opts.access_url}`,
-          data: await tokensRequest.text(),
-        },
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new OAuthTokenExternalServiceError({
+        provider: this.opts.name,
+        url: this.opts.access_url,
+        details: { responseBody: await tokensRequest.text() },
+      })
     }
 
     const tokens = await tokensRequest.json()
 
     if (!tokens.access_token) {
-      throw new HttpException(
-        {
-          message: `No tokens ${this.opts.access_url}`,
-          data: tokens,
-        },
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new OAuthNoTokensError({
+        provider: this.opts.name,
+        url: this.opts.access_url,
+        details: { tokens },
+      })
     }
 
     const userRequest = await fetch(this.opts.profile_url, {
@@ -78,13 +75,11 @@ export class BaseService {
     })
 
     if (!userRequest.ok) {
-      throw new HttpException(
-        {
-          message: `Failed to fetch user from ${this.opts.profile_url}`,
-          data: await userRequest.text(),
-        },
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new OAuthUserExternalServiceError({
+        provider: this.opts.name,
+        url: this.opts.profile_url,
+        details: { responseBody: await userRequest.text() },
+      })
     }
 
     const user = await userRequest.json()

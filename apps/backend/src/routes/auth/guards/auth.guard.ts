@@ -1,11 +1,6 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from "@nestjs/common"
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
 import { Request } from "express"
+import { UnauthorizedError } from "@/shared/errors/core"
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,6 +11,6 @@ export class AuthGuard implements CanActivate {
       return true
     }
 
-    throw new HttpException("Unauthorized", HttpStatus.UNAUTHORIZED)
+    throw new UnauthorizedError()
   }
 }

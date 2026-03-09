@@ -5,7 +5,7 @@ import {
   NotificationMediaReleaseEpisodeType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
+import { Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
 import { Cron } from "@nestjs/schedule"
 import { getTmdbDetailApi, getTmdbDetailsWithSeasonsApi } from "@/api/tmdb/tmdbApi"
 import { TmdbDetailsWithSeasonsResponseType } from "@/api/tmdb/tmdbApiTypes"
@@ -27,6 +27,11 @@ import {
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
 import { NotificationService } from "@/routes/notification/notification.service"
 import { Redlock } from "@/services/redlock/redlock.decorator"
+import {
+  MediaDetailsNotFoundError,
+  MediaDetailsUpdateFailedError,
+  MediaItemsNotFoundError,
+} from "@/shared/errors/mediaDetails"
 import { convertArrayToChunks } from "@/shared/utils/convertArrayToChunks"
 import { convertMediaDetailsToMediaDetailsInfo } from "@/shared/utils/convertMediaDetailsToMediaDetailsInfo"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
@@ -294,7 +299,7 @@ export class MediaDetailsService implements OnModuleInit {
           return null
         }
 
-        throw new HttpException("Media details not found", HttpStatus.NOT_FOUND)
+        throw new MediaDetailsNotFoundError({ mediaId: args.mediaId, mediaType: args.mediaType })
       }
 
       try {
@@ -335,10 +340,7 @@ export class MediaDetailsService implements OnModuleInit {
           return null
         }
 
-        throw new HttpException(
-          "Failed to create or update media details",
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        )
+        throw new MediaDetailsUpdateFailedError({ mediaId: args.mediaId, mediaType: args.mediaType })
       }
     }
     else {
@@ -356,7 +358,7 @@ export class MediaDetailsService implements OnModuleInit {
       ],
     )
     if (!mediaItems && !mediaRatings && !releaseSubscriptions) {
-      throw new HttpException("Media items not found", HttpStatus.NOT_FOUND)
+      throw new MediaItemsNotFoundError()
     }
 
     const uniqueMediaIdsWithTypes = [

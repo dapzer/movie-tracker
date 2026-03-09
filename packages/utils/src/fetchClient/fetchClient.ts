@@ -42,6 +42,10 @@ export class FetchClient {
       }
     }
 
+    if (!searchParams.toString()?.length) {
+      return ""
+    }
+
     return `?${searchParams.toString()}`
   }
 

@@ -1,7 +1,13 @@
 import { generateApiUrl } from "@movie-tracker/utils"
-import { HttpException, HttpStatus, Injectable, StreamableFile } from "@nestjs/common"
+import { Injectable, StreamableFile } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import * as sharp from "sharp"
+import {
+  ProxyFetchError,
+  ProxyImageFetchError,
+  ProxyProcessingError,
+  ProxyUnsupportedContentTypeError,
+} from "@/shared/errors/proxy"
 
 @Injectable()
 export class ProxyService {
@@ -18,17 +24,11 @@ export class ProxyService {
       response = await fetch(this.getApiUrl(`/${path}`, queries))
     }
     catch {
-      throw new HttpException(
-        `Failed to get data from remote server.`,
-        HttpStatus.BAD_GATEWAY,
-      )
+      throw new ProxyFetchError({ path })
     }
 
     if (!response.ok) {
-      throw new HttpException(
-        `${response.status}: Failed to get data from remote server.`,
-        HttpStatus.BAD_GATEWAY,
-      )
+      throw new ProxyFetchError({ path, statusCode: response.status })
     }
 
     try {
@@ -48,10 +48,7 @@ export class ProxyService {
       }
     }
     catch {
-      throw new HttpException(
-        `Failed to process data received from remote server.`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
+      throw new ProxyProcessingError({ path })
     }
   }
 
@@ -65,19 +62,13 @@ export class ProxyService {
     )
 
     if (!response.ok) {
-      throw new HttpException(
-        `${response.status}: Failed to get image from remote server.`,
-        HttpStatus.BAD_GATEWAY,
-      )
+      throw new ProxyImageFetchError({ path, statusCode: response.status })
     }
 
     const contentType = response.headers.get("content-type")
 
     if (!contentType.includes("image")) {
-      throw new HttpException(
-        `Unsorted content type: ${contentType}.`,
-        HttpStatus.BAD_REQUEST,
-      )
+      throw new ProxyUnsupportedContentTypeError({ contentType })
     }
 
     try {
@@ -107,10 +98,7 @@ export class ProxyService {
       }
     }
     catch {
-      throw new HttpException(
-        `Failed to process data received from remote server.`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
+      throw new ProxyProcessingError({ path })
     }
   }
 }

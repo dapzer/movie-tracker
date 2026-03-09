@@ -1,5 +1,5 @@
 import { MediaRatingPaginatedType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaDetailsRepositoryInterface,
   MediaDetailsRepositorySymbol,
@@ -14,6 +14,13 @@ import { CreateMediaRatingDto } from "@/routes/mediaRating/dto/createMediaRating
 import { GetMediaRatingByMediaIdParamsDto } from "@/routes/mediaRating/dto/getMediaRatingByMediaIdParamsDto"
 import { UpdateMediaRatingDto } from "@/routes/mediaRating/dto/updateMediaRating.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
+import { UserNotFoundError } from "@/shared/errors/auth"
+import {
+  MediaDetailsCreationFailedError,
+  MediaRatingNotFoundError,
+  MediaRatingPermissionDeniedError,
+  MediaRatingUnauthorizedError,
+} from "@/shared/errors/mediaRating"
 
 @Injectable()
 export class MediaRatingService {
@@ -33,14 +40,11 @@ export class MediaRatingService {
     const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId(args)
 
     if (!mediaRating) {
-      throw new HttpException(
-        `Media rating with mediaId '${args.mediaId}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaRatingNotFoundError({ mediaId: args.mediaId })
     }
 
     if (mediaRating.userId !== args.userId) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaRatingUnauthorizedError({ userId: args.userId, mediaRatingId: mediaRating.id })
     }
 
     return mediaRating
@@ -57,11 +61,11 @@ export class MediaRatingService {
     const user = await this.userRepository.getById(args.userId)
 
     if (!user) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new UserNotFoundError({ userId: args.userId })
     }
 
     if (user.mediaRatingsAccessLevel !== UserMediaRatingsAccessLevelEnum.PUBLIC && args.currentUserId !== args.userId) {
-      throw new HttpException("Permission denied", HttpStatus.FORBIDDEN)
+      throw new MediaRatingPermissionDeniedError({ userId: args.currentUserId })
     }
 
     const mediaRatings = await this.mediaRatingRepository.getByUserId({
@@ -90,10 +94,7 @@ export class MediaRatingService {
     )
 
     if (!mediaDetails) {
-      throw new HttpException(
-        `Media details with mediaId '${args.body.mediaId}' and mediaType '${args.body.mediaType}' doesn't exist and couldn't be created.`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
+      throw new MediaDetailsCreationFailedError({ mediaId: args.body.mediaId, mediaType: args.body.mediaType })
     }
 
     return this.mediaRatingRepository.create({
@@ -111,14 +112,11 @@ export class MediaRatingService {
     const mediaRating = await this.mediaRatingRepository.getById({ id: args.id })
 
     if (!mediaRating) {
-      throw new HttpException(
-        `Media rating with id '${args.id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaRatingNotFoundError({ mediaRatingId: args.id })
     }
 
     if (mediaRating.userId !== args.userId) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaRatingUnauthorizedError({ userId: args.userId, mediaRatingId: args.id })
     }
 
     return this.mediaRatingRepository.update({
@@ -131,14 +129,11 @@ export class MediaRatingService {
     const mediaRating = await this.mediaRatingRepository.getById({ id: args.id })
 
     if (!mediaRating) {
-      throw new HttpException(
-        `Media rating with id '${args.id}' doesn't exist.`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new MediaRatingNotFoundError({ mediaRatingId: args.id })
     }
 
     if (mediaRating.userId !== args.userId) {
-      throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      throw new MediaRatingUnauthorizedError({ userId: args.userId, mediaRatingId: args.id })
     }
 
     return this.mediaRatingRepository.delete(args.id)

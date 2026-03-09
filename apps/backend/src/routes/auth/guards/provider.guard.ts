@@ -1,12 +1,7 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from "@nestjs/common"
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
 import { Request } from "express"
 import { ProvidersService } from "@/routes/auth/providers/providers.service"
+import { UnknownProviderError } from "@/shared/errors/auth"
 
 @Injectable()
 export class AuthProviderGuard implements CanActivate {
@@ -20,7 +15,7 @@ export class AuthProviderGuard implements CanActivate {
     const providerInstance = this.providersService.findService(provider)
 
     if (!providerInstance) {
-      throw new HttpException("Unknown provider", HttpStatus.BAD_REQUEST)
+      throw new UnknownProviderError({ provider })
     }
 
     return true

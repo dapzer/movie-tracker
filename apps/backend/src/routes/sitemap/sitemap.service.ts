@@ -2,9 +2,10 @@ import { createReadStream, statSync } from "node:fs"
 import { join, resolve } from "node:path"
 import * as process from "node:process"
 import { Worker } from "node:worker_threads"
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
+import { Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { Interval } from "@nestjs/schedule"
+import { SitemapFileNotFoundError } from "@/shared/errors/sitemap"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 
 @Injectable()
@@ -33,10 +34,7 @@ export class SitemapService {
       return createReadStream(filePath)
     }
     catch (error) {
-      throw new HttpException(
-        `File ${fileLocation} not found`,
-        HttpStatus.NOT_FOUND,
-      )
+      throw new SitemapFileNotFoundError({ fileLocation, cause: error })
     }
   }
 }
