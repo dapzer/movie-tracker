@@ -8,19 +8,8 @@ import { ScheduleModule } from "@nestjs/schedule"
 import { ThrottlerModule } from "@nestjs/throttler"
 import { createClient } from "@redis/client"
 import { NodeRedisAdapter } from "redlock-universal"
+import { HttpDeliveryModule } from "@/delivery/http/httpDelivery.module"
 import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
-import { AnalyticsModule } from "@/routes/analytics/analytics.module"
-import { AuthModule } from "@/routes/auth/auth.module"
-import { CommunityListsModule } from "@/routes/communityLists/communityLists.module"
-import { MediaDetailsModule } from "@/routes/mediaDetails/mediaDetails.module"
-import { MediaItemModule } from "@/routes/mediaItem/mediaItem.module"
-import { MediaListModule } from "@/routes/mediaList/mediaList.module"
-import { MediaListViewModule } from "@/routes/mediaListView/mediaListView.module"
-import { MediaRatingModule } from "@/routes/mediaRating/mediaRating.module"
-import { OpenGraphImageModule } from "@/routes/openGraphImage/openGraphImage.module"
-import { SitemapModule } from "@/routes/sitemap/sitemap.module"
-import { TrackingDataModule } from "@/routes/trackingData/trackingData.module"
-import { UserFollowModule } from "@/routes/userFollow/userFollow.module"
 import { DrizzleModule } from "@/services/drizzle/drizzle.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { PrismaModule } from "@/services/prisma/prisma.module"
@@ -28,10 +17,6 @@ import { RedlockModule } from "@/services/redlock/redlock.module"
 import { envSchema } from "@/shared/schemas/envSchema"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
-import { NotificationModule } from "./routes/notification/notification.module"
-import { ProxyModule } from "./routes/proxy/proxy.module"
-import { ReleaseSubscriptionModule } from "./routes/releaseSubscription/releaseSubscription.module"
-import { UserModule } from "./routes/user/user.module"
 
 @Module({
   imports: [
@@ -80,25 +65,10 @@ import { UserModule } from "./routes/user/user.module"
       },
       inject: [ConfigService],
     }),
-    MediaListModule,
-    MediaItemModule,
-    UserModule,
-    ProxyModule,
     PrismaModule,
     DrizzleModule,
-    AuthModule,
-    MediaDetailsModule,
-    SitemapModule,
-    AnalyticsModule,
-    TrackingDataModule,
-    OpenGraphImageModule,
     MailModule,
-    MediaRatingModule,
-    MediaListViewModule,
-    CommunityListsModule,
-    UserFollowModule,
-    NotificationModule,
-    ReleaseSubscriptionModule,
+    HttpDeliveryModule,
   ],
   providers: [
     {
