@@ -92,7 +92,7 @@ services:
       - alloy_data:/var/lib/alloy/data
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    command: --config.file=/etc/alloy/config.alloy --storage.path=/var/lib/alloy/data
+#    command: --config.file=/etc/alloy/config.alloy --storage.path=/var/lib/alloy/data
     depends_on:
       - loki
     deploy:
