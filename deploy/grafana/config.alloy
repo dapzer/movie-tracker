@@ -2,8 +2,8 @@ discovery.docker "backend_only" {
   host = "unix:///var/run/docker.sock"
 
   filters = [{
-    name   = "label"
-    values = ["com.docker.swarm.service.name=movie-tracker_backend"]
+    name   = "label",
+    values = ["com.docker.swarm.service.name=movie-tracker_backend"],
   }]
 }
 
