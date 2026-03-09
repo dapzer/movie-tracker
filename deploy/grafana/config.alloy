@@ -14,7 +14,7 @@ discovery.relabel "backend_only" {
 
 loki.source.docker "app_logs" {
   host    = "unix:///var/run/docker.sock"
-  targets = discovery.relabel.backend_only.targets
+  targets = discovery.relabel.backend_only.output
 
   labels = {
     app     = "movie-tracker",
