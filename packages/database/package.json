@@ -35,11 +35,9 @@
   },
   "scripts": {
     "build": "tsc && prisma generate",
-    "prisma:generate": "prisma generate",
     "prisma": "dotenv -e ../../.env prisma",
     "drizzle": "dotenv -e ../../.env drizzle-kit",
     "db:generate": "drizzle-kit generate",
-    "db:push": "dotenv -e ../../.env prisma db push --skip-generate",
     "migrate": "dotenv -e ../../.env drizzle-kit migrate"
   },
   "dependencies": {
