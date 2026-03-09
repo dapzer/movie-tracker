@@ -13,7 +13,6 @@ loki.source.docker "app_logs" {
 
   labels = {
     app     = "movie-tracker",
-    service = "movie-tracker_backend",
   }
 
   forward_to = [loki.write.grafana_loki.receiver]
