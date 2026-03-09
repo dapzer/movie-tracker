@@ -1,6 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger } from "@nestjs/common"
 import { HttpAdapterHost } from "@nestjs/core"
-import { config } from "@/shared/constants"
 import {
   BadArgumentsError,
   ConflictError,
@@ -84,23 +83,26 @@ export class CustomErrorFilter implements ExceptionFilter {
       },
     )
 
-    if (!isLoggingIgnored && (config.NODE_ENV === "development" || status >= HttpStatus.INTERNAL_SERVER_ERROR || status === HttpStatus.INTERNAL_SERVER_ERROR)) {
+    if (!isLoggingIgnored) {
       // TODO: Use metadata after implementing json logging and log aggregation
-      const metadata: Record<string, unknown> = {}
-      for (const [key, value] of Object.entries(exception as unknown as Record<string, unknown>)) {
-        if (
-          key !== "message"
-          && key !== "name"
-          && key !== "stack"
-          && key !== "cause"
-          && key !== "details"
-          && typeof value !== "function"
-        ) {
-          metadata[key] = value
-        }
-      }
+      // const metadata: Record<string, unknown> = {}
+      // for (const [key, value] of Object.entries(exception as unknown as Record<string, unknown>)) {
+      //   if (
+      //     key !== "message"
+      //     && key !== "name"
+      //     && key !== "stack"
+      //     && key !== "cause"
+      //     && key !== "details"
+      //     && typeof value !== "function"
+      //   ) {
+      //     metadata[key] = value
+      //   }
+      // }
 
-      this.logger.error(`Error during request to ${path}`, exception)
+      this.logger.error({
+        err: exception,
+        path,
+      }, `Error during request`)
     }
 
     const responseBody = {

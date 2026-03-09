@@ -4,6 +4,7 @@ import { ConfigService } from "@nestjs/config"
 import { HttpAdapterHost, NestFactory } from "@nestjs/core"
 import * as cookieParser from "cookie-parser"
 import * as session from "express-session"
+import { Logger } from "nestjs-pino"
 import { AppModule } from "@/app.module"
 import { AllExceptionsFilter } from "@/filters/allException.filter"
 import { CustomErrorFilter } from "@/filters/customError.filter"
@@ -16,7 +17,9 @@ import "dotenv/config"
 import "@/services/opentelemetry"
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { abortOnError: false })
+  const app = await NestFactory.create(AppModule, { abortOnError: false, bufferLogs: true })
+  app.useLogger(app.get(Logger))
+
   const configService = app.get(ConfigService)
   const httpAdapter = app.get(HttpAdapterHost)
   const drizzle = app.get(DrizzleService)

@@ -7,6 +7,7 @@ import { APP_GUARD } from "@nestjs/core"
 import { ScheduleModule } from "@nestjs/schedule"
 import { ThrottlerModule } from "@nestjs/throttler"
 import { createClient } from "@redis/client"
+import { LoggerModule } from "nestjs-pino"
 import { NodeRedisAdapter } from "redlock-universal"
 import { HttpDeliveryModule } from "@/delivery/http/httpDelivery.module"
 import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
@@ -14,6 +15,7 @@ import { DrizzleModule } from "@/services/drizzle/drizzle.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { PrismaModule } from "@/services/prisma/prisma.module"
 import { RedlockModule } from "@/services/redlock/redlock.module"
+import { config } from "@/shared/constants"
 import { envSchema } from "@/shared/schemas/envSchema"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
@@ -64,6 +66,19 @@ import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
         }
       },
       inject: [ConfigService],
+    }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        autoLogging: false,
+        level: config.NODE_ENV !== "production" ? "debug" : "info",
+        transport: config.NODE_ENV !== "production"
+          ? { target: "pino-pretty" }
+          : undefined,
+        serializers: {
+          req: () => undefined,
+          res: () => undefined,
+        },
+      },
     }),
     PrismaModule,
     DrizzleModule,
