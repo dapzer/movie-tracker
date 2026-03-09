@@ -10,17 +10,25 @@ discovery.relabel "backend_only" {
     source_labels = ["__meta_docker_container_label_com_docker_swarm_service_name"]
     regex         = "movie-tracker_backend"
   }
+
+  rule {
+    action       = "replace"
+    target_label = "app"
+    replacement  = "movie-tracker"
+  }
+
+  rule {
+    action       = "replace"
+    target_label = "service_name"
+    replacement  = "movie-tracker_backend"
+  }
 }
 
 loki.source.docker "app_logs" {
-  host    = "unix:///var/run/docker.sock"
-  targets = discovery.relabel.backend_only.output
-
-  labels = {
-    app     = "movie-tracker",
-  }
-
-  forward_to = [loki.write.grafana_loki.receiver]
+  host          = "unix:///var/run/docker.sock"
+  targets       = discovery.relabel.backend_only.output
+  relabel_rules = discovery.relabel.backend_only.rules
+  forward_to    = [loki.write.grafana_loki.receiver]
 }
 
 loki.write "grafana_loki" {
