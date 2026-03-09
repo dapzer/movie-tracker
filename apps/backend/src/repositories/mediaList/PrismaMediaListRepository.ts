@@ -1,4 +1,3 @@
-import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
 import { MediaListLike, Prisma } from "@movie-tracker/database/prisma"
 import { MediaDetailsType, MediaListAccessLevelEnum, MediaListLikeType, MediaListType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
@@ -33,7 +32,7 @@ function getMediaListIncludeObject(currentUserId?: string) {
         },
       },
     },
-  }) satisfies Prisma.MediaListInclude<DefaultArgs>
+  }) satisfies Prisma.MediaListInclude
 }
 
 type MediaListReturnType = Prisma.MediaListGetPayload<{
