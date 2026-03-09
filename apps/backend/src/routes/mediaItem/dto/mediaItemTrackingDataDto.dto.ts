@@ -1,5 +1,3 @@
-import { MediaItemSiteToViewDto } from "@/routes/mediaItem/dto/mediaItemSiteToView.dto"
-import { MediaItemTvProgressDto } from "@/routes/mediaItem/dto/mediaItemTvProgress.dto"
 import {
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
@@ -15,6 +13,8 @@ import {
   IsUUID,
   ValidateNested,
 } from "class-validator"
+import { MediaItemSiteToViewDto } from "@/routes/mediaItem/dto/mediaItemSiteToView.dto"
+import { MediaItemTvProgressDto } from "@/routes/mediaItem/dto/mediaItemTvProgress.dto"
 
 export class MediaItemTrackingDataDto implements MediaItemTrackingDataType {
   @IsUUID()

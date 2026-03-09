@@ -1,4 +1,4 @@
-import { MediaDetails, Prisma } from "@movie-tracker/database"
+import { MediaDetails, Prisma } from "@movie-tracker/database/prisma"
 import { MediaDetailsInfoType, MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { MediaDetailsRepositoryInterface } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"

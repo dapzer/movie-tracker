@@ -1,9 +1,9 @@
+import { UserRoleEnum } from "@movie-tracker/types"
+import { Controller, Get, UseGuards } from "@nestjs/common"
 import { Roles } from "@/decorators/roles.decorator"
 import { RolesGuard } from "@/guards/roles.guard"
 import { AnalyticsService } from "@/routes/analytics/analytics.service"
 import { AuthGuard } from "@/routes/auth/guards/auth.guard"
-import { UserRoleEnum } from "@movie-tracker/types"
-import { Controller, Get, UseGuards } from "@nestjs/common"
 
 @Controller("analytics")
 export class AnalyticsController {

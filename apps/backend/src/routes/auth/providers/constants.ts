@@ -8,5 +8,5 @@ export interface Opts {
   services: BaseService[]
 }
 
-export type AsyncOpts = Pick<ModuleMetadata, "imports"> &
-  Pick<FactoryProvider<Opts>, "useFactory" | "inject">
+export type AsyncOpts = Pick<ModuleMetadata, "imports">
+  & Pick<FactoryProvider<Opts>, "useFactory" | "inject">

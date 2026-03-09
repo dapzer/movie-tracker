@@ -1,4 +1,4 @@
-import { MediaDetails, MediaRating, User } from "@movie-tracker/database"
+import { MediaDetails, MediaRating, User } from "@movie-tracker/database/prisma"
 import {
   MediaDetailsInfoType,
   MediaRatingType,

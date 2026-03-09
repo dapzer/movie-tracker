@@ -1,4 +1,3 @@
-import { ProvidersService } from "@/routes/auth/providers/providers.service"
 import {
   CanActivate,
   ExecutionContext,
@@ -7,6 +6,7 @@ import {
   Injectable,
 } from "@nestjs/common"
 import { Request } from "express"
+import { ProvidersService } from "@/routes/auth/providers/providers.service"
 
 @Injectable()
 export class AuthProviderGuard implements CanActivate {

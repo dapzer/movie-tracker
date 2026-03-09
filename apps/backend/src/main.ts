@@ -1,16 +1,16 @@
+import { sessions } from "@movie-tracker/database"
 import { ValidationPipe } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { HttpAdapterHost, NestFactory } from "@nestjs/core"
-import { PrismaSessionStore } from "@quixo3/prisma-session-store"
 import * as cookieParser from "cookie-parser"
 import * as session from "express-session"
 import { AppModule } from "@/app.module"
 import { AllExceptionsFilter } from "@/filters/allException.filter"
-import { HttpExceptionFilter } from "@/filters/httpException.filter"
+import { DrizzleClientErrorFilter } from "@/filters/drizzleClientError.filter"
 import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
-import { PrismaService } from "@/services/prisma/prisma.service"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
+import { DrizzleSessionStore } from "./services/drizzle/drizzleSessionStore"
 import "dotenv/config"
 import "@/services/opentelemetry"
 
@@ -18,7 +18,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false })
   const configService = app.get(ConfigService)
   const httpAdapter = app.get(HttpAdapterHost)
-  const prisma = app.get(PrismaService)
+  const drizzle = app.get(DrizzleService)
 
   app.enableCors({
     origin: true,
@@ -27,10 +27,12 @@ async function bootstrap() {
   })
 
   app.setGlobalPrefix("/api")
-  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter))
-  app.useGlobalFilters(new HttpExceptionFilter())
-  app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter))
+
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
+  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter))
+  app.useGlobalFilters(new DrizzleClientErrorFilter())
+  app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter))
+
   app.use(cookieParser(configService.get("COOKIE_SECRET")))
   app.use(
     session({
@@ -44,11 +46,7 @@ async function bootstrap() {
         domain: `.${new URL(configService.get("CLIENT_BASE_URL")).hostname}`,
         maxAge: getMillisecondsFromDays(14),
       },
-      store: new PrismaSessionStore(prisma, {
-        checkPeriod: getMillisecondsFromMins(5),
-        dbRecordIdIsSessionId: true,
-        dbRecordIdFunction: undefined,
-      }),
+      store: new DrizzleSessionStore(drizzle.client, sessions),
     }),
   )
 

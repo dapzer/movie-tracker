@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
 import {
-  PrismaReleaseSubscriptionRepository,
-} from "@/repositories/releaseSubscription/PrismaReleaseSubscriptionRepository"
+  DrizzleReleaseSubscriptionRepository,
+} from "@/repositories/releaseSubscription/DrizzleReleaseSubscriptionRepository"
 import {
   ReleaseSubscriptionRepositorySymbol,
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
@@ -16,7 +16,7 @@ import { ReleaseSubscriptionService } from "@/routes/releaseSubscription/release
     ReleaseSubscriptionService,
     {
       provide: ReleaseSubscriptionRepositorySymbol,
-      useClass: PrismaReleaseSubscriptionRepository,
+      useClass: DrizzleReleaseSubscriptionRepository,
     },
   ],
   exports: [ReleaseSubscriptionService],

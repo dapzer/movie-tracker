@@ -1,4 +1,4 @@
-import { Notification, Prisma } from "@movie-tracker/database"
+import { Notification, Prisma } from "@movie-tracker/database/prisma"
 import {
   ExtractNotificationMetaResponseType,
   MediaDetailsInfoType,

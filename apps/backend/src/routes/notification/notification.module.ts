@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common"
+import { DrizzleNotificationRepository } from "@/repositories/notification/DrizzleNotificationRepository"
 import { NotificationRepositorySymbol } from "@/repositories/notification/NotificationRepositoryInterface"
-import { PrismaNotificationRepository } from "@/repositories/notification/PrismaNotificationRepository"
 import { NotificationController } from "@/routes/notification/notification.controller"
 import { NotificationService } from "@/routes/notification/notification.service"
 
@@ -11,7 +11,7 @@ import { NotificationService } from "@/routes/notification/notification.service"
     NotificationService,
     {
       provide: NotificationRepositorySymbol,
-      useClass: PrismaNotificationRepository,
+      useClass: DrizzleNotificationRepository,
     },
   ],
   exports: [NotificationService],

@@ -1,6 +1,6 @@
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
 import { BaseProviderOptsType } from "@/routes/auth/providers/services/types/baseProviderOpts.type"
 import { BaseUserInfoType } from "@/routes/auth/providers/services/types/baseUserInfo.type"
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
 
 @Injectable()
 export class BaseService {

@@ -1,4 +1,4 @@
-import { UserFollow } from "@movie-tracker/database"
+import { UserFollow } from "@movie-tracker/database/prisma"
 import { UserFollowProfileType, UserFollowType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { UserFollowRepositoryInterface } from "@/repositories/userFollow/UserFollowRepositoryInterface"

@@ -1,4 +1,4 @@
-import { Prisma, TrackingData } from "@movie-tracker/database"
+import { Prisma, TrackingData } from "@movie-tracker/database/prisma"
 import {
   MediaItemSiteToViewType,
   MediaItemStatusNameEnum,

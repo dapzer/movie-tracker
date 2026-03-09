@@ -21,6 +21,7 @@ import { OpenGraphImageModule } from "@/routes/openGraphImage/openGraphImage.mod
 import { SitemapModule } from "@/routes/sitemap/sitemap.module"
 import { TrackingDataModule } from "@/routes/trackingData/trackingData.module"
 import { UserFollowModule } from "@/routes/userFollow/userFollow.module"
+import { DrizzleModule } from "@/services/drizzle/drizzle.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { PrismaModule } from "@/services/prisma/prisma.module"
 import { RedlockModule } from "@/services/redlock/redlock.module"
@@ -84,6 +85,7 @@ import { UserModule } from "./routes/user/user.module"
     UserModule,
     ProxyModule,
     PrismaModule,
+    DrizzleModule,
     AuthModule,
     MediaDetailsModule,
     SitemapModule,

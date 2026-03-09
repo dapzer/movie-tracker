@@ -1,4 +1,4 @@
-import { MediaListAccessLevelEnum, User } from "@movie-tracker/database"
+import { MediaListAccessLevelEnum, User } from "@movie-tracker/database/prisma"
 import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"

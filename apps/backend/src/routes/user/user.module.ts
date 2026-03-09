@@ -1,6 +1,6 @@
-import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
-import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { Module } from "@nestjs/common"
+import { DrizzleUserRepository } from "@/repositories/user/DrizzleUserRepository"
+import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { UserController } from "./user.controller"
 import { UserService } from "./user.service"
 
@@ -11,7 +11,7 @@ import { UserService } from "./user.service"
     UserService,
     {
       provide: UserRepositorySymbol,
-      useClass: PrismaUserRepository,
+      useClass: DrizzleUserRepository,
     },
   ],
 })
