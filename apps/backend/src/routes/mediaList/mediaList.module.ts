@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common"
 import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
-import { PrismaMediaItemRepository } from "@/repositories/mediaItem/PrismaMediaItemRepository"
+import { DrizzleMediaItemRepository } from "@/repositories/mediaItem/DrizzleMediaItemRepository"
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
-import { PrismaMediaListRepository } from "@/repositories/mediaList/PrismaMediaListRepository"
+import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMediaListRepository"
 import { MediaListController } from "@/routes/mediaList/mediaList.controller"
 import { MediaListService } from "@/routes/mediaList/mediaList.service"
 import { NotificationModule } from "@/routes/notification/notification.module"
@@ -12,8 +12,8 @@ import { NotificationModule } from "@/routes/notification/notification.module"
   controllers: [MediaListController],
   providers: [
     MediaListService,
-    { provide: MediaListRepositorySymbol, useClass: PrismaMediaListRepository },
-    { provide: MediaItemRepositorySymbol, useClass: PrismaMediaItemRepository },
+    { provide: MediaListRepositorySymbol, useClass: DrizzleMediaListRepository },
+    { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
   ],
   exports: [MediaListService],
 })

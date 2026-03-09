@@ -1,4 +1,4 @@
-import { MediaDetails, Prisma, ReleaseSubscription } from "@movie-tracker/database"
+import { MediaDetails, Prisma, ReleaseSubscription } from "@movie-tracker/database/prisma"
 import {
   MediaDetailsInfoType,
   MediaDetailsType,

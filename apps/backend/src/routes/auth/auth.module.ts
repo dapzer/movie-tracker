@@ -1,16 +1,16 @@
+import { Module } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import { AccountRepositorySymbol } from "@/repositories/account/AccountRepositoryInterface"
-import { PrismaAccountRepository } from "@/repositories/account/PrismaAccountRepository"
+import { DrizzleAccountRepository } from "@/repositories/account/DrizzleAccountRepository"
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
-import { PrismaMediaListRepository } from "@/repositories/mediaList/PrismaMediaListRepository"
-import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMediaListRepository"
+import { DrizzleUserRepository } from "@/repositories/user/DrizzleUserRepository"
 import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { ProvidersModule } from "@/routes/auth/providers/providers.module"
 import { GithubProvider } from "@/routes/auth/providers/services/githubProvider"
 import { GoogleProvider } from "@/routes/auth/providers/services/googleProvider"
 import { VkProvider } from "@/routes/auth/providers/services/vkProvider"
 import { YandexProvider } from "@/routes/auth/providers/services/yandexProvider"
-import { Module } from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
 import { AuthController } from "./auth.controller"
 import { AuthService } from "./auth.service"
 import { AuthProviderGuard } from "./guards/provider.guard"
@@ -53,15 +53,15 @@ import { AuthProviderGuard } from "./guards/provider.guard"
     AuthProviderGuard,
     {
       provide: UserRepositorySymbol,
-      useClass: PrismaUserRepository,
+      useClass: DrizzleUserRepository,
     },
     {
       provide: AccountRepositorySymbol,
-      useClass: PrismaAccountRepository,
+      useClass: DrizzleAccountRepository,
     },
     {
       provide: MediaListRepositorySymbol,
-      useClass: PrismaMediaListRepository,
+      useClass: DrizzleMediaListRepository,
     },
   ],
   exports: [AuthService],

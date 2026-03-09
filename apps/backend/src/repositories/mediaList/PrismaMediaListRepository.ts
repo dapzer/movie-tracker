@@ -1,5 +1,5 @@
-import { MediaListLike, Prisma } from "@movie-tracker/database"
 import { DefaultArgs } from "@movie-tracker/database/dist/runtime/library"
+import { MediaListLike, Prisma } from "@movie-tracker/database/prisma"
 import { MediaDetailsType, MediaListAccessLevelEnum, MediaListLikeType, MediaListType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { init } from "@paralleldrive/cuid2"

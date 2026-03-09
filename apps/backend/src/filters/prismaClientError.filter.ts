@@ -1,10 +1,5 @@
-import { Prisma } from "@movie-tracker/database"
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpStatus,
-} from "@nestjs/common"
+import { Prisma } from "@movie-tracker/database/prisma"
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from "@nestjs/common"
 import { HttpAdapterHost } from "@nestjs/core"
 import { isArray } from "class-validator"
 

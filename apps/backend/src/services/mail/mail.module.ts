@@ -1,8 +1,8 @@
-import { MailService } from "@/services/mail/mail.service"
 import { MailerModule } from "@nestjs-modules/mailer"
 import { Global, Module } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import { createTransport } from "nodemailer"
+import { MailService } from "@/services/mail/mail.service"
 
 @Global()
 @Module({

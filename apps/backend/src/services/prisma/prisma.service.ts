@@ -1,4 +1,4 @@
-import { PrismaClient } from "@movie-tracker/database"
+import { PrismaClient } from "@movie-tracker/database/prisma"
 import { Injectable, OnModuleInit } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { PrismaPg } from "@prisma/adapter-pg"

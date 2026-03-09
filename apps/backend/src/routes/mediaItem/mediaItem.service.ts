@@ -135,7 +135,12 @@ export class MediaItemService {
       currentUserId: args.userId,
       ids: mediaListIds,
     })
-    const mediaListById = new Map(mediaLists.map(list => [list?.id, list]))
+    const mediaListById = new Map(mediaLists.map((list) => {
+      if (list.userId !== args.userId) {
+        throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
+      }
+      return [list?.id, list]
+    }))
 
     const uniqueMediaItems = [...(new Map(args.items.map(item => [`${item.mediaType}-${item.mediaId}`, {
       mediaId: item.mediaId,
@@ -158,10 +163,6 @@ export class MediaItemService {
           `Media list with id '${item.mediaListId}' doesn't exist.`,
           HttpStatus.NOT_FOUND,
         )
-      }
-
-      if (mediaList.userId !== args.userId) {
-        throw new HttpException("Unauthorized.", HttpStatus.UNAUTHORIZED)
       }
 
       return {

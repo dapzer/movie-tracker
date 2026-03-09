@@ -1,16 +1,16 @@
+import { Module } from "@nestjs/common"
+import { DrizzleMediaDetailsRepository } from "@/repositories/mediaDetails/DrizzleMediaDetailsRepository"
 import { MediaDetailsRepositorySymbol } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
-import { PrismaMediaDetailsRepository } from "@/repositories/mediaDetails/PrismaMediaDetailsRepository"
+import { DrizzleMediaItemRepository } from "@/repositories/mediaItem/DrizzleMediaItemRepository"
 import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
-import { PrismaMediaItemRepository } from "@/repositories/mediaItem/PrismaMediaItemRepository"
+import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMediaListRepository"
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
-import { PrismaMediaListRepository } from "@/repositories/mediaList/PrismaMediaListRepository"
+import { DrizzleMediaRatingRepository } from "@/repositories/mediaRating/DrizzleMediaRatingRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
-import { PrismaMediaRatingRepository } from "@/repositories/mediaRating/PrismaMediaRatingRepository"
-import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { DrizzleUserRepository } from "@/repositories/user/DrizzleUserRepository"
 import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { AnalyticsController } from "@/routes/analytics/analytics.controller"
 import { AnalyticsService } from "@/routes/analytics/analytics.service"
-import { Module } from "@nestjs/common"
 
 @Module({
   controllers: [AnalyticsController],
@@ -18,15 +18,15 @@ import { Module } from "@nestjs/common"
     AnalyticsService,
     {
       provide: MediaDetailsRepositorySymbol,
-      useClass: PrismaMediaDetailsRepository,
+      useClass: DrizzleMediaDetailsRepository,
     },
-    { provide: MediaItemRepositorySymbol, useClass: PrismaMediaItemRepository },
+    { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
     {
       provide: UserRepositorySymbol,
-      useClass: PrismaUserRepository,
+      useClass: DrizzleUserRepository,
     },
-    { provide: MediaListRepositorySymbol, useClass: PrismaMediaListRepository },
-    { provide: MediaRatingRepositorySymbol, useClass: PrismaMediaRatingRepository },
+    { provide: MediaListRepositorySymbol, useClass: DrizzleMediaListRepository },
+    { provide: MediaRatingRepositorySymbol, useClass: DrizzleMediaRatingRepository },
   ],
 })
 export class AnalyticsModule {}

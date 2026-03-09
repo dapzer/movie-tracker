@@ -1,6 +1,6 @@
 import { parentPort } from "node:worker_threads"
-import { GenerateDetailsSitemapService } from "@/routes/sitemap/generateDetailsSitemap/generateDetailsSitemap.service"
 import { ConfigService } from "@nestjs/config"
+import { GenerateDetailsSitemapService } from "@/routes/sitemap/generateDetailsSitemap/generateDetailsSitemap.service"
 import "dotenv/config"
 
 const configService = new ConfigService()

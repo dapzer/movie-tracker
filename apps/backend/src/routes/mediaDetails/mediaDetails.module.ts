@@ -1,13 +1,13 @@
 import { Module } from "@nestjs/common"
+import { DrizzleMediaDetailsRepository } from "@/repositories/mediaDetails/DrizzleMediaDetailsRepository"
 import { MediaDetailsRepositorySymbol } from "@/repositories/mediaDetails/MediaDetailsRepositoryInterface"
-import { PrismaMediaDetailsRepository } from "@/repositories/mediaDetails/PrismaMediaDetailsRepository"
+import { DrizzleMediaItemRepository } from "@/repositories/mediaItem/DrizzleMediaItemRepository"
 import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
-import { PrismaMediaItemRepository } from "@/repositories/mediaItem/PrismaMediaItemRepository"
+import { DrizzleMediaRatingRepository } from "@/repositories/mediaRating/DrizzleMediaRatingRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
-import { PrismaMediaRatingRepository } from "@/repositories/mediaRating/PrismaMediaRatingRepository"
 import {
-  PrismaReleaseSubscriptionRepository,
-} from "@/repositories/releaseSubscription/PrismaReleaseSubscriptionRepository"
+  DrizzleReleaseSubscriptionRepository,
+} from "@/repositories/releaseSubscription/DrizzleReleaseSubscriptionRepository"
 import {
   ReleaseSubscriptionRepositorySymbol,
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
@@ -22,11 +22,11 @@ import { NotificationModule } from "@/routes/notification/notification.module"
     MediaDetailsService,
     {
       provide: MediaDetailsRepositorySymbol,
-      useClass: PrismaMediaDetailsRepository,
+      useClass: DrizzleMediaDetailsRepository,
     },
-    { provide: MediaItemRepositorySymbol, useClass: PrismaMediaItemRepository },
-    { provide: MediaRatingRepositorySymbol, useClass: PrismaMediaRatingRepository },
-    { provide: ReleaseSubscriptionRepositorySymbol, useClass: PrismaReleaseSubscriptionRepository },
+    { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
+    { provide: MediaRatingRepositorySymbol, useClass: DrizzleMediaRatingRepository },
+    { provide: ReleaseSubscriptionRepositorySymbol, useClass: DrizzleReleaseSubscriptionRepository },
   ],
   exports: [MediaDetailsService],
 })

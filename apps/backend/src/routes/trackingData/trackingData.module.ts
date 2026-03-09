@@ -1,10 +1,10 @@
+import { Module } from "@nestjs/common"
+import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMediaListRepository"
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
-import { PrismaMediaListRepository } from "@/repositories/mediaList/PrismaMediaListRepository"
-import { PrismaTrackingDataRepository } from "@/repositories/trackingData/PrismaTrackingDataRepository"
+import { DrizzleTrackingDataRepository } from "@/repositories/trackingData/DrizzleTrackingDataRepository"
 import { TrackingDataRepositorySymbol } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
 import { TrackingDataController } from "@/routes/trackingData/trackingData.controller"
 import { TrackingDataService } from "@/routes/trackingData/trackingData.service"
-import { Module } from "@nestjs/common"
 
 @Module({
   controllers: [TrackingDataController],
@@ -12,9 +12,9 @@ import { Module } from "@nestjs/common"
     TrackingDataService,
     {
       provide: TrackingDataRepositorySymbol,
-      useClass: PrismaTrackingDataRepository,
+      useClass: DrizzleTrackingDataRepository,
     },
-    { provide: MediaListRepositorySymbol, useClass: PrismaMediaListRepository },
+    { provide: MediaListRepositorySymbol, useClass: DrizzleMediaListRepository },
   ],
 })
 export class TrackingDataModule {}

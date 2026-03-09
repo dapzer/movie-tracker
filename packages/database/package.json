@@ -1,26 +1,55 @@
 {
   "name": "@movie-tracker/database",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "require": "./dist/src/index.js",
+      "import": "./dist/src/index.js"
+    },
+    "./drizzle": {
+      "types": "./dist/drizzle/index.d.ts",
+      "require": "./dist/drizzle/index.js",
+      "import": "./dist/drizzle/index.js"
+    },
+    "./prisma": {
+      "types": "./dist/prisma/index.d.ts",
+      "require": "./dist/prisma/index.js",
+      "import": "./dist/prisma/index.js"
+    }
+  },
   "typesVersions": {
     "*": {
       "index": [
-        "./dist/index.d.ts"
+        "./dist/src/index.d.ts"
+      ],
+      "drizzle": [
+        "./dist/drizzle/index.d.ts"
+      ],
+      "prisma": [
+        "./dist/prisma/index.d.ts"
       ]
     }
   },
   "scripts": {
-    "build": "prisma generate",
+    "build": "tsc && prisma generate",
+    "prisma:generate": "prisma generate",
     "prisma": "dotenv -e ../../.env prisma",
-    "db:generate": "prisma generate",
+    "drizzle": "dotenv -e ../../.env drizzle-kit",
+    "db:generate": "drizzle-kit generate",
     "db:push": "dotenv -e ../../.env prisma db push --skip-generate",
-    "migrate": "dotenv -e ../../.env prisma migrate deploy"
+    "migrate": "dotenv -e ../../.env drizzle-kit migrate"
   },
   "dependencies": {
-    "@prisma/client": "6.18.0"
+    "@prisma/client": "6.18.0",
+    "drizzle-orm": "0.45.1",
+    "pg": "8.19.0"
   },
   "devDependencies": {
+    "@types/pg": "^8.18.0",
+    "drizzle-kit": "^0.31.9",
     "prisma": "6.18.0"
   }
 }

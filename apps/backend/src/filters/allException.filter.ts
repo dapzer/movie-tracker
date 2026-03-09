@@ -6,7 +6,8 @@ import { isArray } from "class-validator"
 export class AllExceptionsFilter implements ExceptionFilter {
   logger = new Logger("AllExceptions")
 
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {
+  }
 
   catch(exception: unknown, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost
@@ -34,15 +35,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const path = httpAdapter.getRequestUrl(ctx.getRequest())
 
+    if (!(exception instanceof HttpException)) {
+      this.logger.error(`Error during request to ${path}`, exception)
+    }
+
     const responseBody = {
       statusCode: httpStatus,
       message: errorMessage,
       timestamp: new Date().toISOString(),
       path,
-    }
-
-    if (!(exception instanceof HttpException)) {
-      this.logger.error(`Error during request to ${path}`, exception)
     }
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus)

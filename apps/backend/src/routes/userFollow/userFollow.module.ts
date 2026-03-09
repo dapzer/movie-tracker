@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
-import { PrismaUserRepository } from "@/repositories/user/PrismaUserRepository"
+import { DrizzleUserRepository } from "@/repositories/user/DrizzleUserRepository"
 import { UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
-import { PrismaUserFollowRepository } from "@/repositories/userFollow/PrismaUserFollowRepository"
+import { DrizzleUserFollowRepository } from "@/repositories/userFollow/DrizzleUserFollowRepository"
 import { UserFollowRepositorySymbol } from "@/repositories/userFollow/UserFollowRepositoryInterface"
 import { NotificationModule } from "@/routes/notification/notification.module"
 import { UserFollowController } from "@/routes/userFollow/userFollow.controller"
@@ -14,11 +14,11 @@ import { UserFollowService } from "@/routes/userFollow/userFollow.service"
     UserFollowService,
     {
       provide: UserRepositorySymbol,
-      useClass: PrismaUserRepository,
+      useClass: DrizzleUserRepository,
     },
     {
       provide: UserFollowRepositorySymbol,
-      useClass: PrismaUserFollowRepository,
+      useClass: DrizzleUserFollowRepository,
     },
   ],
 })
