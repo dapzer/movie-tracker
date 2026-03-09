@@ -1,10 +1,15 @@
-discovery.docker "local" {
+discovery.docker "backend_only" {
   host = "unix:///var/run/docker.sock"
+
+  filters = [{
+    name   = "label"
+    values = ["com.docker.swarm.service.name=movie-tracker_backend"]
+  }]
 }
 
 loki.source.docker "app_logs" {
   host    = "unix:///var/run/docker.sock"
-  targets = discovery.docker.local.targets
+  targets = discovery.docker.backend_only.targets
 
   labels = {
     app     = "movie-tracker",
