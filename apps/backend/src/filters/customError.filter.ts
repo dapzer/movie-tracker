@@ -102,6 +102,7 @@ export class CustomErrorFilter implements ExceptionFilter {
       this.logger.error({
         err: exception,
         path,
+        method,
       }, `Error during request`)
     }
 
