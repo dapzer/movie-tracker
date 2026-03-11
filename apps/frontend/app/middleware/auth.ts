@@ -1,5 +1,5 @@
 import { defineNuxtRouteMiddleware, navigateTo, useNuxtApp } from "#app"
-import { useGetUserProfileApi } from "~/api/user/useUserApi"
+import { useGetUserProfileApi } from "~/api/users/useUsersApi"
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const nuxtApp = useNuxtApp()

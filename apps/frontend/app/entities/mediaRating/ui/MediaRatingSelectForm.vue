@@ -7,7 +7,7 @@ import {
   useCreateMediaRatingApi,
   useDeleteMediaRatingApi,
   useUpdateMediaRatingApi,
-} from "~/api/mediaRating/useMediaRatingApi"
+} from "~/api/mediaRatings/useMediaRatingsApi"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"

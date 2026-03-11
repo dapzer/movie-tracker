@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { UserApiUpdateTypes } from "~/api/user/userApiTypes"
+import type { UserApiUpdateTypes } from "~/api/users/usersApiTypes"
 import { useI18n } from "#imports"
 import { computed } from "vue"
 import { toast } from "vue3-toastify"
 import * as yup from "yup"
-import { useUpdateUserProfileApi } from "~/api/user/useUserApi"
+import { useUpdateUserProfileApi } from "~/api/users/useUsersApi"
 import AccountSettingsFormItem from "~/features/accountSettings/ui/AccountSettingsFormItem.vue"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useForm } from "~/shared/composables/useForm"

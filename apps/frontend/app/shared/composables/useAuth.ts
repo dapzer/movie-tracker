@@ -1,10 +1,10 @@
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed } from "vue"
 import { useLogoutApi } from "~/api/auth/useAuthApi"
-import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
-import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
-import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
-import { useGetUserProfileApi } from "~/api/user/useUserApi"
+import { MediaItemsQueryKeys } from "~/api/mediaItems/mediaItemsApiQueryKeys"
+import { MediaListsQueryKeys } from "~/api/mediaLists/mediaListsApiQueryKeys"
+import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
+import { useGetUserProfileApi } from "~/api/users/useUsersApi"
 
 export function useAuth() {
   const getUserProfileApi = useGetUserProfileApi()
@@ -35,11 +35,11 @@ export function useAuth() {
     await logoutApi.mutateAsync()
 
     await Promise.all([
-      queryClient.resetQueries({ queryKey: [UserQueryKeys.PROFILE] }),
-      queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_ALL] }),
-      queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] }),
-      queryClient.resetQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] }),
-      queryClient.resetQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] }),
+      queryClient.resetQueries({ queryKey: [UsersQueryKeys.PROFILE] }),
+      queryClient.resetQueries({ queryKey: [MediaListsQueryKeys.GET_ALL] }),
+      queryClient.resetQueries({ queryKey: [MediaItemsQueryKeys.GET_ALL] }),
+      queryClient.resetQueries({ queryKey: [MediaListsQueryKeys.GET_BY_ID] }),
+      queryClient.resetQueries({ queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID] }),
     ])
   }
 

@@ -2,7 +2,7 @@
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import type { UiButtonScheme, UiButtonVariant } from "~/shared/ui/UiButton"
 import { computed } from "vue"
-import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRating/useMediaRatingApi"
+import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRatings/useMediaRatingsApi"
 import { MediaRatingSelectModal } from "~/entities/mediaRating"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"

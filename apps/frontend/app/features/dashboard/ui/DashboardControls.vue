@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from "#imports"
 import { toast } from "vue3-toastify"
-import { useInitializeDetailsGenerationApi } from "~/api/details/useDetailsApi"
+import { useInitializeDetailsGenerationApi } from "~/api/mediaDetails/useMediaDetailsApi"
 import { useInitializeSitemapGenerationsApi } from "~/api/sitemaps/useSitemapsApi"
 import DasboardCard from "~/features/dashboard/ui/DasboardCard.vue"
 import { UiButton } from "~/shared/ui/UiButton"

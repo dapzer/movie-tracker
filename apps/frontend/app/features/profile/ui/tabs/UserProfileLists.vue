@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onServerPrefetch } from "#imports"
-import { useGetMediaListsByUserIdApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaListsByUserIdApi } from "~/api/mediaLists/useMediaListsApi"
 import { MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiListsGrid } from "~/shared/ui/UiListsGrid"

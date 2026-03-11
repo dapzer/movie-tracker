@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { GetRecentlyCreatedMediaRatingsArgs } from "~/api/mediaRating/mediaRatingApiTypes"
+import type { GetRecentlyCreatedMediaRatingsArgs } from "~/api/mediaRatings/mediaRatingsApiTypes"
 import { useSeoMeta } from "#app"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
-import { useMediaRatingsGetRecentlyCreatedApi } from "~/api/mediaRating/useMediaRatingApi"
+import { useMediaRatingsGetRecentlyCreatedApi } from "~/api/mediaRatings/useMediaRatingsApi"
 import { MediaRatingCardWithHoverMenu } from "~/features/mediaRatingCardWithHoverMenu"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"

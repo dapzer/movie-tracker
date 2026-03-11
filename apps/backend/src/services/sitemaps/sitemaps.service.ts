@@ -1,0 +1,40 @@
+import { createReadStream, statSync } from "node:fs"
+import { join, resolve } from "node:path"
+import * as process from "node:process"
+import { Worker } from "node:worker_threads"
+import { Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
+import { Interval } from "@nestjs/schedule"
+import { SitemapFileNotFoundError } from "@/shared/errors/sitemap"
+import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
+
+@Injectable()
+export class SitemapsService {
+  worker = new Worker(resolve(__dirname, "sitemapWorker.js"))
+
+  constructor(private readonly configService: ConfigService) {}
+
+  @Interval(getMillisecondsFromDays(7))
+  autoGenerate() {
+    if (this.configService.get("GENERATE_SITEMAP") === "true") {
+      this.generate()
+    }
+  }
+
+  async generate() {
+    this.worker.postMessage("generate")
+  }
+
+  async readFile(fileLocation: string) {
+    try {
+      const filePath = join(process.cwd(), "sitemaps", fileLocation)
+
+      statSync(filePath)
+
+      return createReadStream(filePath)
+    }
+    catch (error) {
+      throw new SitemapFileNotFoundError({ fileLocation, cause: error })
+    }
+  }
+}

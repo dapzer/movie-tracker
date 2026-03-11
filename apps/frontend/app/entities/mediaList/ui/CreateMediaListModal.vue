@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
+import type { MediaListUpdateApiTypes } from "~/api/mediaLists/mediaListsApiTypes"
 import { useI18n } from "#imports"
 import { toast } from "vue3-toastify"
-import { useCreateMediaListApi } from "~/api/mediaList/useMediaListApi"
+import { useCreateMediaListApi } from "~/api/mediaLists/useMediaListsApi"
 import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiModal } from "~/shared/ui/UiModal"

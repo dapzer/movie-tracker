@@ -5,9 +5,9 @@ import { SortOrderEnum } from "@movie-tracker/types"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi } from "~/api/mediaItem/useMediaItemtApi"
-import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi } from "~/api/mediaItems/useMediaItemsApi"
+import { MediaListsQueryKeys } from "~/api/mediaLists/mediaListsApiQueryKeys"
+import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
 import { useForm } from "~/shared/composables/useForm"
@@ -50,7 +50,7 @@ const { formValue, onFormSubmit } = useForm({
         mediaListId: formValue.selectedMediaListId,
       },
     }).then(async () => {
-      await queryClient.setQueryData([MediaListQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+      await queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
         return oldData.map((el) => {
           if (el.id === formValue.selectedMediaListId) {
             el.mediaItemsCount = (el.mediaItemsCount || 0) + 1

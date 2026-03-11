@@ -8,7 +8,7 @@ import { computed, h, ref, watch } from "vue"
 import {
   useGetMediaItemsByMediaListIdApi,
   useGetMediaItemsCountByMediaListIdApi,
-} from "~/api/mediaItem/useMediaItemtApi"
+} from "~/api/mediaItems/useMediaItemsApi"
 import { MediaCard } from "~/features/mediaCard"
 import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
