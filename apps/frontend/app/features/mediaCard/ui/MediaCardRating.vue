@@ -2,7 +2,7 @@
 import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed, ref } from "vue"
-import { useGetUserProfileByIdApi } from "~/api/user/useUserApi"
+import { useGetUserProfileByIdApi } from "~/api/users/useUsersApi"
 import { MediaRatingSelectModal } from "~/entities/mediaRating"
 import { useAuth } from "~/shared/composables/useAuth"
 import { UiAvatar } from "~/shared/ui/UiAvatar"

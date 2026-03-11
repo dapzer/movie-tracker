@@ -7,7 +7,7 @@ import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/g
 import { GetCommunityListsSearchQueryDto } from "@/services/communityLists/dto/getCommunityListsSearchQuery.dto"
 import { GetCommunityListsWeekTopQueryDto } from "@/services/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/services/communityLists/dto/getCommunityListsWithMediaQuery.dto"
-import { User } from "@/services/user/users.decorator"
+import { User } from "@/services/users/user.decorator"
 
 @Controller("community-lists")
 export class CommunityListsController {

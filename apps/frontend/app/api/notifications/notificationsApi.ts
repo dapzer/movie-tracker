@@ -9,7 +9,7 @@ import type { PostMarkNotificationsAsReadApiArgs } from "~/api/notifications/not
 import { api } from "~/api/instance"
 
 export function getNotificationsApi(args: PaginationType, options?: RequestOptions) {
-  return api.get<NotificationResponseType>("notification", {
+  return api.get<NotificationResponseType>("notifications", {
     params: {
       limit: args.limit,
       offset: args.offset,
@@ -19,14 +19,14 @@ export function getNotificationsApi(args: PaginationType, options?: RequestOptio
 }
 
 export function getNotificationCountApi(options?: RequestOptions) {
-  return api.get<NotificationCountType>("notification/count", options)
+  return api.get<NotificationCountType>("notifications/count", options)
 }
 
 export function markNotificationsAsRead(args: PostMarkNotificationsAsReadApiArgs) {
-  return api.post<Array<NotificationType>>("notification/mark-as-read", {
+  return api.post<Array<NotificationType>>("notifications/mark-as-read", {
     ids: args.ids,
   })
 }
 export function markAllNotificationsAsRead() {
-  return api.post<Array<NotificationType>>("notification/all")
+  return api.post<Array<NotificationType>>("notifications/all")
 }

@@ -2,7 +2,7 @@
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed } from "vue"
-import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
+import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
 import { ReleaseSubscriptionButton } from "~/features/releaseSubscriptions"
 import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"

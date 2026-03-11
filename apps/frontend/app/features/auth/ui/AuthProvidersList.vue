@@ -6,9 +6,9 @@ import { useQueryClient } from "@tanstack/vue-query"
 import { useLocalStorage } from "@vueuse/core"
 import { useRouter } from "vue-router"
 import { useSignInByProviderApi } from "~/api/auth/useAuthApi"
-import { MediaItemQueryKeys } from "~/api/mediaItem/mediaItemApiQueryKeys"
-import { MediaListQueryKeys } from "~/api/mediaList/mediaListApiQueryKeys"
-import { UserQueryKeys } from "~/api/user/userApiQueryKeys"
+import { MediaItemsQueryKeys } from "~/api/mediaItems/mediaItemsApiQueryKeys"
+import { MediaListsQueryKeys } from "~/api/mediaLists/mediaListsApiQueryKeys"
+import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
 import { authProvidersList } from "~/features/auth/model/authProvidersList"
 import { BrowserEnum } from "~/shared/types/browserEnum"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
@@ -42,11 +42,11 @@ async function onSignIn(provider: string) {
     win?.focus()
     const interval = setInterval(() => {
       if (win?.closed) {
-        queryClient.invalidateQueries({ queryKey: [UserQueryKeys.PROFILE] })
-        queryClient.invalidateQueries({ queryKey: [MediaListQueryKeys.GET_ALL] })
-        queryClient.invalidateQueries({ queryKey: [MediaItemQueryKeys.GET_ALL] })
-        queryClient.removeQueries({ queryKey: [MediaListQueryKeys.GET_BY_ID] })
-        queryClient.removeQueries({ queryKey: [MediaItemQueryKeys.GET_BY_MEDIA_LIST_ID] })
+        queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.PROFILE] })
+        queryClient.invalidateQueries({ queryKey: [MediaListsQueryKeys.GET_ALL] })
+        queryClient.invalidateQueries({ queryKey: [MediaItemsQueryKeys.GET_ALL] })
+        queryClient.removeQueries({ queryKey: [MediaListsQueryKeys.GET_BY_ID] })
+        queryClient.removeQueries({ queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID] })
         router.push(localePath(authRedirectUrl.value))
         clearInterval(interval)
       }

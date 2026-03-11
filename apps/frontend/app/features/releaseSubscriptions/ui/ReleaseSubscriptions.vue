@@ -3,7 +3,7 @@ import type { GetReleaseSubscriptionsByUserIdQueries, MediaTypeEnum } from "@mov
 import { SortOrderEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
-import { useGetReleaseSubscriptionsByUserIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
+import { useGetReleaseSubscriptionsByUserIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
 import { ReleaseSubscriptionsTable } from "~/features/releaseSubscriptions"
 import ReleaseSubscriptionsFilters from "~/features/releaseSubscriptions/ui/ReleaseSubscriptionsFilters.vue"
 import ReleaseSubscriptionsHeader from "~/features/releaseSubscriptions/ui/ReleaseSubscriptionsHeader.vue"

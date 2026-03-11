@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
+import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
 import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"

@@ -3,18 +3,18 @@ import { AnalyticsHttpModule } from "@/delivery/http/analytics/analytics.module"
 import { AuthHttpModule } from "@/delivery/http/auth/auth.module"
 import { CommunityListsHttpModule } from "@/delivery/http/communityLists/communityLists.module"
 import { MediaDetailsHttpModule } from "@/delivery/http/mediaDetails/mediaDetails.module"
-import { MediaItemHttpModule } from "@/delivery/http/mediaItem/mediaItem.module"
-import { MediaListHttpModule } from "@/delivery/http/mediaList/mediaList.module"
-import { MediaListViewHttpModule } from "@/delivery/http/mediaListView/mediaListView.module"
-import { MediaRatingHttpModule } from "@/delivery/http/mediaRating/mediaRating.module"
-import { NotificationHttpModule } from "@/delivery/http/notification/notification.module"
-import { OpenGraphImageHttpModule } from "@/delivery/http/openGraphImage/openGraphImage.module"
+import { MediaItemsHttpModule } from "@/delivery/http/mediaItems/mediaItems.module"
+import { MediaListsHttpModule } from "@/delivery/http/mediaLists/mediaLists.module"
+import { MediaListViewsHttpModule } from "@/delivery/http/mediaListViews/mediaListViews.module"
+import { MediaRatingsHttpModule } from "@/delivery/http/mediaRatings/mediaRatings.module"
+import { NotificationsHttpModule } from "@/delivery/http/notifications/notifications.module"
+import { OpenGraphImagesHttpModule } from "@/delivery/http/openGraphImages/openGraphImages.module"
 import { ProxyHttpModule } from "@/delivery/http/proxy/proxy.module"
-import { ReleaseSubscriptionHttpModule } from "@/delivery/http/releaseSubscription/releaseSubscription.module"
-import { SitemapHttpModule } from "@/delivery/http/sitemap/sitemap.module"
+import { ReleaseSubscriptionsHttpModule } from "@/delivery/http/releaseSubscriptions/releaseSubscriptions.module"
+import { SitemapsHttpModule } from "@/delivery/http/sitemaps/sitemaps.module"
 import { TrackingDataHttpModule } from "@/delivery/http/trackingData/trackingData.module"
-import { UserHttpModule } from "@/delivery/http/user/user.module"
-import { UserFollowHttpModule } from "@/delivery/http/userFollow/userFollow.module"
+import { UserFollowsHttpModule } from "@/delivery/http/userFollows/userFollows.module"
+import { UsersHttpModule } from "@/delivery/http/users/users.module"
 
 @Module({
   imports: [
@@ -22,18 +22,18 @@ import { UserFollowHttpModule } from "@/delivery/http/userFollow/userFollow.modu
     AuthHttpModule,
     CommunityListsHttpModule,
     MediaDetailsHttpModule,
-    MediaItemHttpModule,
-    MediaListHttpModule,
-    MediaListViewHttpModule,
-    MediaRatingHttpModule,
-    NotificationHttpModule,
-    OpenGraphImageHttpModule,
+    MediaItemsHttpModule,
+    MediaListsHttpModule,
+    MediaListViewsHttpModule,
+    MediaRatingsHttpModule,
+    NotificationsHttpModule,
+    OpenGraphImagesHttpModule,
     ProxyHttpModule,
-    ReleaseSubscriptionHttpModule,
-    SitemapHttpModule,
+    ReleaseSubscriptionsHttpModule,
+    SitemapsHttpModule,
     TrackingDataHttpModule,
-    UserHttpModule,
-    UserFollowHttpModule,
+    UsersHttpModule,
+    UserFollowsHttpModule,
   ],
 })
 export class HttpDeliveryModule {}

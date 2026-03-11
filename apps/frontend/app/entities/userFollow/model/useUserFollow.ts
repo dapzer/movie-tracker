@@ -1,7 +1,7 @@
 import { useI18n } from "#imports"
 import { computed } from "vue"
 import { toast } from "vue3-toastify"
-import { useCreateUserFollowApi, useDeleteUserFollowApi } from "~/api/userFollow/useUserFollowApi"
+import { useCreateUserFollowApi, useDeleteUserFollowApi } from "~/api/userFollows/useUserFollowsApi"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 

@@ -4,7 +4,7 @@ import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { BulkUpdateTrackingDataDto } from "@/services/trackingData/dto/bulkUpdateTrackingData.dto"
 import { MediaItemTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
 import { TrackingDataService } from "@/services/trackingData/trackingData.service"
-import { User } from "@/services/user/users.decorator"
+import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 
 @Controller("tracking-data")

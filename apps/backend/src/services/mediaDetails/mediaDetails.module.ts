@@ -8,10 +8,10 @@ import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRat
 import { DrizzleReleaseSubscriptionRepository } from "@/repositories/releaseSubscription/DrizzleReleaseSubscriptionRepository"
 import { ReleaseSubscriptionRepositorySymbol } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
-import { NotificationServiceModule } from "@/services/notification/notification.module"
+import { NotificationsServiceModule } from "@/services/notifications/notifications.module"
 
 @Module({
-  imports: [NotificationServiceModule],
+  imports: [NotificationsServiceModule],
   providers: [
     MediaDetailsService,
     { provide: MediaDetailsRepositorySymbol, useClass: DrizzleMediaDetailsRepository },

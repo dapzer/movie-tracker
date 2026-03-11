@@ -2,7 +2,7 @@
 import { useI18n, useSeoMeta } from "#imports"
 import { MEDIA_LIST_COUNT_LIMIT, SortOrderEnum } from "@movie-tracker/types"
 import { computed } from "vue"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import {
   CreateMediaListModal,
   MediaListCard,

@@ -25,7 +25,7 @@ import {
   ReleaseSubscriptionRepositoryInterface,
   ReleaseSubscriptionRepositorySymbol,
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
-import { NotificationService } from "@/services/notification/notification.service"
+import { NotificationsService } from "@/services/notifications/notifications.service"
 import { Redlock } from "@/services/redlock/redlock.decorator"
 import {
   MediaDetailsNotFoundError,
@@ -64,7 +64,7 @@ export class MediaDetailsService implements OnModuleInit {
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     @Inject(ReleaseSubscriptionRepositorySymbol)
     private readonly releaseSubscriptionRepository: ReleaseSubscriptionRepositoryInterface,
-    private readonly notificationService: NotificationService,
+    private readonly notificationsService: NotificationsService,
   ) {
     this.resetNotificationsToSend()
   }
@@ -246,7 +246,7 @@ export class MediaDetailsService implements OnModuleInit {
     if (allNotifications.length > 0) {
       this.logger.log(`Sending ${allNotifications.length} notifications.`)
       try {
-        await this.notificationService.createBulk(allNotifications.map(el => el.body))
+        await this.notificationsService.createBulk(allNotifications.map(el => el.body))
         await Promise.all(
           Object.entries(this.notificationsToSend).map(([mediaType, notifications]) => {
             return this.releaseSubscriptionRepository.updateManyByIds(

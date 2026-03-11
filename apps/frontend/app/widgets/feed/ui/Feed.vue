@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { GetRecentlyCreatedMediaRatingsArgs } from "~/api/mediaRating/mediaRatingApiTypes"
+import type { GetRecentlyCreatedMediaRatingsArgs } from "~/api/mediaRatings/mediaRatingsApiTypes"
 import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
-import { useMediaRatingsGetRecentlyCreatedApi } from "~/api/mediaRating/useMediaRatingApi"
+import { useMediaRatingsGetRecentlyCreatedApi } from "~/api/mediaRatings/useMediaRatingsApi"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
 import { MediaRatingCardWithHoverMenu } from "~/features/mediaRatingCardWithHoverMenu"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"

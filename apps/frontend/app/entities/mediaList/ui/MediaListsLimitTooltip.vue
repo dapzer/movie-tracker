@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MEDIA_LIST_COUNT_LIMIT } from "@movie-tracker/types"
 import { computed } from "vue"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import { UiLimit } from "~/shared/ui/UiLimit"
 import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"

@@ -5,8 +5,8 @@ import { computed, createError, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
-import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRating/useMediaRatingApi"
-import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscription/useReleaseSubscriptionApi"
+import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRatings/useMediaRatingsApi"
+import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
 import {
   useGetTmdbMovieCreditsApi,
   useGetTmdbMovieDetailsApi,

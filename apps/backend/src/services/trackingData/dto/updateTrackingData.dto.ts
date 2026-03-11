@@ -5,8 +5,8 @@ import {
 } from "@movie-tracker/types"
 import { Type } from "class-transformer"
 import { IsArray, IsEnum, IsNumber, IsOptional, IsString, MaxLength, ValidateNested } from "class-validator"
-import { MediaItemSiteToViewDto } from "@/services/mediaItem/dto/mediaItemSiteToView.dto"
-import { MediaItemTvProgressDto } from "@/services/mediaItem/dto/mediaItemTvProgress.dto"
+import { MediaItemSiteToViewDto } from "@/services/mediaItems/dto/mediaItemSiteToView.dto"
+import { MediaItemTvProgressDto } from "@/services/mediaItems/dto/mediaItemTvProgress.dto"
 
 export class MediaItemTrackingDataDto
 implements

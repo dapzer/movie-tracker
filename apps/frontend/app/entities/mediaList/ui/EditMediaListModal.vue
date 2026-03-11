@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { MediaListType } from "@movie-tracker/types"
-import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
+import type { MediaListUpdateApiTypes } from "~/api/mediaLists/mediaListsApiTypes"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { toast } from "vue3-toastify"
 import { useRouter } from "vue-router"
-import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaList/useMediaListApi"
+import { useDeleteMediaListApi, useUpdateMediaListApi } from "~/api/mediaLists/useMediaListsApi"
 import MediaListForm from "~/entities/mediaList/ui/MediaListForm.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiConfirmationModal } from "~/shared/ui/UiConfirmationModal"

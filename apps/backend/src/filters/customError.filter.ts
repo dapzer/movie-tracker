@@ -11,6 +11,7 @@ import {
   UnprocessableError,
 } from "@/shared/errors/core"
 import { CustomError } from "@/shared/errors/customError"
+import { MediaRatingNotFoundError } from "@/shared/errors/mediaRating"
 
 @Catch(CustomError)
 export class CustomErrorFilter implements ExceptionFilter {
@@ -35,22 +36,22 @@ export class CustomErrorFilter implements ExceptionFilter {
     errors: Function[]
   }> = [
     {
-      path: "user",
+      path: "users",
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
     {
-      path: "release-subscription/by-media",
+      path: "release-subscriptions/by-media",
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
     {
-      path: "media-rating/by-media",
+      path: "media-ratings/by-media",
       methods: ["GET"],
-      errors: [UnauthorizedError],
+      errors: [UnauthorizedError, MediaRatingNotFoundError],
     },
     {
-      path: "api/media-list",
+      path: "api/media-lists",
       exactPath: true,
       methods: ["GET"],
       errors: [UnauthorizedError],

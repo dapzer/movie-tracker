@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { UserPublicType } from "@movie-tracker/types"
-import type { GetUserFollowingsApiArgs } from "~/api/userFollow/userFollowApiTypes"
+import type { GetUserFollowingsApiArgs } from "~/api/userFollows/userFollowsApiTypes"
 import { onBeforeUnmount, onServerPrefetch } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
 import { computed } from "vue"
-import { useGetUserFollowingsApi } from "~/api/userFollow/useUserFollowApi"
+import { useGetUserFollowingsApi } from "~/api/userFollows/useUserFollowsApi"
 import { UserFollowsTable } from "~/entities/userFollow"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiPagination } from "~/shared/ui/UiPagination"

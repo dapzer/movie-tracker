@@ -7,7 +7,7 @@ import { toast } from "vue3-toastify"
 import {
   useCreateReleaseSubscriptionApi,
   useDeleteReleaseSubscriptionApi,
-} from "~/api/releaseSubscription/useReleaseSubscriptionApi"
+} from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"

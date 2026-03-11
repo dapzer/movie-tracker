@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { MediaItemTrackingDataType, MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
-import type { MediaItemCreateApiTypes } from "~/api/mediaItem/mediaItemApiTypes"
+import type { MediaItemCreateApiTypes } from "~/api/mediaItems/mediaItemsApiTypes"
 import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum, SortOrderEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
@@ -10,8 +10,8 @@ import {
   useBulkDeleteMediaItemsApi,
   useBulkUpdateMediaItemTrackingDataApi,
   useGetMediaItemsByMediaIdApi,
-} from "~/api/mediaItem/useMediaItemtApi"
-import { useGetMediaListsApi } from "~/api/mediaList/useMediaListApi"
+} from "~/api/mediaItems/useMediaItemsApi"
+import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"

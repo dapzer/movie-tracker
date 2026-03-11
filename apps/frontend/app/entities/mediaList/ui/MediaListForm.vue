@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaListUpdateApiTypes } from "~/api/mediaList/mediaListApiTypes"
+import type { MediaListUpdateApiTypes } from "~/api/mediaLists/mediaListsApiTypes"
 import { useI18n } from "#imports"
 import {
   MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
