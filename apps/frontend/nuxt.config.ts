@@ -11,6 +11,10 @@ export default defineNuxtConfig({
     },
   },
 
+  features: {
+    inlineStyles: true, // or a function to determine inlining
+  },
+
   experimental: {
     emitRouteChunkError: "automatic-immediate",
   },
@@ -116,7 +120,7 @@ export default defineNuxtConfig({
     },
   },
 
-  vitalizer: { disablePrefetchLinks: true, disablePreloadLinks: true },
+  vitalizer: { disablePrefetchLinks: true, disablePreloadLinks: true, disableStylesheets: "entry" },
 
   components: {
     dirs: [{
