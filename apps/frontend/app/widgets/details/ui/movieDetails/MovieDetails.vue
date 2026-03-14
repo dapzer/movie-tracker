@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { GetCommunityListsWithMediaQueries } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
-import { computed, createError, useI18n } from "#imports"
+import { computed, createError, useHead, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString } from "@movie-tracker/utils"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
@@ -92,6 +92,19 @@ useMovieDetailsSeo({
   mediaId: props.mediaId,
   mediaType: props.mediaType,
   media: tmdbGetMovieDetailsApi.data.value,
+})
+
+useHead({
+  link: [
+    {
+      rel: "preload",
+      as: "image",
+      href: tmdbGetMovieDetailsApi.data.value?.poster_path
+        ? getProxiedImageUrl(tmdbGetMovieDetailsApi.data.value.poster_path, 350)
+        : "/defaultMoviePoster.svg",
+      fetchpriority: "high",
+    },
+  ],
 })
 
 const videosList = computed(() => {

@@ -29,6 +29,7 @@ const serializedSocialList = computed(() => {
       :key="social.url"
       :to="social.url"
       target="_blank"
+      :aria-label="social.name"
     >
       <component
         :is="social.icon"

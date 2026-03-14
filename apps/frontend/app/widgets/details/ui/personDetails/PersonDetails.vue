@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createError, useI18n } from "#imports"
+import { createError, useHead, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import {
@@ -14,6 +14,7 @@ import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiSlider } from "~/shared/ui/UiSlider"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { formatDate } from "~/shared/utils/formatDate"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import { usePersonDetailsSeo } from "~/widgets/details/model/usePersonDetailsSeo"
 import PersonDetailsActing from "~/widgets/details/ui/personDetails/PersonDetailsActing.vue"
 import PersonDetailsHeader from "~/widgets/details/ui/personDetails/PersonDetailsHeader.vue"
@@ -80,6 +81,19 @@ const knowFor = computed(() => {
 })
 
 usePersonDetailsSeo(tmdbGetPersonDetailsApi.data.value)
+
+useHead({
+  link: [
+    {
+      rel: "preload",
+      as: "image",
+      href: tmdbGetPersonDetailsApi.data.value?.profile_path
+        ? getProxiedImageUrl(tmdbGetPersonDetailsApi.data.value.profile_path, 350)
+        : "/defaultPersonProfile.svg",
+      fetchpriority: "high",
+    },
+  ],
+})
 </script>
 
 <template>

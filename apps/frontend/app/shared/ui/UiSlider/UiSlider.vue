@@ -110,6 +110,7 @@ const maxWidthStyle = computed(() => {
           v-if="!prevBtnDisabled && !props.hideButtons"
           class="embla__button-prev"
           variant="rounded"
+          aria-label="Previous slide"
           @click="onPrevButtonClick"
         >
           <UiIcon
@@ -121,6 +122,7 @@ const maxWidthStyle = computed(() => {
           v-if="!nextBtnDisabled && !props.hideButtons"
           class="embla__button-next"
           variant="rounded"
+          aria-label="Next slide"
           @click="onNextButtonClick"
         >
           <UiIcon
