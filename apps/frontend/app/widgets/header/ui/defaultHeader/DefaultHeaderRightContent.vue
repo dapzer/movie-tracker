@@ -28,6 +28,7 @@ const { profile } = useAuth()
     <UiButton
       :class="$style.searchButton"
       variant="textIcon"
+      aria-label="Search"
       @click="emits('handleOpenSearchModal')"
     >
       <UiIcon

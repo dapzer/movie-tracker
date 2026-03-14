@@ -18,6 +18,7 @@ const localePath = useLocalePath()
         :class="$style.trigger"
         scheme="default"
         variant="textIcon"
+        aria-label="Navigation menu"
         @click="isMobileMenuOpen = !isMobileMenuOpen"
       >
         <UiIcon
