@@ -18,9 +18,6 @@ WORKDIR /app
 COPY . .
 
 RUN turbo prune --scope=frontend --docker
-RUN ls -la out
-RUN ls -la out/full
-
 
 FROM turbo-base AS installer
 WORKDIR /app
