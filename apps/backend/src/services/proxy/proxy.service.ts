@@ -1,10 +1,12 @@
-import { generateApiUrl } from "@movie-tracker/utils"
+import { generateApiUrl, HttpStatus } from "@movie-tracker/utils"
 import { Injectable, StreamableFile } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import * as sharp from "sharp"
 import {
   ProxyFetchError,
+  ProxyFetchNotFoundError,
   ProxyImageFetchError,
+  ProxyImageNotFoundError,
   ProxyProcessingError,
   ProxyUnsupportedContentTypeError,
 } from "@/shared/errors/proxy"
@@ -28,6 +30,10 @@ export class ProxyService {
     }
 
     if (!response.ok) {
+      if (response.status === HttpStatus.NOT_FOUND) {
+        throw new ProxyFetchNotFoundError({ path })
+      }
+
       throw new ProxyFetchError({ path, statusCode: response.status })
     }
 
@@ -62,6 +68,9 @@ export class ProxyService {
     )
 
     if (!response.ok) {
+      if (response.status === HttpStatus.NOT_FOUND) {
+        throw new ProxyImageNotFoundError({ path })
+      }
       throw new ProxyImageFetchError({ path, statusCode: response.status })
     }
 

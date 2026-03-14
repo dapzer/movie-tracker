@@ -12,6 +12,7 @@ import {
 } from "@/shared/errors/core"
 import { CustomError } from "@/shared/errors/customError"
 import { MediaRatingNotFoundError } from "@/shared/errors/mediaRating"
+import { ProxyFetchNotFoundError, ProxyImageNotFoundError } from "@/shared/errors/proxy"
 
 @Catch(CustomError)
 export class CustomErrorFilter implements ExceptionFilter {
@@ -60,6 +61,16 @@ export class CustomErrorFilter implements ExceptionFilter {
       path: "media-ratings/by-media",
       methods: ["GET"],
       errors: [UnauthorizedError],
+    },
+    {
+      path: "proxy/content",
+      methods: ["GET"],
+      errors: [ProxyFetchNotFoundError],
+    },
+    {
+      path: "proxy/image",
+      methods: ["GET"],
+      errors: [ProxyImageNotFoundError],
     },
   ]
 
