@@ -25,9 +25,16 @@ function handleImageLoadingError() {
 
 <template>
   <NuxtImg
+    :class="$style.body"
     :src="imageSrc"
     loading="lazy"
     decoding="async"
     @error="handleImageLoadingError"
   />
 </template>
+
+<style module lang="css">
+.body {
+  color: transparent;
+}
+</style>
