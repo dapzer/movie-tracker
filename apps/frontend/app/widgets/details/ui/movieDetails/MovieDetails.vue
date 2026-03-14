@@ -242,7 +242,7 @@ const releasedEpisodes = computed(() => {
           :name="person.name"
           :description="person.character || arrayToString(person.roles, 'character')"
           :person-page-url="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${person.id}`)"
-          :image-src="getProxiedImageUrl(person.profile_path, 260)"
+          :image-src="person.profile_path && getProxiedImageUrl(person.profile_path, 260)"
         />
       </div>
     </UiSectionWithSeeMore>
