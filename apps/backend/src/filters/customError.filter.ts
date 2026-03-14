@@ -13,6 +13,7 @@ import {
 import { CustomError } from "@/shared/errors/customError"
 import { MediaRatingNotFoundError } from "@/shared/errors/mediaRating"
 import { ProxyFetchNotFoundError, ProxyImageNotFoundError } from "@/shared/errors/proxy"
+import { ReleaseSubscriptionNotFoundError } from "@/shared/errors/releaseSubscription"
 
 function matchPath(pattern: string, actualPath: string): boolean {
   if (pattern.includes(":") || pattern.includes("*")) {
@@ -54,7 +55,7 @@ export class CustomErrorFilter implements ExceptionFilter {
     {
       path: "/api/release-subscriptions/by-media/:mediaId",
       methods: ["GET"],
-      errors: [UnauthorizedError],
+      errors: [UnauthorizedError, ReleaseSubscriptionNotFoundError],
     },
     {
       path: "/api/media-ratings/by-media/:mediaId",
