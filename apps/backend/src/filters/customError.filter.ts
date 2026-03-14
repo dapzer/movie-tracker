@@ -14,6 +14,17 @@ import { CustomError } from "@/shared/errors/customError"
 import { MediaRatingNotFoundError } from "@/shared/errors/mediaRating"
 import { ProxyFetchNotFoundError, ProxyImageNotFoundError } from "@/shared/errors/proxy"
 
+function matchPath(pattern: string, actualPath: string): boolean {
+  if (pattern.includes(":") || pattern.includes("*")) {
+    const regexStr = pattern
+      .replace(/:[^/]+/g, "[^/?]+")
+      .replace(/\*[^/]*/g, ".+")
+    const regex = new RegExp(`^${regexStr}(?:\\?.*)?$`)
+    return regex.test(actualPath)
+  }
+  return pattern === actualPath
+}
+
 @Catch(CustomError)
 export class CustomErrorFilter implements ExceptionFilter {
   logger = new Logger("CustomErrorFilter")
@@ -31,44 +42,37 @@ export class CustomErrorFilter implements ExceptionFilter {
 
   ignoredErrorsForLogging: Array<{
     path: string
-    exactPath?: boolean
     methods: string[]
     // eslint-disable-next-line ts/no-unsafe-function-type
     errors: Function[]
   }> = [
     {
-      path: "users/me",
+      path: "/api/users/me",
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
     {
-      path: "release-subscriptions/by-media",
+      path: "/api/release-subscriptions/by-media/:mediaId",
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
     {
-      path: "media-ratings/by-media",
+      path: "/api/media-ratings/by-media/:mediaId",
       methods: ["GET"],
       errors: [UnauthorizedError, MediaRatingNotFoundError],
     },
     {
       path: "/api/media-lists",
-      exactPath: true,
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
     {
-      path: "media-ratings/by-media",
-      methods: ["GET"],
-      errors: [UnauthorizedError],
-    },
-    {
-      path: "proxy/content",
+      path: "/api/proxy/content/*everything",
       methods: ["GET"],
       errors: [ProxyFetchNotFoundError],
     },
     {
-      path: "proxy/image",
+      path: "/api/proxy/image/*everything",
       methods: ["GET"],
       errors: [ProxyImageNotFoundError],
     },
@@ -95,27 +99,12 @@ export class CustomErrorFilter implements ExceptionFilter {
 
     const isLoggingIgnored = this.ignoredErrorsForLogging.some(
       (el) => {
-        const pathMatch = el.exactPath ? el.path === path : path.includes(el.path)
+        const pathMatch = matchPath(el.path, path)
         return pathMatch && el.methods.includes(method) && el.errors.some(error => exception instanceof error)
       },
     )
 
     if (!isLoggingIgnored) {
-      // TODO: Use metadata after implementing json logging and log aggregation
-      // const metadata: Record<string, unknown> = {}
-      // for (const [key, value] of Object.entries(exception as unknown as Record<string, unknown>)) {
-      //   if (
-      //     key !== "message"
-      //     && key !== "name"
-      //     && key !== "stack"
-      //     && key !== "cause"
-      //     && key !== "details"
-      //     && typeof value !== "function"
-      //   ) {
-      //     metadata[key] = value
-      //   }
-      // }
-
       this.logger.error({
         err: exception,
         path,
