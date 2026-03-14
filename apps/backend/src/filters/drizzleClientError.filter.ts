@@ -2,7 +2,6 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger } from "@nest
 import { DrizzleQueryError } from "drizzle-orm/errors"
 import { Request, Response } from "express"
 import { DatabaseError } from "pg"
-import { config } from "@/shared/constants"
 
 @Catch(DrizzleQueryError)
 export class DrizzleClientErrorFilter implements ExceptionFilter {
@@ -12,6 +11,8 @@ export class DrizzleClientErrorFilter implements ExceptionFilter {
     const ctx = host.switchToHttp()
     const res = ctx.getResponse<Response>()
     const req = ctx.getRequest<Request>()
+    const path = ctx.getRequest().path
+    const method = ctx.getRequest().method
 
     const pgError = exception.cause as DatabaseError | undefined
     const code = pgError?.code
@@ -36,13 +37,15 @@ export class DrizzleClientErrorFilter implements ExceptionFilter {
         break
 
       default:
-        this.logger.error(`[${code}]: ${pgError?.message}`, exception.stack)
     }
 
-    if (config.NODE_ENV === "development") {
-      message += pgError ? ` - ${pgError.message} (${pgError.detail})` : ""
-      this.logger.error(`[${code}]: ${message}`, exception)
-    }
+    message += pgError ? `${pgError.message} (${pgError.detail})` : ""
+
+    this.logger.error({
+      err: exception,
+      path,
+      method,
+    }, "Database error occurred during request")
 
     res.status(status).json({
       statusCode: status,

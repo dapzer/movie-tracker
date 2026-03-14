@@ -36,7 +36,7 @@ export class CustomErrorFilter implements ExceptionFilter {
     errors: Function[]
   }> = [
     {
-      path: "users",
+      path: "users/me",
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
@@ -51,8 +51,13 @@ export class CustomErrorFilter implements ExceptionFilter {
       errors: [UnauthorizedError, MediaRatingNotFoundError],
     },
     {
-      path: "api/media-lists",
+      path: "/api/media-lists",
       exactPath: true,
+      methods: ["GET"],
+      errors: [UnauthorizedError],
+    },
+    {
+      path: "media-ratings/by-media",
       methods: ["GET"],
       errors: [UnauthorizedError],
     },
