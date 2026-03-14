@@ -6,4 +6,4 @@ import { SitemapsServiceModule } from "@/services/sitemaps/sitemaps.module"
   imports: [SitemapsServiceModule],
   controllers: [SitemapsController],
 })
-export class SitemapsHttpModule {}
+export class SitemapsModule {}

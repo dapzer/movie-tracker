@@ -6,4 +6,4 @@ import { ReleaseSubscriptionsServiceModule } from "@/services/releaseSubscriptio
   imports: [ReleaseSubscriptionsServiceModule],
   controllers: [ReleaseSubscriptionsController],
 })
-export class ReleaseSubscriptionsHttpModule {}
+export class ReleaseSubscriptionsModule {}

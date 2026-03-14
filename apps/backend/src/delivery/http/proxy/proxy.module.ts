@@ -6,4 +6,4 @@ import { ProxyServiceModule } from "@/services/proxy/proxy.module"
   imports: [ProxyServiceModule],
   controllers: [ProxyController],
 })
-export class ProxyHttpModule {}
+export class ProxyModule {}

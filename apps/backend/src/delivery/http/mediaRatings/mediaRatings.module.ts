@@ -6,4 +6,4 @@ import { MediaRatingsServiceModule } from "@/services/mediaRatings/mediaRatings.
   imports: [MediaRatingsServiceModule],
   controllers: [MediaRatingsController],
 })
-export class MediaRatingsHttpModule {}
+export class MediaRatingsModule {}

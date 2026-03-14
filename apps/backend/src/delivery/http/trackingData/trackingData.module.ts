@@ -6,4 +6,4 @@ import { TrackingDataServiceModule } from "@/services/trackingData/trackingData.
   imports: [TrackingDataServiceModule],
   controllers: [TrackingDataController],
 })
-export class TrackingDataHttpModule {}
+export class TrackingDataModule {}

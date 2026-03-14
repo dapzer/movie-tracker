@@ -6,4 +6,4 @@ import { UsersServiceModule } from "@/services/users/users.module"
   imports: [UsersServiceModule],
   controllers: [UsersController],
 })
-export class UsersHttpModule {}
+export class UsersModule {}

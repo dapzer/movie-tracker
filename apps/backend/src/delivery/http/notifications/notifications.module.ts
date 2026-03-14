@@ -6,4 +6,4 @@ import { NotificationsServiceModule } from "@/services/notifications/notificatio
   imports: [NotificationsServiceModule],
   controllers: [NotificationsController],
 })
-export class NotificationsHttpModule {}
+export class NotificationsModule {}

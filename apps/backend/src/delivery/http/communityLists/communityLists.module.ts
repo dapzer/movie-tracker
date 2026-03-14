@@ -6,4 +6,4 @@ import { CommunityListsServiceModule } from "@/services/communityLists/community
   imports: [CommunityListsServiceModule],
   controllers: [CommunityListsController],
 })
-export class CommunityListsHttpModule {}
+export class CommunityListsModule {}

@@ -6,4 +6,4 @@ import { AnalyticsServiceModule } from "@/services/analytics/analytics.module"
   imports: [AnalyticsServiceModule],
   controllers: [AnalyticsController],
 })
-export class AnalyticsHttpModule {}
+export class AnalyticsModule {}

@@ -6,4 +6,4 @@ import { MediaListViewsServiceModule } from "@/services/mediaListViews/mediaList
   imports: [MediaListViewsServiceModule],
   controllers: [MediaListViewsController],
 })
-export class MediaListViewsHttpModule {}
+export class MediaListViewsModule {}

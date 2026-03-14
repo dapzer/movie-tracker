@@ -6,4 +6,4 @@ import { MediaDetailsServiceModule } from "@/services/mediaDetails/mediaDetails.
   imports: [MediaDetailsServiceModule],
   controllers: [MediaDetailsController],
 })
-export class MediaDetailsHttpModule {}
+export class MediaDetailsModule {}

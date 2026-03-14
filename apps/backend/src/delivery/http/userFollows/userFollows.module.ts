@@ -6,4 +6,4 @@ import { UserFollowsServiceModule } from "@/services/userFollows/userFollows.mod
   imports: [UserFollowsServiceModule],
   controllers: [UserFollowsController],
 })
-export class UserFollowsHttpModule {}
+export class UserFollowsModule {}

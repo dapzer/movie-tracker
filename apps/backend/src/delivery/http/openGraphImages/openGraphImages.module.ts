@@ -6,4 +6,4 @@ import { OpenGraphImagesServiceModule } from "@/services/openGraphImages/openGra
   imports: [OpenGraphImagesServiceModule],
   controllers: [OpenGraphImagesController],
 })
-export class OpenGraphImagesHttpModule {}
+export class OpenGraphImagesModule {}
