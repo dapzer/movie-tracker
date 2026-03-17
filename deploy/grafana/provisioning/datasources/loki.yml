@@ -1,0 +1,15 @@
+apiVersion: 1
+
+# Optional: delete sources that are no longer in the files (useful for GitOps)
+#deleteDatasources:
+#  - name: OldPrometheus
+#    orgId: 1
+
+datasources:
+  - name: Loki
+    type: loki
+    uid: loki-main
+    access: proxy
+    url: http://loki:3100
+    jsonData:
+      maxLines: 1000

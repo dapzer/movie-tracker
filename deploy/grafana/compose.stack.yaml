@@ -10,6 +10,9 @@ services:
       - grafana
     volumes:
       - grafana-storage:/var/lib/grafana
+    configs:
+      - source: grafana_provisioning
+        target: /etc/grafana/provisioning
     deploy:
       placement:
         constraints:
@@ -102,12 +105,14 @@ services:
           - node.role == manager
 
 configs:
+  grafana_provisioning:
+    file: ./provisioning
   prometheus_config:
-    file: ./prometheus.yml
+    file: ./configs/prometheus.yml
   alloy_config:
-    file: ./config.alloy
+    file: ./configs/config.alloy
   loki_config:
-    file: ./loki.yaml
+    file: ./configs/loki.yaml
 
 volumes:
   grafana-storage:
