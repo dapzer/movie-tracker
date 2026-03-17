@@ -103,6 +103,7 @@ const accessLevel = computed(() => {
           :class="$style.shareButton"
           variant="text"
           :disabled="copied"
+          aria-label="Copy list link"
           @click="copyLink"
         >
           <UiIcon
