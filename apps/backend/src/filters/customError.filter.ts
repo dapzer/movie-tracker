@@ -106,11 +106,18 @@ export class CustomErrorFilter implements ExceptionFilter {
     )
 
     if (!isLoggingIgnored) {
-      this.logger.error({
+      const body = {
         err: exception,
         path,
         method,
-      }, `Error during request`)
+      }
+
+      if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+        this.logger.error(body, `Error during request`)
+      }
+      else {
+        this.logger.warn(body, `Error during request`)
+      }
     }
 
     const responseBody = {

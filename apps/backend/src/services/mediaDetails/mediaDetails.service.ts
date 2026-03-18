@@ -94,27 +94,22 @@ export class MediaDetailsService implements OnModuleInit {
     mediaType: MediaTypeEnum,
     language: string,
   ): Promise<TmdbDetailsWithSeasonsResponseType | null> {
-    try {
-      if (mediaType === MediaTypeEnum.TV) {
-        return getTmdbDetailsWithSeasonsApi({
-          mediaId,
-          mediaType,
-          language,
-        })
-      }
-
-      const details = await getTmdbDetailApi({
+    if (mediaType === MediaTypeEnum.TV) {
+      return getTmdbDetailsWithSeasonsApi({
         mediaId,
         mediaType,
         language,
-
       })
+    }
 
-      return { details }
-    }
-    catch {
-      return null
-    }
+    const details = await getTmdbDetailApi({
+      mediaId,
+      mediaType,
+      language,
+
+    })
+
+    return { details }
   }
 
   private async getAllMediaDetails(mediaId: number, mediaType: MediaTypeEnum) {
@@ -129,8 +124,12 @@ export class MediaDetailsService implements OnModuleInit {
         en,
       }
     }
-    catch {
-      this.logger.error(`Failed to get data from TMDB with id ${mediaId} and type ${mediaType}.`)
+    catch (error) {
+      this.logger.warn({
+        err: error,
+        mediaId,
+        mediaType,
+      }, "Failed to get data from TMDB")
 
       return {
         ru: null,
@@ -265,7 +264,10 @@ export class MediaDetailsService implements OnModuleInit {
         this.logger.log("Notifications sent successfully.")
       }
       catch (e) {
-        this.logger.error(`Failed to send notifications: ${e}`)
+        this.logger.error({
+          err: e,
+          count: allNotifications.length,
+        }, "Failed to send notifications")
       }
     }
   }
@@ -412,7 +414,8 @@ export class MediaDetailsService implements OnModuleInit {
     }
 
     this.logger.log(
-      `Successful updates: ${this.updatingProgress.successfulUpdates} / Failed updates by API: ${this.updatingProgress.failedUpdatesByApi} / Failed updates by DB: ${this.updatingProgress.failedUpdatesByDb}`,
+      this.updatingProgress,
+      `Media details update completed`,
     )
 
     await this.sendNotifications()
