@@ -9,7 +9,7 @@ export function usePersonDetailsSeo(person?: TmdbPersonType | null) {
   const getOgApiUrl = generateApiUrl(import.meta.env.VITE_API_URL || "")
 
   const ogImage = computed(() => {
-    return getOgApiUrl(`/open-graph-image`, {
+    return getOgApiUrl(`/open-graph-images`, {
       title: person?.name || "",
       imageUrl: person?.profile_path ? getProxiedImageUrl(person?.profile_path, undefined, true) : undefined,
       isAvatarPlaceholder: true,

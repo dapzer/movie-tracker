@@ -31,7 +31,7 @@ export function useMovieDetailsSeo(args: Args) {
   })
 
   const ogImage = computed(() => {
-    return getOgApiUrl(`/open-graph-image`, {
+    return getOgApiUrl(`/open-graph-images`, {
       title: getTitle?.(title.value, undefined) ?? title.value,
       imageUrl: media?.poster_path ? getProxiedImageUrl(media?.poster_path, undefined, true) : undefined,
     })
