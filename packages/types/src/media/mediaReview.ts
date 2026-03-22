@@ -84,3 +84,8 @@ export type MediaReviewDislikeCreateBodyType = Pick<MediaReviewDislike, "mediaId
   | "mediaType"
   | "mediaDetailsId"
   | "mediaReviewId">
+
+export interface MediaReviewPaginatedType {
+  items: MediaReview[]
+  totalCount: number
+}
