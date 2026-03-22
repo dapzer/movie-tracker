@@ -134,10 +134,11 @@ const totalItems = computed(() => pagedResponse.value?.totalCount ?? 0)
 const currentTabContent = computed(() => pagedResponse.value?.items ?? [])
 
 const loadingSkeletonsCount = computed(() => {
-  const countByStatus = groupedByStatus.value?.[activeTab.value as keyof typeof groupedByStatus.value] ?? 0
-  const itemsOnPreviousPages = (currentPage.value - 1) * 20
+  const tabKey = activeTab.value === "all" ? "total" : activeTab.value
+  const countByStatus = groupedByStatus.value?.[tabKey as keyof typeof groupedByStatus.value] ?? 0
+  const itemsOnPreviousPages = currentPage.value * 20
 
-  return Math.min(((countByStatus - itemsOnPreviousPages) || 6), 20)
+  return Math.min(Math.max(countByStatus - itemsOnPreviousPages, 6), 20)
 })
 
 watchEffect(() => {
@@ -236,7 +237,7 @@ watchEffect(() => {
               :key="index"
             />
           </template>
-          <template v-else>
+          <template v-else-if="currentTabContent.length">
             <MediaCard
               v-for="movie in currentTabContent"
               :key="movie.id"
