@@ -119,46 +119,44 @@ function handleRatingClick() {
 
   &.editable {
     cursor: pointer;
+
+    &:hover {
+      .avatarOverlay {
+        position: relative;
+        width: 16px;
+        height: 16px;
+        border-radius: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .pencilIcon {
+          z-index: 1;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: block;
+        }
+
+        &:after {
+          z-index: 0;
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: var(--c-black-30);
+        }
+      }
+    }
   }
 
   .avatarOverlay {
     .pencilIcon {
       display: none;
-    }
-  }
-
-  &:hover {
-    cursor: pointer;
-
-    .avatarOverlay {
-      position: relative;
-      width: 16px;
-      height: 16px;
-      border-radius: 100%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .pencilIcon {
-        z-index: 1;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: block;
-      }
-
-      &:after {
-        z-index: 0;
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--c-black-30);
-      }
     }
   }
 }
