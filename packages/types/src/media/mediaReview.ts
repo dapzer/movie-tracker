@@ -40,6 +40,7 @@ export interface MediaReview {
   dislikesCount?: number
   isLiked?: boolean
   isDisliked?: boolean
+  rating?: number
 }
 
 export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"

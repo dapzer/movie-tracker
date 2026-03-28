@@ -1,4 +1,11 @@
-import { mediaDetails, mediaReviewDislikes, mediaReviewLikes, mediaReviews, users } from "@movie-tracker/database"
+import {
+  mediaDetails,
+  mediaRatings,
+  mediaReviewDislikes,
+  mediaReviewLikes,
+  mediaReviews,
+  users,
+} from "@movie-tracker/database"
 import { and, eq } from "@movie-tracker/database/drizzle"
 import {
   MediaDetailsInfoType,
@@ -23,6 +30,7 @@ import { getPublicUser } from "@/shared/utils/getPublicUser"
 type MediaReviewRow = typeof mediaReviews.$inferSelect
 type MediaDetailsRow = typeof mediaDetails.$inferSelect
 type UserRow = typeof users.$inferSelect
+type MediaRatingsRow = typeof mediaRatings.$inferSelect
 
 @Injectable()
 export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterface {
@@ -69,6 +77,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
     mediaReview: MediaReviewRow
     user?: UserRow | null
     mediaDetails?: MediaDetailsRow | null
+    mediaRating?: MediaRatingsRow | null
     likesCount?: number
     dislikesCount?: number
     isLiked?: boolean
@@ -99,6 +108,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       dislikesCount: args.dislikesCount,
       isLiked: args.isLiked,
       isDisliked: args.isDisliked,
+      rating: args.mediaRating?.rating,
     }
   }
 
@@ -120,6 +130,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         mediaReview: mediaReviews,
         user: users,
         mediaDetails,
+        mediaRating: mediaRatings,
         likesCount: sql<number>`(${likesSubquery})`,
         dislikesCount: sql<number>`(${dislikesSubquery})`,
         isLiked: args.currentUserId
@@ -140,6 +151,10 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       .from(mediaReviews)
       .leftJoin(users, eq(users.id, mediaReviews.userId))
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaReviews.mediaDetailsId))
+      .leftJoin(mediaRatings, and(
+        eq(mediaRatings.userId, mediaReviews.userId),
+        eq(mediaRatings.mediaId, mediaReviews.mediaId),
+      ))
       .where(eq(mediaReviews.id, args.id))
       .limit(1)
 
@@ -148,6 +163,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           mediaReview: row.mediaReview,
           user: row.user,
           mediaDetails: row.mediaDetails,
+          mediaRating: row.mediaRating,
           likesCount: row.likesCount,
           dislikesCount: row.dislikesCount,
           isLiked: row.isLiked,
@@ -173,6 +189,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       .select({
         mediaReview: mediaReviews,
         user: users,
+        mediaRating: mediaRatings,
         likesCount: sql<number>`(${likesSubquery})`,
         dislikesCount: sql<number>`(${dislikesSubquery})`,
         isLiked: args.currentUserId
@@ -192,6 +209,10 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       })
       .from(mediaReviews)
       .leftJoin(users, eq(users.id, mediaReviews.userId))
+      .leftJoin(mediaRatings, and(
+        eq(mediaRatings.userId, mediaReviews.userId),
+        eq(mediaRatings.mediaId, mediaReviews.mediaId),
+      ))
       .where(
         and(
           eq(mediaReviews.userId, args.userId),
@@ -204,6 +225,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       ? this.convertToInterface({
           mediaReview: row.mediaReview,
           user: row.user,
+          mediaRating: row.mediaRating,
           likesCount: row.likesCount,
           dislikesCount: row.dislikesCount,
           isLiked: row.isLiked,
@@ -230,6 +252,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         .select({
           mediaReview: mediaReviews,
           user: users,
+          mediaRating: mediaRatings,
           likesCount: sql<number>`(${likesSubquery})`,
           dislikesCount: sql<number>`(${dislikesSubquery})`,
           isLiked: args.currentUserId
@@ -249,6 +272,10 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         })
         .from(mediaReviews)
         .leftJoin(users, eq(users.id, mediaReviews.userId))
+        .leftJoin(mediaRatings, and(
+          eq(mediaRatings.userId, mediaReviews.userId),
+          eq(mediaRatings.mediaId, mediaReviews.mediaId),
+        ))
         .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
         .limit(args.limit)
         .offset(args.offset),
@@ -262,6 +289,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       items: items.map(item => this.convertToInterface({
         mediaReview: item.mediaReview,
         user: item.user,
+        mediaRating: item.mediaRating,
         likesCount: Number(item.likesCount),
         dislikesCount: Number(item.dislikesCount),
         isLiked: Boolean(item.isLiked),
@@ -309,6 +337,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           mediaReview: mediaReviews,
           user: users,
           mediaDetails,
+          mediaRating: mediaRatings,
           likesCount: sql<number>`(${likesSubquery})`,
           dislikesCount: sql<number>`(${dislikesSubquery})`,
           isLiked: args.currentUserId
@@ -329,6 +358,10 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         .from(mediaReviews)
         .leftJoin(users, eq(users.id, mediaReviews.userId))
         .leftJoin(mediaDetails, eq(mediaDetails.id, mediaReviews.mediaDetailsId))
+        .leftJoin(mediaRatings, and(
+          eq(mediaRatings.userId, mediaReviews.userId),
+          eq(mediaRatings.mediaId, mediaReviews.mediaId),
+        ))
         .where(and(eq(mediaReviews.userId, args.userId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
         .limit(args.limit)
         .offset(args.offset),
@@ -343,6 +376,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         mediaReview: item.mediaReview,
         user: item.user,
         mediaDetails: item.mediaDetails,
+        mediaRating: item.mediaRating,
         likesCount: Number(item.likesCount),
         dislikesCount: Number(item.dislikesCount),
         isLiked: Boolean(item.isLiked),
