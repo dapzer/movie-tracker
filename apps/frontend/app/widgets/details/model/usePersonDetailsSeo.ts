@@ -3,6 +3,7 @@ import { useI18n, useSeoMeta } from "#imports"
 import { generateApiUrl } from "@movie-tracker/utils"
 import { computed } from "vue"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
+import { getShortText } from "~/shared/utils/getShortText"
 
 export function usePersonDetailsSeo(person?: TmdbPersonType | null) {
   const { t } = useI18n()
@@ -16,6 +17,10 @@ export function usePersonDetailsSeo(person?: TmdbPersonType | null) {
     })
   })
 
+  const description = computed(() => {
+    return getShortText(person?.biography ?? t("seo.description"), 150)
+  })
+
   useSeoMeta({
     titleTemplate(titleChunk) {
       return `${person?.name} | ${person?.known_for_department
@@ -23,15 +28,15 @@ export function usePersonDetailsSeo(person?: TmdbPersonType | null) {
         )} | `
         : ""}${titleChunk}`
     },
-    ogTitle: `%s | ${person?.name}`,
-    description: person?.biography || t("seo.description"),
-    ogDescription: person?.biography || t("seo.description"),
+    ogTitle: `Movie Tracker | ${person?.name}`,
+    description,
+    ogDescription: description,
     ogImageWidth: 1200,
     ogImageHeight: 630,
     ogImage: ogImage.value,
     twitterImage: ogImage.value,
     twitterCard: "summary_large_image",
-    twitterTitle: `%s | ${person?.name}`,
-    twitterDescription: person?.biography || t("seo.description"),
+    twitterTitle: `Movie Tracker | ${person?.name}`,
+    twitterDescription: description,
   })
 }
