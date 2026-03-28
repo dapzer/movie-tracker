@@ -52,7 +52,7 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    exclude: ["/dashboard"],
+    exclude: ["/dashboard", "/release-subscriptions", "/lists", "/search"],
     cacheMaxAgeSeconds: 24 * 60 * 60,
     defaultSitemapsChunkSize: 50000,
     sitemaps: {
