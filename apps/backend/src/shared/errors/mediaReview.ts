@@ -1,4 +1,4 @@
-import { ConflictError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
+import { ConflictError, ForbiddenError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
 import { CustomErrorOptions } from "@/shared/errors/customError"
 
 export class MediaReviewNotFoundError extends NotFoundError {
@@ -24,6 +24,17 @@ export class MediaReviewUnauthorizedError extends UnauthorizedError {
     super(args.message ?? "Unauthorized.", { cause: args.cause, details: args.details })
     this.userId = args.userId
     this.mediaReviewId = args.mediaReviewId
+  }
+}
+
+export class MediaReviewPermissionError extends ForbiddenError {
+  readonly userId?: string
+  readonly requiredRoles?: string[]
+
+  constructor(args?: { userId?: string, requiredRoles?: string[] } & CustomErrorOptions) {
+    super(args?.message ?? "Permission denied", { cause: args?.cause, details: args?.details })
+    this.userId = args?.userId
+    this.requiredRoles = args?.requiredRoles
   }
 }
 

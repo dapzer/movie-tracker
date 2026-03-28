@@ -1,4 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { GetMediaReviewsByMediaIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByMediaIdQuery.dto"
+import { GetMediaReviewsByUserIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByUserIdQuery.dto"
 import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaReview.dto"
@@ -7,7 +9,6 @@ import { CreateMediaReviewLikeDto } from "@/services/mediaReviews/dto/createMedi
 import { UpdateMediaReviewDto } from "@/services/mediaReviews/dto/updateMediaReview.dto"
 import { MediaReviewsService } from "@/services/mediaReviews/mediaReviews.service"
 import { User } from "@/services/users/user.decorator"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 
 @Controller("media-reviews")
@@ -21,21 +22,24 @@ export class MediaReviewsController {
   }
 
   @Get("by-media/:mediaId")
-  async getMediaReviewsByMediaId(@User() user: UserDto, @Param("mediaId") mediaId: string, @Query() query: PaginationDto) {
+  async getMediaReviewsByMediaId(@User() user: UserDto, @Param("mediaId") mediaId: string, @Query() query: GetMediaReviewsByMediaIdQueryDto) {
     return this.mediaReviewsService.getByMediaId({
       mediaId: Number(mediaId),
       limit: query.limit,
       offset: query.offset,
-      currentUserId: user?.id,
+      currentUser: user,
+      status: query.status,
     })
   }
 
   @Get("by-user/:id")
-  async getMediaReviewsByUserId(@Param() params: UuidDto, @Query() query: PaginationDto) {
+  async getMediaReviewsByUserId(@Param() params: UuidDto, @Query() query: GetMediaReviewsByUserIdQueryDto, @User() user: UserDto) {
     return this.mediaReviewsService.getByUserId({
       userId: params.id,
       limit: query.limit,
       offset: query.offset,
+      currentUser: user,
+      status: query.status,
     })
   }
 
@@ -52,7 +56,7 @@ export class MediaReviewsController {
     @User() user: UserDto,
     @Body() body: UpdateMediaReviewDto,
   ) {
-    return this.mediaReviewsService.update({ id: params.id, userId: user.id, body })
+    return this.mediaReviewsService.update({ id: params.id, body, currentUser: user })
   }
 
   @Delete(":id")

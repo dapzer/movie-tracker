@@ -1,9 +1,10 @@
-import type { PaginationType } from "@movie-tracker/types"
 import {
   MediaReview,
   MediaReviewCreateBodyType,
   MediaReviewPaginatedType,
+  MediaReviewStatus,
   MediaReviewUpdateBodyType,
+  PaginationType,
 } from "@movie-tracker/types"
 
 export const MediaReviewRepositorySymbol = Symbol("MediaReviewRepository")
@@ -23,11 +24,13 @@ export interface MediaReviewRepositoryInterface {
   getByMediaId: (args: {
     mediaId: number
     currentUserId?: string
+    status?: MediaReviewStatus
   } & PaginationType) => Promise<MediaReviewPaginatedType>
 
   getByUserId: (args: {
     userId: string
     currentUserId?: string
+    status?: MediaReviewStatus
   } & PaginationType) => Promise<MediaReviewPaginatedType>
 
   create: (args: {

@@ -249,13 +249,13 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         })
         .from(mediaReviews)
         .leftJoin(users, eq(users.id, mediaReviews.userId))
-        .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, MediaReviewStatus.PUBLISHED)))
+        .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
         .select({ count: count() })
         .from(mediaReviews)
-        .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, MediaReviewStatus.PUBLISHED))),
+        .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED))),
     ])
 
     return {
@@ -269,6 +269,25 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       })),
       totalCount: totalCount[0]?.count ?? 0,
     }
+  }
+
+  async create(
+    args: Parameters<MediaReviewRepositoryInterface["create"]>[0],
+  ): Promise<MediaReview> {
+    const [mediaReview] = await this.drizzle.client
+      .insert(mediaReviews)
+      .values({
+        userId: args.userId,
+        mediaId: args.mediaId,
+        mediaType: args.mediaType as MediaReviewCreateBodyType["mediaType"],
+        mediaDetailsId: args.mediaDetailsId,
+        title: args.title,
+        content: args.content,
+        isSpoiler: args.isSpoiler,
+      })
+      .returning()
+
+    return this.convertToInterface({ mediaReview })
   }
 
   async getByUserId(
@@ -310,13 +329,13 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         .from(mediaReviews)
         .leftJoin(users, eq(users.id, mediaReviews.userId))
         .leftJoin(mediaDetails, eq(mediaDetails.id, mediaReviews.mediaDetailsId))
-        .where(and(eq(mediaReviews.userId, args.userId), eq(mediaReviews.status, MediaReviewStatus.PUBLISHED)))
+        .where(and(eq(mediaReviews.userId, args.userId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
         .select({ count: count() })
         .from(mediaReviews)
-        .where(and(eq(mediaReviews.userId, args.userId), eq(mediaReviews.status, MediaReviewStatus.PUBLISHED))),
+        .where(and(eq(mediaReviews.userId, args.userId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED))),
     ])
 
     return {
@@ -331,25 +350,6 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       })),
       totalCount: totalCount[0]?.count ?? 0,
     }
-  }
-
-  async create(
-    args: Parameters<MediaReviewRepositoryInterface["create"]>[0],
-  ): Promise<MediaReview> {
-    const [mediaReview] = await this.drizzle.client
-      .insert(mediaReviews)
-      .values({
-        userId: args.userId,
-        mediaId: args.mediaId,
-        mediaType: args.mediaType as MediaReviewCreateBodyType["mediaType"],
-        mediaDetailsId: args.mediaDetailsId,
-        title: args.title,
-        content: args.content,
-        isSpoiler: args.isSpoiler,
-      })
-      .returning()
-
-    return this.convertToInterface({ mediaReview })
   }
 
   async update(

@@ -1,3 +1,4 @@
+import { MediaReviewStatus, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
@@ -25,6 +26,7 @@ import {
   MediaReviewLikeAlreadyExistsError,
   MediaReviewLikeNotFoundError,
   MediaReviewNotFoundError,
+  MediaReviewPermissionError,
   MediaReviewUnauthorizedError,
 } from "@/shared/errors/mediaReview"
 
@@ -38,7 +40,8 @@ export class MediaReviewsService {
     @Inject(MediaReviewDislikeRepositorySymbol)
     private readonly mediaReviewDislikeRepository: MediaReviewDislikeRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
-  ) {}
+  ) {
+  }
 
   async getById(args: { id: string, currentUserId?: string }) {
     const mediaReview = await this.mediaReviewRepository.getById({ id: args.id, currentUserId: args.currentUserId })
@@ -50,20 +53,34 @@ export class MediaReviewsService {
     return mediaReview
   }
 
-  async getByMediaId(args: { mediaId: number, currentUserId?: string } & PaginationDto) {
+  async getByMediaId(args: { mediaId: number, currentUser?: UserType, status?: MediaReviewStatus } & PaginationDto) {
+    if (args.status !== MediaReviewStatus.PUBLISHED && !args.currentUser?.roles.includes(UserRoleEnum.ADMIN)) {
+      throw new MediaReviewPermissionError({ userId: args.currentUser?.id, requiredRoles: [UserRoleEnum.ADMIN] })
+    }
+
     return this.mediaReviewRepository.getByMediaId({
       mediaId: args.mediaId,
       limit: args.limit,
       offset: args.offset,
-      currentUserId: args.currentUserId,
+      currentUserId: args.currentUser?.id,
+      status: args.status,
     })
   }
 
-  async getByUserId(args: { userId: string } & PaginationDto) {
+  async getByUserId(args: { userId: string, currentUser?: UserType, status?: MediaReviewStatus } & PaginationDto) {
+    if (
+      args.status !== MediaReviewStatus.PUBLISHED
+      && (!args.currentUser?.roles.includes(UserRoleEnum.ADMIN) || args.currentUser.id !== args.userId)
+    ) {
+      throw new MediaReviewPermissionError({ userId: args.currentUser?.id, requiredRoles: [UserRoleEnum.ADMIN] })
+    }
+
     return this.mediaReviewRepository.getByUserId({
       userId: args.userId,
+      currentUserId: args.currentUser?.id,
       limit: args.limit,
       offset: args.offset,
+      status: args.status,
     })
   }
 
@@ -95,15 +112,21 @@ export class MediaReviewsService {
     })
   }
 
-  async update(args: { id: string, userId: string, body: UpdateMediaReviewDto }) {
+  async update(args: { id: string, body: UpdateMediaReviewDto, currentUser?: UserType }) {
     const mediaReview = await this.mediaReviewRepository.getById({ id: args.id })
 
     if (!mediaReview) {
       throw new MediaReviewNotFoundError({ mediaReviewId: args.id })
     }
 
-    if (mediaReview.userId !== args.userId) {
-      throw new MediaReviewUnauthorizedError({ userId: args.userId, mediaReviewId: args.id })
+    const isModerator = args.currentUser?.roles.includes(UserRoleEnum.ADMIN)
+
+    if (mediaReview.userId !== args.currentUser.id && !isModerator) {
+      throw new MediaReviewUnauthorizedError({ userId: args.currentUser.id, mediaReviewId: args.id })
+    }
+
+    if (args.body.status && ![MediaReviewStatus.PENDING, MediaReviewStatus.DRAFT].includes(args.body.status) && !isModerator) {
+      throw new MediaReviewPermissionError({ userId: args.currentUser.id })
     }
 
     return this.mediaReviewRepository.update({
