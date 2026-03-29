@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import type { FetchError } from "@movie-tracker/utils"
 import { createError, useHead, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { HttpStatus } from "@movie-tracker/utils"
 import { computed } from "vue"
 import {
   useGetTmdbPersonCreditsApi,
@@ -43,7 +45,7 @@ const tmdbGetPersonExternalIdsApi = useGetTmdbPersonExternalIdsApi(personQueries
 
 await Promise.all([
   tmdbGetPersonDetailsApi.suspense().then((res) => {
-    if ((res.error as Error)?.message.startsWith("404")) {
+    if ((res.error as FetchError)?.statusCode === HttpStatus.NOT_FOUND) {
       throw createError({
         statusCode: 404,
         message: t("ui.errors.pageNotFound"),

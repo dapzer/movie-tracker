@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import type { GetCommunityListsWithMediaQueries } from "@movie-tracker/types"
+import type { FetchError } from "@movie-tracker/utils"
 import { useLocalePath } from "#i18n"
 import { computed, createError, useHead, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
-import { arrayToString } from "@movie-tracker/utils"
+import { arrayToString, HttpStatus } from "@movie-tracker/utils"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRatings/useMediaRatingsApi"
 import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
@@ -71,7 +72,7 @@ const getReleaseSubscriptionApi = useGetReleaseSubscriptionByMediaIdApi({
 
 await Promise.all([
   tmdbGetMovieDetailsApi.suspense().then((res) => {
-    if ((res.error as Error)?.message.startsWith("404")) {
+    if ((res.error as FetchError)?.statusCode === HttpStatus.NOT_FOUND) {
       throw createError({
         status: 404,
         message: t("ui.errors.pageNotFound"),
