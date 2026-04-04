@@ -59,7 +59,7 @@ export default defineNuxtConfig({
       index: [
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/sitemap-index.xml` },
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/sitemap-index.xml` },
-        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml` },
+        // { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml` },
       ],
     },
   },
