@@ -65,7 +65,7 @@ const data = computed(() => {
           {{ $t("mediaReviews.title") }}
         </UiTypography>
         <UiButton
-          :disabled="Boolean(getMediaReviewByCurrentUserAndMediaIdApi.data.value)"
+          :disabled="Boolean(getMediaReviewByCurrentUserAndMediaIdApi.data.value) || createFormVisible"
           variant="boxed"
           scheme="secondary"
           size="medium"
