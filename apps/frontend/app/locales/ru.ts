@@ -1411,6 +1411,11 @@ export default {
       description: "Чтобы получать уведомления о выходе новых фильмов и сериалов, подпишитесь на интересующие вас кинокартины.",
     },
   },
+  mediaReviews: {
+    title: "Рецензии",
+    create: "Написать рецензию",
+    noReviews: "Для этой кинокартины нет рецензий",
+  },
   legals: {
     privacyPolicy: `## Политика конфиденциальности
 1. **Ваша конфиденциальность**: Movie Tracker стремится обеспечить конфиденциальность вашей информации.
@@ -1503,6 +1508,16 @@ export default {
       successDeleted: "Список успешно удален",
       unsuccessfullyDeleted: "Произошла ошибка при удалении списка",
     },
+    mediaReview: {
+      successLiked: "Отзыв успешно оценён",
+      unsuccessfullyLiked: "Произошла ошибка при оценке отзыва",
+      successUnliked: "Лайк успешно убран",
+      unsuccessfullyUnliked: "Произошла ошибка при удалении лайка",
+      successDisliked: "Дизлайк успешно поставлен",
+      unsuccessfullyDisliked: "Произошла ошибка при постановке дизлайка",
+      successUndisliked: "Дизлайк успешно убран",
+      unsuccessfullyUndisliked: "Произошла ошибка при удалении дизлайка",
+    },
     mediaRating: {
       successRated: "Оценка успешно сохранена",
       unsuccessfullyRated: "Произошла ошибка при сохранении оценки",
@@ -1586,6 +1601,11 @@ export default {
       single: "Подписчик",
       multiple: "Подписчиков",
       many: "Подписчика",
+    },
+    reviews: {
+      single: "Рецензия",
+      many: "Рецензии",
+      multiple: "Рецензий",
     },
     errors: {
       nothingFound: "Ничего не найдено",

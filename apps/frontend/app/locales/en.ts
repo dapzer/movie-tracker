@@ -1409,6 +1409,11 @@ export default {
       description: "To receive notifications about the release of new films and TV series, subscribe to the films you are interested in.",
     },
   },
+  mediaReviews: {
+    title: "Reviews",
+    create: "Review this title",
+    noReviews: "There are no reviews for this title yet",
+  },
   legals: {
     privacyPolicy: `## Privacy policy
 1. **Your privacy**: Movie Tracker is committed to ensuring the privacy of your information.
@@ -1499,6 +1504,16 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successUpdated: "List updated successfully",
       successDeleted: "List deleted successfully",
     },
+    mediaReview: {
+      successLiked: "Review liked successfully",
+      unsuccessfullyLiked: "An error occurred while liking the review",
+      successUnliked: "Like removed successfully",
+      unsuccessfullyUnliked: "An error occurred while removing the like",
+      successDisliked: "Review disliked successfully",
+      unsuccessfullyDisliked: "An error occurred while disliking the review",
+      successUndisliked: "Dislike removed successfully",
+      unsuccessfullyUndisliked: "An error occurred while removing the dislike",
+    },
     mediaRating: {
       successRated: "Rating saved successfully",
       unsuccessfullyRated: "An error occurred while saving the rating",
@@ -1582,6 +1597,11 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       single: "Follower",
       multiple: "Followers",
       many: "Followers",
+    },
+    reviews: {
+      single: "Review",
+      many: "Reviews",
+      multiple: "Reviews",
     },
     errors: {
       nothingFound: "Nothing found",
