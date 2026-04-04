@@ -48,7 +48,8 @@ export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"
   | "mediaDetailsId"
   | "title"
   | "content"
-  | "isSpoiler">
+  | "isSpoiler"
+  | "status">
 
 export type MediaReviewUpdateBodyType = Pick<MediaReview, "isSpoiler"
   | "status"
