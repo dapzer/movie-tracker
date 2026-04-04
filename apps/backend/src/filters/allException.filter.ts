@@ -34,9 +34,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
         : "Unknown error"
 
     const path = httpAdapter.getRequestUrl(ctx.getRequest())
+    const method = httpAdapter.getRequestMethod(ctx.getRequest())
 
     if (!(exception instanceof HttpException)) {
-      this.logger.error(`Error during request to ${path}`, exception)
+      const body = {
+        err: exception,
+        path,
+        method,
+      }
+
+      this.logger.warn(body, `Error during request`)
     }
 
     const responseBody = {
