@@ -7,6 +7,10 @@ import type {
   PaginationType,
 } from "@movie-tracker/types"
 
+export interface GetMediaReviewByCurrentUserAndMediaIdArgs {
+  mediaId: number
+}
+
 export interface GetMediaReviewByIdArgs {
   id: string
 }

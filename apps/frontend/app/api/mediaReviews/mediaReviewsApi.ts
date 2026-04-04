@@ -7,6 +7,7 @@ import type {
   DeleteMediaReviewArgs,
   DeleteMediaReviewDislikeArgs,
   DeleteMediaReviewLikeArgs,
+  GetMediaReviewByCurrentUserAndMediaIdArgs,
   GetMediaReviewByIdArgs,
   GetMediaReviewDislikesByReviewIdArgs,
   GetMediaReviewLikesByReviewIdArgs,
@@ -15,6 +16,10 @@ import type {
   UpdateMediaReviewArgs,
 } from "~/api/mediaReviews/mediaReviewsApiTypes"
 import { api } from "~/api/instance"
+
+export function getMediaReviewByCurrentUserAndMediaIdApi(args: GetMediaReviewByCurrentUserAndMediaIdArgs, options?: RequestOptions) {
+  return api.get<MediaReview | undefined>(`media-reviews/by-current-user-and-media/${args.mediaId}`, options)
+}
 
 export function getMediaReviewByIdApi(args: GetMediaReviewByIdArgs, options?: RequestOptions) {
   return api.get<MediaReview>(`media-reviews/${args.id}`, options)

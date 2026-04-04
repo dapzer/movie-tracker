@@ -8,6 +8,7 @@ import type {
   DeleteMediaReviewArgs,
   DeleteMediaReviewDislikeArgs,
   DeleteMediaReviewLikeArgs,
+  GetMediaReviewByCurrentUserAndMediaIdArgs,
   GetMediaReviewByIdArgs,
   GetMediaReviewDislikesByReviewIdArgs,
   GetMediaReviewLikesByReviewIdArgs,
@@ -24,6 +25,7 @@ import {
   deleteMediaReviewApi,
   deleteMediaReviewDislikeApi,
   deleteMediaReviewLikeApi,
+  getMediaReviewByCurrentUserAndMediaIdApi,
   getMediaReviewByIdApi,
   getMediaReviewDislikesByReviewIdApi,
   getMediaReviewLikesByReviewIdApi,
@@ -32,6 +34,24 @@ import {
   updateMediaReviewApi,
 } from "~/api/mediaReviews/mediaReviewsApi"
 import { MediaReviewsApiQueryKeys } from "~/api/mediaReviews/mediaReviewsApiQueryKeys"
+
+export function useGetMediaReviewByCurrentUserAndMediaIdApi(args: Ref<GetMediaReviewByCurrentUserAndMediaIdArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID, args],
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found")
+      }
+
+      return getMediaReviewByCurrentUserAndMediaIdApi(args.value, { headers })
+    },
+    retry: false,
+    retryOnMount: false,
+    ...options,
+  })
+}
 
 export function useGetMediaReviewByIdApi(args: Ref<GetMediaReviewByIdArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
@@ -84,6 +104,9 @@ export function useCreateMediaReviewApi() {
       await queryClient.invalidateQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
       })
+      await queryClient.invalidateQueries({
+        queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
+      })
       queryClient.setQueryData([MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }], data)
     },
   })
@@ -101,6 +124,9 @@ export function useUpdateMediaReviewApi() {
       await queryClient.invalidateQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
       })
+      await queryClient.invalidateQueries({
+        queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
+      })
       queryClient.setQueryData([MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }], data)
     },
   })
@@ -117,6 +143,9 @@ export function useDeleteMediaReviewApi() {
       })
       await queryClient.invalidateQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+      })
+      await queryClient.invalidateQueries({
+        queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
       })
       queryClient.removeQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
