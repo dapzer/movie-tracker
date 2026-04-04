@@ -16,6 +16,15 @@ export class MediaReviewsController {
   constructor(private readonly mediaReviewsService: MediaReviewsService) {
   }
 
+  @Get("by-current-user-and-media/:mediaId")
+  @UseGuards(AuthGuard)
+  async getMediaReviewByCurrentUserAndMediaId(@User() user: UserDto, @Param("mediaId") mediaId: string) {
+    return this.mediaReviewsService.getByCurrentUserAndMediaId({
+      mediaId: Number(mediaId),
+      currentUserId: user.id,
+    })
+  }
+
   @Get(":id")
   async getMediaReviewById(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaReviewsService.getById({ id: params.id, currentUserId: user?.id })

@@ -11,6 +11,7 @@ export class CreateMediaReviewDto implements Omit<MediaReviewCreateBodyType, "me
   @IsString()
   title: string
 
+  // TODO: add validation for content length using constants from packages
   @IsString()
   content: string
 

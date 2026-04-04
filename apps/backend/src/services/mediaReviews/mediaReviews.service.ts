@@ -53,6 +53,14 @@ export class MediaReviewsService {
     return mediaReview
   }
 
+  async getByCurrentUserAndMediaId(args: { mediaId: number, currentUserId: string }) {
+    return this.mediaReviewRepository.getByUserIdAndMediaId({
+      userId: args.currentUserId,
+      mediaId: args.mediaId,
+      currentUserId: args.currentUserId,
+    })
+  }
+
   async getByMediaId(args: { mediaId: number, currentUser?: UserType, status?: MediaReviewStatus } & PaginationDto) {
     if (args.status !== MediaReviewStatus.PUBLISHED && !args.currentUser?.roles.includes(UserRoleEnum.ADMIN)) {
       throw new MediaReviewPermissionError({ userId: args.currentUser?.id, requiredRoles: [UserRoleEnum.ADMIN] })
