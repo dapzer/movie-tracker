@@ -1413,6 +1413,13 @@ export default {
     title: "Reviews",
     create: "Review this title",
     noReviews: "There are no reviews for this title yet",
+    yourRating: "Your rating",
+    form: {
+      publish: "Publish",
+      title: "Headline of review (optional)",
+      content: "Review",
+      contentDescription: "Required characters: 5 - 10 000",
+    },
   },
   legals: {
     privacyPolicy: `## Privacy policy
@@ -1723,5 +1730,11 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
         prepositional: "December",
       },
     },
+  },
+  validation: {
+    required: "This field is required",
+    minLength: "Minimum length is {min}",
+    maxLength: "Maximum length is {max}",
+    betweenLength: "Length must be between {min} and {max}",
   },
 }

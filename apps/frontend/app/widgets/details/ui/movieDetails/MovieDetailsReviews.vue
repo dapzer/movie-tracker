@@ -2,8 +2,11 @@
 import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed } from "#imports"
 import { ref } from "vue"
-import { useGetMediaReviewsByMediaIdApi } from "~/api/mediaReviews/useMediaReviewsApi"
-import { MediaReviewCard, MediaReviewCardSkeleton } from "~/entities/mediaReview"
+import {
+  useGetMediaReviewByCurrentUserAndMediaIdApi,
+  useGetMediaReviewsByMediaIdApi,
+} from "~/api/mediaReviews/useMediaReviewsApi"
+import { MediaReviewCard, MediaReviewCardSkeleton, MediaReviewForm } from "~/entities/mediaReview"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -21,6 +24,7 @@ interface MovieDetailsProducersProps {
 const props = defineProps<MovieDetailsProducersProps>()
 
 const currentPage = ref<number>(1)
+const createFormVisible = ref<boolean>(false)
 
 const getMediaReviewsByMediaIdApiQueries = computed(() => ({
   mediaId: props.mediaId,
@@ -31,7 +35,19 @@ const getMediaReviewsByMediaIdApiQueries = computed(() => ({
 }))
 
 const getMediaReviewsByMediaIdApi = useGetMediaReviewsByMediaIdApi(getMediaReviewsByMediaIdApiQueries)
-await getMediaReviewsByMediaIdApi.suspense()
+
+const getMediaReviewByCurrentUserAndMediaIdApiArgs = computed(() => ({
+  mediaId: props.mediaId,
+}))
+
+const getMediaReviewByCurrentUserAndMediaIdApi = useGetMediaReviewByCurrentUserAndMediaIdApi(
+  getMediaReviewByCurrentUserAndMediaIdApiArgs,
+)
+
+await Promise.all([
+  getMediaReviewsByMediaIdApi.suspense(),
+  getMediaReviewByCurrentUserAndMediaIdApi.suspense(),
+])
 
 const data = computed(() => {
   return getMediaReviewsByMediaIdApi.data.value
@@ -49,10 +65,12 @@ const data = computed(() => {
           {{ $t("mediaReviews.title") }}
         </UiTypography>
         <UiButton
+          :disabled="Boolean(getMediaReviewByCurrentUserAndMediaIdApi.data.value)"
           variant="boxed"
           scheme="secondary"
           size="medium"
           with-icon
+          @click="createFormVisible = true"
         >
           <UiIcon
             name="icon:reviews-outlined"
@@ -67,6 +85,14 @@ const data = computed(() => {
       </UiTypography>
     </div>
     <div :class="$style.list">
+      <MediaReviewForm
+        v-if="createFormVisible"
+        :media-id="props.mediaId"
+        :media-type="props.mediaType"
+        :current-review="getMediaReviewByCurrentUserAndMediaIdApi.data.value"
+        @on-cancel="createFormVisible = false"
+        @on-success="createFormVisible = false"
+      />
       <template v-if="!getMediaReviewsByMediaIdApi.isPending.value && data?.items.length">
         <MediaReviewCard
           v-for="review in data?.items || []"
