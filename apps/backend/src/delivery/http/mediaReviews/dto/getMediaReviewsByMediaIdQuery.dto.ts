@@ -5,5 +5,5 @@ import { PaginationDto } from "@/shared/dto/pagination.dto"
 export class GetMediaReviewsByMediaIdQueryDto extends PaginationDto {
   @IsOptional()
   @IsEnum(MediaReviewStatus)
-  status?: MediaReviewStatus
+  status?: MediaReviewStatus = MediaReviewStatus.PUBLISHED
 }

@@ -38,8 +38,8 @@ export interface MediaReview {
 
   likesCount?: number
   dislikesCount?: number
-  isLiked?: boolean
-  isDisliked?: boolean
+  likeId?: string
+  dislikeId?: string
   rating?: number
 }
 

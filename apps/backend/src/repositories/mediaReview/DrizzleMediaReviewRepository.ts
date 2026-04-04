@@ -80,8 +80,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
     mediaRating?: MediaRatingsRow | null
     likesCount?: number
     dislikesCount?: number
-    isLiked?: boolean
-    isDisliked?: boolean
+    likeId?: string | null
+    dislikeId?: string | null
   }): MediaReview {
     const { mediaReview: row } = args
 
@@ -106,8 +106,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       updatedAt: row.updatedAt,
       likesCount: args.likesCount,
       dislikesCount: args.dislikesCount,
-      isLiked: args.isLiked,
-      isDisliked: args.isDisliked,
+      likeId: args.likeId ?? undefined,
+      dislikeId: args.dislikeId ?? undefined,
       rating: args.mediaRating?.rating,
     }
   }
@@ -133,20 +133,22 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         mediaRating: mediaRatings,
         likesCount: sql<number>`(${likesSubquery})`,
         dislikesCount: sql<number>`(${dislikesSubquery})`,
-        isLiked: args.currentUserId
-          ? sql<boolean>`EXISTS (
-              SELECT 1 FROM ${mediaReviewLikes}
+        likeId: args.currentUserId
+          ? sql<string | null>`(
+              SELECT id FROM ${mediaReviewLikes}
               WHERE ${mediaReviewLikes.mediaReviewId} = ${mediaReviews.id}
               AND ${mediaReviewLikes.userId} = ${args.currentUserId}
+              LIMIT 1
             )`
-          : sql<boolean>`false`,
-        isDisliked: args.currentUserId
-          ? sql<boolean>`EXISTS (
-              SELECT 1 FROM ${mediaReviewDislikes}
+          : sql<string | null>`NULL`,
+        dislikeId: args.currentUserId
+          ? sql<string | null>`(
+              SELECT id FROM ${mediaReviewDislikes}
               WHERE ${mediaReviewDislikes.mediaReviewId} = ${mediaReviews.id}
               AND ${mediaReviewDislikes.userId} = ${args.currentUserId}
+              LIMIT 1
             )`
-          : sql<boolean>`false`,
+          : sql<string | null>`NULL`,
       })
       .from(mediaReviews)
       .leftJoin(users, eq(users.id, mediaReviews.userId))
@@ -166,8 +168,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           mediaRating: row.mediaRating,
           likesCount: row.likesCount,
           dislikesCount: row.dislikesCount,
-          isLiked: row.isLiked,
-          isDisliked: row.isDisliked,
+          likeId: row.likeId,
+          dislikeId: row.dislikeId,
         })
       : undefined
   }
@@ -192,20 +194,22 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         mediaRating: mediaRatings,
         likesCount: sql<number>`(${likesSubquery})`,
         dislikesCount: sql<number>`(${dislikesSubquery})`,
-        isLiked: args.currentUserId
-          ? sql<boolean>`EXISTS (
-              SELECT 1 FROM ${mediaReviewLikes}
+        likeId: args.currentUserId
+          ? sql<string | null>`(
+              SELECT id FROM ${mediaReviewLikes}
               WHERE ${mediaReviewLikes.mediaReviewId} = ${mediaReviews.id}
               AND ${mediaReviewLikes.userId} = ${args.currentUserId}
+              LIMIT 1
             )`
-          : sql<boolean>`false`,
-        isDisliked: args.currentUserId
-          ? sql<boolean>`EXISTS (
-              SELECT 1 FROM ${mediaReviewDislikes}
+          : sql<string | null>`NULL`,
+        dislikeId: args.currentUserId
+          ? sql<string | null>`(
+              SELECT id FROM ${mediaReviewDislikes}
               WHERE ${mediaReviewDislikes.mediaReviewId} = ${mediaReviews.id}
               AND ${mediaReviewDislikes.userId} = ${args.currentUserId}
+              LIMIT 1
             )`
-          : sql<boolean>`false`,
+          : sql<string | null>`NULL`,
       })
       .from(mediaReviews)
       .leftJoin(users, eq(users.id, mediaReviews.userId))
@@ -228,8 +232,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           mediaRating: row.mediaRating,
           likesCount: row.likesCount,
           dislikesCount: row.dislikesCount,
-          isLiked: row.isLiked,
-          isDisliked: row.isDisliked,
+          likeId: row.likeId,
+          dislikeId: row.dislikeId,
         })
       : undefined
   }
@@ -255,20 +259,22 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           mediaRating: mediaRatings,
           likesCount: sql<number>`(${likesSubquery})`,
           dislikesCount: sql<number>`(${dislikesSubquery})`,
-          isLiked: args.currentUserId
-            ? sql<boolean>`EXISTS (
-                SELECT 1 FROM ${mediaReviewLikes}
+          likeId: args.currentUserId
+            ? sql<string | null>`(
+                SELECT id FROM ${mediaReviewLikes}
                 WHERE ${mediaReviewLikes.mediaReviewId} = ${mediaReviews.id}
                 AND ${mediaReviewLikes.userId} = ${args.currentUserId}
+                LIMIT 1
               )`
-            : sql<boolean>`false`,
-          isDisliked: args.currentUserId
-            ? sql<boolean>`EXISTS (
-                SELECT 1 FROM ${mediaReviewDislikes}
+            : sql<string | null>`NULL`,
+          dislikeId: args.currentUserId
+            ? sql<string | null>`(
+                SELECT id FROM ${mediaReviewDislikes}
                 WHERE ${mediaReviewDislikes.mediaReviewId} = ${mediaReviews.id}
                 AND ${mediaReviewDislikes.userId} = ${args.currentUserId}
+                LIMIT 1
               )`
-            : sql<boolean>`false`,
+            : sql<string | null>`NULL`,
         })
         .from(mediaReviews)
         .leftJoin(users, eq(users.id, mediaReviews.userId))
@@ -292,8 +298,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         mediaRating: item.mediaRating,
         likesCount: Number(item.likesCount),
         dislikesCount: Number(item.dislikesCount),
-        isLiked: Boolean(item.isLiked),
-        isDisliked: Boolean(item.isDisliked),
+        likeId: item.likeId,
+        dislikeId: item.dislikeId,
       })),
       totalCount: totalCount[0]?.count ?? 0,
     }
@@ -340,20 +346,22 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           mediaRating: mediaRatings,
           likesCount: sql<number>`(${likesSubquery})`,
           dislikesCount: sql<number>`(${dislikesSubquery})`,
-          isLiked: args.currentUserId
-            ? sql<boolean>`EXISTS (
-                SELECT 1 FROM ${mediaReviewLikes}
+          likeId: args.currentUserId
+            ? sql<string | null>`(
+                SELECT id FROM ${mediaReviewLikes}
                 WHERE ${mediaReviewLikes.mediaReviewId} = ${mediaReviews.id}
                 AND ${mediaReviewLikes.userId} = ${args.currentUserId}
+                LIMIT 1
               )`
-            : sql<boolean>`false`,
-          isDisliked: args.currentUserId
-            ? sql<boolean>`EXISTS (
-                SELECT 1 FROM ${mediaReviewDislikes}
+            : sql<string | null>`NULL`,
+          dislikeId: args.currentUserId
+            ? sql<string | null>`(
+                SELECT id FROM ${mediaReviewDislikes}
                 WHERE ${mediaReviewDislikes.mediaReviewId} = ${mediaReviews.id}
                 AND ${mediaReviewDislikes.userId} = ${args.currentUserId}
+                LIMIT 1
               )`
-            : sql<boolean>`false`,
+            : sql<string | null>`NULL`,
         })
         .from(mediaReviews)
         .leftJoin(users, eq(users.id, mediaReviews.userId))
@@ -379,8 +387,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         mediaRating: item.mediaRating,
         likesCount: Number(item.likesCount),
         dislikesCount: Number(item.dislikesCount),
-        isLiked: Boolean(item.isLiked),
-        isDisliked: Boolean(item.isDisliked),
+        likeId: item.likeId,
+        dislikeId: item.dislikeId,
       })),
       totalCount: totalCount[0]?.count ?? 0,
     }
