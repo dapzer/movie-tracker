@@ -1,0 +1,14 @@
+export const MediaReviewsApiQueryKeys = {
+  GET_BY_ID: "mediaReviews/getById",
+  GET_BY_MEDIA_ID: "mediaReviews/getByMediaId",
+  GET_BY_USER_ID: "mediaReviews/getByUserId",
+  CREATE: "mediaReviews/create",
+  UPDATE: "mediaReviews/update",
+  DELETE: "mediaReviews/delete",
+  GET_LIKES_BY_REVIEW_ID: "mediaReviews/getLikesByReviewId",
+  CREATE_LIKE: "mediaReviews/createLike",
+  DELETE_LIKE: "mediaReviews/deleteLike",
+  GET_DISLIKES_BY_REVIEW_ID: "mediaReviews/getDislikesByReviewId",
+  CREATE_DISLIKE: "mediaReviews/createDislike",
+  DELETE_DISLIKE: "mediaReviews/deleteDislike",
+} as const
