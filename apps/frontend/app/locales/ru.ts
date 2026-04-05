@@ -1414,6 +1414,7 @@ export default {
   mediaReviews: {
     title: "Рецензии",
     create: "Написать рецензию",
+    createTooltip: "Вы уже написали рецензию для этой кинокартины",
     noReviews: "Для этой кинокартины нет рецензий",
     yourRating: "Ваша оценка",
     form: {

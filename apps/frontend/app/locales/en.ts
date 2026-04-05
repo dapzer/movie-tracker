@@ -1412,6 +1412,7 @@ export default {
   mediaReviews: {
     title: "Reviews",
     create: "Review this title",
+    createTooltip: "You have already written a review for this title",
     noReviews: "There are no reviews for this title yet",
     yourRating: "Your rating",
     form: {

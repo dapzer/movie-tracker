@@ -12,6 +12,7 @@ import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiPagination } from "~/shared/ui/UiPagination"
+import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import { getReviewDeclensionTranslationKey } from "~/shared/utils/getReviewDeclensionTranslationKey"
@@ -74,20 +75,35 @@ const data = computed(() => {
         >
           {{ $t("mediaReviews.title") }}
         </UiTypography>
-        <UiButton
-          :disabled="Boolean(getMediaReviewByCurrentUserAndMediaIdApi.data.value) || createFormVisible"
-          variant="boxed"
-          scheme="secondary"
-          size="medium"
-          with-icon
-          @click="createFormVisible = true"
+        <UiTooltip
+          :disabled="!getMediaReviewByCurrentUserAndMediaIdApi.data.value || createFormVisible"
+          side="bottom"
         >
-          <UiIcon
-            name="icon:reviews-outlined"
-            :size="20"
-          />
-          {{ $t("mediaReviews.create") }}
-        </UiButton>
+          <template #trigger>
+            <UiButton
+              :disabled="Boolean(getMediaReviewByCurrentUserAndMediaIdApi.data.value) || createFormVisible"
+              variant="boxed"
+              scheme="secondary"
+              size="medium"
+              with-icon
+              @click="createFormVisible = true"
+            >
+              <UiIcon
+                name="icon:reviews-outlined"
+                :size="20"
+              />
+              {{ $t("mediaReviews.create") }}
+            </UiButton>
+          </template>
+          <template #content>
+            <UiTypography
+              variant="description"
+              :class="$style.tooltipTitle"
+            >
+              {{ $t("mediaReviews.createTooltip") }}
+            </UiTypography>
+          </template>
+        </UiTooltip>
       </div>
       <UiDivider :class="$style.headerDivider" />
       <UiTypography variant="description">
@@ -152,5 +168,10 @@ const data = computed(() => {
   gap: 16px;
   margin-top: 16px;
   margin-bottom: 30px;
+}
+
+.tooltipTitle {
+  color: var(--c-text);
+  font-weight: var(--fw-medium);
 }
 </style>
