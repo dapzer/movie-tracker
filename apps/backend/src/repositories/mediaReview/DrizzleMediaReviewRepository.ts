@@ -305,6 +305,78 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
     }
   }
 
+  async getList(
+    args: Parameters<MediaReviewRepositoryInterface["getList"]>[0],
+  ): Promise<MediaReviewPaginatedType> {
+    const likesSubquery = this.drizzle.client
+      .select({ count: count() })
+      .from(mediaReviewLikes)
+      .where(eq(mediaReviewLikes.mediaReviewId, mediaReviews.id))
+
+    const dislikesSubquery = this.drizzle.client
+      .select({ count: count() })
+      .from(mediaReviewDislikes)
+      .where(eq(mediaReviewDislikes.mediaReviewId, mediaReviews.id))
+
+    const statusFilter = eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)
+
+    const [items, totalCount] = await Promise.all([
+      this.drizzle.client
+        .select({
+          mediaReview: mediaReviews,
+          user: users,
+          mediaDetails,
+          mediaRating: mediaRatings,
+          likesCount: sql<number>`(${likesSubquery})`,
+          dislikesCount: sql<number>`(${dislikesSubquery})`,
+          likeId: args.currentUserId
+            ? sql<string | null>`(
+                SELECT id FROM ${mediaReviewLikes}
+                WHERE ${mediaReviewLikes.mediaReviewId} = ${mediaReviews.id}
+                AND ${mediaReviewLikes.userId} = ${args.currentUserId}
+                LIMIT 1
+              )`
+            : sql<string | null>`NULL`,
+          dislikeId: args.currentUserId
+            ? sql<string | null>`(
+                SELECT id FROM ${mediaReviewDislikes}
+                WHERE ${mediaReviewDislikes.mediaReviewId} = ${mediaReviews.id}
+                AND ${mediaReviewDislikes.userId} = ${args.currentUserId}
+                LIMIT 1
+              )`
+            : sql<string | null>`NULL`,
+        })
+        .from(mediaReviews)
+        .leftJoin(users, eq(users.id, mediaReviews.userId))
+        .leftJoin(mediaDetails, eq(mediaDetails.id, mediaReviews.mediaDetailsId))
+        .leftJoin(mediaRatings, and(
+          eq(mediaRatings.userId, mediaReviews.userId),
+          eq(mediaRatings.mediaId, mediaReviews.mediaId),
+        ))
+        .where(statusFilter)
+        .limit(args.limit)
+        .offset(args.offset),
+      this.drizzle.client
+        .select({ count: count() })
+        .from(mediaReviews)
+        .where(statusFilter),
+    ])
+
+    return {
+      items: items.map(item => this.convertToInterface({
+        mediaReview: item.mediaReview,
+        user: item.user,
+        mediaDetails: item.mediaDetails,
+        mediaRating: item.mediaRating,
+        likesCount: Number(item.likesCount),
+        dislikesCount: Number(item.dislikesCount),
+        likeId: item.likeId,
+        dislikeId: item.dislikeId,
+      })),
+      totalCount: totalCount[0]?.count ?? 0,
+    }
+  }
+
   async create(
     args: Parameters<MediaReviewRepositoryInterface["create"]>[0],
   ): Promise<MediaReview> {

@@ -13,9 +13,21 @@ import type {
   GetMediaReviewLikesByReviewIdArgs,
   GetMediaReviewsByMediaIdArgs,
   GetMediaReviewsByUserIdArgs,
+  GetMediaReviewsListArgs,
   UpdateMediaReviewArgs,
 } from "~/api/mediaReviews/mediaReviewsApiTypes"
 import { api } from "~/api/instance"
+
+export function getMediaReviewsListApi(args: GetMediaReviewsListArgs, options?: RequestOptions) {
+  return api.get<MediaReviewPaginatedType>("media-reviews", {
+    ...options,
+    params: {
+      limit: args.limit,
+      offset: args.offset,
+      status: args.status,
+    },
+  })
+}
 
 export function getMediaReviewByCurrentUserAndMediaIdApi(args: GetMediaReviewByCurrentUserAndMediaIdArgs, options?: RequestOptions) {
   return api.get<MediaReview | undefined>(`media-reviews/by-current-user-and-media/${args.mediaId}`, options)

@@ -1,4 +1,5 @@
 export const MediaReviewsApiQueryKeys = {
+  GET_LIST: "mediaReviews/getList",
   GET_BY_ID: "mediaReviews/getById",
   GET_BY_CURRENT_USER_AND_MEDIA_ID: "mediaReviews/getByCurrentUserAndMediaId",
   GET_BY_MEDIA_ID: "mediaReviews/getByMediaId",

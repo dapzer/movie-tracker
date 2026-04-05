@@ -92,6 +92,19 @@ export class MediaReviewsService {
     })
   }
 
+  async getList(args: { currentUser?: UserType, status?: MediaReviewStatus } & PaginationDto) {
+    if (args.status !== MediaReviewStatus.PUBLISHED && !args.currentUser?.roles.includes(UserRoleEnum.ADMIN)) {
+      throw new MediaReviewPermissionError({ userId: args.currentUser?.id, requiredRoles: [UserRoleEnum.ADMIN] })
+    }
+
+    return this.mediaReviewRepository.getList({
+      currentUserId: args.currentUser?.id,
+      limit: args.limit,
+      offset: args.offset,
+      status: args.status,
+    })
+  }
+
   async create(args: { userId: string, body: CreateMediaReviewDto }) {
     const existing = await this.mediaReviewRepository.getByUserIdAndMediaId({
       userId: args.userId,

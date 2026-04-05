@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { GetMediaReviewsByMediaIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByMediaIdQuery.dto"
 import { GetMediaReviewsByUserIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByUserIdQuery.dto"
+import { GetMediaReviewsListQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsListQuery.dto"
 import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaReview.dto"
@@ -14,6 +15,16 @@ import { UuidDto } from "@/shared/dto/uuid.dto"
 @Controller("media-reviews")
 export class MediaReviewsController {
   constructor(private readonly mediaReviewsService: MediaReviewsService) {
+  }
+
+  @Get()
+  async getMediaReviewsList(@User() user: UserDto, @Query() query: GetMediaReviewsListQueryDto) {
+    return this.mediaReviewsService.getList({
+      limit: query.limit,
+      offset: query.offset,
+      currentUser: user,
+      status: query.status,
+    })
   }
 
   @Get("by-current-user-and-media/:mediaId")

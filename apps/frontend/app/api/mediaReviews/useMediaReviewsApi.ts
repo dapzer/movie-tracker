@@ -14,6 +14,7 @@ import type {
   GetMediaReviewLikesByReviewIdArgs,
   GetMediaReviewsByMediaIdArgs,
   GetMediaReviewsByUserIdArgs,
+  GetMediaReviewsListArgs,
   UpdateMediaReviewArgs,
 } from "~/api/mediaReviews/mediaReviewsApiTypes"
 import { useRequestHeaders } from "#app"
@@ -31,9 +32,23 @@ import {
   getMediaReviewLikesByReviewIdApi,
   getMediaReviewsByMediaIdApi,
   getMediaReviewsByUserIdApi,
+  getMediaReviewsListApi,
   updateMediaReviewApi,
 } from "~/api/mediaReviews/mediaReviewsApi"
 import { MediaReviewsApiQueryKeys } from "~/api/mediaReviews/mediaReviewsApiQueryKeys"
+
+export function useGetMediaReviewsListApi(args: Ref<GetMediaReviewsListArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [MediaReviewsApiQueryKeys.GET_LIST, args],
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      return getMediaReviewsListApi(args.value, { headers })
+    },
+    retry: false,
+    retryOnMount: false,
+    ...options,
+  })
+}
 
 export function useGetMediaReviewByCurrentUserAndMediaIdApi(args: Ref<GetMediaReviewByCurrentUserAndMediaIdArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
@@ -99,6 +114,9 @@ export function useCreateMediaReviewApi() {
     mutationFn: (body: CreateMediaReviewBody) => createMediaReviewApi(body),
     onSuccess: async (data: MediaReview) => {
       await queryClient.invalidateQueries({
+        queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
+      })
+      await queryClient.invalidateQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
       })
       await queryClient.invalidateQueries({
@@ -119,6 +137,9 @@ export function useUpdateMediaReviewApi() {
     mutationFn: (args: UpdateMediaReviewArgs) => updateMediaReviewApi(args),
     onSuccess: async (data: MediaReview) => {
       await queryClient.invalidateQueries({
+        queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
+      })
+      await queryClient.invalidateQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
       })
       await queryClient.invalidateQueries({
@@ -138,6 +159,9 @@ export function useDeleteMediaReviewApi() {
     mutationKey: [MediaReviewsApiQueryKeys.DELETE],
     mutationFn: (args: DeleteMediaReviewArgs) => deleteMediaReviewApi(args),
     onSuccess: async (data: MediaReview) => {
+      await queryClient.invalidateQueries({
+        queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
+      })
       await queryClient.invalidateQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
       })

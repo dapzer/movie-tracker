@@ -33,6 +33,11 @@ export interface MediaReviewRepositoryInterface {
     status?: MediaReviewStatus
   } & PaginationType) => Promise<MediaReviewPaginatedType>
 
+  getList: (args: {
+    currentUserId?: string
+    status?: MediaReviewStatus
+  } & PaginationType) => Promise<MediaReviewPaginatedType>
+
   create: (args: {
     userId: string
   } & MediaReviewCreateBodyType) => Promise<MediaReview>

@@ -25,6 +25,10 @@ export type GetMediaReviewsByUserIdArgs = {
   status?: MediaReviewStatus
 } & PaginationType
 
+export type GetMediaReviewsListArgs = {
+  status?: MediaReviewStatus
+} & PaginationType
+
 export type CreateMediaReviewBody = Omit<MediaReviewCreateBodyType, "mediaDetailsId">
 
 export interface UpdateMediaReviewArgs {
