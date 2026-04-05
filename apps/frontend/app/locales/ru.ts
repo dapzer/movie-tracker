@@ -1526,6 +1526,12 @@ export default {
       unsuccessfullyDisliked: "Произошла ошибка при постановке дизлайка",
       successUndisliked: "Дизлайк успешно убран",
       unsuccessfullyUndisliked: "Произошла ошибка при удалении дизлайка",
+      successUpdated: "Отзыв успешно обновлен",
+      unsuccessfullyUpdated: "При обновлении отзыва произошла ошибка",
+      successDeleted: "Отзыв успешно удален",
+      unsuccessfullyDeleted: "Произошла ошибка при удалении отзыва",
+      successCreated: "Отзыв успешно создан",
+      unsuccessfullyCreated: "Произошла ошибка при создании отзыва",
     },
     mediaRating: {
       successRated: "Оценка успешно сохранена",
@@ -1596,6 +1602,7 @@ export default {
     follow: "Подписаться",
     unfollow: "Отписаться",
     nothingFound: "Ничего не найдено",
+    unsavedChanges: "Вы уверены, что хотите покинуть страницу? Все несохраненные изменения будут потеряны.",
     like: {
       single: "Лайк",
       multiple: "Лайков",

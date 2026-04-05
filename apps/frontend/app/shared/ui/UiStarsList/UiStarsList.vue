@@ -4,6 +4,7 @@ import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiStarsListProps {
   size?: number
+  disabled?: boolean
 }
 
 const props = withDefaults(defineProps<UiStarsListProps>(), {
@@ -21,7 +22,11 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 </script>
 
 <template>
-  <div :class="$style.list">
+  <div
+    :class="[$style.list, {
+      [$style.disabled]: props.disabled,
+    }]"
+  >
     <UiButton
       v-for="i in 10"
       :key="i"
@@ -30,6 +35,7 @@ function handleRatingClick(rating: number, event: MouseEvent) {
       }]"
       variant="textIcon"
       type="button"
+      :disabled="props.disabled"
       @click="handleRatingClick(i, $event)"
       @mouseover="hoveredRating = i"
       @mouseleave="hoveredRating = undefined"
@@ -83,26 +89,28 @@ function handleRatingClick(rating: number, event: MouseEvent) {
     }
   }
 
-  @include hoverAvailable {
-    &:hover .item,
-    &:focus-within .item {
-      .icon {
-        display: none;
+  &:not(.disabled) {
+    @include hoverAvailable {
+      &:hover .item,
+      &:focus-within .item {
+        .icon {
+          display: none;
+        }
+
+        .iconFilled {
+          display: block;
+        }
       }
 
-      .iconFilled {
-        display: block;
-      }
-    }
+      .item:hover ~ .item,
+      .item:focus ~ .item {
+        .icon {
+          display: block;
+        }
 
-    .item:hover ~ .item,
-    .item:focus ~ .item {
-      .icon {
-        display: block;
-      }
-
-      .iconFilled {
-        display: none;
+        .iconFilled {
+          display: none;
+        }
       }
     }
   }

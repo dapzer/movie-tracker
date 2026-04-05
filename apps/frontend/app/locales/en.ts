@@ -1419,6 +1419,8 @@ export default {
       title: "Headline of review (optional)",
       content: "Review",
       contentDescription: "Required characters: 5 - 10 000",
+      confirmDeleteTitle: "Are you sure you want to cancel writing the review?",
+      confirmDeleteDescription: "All your changes will be irreversibly lost",
     },
   },
   legals: {
@@ -1520,6 +1522,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       unsuccessfullyDisliked: "An error occurred while disliking the review",
       successUndisliked: "Dislike removed successfully",
       unsuccessfullyUndisliked: "An error occurred while removing the dislike",
+      successUpdated: "Review updated successfully",
+      unsuccessfullyUpdated: "An error occurred while updating the review",
+      successDeleted: "Review deleted successfully",
+      unsuccessfullyDeleted: "An error occurred while deleting the review",
+      successCreated: "Review created successfully",
+      unsuccessfullyCreated: "An error occurred while creating the review",
     },
     mediaRating: {
       successRated: "Rating saved successfully",
@@ -1590,6 +1598,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     follow: "Follow",
     unfollow: "Unfollow",
     nothingFound: "Nothing found",
+    unsavedChanges: "Are you sure you want to leave the page? Any unsaved changes will be lost.",
     like: {
       single: "Like",
       multiple: "Likes",

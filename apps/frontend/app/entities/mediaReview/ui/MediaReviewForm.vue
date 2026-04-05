@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { MediaReview, MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import type { CreateMediaReviewBody } from "~/api/mediaReviews/mediaReviewsApiTypes"
+import { onBeforeRouteLeave } from "#app"
 import { useI18n } from "#imports"
 import { MediaReviewStatus } from "@movie-tracker/types"
-import { computed, ref } from "vue"
+import { useEventListener } from "@vueuse/core"
+import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
 import * as yup from "yup"
 import {
@@ -33,6 +35,8 @@ interface MediaReviewFormProps {
   currentReview?: MediaReview
 }
 
+type FormValue = Pick<CreateMediaReviewBody, "title" | "content" | "isSpoiler">
+
 const props = defineProps<MediaReviewFormProps>()
 
 const emits = defineEmits<{
@@ -45,8 +49,16 @@ const getMediaRatingApi = useGetMediaRatingByMediaIdApi({
 const { profile } = useAuth()
 const { t } = useI18n()
 
-const selectedRating = ref<number | undefined>(getMediaRatingApi.data.value?.rating)
+const initialRating = computed(() => {
+  return getMediaRatingApi.data.value?.rating
+})
+
+const selectedRating = ref<number | undefined>(initialRating.value)
 const hoveredRating = ref<number | undefined>(undefined)
+
+watch(() => initialRating.value, (newValue) => {
+  selectedRating.value = newValue
+})
 
 const createMediaReviewApi = useCreateMediaReviewApi()
 const updateMediaReviewApi = useUpdateMediaReviewApi()
@@ -71,58 +83,74 @@ const initialValue = computed(() => {
   }
 })
 
-const { formValue, onFormSubmit, errors } = useForm<Pick<CreateMediaReviewBody, "title" | "content" | "isSpoiler">>({
-  initialValue: initialValue.value,
-  onSubmit: async (formValue) => {
-    const currentRating = getMediaRatingApi.data.value
-    // TODO: Wrap into  try catch and extract to separate function
-    if (selectedRating.value !== currentRating?.rating) {
-      if (selectedRating.value && currentRating?.rating) {
-        await updateMediaRatingApi.mutateAsync({
-          id: currentRating.id,
-          body: {
-            rating: selectedRating.value,
-          },
-        })
-      }
-      else if (selectedRating.value && !currentRating?.rating) {
-        await createMediaRatingApi.mutateAsync({
-          rating: selectedRating.value,
-          mediaId: props.mediaId,
-          mediaType: props.mediaType as unknown as MediaTypeEnum,
-        })
-      }
-      else if (!selectedRating.value && currentRating?.rating) {
-        await deleteMediaRatingApi.mutateAsync({ id: currentRating.id })
-      }
-    }
-
-    if (props.currentReview) {
-      await updateMediaReviewApi.mutateAsync({
-        id: props.currentReview.id,
+async function handleUpdateRating() {
+  const currentRating = getMediaRatingApi.data.value
+  if (selectedRating.value !== currentRating?.rating) {
+    if (selectedRating.value && currentRating?.rating) {
+      await updateMediaRatingApi.mutateAsync({
+        id: currentRating.id,
         body: {
-          ...formValue,
-          status: MediaReviewStatus.PENDING,
+          rating: selectedRating.value,
         },
-      }).then(() => {
-        toast.success(t("toasts.mediaReview.successUpdated"))
-      }).catch(() => {
-        toast.error(t("toasts.mediaReview.unsuccessfullyUpdated"))
+      }).catch((err) => {
+        toast.error(t("toasts.mediaRating.unsuccessfullyRated"))
+        throw err
       })
     }
-    else {
-      await createMediaReviewApi.mutateAsync({
-        ...formValue,
-        status: MediaReviewStatus.PENDING,
+    else if (selectedRating.value && !currentRating?.rating) {
+      await createMediaRatingApi.mutateAsync({
+        rating: selectedRating.value,
         mediaId: props.mediaId,
         mediaType: props.mediaType as unknown as MediaTypeEnum,
-      }).then(() => {
-        toast.success(t("toasts.mediaReview.successCreated"))
-      }).catch(() => {
-        toast.error(t("toasts.mediaReview.unsuccessfullyCreated"))
+      }).catch((err) => {
+        toast.error(t("toasts.mediaRating.unsuccessfullyUpdated"))
+        throw err
       })
     }
+    else if (!selectedRating.value && currentRating?.rating) {
+      await deleteMediaRatingApi.mutateAsync({ id: currentRating.id }).catch((err) => {
+        toast.error(t("toasts.mediaRating.unsuccessfullyDeleted"))
+        throw err
+      })
+    }
+  }
+}
 
+async function handlePublishReview(formValue: FormValue) {
+  if (props.currentReview) {
+    await updateMediaReviewApi.mutateAsync({
+      id: props.currentReview.id,
+      body: {
+        ...formValue,
+        status: MediaReviewStatus.PENDING,
+      },
+    }).then(() => {
+      toast.success(t("toasts.mediaReview.successUpdated"))
+    }).catch((err) => {
+      toast.error(t("toasts.mediaReview.unsuccessfullyUpdated"))
+      throw err
+    })
+  }
+  else {
+    await createMediaReviewApi.mutateAsync({
+      ...formValue,
+      status: MediaReviewStatus.PENDING,
+      mediaId: props.mediaId,
+      mediaType: props.mediaType as unknown as MediaTypeEnum,
+    }).then(() => {
+      toast.success(t("toasts.mediaReview.successCreated"))
+    }).catch((err) => {
+      toast.error(t("toasts.mediaReview.unsuccessfullyCreated"))
+      throw err
+    })
+  }
+}
+
+const { formValue, onFormSubmit, errors, isFormValueChanged } = useForm<FormValue>({
+  initialValue: initialValue.value,
+  onSubmit: async (formValue) => {
+    await handleUpdateRating()
+    await handlePublishReview(formValue)
     emits("onSuccess")
   },
   validationSchema: yup.object().shape({
@@ -132,21 +160,48 @@ const { formValue, onFormSubmit, errors } = useForm<Pick<CreateMediaReviewBody, 
   }),
 })
 
+onBeforeRouteLeave(() => {
+  if (isFormValueChanged.value) {
+    // eslint-disable-next-line no-alert
+    return window.confirm(t("ui.unsavedChanges"))
+  }
+})
+
+function handleBeforeUnload(event: Event) {
+  if (!isFormValueChanged.value) {
+    return
+  }
+
+  event.preventDefault()
+}
+
+useEventListener(window, "beforeunload", handleBeforeUnload)
+
 async function handleCancel() {
   if (props.currentReview) {
     await deleteMediaReviewApi.mutateAsync({ id: props.currentReview.id })
       .then(() => {
         toast.success(t("toasts.mediaReview.successDeleted"))
       })
-      .catch(() => {
+      .catch((err) => {
         toast.error(t("toasts.mediaReview.unsuccessfullyDeleted"))
+        throw err
       })
   }
   emits("onCancel")
 }
 
 const isLoading = computed(() => {
-  return createMediaReviewApi.isPending.value || updateMediaReviewApi.isPending.value
+  return createMediaReviewApi.isPending.value
+    || updateMediaReviewApi.isPending.value
+    || deleteMediaReviewApi.isPending.value
+    || createMediaRatingApi.isPending.value
+    || updateMediaRatingApi.isPending.value
+    || deleteMediaRatingApi.isPending.value
+})
+
+const isRatingChanged = computed(() => {
+  return selectedRating.value !== initialRating.value
 })
 </script>
 
@@ -171,6 +226,7 @@ const isLoading = computed(() => {
             v-model="selectedRating"
             v-model:hovered-rating="hoveredRating"
             :size="20"
+            :disabled="isLoading"
           />
           <UiTypography v-if="hoveredRating || selectedRating">
             {{ hoveredRating || selectedRating }}
@@ -181,13 +237,15 @@ const isLoading = computed(() => {
       <UiInput
         v-model="formValue.title"
         :placeholder="$t('mediaReviews.form.title')"
-        :error="errors?.conent"
+        :error="errors?.content"
+        :disabled="isLoading"
       />
       <UiTextarea
         v-model="formValue.content"
         :error="errors?.content"
         :placeholder="$t('mediaReviews.form.content')"
         :description="$t('mediaReviews.form.contentDescription')"
+        :disabled="isLoading"
       />
 
       <div :class="$style.actions">
@@ -201,16 +259,19 @@ const isLoading = computed(() => {
         >
           <template #trigger="{ openModal }">
             <UiButton
-              :disabled="isLoading"
               variant="outlined"
               type="button"
+              :disabled="isLoading"
               @click="openModal"
             >
               {{ $t('ui.actions.cancel') }}
             </UiButton>
           </template>
         </UiConfirmationModal>
-        <UiButton type="action">
+        <UiButton
+          type="action"
+          :disabled="isLoading || (!isRatingChanged && !isFormValueChanged)"
+        >
           {{ $t("mediaReviews.form.publish") }}
         </UiButton>
       </div>

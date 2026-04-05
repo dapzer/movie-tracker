@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed } from "#imports"
-import { ref } from "vue"
+import { MediaReviewStatus } from "@movie-tracker/types"
+import { ref, watch } from "vue"
 import {
   useGetMediaReviewByCurrentUserAndMediaIdApi,
   useGetMediaReviewsByMediaIdApi,
@@ -24,7 +25,6 @@ interface MovieDetailsProducersProps {
 const props = defineProps<MovieDetailsProducersProps>()
 
 const currentPage = ref<number>(1)
-const createFormVisible = ref<boolean>(false)
 
 const getMediaReviewsByMediaIdApiQueries = computed(() => ({
   mediaId: props.mediaId,
@@ -48,6 +48,16 @@ await Promise.all([
   getMediaReviewsByMediaIdApi.suspense(),
   getMediaReviewByCurrentUserAndMediaIdApi.suspense(),
 ])
+
+const isDraftExists = computed(() => {
+  return getMediaReviewByCurrentUserAndMediaIdApi.data.value?.status === MediaReviewStatus.DRAFT
+})
+
+const createFormVisible = ref<boolean>(isDraftExists.value)
+
+watch(() => isDraftExists.value, (newValue) => {
+  createFormVisible.value = Boolean(newValue)
+})
 
 const data = computed(() => {
   return getMediaReviewsByMediaIdApi.data.value
