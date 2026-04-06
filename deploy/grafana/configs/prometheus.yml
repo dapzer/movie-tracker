@@ -10,6 +10,10 @@ scrape_configs:
     static_configs:
       - targets: ['node-exporter:9100']
 
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
 #remote_write:
 #  - url: 'http://prometheus:9090/api/v1/write'
 #    basic_auth:
