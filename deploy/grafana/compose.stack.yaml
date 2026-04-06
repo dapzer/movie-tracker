@@ -11,8 +11,14 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
     configs:
-      - source: grafana_provisioning
-        target: /etc/grafana/provisioning
+      - source: grafana_provisioning_dashboards_provider
+        target: /etc/grafana/provisioning/dashboards/default-provider.yml
+      - source: grafana_provisioning_dashboards_entity_analytics
+        target: /etc/grafana/provisioning/dashboards/entity-analytics.json
+      - source: grafana_provisioning_dashboards_logs
+        target: /etc/grafana/provisioning/dashboards/logs.json
+      - source: grafana_provisioning_datasources_loki
+        target: /etc/grafana/provisioning/datasources/loki.yml
     deploy:
       placement:
         constraints:
@@ -135,8 +141,14 @@ services:
       - movie-tracker-metrics
 
 configs:
-  grafana_provisioning:
-    file: ./provisioning
+  grafana_provisioning_dashboards_provider:
+    file: ./provisioning/dashboards/default-provider.yml
+  grafana_provisioning_dashboards_entity_analytics:
+    file: ./provisioning/dashboards/entity-analytics.json
+  grafana_provisioning_dashboards_logs:
+    file: ./provisioning/dashboards/logs.json
+  grafana_provisioning_datasources_loki:
+    file: ./provisioning/datasources/loki.yml
   prometheus_config:
     file: ./configs/prometheus.yml
   alloy_config:
