@@ -27,13 +27,18 @@ services:
   node-exporter:
     image: prom/node-exporter:latest
     restart: unless-stopped
+    hostname: "{{.Node.Hostname}}"
     environment:
       - NODE_NAME
     volumes:
-      - '/:/host:ro,rslave'
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
       - /etc/hostname:/etc/hostname:ro
     command:
-      - '--path.rootfs=/host'
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     networks:
       - grafana
