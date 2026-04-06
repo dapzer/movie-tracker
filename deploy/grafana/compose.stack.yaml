@@ -39,9 +39,6 @@ services:
           memory: 128M
         reservations:
           memory: 64M
-      placement:
-        constraints:
-          - node.role == manager
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
@@ -102,7 +99,7 @@ services:
       mode: global
       placement:
           constraints:
-          - node.role == manager
+            - node.role == manager
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.2
     command: -logtostderr -docker_only
