@@ -27,10 +27,13 @@ services:
   node-exporter:
     image: prom/node-exporter:latest
     restart: unless-stopped
+    environment:
+      - NODE_NAME
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+      - /etc/hostname:/etc/hostname:ro
     command:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
@@ -138,7 +141,7 @@ services:
         target: /dev/disk
         read_only: true
     networks:
-      - movie-tracker-metrics
+      - grafana
 
 configs:
   grafana_provisioning_dashboards_provider:
