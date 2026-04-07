@@ -111,7 +111,7 @@ services:
           constraints:
             - node.role == manager
   cadvisor:
-    image: ghcr.io/google/cadvisor:v0.56.2
+    image: gcr.io/cadvisor/cadvisor:v0.56.2
     command: -logtostderr -docker_only
     deploy:
       mode: global
