@@ -8,6 +8,7 @@ interface UiConfirmationModalProps {
   title: string
   description?: string
   confirmText?: string
+  cancelText?: string
   scheme?: UiConfirmationModalScheme
 }
 
@@ -35,7 +36,7 @@ function handleConfirm() {
 
 <template>
   <UiModal
-    v-model="isOpen "
+    v-model="isOpen"
     :title="props.title"
     :description="props.description"
     :max-width="425"
@@ -56,7 +57,7 @@ function handleConfirm() {
           variant="outlined"
           @click="handleCancel"
         >
-          {{ $t("ui.actions.cancel") }}
+          {{ props.cancelText || $t("ui.actions.cancel") }}
         </UiButton>
         <UiButton
           :scheme="props.scheme === 'danger' ? 'tertiary' : undefined"

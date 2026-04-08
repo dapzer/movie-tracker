@@ -1411,6 +1411,21 @@ export default {
       description: "Чтобы получать уведомления о выходе новых фильмов и сериалов, подпишитесь на интересующие вас кинокартины.",
     },
   },
+  mediaReviews: {
+    title: "Рецензии",
+    create: "Написать рецензию",
+    createTooltip: "Вы уже написали рецензию для этой кинокартины",
+    noReviews: "Для этой кинокартины нет рецензий",
+    yourRating: "Ваша оценка",
+    form: {
+      publish: "Опубликовать",
+      title: "Заголовок рецензии (необязательно)",
+      content: "Рецензия",
+      contentDescription: "Необходимое количество символов: 5 - 10 000",
+      confirmDeleteTitle: "Вы уверены, что отменить написание рецензии",
+      confirmDeleteDescription: "Все ваши изменение будут безвозвратно утеряны",
+    },
+  },
   legals: {
     privacyPolicy: `## Политика конфиденциальности
 1. **Ваша конфиденциальность**: Movie Tracker стремится обеспечить конфиденциальность вашей информации.
@@ -1503,6 +1518,22 @@ export default {
       successDeleted: "Список успешно удален",
       unsuccessfullyDeleted: "Произошла ошибка при удалении списка",
     },
+    mediaReview: {
+      successLiked: "Отзыв успешно оценён",
+      unsuccessfullyLiked: "Произошла ошибка при оценке отзыва",
+      successUnliked: "Лайк успешно убран",
+      unsuccessfullyUnliked: "Произошла ошибка при удалении лайка",
+      successDisliked: "Дизлайк успешно поставлен",
+      unsuccessfullyDisliked: "Произошла ошибка при постановке дизлайка",
+      successUndisliked: "Дизлайк успешно убран",
+      unsuccessfullyUndisliked: "Произошла ошибка при удалении дизлайка",
+      successUpdated: "Отзыв успешно обновлен",
+      unsuccessfullyUpdated: "При обновлении отзыва произошла ошибка",
+      successDeleted: "Отзыв успешно удален",
+      unsuccessfullyDeleted: "Произошла ошибка при удалении отзыва",
+      successCreated: "Отзыв успешно создан",
+      unsuccessfullyCreated: "Произошла ошибка при создании отзыва",
+    },
     mediaRating: {
       successRated: "Оценка успешно сохранена",
       unsuccessfullyRated: "Произошла ошибка при сохранении оценки",
@@ -1572,6 +1603,7 @@ export default {
     follow: "Подписаться",
     unfollow: "Отписаться",
     nothingFound: "Ничего не найдено",
+    unsavedChanges: "Вы уверены, что хотите покинуть страницу? Все несохраненные изменения будут потеряны.",
     like: {
       single: "Лайк",
       multiple: "Лайков",
@@ -1586,6 +1618,11 @@ export default {
       single: "Подписчик",
       multiple: "Подписчиков",
       many: "Подписчика",
+    },
+    reviews: {
+      single: "Рецензия",
+      many: "Рецензии",
+      multiple: "Рецензий",
     },
     errors: {
       nothingFound: "Ничего не найдено",
@@ -1707,5 +1744,11 @@ export default {
         prepositional: "Декабре",
       },
     },
+  },
+  validation: {
+    required: "Это поле обязательно для заполнения",
+    minLength: "Минимальная колличество символов составляет {min}",
+    maxLength: "Максимальная колличество символов составляет {max}",
+    betweenLength: "Колличество символов должно быть в пределах от {min} до {max}",
   },
 }

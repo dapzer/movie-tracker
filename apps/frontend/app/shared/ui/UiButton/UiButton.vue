@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
 
 <template>
   <component
+    v-bind="$attrs"
     :is="props.as"
     :class="[$style.default, {
       [$style.primary]: props.scheme === 'primary',

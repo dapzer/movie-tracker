@@ -150,6 +150,7 @@ const linkTo = computed(() => {
             <UiIcon
               v-else
               name="icon:thumb-up"
+              :class="$style.thumbUpIcon"
               :width="10"
               :height="12"
             />
@@ -224,7 +225,8 @@ const linkTo = computed(() => {
   }
 }
 
-.avatarWithBadgeWrapper {
+.thumbUpIcon {
+  color: #fff;
 }
 
 .poster {
