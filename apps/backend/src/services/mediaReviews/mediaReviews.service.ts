@@ -155,8 +155,6 @@ export class MediaReviewsService {
       isSpoiler: args.body.isSpoiler,
       status: args.body.status,
       publishedAt: args.body.publishedAt,
-      removeReason: args.body.removeReason,
-      removedAt: args.body.removedAt,
     })
   }
 

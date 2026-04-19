@@ -1,4 +1,4 @@
-import { MediaReviewRemoveReason, MediaReviewStatus, MediaReviewUpdateBodyType } from "@movie-tracker/types"
+import { MediaReviewStatus, MediaReviewUpdateBodyType } from "@movie-tracker/types"
 import { IsBoolean, IsDate, IsEnum, IsOptional } from "class-validator"
 
 export class UpdateMediaReviewDto implements Partial<MediaReviewUpdateBodyType> {
@@ -13,12 +13,4 @@ export class UpdateMediaReviewDto implements Partial<MediaReviewUpdateBodyType> 
   @IsDate()
   @IsOptional()
   publishedAt?: Date
-
-  @IsEnum(MediaReviewRemoveReason)
-  @IsOptional()
-  removeReason?: MediaReviewRemoveReason
-
-  @IsDate()
-  @IsOptional()
-  removedAt?: Date
 }

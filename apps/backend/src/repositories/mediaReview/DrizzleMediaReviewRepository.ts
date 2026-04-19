@@ -13,7 +13,6 @@ import {
   MediaReview,
   MediaReviewCreateBodyType,
   MediaReviewPaginatedType,
-  MediaReviewRemoveReason,
   MediaReviewStatus,
   MediaTypeEnum,
   SignUpMethodEnum,
@@ -98,10 +97,6 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       isSpoiler: row.isSpoiler,
       status: MediaReviewStatus[row.status as keyof typeof MediaReviewStatus],
       publishedAt: row.publishedAt ?? undefined,
-      removeReason: row.removeReason
-        ? MediaReviewRemoveReason[row.removeReason as keyof typeof MediaReviewRemoveReason]
-        : undefined,
-      removedAt: row.removedAt ?? undefined,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,
       likesCount: args.likesCount,
@@ -476,8 +471,6 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         isSpoiler: args.isSpoiler,
         status: args.status,
         publishedAt: args.publishedAt,
-        removeReason: args.removeReason,
-        removedAt: args.removedAt,
       })
       .where(eq(mediaReviews.id, args.id))
       .returning()

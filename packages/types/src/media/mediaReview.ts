@@ -10,14 +10,6 @@ export enum MediaReviewStatus {
   DELETED = "DELETED",
 }
 
-export enum MediaReviewRemoveReason {
-  OFF_TOPIC = "OFF_TOPIC",
-  SPAM = "SPAM",
-  TOXICITY = "TOXICITY",
-  LOW_EFFORT_JUNK = "LOW_EFFORT_JUNK",
-  OTHER = "OTHER",
-}
-
 export interface MediaReview {
   id: string
   userId: string
@@ -31,8 +23,6 @@ export interface MediaReview {
   isSpoiler: boolean
   status: MediaReviewStatus
   publishedAt?: Date
-  removeReason?: MediaReviewRemoveReason
-  removedAt?: Date
   createdAt: Date
   updatedAt: Date
 
@@ -53,9 +43,7 @@ export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"
 
 export type MediaReviewUpdateBodyType = Pick<MediaReview, "isSpoiler"
   | "status"
-  | "publishedAt"
-  | "removeReason"
-  | "removedAt">
+  | "publishedAt">
 
 export interface MediaReviewLike {
   id: string
