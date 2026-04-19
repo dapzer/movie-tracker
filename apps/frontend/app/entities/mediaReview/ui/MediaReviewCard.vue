@@ -182,7 +182,7 @@ const isOpinionButtonsDisabled = computed(() => {
 }
 
 .avatarMobile {
-  display: none;
+  display: none !important;
 }
 
 @include mobileDevice() {

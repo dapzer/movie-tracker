@@ -1425,6 +1425,33 @@ export default {
       confirmDeleteTitle: "Вы уверены, что отменить написание рецензии",
       confirmDeleteDescription: "Все ваши изменение будут безвозвратно утеряны",
     },
+    moderation: {
+      review: "Рассмотреть",
+      publish: "Опубликовать",
+      publishWithSpoiler: "Опубликовать со спойлером",
+      status: {
+        changesRequested: "Запросить изменения",
+        removed: "Удалить",
+      },
+      reason: {
+        offTopic: "Не по теме",
+        spam: "Спам",
+        toxicity: "Токсичность",
+        lowEffortJunk: "Низкое качество / мусор",
+        other: "Другое",
+      },
+      form: {
+        statusPlaceholder: "Выберите действие",
+        reasonPlaceholder: "Выберите причину",
+        descriptionPlaceholder: "Комментарий (необязательно)",
+      },
+      result: {
+        confirm: {
+          title: "Вы уверены?",
+          description: "Данное решение будет применено к рецензии без возможности отмены.",
+        },
+      },
+    },
   },
   legals: {
     privacyPolicy: `## Политика конфиденциальности

@@ -1423,6 +1423,33 @@ export default {
       confirmDeleteTitle: "Are you sure you want to cancel writing the review?",
       confirmDeleteDescription: "All your changes will be irreversibly lost",
     },
+    moderation: {
+      review: "Review",
+      publish: "Publish",
+      publishWithSpoiler: "Publish with spoiler",
+      status: {
+        changesRequested: "Request changes",
+        removed: "Reject",
+      },
+      reason: {
+        offTopic: "Off topic",
+        spam: "Spam",
+        toxicity: "Toxicity",
+        lowEffortJunk: "Low effort / junk",
+        other: "Other",
+      },
+      form: {
+        statusPlaceholder: "Select action",
+        reasonPlaceholder: "Select reason",
+        descriptionPlaceholder: "Comment (optional)",
+      },
+      result: {
+        confirm: {
+          title: "Are you sure?",
+          description: "This decision will be applied to the review without the possibility of cancellation.",
+        },
+      },
+    },
   },
   legals: {
     privacyPolicy: `## Privacy policy
