@@ -7,6 +7,7 @@ import {
 import { sql } from "drizzle-orm"
 import {
   boolean,
+  check,
   index,
   integer,
   jsonb,
@@ -34,12 +35,18 @@ export const mediaReviewStatusEnum = pgEnum("MediaReviewStatusEnum", [
   "REMOVED",
   "DELETED",
 ])
-export const mediaReviewRemoveReasonEnum = pgEnum("MediaReviewRemoveReasonEnum", [
+export const mediaReviewModerationReasonEnum = pgEnum("MediaReviewModerationReasonEnum", [
   "OFF_TOPIC",
   "SPAM",
   "TOXICITY",
   "LOW_EFFORT_JUNK",
   "OTHER",
+])
+export const mediaReviewModerationActionEnum = pgEnum("MediaReviewModerationActionEnum", [
+  "APPROVED",
+  "APPROVED_WITH_SPOILER_MARK",
+  "CHANGES_REQUESTED",
+  "REJECTED",
 ])
 
 export const prismaMigrations = pgTable("_prisma_migrations", {
@@ -234,8 +241,6 @@ export const mediaReviews = pgTable("media_reviews", {
   isSpoiler: boolean("is_spoiler").default(false).notNull(),
   status: mediaReviewStatusEnum("status").default("DRAFT").notNull(),
   publishedAt: timestamp("published_at", { precision: 3, mode: "date", withTimezone: true }),
-  removeReason: mediaReviewRemoveReasonEnum("remove_reason"),
-  removedAt: timestamp("removed_at", { precision: 3, mode: "date", withTimezone: true }),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", {
     precision: 3,
@@ -246,6 +251,21 @@ export const mediaReviews = pgTable("media_reviews", {
   uniqueIndex(
     "media_reviews_media_id_media_type_user_id_key",
   ).on(table.mediaId, table.mediaType, table.userId).where(sql`${table.status} != 'DELETED'`),
+])
+
+export const mediaReviewsModerationLogs = pgTable("media_reviews_moderation_logs", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  mediaReviewId: uuid("media_review_id").notNull().references(() => mediaReviews.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  moderatorId: uuid("moderator_id").references(() => users.id, { onUpdate: "cascade", onDelete: "set null" }),
+  action: mediaReviewModerationActionEnum("action").notNull(),
+  reason: mediaReviewModerationReasonEnum("reason"),
+  comment: text(),
+  createdAt: timestamp("created_at").notNull(),
+}, table => [
+  check(
+    "media_reviews_moderation_logs_reason_required_if_rejected",
+    sql`(${table.action} NOT IN ('REJECTED', 'CHANGES_REQUESTED')) OR (${table.reason} IS NOT NULL)`,
+  ),
 ])
 
 export const mediaReviewLikes = pgTable("media_review_likes", {
