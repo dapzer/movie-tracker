@@ -237,7 +237,7 @@ const isRatingChanged = computed(() => {
       <UiInput
         v-model="formValue.title"
         :placeholder="$t('mediaReviews.form.title')"
-        :error="errors?.content"
+        :error="errors?.title"
         :disabled="isLoading"
       />
       <UiTextarea
