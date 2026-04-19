@@ -117,7 +117,7 @@ async function handleUpdateRating() {
 }
 
 async function handlePublishReview(formValue: FormValue) {
-  if (props.currentReview) {
+  if (props.currentReview && [MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING].includes(props.currentReview.status)) {
     await updateMediaReviewApi.mutateAsync({
       id: props.currentReview.id,
       body: {

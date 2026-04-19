@@ -63,6 +63,12 @@ watch(() => isDraftExists.value, (newValue) => {
 const data = computed(() => {
   return getMediaReviewsByMediaIdApi.data.value
 })
+
+const isPublishedReviewsExists = computed(() => {
+  const data = getMediaReviewByCurrentUserAndMediaIdApi.data.value
+  const status = data?.status
+  return data && status !== MediaReviewStatus.DRAFT && status !== MediaReviewStatus.DELETED
+})
 </script>
 
 <template>
@@ -76,12 +82,12 @@ const data = computed(() => {
           {{ $t("mediaReviews.title") }}
         </UiTypography>
         <UiTooltip
-          :disabled="!getMediaReviewByCurrentUserAndMediaIdApi.data.value || createFormVisible"
+          :disabled="!isPublishedReviewsExists || createFormVisible"
           side="bottom"
         >
           <template #trigger>
             <UiButton
-              :disabled="Boolean(getMediaReviewByCurrentUserAndMediaIdApi.data.value) || createFormVisible"
+              :disabled="isPublishedReviewsExists || createFormVisible"
               variant="boxed"
               scheme="secondary"
               size="medium"

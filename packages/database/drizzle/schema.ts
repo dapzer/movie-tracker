@@ -245,7 +245,7 @@ export const mediaReviews = pgTable("media_reviews", {
 }, table => [
   uniqueIndex(
     "media_reviews_media_id_media_type_user_id_key",
-  ).on(table.mediaId, table.mediaType, table.userId),
+  ).on(table.mediaId, table.mediaType, table.userId).where(sql`${table.status} != 'DELETED'`),
 ])
 
 export const mediaReviewLikes = pgTable("media_review_likes", {
