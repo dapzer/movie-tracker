@@ -61,7 +61,7 @@ export class ProxyService {
   async getImage(
     path: string,
     keepOriginalType: boolean = false,
-    size: string = undefined,
+    size: number = undefined,
   ) {
     const response = await fetch(
       `${this.configService.get("TMDB_IMAGE_API_URL")}/w500/${path}`,
@@ -99,7 +99,7 @@ export class ProxyService {
         }
       }
 
-      const stream = sharp(buffer).resize(Number(size)).webp()
+      const stream = sharp(buffer).resize(size).webp()
 
       return {
         stream,

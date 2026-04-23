@@ -1,10 +1,13 @@
 import { Transform } from "class-transformer"
-import { IsBoolean, IsOptional, IsString } from "class-validator"
+import { IsBoolean, IsNumber, IsOptional } from "class-validator"
 
 export class ProxyQueriesDto {
   @IsOptional()
-  @IsString()
-  size?: string
+  @Transform(({ value }) => {
+    return Number(value)
+  })
+  @IsNumber()
+  size?: number
 
   @IsOptional()
   @IsBoolean()
