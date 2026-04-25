@@ -8,6 +8,13 @@
       "when": 1772369154923,
       "tag": "0000_initial",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777127576093,
+      "tag": "0001_deep_sleepwalker",
+      "breakpoints": true
     }
   ]
 }
