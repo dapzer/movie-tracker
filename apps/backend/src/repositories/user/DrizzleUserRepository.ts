@@ -106,6 +106,9 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
     if (args.body.mediaRatingsAccessLevel !== undefined) {
       data.mediaRatingsAccessLevel = args.body.mediaRatingsAccessLevel
     }
+    if (args.body.language !== undefined) {
+      data.language = args.body.language
+    }
 
     const [user] = await this.drizzle.client
       .update(users)
