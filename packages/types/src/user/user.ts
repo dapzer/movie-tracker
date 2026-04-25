@@ -8,7 +8,7 @@ export enum LanguagesEnum {
   EN = "en",
 }
 
-type LanguageValues = `${LanguagesEnum}`;
+export type LanguageValues = `${LanguagesEnum}`
 
 export enum SignUpMethodEnum {
   EMAIL = "EMAIL",
