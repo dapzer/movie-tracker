@@ -45,6 +45,7 @@ model User {
   signUpMethod            SignUpMethodEnum                @map("sign_up_method")
   password                String?
   mediaRatingsAccessLevel UserMediaRatingsAccessLevelEnum @default(PUBLIC) @map("media_ratings_access_level")
+  language                LanguagesEnum                   @default(ru)
 
   roles     UserRoleEnum[] @default([USER])
   createdAt DateTime       @default(now()) @map("created_at")
@@ -256,4 +257,9 @@ enum NotificationTypeEnum {
   USER_FOLLOW
   MEDIA_RELEASE
   MEDIA_STATUS_UPDATE
+}
+
+enum LanguagesEnum {
+  ru
+  en
 }
