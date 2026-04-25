@@ -8,6 +8,8 @@ export enum LanguagesEnum {
   EN = "en",
 }
 
+type LanguageValues = `${LanguagesEnum}`;
+
 export enum SignUpMethodEnum {
   EMAIL = "EMAIL",
   GOOGLE = "GOOGLE",
@@ -31,7 +33,7 @@ export interface UserType {
   signUpMethod: SignUpMethodEnum
   password?: string
   mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
-  language: LanguagesEnum
+  language: LanguageValues
   roles: UserRoleEnum[]
   createdAt: Date
   updatedAt: Date
