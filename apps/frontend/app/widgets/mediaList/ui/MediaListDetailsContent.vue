@@ -198,25 +198,28 @@ watchEffect(() => {
       :class="$style.tabs"
       :tabs="[
         {
-          label: `${$t('ui.all')} (${groupedByStatus?.total || 0})`,
+          label: $t('ui.all'),
+          description: groupedByStatus?.total,
           key: 'all',
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${groupedByStatus?.WATCHING_NOW || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`),
+          description: groupedByStatus?.WATCHING_NOW,
           key: MediaItemStatusNameEnum.WATCHING_NOW,
         },
         {
-          label:
-            `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${groupedByStatus?.NOT_VIEWED || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`),
+          description: groupedByStatus?.NOT_VIEWED,
           key: MediaItemStatusNameEnum.NOT_VIEWED,
         },
         {
-          label:
-            `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${groupedByStatus?.WAIT_NEW_PART || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`),
+          description: groupedByStatus?.WAIT_NEW_PART,
           key: MediaItemStatusNameEnum.WAIT_NEW_PART,
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${groupedByStatus?.VIEWED || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`),
+          description: groupedByStatus?.VIEWED,
           key: MediaItemStatusNameEnum.VIEWED,
         },
       ] as const"

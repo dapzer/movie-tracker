@@ -30,7 +30,7 @@ if (!activeTab.value) {
       <UiSlider
         :data="props.tabs as unknown as Array<UiTab>"
         max-width="max-content"
-        :spaceing="4"
+        :spaceing="24"
         hide-buttons
       >
         <template #slide="{ item }">
@@ -38,6 +38,7 @@ if (!activeTab.value) {
             :key="item.key"
             :active="activeTab === item.key"
             :href="item.href"
+            :description="item.description"
             @click="activeTab = item.key"
           >
             {{ item.label }}
