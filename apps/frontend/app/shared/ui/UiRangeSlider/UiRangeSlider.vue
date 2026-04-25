@@ -65,14 +65,23 @@ const ticks = computed(() => {
       />
 
       <SliderThumb
-        v-for="(_, i) in model"
+        v-for="(value, i) in model"
         :key="i"
         :class="$style.thumb"
         :aria-label="`Value ${i + 1}`"
         :as="UiButton"
         scheme="default"
         variant="default"
-      />
+      >
+        <div :class="$style.tooltip">
+          <UiTypography
+            as="span"
+            variant="labelSmall"
+          >
+            {{ value }}
+          </UiTypography>
+        </div>
+      </SliderThumb>
     </SliderRoot>
 
     <div :class="$style.labels">
@@ -156,9 +165,37 @@ const ticks = computed(() => {
   border-radius: 9999px;
   cursor: pointer;
   outline: none;
+  position: relative;
 
-  &:focus {
+  &:hover,
+  &:focus,
+  &:active {
     background: var(--c-white-85);
+
+    .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
+.tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--c-button-background-primary);
+  padding: 0 5px;
+  border-radius: var(--s-border-radius-small);
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+
+  span {
+    font-weight: var(--fw-semi-bold);
+    font-size: var(--fs-badge);
   }
 }
 
