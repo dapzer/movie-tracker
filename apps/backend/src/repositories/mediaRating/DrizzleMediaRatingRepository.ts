@@ -38,6 +38,7 @@ export class DrizzleMediaRatingRepository implements MediaRatingRepositoryInterf
       password: user.password,
       roles: user.roles.map(role => UserRoleEnum[role]),
       mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
+      language: user.language,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     })

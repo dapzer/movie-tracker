@@ -2,7 +2,7 @@ import * as crypto from "node:crypto"
 import { ConfirmEmailChangingEmail, WelcomeEmail } from "@movie-tracker/email-templates"
 import ConfirmationEmail from "@movie-tracker/email-templates/dist/emails/confirmation-email"
 import PasswordRecoveryEmail from "@movie-tracker/email-templates/dist/emails/password-recovery-email"
-import { SignUpMethodEnum, UserType } from "@movie-tracker/types"
+import { LanguagesEnum, SignUpMethodEnum, UserType } from "@movie-tracker/types"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { Inject, Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
@@ -178,6 +178,7 @@ export class AuthService {
           image: profile.avatarUrl,
           isEmailVerified,
           signUpMethod,
+          language: LanguagesEnum.RU,
         },
       })
 
@@ -222,6 +223,7 @@ export class AuthService {
         password: passwordHash,
         isEmailVerified: false,
         signUpMethod: SignUpMethodEnum.EMAIL,
+        language: LanguagesEnum.RU,
       },
     })
 
