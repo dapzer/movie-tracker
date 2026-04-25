@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, UseGuards } from "@nestjs/common"
 import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
+import { UpdateUserLanguageDto } from "@/services/users/dto/update-user-language.dto"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
 import { User } from "@/services/users/user.decorator"
 import { UsersService } from "@/services/users/users.service"
@@ -41,5 +42,11 @@ export class UsersController {
   @UseGuards(AuthGuard)
   async updateUser(@User() user: UserDto, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(user?.id, updateUserDto)
+  }
+
+  @Patch("language")
+  @UseGuards(AuthGuard)
+  async updateUserLanguage(@User() user: UserDto, @Body() updateUserLanguageDto: UpdateUserLanguageDto) {
+    return this.usersService.updateLanguage(user?.id, updateUserLanguageDto)
   }
 }

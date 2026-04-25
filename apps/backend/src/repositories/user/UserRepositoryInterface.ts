@@ -12,13 +12,13 @@ export interface UserRepositoryInterface {
   create: (args: {
     body: Pick<
       UserType,
-      "email" | "name" | "image" | "password" | "isEmailVerified" | "signUpMethod"
+      "email" | "name" | "image" | "password" | "isEmailVerified" | "signUpMethod" | "language"
     >
   }) => Promise<UserType>
 
   update: (args: {
     id: string
-    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email" | "mediaRatingsAccessLevel">>
+    body: Partial<Pick<UserType, "name" | "image" | "isEmailVerified" | "password" | "email" | "mediaRatingsAccessLevel" | "language">>
   }) => Promise<UserType>
 
   delete: (id: string) => Promise<UserType>
