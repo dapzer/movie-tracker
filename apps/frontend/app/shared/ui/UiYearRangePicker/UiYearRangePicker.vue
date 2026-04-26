@@ -10,6 +10,7 @@ interface UiYearRangePickerProps {
   shortcuts?: number[]
   fromLabel: string
   toLabel: string
+  disabled?: boolean
 }
 
 const props = withDefaults(defineProps<UiYearRangePickerProps>(), {
@@ -104,6 +105,7 @@ function applyDecadeShortcut(decade: number) {
         </UiTypography>
         <UiInput
           v-model="fromInput"
+          :disabled="props.disabled"
           size="small"
           :class="$style.input"
           type="number"
@@ -123,6 +125,7 @@ function applyDecadeShortcut(decade: number) {
         </UiTypography>
         <UiInput
           v-model="toInput"
+          :disabled="props.disabled"
           size="small"
           :class="$style.input"
           type="number"
@@ -139,7 +142,9 @@ function applyDecadeShortcut(decade: number) {
       <UiTag
         v-for="decade in props.shortcuts"
         :key="decade"
-        :class="$style.shortcut"
+        :class="[$style.shortcut, {
+          [$style.shortcutDisabled]: props.disabled,
+        }]"
         type="button"
         text-variant="labelSmall"
         @click="applyDecadeShortcut(decade)"
@@ -197,5 +202,10 @@ function applyDecadeShortcut(decade: number) {
 .shortcut {
   color: var(--c-white-60);
   cursor: pointer;
+}
+
+.shortcutDisabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 </style>
