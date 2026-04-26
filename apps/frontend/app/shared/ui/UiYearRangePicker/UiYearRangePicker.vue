@@ -205,7 +205,7 @@ function applyDecadeShortcut(decade: number) {
 }
 
 .shortcutDisabled {
-  opacity: 0.6;
+  opacity: var(--s-disabled-opacity);
   pointer-events: none;
 }
 </style>

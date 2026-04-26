@@ -124,7 +124,7 @@ const ticks = computed(() => {
     .track,
     .thumb,
     .tick {
-      opacity: 0.6;
+      opacity: var(--s-disabled-opacity);
     }
   }
 }
