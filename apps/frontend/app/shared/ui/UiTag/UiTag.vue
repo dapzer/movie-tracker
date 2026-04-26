@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { UiTypographyVariant } from "~/shared/ui/UiTypography"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 export type UiTagColor = "gray" | "green" | "orange" | "blue"
@@ -7,10 +8,12 @@ export type UiTagVariant = "boxed"
 interface UiTagProps {
   color?: UiTagColor
   variant?: UiTagVariant
+  textVariant?: UiTypographyVariant
 }
 
 const props = withDefaults(defineProps<UiTagProps>(), {
   color: "gray",
+  textVariant: "badge",
 })
 </script>
 
@@ -26,7 +29,7 @@ const props = withDefaults(defineProps<UiTagProps>(), {
   >
     <UiTypography
       :class="$style.value"
-      variant="badge"
+      :variant="props.textVariant"
       as="span"
     >
       <slot />
