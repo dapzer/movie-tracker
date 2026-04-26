@@ -136,6 +136,7 @@ const ticks = computed(() => {
   border-radius: 9999px;
   height: 3px;
   overflow: visible;
+  z-index: 1;
 }
 
 .tick {
@@ -148,7 +149,7 @@ const ticks = computed(() => {
   background: var(--c-white-15);
   pointer-events: none;
   border-radius: 20px;
-  z-index: -1;
+  z-index: 0;
 }
 
 .range {
@@ -166,6 +167,7 @@ const ticks = computed(() => {
   cursor: pointer;
   outline: none;
   position: relative;
+  z-index: 2;
 
   &:hover,
   &:focus,
