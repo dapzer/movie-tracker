@@ -2,9 +2,16 @@
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
+interface UiExpandableSearchInputProps {
+  wrapperClass?: string
+}
+
 defineOptions({
   inheritAttrs: false,
 })
+
+const props = defineProps<UiExpandableSearchInputProps>()
+
 const model = defineModel<string>()
 
 function handleClearButtonClick() {
@@ -14,7 +21,7 @@ function handleClearButtonClick() {
 
 <template>
   <label
-    :class="[$style.wrapper, {
+    :class="[$style.wrapper, props.wrapperClass, {
       [$style.active]: Boolean(model),
     }]"
   >

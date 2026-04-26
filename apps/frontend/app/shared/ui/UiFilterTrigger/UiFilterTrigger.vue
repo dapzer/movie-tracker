@@ -6,7 +6,6 @@ import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiFilterTriggerProps {
   active?: boolean
-
 }
 
 const props = defineProps<UiFilterTriggerProps>()
@@ -29,7 +28,7 @@ const scheme = computed<UiButtonScheme>(() => props.active ? "secondary-light" :
       v-if="props.active"
       :class="$style.clearButton"
       variant="textIcon"
-      @click.stop="$emit('clear')"
+      @click.stop="emits('clear')"
     >
       <UiIcon
         name="icon:close"

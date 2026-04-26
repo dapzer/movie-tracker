@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTag } from "~/shared/ui/UiTag"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -91,6 +91,22 @@ function applyDecadeShortcut(decade: number) {
   fromInput.value = String(decade)
   toInput.value = String(decade + 9)
 }
+
+watch(model, ([from, to]) => {
+  if (from !== undefined) {
+    fromInput.value = String(from)
+  }
+  else {
+    fromInput.value = ""
+  }
+
+  if (to !== undefined) {
+    toInput.value = String(to)
+  }
+  else {
+    toInput.value = ""
+  }
+})
 </script>
 
 <template>

@@ -22,6 +22,7 @@ import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
+import MediaListDetailsFilters from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
 
 interface MediaListDetailsProps {
   mediaList: MediaListType
@@ -233,6 +234,7 @@ watchEffect(() => {
         />
       </template>
       <template #content>
+        <MediaListDetailsFilters />
         <UiCardsGrid v-if="getMediaItemsByMediaListIdApi.isPending.value || currentTabContent.length">
           <template v-if="getMediaItemsByMediaListIdApi.isPending.value">
             <UiMediaCardSkeleton
