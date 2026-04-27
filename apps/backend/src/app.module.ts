@@ -1,7 +1,7 @@
 import KeyvRedis from "@keyv/redis"
 import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis"
 import { CacheModule } from "@nestjs/cache-manager"
-import { Module } from "@nestjs/common"
+import { Module, RequestMethod } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
 import { APP_GUARD } from "@nestjs/core"
 import { ScheduleModule } from "@nestjs/schedule"
@@ -79,6 +79,7 @@ import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
           res: () => undefined,
         },
       },
+      forRoutes: [{ path: "/*path", method: RequestMethod.ALL }],
     }),
     PrismaModule,
     DrizzleModule,
