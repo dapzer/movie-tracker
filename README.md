@@ -36,7 +36,8 @@ The main goal in the creation of this project was the realization of personal li
 
 1. Clone repository `git clone https://github.com/dapzer/movie-tracker.git`
 2. Create a `.env` file and transfer the data from `.env.development` into it
-3. Run needed services (PostgreSQL, Adminer, Redis) `docker compose -f compose.dev.yaml up -d`
+3. Run needed services (PostgreSQL, Adminer, Redis) `pnpm infra` or
+   <br>`docker compose -f compose.dev.yaml up -d`
 4. Install dependencies `pnpm i`
 5. Run project `pnpm dev`
 
