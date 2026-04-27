@@ -21,6 +21,7 @@ import {
   updateMediaRating,
 } from "~/api/mediaRatings/mediaRatingsApi"
 import { MediaRatingsApiQueryKeys } from "~/api/mediaRatings/mediaRatingsApiQueryKeys"
+import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
 
 export function useGetMediaRatingByMediaIdApi(args: GetMediaRatingByMediaIdArgs) {
   return useQuery({
@@ -74,6 +75,14 @@ export function useCreateMediaRatingApi() {
     onSuccess: async (data: MediaRatingType) => {
       await Promise.all([
         queryClient.setQueryData([MediaRatingsApiQueryKeys.GET_BY_MEDA_ID, data.mediaId], data),
+        queryClient.invalidateQueries({
+          queryKey: [MediaRatingsApiQueryKeys.GET_ALL_BY_USER_ID],
+          refetchType: "all",
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [UsersQueryKeys.STATS_BY_ID],
+          refetchType: "all",
+        }),
         queryClient.refetchQueries({
           queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
         }),
@@ -92,6 +101,14 @@ export function useUpdateMediaRatingApi() {
     onSuccess: async (data: MediaRatingType) => {
       await Promise.all([
         queryClient.setQueryData([MediaRatingsApiQueryKeys.GET_BY_MEDA_ID, data.mediaId], data),
+        queryClient.invalidateQueries({
+          queryKey: [MediaRatingsApiQueryKeys.GET_ALL_BY_USER_ID],
+          refetchType: "all",
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [UsersQueryKeys.STATS_BY_ID],
+          refetchType: "all",
+        }),
         queryClient.refetchQueries({
           queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
         }),
@@ -109,6 +126,14 @@ export function useDeleteMediaRatingApi() {
       await Promise.all([
         queryClient.resetQueries({
           queryKey: [MediaRatingsApiQueryKeys.GET_BY_MEDA_ID, data.mediaId],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaRatingsApiQueryKeys.GET_ALL_BY_USER_ID],
+          refetchType: "all",
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [UsersQueryKeys.STATS_BY_ID],
+          refetchType: "all",
         }),
         queryClient.refetchQueries({
           queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
