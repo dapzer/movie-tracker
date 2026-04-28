@@ -16,8 +16,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postbuild": "dotenv -- turbo run postbuild",
-    "db:push": "dotenv -- turbo db:push",
-    "infra": "docker compose -f compose.dev.yaml up -d"
+    "db:push": "dotenv -- turbo db:push"
   },
   "dependencies": {
     "dotenv-cli": "7.4.4",
