@@ -128,6 +128,7 @@ export default defineNuxtConfig({
     dirs: [{
       path: "shared/ui/UiMarkdown",
       global: true,
+      extensions: ["vue"],
     }],
   },
 
