@@ -2,7 +2,10 @@ import { sessions } from "@movie-tracker/database"
 import { ValidationPipe } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { HttpAdapterHost, NestFactory } from "@nestjs/core"
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
+import { apiReference } from "@scalar/nestjs-api-reference"
 import * as cookieParser from "cookie-parser"
+import { Response } from "express"
 import * as session from "express-session"
 import { Logger } from "nestjs-pino"
 import { AppModule } from "@/app.module"
@@ -52,6 +55,27 @@ async function bootstrap() {
         maxAge: getMillisecondsFromDays(14),
       },
       store: new DrizzleSessionStore(drizzle.client, sessions),
+    }),
+  )
+
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle("Movie Tracker API")
+    .setDescription("Movie Tracker API documentation")
+    .setVersion("1.0")
+    .build()
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
+  const jsonUrl = "/api/openapi/json"
+
+  SwaggerModule.setup("/api/openapi", app, swaggerDocument, {
+    jsonDocumentUrl: jsonUrl,
+    ui: false,
+  })
+
+  app.use(
+    "/api/docs",
+    apiReference({
+      url: jsonUrl,
+      theme: "deepSpace",
     }),
   )
 
