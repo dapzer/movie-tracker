@@ -1,6 +1,6 @@
 import { MediaRatingPaginatedType } from "@movie-tracker/types"
 import { ApiProperty } from "@nestjs/swagger"
-import { MediaRatingResDto } from "./MediaRating.res.dto"
+import { MediaRatingResDto } from "./mediaRating.res.dto"
 
 export class MediaRatingPaginatedResDto implements MediaRatingPaginatedType {
   @ApiProperty({ type: MediaRatingResDto, isArray: true })

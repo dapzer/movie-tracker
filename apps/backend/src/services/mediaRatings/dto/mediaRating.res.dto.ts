@@ -1,6 +1,6 @@
 import { MediaDetailsType, MediaRatingType, MediaTypeEnum } from "@movie-tracker/types"
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { UserPublicDto } from "@/services/users/dto/userPublic.dto"
 
 export class MediaRatingResDto implements MediaRatingType {
   @ApiProperty({ type: String, format: "uuid", example: "a23d2b67-8a7e-4f70-9c8b-0a8f7a53c021" })
@@ -9,8 +9,8 @@ export class MediaRatingResDto implements MediaRatingType {
   @ApiProperty({ type: String, format: "uuid", example: "b10c5d0d-4ce2-4e31-8d1a-7d1a0b944b3a" })
   userId: string
 
-  @ApiPropertyOptional({ type: UserDto })
-  user?: UserDto
+  @ApiPropertyOptional({ type: UserPublicDto })
+  user?: UserPublicDto
 
   @ApiProperty({ type: Number, example: 550 })
   mediaId: number
@@ -27,9 +27,9 @@ export class MediaRatingResDto implements MediaRatingType {
   @ApiPropertyOptional({ type: Object })
   mediaDetails?: MediaDetailsType
 
-  @ApiPropertyOptional({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
+  @ApiProperty({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
   createdAt: Date
 
-  @ApiPropertyOptional({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
+  @ApiProperty({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
   updatedAt: Date
 }
