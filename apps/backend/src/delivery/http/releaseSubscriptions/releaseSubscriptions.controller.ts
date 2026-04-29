@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateReleaseSubscriptionDto } from "@/services/releaseSubscriptions/dto/createReleaseSubscription.dto"
 import {
   GetReleaseSubscriptionsByUserIdQueryDto,
 } from "@/services/releaseSubscriptions/dto/getReleaseSubscriptionsByUserIdQuery.dto"
 import { ReleaseSubscriptionsService } from "@/services/releaseSubscriptions/releaseSubscriptions.service"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 
 @Controller("release-subscriptions")

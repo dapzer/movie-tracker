@@ -1,12 +1,12 @@
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@movie-tracker/types"
 import { Controller, Get, Query } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { CommunityListsService } from "@/services/communityLists/communityLists.service"
 import { GetCommunityListsAllTimeTopQueryDto } from "@/services/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
 import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQueryDto"
 import { GetCommunityListsSearchQueryDto } from "@/services/communityLists/dto/getCommunityListsSearchQuery.dto"
 import { GetCommunityListsWeekTopQueryDto } from "@/services/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/services/communityLists/dto/getCommunityListsWithMediaQuery.dto"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 
 @Controller("community-lists")

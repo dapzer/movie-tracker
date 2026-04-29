@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, UseGuards } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UsersService } from "@/services/users/users.service"
 import { UuidDto } from "@/shared/dto/uuid.dto"

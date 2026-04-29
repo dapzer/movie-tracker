@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { UserFollowsService } from "@/services/userFollows/userFollows.service"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"

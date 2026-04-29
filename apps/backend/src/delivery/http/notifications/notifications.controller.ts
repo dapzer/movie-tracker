@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { MarkNotificationsAsReadDto } from "@/services/notifications/dto/markNotificationsAsRead.dto"
 import { NotificationsService } from "@/services/notifications/notifications.service"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 

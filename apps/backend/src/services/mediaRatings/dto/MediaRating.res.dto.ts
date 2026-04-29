@@ -1,6 +1,6 @@
 import { MediaDetailsType, MediaRatingType, MediaTypeEnum } from "@movie-tracker/types"
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { UserDto } from "@/services/auth/dto/user.dto"
+import { UserDto } from "@/services/users/dto/user.dto"
 
 export class MediaRatingResDto implements MediaRatingType {
   @ApiProperty({ type: String, format: "uuid", example: "a23d2b67-8a7e-4f70-9c8b-0a8f7a53c021" })

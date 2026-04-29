@@ -1,6 +1,6 @@
 import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { IsEnum, IsOptional, IsString, IsUrl, Length } from "class-validator"
-import { UserDto } from "@/services/auth/dto/user.dto"
+import { UserDto } from "@/services/users/dto/user.dto"
 
 export class UpdateUserDto implements Partial<Pick<UserDto, "name" | "image" | "mediaRatingsAccessLevel">> {
   @IsOptional()
