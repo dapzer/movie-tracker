@@ -1,7 +1,7 @@
 import { MediaItemType, MediaTypeEnum } from "@movie-tracker/types"
 import { Type } from "class-transformer"
 import { IsDateString, IsEnum, IsNumber, IsUUID, ValidateNested } from "class-validator"
-import { MediaItemTrackingDataDto } from "@/services/mediaItems/dto/mediaItemTrackingDataDto.dto"
+import { MediaItemTrackingDataDto } from "@/services/mediaItems/dto/mediaItemTrackingData.dto"
 
 export class MediaItemDto implements MediaItemType {
   @IsUUID()

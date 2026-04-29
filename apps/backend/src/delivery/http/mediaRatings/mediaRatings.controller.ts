@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } f
 import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRating.dto"
-import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParamsDto"
+import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParams.dto"
 import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
 import { MediaRatingsService } from "@/services/mediaRatings/mediaRatings.service"
 import { User } from "@/services/users/user.decorator"
