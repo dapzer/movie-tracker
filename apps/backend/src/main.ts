@@ -2,8 +2,6 @@ import { sessions } from "@movie-tracker/database"
 import { ValidationPipe } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { HttpAdapterHost, NestFactory } from "@nestjs/core"
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
-import { apiReference } from "@scalar/nestjs-api-reference"
 import * as cookieParser from "cookie-parser"
 import * as session from "express-session"
 import { Logger } from "nestjs-pino"
@@ -14,6 +12,7 @@ import { DrizzleClientErrorFilter } from "@/filters/drizzleClientError.filter"
 import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
+import { setupOpenApi } from "./openApi"
 import { DrizzleSessionStore } from "./services/drizzle/drizzleSessionStore"
 import "dotenv/config"
 import "@/services/opentelemetry"
@@ -57,26 +56,7 @@ async function bootstrap() {
     }),
   )
 
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle("Movie Tracker API")
-    .setDescription("Movie Tracker API documentation")
-    .setVersion("1.0")
-    .build()
-  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
-  const jsonUrl = "/api/openapi/json"
-
-  SwaggerModule.setup("/api/openapi", app, swaggerDocument, {
-    jsonDocumentUrl: jsonUrl,
-    ui: false,
-  })
-
-  app.use(
-    "/api/docs",
-    apiReference({
-      url: jsonUrl,
-      theme: "deepSpace",
-    }),
-  )
+  setupOpenApi(app, configService)
 
   const PORT = configService.get("APP_PORT") || 5000
 
