@@ -1,7 +1,7 @@
 import { MediaDetailsUpdateProgressType } from "@movie-tracker/types"
 import { ApiProperty } from "@nestjs/swagger"
 
-export class MediaDetailsUpdateProgressResDto implements MediaDetailsUpdateProgressType {
+export class MediaDetailsUpdateProgressDto implements MediaDetailsUpdateProgressType {
   @ApiProperty({ type: Number, example: 120 })
   successfulUpdates: number
 

@@ -61,7 +61,7 @@ export class MediaDetailsInfoDto implements MediaDetailsInfoType {
   releaseDate?: string
 }
 
-export class MediaDetailsResDto implements MediaDetailsType {
+export class MediaDetailsDto implements MediaDetailsType {
   @ApiProperty({ type: String, format: "uuid", example: "c91f2c3e-6c4f-4a2a-9f1c-2c8e9b7a1d55" })
   id: string
 

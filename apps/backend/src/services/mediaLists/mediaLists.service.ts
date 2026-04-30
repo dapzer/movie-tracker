@@ -25,7 +25,7 @@ import {
   MediaListUnauthorizedError,
   SystemMediaListDeletionError,
 } from "@/shared/errors/mediaList"
-import { MediaListLikeResDto } from "./dto/mediaListLike.res.dto"
+import { MediaListLikeDto } from "./dto/mediaListLike.dto"
 
 @Injectable()
 export class MediaListsService {
@@ -169,7 +169,7 @@ export class MediaListsService {
     return newMediaList
   }
 
-  async createLike(mediaListId: string, userId: string) {
+  async createLike(mediaListId: string, userId: string): Promise<MediaListLikeDto> {
     const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
@@ -197,13 +197,10 @@ export class MediaListsService {
       })
     }
 
-    return {
-      ...mediaListLike,
-      mediaListHumanFriendlyId: mediaList.humanFriendlyId,
-    } as MediaListLikeResDto
+    return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
   }
 
-  async deleteLike(mediaListId: string, userId: string) {
+  async deleteLike(mediaListId: string, userId: string): Promise<MediaListLikeDto> {
     const mediaList = await this.mediaListRepository.getById({ id: mediaListId })
     const isListOwner = await this.isListOwner(mediaListId, userId, mediaList)
 
@@ -215,9 +212,6 @@ export class MediaListsService {
       mediaListId,
       userId,
     })
-    return {
-      ...mediaListLike,
-      mediaListHumanFriendlyId: mediaList.humanFriendlyId,
-    } as MediaListLikeResDto
+    return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
   }
 }

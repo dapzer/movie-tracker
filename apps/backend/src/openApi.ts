@@ -4,6 +4,10 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import { apiReference } from "@scalar/nestjs-api-reference"
 
 export function setupOpenApi(app: INestApplication, configService: ConfigService) {
+  if (configService.getOrThrow("NODE_ENV") !== "development") {
+    return
+  }
+
   const swaggerConfig = new DocumentBuilder()
     .setTitle("Movie Tracker API")
     .setDescription("Movie Tracker API documentation")

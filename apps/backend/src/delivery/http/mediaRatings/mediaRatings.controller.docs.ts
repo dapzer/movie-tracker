@@ -11,8 +11,8 @@ import {
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
 import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRating.dto"
-import { MediaRatingResDto } from "@/services/mediaRatings/dto/mediaRating.res.dto"
-import { MediaRatingPaginatedResDto } from "@/services/mediaRatings/dto/mediaRatingPaginated.res.dto"
+import { MediaRatingDto } from "@/services/mediaRatings/dto/mediaRating.dto"
+import { MediaRatingPaginatedDto } from "@/services/mediaRatings/dto/mediaRatingPaginated.dto"
 import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
@@ -23,7 +23,7 @@ export function MediaRatingsControllerDocs() {
 export function GetRecentlyCreatedMediaRatingsDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get recently created media ratings" }),
-    ApiOkResponse({ description: "Recently created media ratings", type: MediaRatingPaginatedResDto }),
+    ApiOkResponse({ description: "Recently created media ratings", type: MediaRatingPaginatedDto }),
   )
 }
 
@@ -31,7 +31,7 @@ export function GetMediaRatingByCurrentUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get media rating for current user by media id" }),
     ApiSecurity("oauth2"),
-    ApiOkResponse({ description: "Media rating for current user", type: MediaRatingResDto }),
+    ApiOkResponse({ description: "Media rating for current user", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
   )
@@ -40,7 +40,7 @@ export function GetMediaRatingByCurrentUserIdDocs() {
 export function GetMediaRatingsByUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get media ratings by user id" }),
-    ApiOkResponse({ description: "Media ratings for user", type: MediaRatingPaginatedResDto }),
+    ApiOkResponse({ description: "Media ratings for user", type: MediaRatingPaginatedDto }),
     ApiForbiddenResponse({ description: "Permission denied", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "User not found", type: ErrorResponseDto }),
   )
@@ -51,7 +51,7 @@ export function CreateMediaRatingDocs() {
     ApiOperation({ summary: "Create media rating" }),
     ApiSecurity("oauth2"),
     ApiBody({ type: CreateMediaRatingDto }),
-    ApiOkResponse({ description: "Media rating created", type: MediaRatingResDto }),
+    ApiOkResponse({ description: "Media rating created", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Media details couldn't be created.", type: ErrorResponseDto }),
   )
@@ -62,7 +62,7 @@ export function UpdateMediaRatingDocs() {
     ApiOperation({ summary: "Update media rating" }),
     ApiSecurity("oauth2"),
     ApiBody({ type: UpdateMediaRatingDto }),
-    ApiOkResponse({ description: "Media rating updated", type: MediaRatingResDto }),
+    ApiOkResponse({ description: "Media rating updated", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
   )
@@ -72,7 +72,7 @@ export function DeleteMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Delete media rating" }),
     ApiSecurity("oauth2"),
-    ApiOkResponse({ description: "Media rating deleted", type: MediaRatingResDto }),
+    ApiOkResponse({ description: "Media rating deleted", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
   )

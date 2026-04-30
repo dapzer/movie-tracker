@@ -1,7 +1,7 @@
 import { Type } from "@nestjs/common"
 import { ApiProperty } from "@nestjs/swagger"
 
-export function PaginatedResDto<T>(classRef: Type<T>) {
+export function PaginatedDto<T>(classRef: Type<T>) {
   class PaginatedRes {
     @ApiProperty({ type: [classRef] })
     items: T[]

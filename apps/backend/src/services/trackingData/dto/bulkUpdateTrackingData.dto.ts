@@ -1,14 +1,14 @@
 import { Type } from "class-transformer"
 import { IsArray, IsUUID, ValidateNested } from "class-validator"
-import { MediaItemTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
+import { UpdateTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
 
 export class BulkUpdateTrackingDataItemDto {
   @IsUUID()
   trackingDataId: string
 
   @ValidateNested()
-  @Type(() => MediaItemTrackingDataDto)
-  body: MediaItemTrackingDataDto
+  @Type(() => UpdateTrackingDataDto)
+  body: UpdateTrackingDataDto
 }
 
 export class BulkUpdateTrackingDataDto {

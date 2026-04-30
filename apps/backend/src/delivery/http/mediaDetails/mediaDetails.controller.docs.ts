@@ -8,7 +8,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
-import { MediaDetailsUpdateProgressResDto } from "@/services/mediaDetails/dto/mediaDetailsUpdateProgress.res.dto"
+import { MediaDetailsUpdateProgressDto } from "@/services/mediaDetails/dto/mediaDetailsUpdateProgress.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function MediaDetailsControllerDocs() {
@@ -21,7 +21,7 @@ export function CreateOrUpdateAllMediaDetailsDocs() {
     ApiSecurity("oauth2"),
     ApiOkResponse({
       description: "Update progress (success and failure counts).",
-      type: MediaDetailsUpdateProgressResDto,
+      type: MediaDetailsUpdateProgressDto,
     }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Admin role required.", type: ErrorResponseDto }),

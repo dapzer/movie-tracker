@@ -2,7 +2,7 @@ import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@movie-trac
 import { Controller, Get, Query } from "@nestjs/common"
 import { CommunityListsService } from "@/services/communityLists/communityLists.service"
 import { GetCommunityListsAllTimeTopQueryDto } from "@/services/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
-import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQueryDto"
+import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQuery.dto"
 import { GetCommunityListsSearchQueryDto } from "@/services/communityLists/dto/getCommunityListsSearchQuery.dto"
 import { GetCommunityListsWeekTopQueryDto } from "@/services/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/services/communityLists/dto/getCommunityListsWithMediaQuery.dto"

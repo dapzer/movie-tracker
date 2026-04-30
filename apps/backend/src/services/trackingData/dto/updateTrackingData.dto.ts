@@ -8,7 +8,7 @@ import { IsArray, IsEnum, IsNumber, IsOptional, IsString, MaxLength, ValidateNes
 import { MediaItemSiteToViewDto } from "@/services/mediaItems/dto/mediaItemSiteToView.dto"
 import { MediaItemTvProgressDto } from "@/services/mediaItems/dto/mediaItemTvProgress.dto"
 
-export class MediaItemTrackingDataDto
+export class UpdateTrackingDataDto
 implements
     Omit<
       MediaItemTrackingDataType,
