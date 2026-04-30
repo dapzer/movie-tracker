@@ -17,7 +17,7 @@ import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRat
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function MediaRatingsControllerDocs() {
-  return applyDecorators(ApiTags("Media Ratings"))
+  return applyDecorators(ApiTags("MediaRatings"))
 }
 
 export function GetRecentlyCreatedMediaRatingsDocs() {

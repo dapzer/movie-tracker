@@ -25,6 +25,7 @@ import {
   MediaListUnauthorizedError,
   SystemMediaListDeletionError,
 } from "@/shared/errors/mediaList"
+import { MediaListLikeResDto } from "./dto/mediaListLike.res.dto"
 
 @Injectable()
 export class MediaListsService {
@@ -196,7 +197,10 @@ export class MediaListsService {
       })
     }
 
-    return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
+    return {
+      ...mediaListLike,
+      mediaListHumanFriendlyId: mediaList.humanFriendlyId,
+    } as MediaListLikeResDto
   }
 
   async deleteLike(mediaListId: string, userId: string) {
@@ -211,6 +215,9 @@ export class MediaListsService {
       mediaListId,
       userId,
     })
-    return { ...mediaListLike, mediaListHumanFriendlyId: mediaList.humanFriendlyId }
+    return {
+      ...mediaListLike,
+      mediaListHumanFriendlyId: mediaList.humanFriendlyId,
+    } as MediaListLikeResDto
   }
 }

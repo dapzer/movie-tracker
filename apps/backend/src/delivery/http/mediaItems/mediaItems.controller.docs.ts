@@ -23,7 +23,7 @@ import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function MediaItemsControllerDocs() {
   return applyDecorators(
-    ApiTags("Media Items"),
+    ApiTags("MediaItems"),
   )
 }
 

@@ -11,12 +11,25 @@ import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 import { UnauthorizedError } from "@/shared/errors/core"
+import {
+  CreataMediaListLikeDocs,
+  CreateMediaListDocs,
+  CreateMeidaListCloneDocs,
+  DeleteMediaLikeDocs,
+  DeleteMediaListDocs,
+  GetMediaListByIdDocs,
+  GetMediaListsDocs,
+  MediaListsControllerDocs,
+  UpdateMediaListDocs,
+} from "./mediaLists.controller.docs"
 
+@MediaListsControllerDocs()
 @Controller("media-lists")
 export class MediaListsController {
   constructor(private readonly mediaListsService: MediaListsService) {}
 
   @Get()
+  @GetMediaListsDocs()
   async getMedialListsByUserId(
     @Query() queries: GetAllMediaListsDto,
     @User() user: UserDto,
@@ -37,6 +50,7 @@ export class MediaListsController {
   }
 
   @Get(":id")
+  @GetMediaListByIdDocs()
   async getMedialListById(
     @Param() params: GetMedialListByIdDto,
     @User() user: UserDto,
@@ -50,6 +64,7 @@ export class MediaListsController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @CreateMediaListDocs()
   async createMediaList(
     @User() user: UserDto,
     @Body() body: CreateMediaListDto,
@@ -59,6 +74,7 @@ export class MediaListsController {
 
   @Post(":id/clone")
   @UseGuards(AuthGuard)
+  @CreateMeidaListCloneDocs()
   async createMediaListClone(
     @Param() params: UuidDto,
     @User() user: UserDto,
@@ -73,18 +89,21 @@ export class MediaListsController {
 
   @Post(":id/like")
   @UseGuards(AuthGuard)
+  @CreataMediaListLikeDocs()
   async createMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaListsService.createLike(params.id, user?.id)
   }
 
   @Delete(":id/like")
   @UseGuards(AuthGuard)
+  @DeleteMediaLikeDocs()
   async deleteMediaListLike(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaListsService.deleteLike(params.id, user?.id)
   }
 
   @Patch(":id")
   @UseGuards(AuthGuard)
+  @UpdateMediaListDocs()
   async updateMediaList(
     @Param() params: UuidDto,
     @Body() body: UpdateMediaListDto,
@@ -95,6 +114,7 @@ export class MediaListsController {
 
   @Delete(":id")
   @UseGuards(AuthGuard)
+  @DeleteMediaListDocs()
   async deleteMediaList(@Param() params: UuidDto, @User() user: UserDto) {
     return this.mediaListsService.delete(params.id, user?.id)
   }
