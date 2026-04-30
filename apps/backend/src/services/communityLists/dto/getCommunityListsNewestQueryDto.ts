@@ -1,6 +1,26 @@
-import { GetCommunityListsNewestQueries } from "@movie-tracker/types"
-import { createCommunityListsQueryDto } from "./base-query"
+import {
+  GetCommunityListsNewestQueries,
+  SortOrderEnum,
+} from "@movie-tracker/types"
+import { ApiPropertyOptional } from "@nestjs/swagger"
+import { IsEnum, IsIn, IsOptional, IsString } from "class-validator"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 
-const sortByOptions = ["createdAt", "updatedAt"] as const
+const sortByOptions: GetCommunityListsNewestQueries["sortBy"][] = ["createdAt", "updatedAt"]
 
-export class GetCommunityListsNewestQueryDto extends createCommunityListsQueryDto(sortByOptions) implements GetCommunityListsNewestQueries {}
+export class GetCommunityListsNewestQueryDto extends PaginationDto implements GetCommunityListsNewestQueries {
+  @ApiPropertyOptional({ enum: SortOrderEnum })
+  @IsOptional()
+  @IsEnum(SortOrderEnum)
+  sortDirection?: SortOrderEnum
+
+  @ApiPropertyOptional({ enum: sortByOptions })
+  @IsOptional()
+  @IsIn(sortByOptions)
+  sortBy: GetCommunityListsNewestQueries["sortBy"]
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  title?: string
+}

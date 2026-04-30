@@ -1,6 +1,26 @@
-import { GetCommunityListsWeekTopQueries } from "@movie-tracker/types"
-import { createCommunityListsQueryDto } from "./base-query"
+import {
+  GetCommunityListsWeekTopQueries,
+  SortOrderEnum,
+} from "@movie-tracker/types"
+import { ApiPropertyOptional } from "@nestjs/swagger"
+import { IsEnum, IsIn, IsOptional, IsString } from "class-validator"
+import { PaginationDto } from "@/shared/dto/pagination.dto"
 
-const sortByOptions = ["views", "createdAt", "updatedAt"] as const
+const sortByOptions: GetCommunityListsWeekTopQueries["sortBy"][] = ["views", "createdAt", "updatedAt"]
 
-export class GetCommunityListsWeekTopQueryDto extends createCommunityListsQueryDto(sortByOptions) implements GetCommunityListsWeekTopQueries {}
+export class GetCommunityListsWeekTopQueryDto extends PaginationDto implements GetCommunityListsWeekTopQueries {
+  @ApiPropertyOptional({ enum: SortOrderEnum })
+  @IsOptional()
+  @IsEnum(SortOrderEnum)
+  sortDirection?: SortOrderEnum
+
+  @ApiPropertyOptional({ enum: sortByOptions })
+  @IsOptional()
+  @IsIn(sortByOptions)
+  sortBy: GetCommunityListsWeekTopQueries["sortBy"]
+
+  @ApiPropertyOptional({ type: String, example: "my best lsit" })
+  @IsOptional()
+  @IsString()
+  title?: string
+}
