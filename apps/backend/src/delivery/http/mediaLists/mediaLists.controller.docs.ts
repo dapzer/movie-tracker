@@ -12,7 +12,7 @@ import {
 
 import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
-import { MediaListResDto } from "@/services/mediaLists/dto/mediaList.dto"
+import { MediaListResDto } from "@/services/mediaLists/dto/mediaList.res.dto"
 import { MediaListLikeResDto } from "@/services/mediaLists/dto/mediaListLike.res.dto"
 import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"

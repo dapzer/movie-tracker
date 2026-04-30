@@ -1,6 +1,7 @@
 import { MediaListAccessLevelEnum, MediaListType } from "@movie-tracker/types"
 import { ApiProperty } from "@nestjs/swagger"
 import { IsBoolean, IsDateString, IsEnum, IsString, IsUUID } from "class-validator"
+import { PaginatedResDto } from "@/shared/dto/paginated.res.dto"
 
 export class MediaListResDto implements MediaListType {
   @ApiProperty({ type: String, example: "056e7fa3-af3e-44b0-ae74-4f05f92e38d5" })
@@ -35,3 +36,5 @@ export class MediaListResDto implements MediaListType {
   @IsDateString()
   updatedAt: Date
 }
+
+export class MediaListsPaginatedResDto extends PaginatedResDto(MediaListResDto) {}
