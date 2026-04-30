@@ -1,5 +1,6 @@
 import { MediaDetailsType, MediaRatingType, MediaTypeEnum } from "@movie-tracker/types"
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { MediaDetailsResDto } from "@/services/mediaDetails/dto/mediaDetails.res.dto"
 import { UserPublicDto } from "@/services/users/dto/userPublic.dto"
 
 export class MediaRatingResDto implements MediaRatingType {
@@ -18,14 +19,14 @@ export class MediaRatingResDto implements MediaRatingType {
   @ApiProperty({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE })
   mediaType: MediaTypeEnum
 
-  @ApiProperty({ type: Number, minimum: 0, maximum: 10, example: 8 })
-  rating: number
-
   @ApiProperty({ type: String, format: "uuid", example: "f6b49f5d-2c8a-4f3e-9e74-7a3f7d2d5a01" })
   mediaDetailsId: string
 
-  @ApiPropertyOptional({ type: Object })
+  @ApiPropertyOptional({ type: MediaDetailsResDto })
   mediaDetails?: MediaDetailsType
+
+  @ApiProperty({ type: Number, minimum: 0, maximum: 10, example: 8 })
+  rating: number
 
   @ApiProperty({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
   createdAt: Date

@@ -6,8 +6,6 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
-  ApiQuery,
   ApiSecurity,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -25,8 +23,6 @@ export function MediaRatingsControllerDocs() {
 export function GetRecentlyCreatedMediaRatingsDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get recently created media ratings" }),
-    ApiQuery({ name: "limit", required: false, type: Number }),
-    ApiQuery({ name: "offset", required: false, type: Number }),
     ApiOkResponse({ description: "Recently created media ratings", type: MediaRatingPaginatedResDto }),
   )
 }
@@ -35,7 +31,6 @@ export function GetMediaRatingByCurrentUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get media rating for current user by media id" }),
     ApiSecurity("oauth2"),
-    ApiParam({ name: "mediaId", type: Number }),
     ApiOkResponse({ description: "Media rating for current user", type: MediaRatingResDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
@@ -45,9 +40,6 @@ export function GetMediaRatingByCurrentUserIdDocs() {
 export function GetMediaRatingsByUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get media ratings by user id" }),
-    ApiParam({ name: "id", type: String, format: "uuid" }),
-    ApiQuery({ name: "limit", required: false, type: Number }),
-    ApiQuery({ name: "offset", required: false, type: Number }),
     ApiOkResponse({ description: "Media ratings for user", type: MediaRatingPaginatedResDto }),
     ApiForbiddenResponse({ description: "Permission denied", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "User not found", type: ErrorResponseDto }),
@@ -69,7 +61,6 @@ export function UpdateMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update media rating" }),
     ApiSecurity("oauth2"),
-    ApiParam({ name: "id", type: String, format: "uuid" }),
     ApiBody({ type: UpdateMediaRatingDto }),
     ApiOkResponse({ description: "Media rating updated", type: MediaRatingResDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
@@ -81,7 +72,6 @@ export function DeleteMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Delete media rating" }),
     ApiSecurity("oauth2"),
-    ApiParam({ name: "id", type: String, format: "uuid" }),
     ApiOkResponse({ description: "Media rating deleted", type: MediaRatingResDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
