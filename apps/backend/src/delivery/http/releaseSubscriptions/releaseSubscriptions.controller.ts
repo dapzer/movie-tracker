@@ -7,7 +7,15 @@ import {
 import { ReleaseSubscriptionsService } from "@/services/releaseSubscriptions/releaseSubscriptions.service"
 import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
+import {
+  CreateReleaseSubscriptionDocs,
+  DeleteReleaseSubscriptionDocs,
+  GetReleaseSubscriptionByMediaIdAndUserIdDocs,
+  GetReleaseSubscriptionsByUserIdDocs,
+  ReleaseSubscriptionsControllerDocs,
+} from "./releaseSubscriptions.controller.docs"
 
+@ReleaseSubscriptionsControllerDocs()
 @Controller("release-subscriptions")
 export class ReleaseSubscriptionsController {
   constructor(private readonly releaseSubscriptionsService: ReleaseSubscriptionsService) {
@@ -15,12 +23,14 @@ export class ReleaseSubscriptionsController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @CreateReleaseSubscriptionDocs()
   async createReleaseSubscription(@Body() body: CreateReleaseSubscriptionDto, @User() user: UserDto) {
     return this.releaseSubscriptionsService.create({ userId: user.id, mediaId: body.mediaId, mediaType: body.mediaType })
   }
 
   @Get()
   @UseGuards(AuthGuard)
+  @GetReleaseSubscriptionsByUserIdDocs()
   async getReleaseSubscriptionsByUserId(@Query() query: GetReleaseSubscriptionsByUserIdQueryDto, @User() user: UserDto) {
     return this.releaseSubscriptionsService.getByUserId({
       userId: user.id,
@@ -36,12 +46,14 @@ export class ReleaseSubscriptionsController {
 
   @Get("by-media/:mediaId")
   @UseGuards(AuthGuard)
+  @GetReleaseSubscriptionByMediaIdAndUserIdDocs()
   async getReleaseSubscriptionByMediaIdAndUserId(@Param("mediaId") mediaId: number, @User() user: UserDto) {
     return this.releaseSubscriptionsService.getByMediaIdAndUserId({ mediaId, userId: user.id })
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
+  @DeleteReleaseSubscriptionDocs()
   async deleteReleaseSubscription(@Param("id") id: string, @User() user: UserDto) {
     return this.releaseSubscriptionsService.delete({ id, userId: user.id })
   }

@@ -1,4 +1,5 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from "@nestjs/common"
+import { TrackingDataControllerDocs, UpdateBulkTrackingDataDocs, UpdateTrackingDataDocs } from "@/delivery/http/trackingData/trackingData.controller.docs"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { BulkUpdateTrackingDataDto } from "@/services/trackingData/dto/bulkUpdateTrackingData.dto"
 import { UpdateTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
@@ -8,10 +9,12 @@ import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 
 @Controller("tracking-data")
+@TrackingDataControllerDocs()
 export class TrackingDataController {
   constructor(private readonly trackingDataService: TrackingDataService) {}
 
   @Patch(":id")
+  @UpdateTrackingDataDocs()
   @UseGuards(AuthGuard)
   async updateTrackingData(
     @Param() param: UuidDto,
@@ -26,6 +29,7 @@ export class TrackingDataController {
   }
 
   @Post("bulk/update")
+  @UpdateBulkTrackingDataDocs()
   @UseGuards(AuthGuard)
   async updateBulkTrackingData(
     @Body() body: BulkUpdateTrackingDataDto,
