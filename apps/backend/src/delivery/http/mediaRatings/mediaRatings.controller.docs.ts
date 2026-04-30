@@ -1,6 +1,5 @@
 import { applyDecorators } from "@nestjs/common"
 import {
-  ApiBody,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -10,10 +9,8 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
-import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRating.dto"
 import { MediaRatingDto } from "@/services/mediaRatings/dto/mediaRating.dto"
 import { MediaRatingPaginatedDto } from "@/services/mediaRatings/dto/mediaRatingPaginated.dto"
-import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function MediaRatingsControllerDocs() {
@@ -50,7 +47,6 @@ export function CreateMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Create media rating" }),
     ApiSecurity("oauth2"),
-    ApiBody({ type: CreateMediaRatingDto }),
     ApiOkResponse({ description: "Media rating created", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Media details couldn't be created.", type: ErrorResponseDto }),
@@ -61,7 +57,6 @@ export function UpdateMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update media rating" }),
     ApiSecurity("oauth2"),
-    ApiBody({ type: UpdateMediaRatingDto }),
     ApiOkResponse({ description: "Media rating updated", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),

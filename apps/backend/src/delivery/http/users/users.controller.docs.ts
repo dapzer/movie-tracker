@@ -1,6 +1,5 @@
 import { applyDecorators } from "@nestjs/common"
 import {
-  ApiBody,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
@@ -9,7 +8,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
-import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
 import { UserPublicDto } from "@/services/users/dto/userPublic.dto"
 import { UserStatsDto } from "@/services/users/dto/userStats.dto"
 import { UserWithoutPasswordDto } from "@/services/users/dto/userWithoutPassword.dto"
@@ -58,7 +56,6 @@ export function UpdateUserDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update current user" }),
     ApiSecurity("oauth2"),
-    ApiBody({ type: UpdateUserDto }),
     ApiOkResponse({ description: "Updated user", type: UserWithoutPasswordDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to update user", type: ErrorResponseDto }),

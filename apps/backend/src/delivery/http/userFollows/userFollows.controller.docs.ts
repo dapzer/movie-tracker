@@ -5,7 +5,6 @@ import {
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
   ApiSecurity,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -58,7 +57,6 @@ export function DeleteUserFollowDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Unfollow user" }),
     ApiSecurity("oauth2"),
-    ApiParam({ name: "id", type: String, format: "uuid" }),
     ApiOkResponse({ description: "User unfollowed", type: UserFollowDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Users cannot unfollow themselves", type: ErrorResponseDto }),

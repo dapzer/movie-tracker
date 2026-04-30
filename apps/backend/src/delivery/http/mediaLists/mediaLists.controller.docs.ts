@@ -1,6 +1,5 @@
 import { applyDecorators } from "@nestjs/common"
 import {
-  ApiBody,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
@@ -10,11 +9,8 @@ import {
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
 
-import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dto"
-import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
 import { MediaListDto } from "@/services/mediaLists/dto/mediaList.dto"
 import { MediaListLikeDto } from "@/services/mediaLists/dto/mediaListLike.dto"
-import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function MediaListsControllerDocs() {
@@ -46,7 +42,6 @@ export function CreateMediaListDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Create media list" }),
     ApiSecurity("oauth2"),
-    ApiBody({ type: CreateMediaListDto }),
     ApiOkResponse({ description: "Created media list", type: MediaListDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Media list limit reached", type: ErrorResponseDto }),
@@ -58,7 +53,6 @@ export function CreateMeidaListCloneDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Clone media list" }),
     ApiSecurity("oauth2"),
-    ApiBody({ type: CreateMediaListCloneDto }),
     ApiOkResponse({ description: "Cloned media list", type: MediaListDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Not allowed to clone this list", type: ErrorResponseDto }),
@@ -89,7 +83,6 @@ export function UpdateMediaListDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update media list" }),
     ApiSecurity("oauth2"),
-    ApiBody({ type: UpdateMediaListDto }),
     ApiOkResponse({ description: "Updated media list", type: MediaListDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Not owner of media list", type: ErrorResponseDto }),
