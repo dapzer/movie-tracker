@@ -1,8 +1,10 @@
+import { ApiProperty } from "@nestjs/swagger"
 import { Type } from "class-transformer"
 import { ArrayNotEmpty, IsArray, ValidateNested } from "class-validator"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
 
 export class BulkCreateMediaItemDto {
+  @ApiProperty({ type: [CreateMediaItemDto] })
   @IsArray()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
