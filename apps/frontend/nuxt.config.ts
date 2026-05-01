@@ -3,6 +3,8 @@ import process from "node:process"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  telemetry: false,
+
   app: {
     head: {
       title: "Movie Tracker",
@@ -126,6 +128,7 @@ export default defineNuxtConfig({
     dirs: [{
       path: "shared/ui/UiMarkdown",
       global: true,
+      extensions: ["vue"],
     }],
   },
 

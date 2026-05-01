@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@nest-lab/throttler-storage-redis": "1.1.0",
-    "@nestjs/cli": "11.0.10",
+    "@nestjs/cli": "11.0.21",
     "@nestjs/schematics": "11.0.7",
     "@nestjs/testing": "11.1.6",
     "@types/bcrypt": "6.0.0",
