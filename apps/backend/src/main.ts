@@ -12,6 +12,7 @@ import { DrizzleClientErrorFilter } from "@/filters/drizzleClientError.filter"
 import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
+import { setupOpenApi } from "./openApi"
 import { DrizzleSessionStore } from "./services/drizzle/drizzleSessionStore"
 import "dotenv/config"
 import "@/services/opentelemetry"
@@ -54,6 +55,8 @@ async function bootstrap() {
       store: new DrizzleSessionStore(drizzle.client, sessions),
     }),
   )
+
+  setupOpenApi(app, configService)
 
   const PORT = configService.get("APP_PORT") || 5000
 

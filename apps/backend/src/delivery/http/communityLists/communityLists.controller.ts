@@ -1,20 +1,29 @@
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@movie-tracker/types"
 import { Controller, Get, Query } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { CommunityListsService } from "@/services/communityLists/communityLists.service"
 import { GetCommunityListsAllTimeTopQueryDto } from "@/services/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
-import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQueryDto"
+import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQuery.dto"
 import { GetCommunityListsSearchQueryDto } from "@/services/communityLists/dto/getCommunityListsSearchQuery.dto"
 import { GetCommunityListsWeekTopQueryDto } from "@/services/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/services/communityLists/dto/getCommunityListsWithMediaQuery.dto"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
+import {
+  CommunityListsControllerDocs,
+  GetAllTimeTopCommunityListsDocs,
+  GetCommunityListsWithMediaDocs,
+  GetNewestCommunityListsDocs,
+  GetWeekTopCommunityListsDocs,
+  SearchCommunityListsDocs,
+} from "./communityLists.controller.docs"
 
+@CommunityListsControllerDocs()
 @Controller("community-lists")
 export class CommunityListsController {
-  constructor(private readonly communityListsService: CommunityListsService) {
-  }
+  constructor(private readonly communityListsService: CommunityListsService) {}
 
   @Get("search")
+  @SearchCommunityListsDocs()
   getListsSearch(@Query() query: GetCommunityListsSearchQueryDto, @User() user: UserDto) {
     return this.communityListsService.getListsSearch({
       title: query.title,
@@ -25,6 +34,7 @@ export class CommunityListsController {
   }
 
   @Get("week-top")
+  @GetWeekTopCommunityListsDocs()
   getWeekTop(@Query() query: GetCommunityListsWeekTopQueryDto, @User() user: UserDto) {
     return this.communityListsService.getWeeklyTopLists({
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
@@ -37,6 +47,7 @@ export class CommunityListsController {
   }
 
   @Get("all-time-top")
+  @GetAllTimeTopCommunityListsDocs()
   getAllTimeTop(@Query() query: GetCommunityListsAllTimeTopQueryDto, @User() user: UserDto) {
     return this.communityListsService.getAllTimeTopLists({
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
@@ -49,6 +60,7 @@ export class CommunityListsController {
   }
 
   @Get("newest")
+  @GetNewestCommunityListsDocs()
   getNewestLists(@Query() query: GetCommunityListsNewestQueryDto, @User() user: UserDto) {
     return this.communityListsService.getNewestLists({
       limit: query.limit || DEFAULT_PAGINATION_LIMIT,
@@ -61,6 +73,7 @@ export class CommunityListsController {
   }
 
   @Get("with-media")
+  @GetCommunityListsWithMediaDocs()
   getListsWithMedia(
     @Query() query: GetCommunityListsWithMediaQueryDto,
     @User() user: UserDto,

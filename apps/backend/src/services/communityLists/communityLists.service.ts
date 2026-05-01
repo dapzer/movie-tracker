@@ -5,7 +5,7 @@ import {
   CommunityListsRepositorySymbol,
 } from "@/repositories/communityLists/CommunityListsRepositoryInterface"
 import { GetCommunityListsAllTimeTopQueryDto } from "@/services/communityLists/dto/getCommunityListsAllTimeTopQuery.dto"
-import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQueryDto"
+import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQuery.dto"
 import { GetCommunityListsWeekTopQueryDto } from "@/services/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/services/communityLists/dto/getCommunityListsWithMediaQuery.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"

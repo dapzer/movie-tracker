@@ -35,3 +35,9 @@ export interface MediaDetailsInfoSeasonEpisodeType {
   poster?: string
   name: string
 }
+
+export interface MediaDetailsUpdateProgressType {
+  successfulUpdates: number
+  failedUpdatesByApi: number
+  failedUpdatesByDb: number
+}

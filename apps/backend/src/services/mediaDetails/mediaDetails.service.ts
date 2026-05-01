@@ -1,6 +1,7 @@
 import {
   CreateNotificationArgsType,
   MediaDetailsType,
+  MediaDetailsUpdateProgressType,
   MediaTypeEnum,
   NotificationMediaReleaseEpisodeType,
   NotificationTypeEnum,
@@ -45,7 +46,7 @@ type NotificationsToSendType = Record<MediaTypeEnum, NotificationType[]>
 
 @Injectable()
 export class MediaDetailsService implements OnModuleInit {
-  private updatingProgress = {
+  private updatingProgress: MediaDetailsUpdateProgressType = {
     successfulUpdates: 0,
     failedUpdatesByApi: 0,
     failedUpdatesByDb: 0,
