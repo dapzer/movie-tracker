@@ -31,7 +31,9 @@ jobs:
           push: true
           context: .
           file: ./apps/frontend/Dockerfile
-          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/frontend:latest
+          tags: | 
+            ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/frontend:latest
+            ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/frontend:${{ github.sha }}
 #          cache-from: type=gha
 #          cache-to: type=gha,mode=max
           build-args: |
@@ -66,6 +68,8 @@ jobs:
           push: true
           context: .
           file: ./apps/backend/Dockerfile
-          tags: ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/backend:latest
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/backend:latest
+            ${{ secrets.DOCKER_REGISTRY_URL }}/movie-tracker/backend:${{ github.sha }}
 #          cache-from: type=gha
 #          cache-to: type=gha,mode=max
