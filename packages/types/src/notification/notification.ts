@@ -1,4 +1,4 @@
-import { MediaDetailsType, MediaItemStatusNameEnum, MediaListType } from "../media"
+import { MediaDetailsType, MediaListType } from "../media"
 import { UserPublicType } from "../user"
 
 export interface NotificationType {
@@ -48,8 +48,8 @@ export type NotificationMetaType
   } | {
     type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
     mediaDetailsId: string
-    previousStatus: MediaItemStatusNameEnum
-    currentStatus: MediaItemStatusNameEnum
+    previousStatus: string
+    currentStatus: string
   }
 
 export type ExtractNotificationMetaType<T extends NotificationTypeEnum> = Extract<NotificationMetaType, { type: T }>
@@ -74,8 +74,8 @@ export type NotificationMetaResponseType
   } | {
     type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
     mediaDetails: MediaDetailsType
-    previousStatus: MediaItemStatusNameEnum
-    currentStatus: MediaItemStatusNameEnum
+    previousStatus: string
+    currentStatus: string
   }
 
 export type ExtractNotificationMetaResponseType<T extends NotificationTypeEnum> = Extract<NotificationMetaResponseType, { type: T }>

@@ -2,6 +2,7 @@ import { applyDecorators } from "@nestjs/common"
 import {
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiSecurity,
@@ -30,6 +31,7 @@ export function GetUserByIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get user by id" }),
     ApiOkResponse({ description: "Public user", type: UserPublicDto }),
+    ApiNotFoundResponse({ description: "User not found", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to fetch user", type: ErrorResponseDto }),
   )
 }
@@ -38,6 +40,7 @@ export function GetUserStatsDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get user stats" }),
     ApiOkResponse({ description: "User stats", type: UserStatsDto }),
+    ApiNotFoundResponse({ description: "User not found", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to fetch stats", type: ErrorResponseDto }),
   )
 }
@@ -49,6 +52,7 @@ export function DeleteUserDocs() {
     ApiOkResponse({ description: "User deleted", type: UserWithoutPasswordDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Not allowed to delete this user", type: ErrorResponseDto }),
+    ApiNotFoundResponse({ description: "User not found", type: ErrorResponseDto }),
   )
 }
 
@@ -59,5 +63,6 @@ export function UpdateUserDocs() {
     ApiOkResponse({ description: "Updated user", type: UserWithoutPasswordDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to update user", type: ErrorResponseDto }),
+    ApiNotFoundResponse({ description: "User not found", type: ErrorResponseDto }),
   )
 }

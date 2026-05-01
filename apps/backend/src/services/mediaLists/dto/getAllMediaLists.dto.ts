@@ -1,9 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { ApiPropertyOptional } from "@nestjs/swagger"
 import { IsOptional, IsUUID } from "class-validator"
 
 export class GetAllMediaListsDto {
-  @ApiProperty({ type: String, format: "uuid" })
+  @ApiPropertyOptional({ type: String, format: "uuid" })
   @IsOptional()
   @IsUUID()
-  userId: string
+  userId?: string
 }

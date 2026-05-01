@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from "@nestjs/swagger"
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { Transform } from "class-transformer"
 import { IsBoolean, IsOptional, IsString, IsUrl } from "class-validator"
 
@@ -8,9 +8,9 @@ export class GetOpenGraphImageDto {
   @IsUrl({ require_tld: false })
   imageUrl: string
 
-  @ApiPropertyOptional({ type: String, example: "My awesome media list" })
+  @ApiProperty({ type: String, example: "My awesome media list" })
   @IsString()
-  title?: string
+  title: string
 
   @ApiPropertyOptional({ type: Boolean, example: true })
   @IsOptional()

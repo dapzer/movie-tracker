@@ -1,5 +1,4 @@
 import {
-  MediaItemStatusNameEnum,
   NotificationMetaResponseType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
@@ -61,9 +60,9 @@ export class NotificationMetaMediaStatusUpdateDto implements
   @ApiProperty({ type: MediaDetailsDto })
   mediaDetails: MediaDetailsDto
 
-  @ApiProperty({ enum: MediaItemStatusNameEnum, example: "NOT_VIEWED" })
-  previousStatus: MediaItemStatusNameEnum
+  @ApiProperty({ type: String, example: "NOT_VIEWED" })
+  previousStatus: string
 
-  @ApiProperty({ enum: MediaItemStatusNameEnum, example: "WATCHING_NOW" })
-  currentStatus: MediaItemStatusNameEnum
+  @ApiProperty({ type: String, example: "WATCHING_NOW" })
+  currentStatus: string
 }
