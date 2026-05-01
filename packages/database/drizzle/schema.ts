@@ -27,6 +27,7 @@ export const signUpMethodEnum = pgEnum("SignUpMethodEnum", ["EMAIL", "GOOGLE", "
 export const statusNameEnum = pgEnum("StatusNameEnum", ["VIEWED", "WATCHING_NOW", "NOT_VIEWED", "WAIT_NEW_PART"])
 export const userMediaRatingsAccessLevelEnum = pgEnum("UserMediaRatingsAccessLevelEnum", ["PUBLIC", "PRIVATE"])
 export const userRoleEnum = pgEnum("UserRoleEnum", ["ADMIN", "USER"])
+const userLanguageEnum = pgEnum("LanguagesEnum", ["ru", "en"])
 
 export const prismaMigrations = pgTable("_prisma_migrations", {
   id: varchar({ length: 36 }).primaryKey().notNull(),
@@ -58,6 +59,7 @@ export const users = pgTable("users", {
   password: text(),
   signUpMethod: signUpMethodEnum("sign_up_method").notNull(),
   mediaRatingsAccessLevel: userMediaRatingsAccessLevelEnum("media_ratings_access_level").default("PUBLIC").notNull(),
+  language: userLanguageEnum("language").default("ru").notNull(),
 }, table => [
   uniqueIndex("users_email_lower_unique").on(sql`lower(${table.email})`),
 ])

@@ -24,6 +24,7 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
       password: user.password,
       roles: user.roles.map(el => UserRoleEnum[el]),
       mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
+      language: user.language,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }
@@ -104,6 +105,9 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
     }
     if (args.body.mediaRatingsAccessLevel !== undefined) {
       data.mediaRatingsAccessLevel = args.body.mediaRatingsAccessLevel
+    }
+    if (args.body.language !== undefined) {
+      data.language = args.body.language
     }
 
     const [user] = await this.drizzle.client

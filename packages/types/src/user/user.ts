@@ -3,6 +3,13 @@ export enum UserRoleEnum {
   ADMIN = "ADMIN",
 }
 
+export enum LanguagesEnum {
+  RU = "ru",
+  EN = "en",
+}
+
+export type LanguageValues = `${LanguagesEnum}`
+
 export enum SignUpMethodEnum {
   EMAIL = "EMAIL",
   GOOGLE = "GOOGLE",
@@ -26,6 +33,7 @@ export interface UserType {
   signUpMethod: SignUpMethodEnum
   password?: string
   mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
+  language: LanguageValues
   roles: UserRoleEnum[]
   createdAt: Date
   updatedAt: Date

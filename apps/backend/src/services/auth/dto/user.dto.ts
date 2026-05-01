@@ -1,4 +1,4 @@
-import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { LanguagesEnum, SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { IsBoolean, IsDateString, IsEmail, IsEnum, IsOptional, IsString, IsUrl, IsUUID, Length } from "class-validator"
 
 export class UserDto implements UserType {
@@ -38,6 +38,9 @@ export class UserDto implements UserType {
   @IsOptional()
   @IsEnum(UserMediaRatingsAccessLevelEnum)
   mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
+
+  @IsEnum(LanguagesEnum)
+  language: LanguagesEnum
 
   @IsDateString()
   createdAt: Date

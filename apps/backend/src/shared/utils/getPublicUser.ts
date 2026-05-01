@@ -6,5 +6,6 @@ export function getPublicUser(user: UserType): UserPublicType {
     name: user.name,
     image: user.image,
     createdAt: user.createdAt,
+    language: user.language,
   }
 }

@@ -1,6 +1,7 @@
 import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
+import { UpdateUserLanguageDto } from "@/services/users/dto/update-user-language.dto"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
 import { UserNotFoundError, UserUnauthorizedError } from "@/shared/errors/user"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
@@ -52,6 +53,17 @@ export class UsersService {
 
   async update(id: string, body: UpdateUserDto) {
     const updatedUser = await this.userRepository.update({ id, body })
+
+    return getUserWithoutPassword(updatedUser)
+  }
+
+  async updateLanguage(id: string, body: UpdateUserLanguageDto) {
+    const updatedUser = await this.userRepository.update({
+      id,
+      body: {
+        language: body.language,
+      },
+    })
 
     return getUserWithoutPassword(updatedUser)
   }

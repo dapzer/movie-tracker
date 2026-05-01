@@ -9,6 +9,7 @@ export function getUserWithoutPassword(user: UserType): Omit<UserType, "password
     roles: user.roles,
     signUpMethod: user.signUpMethod,
     mediaRatingsAccessLevel: user.mediaRatingsAccessLevel,
+    language: user.language,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
     isEmailVerified: user.isEmailVerified,
