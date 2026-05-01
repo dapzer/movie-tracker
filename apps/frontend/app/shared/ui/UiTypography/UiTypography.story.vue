@@ -13,6 +13,7 @@ const variants: UiTypographyVariant[] = [
   "title4",
   "subheading",
   "label",
+  "labelSmall",
   "listTitle",
   "cardTitle",
   "description",

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiTabTriggerProps {
   active?: boolean
   href?: string
+  description?: string | number
 }
 
 const props = defineProps<UiTabTriggerProps>()
@@ -13,7 +15,7 @@ const props = defineProps<UiTabTriggerProps>()
 <template>
   <UiButton
     :as="props.href ? NuxtLink : 'button'"
-    variant="default"
+    variant="text"
     scheme="default"
     :to="props.href ? props.href : undefined"
     :class="[$style.body, {
@@ -21,6 +23,18 @@ const props = defineProps<UiTabTriggerProps>()
     }]"
   >
     <slot />
+
+    <div
+      v-if="props.description"
+      :class="$style.description"
+    >
+      <UiTypography
+        as="span"
+        variant="badge"
+      >
+        {{ props.description }}
+      </UiTypography>
+    </div>
   </UiButton>
 </template>
 
@@ -32,30 +46,37 @@ const props = defineProps<UiTabTriggerProps>()
   font-size: var(--fs-label);
   line-height: var(--lh-label-small);
   font-weight: var(--fw-medium);
-  color: var(--c-description);
-  border-top-left-radius: var(--s-border-radius-small);
-  border-top-right-radius: var(--s-border-radius-small);
+  color: var(--c-white-75);
   word-break: keep-all;
   width: max-content;
   white-space: nowrap;
-  padding: 8px 24px;
+  padding: 12px 4px;
   border-bottom: 1px solid transparent;
-  display: inline-block;
-
-  @include tabletDevice {
-    padding: 8px 18px;
-  }
+  display: inline-flex;
+  gap: 6px;
 
   &:focus:not(.active),
   &:active:not(.active),
   &:hover:not(.active) {
-    background-color: var(--c-card-background-hovered);
+    color: var(--c-blue-85);
   }
 
   &.active {
     color: var(--c-blue);
-    background: var(--c-button-background-secondary);
-    border-bottom: 1px solid var(--c-blue);
+    border-bottom: 2px solid var(--c-blue);
+  }
+}
+
+.description {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  background-color: var(--c-white-10);
+  padding: 2px 6px;
+  border-radius: 99px;
+
+  span {
+    color: var(--c-white-60);
   }
 }
 </style>

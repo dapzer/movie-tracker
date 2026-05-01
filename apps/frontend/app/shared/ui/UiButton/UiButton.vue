@@ -3,7 +3,8 @@ import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"
-export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold" | "gray" | "light-gray"
+export type UiButtonScheme = "default" | "primary" | "secondary" | "secondary-light" | "tertiary" | "link" | "gold"
+  | "gray" | "light-gray"
 
 interface UiButtonProps {
   variant?: UiButtonVariant
@@ -27,6 +28,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     :class="[$style.default, {
       [$style.primary]: props.scheme === 'primary',
       [$style.secondary]: props.scheme === 'secondary',
+      [$style.secondaryLight]: props.scheme === 'secondary-light',
       [$style.tertiary]: props.scheme === 'tertiary',
       [$style.gold]: props.scheme === 'gold',
       [$style.gray]: props.scheme === 'gray',
@@ -91,6 +93,16 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:active,
       &:hover {
         background: var(--c-button-background-secondary-hovered);
+      }
+    }
+    &.secondaryLight {
+      color: var(--c-blue);
+      background: var(--c-blue-25);
+
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-blue-35);
       }
     }
 

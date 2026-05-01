@@ -8,6 +8,7 @@ interface UiPopoverProps {
   triggerClass?: string
   width?: number
   indent?: number
+  contentSpacing?: number
   align?: UiPopoverAlign
   side?: UiPopoverSide
   asChild?: boolean
@@ -20,6 +21,7 @@ defineOptions({
 const props = withDefaults(defineProps<UiPopoverProps>(), {
   indent: 0,
   align: "start",
+  contentSpacing: 10,
 })
 
 const model = defineModel<boolean>()
@@ -29,9 +31,9 @@ const model = defineModel<boolean>()
   <PopoverRoot v-model:open="model">
     <PopoverTrigger
       :as-child="props.asChild"
-      :class="[$style.trigger, [
-        props.triggerClass,
-      ]]"
+      :class="[props.triggerClass, {
+        [$style.trigger]: !props.asChild,
+      }]"
     >
       <slot name="trigger" />
     </PopoverTrigger>
@@ -50,6 +52,9 @@ const model = defineModel<boolean>()
         <div
           v-bind="$attrs"
           :class="$style.content"
+          :style="{
+            '--spacing': `${props.contentSpacing}px`,
+          }"
         >
           <slot name="content" />
         </div>
@@ -76,7 +81,7 @@ const model = defineModel<boolean>()
 .content {
   overflow-y: auto;
   width: 100%;
-  padding: 10px;
+  padding: var(--spacing);
   background: var(--c-card-background-hovered);
   border: 1px solid var(--c-charcoal);
   border-radius: var(--s-border-radius-medium);

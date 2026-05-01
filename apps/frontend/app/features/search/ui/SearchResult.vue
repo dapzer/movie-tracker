@@ -23,7 +23,6 @@ import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiContainer } from "~/shared/ui/UiContainer"
-import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiListsGrid } from "~/shared/ui/UiListsGrid"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
@@ -183,30 +182,33 @@ function handleTabChange(tab: Tab) {
           })
         }}
       </UiTypography>
-
-      <UiDivider />
     </div>
     <UiTabsPane
       v-model="activeTab"
       :tabs="[
         {
-          label: `${$t('ui.all')} (${contentCount.total})`,
+          label: `${$t('ui.all')}`,
+          description: contentCount.total,
           key: 'all',
         },
         {
-          label: `${$t('details.mediaType.movies')} (${contentCount.movie})`,
+          label: $t('details.mediaType.movies'),
+          description: contentCount.movie,
           key: 'movies',
         },
         {
-          label: `${$t('details.mediaType.tvs')} (${contentCount.tv})`,
+          label: $t('details.mediaType.tvs'),
+          description: contentCount.tv,
           key: 'tvs',
         },
         {
-          label: `${$t('details.mediaType.persons')} (${contentCount.person})`,
+          label: $t('details.mediaType.persons'),
+          description: contentCount.person,
           key: 'persons',
         },
         {
-          label: `${$t('details.mediaType.lists')} (${contentCount.lists})`,
+          label: $t('details.mediaType.lists'),
+          description: contentCount.lists,
           key: 'lists',
         },
       ] as const"
