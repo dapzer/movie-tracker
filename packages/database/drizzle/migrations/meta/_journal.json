@@ -8,6 +8,27 @@
       "when": 1772369154923,
       "tag": "0000_initial",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774200072931,
+      "tag": "0001_media_reviews_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776606357513,
+      "tag": "0002_media_reviews_unique_only_for_not_deleted_status",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1776618854993,
+      "tag": "0003_media_reviews_moderation_logs_table",
+      "breakpoints": true
     }
   ]
 }

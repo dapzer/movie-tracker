@@ -7,6 +7,7 @@ import {
 import { sql } from "drizzle-orm"
 import {
   boolean,
+  check,
   index,
   integer,
   jsonb,
@@ -27,6 +28,26 @@ export const signUpMethodEnum = pgEnum("SignUpMethodEnum", ["EMAIL", "GOOGLE", "
 export const statusNameEnum = pgEnum("StatusNameEnum", ["VIEWED", "WATCHING_NOW", "NOT_VIEWED", "WAIT_NEW_PART"])
 export const userMediaRatingsAccessLevelEnum = pgEnum("UserMediaRatingsAccessLevelEnum", ["PUBLIC", "PRIVATE"])
 export const userRoleEnum = pgEnum("UserRoleEnum", ["ADMIN", "USER"])
+export const mediaReviewStatusEnum = pgEnum("MediaReviewStatusEnum", [
+  "DRAFT",
+  "PENDING",
+  "PUBLISHED",
+  "REMOVED",
+  "DELETED",
+])
+export const mediaReviewModerationReasonEnum = pgEnum("MediaReviewModerationReasonEnum", [
+  "OFF_TOPIC",
+  "SPAM",
+  "TOXICITY",
+  "LOW_EFFORT_JUNK",
+  "OTHER",
+])
+export const mediaReviewModerationActionEnum = pgEnum("MediaReviewModerationActionEnum", [
+  "APPROVED",
+  "APPROVED_WITH_SPOILER_MARK",
+  "CHANGES_REQUESTED",
+  "REJECTED",
+])
 
 export const prismaMigrations = pgTable("_prisma_migrations", {
   id: varchar({ length: 36 }).primaryKey().notNull(),
@@ -204,5 +225,87 @@ export const notifications = pgTable("notifications", {
 }, table => [
   index("notifications_meta_idx")
     .using("hash", table.meta),
+])
 
+export const mediaReviews = pgTable("media_reviews", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaId: integer("media_id").notNull(),
+  mediaType: mediaTypeEnum("media_type").notNull(),
+  mediaDetailsId: uuid("media_details_id").references(() => mediaDetails.id, {
+    onUpdate: "cascade",
+    onDelete: "set null",
+  }),
+  title: text().notNull(),
+  content: text().notNull(),
+  isSpoiler: boolean("is_spoiler").default(false).notNull(),
+  status: mediaReviewStatusEnum("status").default("DRAFT").notNull(),
+  publishedAt: timestamp("published_at", { precision: 3, mode: "date", withTimezone: true }),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", {
+    precision: 3,
+    mode: "date",
+    withTimezone: true,
+  }).defaultNow().notNull().$onUpdate(() => new Date()),
+}, table => [
+  uniqueIndex(
+    "media_reviews_media_id_media_type_user_id_key",
+  ).on(table.mediaId, table.mediaType, table.userId).where(sql`${table.status} != 'DELETED'`),
+])
+
+export const mediaReviewsModerationLogs = pgTable("media_reviews_moderation_logs", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  mediaReviewId: uuid("media_review_id").notNull().references(() => mediaReviews.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  moderatorId: uuid("moderator_id").references(() => users.id, { onUpdate: "cascade", onDelete: "set null" }),
+  action: mediaReviewModerationActionEnum("action").notNull(),
+  reason: mediaReviewModerationReasonEnum("reason"),
+  comment: text(),
+  createdAt: timestamp("created_at").notNull(),
+}, table => [
+  check(
+    "media_reviews_moderation_logs_reason_required_if_rejected",
+    sql`(${table.action} NOT IN ('REJECTED', 'CHANGES_REQUESTED')) OR (${table.reason} IS NOT NULL)`,
+  ),
+])
+
+export const mediaReviewLikes = pgTable("media_review_likes", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaId: integer("media_id").notNull(),
+  mediaType: mediaTypeEnum("media_type").notNull(),
+  mediaDetailsId: uuid("media_details_id").references(() => mediaDetails.id, {
+    onUpdate: "cascade",
+    onDelete: "set null",
+  }),
+  mediaReviewId: uuid("media_review_id").notNull().references(() => mediaReviews.id, {
+    onUpdate: "cascade",
+    onDelete: "cascade",
+  }),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("media_review_likes_media_review_id_user_id_key").on(
+    table.mediaReviewId,
+    table.userId,
+  ),
+])
+
+export const mediaReviewDislikes = pgTable("media_review_dislikes", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaId: integer("media_id").notNull(),
+  mediaType: mediaTypeEnum("media_type").notNull(),
+  mediaDetailsId: uuid("media_details_id").references(() => mediaDetails.id, {
+    onUpdate: "cascade",
+    onDelete: "set null",
+  }),
+  mediaReviewId: uuid("media_review_id").notNull().references(() => mediaReviews.id, {
+    onUpdate: "cascade",
+    onDelete: "cascade",
+  }),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("media_review_dislikes_media_review_id_user_id_key").on(
+    table.mediaReviewId,
+    table.userId,
+  ),
 ])
