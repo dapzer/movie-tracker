@@ -18,7 +18,7 @@ export function MediaDetailsControllerDocs() {
 export function CreateOrUpdateAllMediaDetailsDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Sync all media details" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({
       description: "Update progress (success and failure counts).",
       type: MediaDetailsUpdateProgressDto,

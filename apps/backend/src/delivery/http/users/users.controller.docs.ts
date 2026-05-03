@@ -21,7 +21,7 @@ export function UsersControllerDocs() {
 export function GetCurrentUserDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get current user" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Current user", type: UserWithoutPasswordDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
   )
@@ -48,7 +48,7 @@ export function GetUserStatsDocs() {
 export function DeleteUserDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Delete user" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "User deleted", type: UserWithoutPasswordDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Not allowed to delete this user", type: ErrorResponseDto }),
@@ -59,7 +59,7 @@ export function DeleteUserDocs() {
 export function UpdateUserDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update current user" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Updated user", type: UserWithoutPasswordDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to update user", type: ErrorResponseDto }),

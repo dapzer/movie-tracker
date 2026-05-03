@@ -10,7 +10,7 @@ export function AnalyticsControllerDocs() {
 export function GetRecordsDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get analytics records" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({
       description: "Analytics records retrieved successfully",
       type: AnalyticsRecordsDto,

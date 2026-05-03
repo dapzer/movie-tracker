@@ -27,7 +27,7 @@ export function NotificationsControllerDocs() {
 export function GetNotificationsByUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get user notifications" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiExtraModels(
       NotificationMetaUserFollowDto,
       NotificationMetaMediaListLikeDto,
@@ -43,7 +43,7 @@ export function GetNotificationsByUserIdDocs() {
 export function MarkNotificationsAsReadDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Mark selected notifications as read" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Notifications marked as read", type: NotificationDto, isArray: true }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Invalid notification ids", type: ErrorResponseDto }),
@@ -54,7 +54,7 @@ export function MarkNotificationsAsReadDocs() {
 export function MarkAllNotificationsAsReadDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Mark all notifications as read" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "All notifications marked as read", type: NotificationDto, isArray: true }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to mark all notifications as read", type: ErrorResponseDto }),
@@ -64,7 +64,7 @@ export function MarkAllNotificationsAsReadDocs() {
 export function GetUnreadNotificationCountDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get unread notifications count" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Unread notifications count", type: NotificationCountDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to fetch unread notifications count", type: ErrorResponseDto }),

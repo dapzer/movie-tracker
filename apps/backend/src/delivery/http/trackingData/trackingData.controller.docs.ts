@@ -8,7 +8,10 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
-import { TrackingDataBulkResponseDto, TrackingDataResponseDto } from "@/services/trackingData/dto/trackingDataResponse.dto"
+import {
+  TrackingDataBulkResponseDto,
+  TrackingDataResponseDto,
+} from "@/services/trackingData/dto/trackingDataResponse.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function TrackingDataControllerDocs() {
@@ -18,7 +21,7 @@ export function TrackingDataControllerDocs() {
 export function UpdateTrackingDataDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update tracking data" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Tracking data updated successfully", type: TrackingDataResponseDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Invalid request", type: ErrorResponseDto }),
@@ -29,7 +32,7 @@ export function UpdateTrackingDataDocs() {
 export function UpdateBulkTrackingDataDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Bulk update tracking data" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Tracking data bulk updated successfully", type: TrackingDataBulkResponseDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Invalid request", type: ErrorResponseDto }),

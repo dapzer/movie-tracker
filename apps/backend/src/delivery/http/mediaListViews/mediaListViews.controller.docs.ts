@@ -19,7 +19,7 @@ export function MediaListViewsControllerDocs() {
 export function SendMediaListViewDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Send media list view" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "View recorded" }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({

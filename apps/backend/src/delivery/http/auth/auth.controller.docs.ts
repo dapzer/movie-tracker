@@ -51,7 +51,7 @@ export function ResetPasswordDocs() {
 export function RequestChangeEmailDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Request email change" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Confirmation email sent" }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiTooManyRequestsResponse({ description: "Too many requests", type: ErrorResponseDto }),
@@ -61,7 +61,7 @@ export function RequestChangeEmailDocs() {
 export function ConfirmChangeEmailDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Confirm email change" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Email updated" }),
     ApiUnauthorizedResponse({ description: "Unauthorized or invalid token", type: ErrorResponseDto }),
   )
@@ -70,7 +70,7 @@ export function ConfirmChangeEmailDocs() {
 export function SendConfirmEmailDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Send email confirmation" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Confirmation email sent" }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiTooManyRequestsResponse({ description: "Too many requests", type: ErrorResponseDto }),
@@ -80,7 +80,7 @@ export function SendConfirmEmailDocs() {
 export function ConfirmEmailDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Confirm email with token" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Email confirmed" }),
     ApiUnauthorizedResponse({ description: "Invalid token", type: ErrorResponseDto }),
   )
@@ -107,7 +107,7 @@ export function OAuthConnectDocs() {
 export function LogoutDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Logout user" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Session destroyed" }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to logout", type: ErrorResponseDto }),

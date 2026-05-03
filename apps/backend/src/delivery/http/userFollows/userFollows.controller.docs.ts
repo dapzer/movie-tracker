@@ -49,7 +49,7 @@ export function GetUserFollowingsDocs() {
 export function CreateUserFollowDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Follow user" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "User followed", type: UserFollowDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Users cannot follow themselves", type: ErrorResponseDto }),
@@ -61,7 +61,7 @@ export function CreateUserFollowDocs() {
 export function DeleteUserFollowDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Unfollow user" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "User unfollowed", type: UserFollowDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Users cannot unfollow themselves", type: ErrorResponseDto }),

@@ -27,7 +27,7 @@ export function GetRecentlyCreatedMediaRatingsDocs() {
 export function GetMediaRatingByCurrentUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get media rating for current user by media id" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Media rating for current user", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
@@ -46,7 +46,7 @@ export function GetMediaRatingsByUserIdDocs() {
 export function CreateMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Create media rating" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Media rating created", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Media details couldn't be created.", type: ErrorResponseDto }),
@@ -56,7 +56,7 @@ export function CreateMediaRatingDocs() {
 export function UpdateMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update media rating" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Media rating updated", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),
@@ -66,7 +66,7 @@ export function UpdateMediaRatingDocs() {
 export function DeleteMediaRatingDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Delete media rating" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Media rating deleted", type: MediaRatingDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media rating not found", type: ErrorResponseDto }),

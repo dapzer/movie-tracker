@@ -23,7 +23,7 @@ export function ReleaseSubscriptionsControllerDocs() {
 export function CreateReleaseSubscriptionDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Create release subscription" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Release subscription created", type: ReleaseSubscriptionWithDetailsDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Invalid request", type: ErrorResponseDto }),
@@ -34,7 +34,7 @@ export function CreateReleaseSubscriptionDocs() {
 export function GetReleaseSubscriptionsByUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get user release subscriptions" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Release subscriptions list", type: ReleaseSubscriptionsResponseDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to fetch release subscriptions", type: ErrorResponseDto }),
@@ -44,7 +44,7 @@ export function GetReleaseSubscriptionsByUserIdDocs() {
 export function GetReleaseSubscriptionByMediaIdAndUserIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get release subscription by media ID" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Release subscription", type: ReleaseSubscriptionWithDetailsDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Release subscription not found", type: ErrorResponseDto }),
@@ -55,7 +55,7 @@ export function GetReleaseSubscriptionByMediaIdAndUserIdDocs() {
 export function DeleteReleaseSubscriptionDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Delete release subscription" }),
-    ApiSecurity("oauth2"),
+    ApiSecurity("cookie"),
     ApiOkResponse({ description: "Release subscription deleted", type: ReleaseSubscriptionDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Release subscription not found", type: ErrorResponseDto }),
