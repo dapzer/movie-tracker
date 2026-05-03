@@ -10,7 +10,7 @@ export class MediaListViewsService {
     @Inject(MediaListViewRepositorySymbol) private readonly mediaListViewRepository: MediaListViewRepositoryInterface,
   ) {}
 
-  async createOdUpdate(args: { mediaListId: string, userId: string }): Promise<void> {
+  async createOrUpdate(args: { mediaListId: string, userId: string }): Promise<void> {
     const mediaListView = await this.mediaListViewRepository.getByUseerAndMediaListId(args)
 
     if (mediaListView) {

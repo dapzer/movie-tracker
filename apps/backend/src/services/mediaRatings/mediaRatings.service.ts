@@ -11,7 +11,7 @@ import {
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRating.dto"
-import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParamsDto"
+import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParams.dto"
 import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UserNotFoundError } from "@/shared/errors/auth"
