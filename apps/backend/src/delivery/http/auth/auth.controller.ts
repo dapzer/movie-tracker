@@ -11,16 +11,31 @@ import { RequestChangeEmailDto } from "@/services/auth/dto/requestChangeEmail.dt
 import { ResetPasswordByTokenDto } from "@/services/auth/dto/resetPasswordByToken.dto"
 import { SignInDto } from "@/services/auth/dto/signIn.dto"
 import { SignUpDto } from "@/services/auth/dto/signUp.dto"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { AuthProviderGuard } from "@/services/auth/guards/provider.guard"
 import { ProvidersService } from "@/services/auth/providers/providers.service"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { AlreadyAuthenticatedError, NoCodeProvidedError, SessionError } from "@/shared/errors/auth"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
+import {
+  AuthControllerDocs,
+  ConfirmChangeEmailDocs,
+  ConfirmEmailDocs,
+  LogoutDocs,
+  OAuthCallbackDocs,
+  OAuthConnectDocs,
+  RecoverPasswordDocs,
+  RequestChangeEmailDocs,
+  ResetPasswordDocs,
+  SendConfirmEmailDocs,
+  SignInDocs,
+  SignUpDocs,
+} from "./auth.controller.docs"
 
+@AuthControllerDocs()
 @Controller("auth")
 export class AuthController {
   private async saveSession(req: Request) {
@@ -44,6 +59,7 @@ export class AuthController {
   }
 
   @Post("/sign-up")
+  @SignUpDocs()
   async signUp(@Req() req: Request, @Body() body: SignUpDto) {
     const user = await this.authService.signUp(body)
 
@@ -52,6 +68,7 @@ export class AuthController {
   }
 
   @Post("/sign-in")
+  @SignInDocs()
   async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: UserDto) {
     if (currentUser) {
       throw new AlreadyAuthenticatedError()
@@ -70,11 +87,13 @@ export class AuthController {
     },
   })
   @Post("/recover-password")
+  @RecoverPasswordDocs()
   async getRecoverPasswordEmail(@Body() body: GetRecoverPasswordEmailDto) {
     return this.authService.sendPasswordRecoveryEmail(body.email)
   }
 
   @Post("/reset-password")
+  @ResetPasswordDocs()
   async resetPasswordByToken(
     @Req() req: Request,
     @Body() body: ResetPasswordByTokenDto,
@@ -93,11 +112,13 @@ export class AuthController {
   })
   @UseGuards(AuthGuard)
   @Post("/change-email")
+  @RequestChangeEmailDocs()
   async requestChangeEmail(@User() user: UserDto, @Body() body: RequestChangeEmailDto) {
     return this.authService.requestChangeEmail(user.id, body.email)
   }
 
   @Patch("/change-email")
+  @ConfirmChangeEmailDocs()
   @UseGuards(AuthGuard)
   async confirmEmailChanging(@Req() req: Request, @User() user: UserDto, @Body() body: ConfirmChangeEmailDto) {
     const updatedUser = await this.authService.confirmEmailChanging(body.token)
@@ -113,12 +134,14 @@ export class AuthController {
     },
   })
   @Get("/confirm-email")
+  @SendConfirmEmailDocs()
   @UseGuards(AuthGuard)
   async getConfirmEmail(@User() user: UserDto) {
     return this.authService.sendConfirmationEmail(user.email)
   }
 
   @Patch("/confirm-email")
+  @ConfirmEmailDocs()
   @UseGuards(AuthGuard)
   async confirmEmail(
     @Req() req: Request,
@@ -132,6 +155,7 @@ export class AuthController {
   }
 
   @Get("/oauth/callback/:provider")
+  @OAuthCallbackDocs()
   @UseGuards(AuthProviderGuard)
   async callBack(
     @Req() req: Request,
@@ -147,6 +171,7 @@ export class AuthController {
   }
 
   @Get("/oauth/connect/:provider")
+  @OAuthConnectDocs()
   @UseGuards(AuthProviderGuard)
   async connect(@Param("provider") provider: AllowedProvider) {
     const providerInstance = this.providersService.findService(provider)
@@ -157,6 +182,7 @@ export class AuthController {
   }
 
   @Post("/logout")
+  @LogoutDocs()
   @UseGuards(AuthGuard)
   async logout(@Req() req: Request, @Res() res: Response) {
     return new Promise((resolve, reject) => {

@@ -1,22 +1,25 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
+import { TrackingDataControllerDocs, UpdateBulkTrackingDataDocs, UpdateTrackingDataDocs } from "@/delivery/http/trackingData/trackingData.controller.docs"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { BulkUpdateTrackingDataDto } from "@/services/trackingData/dto/bulkUpdateTrackingData.dto"
-import { MediaItemTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
+import { UpdateTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
 import { TrackingDataService } from "@/services/trackingData/trackingData.service"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 
 @Controller("tracking-data")
+@TrackingDataControllerDocs()
 export class TrackingDataController {
   constructor(private readonly trackingDataService: TrackingDataService) {}
 
   @Patch(":id")
+  @UpdateTrackingDataDocs()
   @UseGuards(AuthGuard)
   async updateTrackingData(
     @Param() param: UuidDto,
     @User() user: UserDto,
-    @Body() body: MediaItemTrackingDataDto,
+    @Body() body: UpdateTrackingDataDto,
   ) {
     return this.trackingDataService.update(
       param.id,
@@ -26,6 +29,7 @@ export class TrackingDataController {
   }
 
   @Post("bulk/update")
+  @UpdateBulkTrackingDataDocs()
   @UseGuards(AuthGuard)
   async updateBulkTrackingData(
     @Body() body: BulkUpdateTrackingDataDto,

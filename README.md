@@ -39,6 +39,7 @@ The main goal in the creation of this project was the realization of personal li
 3. Run needed services (PostgreSQL, Adminer, Redis) `docker compose -f compose.dev.yaml up -d`
 4. Install dependencies `pnpm i`
 5. Run project `pnpm dev`
+6. (Optional) open http://localhost:1337/api/docs - to check OpenAPI documentation
 
 ### Running in Docker
 

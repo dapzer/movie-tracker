@@ -1,6 +1,8 @@
-import { IsString } from "class-validator"
+import { ApiProperty } from "@nestjs/swagger"
+import { IsUUID } from "class-validator"
 
 export class GetMedialListByIdDto {
-  @IsString()
+  @ApiProperty({ type: String, format: "uuid" })
+  @IsUUID()
   id: string
 }

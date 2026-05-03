@@ -1,17 +1,26 @@
 import { Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common"
-import { UserDto } from "@/services/auth/dto/user.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { UserFollowsService } from "@/services/userFollows/userFollows.service"
+import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
+import {
+  CreateUserFollowDocs,
+  DeleteUserFollowDocs,
+  GetUserFollowersDocs,
+  GetUserFollowInformationDocs,
+  GetUserFollowingsDocs,
+  UserFollowsControllerDocs,
+} from "./userFollows.controller.docs"
 
+@UserFollowsControllerDocs()
 @Controller("users")
 export class UserFollowsController {
-  constructor(private readonly userFollowsService: UserFollowsService) {
-  }
+  constructor(private readonly userFollowsService: UserFollowsService) {}
 
   @Get(":id/follow-information")
+  @GetUserFollowInformationDocs()
   async getUserFollowInformation(@Param() params: UuidDto, @User() user: UserDto) {
     return this.userFollowsService.getUserFollowInformation({
       userId: params.id,
@@ -20,6 +29,7 @@ export class UserFollowsController {
   }
 
   @Get(":id/followers")
+  @GetUserFollowersDocs()
   async getUserFollowers(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
     return this.userFollowsService.getFollowers({
       userId: params.id,
@@ -30,6 +40,7 @@ export class UserFollowsController {
   }
 
   @Get(":id/followings")
+  @GetUserFollowingsDocs()
   async getUserFollowings(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
     return this.userFollowsService.getFollowings({
       userId: params.id,
@@ -41,6 +52,7 @@ export class UserFollowsController {
 
   @Post(":id/follow")
   @UseGuards(AuthGuard)
+  @CreateUserFollowDocs()
   async createUserFollow(@Param() params: UuidDto, @User() user: UserDto) {
     return this.userFollowsService.create({
       followerUserId: user.id,
@@ -50,6 +62,7 @@ export class UserFollowsController {
 
   @Delete(":id/follow")
   @UseGuards(AuthGuard)
+  @DeleteUserFollowDocs()
   async deleteUserFollow(@Param() params: UuidDto, @User() user: UserDto) {
     return this.userFollowsService.deleteUser({
       followerUserId: user.id,
