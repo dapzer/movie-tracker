@@ -2,7 +2,7 @@
 import type { MediaListType, SortOrderEnum } from "@movie-tracker/types"
 import { useCookie } from "#app"
 import { useI18n, watchEffect } from "#imports"
-import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, MediaTypeEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, h, ref, watch } from "vue"
 import {
@@ -41,6 +41,77 @@ const activeTab = useRouteQuery<string>("tab", "all", {
 })
 const searchTerm = useRouteQuery<string>("searchTerm", "", {
   mode: "replace",
+})
+const mediaTypes = useRouteQuery<string, MediaTypeEnum[]>("mediaTypes", "", {
+  mode: "replace",
+  transform: {
+    get: (value) => {
+      if (!value) {
+        return []
+      }
+
+      return value
+        .split(",")
+        .filter((type): type is MediaTypeEnum => type === MediaTypeEnum.MOVIE || type === MediaTypeEnum.TV)
+    },
+    set: value => value.length ? value.join(",") : "",
+  },
+})
+const rating = useRouteQuery<string, [number, number]>("rating", "", {
+  mode: "replace",
+  transform: {
+    get: (value): [number, number] => {
+      if (!value) {
+        return [0, 10]
+      }
+
+      const [min, max] = value.split(",")
+      const minRating = Number(min)
+      const maxRating = Number(max)
+
+      if (Number.isNaN(minRating) || Number.isNaN(maxRating)) {
+        return [0, 10]
+      }
+
+      return [minRating, maxRating]
+    },
+    set: value => `${value[0]},${value[1]}`,
+  },
+})
+const releaseYear = useRouteQuery<string, [number | undefined, number | undefined]>("releaseYear", "", {
+  mode: "replace",
+  transform: {
+    get: (value): [number | undefined, number | undefined] => {
+      if (!value) {
+        return [undefined, undefined]
+      }
+
+      const [fromYear, toYear] = value.split(",")
+      const parsedFromYear = fromYear ? Number(fromYear) : undefined
+      const parsedToYear = toYear ? Number(toYear) : undefined
+
+      return [
+        parsedFromYear === undefined || Number.isNaN(parsedFromYear) ? undefined : parsedFromYear,
+        parsedToYear === undefined || Number.isNaN(parsedToYear) ? undefined : parsedToYear,
+      ]
+    },
+    set: (value) => {
+      const [fromYear, toYear] = value
+
+      if (fromYear === undefined && toYear === undefined) {
+        return ""
+      }
+
+      return `${fromYear ?? ""},${toYear ?? ""}`
+    },
+  },
+})
+const genres = useRouteQuery<string, string[]>("genres", "", {
+  mode: "replace",
+  transform: {
+    get: value => value ? value.split(",").filter(Boolean) : [],
+    set: value => value.length ? value.join(",") : "",
+  },
 })
 const currentPage = useRouteQuery<number>("page", 1, {
   transform: Number,
@@ -234,7 +305,13 @@ watchEffect(() => {
         />
       </template>
       <template #content>
-        <MediaListDetailsFilters />
+        <MediaListDetailsFilters
+          v-model:search-term="searchTerm"
+          v-model:media-types="mediaTypes"
+          v-model:rating="rating"
+          v-model:release-year="releaseYear"
+          v-model:genres="genres"
+        />
         <UiCardsGrid v-if="getMediaItemsByMediaListIdApi.isPending.value || currentTabContent.length">
           <template v-if="getMediaItemsByMediaListIdApi.isPending.value">
             <UiMediaCardSkeleton

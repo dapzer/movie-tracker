@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "#imports"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
 import { UiRangeSlider } from "~/shared/ui/UiRangeSlider"
@@ -12,18 +12,29 @@ const RATING_MAX = 10
 const { t } = useI18n()
 
 const rating = defineModel<[number, number]>({ default: () => [RATING_MIN, RATING_MAX] })
+const openModel = ref(false)
+const draftRating = ref<[number, number]>(rating.value)
 
 const isActive = computed(() => {
   return rating.value[0] > RATING_MIN || rating.value[1] < RATING_MAX
 })
 
 function clearRating() {
+  draftRating.value = [RATING_MIN, RATING_MAX]
   rating.value = [RATING_MIN, RATING_MAX]
 }
+
+watch(openModel, (isOpen) => {
+  if (isOpen)
+    return
+
+  rating.value = [draftRating.value[0], draftRating.value[1]]
+})
 </script>
 
 <template>
   <UiPopover
+    v-model="openModel"
     as-child
     :width="325"
     :indent="10"
@@ -47,7 +58,7 @@ function clearRating() {
           {{ t("ui.rating.single") }}
         </UiTypography>
         <UiRangeSlider
-          v-model="rating"
+          v-model="draftRating"
           :min="RATING_MIN"
           :max="RATING_MAX"
           :step="1"

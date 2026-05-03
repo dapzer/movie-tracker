@@ -2,7 +2,7 @@
 import type { MediaTypeEnum } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { MediaTypeEnum as MediaType } from "@movie-tracker/types"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
 import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
@@ -10,6 +10,8 @@ import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
 const { t } = useI18n()
 
 const mediaTypes = defineModel<MediaTypeEnum[]>({ default: () => [] })
+const openModel = ref(false)
+const draftMediaTypes = ref<MediaTypeEnum[]>(mediaTypes.value)
 
 const mediaTypeOptions = computed(() => {
   return [
@@ -27,12 +29,21 @@ const mediaTypeOptions = computed(() => {
 const isActive = computed(() => mediaTypes.value.length > 0)
 
 function clearMediaTypes() {
+  draftMediaTypes.value = []
   mediaTypes.value = []
 }
+
+watch(openModel, (isOpen) => {
+  if (isOpen)
+    return
+
+  mediaTypes.value = [...draftMediaTypes.value]
+})
 </script>
 
 <template>
   <UiPopover
+    v-model="openModel"
     as-child
     :width="265"
     :content-spacing="0"
@@ -48,7 +59,7 @@ function clearMediaTypes() {
     </template>
     <template #content>
       <CheckboxList
-        v-model="mediaTypes"
+        v-model="draftMediaTypes"
         :options="mediaTypeOptions"
       />
     </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { MediaTypeEnum } from "@movie-tracker/types"
-import { ref } from "vue"
 import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
 import MediaListDetailsGenresFilterPopup from "~/widgets/mediaList/ui/filters/MediaListDetailsGenresFilterPopup.vue"
@@ -12,21 +11,17 @@ export interface MediaListDetailsFilters {
   searchTerm: string
   mediaTypes: MediaTypeEnum[]
   rating: [number, number]
-  releaseYear: [number | undefined, number | undefined ]
+  releaseYear: [number | undefined, number | undefined]
   genres: string[]
 }
 
 const searchTerm = defineModel<string>("searchTerm", { default: "" })
+const mediaTypesModel = defineModel<MediaTypeEnum[]>("mediaTypes", { default: () => [] })
+const ratingModel = defineModel<MediaListDetailsFilters["rating"]>("rating", { default: () => [0, 10] })
+const releaseYearModel = defineModel<MediaListDetailsFilters["releaseYear"]>("releaseYear", { default: () => [undefined, undefined] })
+const genresModel = defineModel<MediaListDetailsFilters["genres"]>("genres", { default: () => [] })
 
 const { searchValue } = useDebouncedSearchTerm(searchTerm)
-
-const filters = ref<MediaListDetailsFilters>({
-  searchTerm: "",
-  mediaTypes: [],
-  rating: [0, 10],
-  releaseYear: [undefined, undefined],
-  genres: [],
-})
 </script>
 
 <template>
@@ -38,10 +33,18 @@ const filters = ref<MediaListDetailsFilters>({
         :placeholder="$t('search.placeholder')"
       />
 
-      <MediaListDetailsTypeFilterPopup v-model="filters.mediaTypes" />
-      <MediaListDetailsRatingFilterPopup v-model="filters.rating" />
-      <MediaListDetailsReleaseYearFilterPopup v-model="filters.releaseYear" />
-      <MediaListDetailsGenresFilterPopup v-model="filters.genres" />
+      <MediaListDetailsTypeFilterPopup
+        v-model="mediaTypesModel"
+      />
+      <MediaListDetailsRatingFilterPopup
+        v-model="ratingModel"
+      />
+      <MediaListDetailsReleaseYearFilterPopup
+        v-model="releaseYearModel"
+      />
+      <MediaListDetailsGenresFilterPopup
+        v-model="genresModel"
+      />
     </div>
   </div>
 </template>
@@ -52,12 +55,14 @@ const filters = ref<MediaListDetailsFilters>({
 .wrapper {
   width: 100%;
 }
+
 .list {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
 }
+
 .searchInput {
   width: fit-content;
   max-width: 210px;

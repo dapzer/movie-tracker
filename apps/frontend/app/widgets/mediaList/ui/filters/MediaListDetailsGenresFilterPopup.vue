@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "#imports"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
 import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
@@ -8,6 +8,8 @@ import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
 const { t } = useI18n()
 
 const genres = defineModel<string[]>({ default: () => [] })
+const openModel = ref(false)
+const draftGenres = ref<string[]>(genres.value)
 
 const genreOptions = computed(() => {
   return [
@@ -36,12 +38,21 @@ const genreOptions = computed(() => {
 const isActive = computed(() => genres.value.length > 0)
 
 function clearGenres() {
+  draftGenres.value = []
   genres.value = []
 }
+
+watch(openModel, (isOpen) => {
+  if (isOpen)
+    return
+
+  genres.value = [...draftGenres.value]
+})
 </script>
 
 <template>
   <UiPopover
+    v-model="openModel"
     as-child
     :width="265"
     :content-spacing="0"
@@ -57,7 +68,7 @@ function clearGenres() {
     </template>
     <template #content>
       <CheckboxList
-        v-model="genres"
+        v-model="draftGenres"
         :options="genreOptions"
       />
     </template>
