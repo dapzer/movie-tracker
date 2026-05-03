@@ -6,7 +6,7 @@ import { UiPopover } from "~/shared/ui/UiPopover"
 import { UiRangeSlider } from "~/shared/ui/UiRangeSlider"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-const RATING_MIN = 1
+const RATING_MIN = 0
 const RATING_MAX = 10
 
 const { t } = useI18n()

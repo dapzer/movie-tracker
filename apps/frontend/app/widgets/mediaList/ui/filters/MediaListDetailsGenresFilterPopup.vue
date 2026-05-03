@@ -11,17 +11,26 @@ const genres = defineModel<string[]>({ default: () => [] })
 
 const genreOptions = computed(() => {
   return [
-    { value: "80", label: t("details.genres.movie.80") },
-    { value: "16", label: t("details.genres.movie.16") },
-    { value: "53", label: t("details.genres.movie.53") },
-    { value: "37", label: t("details.genres.movie.37") },
-    { value: "878", label: t("details.genres.movie.878") },
-    { value: "14", label: t("details.genres.movie.14") },
-    { value: "27", label: t("details.genres.movie.27") },
-    { value: "18", label: t("details.genres.movie.18") },
-    { value: "28", label: t("details.genres.movie.28") },
-    { value: "35", label: t("details.genres.movie.35") },
-  ]
+    "12",
+    "14",
+    "16",
+    "18",
+    "27",
+    "28",
+    "35",
+    "36",
+    "37",
+    "53",
+    "80",
+    "99",
+    "878",
+    "9648",
+    "10402",
+    "10749",
+    "10751",
+    "10752",
+    "10770",
+  ].map(el => ({ label: t(`details.genres.all.${el}`), value: el }))
 })
 
 const isActive = computed(() => genres.value.length > 0)
