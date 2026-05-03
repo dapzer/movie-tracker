@@ -124,7 +124,7 @@ importers:
         specifier: 5.10.0
         version: 5.10.0
       '@scalar/nestjs-api-reference':
-        specifier: ^1.1.11
+        specifier: 1.1.11
         version: 1.1.11
       '@types/nodemailer':
         specifier: 6.4.15
