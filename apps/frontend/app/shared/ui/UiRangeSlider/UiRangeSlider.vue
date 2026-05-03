@@ -9,6 +9,7 @@ interface UiRangeSliderProps {
   max?: number
   step?: number
   disabled?: boolean
+  minStepsBetweenThumbs?: number
 }
 
 const props = withDefaults(defineProps<UiRangeSliderProps>(), {
@@ -51,7 +52,7 @@ const ticks = computed(() => {
       :max="props.max"
       :step="props.step"
       :disabled="props.disabled"
-      :min-steps-between-thumbs="1"
+      :min-steps-between-thumbs="props.minStepsBetweenThumbs"
     >
       <SliderTrack :class="$style.track">
         <SliderRange :class="$style.range" />
