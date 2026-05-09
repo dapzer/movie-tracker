@@ -57,7 +57,7 @@ const mediaTypes = useRouteQuery<string, MediaTypeEnum[]>("mediaTypes", "", {
     set: value => value.length ? value.join(",") : "",
   },
 })
-const rating = useRouteQuery<string, [number, number]>("rating", "", {
+const rating = useRouteQuery<string, [number, number]>("rating", "0,10", {
   mode: "replace",
   transform: {
     get: (value): [number, number] => {
