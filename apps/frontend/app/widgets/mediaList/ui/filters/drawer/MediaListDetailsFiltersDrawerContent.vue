@@ -107,15 +107,6 @@ function toggleGenre(genreId: string) {
   draftGenres.value = [...draftGenres.value, genreId]
 }
 
-function toggleReleaseStatus(status: string) {
-  if (draftReleaseStatuses.value.includes(status)) {
-    draftReleaseStatuses.value = draftReleaseStatuses.value.filter(currentStatus => currentStatus !== status)
-    return
-  }
-
-  draftReleaseStatuses.value = [...draftReleaseStatuses.value, status]
-}
-
 onBeforeUnmount(() => {
   applyDraftFilters()
 })
