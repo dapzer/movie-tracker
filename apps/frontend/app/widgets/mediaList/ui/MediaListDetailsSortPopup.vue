@@ -50,6 +50,11 @@ const options = computed<Array<Option>>(() => {
 const selectedOption = computed(() => {
   return options.value.find(option => option.value === sortTypeModel.value)
 })
+
+function handleOptionSelect(option: Option) {
+  sortTypeModel.value = option.value
+  open.value = false
+}
 </script>
 
 <template>
@@ -82,7 +87,7 @@ const selectedOption = computed(() => {
             variant="text"
             :class="$style.option"
             with-icon
-            @click="sortTypeModel = option.value"
+            @click="handleOptionSelect(option)"
           >
             <component :is="option.icon" />
             {{ option.label }}
