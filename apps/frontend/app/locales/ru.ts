@@ -1237,6 +1237,7 @@ export default {
       updatedAt: "По дате обновления",
     },
     filters: {
+      title: "Фильтры",
       mediaType: "Тип",
       releaseYear: {
         title: "Год выпуска",
@@ -1244,6 +1245,7 @@ export default {
         to: "До",
       },
       genres: "Жанр",
+      reset: "Сбросить",
     },
   },
   communityLists: {

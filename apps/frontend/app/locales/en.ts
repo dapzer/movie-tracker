@@ -1236,6 +1236,7 @@ export default {
       updatedAt: "Sort by date updated",
     },
     filters: {
+      title: "Filters",
       mediaType: "Type",
       releaseYear: {
         title: "Release year",
@@ -1243,6 +1244,7 @@ export default {
         to: "To",
       },
       genres: "Genre",
+      reset: "Reset",
     },
   },
   communityLists: {

@@ -236,7 +236,7 @@ async function handleLike() {
           justify-content: center;
 
           &:hover {
-            color: var(--c-label-lihk-hovered);
+            color: var(--c-label-link-hovered);
           }
         }
       }

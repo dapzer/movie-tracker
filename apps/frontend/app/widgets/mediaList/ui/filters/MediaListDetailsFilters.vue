@@ -2,10 +2,11 @@
 import type { MediaTypeEnum } from "@movie-tracker/types"
 import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
-import MediaListDetailsGenresFilterPopup from "~/widgets/mediaList/ui/filters/MediaListDetailsGenresFilterPopup.vue"
-import MediaListDetailsRatingFilterPopup from "~/widgets/mediaList/ui/filters/MediaListDetailsRatingFilterPopup.vue"
-import MediaListDetailsTypeFilterPopup from "~/widgets/mediaList/ui/filters/MediaListDetailsTypeFilterPopup.vue"
-import MediaListDetailsReleaseYearFilterPopup from "./MediaListDetailsReleaseYearFilterPopup.vue"
+import MediaListDetailsFiltersDrawer from "./drawer/MediaListDetailsFiltersDrawer.vue"
+import MediaListDetailsGenresFilterPopover from "./MediaListDetailsGenresFilterPopover.vue"
+import MediaListDetailsRatingFilterPopover from "./MediaListDetailsRatingFilterPopover.vue"
+import MediaListDetailsReleaseYearFilterPopover from "./MediaListDetailsReleaseYearFilterPopover.vue"
+import MediaListDetailsTypeFilterPopover from "./MediaListDetailsTypeFilterPopover.vue"
 
 export interface MediaListDetailsFilters {
   searchTerm: string
@@ -33,18 +34,29 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
         :placeholder="$t('search.placeholder')"
       />
 
-      <MediaListDetailsTypeFilterPopup
-        v-model="mediaTypesModel"
-      />
-      <MediaListDetailsRatingFilterPopup
-        v-model="ratingModel"
-      />
-      <MediaListDetailsReleaseYearFilterPopup
-        v-model="releaseYearModel"
-      />
-      <MediaListDetailsGenresFilterPopup
-        v-model="genresModel"
-      />
+      <div :class="$style.desktopFilters">
+        <MediaListDetailsTypeFilterPopover
+          v-model="mediaTypesModel"
+        />
+        <MediaListDetailsRatingFilterPopover
+          v-model="ratingModel"
+        />
+        <MediaListDetailsReleaseYearFilterPopover
+          v-model="releaseYearModel"
+        />
+        <MediaListDetailsGenresFilterPopover
+          v-model="genresModel"
+        />
+      </div>
+
+      <div :class="$style.mobileFilters">
+        <MediaListDetailsFiltersDrawer
+          v-model:media-types="mediaTypesModel"
+          v-model:rating="ratingModel"
+          v-model:release-year="releaseYearModel"
+          v-model:genres="genresModel"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -68,10 +80,30 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
   max-width: 210px;
 }
 
+.desktopFilters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mobileFilters {
+  display: none;
+}
+
 @include mobileDevice {
   .searchInput {
     max-width: 100%;
     flex: 1 1 100%;
+  }
+
+  .desktopFilters {
+    display: none;
+  }
+
+  .mobileFilters {
+    width: 100%;
+    display: block;
   }
 }
 </style>

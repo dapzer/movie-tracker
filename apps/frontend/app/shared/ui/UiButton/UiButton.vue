@@ -212,7 +212,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     }
 
     &.medium {
-      padding: 7px 12px;
+      padding: 8px 12px;
       border-radius: var(--s-border-radius-medium);
     }
 
@@ -254,7 +254,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:focus,
       &:active,
       &:hover {
-        color: var(--c-label-lihk-hovered);
+        color: var(--c-label-link-hovered);
       }
     }
 
@@ -313,7 +313,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:focus,
       &:active,
       &:hover {
-        color: var(--c-label-lihk-hovered);
+        color: var(--c-label-link-hovered);
       }
     }
 

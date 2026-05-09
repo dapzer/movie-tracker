@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import type { MediaListDetailsFilters } from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
 import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
 import { UiYearRangePicker } from "~/shared/ui/UiYearRangePicker"
 
-const model = defineModel<[number | undefined, number | undefined]>({
+const model = defineModel<MediaListDetailsFilters["releaseYear"]>({
   default: () => [undefined, undefined],
 })
 const openModel = ref(false)
-const draftModel = ref<[number | undefined, number | undefined]>(model.value)
+const draftModel = ref<MediaListDetailsFilters["releaseYear"]>(model.value)
 
 const isActive = computed(() => {
   return model.value[0] !== undefined || model.value[1] !== undefined

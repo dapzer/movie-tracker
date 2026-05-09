@@ -57,7 +57,7 @@ const serializedSocialList = computed(() => {
       color: var(--c-description);
 
       &:hover {
-        color: var(--c-label-lihk-hovered);
+        color: var(--c-label-link-hovered);
       }
     }
   }

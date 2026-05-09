@@ -158,6 +158,7 @@ watch(model, ([from, to]) => {
       <UiTag
         v-for="decade in props.shortcuts"
         :key="decade"
+        as="button"
         :class="[$style.shortcut, {
           [$style.shortcutDisabled]: props.disabled,
         }]"

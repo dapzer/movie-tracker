@@ -65,7 +65,8 @@
   --c-label-secondary: #60a7fb;
   --c-label-link: #60a5fa;
   --c-label-link-20: rgba(96, 165, 250, 0.2);
-  --c-label-lihk-hovered: #7ec3ff;
+  --c-label-link-30: rgba(96, 165, 250, 0.3);
+  --c-label-link-hovered: #7ec3ff;
   --c-label-tertiary: #c64646;
   --c-badge-tertiary: #FB3F30;
   --c-description: #9f9f9f;
@@ -217,7 +218,7 @@
   --s-indent: 24px;
   --s-container: calc(1200px + (var(--s-indent) * 2));
   --s-header-height: 68px;
-  --s-border-radius-super-mega-huge: 16px;
+  --s-border-radius-super-mega-huge: 20px;
   --s-border-radius-super-huge: 16px;
   --s-border-radius-huge: 12px;
   --s-border-radius: 8px;

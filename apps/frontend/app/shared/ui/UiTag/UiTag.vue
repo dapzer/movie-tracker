@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import type { UiTypographyVariant } from "~/shared/ui/UiTypography"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
@@ -9,16 +10,19 @@ interface UiTagProps {
   color?: UiTagColor
   variant?: UiTagVariant
   textVariant?: UiTypographyVariant
+  as?: ComponentOrTag
 }
 
 const props = withDefaults(defineProps<UiTagProps>(), {
   color: "gray",
   textVariant: "badge",
+  as: "div",
 })
 </script>
 
 <template>
-  <div
+  <component
+    :is="props.as"
     :class="[$style.wrapper, {
       [$style.green]: props.color === 'green',
       [$style.orange]: props.color === 'orange',
@@ -34,7 +38,7 @@ const props = withDefaults(defineProps<UiTagProps>(), {
     >
       <slot />
     </UiTypography>
-  </div>
+  </component>
 </template>
 
 <style module lang="scss">
@@ -43,6 +47,34 @@ const props = withDefaults(defineProps<UiTagProps>(), {
   border-radius: 24px;
   width: fit-content;
   height: fit-content;
+
+  &:is(button) {
+    background: unset;
+    border: unset;
+    outline: unset;
+    cursor: pointer;
+
+    &:disabled {
+      pointer-events: none;
+      opacity: var(--s-disabled-opacity);
+    }
+
+    &.gray {
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-white-10);
+      }
+    }
+
+    &.blue {
+      &:focus,
+      &:active,
+      &:hover {
+        background-color: var(--c-label-link-30);
+      }
+    }
+  }
 
   &.green {
     background-color: var(--c-green-15);

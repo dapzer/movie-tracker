@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { MediaListDetailsFilters } from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
 import { useI18n } from "#imports"
 import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
@@ -7,9 +8,9 @@ import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
 
 const { t } = useI18n()
 
-const genres = defineModel<string[]>({ default: () => [] })
+const genres = defineModel<MediaListDetailsFilters["genres"]>({ default: () => [] })
 const openModel = ref(false)
-const draftGenres = ref<string[]>(genres.value)
+const draftGenres = ref<MediaListDetailsFilters["genres"]>(genres.value)
 
 const genreOptions = computed(() => {
   return [

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaTypeEnum } from "@movie-tracker/types"
+import type { MediaListDetailsFilters } from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
 import { useI18n } from "#imports"
 import { MediaTypeEnum as MediaType } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
@@ -9,9 +9,9 @@ import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
 
 const { t } = useI18n()
 
-const mediaTypes = defineModel<MediaTypeEnum[]>({ default: () => [] })
+const mediaTypes = defineModel<MediaListDetailsFilters["mediaTypes"]>({ default: () => [] })
 const openModel = ref(false)
-const draftMediaTypes = ref<MediaTypeEnum[]>(mediaTypes.value)
+const draftMediaTypes = ref<MediaListDetailsFilters["mediaTypes"]>(mediaTypes.value)
 
 const mediaTypeOptions = computed(() => {
   return [

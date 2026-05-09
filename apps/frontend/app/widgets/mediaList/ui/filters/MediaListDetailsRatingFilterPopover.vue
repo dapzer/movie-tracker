@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { MediaListDetailsFilters } from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
 import { useI18n } from "#imports"
 import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
@@ -11,9 +12,9 @@ const RATING_MAX = 10
 
 const { t } = useI18n()
 
-const rating = defineModel<[number, number]>({ default: () => [RATING_MIN, RATING_MAX] })
+const rating = defineModel<MediaListDetailsFilters["rating"]>({ default: () => [RATING_MIN, RATING_MAX] })
 const openModel = ref(false)
-const draftRating = ref<[number, number]>(rating.value)
+const draftRating = ref<MediaListDetailsFilters["rating"]>(rating.value)
 
 const isActive = computed(() => {
   return rating.value[0] > RATING_MIN || rating.value[1] < RATING_MAX
