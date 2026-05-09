@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { MediaListType, SortOrderEnum } from "@movie-tracker/types"
 import { useCookie } from "#app"
-import { useI18n, watchEffect } from "#imports"
+import { watchEffect } from "#imports"
 import { MediaItemStatusNameEnum, MediaTypeEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
-import { computed, h, ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import {
   useGetMediaItemsByMediaListIdApi,
   useGetMediaItemsCountByMediaListIdApi,
@@ -14,12 +14,7 @@ import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
-import { UiDivider } from "~/shared/ui/UiDivider"
-import { UiDropdown, UiDropdownItem } from "~/shared/ui/UiDropdown"
-import { UiIcon } from "~/shared/ui/UiIcon"
-import { UiInput } from "~/shared/ui/UiInput"
 import { UiPagination } from "~/shared/ui/UiPagination"
-import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import MediaListDetailsFilters from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
@@ -120,7 +115,6 @@ const currentPage = useRouteQuery<number>("page", 1, {
   transform: Number,
   mode: "replace",
 })
-const { t } = useI18n()
 
 const sortConfig = computed(() => {
   const [sortDirection, sortBy] = sortType.value.split("_") as [SortOrderEnum, "createdAt" | "updatedAt"]
@@ -169,34 +163,6 @@ watch([searchTerm, activeTab], () => {
   currentPage.value = 1
 })
 
-const sortArrowUpIcon = h(UiIcon, { name: "icon:sort-arrow-up" })
-const sortArrowDownIcon = h(UiIcon, { name: "icon:sort-arrow-down" })
-
-const options = computed(() => {
-  return [
-    {
-      label: t("mediaList.sort.createdAt"),
-      value: "asc_createdAt",
-      icon: sortArrowUpIcon,
-    },
-    {
-      label: t("mediaList.sort.createdAt"),
-      value: "desc_createdAt",
-      icon: sortArrowDownIcon,
-    },
-    {
-      label: t("mediaList.sort.updatedAt"),
-      value: "asc_updatedAt",
-      icon: sortArrowUpIcon,
-    },
-    {
-      label: t("mediaList.sort.updatedAt"),
-      value: "desc_updatedAt",
-      icon: sortArrowDownIcon,
-    },
-  ]
-})
-
 const pagedResponse = computed(() => {
   return getMediaItemsByMediaListIdApi.data.value
 })
@@ -225,49 +191,6 @@ watchEffect(() => {
 
 <template>
   <div :class="$style.wrapper">
-    <div :class="$style.search">
-      <UiInput
-        v-model="searchTerm"
-        size="small"
-        :placeholder="$t('search.placeholder')"
-      >
-        <template #icon>
-          <UiIcon name="icon:search" />
-        </template>
-      </UiInput>
-
-      <UiDropdown
-        align="end"
-        :indent="12"
-        :trigger-class="$style.dropdownTrigger"
-      >
-        <template #trigger>
-          <UiIcon
-            name="icon:sort"
-            :size="20"
-          />
-        </template>
-
-        <template #content>
-          <UiDropdownItem
-            v-for="option in options"
-            :key="option.value"
-            @click="sortType = option.value as MediaListDetailsSortOption"
-          >
-            <template #iconStart>
-              <component
-                :is="option?.icon"
-                v-if="option?.icon"
-              />
-            </template>
-            <template #content>
-              {{ option.label }}
-            </template>
-          </UiDropdownItem>
-        </template>
-      </UiDropdown>
-    </div>
-    <UiDivider />
     <UiTabsPane
       v-model="activeTab"
       :class="$style.tabs"
@@ -299,14 +222,6 @@ watchEffect(() => {
         },
       ] as const"
     >
-      <template #afterTabs>
-        <UiSelect
-          v-model="sortType"
-          :class="$style.select"
-          :width="232"
-          :options="options"
-        />
-      </template>
       <template #content>
         <div :class="$style.controls">
           <MediaListDetailsFilters
@@ -368,20 +283,6 @@ watchEffect(() => {
   flex-direction: column;
   gap: 20px;
 
-  .search {
-    max-width: 384px;
-    display: flex;
-    gap: 10px;
-
-    @include mobileDevice {
-      max-width: 100%;
-
-      input {
-        height: 40px;
-      }
-    }
-  }
-
   .controls {
     display: flex;
     align-items: center;
@@ -390,28 +291,6 @@ watchEffect(() => {
 
     & > div {
       flex: 1;
-    }
-  }
-
-  .dropdownTrigger {
-    display: none;
-
-    @include mobileDevice {
-      width: 38px;
-      min-width: 38px;
-      height: 38px;
-      background: var(--c-card-background-hovered);
-      border: 1px solid var(--c-stroke);
-      border-radius: var(--s-border-radius-medium);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-
-  @include mobileDevice {
-    .select {
-      display: none;
     }
   }
 
