@@ -1235,6 +1235,15 @@ export default {
       createdAt: "Sort by date added",
       updatedAt: "Sort by date updated",
     },
+    filters: {
+      mediaType: "Type",
+      releaseYear: {
+        title: "Release year",
+        from: "From",
+        to: "To",
+      },
+      genres: "Genre",
+    },
   },
   communityLists: {
     hero: {

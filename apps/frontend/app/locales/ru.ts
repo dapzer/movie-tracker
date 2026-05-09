@@ -1236,6 +1236,15 @@ export default {
       createdAt: "По дате добавления",
       updatedAt: "По дате обновления",
     },
+    filters: {
+      mediaType: "Тип",
+      releaseYear: {
+        title: "Год выпуска",
+        from: "От",
+        to: "До",
+      },
+      genres: "Жанр",
+    },
   },
   communityLists: {
     hero: {
