@@ -91,10 +91,31 @@ export default {
       3: "Другой",
     },
     seriesStatusName: {
-      "canceled": "Отменён",
-      "ended": "Завершён",
-      "returning series": "В производстве",
+      "returning series": "Вернулся в производство",
+      "planned": "Запланировано",
       "in production": "В производстве",
+      "ended": "Завершён",
+      "canceled": "Отменён",
+      "pilot": "Пилот",
+    },
+    movieStatusName: {
+      "rumored": "Слухи",
+      "planned": "Запланировано",
+      "in production": "В производстве",
+      "post production": "Постпродакшн",
+      "released": "Вышел",
+      "canceled": "Отменён",
+    },
+    allStatusNames: {
+      "rumored": "Слухи",
+      "planned": "Запланировано",
+      "in production": "В производстве",
+      "post production": "Постпродакшн",
+      "released": "Вышел",
+      "canceled": "Отменён",
+      "returning series": "Вернулся в производство",
+      "ended": "Завершён",
+      "pilot": "Пилот",
     },
     mediaType: {
       movie: "Фильм",
@@ -1239,6 +1260,7 @@ export default {
     filters: {
       title: "Фильтры",
       mediaType: "Тип",
+      releaseStatus: "Статус релиза",
       releaseYear: {
         title: "Год выпуска",
         from: "От",

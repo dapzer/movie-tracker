@@ -17,12 +17,14 @@ const ratingModel = defineModel<MediaListDetailsFilters["rating"]>("rating", { d
 const releaseYearModel = defineModel<MediaListDetailsFilters["releaseYear"]>("releaseYear", { default: () =>
   [undefined, undefined] })
 const genresModel = defineModel<MediaListDetailsFilters["genres"]>("genres", { default: () => [] })
+const releaseStatusesModel = defineModel<MediaListDetailsFilters["releaseStatuses"]>("releaseStatuses", { default: () => [] })
 
 const isDrawerOpen = ref(false)
 
 const isFiltersActive = computed(() => {
   return mediaTypesModel.value.length > 0
     || genresModel.value.length > 0
+    || releaseStatusesModel.value.length > 0
     || releaseYearModel.value[0] !== undefined
     || releaseYearModel.value[1] !== undefined
     || ratingModel.value[0] > RATING_MIN
@@ -44,7 +46,6 @@ const isFiltersActive = computed(() => {
   <UiBottomDrawer
     v-model="isDrawerOpen"
     :title="t('mediaList.filters.title')"
-    :content-class="$style.content"
   >
     <template #content>
       <MediaListDetailsFiltersDrawerContent
@@ -52,6 +53,7 @@ const isFiltersActive = computed(() => {
         v-model:rating="ratingModel"
         v-model:release-year="releaseYearModel"
         v-model:genres="genresModel"
+        v-model:release-statuses="releaseStatusesModel"
       />
     </template>
   </UiBottomDrawer>
@@ -63,9 +65,5 @@ const isFiltersActive = computed(() => {
   justify-content: center;
   border-radius: var(--s-border-radius-super-mega-huge);
   font-size: var(--fs-label-small);
-}
-
-.content {
-  overflow: unset;
 }
 </style>

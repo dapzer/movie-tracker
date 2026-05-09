@@ -23,11 +23,13 @@ const ratingModel = defineModel<MediaListDetailsFilters["rating"]>("rating", { d
 const releaseYearModel = defineModel<MediaListDetailsFilters["releaseYear"]>("releaseYear", { default: () =>
   [undefined, undefined] })
 const genresModel = defineModel<MediaListDetailsFilters["genres"]>("genres", { default: () => [] })
+const releaseStatusesModel = defineModel<MediaListDetailsFilters["releaseStatuses"]>("releaseStatuses", { default: () => [] })
 
 const draftMediaTypes = ref<MediaListDetailsFilters["mediaTypes"]>([...mediaTypesModel.value])
 const draftRating = ref<MediaListDetailsFilters["rating"]>([ratingModel.value[0], ratingModel.value[1]])
 const draftReleaseYear = ref<MediaListDetailsFilters["releaseYear"]>([releaseYearModel.value[0], releaseYearModel.value[1]])
 const draftGenres = ref<MediaListDetailsFilters["genres"]>([...genresModel.value])
+const draftReleaseStatuses = ref<MediaListDetailsFilters["releaseStatuses"]>([...releaseStatusesModel.value])
 
 const mediaTypeOptions = computed(() => {
   return [
@@ -66,11 +68,26 @@ const genreOptions = computed(() => {
   ].map(el => ({ label: t(`details.genres.all.${el}`), value: el }))
 })
 
+const releaseStatusOptions = computed(() => {
+  return [
+    "rumored",
+    "canceled",
+    "planned",
+    "pilot",
+    "in production",
+    "returning series",
+    "post production",
+    "released",
+    "ended",
+  ].map(el => ({ label: t(`details.allStatusNames.${el}`), value: el }))
+})
+
 function resetDraftFilters() {
   draftMediaTypes.value = []
   draftRating.value = [RATING_MIN, RATING_MAX]
   draftReleaseYear.value = [undefined, undefined]
   draftGenres.value = []
+  draftReleaseStatuses.value = []
 }
 
 function applyDraftFilters() {
@@ -78,6 +95,7 @@ function applyDraftFilters() {
   ratingModel.value = [draftRating.value[0], draftRating.value[1]]
   releaseYearModel.value = [draftReleaseYear.value[0], draftReleaseYear.value[1]]
   genresModel.value = [...draftGenres.value]
+  releaseStatusesModel.value = [...draftReleaseStatuses.value]
 }
 
 function toggleGenre(genreId: string) {
@@ -87,6 +105,15 @@ function toggleGenre(genreId: string) {
   }
 
   draftGenres.value = [...draftGenres.value, genreId]
+}
+
+function toggleReleaseStatus(status: string) {
+  if (draftReleaseStatuses.value.includes(status)) {
+    draftReleaseStatuses.value = draftReleaseStatuses.value.filter(currentStatus => currentStatus !== status)
+    return
+  }
+
+  draftReleaseStatuses.value = [...draftReleaseStatuses.value, status]
 }
 
 onBeforeUnmount(() => {
@@ -100,6 +127,15 @@ onBeforeUnmount(() => {
       <MediaListDetailsFiltersDrawerCheckboxList
         v-model="draftMediaTypes"
         :options="mediaTypeOptions"
+      />
+    </MediaListDetailsFiltersDrawerSection>
+
+    <UiDivider />
+
+    <MediaListDetailsFiltersDrawerSection :title="$t('mediaList.filters.releaseStatus')">
+      <MediaListDetailsFiltersDrawerCheckboxList
+        v-model="draftReleaseStatuses"
+        :options="releaseStatusOptions"
       />
     </MediaListDetailsFiltersDrawerSection>
 

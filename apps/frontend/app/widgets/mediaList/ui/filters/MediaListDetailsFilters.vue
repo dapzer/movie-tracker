@@ -5,6 +5,7 @@ import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
 import MediaListDetailsFiltersDrawer from "./drawer/MediaListDetailsFiltersDrawer.vue"
 import MediaListDetailsGenresFilterPopover from "./MediaListDetailsGenresFilterPopover.vue"
 import MediaListDetailsRatingFilterPopover from "./MediaListDetailsRatingFilterPopover.vue"
+import MediaListDetailsReleaseStatusFilterPopover from "./MediaListDetailsReleaseStatusFilterPopover.vue"
 import MediaListDetailsReleaseYearFilterPopover from "./MediaListDetailsReleaseYearFilterPopover.vue"
 import MediaListDetailsTypeFilterPopover from "./MediaListDetailsTypeFilterPopover.vue"
 
@@ -14,6 +15,7 @@ export interface MediaListDetailsFilters {
   rating: [number, number]
   releaseYear: [number | undefined, number | undefined]
   genres: string[]
+  releaseStatuses: string[]
 }
 
 const searchTerm = defineModel<string>("searchTerm", { default: "" })
@@ -21,6 +23,7 @@ const mediaTypesModel = defineModel<MediaTypeEnum[]>("mediaTypes", { default: ()
 const ratingModel = defineModel<MediaListDetailsFilters["rating"]>("rating", { default: () => [0, 10] })
 const releaseYearModel = defineModel<MediaListDetailsFilters["releaseYear"]>("releaseYear", { default: () => [undefined, undefined] })
 const genresModel = defineModel<MediaListDetailsFilters["genres"]>("genres", { default: () => [] })
+const releaseStatusesModel = defineModel<MediaListDetailsFilters["releaseStatuses"]>("releaseStatuses", { default: () => [] })
 
 const { searchValue } = useDebouncedSearchTerm(searchTerm)
 </script>
@@ -41,6 +44,9 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
         <MediaListDetailsRatingFilterPopover
           v-model="ratingModel"
         />
+        <MediaListDetailsReleaseStatusFilterPopover
+          v-model="releaseStatusesModel"
+        />
         <MediaListDetailsReleaseYearFilterPopover
           v-model="releaseYearModel"
         />
@@ -55,6 +61,7 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
           v-model:rating="ratingModel"
           v-model:release-year="releaseYearModel"
           v-model:genres="genresModel"
+          v-model:release-statuses="releaseStatusesModel"
         />
       </div>
     </div>

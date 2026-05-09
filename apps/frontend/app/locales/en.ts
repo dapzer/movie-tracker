@@ -91,10 +91,31 @@ export default {
       3: "Non-binary",
     },
     seriesStatusName: {
-      "canceled": "Canceled",
+      "returning series": "Returning Series",
+      "planned": "Planned",
+      "in production": "In Production",
       "ended": "Ended",
-      "returning series": "Returning series",
-      "in production": "In production",
+      "canceled": "Canceled",
+      "pilot": "Pilot",
+    },
+    movieStatusName: {
+      "rumored": "Rumored",
+      "planned": "Planned",
+      "in production": "In Production",
+      "post production": "Post Production",
+      "released": "Released",
+      "canceled": "Canceled",
+    },
+    allStatusNames: {
+      "returning series": "Returning Series",
+      "planned": "Planned",
+      "in production": "In Production",
+      "ended": "Ended",
+      "canceled": "Canceled",
+      "pilot": "Pilot",
+      "rumored": "Rumored",
+      "post production": "Post Production",
+      "released": "Released",
     },
     mediaType: {
       movie: "Movie",
@@ -1238,6 +1259,7 @@ export default {
     filters: {
       title: "Filters",
       mediaType: "Type",
+      releaseStatus: "Release status",
       releaseYear: {
         title: "Release year",
         from: "From",

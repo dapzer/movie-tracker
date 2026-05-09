@@ -111,6 +111,13 @@ const genres = useRouteQuery<string, string[]>("genres", "", {
     set: value => value.length ? value.join(",") : "",
   },
 })
+const releaseStatuses = useRouteQuery<string, string[]>("releaseStatuses", "", {
+  mode: "replace",
+  transform: {
+    get: value => value ? value.split(",").filter(Boolean) : [],
+    set: value => value.length ? value.join(",") : "",
+  },
+})
 const currentPage = useRouteQuery<number>("page", 1, {
   transform: Number,
   mode: "replace",
@@ -230,6 +237,7 @@ watchEffect(() => {
             v-model:rating="rating"
             v-model:release-year="releaseYear"
             v-model:genres="genres"
+            v-model:release-statuses="releaseStatuses"
           />
           <MediaListDetailsSortPopover
             v-model="sortType"

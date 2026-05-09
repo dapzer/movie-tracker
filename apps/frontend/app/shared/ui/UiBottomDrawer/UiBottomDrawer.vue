@@ -116,7 +116,9 @@ const model = defineModel<boolean>()
 
     .content {
       height: 100%;
-      overflow: auto;
+      min-width: 0;
+      overflow-x: clip;
+      overflow-y: auto;
     }
 
     .swipeTrigger {
