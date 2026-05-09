@@ -98,8 +98,6 @@ watch([searchTerm, activeTab, mediaType, sortType], () => {
       v-else
       :class="$style.content"
     >
-      <UiDivider />
-
       <ReleaseSubscriptionsFilters
         v-model:search-term="searchTerm"
         v-model:sort-type="sortType"

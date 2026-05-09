@@ -23,19 +23,22 @@ import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import MediaListDetailsFilters from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
+import MediaListDetailsSortPopup from "~/widgets/mediaList/ui/MediaListDetailsSortPopup.vue"
 
 interface MediaListDetailsProps {
   mediaList: MediaListType
   isUserListOwner?: boolean
 }
 
+export type MediaListDetailsSortOption = "asc_createdAt" | "desc_createdAt" | "asc_updatedAt" | "desc_updatedAt"
+
 const props = defineProps<MediaListDetailsProps>()
-const storedMediaListSortingType = useCookie(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
+const storedMediaListSortingType = useCookie<MediaListDetailsSortOption>(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
   default: () => "asc_createdAt",
   expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
 })
 
-const sortType = ref<string>(storedMediaListSortingType.value)
+const sortType = ref<MediaListDetailsSortOption>(storedMediaListSortingType.value)
 const activeTab = useRouteQuery<string>("tab", "all", {
   mode: "replace",
 })
@@ -249,7 +252,7 @@ watchEffect(() => {
           <UiDropdownItem
             v-for="option in options"
             :key="option.value"
-            @click="sortType = option.value"
+            @click="sortType = option.value as MediaListDetailsSortOption"
           >
             <template #iconStart>
               <component
@@ -305,13 +308,19 @@ watchEffect(() => {
         />
       </template>
       <template #content>
-        <MediaListDetailsFilters
-          v-model:search-term="searchTerm"
-          v-model:media-types="mediaTypes"
-          v-model:rating="rating"
-          v-model:release-year="releaseYear"
-          v-model:genres="genres"
-        />
+        <div :class="$style.controls">
+          <MediaListDetailsFilters
+            v-model:search-term="searchTerm"
+            v-model:media-types="mediaTypes"
+            v-model:rating="rating"
+            v-model:release-year="releaseYear"
+            v-model:genres="genres"
+          />
+          <MediaListDetailsSortPopup
+            v-model="sortType"
+          />
+        </div>
+
         <UiCardsGrid v-if="getMediaItemsByMediaListIdApi.isPending.value || currentTabContent.length">
           <template v-if="getMediaItemsByMediaListIdApi.isPending.value">
             <UiMediaCardSkeleton
@@ -370,6 +379,17 @@ watchEffect(() => {
       input {
         height: 40px;
       }
+    }
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    & > div {
+      flex: 1;
     }
   }
 
