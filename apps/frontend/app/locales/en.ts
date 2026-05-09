@@ -1515,6 +1515,8 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
   toasts: {
     changesSuccessfullySaved: "Changes saved successfully",
     changesUnsuccessfullySaved: "An error occurred while saving changes",
+    linkSuccessfullyCopied: "Link copied successfully",
+    linkUnsuccessfullyCopied: "An error occurred while copying the link",
     mediaItem: {
       successAddedToList: "{media} added to the list «{listName}»",
       successRemovedFromList: "{media} removed from the list «{listName}»",
@@ -1537,7 +1539,13 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successCreated: "List created successfully",
       unsuccessfullyCreated: "An error occurred while creating the list",
       successUpdated: "List updated successfully",
+      unsuccessfullyUpdated: "An error occurred while updating the list",
       successDeleted: "List deleted successfully",
+      unsuccessfullyDeleted: "An error occurred while deleting the list",
+      successLiked: "List liked successfully",
+      unsuccessfullyLiked: "An error occurred while liking the list",
+      successDisliked: "List disliked successfully",
+      unsuccessfullyDisliked: "An error occurred while disliking the list",
     },
     mediaRating: {
       successRated: "Rating saved successfully",
@@ -1608,6 +1616,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     follow: "Follow",
     unfollow: "Unfollow",
     nothingFound: "Nothing found",
+    share: "Share",
     like: {
       single: "Like",
       multiple: "Likes",

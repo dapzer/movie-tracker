@@ -69,6 +69,8 @@ export type UiIconName = "icon:close"
   | "icon:thumb-up"
   | "icon:arrow-down-with-list"
   | "icon:arrow-up-with-list"
+  | "icon:list-logo"
+  | "icon:create-clone"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

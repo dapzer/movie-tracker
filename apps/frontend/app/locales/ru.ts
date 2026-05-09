@@ -1517,6 +1517,8 @@ export default {
   toasts: {
     changesSuccessfullySaved: "Изменения успешно сохранены",
     changesUnsuccessfullySaved: "Произошла ошибка при сохранении изменений",
+    linkSuccessfullyCopied: "Ссылка успешно скопирована",
+    linkUnsuccessfullyCopied: "Произошла ошибка при копировании ссылки",
     mediaItem: {
       successAddedToList: "{media} добавлен в список «{listName}»",
       successRemovedFromList: "{media} удален из списка «{listName}»",
@@ -1539,9 +1541,13 @@ export default {
       successCreated: "Список успешно создан",
       unsuccessfullyCreated: "Произошла ошибка при создании списка",
       successUpdated: "Список успешно обновлен",
-      unsuccessfullyUpdated: "Произошла ошибка при создании списка",
+      unsuccessfullyUpdated: "Произошла ошибка при обновлении списка",
       successDeleted: "Список успешно удален",
       unsuccessfullyDeleted: "Произошла ошибка при удалении списка",
+      successLiked: "Список успешно добавлен в понравившиеся",
+      unsuccessfullyLiked: "Произошла ошибка при добавлении списка в понравившиеся",
+      successDisliked: "Список успешно убран из понравившихся",
+      unsuccessfullyDisliked: "Произошла ошибка при удалении списка из понравившихся",
     },
     mediaRating: {
       successRated: "Оценка успешно сохранена",
@@ -1612,6 +1618,7 @@ export default {
     follow: "Подписаться",
     unfollow: "Отписаться",
     nothingFound: "Ничего не найдено",
+    share: "Поделиться",
     like: {
       single: "Лайк",
       multiple: "Лайков",

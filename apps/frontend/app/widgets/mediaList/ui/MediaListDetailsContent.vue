@@ -18,7 +18,7 @@ import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import MediaListDetailsFilters from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
-import MediaListDetailsSortPopup from "~/widgets/mediaList/ui/MediaListDetailsSortPopup.vue"
+import MediaListDetailsSortPopover from "./MediaListDetailsSortPopover.vue"
 
 interface MediaListDetailsProps {
   mediaList: MediaListType
@@ -231,7 +231,7 @@ watchEffect(() => {
             v-model:release-year="releaseYear"
             v-model:genres="genres"
           />
-          <MediaListDetailsSortPopup
+          <MediaListDetailsSortPopover
             v-model="sortType"
           />
         </div>

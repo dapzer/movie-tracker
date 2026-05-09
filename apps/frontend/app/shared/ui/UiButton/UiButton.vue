@@ -236,6 +236,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:focus,
       &:active,
       &:hover {
+        color: var(--c-label-link-hovered);
       }
     }
 
