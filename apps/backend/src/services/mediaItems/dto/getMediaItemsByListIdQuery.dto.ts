@@ -5,8 +5,29 @@ import {
   SortOrderEnum,
 } from "@movie-tracker/types"
 import { ApiPropertyOptional } from "@nestjs/swagger"
-import { IsEnum, IsIn, IsOptional, IsString } from "class-validator"
+import { Transform } from "class-transformer"
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsEnum,
+  IsIn,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from "class-validator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
+import { IsNumberOrUndefinedArray } from "@/shared/validations/IsNumberOrUndefinedArray"
+import {
+  parseNumberArrayQuery,
+  parseRatingQuery,
+  parseReleaseYearQuery,
+  parseStringArrayQuery,
+  releaseStatusOptions,
+} from "./mediaItemsFiltersQuery.helpers"
 
 const sortByOptions: NonNullable<GetMediaItemsByListIdQueries["sortBy"]>[] = ["createdAt", "updatedAt"]
 
@@ -25,6 +46,44 @@ export class GetMediaItemsByListIdQueryDto extends PaginationDto implements GetM
   @IsOptional()
   @IsEnum(MediaTypeEnum)
   mediaType?: MediaTypeEnum
+
+  @ApiPropertyOptional({ enum: MediaTypeEnum, isArray: true, example: [MediaTypeEnum.MOVIE, MediaTypeEnum.TV] })
+  @IsOptional()
+  @IsArray()
+  @IsEnum(MediaTypeEnum, { each: true })
+  @Transform(({ value }) => parseStringArrayQuery(value))
+  mediaTypes?: MediaTypeEnum[]
+
+  @ApiPropertyOptional({ type: String, example: "0,10" })
+  @IsOptional()
+  @IsArray()
+  @ArrayMinSize(2)
+  @ArrayMaxSize(2)
+  @IsNumber({}, { each: true })
+  @Min(0, { each: true })
+  @Max(10, { each: true })
+  @Transform(({ value }) => parseRatingQuery(value))
+  rating?: [number, number]
+
+  @ApiPropertyOptional({ type: String, example: "1990,2024" })
+  @IsOptional()
+  @IsNumberOrUndefinedArray()
+  @Transform(({ value }) => parseReleaseYearQuery(value))
+  releaseYear?: [number | undefined, number | undefined]
+
+  @ApiPropertyOptional({ type: String, example: "12,28" })
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  @Transform(({ value }) => parseNumberArrayQuery(value))
+  genres?: number[]
+
+  @ApiPropertyOptional({ enum: releaseStatusOptions, isArray: true, example: ["released", "ended"] })
+  @IsOptional()
+  @IsArray()
+  @IsIn(releaseStatusOptions, { each: true })
+  @Transform(({ value }) => parseStringArrayQuery(value)?.map(status => status.toLowerCase()))
+  releaseStatuses?: string[]
 
   @ApiPropertyOptional({ enum: SortOrderEnum, example: SortOrderEnum.DESC })
   @IsOptional()

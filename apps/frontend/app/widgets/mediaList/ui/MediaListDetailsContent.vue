@@ -136,6 +136,14 @@ const mediaItemsQueryArgs = computed(() => {
     mediaListId: props.mediaList.id,
     search: searchTerm.value || undefined,
     status: activeTab.value === "all" ? undefined : activeTab.value as MediaItemStatusNameEnum,
+    mediaTypes: mediaTypes.value.length ? mediaTypes.value : undefined,
+    rating: rating.value[0] === 0 && rating.value[1] === 10 ? undefined : rating.value,
+    releaseYear:
+      releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
+        ? undefined
+        : releaseYear.value,
+    genres: genres.value.length ? genres.value.map(Number) : undefined,
+    releaseStatuses: releaseStatuses.value.length ? releaseStatuses.value : undefined,
     sortBy: sortConfig.value.sortBy,
     sortDirection: sortConfig.value.sortDirection,
     ...getPaginationParams({
@@ -149,6 +157,14 @@ const getMediaItemsCountByMediaListIdArgs = computed(() => {
   return {
     mediaListId: props.mediaList.id,
     search: searchTerm.value || undefined,
+    mediaTypes: mediaTypes.value.length ? mediaTypes.value : undefined,
+    rating: rating.value[0] === 0 && rating.value[1] === 10 ? undefined : rating.value,
+    releaseYear:
+      releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
+        ? undefined
+        : releaseYear.value,
+    genres: genres.value.length ? genres.value.map(Number) : undefined,
+    releaseStatuses: releaseStatuses.value.length ? releaseStatuses.value : undefined,
   }
 })
 

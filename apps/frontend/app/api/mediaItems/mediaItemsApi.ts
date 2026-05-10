@@ -19,6 +19,14 @@ import type {
 } from "~/api/mediaItems/mediaItemsApiTypes"
 import { api } from "~/api/instance"
 
+function serializeYearRange(range?: [number | undefined, number | undefined]) {
+  if (!range) {
+    return undefined
+  }
+
+  return `${range[0] ?? ""},${range[1] ?? ""}`
+}
+
 export async function getMediaItemsApi(options?: RequestOptions) {
   return api.get<MediaItemType[]>("media-items", options)
 }
@@ -35,7 +43,11 @@ export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaLi
       offset: args.offset,
       search: args.search,
       status: args.status,
-      mediaType: args.mediaType,
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      releaseYear: serializeYearRange(args.releaseYear),
+      genres: args.genres,
+      releaseStatuses: args.releaseStatuses,
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
     },
@@ -47,6 +59,11 @@ export async function getMediaItemsCountByMediaListIdApi(args: GetMediaItemsCoun
     ...options,
     params: {
       search: args.search,
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      releaseYear: serializeYearRange(args.releaseYear),
+      genres: args.genres,
+      releaseStatuses: args.releaseStatuses,
     },
   })
 }
