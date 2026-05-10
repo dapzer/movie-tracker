@@ -9,6 +9,7 @@ import { CloneMediaListModal, EditMediaListModal, MediaListsLimitTooltip } from 
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
@@ -65,16 +66,31 @@ async function handleLike() {
 <template>
   <div :class="$style.wrapper">
     <div>
-      <UiTypography
-        :class="$style.titleType"
-        variant="labelSmall"
-      >
-        <UiIcon
-          name="icon:list-logo"
-          :size="16"
+      <div :class="$style.subTitle">
+        <UiTypography
+          :class="$style.titleType"
+          variant="labelSmall"
+        >
+          <UiIcon
+            name="icon:list-logo"
+            :size="16"
+          />
+          {{ $t("mediaList.listTitle").toUpperCase() }}
+        </UiTypography>
+        <UiDivider
+          vertical
+          :height="16"
+          :width="1"
         />
-        {{ $t("mediaList.listTitle").toUpperCase() }}
-      </UiTypography>
+        <UiUserProfileLink
+          :avatar-size="20"
+          :user-id="props.userProfile.id"
+          :user-name="props.userProfile.name"
+          :user-avatar-src="props.userProfile.image"
+          :user-page-url="localePath(`/profile/${props.userProfile.id}`)"
+        />
+      </div>
+
       <UiTypography
         variant="title2"
         as="h1"
@@ -89,75 +105,66 @@ async function handleLike() {
       {{ props.mediaList.description }}
     </UiTypography>
 
-    <div>
-      <div :class="$style.actions">
-        <UiButton
-          with-icon
-          :class="{ [$style.active]: props.mediaList.isLiked, [$style.inactive]: props.isUserListOwner }"
-          variant="text"
-          :disabled="createLikeMediaListApi.isPending.value || deleteLikeMediaListApi.isPending.value"
-          @click="handleLike"
-        >
-          <UiIcon
-            name="icon:like"
-            :size="16"
-          />
-          {{ props.mediaList.likesCount }}
-          {{ $t(`ui.like.${getDeclensionTranslationKey(props.mediaList.likesCount || 0)}`).toLowerCase() }}
-        </UiButton>
-        <UiButton
-          with-icon
-          variant="text"
-          :disabled="copied"
-          @click="copyLink"
-        >
-          <UiIcon
-            name="icon:share"
-            :size="16"
-          />
-          {{ $t("ui.share") }}
-        </UiButton>
-        <CloneMediaListModal :media-list="props.mediaList">
-          <template #trigger="{ openModal }">
-            <MediaListsLimitTooltip>
-              <template #default="{ isLimitReached }">
-                <UiButton
-                  with-icon
-                  variant="text"
-                  :disabled="isLimitReached"
-                  @click="() => isAuthorized ? openModal() : navigateToSignInPage()"
-                >
-                  <UiIcon name="icon:create-clone" />
-                  {{ t("mediaList.createClone.submit") }}
-                </UiButton>
-              </template>
-            </MediaListsLimitTooltip>
-          </template>
-        </CloneMediaListModal>
+    <div :class="$style.actions">
+      <UiButton
+        with-icon
+        :class="{ [$style.active]: props.mediaList.isLiked, [$style.inactive]: props.isUserListOwner }"
+        variant="text"
+        :disabled="createLikeMediaListApi.isPending.value || deleteLikeMediaListApi.isPending.value"
+        @click="handleLike"
+      >
+        <UiIcon
+          name="icon:like"
+          :size="16"
+        />
+        {{ props.mediaList.likesCount }}
+        {{ $t(`ui.like.${getDeclensionTranslationKey(props.mediaList.likesCount || 0)}`).toLowerCase() }}
+      </UiButton>
+      <UiButton
+        with-icon
+        variant="text"
+        :disabled="copied"
+        @click="copyLink"
+      >
+        <UiIcon
+          name="icon:share"
+          :size="16"
+        />
+        {{ $t("ui.share") }}
+      </UiButton>
+      <CloneMediaListModal :media-list="props.mediaList">
+        <template #trigger="{ openModal }">
+          <MediaListsLimitTooltip>
+            <template #default="{ isLimitReached }">
+              <UiButton
+                with-icon
+                variant="text"
+                :disabled="isLimitReached"
+                @click="() => isAuthorized ? openModal() : navigateToSignInPage()"
+              >
+                <UiIcon name="icon:create-clone" />
+                {{ t("mediaList.createClone.submit") }}
+              </UiButton>
+            </template>
+          </MediaListsLimitTooltip>
+        </template>
+      </CloneMediaListModal>
 
-        <EditMediaListModal
-          v-if="props.isUserListOwner"
-          :media-list="props.mediaList"
-        >
-          <template #trigger="{ openModal }">
-            <UiButton
-              with-icon
-              variant="text"
-              @click="openModal"
-            >
-              <UiIcon name="icon:edit" />
-              {{ t("ui.edit") }}
-            </UiButton>
-          </template>
-        </EditMediaListModal>
-      </div>
-      <UiUserProfileLink
-        :class="$style.profile"
-        :user-id="props.userProfile.id"
-        :user-name="props.userProfile.name"
-        :user-avatar-src="props.userProfile.image"
-        :user-page-url="localePath(`/profile/${props.userProfile.id}`)"
-      />
+      <EditMediaListModal
+        v-if="props.isUserListOwner"
+        :media-list="props.mediaList"
+      >
+        <template #trigger="{ openModal }">
+          <UiButton
+            with-icon
+            variant="text"
+            @click="openModal"
+          >
+            <UiIcon name="icon:edit" />
+            {{ t("ui.edit") }}
+          </UiButton>
+        </template>
+      </EditMediaListModal>
     </div>
   </div>
 </template>
@@ -172,11 +179,18 @@ async function handleLike() {
   gap: 24px;
 }
 
+.subTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  min-width: 0px;
+}
+
 .titleType {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 8px;
 }
 
 .description {

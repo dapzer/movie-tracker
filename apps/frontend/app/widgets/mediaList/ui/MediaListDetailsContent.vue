@@ -283,9 +283,6 @@ watchEffect(() => {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
-@import "~/shared/styles/breakpoints";
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -296,6 +293,7 @@ watchEffect(() => {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    margin-bottom: 8px;
 
     & > div {
       flex: 1;
