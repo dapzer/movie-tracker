@@ -38,6 +38,7 @@ function handleTouchEnd() {
     as-child
     :offset="8"
     :content-class="$style.tooltip"
+    :collision-padding="0"
     @touchstart="handleTouchStart"
     @touchend="handleTouchEnd"
   >

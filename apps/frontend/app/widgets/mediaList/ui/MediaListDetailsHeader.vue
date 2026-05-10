@@ -134,7 +134,7 @@ async function handleLike() {
       </UiButton>
       <CloneMediaListModal :media-list="props.mediaList">
         <template #trigger="{ openModal }">
-          <MediaListsLimitTooltip>
+          <MediaListsLimitTooltip align="center">
             <template #default="{ isLimitReached }">
               <UiButton
                 with-icon
@@ -212,7 +212,7 @@ async function handleLike() {
     flex-wrap: wrap;
   }
 
-  & > button {
+  & button {
     color: var(--c-white-75);
 
     &:focus,

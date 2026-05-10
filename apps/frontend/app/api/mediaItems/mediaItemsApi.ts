@@ -1,5 +1,7 @@
 import type {
+  GetMediaItemsByListIdQueries,
   MediaItemsByListIdResponseType,
+  MediaItemsCountByStatusQueries,
   MediaItemsCountByStatusType,
   MediaItemTrackingDataType,
   MediaItemType,
@@ -35,6 +37,16 @@ export async function getMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiA
   return api.get<MediaItemType[]>(`media-items/by-media-id/${args.mediaId}`, options)
 }
 
+function serializeItemsFilters(args: GetMediaItemsByListIdQueries | MediaItemsCountByStatusQueries) {
+  return {
+    mediaTypes: args.mediaTypes?.join(","),
+    rating: args.rating?.join(","),
+    releaseYear: serializeYearRange(args.releaseYear),
+    genres: args.genres?.join(","),
+    releaseStatuses: args.releaseStatuses?.join(","),
+  }
+}
+
 export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaListIdApiArgs, options?: RequestOptions) {
   return api.get<MediaItemsByListIdResponseType>(`media-items/media-list/${args.mediaListId}`, {
     ...options,
@@ -43,11 +55,13 @@ export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaLi
       offset: args.offset,
       search: args.search,
       status: args.status,
-      mediaTypes: args.mediaTypes,
-      rating: args.rating?.join(","),
-      releaseYear: serializeYearRange(args.releaseYear),
-      genres: args.genres,
-      releaseStatuses: args.releaseStatuses,
+      ...serializeItemsFilters({
+        mediaTypes: args.mediaTypes,
+        rating: args.rating,
+        releaseYear: args.releaseYear,
+        genres: args.genres,
+        releaseStatuses: args.releaseStatuses,
+      }),
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
     },
@@ -59,11 +73,13 @@ export async function getMediaItemsCountByMediaListIdApi(args: GetMediaItemsCoun
     ...options,
     params: {
       search: args.search,
-      mediaTypes: args.mediaTypes,
-      rating: args.rating?.join(","),
-      releaseYear: serializeYearRange(args.releaseYear),
-      genres: args.genres,
-      releaseStatuses: args.releaseStatuses,
+      ...serializeItemsFilters({
+        mediaTypes: args.mediaTypes,
+        rating: args.rating,
+        releaseYear: args.releaseYear,
+        genres: args.genres,
+        releaseStatuses: args.releaseStatuses,
+      }),
     },
   })
 }

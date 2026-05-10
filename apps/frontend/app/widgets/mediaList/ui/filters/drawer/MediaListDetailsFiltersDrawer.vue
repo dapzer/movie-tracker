@@ -4,6 +4,7 @@ import { useI18n } from "#imports"
 import { computed, ref } from "vue"
 import { UiBottomDrawer } from "@/shared/ui/UiBottomDrawer"
 import { UiButton } from "@/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
 import MediaListDetailsFiltersDrawerContent
   from "~/widgets/mediaList/ui/filters/drawer/MediaListDetailsFiltersDrawerContent.vue"
 
@@ -40,7 +41,10 @@ const isFiltersActive = computed(() => {
     with-icon
     @click="isDrawerOpen = true"
   >
-    {{ t("mediaList.filters.title") }}
+    <UiIcon
+      name="icon:filter"
+      :size="20"
+    />
   </UiButton>
 
   <UiBottomDrawer

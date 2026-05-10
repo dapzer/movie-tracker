@@ -68,13 +68,21 @@ function handleOptionSelect(option: Option) {
   >
     <template #trigger>
       <UiButton
-        :class="$style.body"
+        :class="$style.trigger"
         variant="boxed"
         scheme="medium-gray"
         with-icon
       >
-        <component :is="selectedOption?.icon" />
-        {{ selectedOption?.label }}
+        <div :class="$style.triggerPc">
+          <component :is="selectedOption?.icon" />
+          {{ selectedOption?.label }}
+        </div>
+        <div :class="$style.triggerMobile">
+          <UiIcon
+            name="icon:sort"
+            :size="20"
+          />
+        </div>
       </UiButton>
     </template>
     <template #content>
@@ -102,10 +110,32 @@ function handleOptionSelect(option: Option) {
 </template>
 
 <style module lang="scss">
-.body {
+@import "~/shared/styles/mixins";
+@import "~/shared/styles/breakpoints";
+
+.trigger {
   border-radius: var(--s-border-radius-super-mega-huge);
   font-size: var(--fs-label-small);
   width: max-content;
+
+  & > div {
+    display: inherit;
+    gap: inherit;
+    align-items: inherit;
+  }
+
+  .triggerMobile {
+    display: none;
+  }
+
+  @include mobilePlusDevice() {
+    .triggerPc {
+      display: none;
+    }
+    .triggerMobile {
+      display: flex;
+    }
+  }
 }
 .options {
 }

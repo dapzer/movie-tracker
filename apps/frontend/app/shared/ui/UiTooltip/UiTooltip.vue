@@ -1,20 +1,33 @@
 <script setup lang="ts">
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-expect-error
+import type { TooltipContentProps } from "radix-vue/dist/Tooltip/TooltipContent"
 import { useMediaQuery } from "@vueuse/core"
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from "radix-vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
+export type UiTooltipSide = "top" | "right" | "bottom" | "left"
+export type UiTooltipAlign = "start" | "center" | "end"
+
 interface UiTooltipProps {
   disabled?: boolean
-  align?: "start" | "center" | "end"
-  side?: "top" | "right" | "bottom" | "left"
+  align?: UiTooltipAlign
+  side?: UiTooltipSide
   asChild?: boolean
   hideArrow?: boolean
   offset?: number
   contentClass?: string
+  collisionPadding?: TooltipContentProps["collisionPadding"]
 }
 
 const props = withDefaults(defineProps<UiTooltipProps>(), {
   offset: 12,
+  collisionPadding: {
+    top: 68,
+    right: 24,
+    bottom: 24,
+    left: 24,
+  },
 })
 
 const mediaQueryTouch = useMediaQuery("(hover: none) and (pointer: coarse)")
@@ -53,12 +66,7 @@ function handleTriggerClick() {
             :side-offset="props.offset"
             :align="props.align"
             :side="props.side"
-            :collision-padding="{
-              top: 68,
-              right: 24,
-              bottom: 24,
-              left: 24,
-            }"
+            :collision-padding="props.collisionPadding"
           >
             <TooltipArrow
               v-if="!hideArrow"

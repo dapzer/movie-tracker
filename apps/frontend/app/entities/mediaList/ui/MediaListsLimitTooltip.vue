@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import type { UiTooltipAlign } from "~/shared/ui/UiTooltip"
 import { MEDIA_LIST_COUNT_LIMIT } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import { UiLimit } from "~/shared/ui/UiLimit"
 import { UiTooltip } from "~/shared/ui/UiTooltip"
 import { UiTypography } from "~/shared/ui/UiTypography"
+
+interface MediaListsLimitTooltipProps {
+  align?: UiTooltipAlign
+}
+
+const props = withDefaults(defineProps<MediaListsLimitTooltipProps>(), {
+  align: "end",
+})
 
 const getMediaListsApi = useGetMediaListsApi()
 await getMediaListsApi.suspense()
@@ -20,7 +29,7 @@ const isLimitReached = computed(() => {
 
 <template>
   <UiTooltip
-    align="end"
+    :align="props.align"
     :disabled="!isLimitReached"
   >
     <template #trigger>

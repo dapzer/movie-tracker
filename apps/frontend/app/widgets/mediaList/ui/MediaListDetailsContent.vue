@@ -313,6 +313,8 @@ watchEffect(() => {
 </template>
 
 <style module lang="scss">
+@import "~/shared/styles/mixins";
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -327,6 +329,10 @@ watchEffect(() => {
 
     & > div {
       flex: 1;
+    }
+
+    @include mobilePlusDevice {
+      gap: 8px;
     }
   }
 

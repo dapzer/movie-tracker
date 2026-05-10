@@ -98,18 +98,21 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
   display: none;
 }
 
-@include mobileDevice {
+@include mobilePlusDevice {
   .searchInput {
     max-width: 100%;
-    flex: 1 1 100%;
   }
 
   .desktopFilters {
     display: none;
   }
 
+  .list {
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
   .mobileFilters {
-    width: 100%;
     display: block;
   }
 }
