@@ -27,8 +27,12 @@ const scheme = computed<UiButtonScheme>(() => props.active ? "secondary-light" :
     <UiButton
       v-if="props.active"
       :class="$style.clearButton"
+      as="span"
       variant="textIcon"
+      tabindex="0"
       @click.stop="emits('clear')"
+      @keydown.enter.stop.prevent="emits('clear')"
+      @keydown.space.stop.prevent="emits('clear')"
     >
       <UiIcon
         name="icon:close"
