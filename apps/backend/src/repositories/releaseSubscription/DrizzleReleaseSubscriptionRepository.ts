@@ -29,8 +29,11 @@ export class DrizzleReleaseSubscriptionRepository implements ReleaseSubscription
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       score: data.score ? Number(data.score) : 0,
+      releaseDate: data.releaseDate || undefined,
       en: data.en as unknown as MediaDetailsInfoType,
       ru: data.ru as unknown as MediaDetailsInfoType,
+      status: data.status,
+      genres: data.genres,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }

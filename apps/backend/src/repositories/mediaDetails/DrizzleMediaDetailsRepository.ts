@@ -21,6 +21,9 @@ implements MediaDetailsRepositoryInterface {
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType.toUpperCase() as keyof typeof MediaTypeEnum],
       score: data.score ? Number(data.score) : 0,
+      releaseDate: data.releaseDate || undefined,
+      genres: data.genres,
+      status: data.status,
       en: data.en as MediaDetailsInfoType,
       ru: data.ru as MediaDetailsInfoType,
       createdAt: data.createdAt,
@@ -43,9 +46,12 @@ implements MediaDetailsRepositoryInterface {
       .values({
         mediaId: args.mediaId,
         mediaType: args.mediaType,
-        ru: args.mediaDetailsInfoRu,
-        en: args.mediaDetailsInfoEn,
         score: args.score.toString(),
+        genres: args.genres,
+        status: args.status,
+        releaseDate: args.releaseDate,
+        ru: args.ru,
+        en: args.en,
       })
       .returning()
 
@@ -56,16 +62,14 @@ implements MediaDetailsRepositoryInterface {
     const [detail] = await this.drizzle.client
       .update(mediaDetails)
       .set({
-        ru: args.mediaDetailsInfoRu,
-        en: args.mediaDetailsInfoEn,
         score: args.score.toString(),
+        genres: args.genres,
+        status: args.status,
+        releaseDate: args.releaseDate,
+        ru: args.ru,
+        en: args.en,
       })
-      .where(
-        and(
-          eq(mediaDetails.mediaId, args.mediaId),
-          eq(mediaDetails.mediaType, args.mediaType),
-        ),
-      )
+      .where(eq(mediaDetails.mediaId, args.mediaId))
       .returning()
 
     return this.convertToInterface(detail)

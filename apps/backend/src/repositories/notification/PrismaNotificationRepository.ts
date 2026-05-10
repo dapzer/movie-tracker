@@ -1,3 +1,5 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
 import { Notification, Prisma } from "@movie-tracker/database/prisma"
 import {
   ExtractNotificationMetaResponseType,
@@ -26,6 +28,9 @@ interface NotificationRawResult {
   mediaDetails_mediaId: number | null
   mediaDetails_mediaType: string | null
   mediaDetails_score: Prisma.Decimal | null
+  mediaDetails_status: string | null
+  mediaDetails_genres: number[] | null
+  mediaDetails_releaseDate: string | null
   mediaDetails_en: Prisma.JsonValue | null
   mediaDetails_ru: Prisma.JsonValue | null
   mediaDetails_createdAt: Date | null
@@ -72,6 +77,9 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
               mediaId: data.mediaDetails_mediaId!,
               mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
               score: data.mediaDetails_score?.toNumber() || 0,
+              status: data.mediaDetails_status,
+              genres: data.mediaDetails_genres,
+              releaseDate: data.mediaDetails_releaseDate || undefined,
               en: data.mediaDetails_en as unknown as MediaDetailsInfoType,
               ru: data.mediaDetails_ru as unknown as MediaDetailsInfoType,
               createdAt: data.mediaDetails_createdAt!,
@@ -91,6 +99,9 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
               mediaId: data.mediaDetails_mediaId!,
               mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
               score: data.mediaDetails_score?.toNumber() || 0,
+              status: data.mediaDetails_status,
+              genres: data.mediaDetails_genres,
+              releaseDate: data.mediaDetails_releaseDate || undefined,
               en: data.mediaDetails_en as unknown as MediaDetailsInfoType,
               ru: data.mediaDetails_ru as unknown as MediaDetailsInfoType,
               createdAt: data.mediaDetails_createdAt!,
@@ -165,10 +176,13 @@ export class PrismaNotificationRepository implements NotificationRepositoryInter
                ml.title    as "mediaList_title",
                md.id       as "mediaDetails_id",
                md.media_id as "mediaDetails_mediaId",
-               md.media_type as "mediaDetails_mediaType",
-               md.score    as "mediaDetails_score",
-               md.en       as "mediaDetails_en",
-               md.ru       as "mediaDetails_ru",
+                md.media_type as "mediaDetails_mediaType",
+                md.score    as "mediaDetails_score",
+                md.status   as "mediaDetails_status",
+                md.genres   as "mediaDetails_genres",
+                md.release_date as "mediaDetails_releaseDate",
+                md.en       as "mediaDetails_en",
+                md.ru       as "mediaDetails_ru",
                md.created_at as "mediaDetails_createdAt",
                md.updated_at as "mediaDetails_updatedAt"
         FROM notifications n

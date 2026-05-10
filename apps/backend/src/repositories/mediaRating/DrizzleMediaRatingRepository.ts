@@ -66,8 +66,11 @@ export class DrizzleMediaRatingRepository implements MediaRatingRepositoryInterf
       mediaType: MediaTypeEnum[data.mediaType.toUpperCase()],
       mediaId: data.mediaId,
       score: data.score ? Number(data.score) : 0,
+      releaseDate: data.releaseDate || undefined,
       ru: ruMediaDetails,
       en: enMediaDetails,
+      status: data.status,
+      genres: data.genres,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }

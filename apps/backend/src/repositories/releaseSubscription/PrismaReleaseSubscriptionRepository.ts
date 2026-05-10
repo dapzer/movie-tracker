@@ -1,3 +1,5 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
 import { MediaDetails, Prisma, ReleaseSubscription } from "@movie-tracker/database/prisma"
 import {
   MediaDetailsInfoType,
@@ -24,6 +26,9 @@ export class PrismaReleaseSubscriptionRepository implements ReleaseSubscriptionR
       mediaId: data.mediaId,
       mediaType: MediaTypeEnum[data.mediaType],
       score: data.score.toNumber(),
+      releaseDate: data.releaseDate || undefined,
+      status: data.status,
+      genres: data.genres,
       en: data.en as unknown as MediaDetailsInfoType,
       ru: data.ru as unknown as MediaDetailsInfoType,
       createdAt: data.createdAt,

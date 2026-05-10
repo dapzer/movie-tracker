@@ -158,6 +158,7 @@ model MediaDetails {
   mediaId   Int           @map("media_id")
   mediaType MediaTypeEnum @map("media_type")
   score     Decimal?
+  releaseDate String?     @map("release_date")
   en        Json
   ru        Json
   createdAt DateTime      @default(now()) @map("created_at")

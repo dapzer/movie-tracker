@@ -1,4 +1,5 @@
 import {
+  MediaDetailsGenres,
   MediaDetailsInfoType,
   MediaItemSiteToViewType,
   MediaItemTvProgressType,
@@ -82,6 +83,9 @@ export const mediaDetails = pgTable("media_details", {
   mediaId: integer("media_id").notNull(),
   mediaType: mediaTypeEnum("media_type").notNull(),
   score: numeric({ precision: 65, scale: 30 }),
+  status: text(),
+  releaseDate: text("release_date"),
+  genres: integer().array().default([]).notNull().$type<MediaDetailsGenres>(),
   en: jsonb().notNull().$type<MediaDetailsInfoType>(),
   ru: jsonb().notNull().$type<MediaDetailsInfoType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
