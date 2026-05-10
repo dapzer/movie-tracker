@@ -168,6 +168,19 @@ const getMediaItemsCountByMediaListIdArgs = computed(() => {
   }
 })
 
+const isFiltersActive = computed(() => {
+  return Boolean(
+    searchTerm.value
+    || mediaTypes.value.length
+    || rating.value[0] !== 0
+    || rating.value[1] !== 10
+    || releaseYear.value[0] !== undefined
+    || releaseYear.value[1] !== undefined
+    || genres.value.length
+    || releaseStatuses.value.length,
+  )
+})
+
 const getMediaItemsByMediaListIdApi = useGetMediaItemsByMediaListIdApi(mediaItemsQueryArgs, {
   staleTime: 0,
 })
@@ -280,7 +293,8 @@ watchEffect(() => {
         </UiCardsGrid>
         <template v-else>
           <UiAttention
-            :title="searchTerm.length ? $t('search.notingFound') : activeTab !== 'all' ? $t('mediaList.noMediaItems')
+            :title="(searchTerm.length || isFiltersActive) ? $t('search.notingFound') : activeTab !== 'all'
+              ? $t('mediaList.noMediaItems')
               : $t('mediaList.noMediaItemsAll')"
             :indent="24"
           />
