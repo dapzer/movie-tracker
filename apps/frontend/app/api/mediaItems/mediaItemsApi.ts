@@ -44,7 +44,7 @@ export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaLi
       search: args.search,
       status: args.status,
       mediaTypes: args.mediaTypes,
-      rating: args.rating,
+      rating: args.rating?.join(","),
       releaseYear: serializeYearRange(args.releaseYear),
       genres: args.genres,
       releaseStatuses: args.releaseStatuses,
@@ -60,7 +60,7 @@ export async function getMediaItemsCountByMediaListIdApi(args: GetMediaItemsCoun
     params: {
       search: args.search,
       mediaTypes: args.mediaTypes,
-      rating: args.rating,
+      rating: args.rating?.join(","),
       releaseYear: serializeYearRange(args.releaseYear),
       genres: args.genres,
       releaseStatuses: args.releaseStatuses,
