@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { SliderRange, SliderRoot, SliderThumb, SliderTrack } from "radix-vue"
+import { SliderRange, SliderRoot, SliderTrack } from "radix-vue"
 import { computed } from "vue"
-import { UiButton } from "~/shared/ui/UiButton"
+import UiRangeSliderThumbTooltip from "~/shared/ui/UiRangeSlider/UiRangeSliderThumbTooltip.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiRangeSliderProps {
@@ -10,6 +10,9 @@ interface UiRangeSliderProps {
   step?: number
   disabled?: boolean
   minStepsBetweenThumbs?: number
+  getLabel?: (value: number) => string | undefined
+  minLabel?: string
+  maxLabel?: string
 }
 
 const props = withDefaults(defineProps<UiRangeSliderProps>(), {
@@ -65,24 +68,12 @@ const ticks = computed(() => {
         :style="{ '--left': `calc(${tick.percent}% + ${tick.offset}px)` }"
       />
 
-      <SliderThumb
+      <UiRangeSliderThumbTooltip
         v-for="(value, i) in model"
         :key="i"
-        :class="$style.thumb"
-        :aria-label="`Value ${i + 1}`"
-        :as="UiButton"
-        scheme="default"
-        variant="default"
-      >
-        <div :class="$style.tooltip">
-          <UiTypography
-            as="span"
-            variant="labelSmall"
-          >
-            {{ value }}
-          </UiTypography>
-        </div>
-      </SliderThumb>
+        :label="props.getLabel?.(value) || value"
+        :disabled="props.disabled"
+      />
     </SliderRoot>
 
     <div :class="$style.labels">
@@ -91,14 +82,14 @@ const ticks = computed(() => {
         variant="description"
         :class="$style.label"
       >
-        {{ props.min }}
+        {{ props.minLabel || props.min }}
       </UiTypography>
       <UiTypography
         as="span"
         variant="description"
         :class="$style.label"
       >
-        {{ props.max }}
+        {{ props.maxLabel || props.max }}
       </UiTypography>
     </div>
   </div>
@@ -158,48 +149,6 @@ const ticks = computed(() => {
   background: var(--c-button-background-primary);
   border-radius: 9999px;
   height: 100%;
-}
-
-.thumb {
-  width: 16px;
-  height: 16px;
-  background: var(--c-text);
-  border-radius: 9999px;
-  cursor: pointer;
-  outline: none;
-  position: relative;
-  z-index: 2;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background: var(--c-white-85);
-
-    .tooltip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-  }
-}
-
-.tooltip {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(-4px);
-  background: var(--c-button-background-primary);
-  padding: 0 5px;
-  border-radius: var(--s-border-radius-small);
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
-
-  span {
-    font-weight: var(--fw-semi-bold);
-    font-size: var(--fs-badge);
-  }
 }
 
 .labels {

@@ -63,6 +63,8 @@ watch(openModel, (isOpen) => {
           :min="RATING_MIN"
           :max="RATING_MAX"
           :step="1"
+          :min-label="$t('mediaList.filters.withoutRating')"
+          :get-label="value => value === RATING_MIN ? $t('mediaList.filters.withoutRating') : undefined"
         />
       </div>
     </template>

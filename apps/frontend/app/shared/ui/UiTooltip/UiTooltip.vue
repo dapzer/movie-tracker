@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useMediaQuery } from "@vueuse/core"
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from "radix-vue"
-import { ref } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiTooltipProps {
@@ -9,12 +8,17 @@ interface UiTooltipProps {
   align?: "start" | "center" | "end"
   side?: "top" | "right" | "bottom" | "left"
   asChild?: boolean
+  hideArrow?: boolean
+  offset?: number
+  contentClass?: string
 }
 
-const props = defineProps<UiTooltipProps>()
+const props = withDefaults(defineProps<UiTooltipProps>(), {
+  offset: 12,
+})
 
 const mediaQueryTouch = useMediaQuery("(hover: none) and (pointer: coarse)")
-const tooltipOpen = ref<boolean>(false)
+const tooltipOpen = defineModel<boolean>({ default: () => false })
 
 function handleTriggerClick() {
   if (mediaQueryTouch.value) {
@@ -45,8 +49,8 @@ function handleTriggerClick() {
         </TooltipTrigger>
         <TooltipPortal>
           <TooltipContent
-            :class="$style.content"
-            :side-offset="12"
+            :class="[$style.content, props.contentClass]"
+            :side-offset="props.offset"
             :align="props.align"
             :side="props.side"
             :collision-padding="{
@@ -57,6 +61,7 @@ function handleTriggerClick() {
             }"
           >
             <TooltipArrow
+              v-if="!hideArrow"
               as="div"
               :class="$style.arrow"
             >

@@ -1265,6 +1265,7 @@ export default {
         from: "From",
         to: "To",
       },
+      withoutRating: "Without rating",
       genres: "Genre",
       reset: "Reset",
     },

@@ -1266,6 +1266,7 @@ export default {
         from: "От",
         to: "До",
       },
+      withoutRating: "Без оценки",
       genres: "Жанр",
       reset: "Сбросить",
     },
