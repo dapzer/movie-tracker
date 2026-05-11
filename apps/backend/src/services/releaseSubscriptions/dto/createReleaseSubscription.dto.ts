@@ -1,10 +1,10 @@
-import { CreateReleaseSubscriptionType, MediaTypeEnum } from "@movie-tracker/types"
-import { IsEnum, IsNumber } from "class-validator"
+import { MediaTypeEnum } from "@movie-tracker/types"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CreateReleaseSubscriptionDto implements Pick<CreateReleaseSubscriptionType, "mediaId" | "mediaType"> {
-  @IsNumber()
-  mediaId: number
+const createReleaseSubscriptionSchema = z.object({
+  mediaId: z.number(),
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum }),
+})
 
-  @IsEnum(MediaTypeEnum)
-  mediaType: MediaTypeEnum
-}
+export class CreateReleaseSubscriptionDto extends createZodDto(createReleaseSubscriptionSchema) {}

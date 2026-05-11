@@ -1,7 +1,7 @@
 import { UserRoleEnum } from "@movie-tracker/types"
 import { Controller, Get, Header, Param, Post, Req, StreamableFile, UseGuards } from "@nestjs/common"
 import { Request } from "express"
-import { Roles } from "@/decorators/roles.decorator"
+import { RolesWithDocs } from "@/decorators/rolesWithDocs.decorator"
 import { RolesGuard } from "@/guards/roles.guard"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { SitemapsService } from "@/services/sitemaps/sitemaps.service"
@@ -30,7 +30,7 @@ export class SitemapsController {
 
   @Post("generate")
   @UseGuards(AuthGuard)
-  @Roles([UserRoleEnum.ADMIN])
+  @RolesWithDocs([UserRoleEnum.ADMIN])
   @UseGuards(RolesGuard)
   async triggerGeneration() {
     return this.sitemapsService.generate()

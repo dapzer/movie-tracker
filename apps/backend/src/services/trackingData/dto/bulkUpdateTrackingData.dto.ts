@@ -1,19 +1,16 @@
-import { Type } from "class-transformer"
-import { IsArray, IsUUID, ValidateNested } from "class-validator"
-import { MediaItemTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { UpdateTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
 
-export class BulkUpdateTrackingDataItemDto {
-  @IsUUID()
-  trackingDataId: string
+const bulkUpdateTrackingDataItemSchema = z.object({
+  trackingDataId: z.uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
+  body: UpdateTrackingDataDto.schema,
+})
 
-  @ValidateNested()
-  @Type(() => MediaItemTrackingDataDto)
-  body: MediaItemTrackingDataDto
-}
+const bulkUpdateTrackingDataSchema = z.object({
+  items: z.array(bulkUpdateTrackingDataItemSchema),
+})
 
-export class BulkUpdateTrackingDataDto {
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => BulkUpdateTrackingDataItemDto)
-  items: BulkUpdateTrackingDataItemDto[]
-}
+export class BulkUpdateTrackingDataItemDto extends createZodDto(bulkUpdateTrackingDataItemSchema) {}
+
+export class BulkUpdateTrackingDataDto extends createZodDto(bulkUpdateTrackingDataSchema) {}

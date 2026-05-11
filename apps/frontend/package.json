@@ -45,28 +45,8 @@
     "nuxt-schema-org": "5.0.10",
     "nuxt-umami": "3.2.1",
     "nuxt-vitalizer": "2.0.0",
-    "typescript": "5.9.3",
     "vue": "3.5.28",
     "vue-router": "5.0.3",
     "vue-tsc": "3.2.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "@vercel/nft": "^0.27.4"
-    },
-    "supportedArchitectures": {
-      "os": [
-        "linux",
-        "current"
-      ],
-      "cpu": [
-        "x64",
-        "current"
-      ],
-      "libc": [
-        "musl",
-        "current"
-      ]
-    }
   }
 }

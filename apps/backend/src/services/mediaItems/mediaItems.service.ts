@@ -1,4 +1,7 @@
+import type { GetMediaItemsByListIdQueryType } from "@/services/mediaItems/dto/getMediaItemsByListIdQuery.dto"
+import type { GetMediaItemsCountByListIdQueryType } from "@/services/mediaItems/dto/getMediaItemsCountByListIdQuery.dto"
 import {
+  MediaItemsFiltersQueries,
   MediaItemStatusNameEnum,
   MediaItemType,
   MediaListAccessLevelEnum,
@@ -20,7 +23,6 @@ import {
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
-import { GetMediaItemsCountByListIdQueryDto } from "@/services/mediaItems/dto/getMediaItemsCountByListIdQuery.dto"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 import { MediaItemNotFoundError, MediaItemUnauthorizedError } from "@/shared/errors/mediaItem"
 import { MediaListNotFoundError } from "@/shared/errors/mediaList"
@@ -36,6 +38,22 @@ export class MediaItemsService {
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
   ) {}
+
+  private normalizeMediaItemsFilters(args: {
+    mediaTypes?: MediaTypeEnum[]
+    rating?: [number, number]
+    releaseYear?: [number | undefined, number | undefined]
+    genres?: number[]
+    releaseStatuses?: string[]
+  }): MediaItemsFiltersQueries {
+    return {
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      releaseYear: args.releaseYear,
+      genres: args.genres,
+      releaseStatuses: args.releaseStatuses?.map(status => status.toLowerCase()),
+    }
+  }
 
   private async isMediaListOwner(args: { mediaListId: string, userId: string, mediaListBase?: MediaListType }) {
     const mediaList
@@ -207,20 +225,26 @@ export class MediaItemsService {
     })
   }
 
-  async getCountByListId(args: { mediaListId: string, userId: string } & GetMediaItemsCountByListIdQueryDto) {
+  async getCountByListId(args: { mediaListId: string, userId: string } & GetMediaItemsCountByListIdQueryType) {
     const mediaList = await this.mediaListRepository.getById({ id: args.mediaListId })
 
-    if (mediaList && mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
+    if (!mediaList) {
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
+    }
+
+    if (mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
       throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     return this.mediaItemRepository.getCountByListId({
       mediaListId: args.mediaListId,
+      mediaItemOwnerUserId: mediaList.userId,
       search: args.search,
+      ...this.normalizeMediaItemsFilters(args),
     })
   }
 
-  async getByListId(args: Omit<Parameters<MediaItemRepositoryInterface["getByListId"]>[0], "mediaListId"> & {
+  async getByListId(args: GetMediaItemsByListIdQueryType & {
     userId: string
     mediaListId: string
     byHumanFriendlyId?: boolean
@@ -231,19 +255,24 @@ export class MediaItemsService {
         })
       : await this.mediaListRepository.getById({ id: args.mediaListId })
 
-    if (mediaList && mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
+    if (!mediaList) {
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
+    }
+
+    if (mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
       throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     const response = await this.mediaItemRepository.getByListId({
       mediaListId: mediaList.id,
+      mediaItemOwnerUserId: mediaList.userId,
       search: args.search,
       status: args.status,
-      mediaType: args.mediaType,
+      ...this.normalizeMediaItemsFilters(args),
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
-      limit: args.limit,
-      offset: args.offset,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
     })
 
     if (!response.items || response.items.length === 0) {

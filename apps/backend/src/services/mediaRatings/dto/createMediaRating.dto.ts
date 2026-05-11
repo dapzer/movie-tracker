@@ -1,15 +1,11 @@
-import { MediaRatingCreateBodyType, MediaTypeEnum } from "@movie-tracker/types"
-import { IsEnum, IsNumber, Max, Min } from "class-validator"
+import { MediaTypeEnum } from "@movie-tracker/types"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CreateMediaRatingDto implements Omit<MediaRatingCreateBodyType, "mediaDetailsId"> {
-  @IsNumber()
-  mediaId: number
+const createMediaRatingSchema = z.object({
+  mediaId: z.number().meta({ example: 550 }),
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
+  rating: z.number().min(0).max(10).meta({ minimum: 0, maximum: 10, example: 8 }),
+})
 
-  @IsEnum(MediaTypeEnum)
-  mediaType: MediaTypeEnum
-
-  @IsNumber({})
-  @Min(0)
-  @Max(10)
-  rating: number
-}
+export class CreateMediaRatingDto extends createZodDto(createMediaRatingSchema) {}

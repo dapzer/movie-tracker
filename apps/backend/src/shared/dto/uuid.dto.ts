@@ -1,6 +1,8 @@
-import { IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UuidDto {
-  @IsUUID()
-  id: string
-}
+const uuidSchema = z.object({
+  id: z.uuid().meta({ format: "uuid" }),
+})
+
+export class UuidDto extends createZodDto(uuidSchema) {}

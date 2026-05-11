@@ -1,19 +1,14 @@
 import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
-import { IsEnum, IsOptional, IsString, IsUrl, Length } from "class-validator"
-import { UserDto } from "@/services/auth/dto/user.dto"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UpdateUserDto implements Partial<Pick<UserDto, "name" | "image" | "mediaRatingsAccessLevel">> {
-  @IsOptional()
-  @IsString()
-  @Length(1, 32)
-  name?: string
+const updateUserSchema = z.object({
+  name: z.string().min(1).max(32).optional().meta({ example: "John Doe" }),
+  image: z.url().optional().meta({ example: "https://cdn.example.com/avatar.jpg" }),
+  mediaRatingsAccessLevel: z
+    .enum(UserMediaRatingsAccessLevelEnum)
+    .optional()
+    .meta({ enum: UserMediaRatingsAccessLevelEnum, example: UserMediaRatingsAccessLevelEnum.PUBLIC }),
+})
 
-  @IsString()
-  @IsUrl()
-  @IsOptional()
-  image?: string
-
-  @IsOptional()
-  @IsEnum(UserMediaRatingsAccessLevelEnum)
-  mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
-}
+export class UpdateUserDto extends createZodDto(updateUserSchema) {}

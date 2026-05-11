@@ -18,15 +18,18 @@
   --c-white-12: rgba(255, 255, 255, 0.12);
   --c-white-15: rgba(255, 255, 255, 0.15);
   --c-white-18: rgba(255, 255, 255, 0.18);
+  --c-white-25: rgba(255, 255, 255, 0.25);
   --c-white-35: rgba(255, 255, 255, 0.35);
   --c-white-50: rgba(255, 255, 255, 0.5);
   --c-white-60: rgba(255, 255, 255, 0.6);
   --c-white-70: rgba(255, 255, 255, 0.7);
   --c-white-75: rgba(255, 255, 255, 0.75);
   --c-white-80: rgba(255, 255, 255, 0.8);
+  --c-white-85: rgba(255, 255, 255, 0.85);
   --c-white-90: rgba(255, 255, 255, 0.9);
   --c-gray-40: rgba(50, 50, 50, 0.4);
   --c-charcoal: rgba(51, 51, 51, 1);
+  --c-charcoal-50: rgba(51, 51, 51, 0.5);
   --c-gray: #6b6b6b;
   --c-green-15: rgba(84, 220, 97, 0.15);
   --c-green: #54dc61;
@@ -46,6 +49,9 @@
   --c-error-2: #d4382b;
   --c-blue: #78b6ff;
   --c-blue-15: rgba(20, 117, 230, 0.15);
+  --c-blue-25: rgba(20, 117, 230, 0.25);
+  --c-blue-35: rgba(20, 117, 230, 0.35);
+  --c-blue-85: rgba(120, 182, 255, 0.85);
   --c-stroke: #3d3d3d;
   --c-stroke-2: #272727;
   --c-unread-notification-mark: #4598F9;
@@ -60,7 +66,8 @@
   --c-label-secondary: #60a7fb;
   --c-label-link: #60a5fa;
   --c-label-link-20: rgba(96, 165, 250, 0.2);
-  --c-label-lihk-hovered: #7ec3ff;
+  --c-label-link-30: rgba(96, 165, 250, 0.3);
+  --c-label-link-hovered: #7ec3ff;
   --c-label-tertiary: #c64646;
   --c-badge-tertiary: #FB3F30;
   --c-description: #9f9f9f;
@@ -95,7 +102,7 @@
   --fs-badge: 0.75rem; /* 12px */
   --fs-input: 1rem; /* 16px */
   --fs-input-small: 0.875rem; /* 14px */
-  --fs-input-error: 0, 75rem; /* 12px */
+  --fs-input-error: 0.75rem; /* 12px */
   --fs-score: 0.875rem;
   --fs-landing-title: 4rem;
 
@@ -213,6 +220,7 @@
   --s-indent: 24px;
   --s-container: calc(1200px + (var(--s-indent) * 2));
   --s-header-height: 68px;
+  --s-border-radius-super-mega-huge: 20px;
   --s-border-radius-super-huge: 16px;
   --s-border-radius-huge: 12px;
   --s-border-radius: 8px;

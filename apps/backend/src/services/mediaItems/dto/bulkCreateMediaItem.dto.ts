@@ -1,11 +1,9 @@
-import { Type } from "class-transformer"
-import { ArrayNotEmpty, IsArray, ValidateNested } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
 
-export class BulkCreateMediaItemDto {
-  @IsArray()
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => CreateMediaItemDto)
-  items: CreateMediaItemDto[]
-}
+const bulkCreateMediaItemSchema = z.object({
+  items: z.array(CreateMediaItemDto.schema).nonempty(),
+})
+
+export class BulkCreateMediaItemDto extends createZodDto(bulkCreateMediaItemSchema) {}

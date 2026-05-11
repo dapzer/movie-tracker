@@ -36,19 +36,18 @@ The main goal in the creation of this project was the realization of personal li
 
 1. Clone repository `git clone https://github.com/dapzer/movie-tracker.git`
 2. Create a `.env` file and transfer the data from `.env.development` into it
-3. Run needed services (PostgreSQL, Adminer, Redis) `docker compose -f docker-compose.dev.yml up -d`
-4. Install dependencies `pnpm install`
-5. Run project `pnpm run dev`
+3. Run needed services (PostgreSQL, Adminer, Redis) `docker compose -f compose.dev.yaml up -d`
+4. Install dependencies `pnpm i`
+5. Run project `pnpm dev`
+6. (Optional) open http://localhost:1337/api/docs - to check OpenAPI documentation
 
 ### Running in Docker
 
 1. Clone repository `git clone https://github.com/dapzer/movie-tracker.git`
 2. Init swarm `docker swarm init`
-3. Set labels for node `docker node update --label-add databases=true <node_id>`, `docker node update --label-add registry=true <node_id>` and `docker node update --label-add 
-   reverseproxy=true <node_id>`
-4. Create shared networks `docker networkcreate --driver overlay --attachable caddy-public`, `docker network create 
---driver overlay --attachable movie-tracker-metrics`, `docker network create --driver overlay --attachable movie-tracker-shared`
-5. Create `.emv` file and transfer the data from `.env.development` into it `cp .env.development .env`
+3. Set labels for node `docker node update --label-add databases=true <node_id>`, `docker node update --label-add registry=true <node_id>` and `docker node update --label-add reverseproxy=true <node_id>`
+4. Create shared networks `docker networkcreate --driver overlay --attachable caddy-public`, `docker network create --driver overlay --attachable movie-tracker-metrics`, `docker network create --driver overlay --attachable movie-tracker-shared`
+5. Create `.env` file and transfer the data from `.env.development` into it `cp .env.development .env`
 6. Deploy stack `docker stack deploy -c compose.stack.yaml --with-registry-auth movie-tracker`
 
 ### Aliases for Docker commands
@@ -69,4 +68,4 @@ function deploy() {
 
 After successfully building the project in GitHub Actions, you need to follow these steps to update the project on the server:
 
-1. Run `dsu <service_name>` 
+1. Run `dsu <service_name>`

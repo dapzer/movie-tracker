@@ -1,22 +1,11 @@
-import { Transform } from "class-transformer"
-import { IsBoolean, IsOptional, IsString, IsUrl } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { zBooleanQuery } from "@/shared/dto/zod.utils"
 
-export class GetOpenGraphImageDto {
-  @IsOptional()
-  @IsUrl({ require_tld: false })
-  imageUrl: string
+const getOpenGraphImageSchema = z.object({
+  imageUrl: z.url().meta({ example: "https://cdn.example.com/image.jpg" }),
+  title: z.string().meta({ example: "My awesome media list" }),
+  isAvatarPlaceholder: zBooleanQuery.optional().meta({ example: true }),
+})
 
-  @IsString()
-  title?: string
-
-  @IsOptional()
-  @IsBoolean()
-  @Transform(({ value }) => {
-    if (value === "true")
-      return true
-    if (value === "false")
-      return false
-    return value
-  })
-  isAvatarPlaceholder?: boolean
-}
+export class GetOpenGraphImageDto extends createZodDto(getOpenGraphImageSchema) {}

@@ -11,8 +11,14 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana
     configs:
-      - source: grafana_provisioning
-        target: /etc/grafana/provisioning
+      - source: grafana_provisioning_dashboards_provider
+        target: /etc/grafana/provisioning/dashboards/default-provider.yml
+      - source: grafana_provisioning_dashboards_entity_analytics
+        target: /etc/grafana/provisioning/dashboards/entity-analytics.json
+      - source: grafana_provisioning_dashboards_logs
+        target: /etc/grafana/provisioning/dashboards/logs.json
+      - source: grafana_provisioning_datasources_loki
+        target: /etc/grafana/provisioning/datasources/loki.yml
     deploy:
       placement:
         constraints:
@@ -21,10 +27,14 @@ services:
   node-exporter:
     image: prom/node-exporter:latest
     restart: unless-stopped
+    hostname: "{{.Node.Hostname}}"
+    environment:
+      - NODE_NAME
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+      - /etc/hostname:/etc/nodename:ro
     command:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
@@ -39,9 +49,6 @@ services:
           memory: 128M
         reservations:
           memory: 64M
-      placement:
-        constraints:
-          - node.role == manager
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
@@ -102,11 +109,35 @@ services:
       mode: global
       placement:
           constraints:
-          - node.role == manager
+            - node.role == manager
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
+    command: -logtostderr -docker_only
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - grafana
 
 configs:
-  grafana_provisioning:
-    file: ./provisioning
+  grafana_provisioning_dashboards_provider:
+    file: ./provisioning/dashboards/default-provider.yml
+  grafana_provisioning_dashboards_entity_analytics:
+    file: ./provisioning/dashboards/entity-analytics.json
+  grafana_provisioning_dashboards_logs:
+    file: ./provisioning/dashboards/logs.json
+  grafana_provisioning_datasources_loki:
+    file: ./provisioning/datasources/loki.yml
   prometheus_config:
     file: ./configs/prometheus.yml
   alloy_config:

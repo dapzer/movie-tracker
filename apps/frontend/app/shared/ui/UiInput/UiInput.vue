@@ -14,7 +14,7 @@ defineOptions({
 const props = defineProps<UiInputProps>()
 const slots = defineSlots()
 
-const inputModel = defineModel<string>()
+const inputModel = defineModel<string | number | null>()
 </script>
 
 <template>

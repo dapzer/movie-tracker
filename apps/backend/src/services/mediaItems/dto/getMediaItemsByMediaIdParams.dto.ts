@@ -1,10 +1,8 @@
-import { Transform } from "class-transformer"
-import { IsNumber } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class GetMediaItemsByMediaIdParams {
-  @Transform(({ value }) => {
-    return Number(value)
-  })
-  @IsNumber()
-  mediaId: number
-}
+const getMediaItemsByMediaIdParamsSchema = z.object({
+  mediaId: z.coerce.number(),
+})
+
+export class GetMediaItemsByMediaIdParams extends createZodDto(getMediaItemsByMediaIdParamsSchema) {}

@@ -11,7 +11,6 @@ import { resourceFromAttributes } from "@opentelemetry/resources"
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base"
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
-import { PrismaInstrumentation } from "@prisma/instrumentation"
 
 const logger = new Logger("OpenTelemetry")
 
@@ -40,9 +39,6 @@ if (process.env.UPTRACE_DSN) {
           monitoringPrecision: 5000,
         }),
         new NestInstrumentation({
-          enabled: true,
-        }),
-        new PrismaInstrumentation({
           enabled: true,
         }),
         new RedisInstrumentation({

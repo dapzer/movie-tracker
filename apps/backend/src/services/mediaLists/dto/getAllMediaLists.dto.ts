@@ -1,7 +1,8 @@
-import { IsOptional, IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class GetAllMediaListsDto {
-  @IsOptional()
-  @IsUUID()
-  userId: string
-}
+const getAllMediaListsSchema = z.object({
+  userId: z.uuid().optional().meta({ format: "uuid" }),
+})
+
+export class GetAllMediaListsDto extends createZodDto(getAllMediaListsSchema) {}

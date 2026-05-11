@@ -1,9 +1,9 @@
-import { IsBoolean, IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CreateMediaItemCloneDto {
-  @IsUUID()
-  mediaListId: string
+const createMediaItemCloneSchema = z.object({
+  mediaListId: z.uuid().meta({ format: "uuid", example: "b10c5d0d-4ce2-4e31-8d1a-7d1a0b944b3a" }),
+  isSaveCreationDate: z.boolean().meta({ example: true }),
+})
 
-  @IsBoolean()
-  isSaveCreationDate: boolean
-}
+export class CreateMediaItemCloneDto extends createZodDto(createMediaItemCloneSchema) {}

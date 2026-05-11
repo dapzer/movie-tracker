@@ -1,4 +1,5 @@
 import {
+  MediaDetailsGenres,
   MediaDetailsInfoType,
   MediaItemSiteToViewType,
   MediaItemTvProgressType,
@@ -18,7 +19,6 @@ import {
   timestamp,
   uniqueIndex,
   uuid,
-  varchar,
 } from "drizzle-orm/pg-core"
 
 export const mediaListAccessLevelEnum = pgEnum("MediaListAccessLevelEnum", ["PUBLIC", "URL", "PRIVATE"])
@@ -48,17 +48,6 @@ export const mediaReviewModerationActionEnum = pgEnum("MediaReviewModerationActi
   "CHANGES_REQUESTED",
   "REJECTED",
 ])
-
-export const prismaMigrations = pgTable("_prisma_migrations", {
-  id: varchar({ length: 36 }).primaryKey().notNull(),
-  checksum: varchar({ length: 64 }).notNull(),
-  finishedAt: timestamp("finished_at", { withTimezone: true, mode: "date" }),
-  migrationName: varchar("migration_name", { length: 255 }).notNull(),
-  logs: text(),
-  rolledBackAt: timestamp("rolled_back_at", { withTimezone: true, mode: "date" }),
-  startedAt: timestamp("started_at", { withTimezone: true, mode: "date" }).defaultNow().notNull(),
-  appliedStepsCount: integer("applied_steps_count").default(0).notNull(),
-})
 
 export const sessions = pgTable("sessions", {
   id: text().primaryKey().notNull(),
@@ -103,6 +92,9 @@ export const mediaDetails = pgTable("media_details", {
   mediaId: integer("media_id").notNull(),
   mediaType: mediaTypeEnum("media_type").notNull(),
   score: numeric({ precision: 65, scale: 30 }),
+  status: text(),
+  releaseDate: text("release_date"),
+  genres: integer().array().default([]).notNull().$type<MediaDetailsGenres>(),
   en: jsonb().notNull().$type<MediaDetailsInfoType>(),
   ru: jsonb().notNull().$type<MediaDetailsInfoType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),

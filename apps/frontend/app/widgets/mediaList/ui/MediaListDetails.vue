@@ -32,6 +32,6 @@ const props = defineProps<MediaListDetailsProps>()
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 </style>

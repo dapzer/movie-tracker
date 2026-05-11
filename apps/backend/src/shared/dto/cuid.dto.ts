@@ -1,6 +1,8 @@
-import { IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CuidDto {
-  @IsString()
-  id: string
-}
+const cuidSchema = z.object({
+  id: z.string(),
+})
+
+export class CuidDto extends createZodDto(cuidSchema) {}

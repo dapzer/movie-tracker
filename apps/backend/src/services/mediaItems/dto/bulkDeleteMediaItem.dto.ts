@@ -1,8 +1,8 @@
-import { ArrayNotEmpty, IsArray, IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class BulkDeleteMediaItemDto {
-  @IsArray()
-  @ArrayNotEmpty()
-  @IsUUID(undefined, { each: true })
-  ids: string[]
-}
+const bulkDeleteMediaItemSchema = z.object({
+  ids: z.array(z.uuid()).nonempty().meta({ format: "uuid", example: ["a23d2b67-8a7e-4f70-9c8b-0a8f7a53c021"] }),
+})
+
+export class BulkDeleteMediaItemDto extends createZodDto(bulkDeleteMediaItemSchema) {}

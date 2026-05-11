@@ -1,6 +1,8 @@
-import { IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class GetMediaRatingsByUserIdQueryDto {
-  @IsUUID()
-  userId: string
-}
+const getMediaRatingsByUserIdQuerySchema = z.object({
+  userId: z.uuid().meta({ format: "uuid" }),
+})
+
+export class GetMediaRatingsByUserIdQueryDto extends createZodDto(getMediaRatingsByUserIdQuerySchema) {}

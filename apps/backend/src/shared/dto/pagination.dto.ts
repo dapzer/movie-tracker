@@ -1,17 +1,11 @@
-import { Type } from "class-transformer"
-import { IsNumber, IsOptional, Max, Min } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class PaginationDto {
-  @Type(() => Number)
-  @IsNumber()
-  @Min(0)
-  @IsOptional()
-  offset: number = 0
+export const paginationSchema = z.object({
+  offset: z.coerce.number().min(0).optional().default(0).meta({ example: 4, default: 0 }),
+  limit: z.coerce.number().min(1).max(20).optional().default(20).meta({ example: 4, default: 20 }),
+})
 
-  @Type(() => Number)
-  @IsNumber()
-  @Min(1)
-  @Max(20)
-  @IsOptional()
-  limit: number = 20
-}
+export class PaginationDto extends createZodDto(paginationSchema) {}
+
+export type PaginationDtoType = z.infer<typeof paginationSchema>

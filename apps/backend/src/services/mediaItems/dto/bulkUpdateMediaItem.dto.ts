@@ -1,20 +1,16 @@
-import { Type } from "class-transformer"
-import { ArrayNotEmpty, IsArray, IsUUID, ValidateNested } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 
-export class BulkUpdateMediaItemDto {
-  @IsUUID()
-  id: string
+const bulkUpdateMediaItemSchema = z.object({
+  id: z.uuid(),
+  data: UpdateMediaItemDto.schema,
+})
 
-  @ValidateNested()
-  @Type(() => UpdateMediaItemDto)
-  data: UpdateMediaItemDto
-}
+const bulkUpdateMediaItemsSchema = z.object({
+  items: z.array(bulkUpdateMediaItemSchema).nonempty(),
+})
 
-export class BulkUpdateMediaItemsDto {
-  @IsArray()
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => BulkUpdateMediaItemDto)
-  items: BulkUpdateMediaItemDto[]
-}
+export class BulkUpdateMediaItemDto extends createZodDto(bulkUpdateMediaItemSchema) {}
+
+export class BulkUpdateMediaItemsDto extends createZodDto(bulkUpdateMediaItemsSchema) {}

@@ -3,6 +3,8 @@ import process from "node:process"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  telemetry: false,
+
   app: {
     head: {
       title: "Movie Tracker",
@@ -52,14 +54,14 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
-    exclude: ["/dashboard"],
+    exclude: ["/dashboard", "/release-subscriptions", "/lists", "/search"],
     cacheMaxAgeSeconds: 24 * 60 * 60,
     defaultSitemapsChunkSize: 50000,
     sitemaps: {
       index: [
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/sitemap-index.xml` },
         { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/sitemap-index.xml` },
-        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml` },
+        // { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml` },
       ],
     },
   },
@@ -126,6 +128,7 @@ export default defineNuxtConfig({
     dirs: [{
       path: "shared/ui/UiMarkdown",
       global: true,
+      extensions: ["vue"],
     }],
   },
 

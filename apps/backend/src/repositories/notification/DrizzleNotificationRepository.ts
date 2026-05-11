@@ -31,6 +31,9 @@ interface NotificationRawResult {
   mediaDetails_mediaId: number | null
   mediaDetails_mediaType: string | null
   mediaDetails_score: string | number | null
+  mediaDetails_status: string | null
+  mediaDetails_releaseDate: string | null
+  mediaDetails_genres: number[] | null
   mediaDetails_en: unknown | null
   mediaDetails_ru: unknown | null
   mediaDetails_createdAt: Date | null
@@ -39,7 +42,8 @@ interface NotificationRawResult {
 
 @Injectable()
 export class DrizzleNotificationRepository implements NotificationRepositoryInterface {
-  constructor(private readonly drizzle: DrizzleService) {}
+  constructor(private readonly drizzle: DrizzleService) {
+  }
 
   private convertToInterface(data: NotificationRow | NotificationRawResult): NotificationType {
     if ("user_id" in data) {
@@ -79,8 +83,11 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
               mediaId: data.mediaDetails_mediaId!,
               mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
               score: data.mediaDetails_score ? Number(data.mediaDetails_score) : 0,
+              releaseDate: data.mediaDetails_releaseDate || undefined,
               en: data.mediaDetails_en as MediaDetailsInfoType,
               ru: data.mediaDetails_ru as MediaDetailsInfoType,
+              genres: data.mediaDetails_genres,
+              status: data.mediaDetails_status,
               createdAt: data.mediaDetails_createdAt!,
               updatedAt: data.mediaDetails_updatedAt!,
             },
@@ -97,8 +104,11 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
               mediaId: data.mediaDetails_mediaId!,
               mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
               score: data.mediaDetails_score ? Number(data.mediaDetails_score) : 0,
+              releaseDate: data.mediaDetails_releaseDate || undefined,
               en: data.mediaDetails_en as MediaDetailsInfoType,
               ru: data.mediaDetails_ru as MediaDetailsInfoType,
+              genres: data.mediaDetails_genres,
+              status: data.mediaDetails_status,
               createdAt: data.mediaDetails_createdAt!,
               updatedAt: data.mediaDetails_updatedAt!,
             },
@@ -166,27 +176,30 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
   async getByUserId(args: Parameters<NotificationRepositoryInterface["getByUserId"]>[0]) {
     // TODO: Use limit in query after create separated page LIMIT ${args.limit}
     const query = sql`
-      SELECT n.*,
-             actor.id    as "actorUser_id",
-             actor.name  as "actorUser_name",
-             actor.image as "actorUser_image",
-             ml.id       as "mediaList_id",
-             ml.title    as "mediaList_title",
-             md.id       as "mediaDetails_id",
-             md.media_id as "mediaDetails_mediaId",
-             md.media_type as "mediaDetails_mediaType",
-             md.score    as "mediaDetails_score",
-             md.en       as "mediaDetails_en",
-             md.ru       as "mediaDetails_ru",
-             md.created_at as "mediaDetails_createdAt",
-             md.updated_at as "mediaDetails_updatedAt"
-      FROM ${notifications} n
-        LEFT JOIN ${users} actor ON actor.id::text = n.meta ->> 'actorUserId'
-        LEFT JOIN ${mediaLists} ml ON ml.id::text = n.meta ->> 'mediaListId'
-        LEFT JOIN ${mediaDetails} md ON md.id::text = n.meta ->> 'mediaDetailsId'
-      WHERE n.user_id = ${args.userId}
-      ORDER BY n.created_at DESC
-      OFFSET ${args.offset};
+        SELECT n.*,
+               actor.id      as "actorUser_id",
+               actor.name    as "actorUser_name",
+               actor.image   as "actorUser_image",
+               ml.id         as "mediaList_id",
+               ml.title      as "mediaList_title",
+               md.id         as "mediaDetails_id",
+               md.media_id   as "mediaDetails_mediaId",
+                md.media_type as "mediaDetails_mediaType",
+                md.score      as "mediaDetails_score",
+                md.genres     as "mediaDetails_genres",
+                md.release_date as "mediaDetails_releaseDate",
+                md.status     as "mediaDetails_status",
+                md.en         as "mediaDetails_en",
+               md.ru         as "mediaDetails_ru",
+               md.created_at as "mediaDetails_createdAt",
+               md.updated_at as "mediaDetails_updatedAt"
+        FROM ${notifications} n
+                 LEFT JOIN ${users} actor ON actor.id::text = n.meta ->> 'actorUserId'
+                 LEFT JOIN ${mediaLists} ml ON ml.id::text = n.meta ->> 'mediaListId'
+                 LEFT JOIN ${mediaDetails} md ON md.id::text = n.meta ->> 'mediaDetailsId'
+        WHERE n.user_id = ${args.userId}
+        ORDER BY n.created_at DESC
+        OFFSET ${args.offset};
     `
 
     const [notificationsResult, [notificationsCount]] = await Promise.all([

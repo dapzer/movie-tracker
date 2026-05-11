@@ -1,6 +1,8 @@
-import { IsEmail } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class GetRecoverPasswordEmailDto {
-  @IsEmail()
-  email: string
-}
+const getRecoverPasswordEmailSchema = z.object({
+  email: z.email().meta({ example: "user@example.com" }),
+})
+
+export class GetRecoverPasswordEmailDto extends createZodDto(getRecoverPasswordEmailSchema) {}

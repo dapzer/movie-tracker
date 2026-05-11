@@ -1,9 +1,8 @@
-import { MediaRatingUpdateBodyType } from "@movie-tracker/types"
-import { IsNumber, Max, Min } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UpdateMediaRatingDto implements MediaRatingUpdateBodyType {
-  @IsNumber({})
-  @Min(0)
-  @Max(10)
-  rating: number
-}
+const updateMediaRatingSchema = z.object({
+  rating: z.number().min(0).max(10).meta({ minimum: 0, maximum: 10, example: 9 }),
+})
+
+export class UpdateMediaRatingDto extends createZodDto(updateMediaRatingSchema) {}

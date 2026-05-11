@@ -1,6 +1,8 @@
-import { IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class ConfirmChangeEmailDto {
-  @IsString()
-  token: string
-}
+const confirmChangeEmailSchema = z.object({
+  token: z.string().meta({ example: "reset-token-abc123" }),
+})
+
+export class ConfirmChangeEmailDto extends createZodDto(confirmChangeEmailSchema) {}

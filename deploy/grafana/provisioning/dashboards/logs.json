@@ -74,7 +74,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -139,7 +139,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -208,7 +208,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -277,7 +277,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -346,7 +346,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -421,7 +421,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -430,7 +430,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "sum by (err_name, method) (\n  count_over_time(\n    {service_name=\"$service_name\"} \n    | json\n    [$__range]\n  )\n)",
+          "expr": "sum by (err_name, method) (\n  count_over_time(\n    {service_name=\"$service_name\"} \n    | json\n    | __error__=\"\"\n    [$__range]\n  )\n)\n",
           "legendFormat": "{{err_name}} - {{method}}",
           "queryType": "range",
           "refId": "A"
@@ -465,7 +465,7 @@
         "unwrappedColumns": false,
         "wrapLogMessage": false
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -509,7 +509,7 @@
         "unwrappedColumns": false,
         "wrapLogMessage": false
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -553,7 +553,7 @@
         "unwrappedColumns": false,
         "wrapLogMessage": false
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
@@ -845,6 +845,6 @@
   "timezone": "browser",
   "title": "Logs",
   "uid": "log-dashboard-v2-filtered",
-  "version": 14,
+  "version": 20,
   "weekStart": ""
 }

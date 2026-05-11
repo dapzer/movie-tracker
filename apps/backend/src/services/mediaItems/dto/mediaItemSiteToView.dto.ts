@@ -1,7 +1,8 @@
-import { MediaItemSiteToViewType } from "@movie-tracker/types"
-import { IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class MediaItemSiteToViewDto implements MediaItemSiteToViewType {
-  @IsString()
-  url: string
-}
+export const mediaItemSiteToViewSchema = z.object({
+  url: z.string(),
+})
+
+export class MediaItemSiteToViewDto extends createZodDto(mediaItemSiteToViewSchema) {}

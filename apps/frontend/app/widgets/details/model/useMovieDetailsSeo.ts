@@ -5,6 +5,7 @@ import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { generateApiUrl, getMovieDirectors } from "@movie-tracker/utils"
 import { computed } from "vue"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
+import { getShortText } from "~/shared/utils/getShortText"
 
 interface Args {
   mediaId: number
@@ -37,22 +38,26 @@ export function useMovieDetailsSeo(args: Args) {
     })
   })
 
+  const description = computed(() => {
+    return getShortText(getDescription?.(media?.overview) ?? media?.overview ?? t("seo.description"), 150)
+  })
+
   useSeoMeta({
     titleTemplate(titleChunk) {
       return getTitle?.(title.value, titleChunk) ?? `${title.value} | ${t(`details.mediaType.${mediaType}`)} | ${titleChunk}`
     },
     ogTitle() {
-      return getTitle?.(title.value, "%s") ?? `%s | ${title.value}`
+      return getTitle?.(title.value, "Movie Tracker") ?? `Movie Tracker | ${title.value}`
     },
-    description: getDescription?.(media?.overview) ?? media?.overview ?? t("seo.description"),
-    ogDescription: getDescription?.(media?.overview) ?? media?.overview ?? t("seo.description"),
+    description,
+    ogDescription: description,
     ogImageWidth: 1200,
     ogImageHeight: 630,
     ogImage: ogImage.value,
     twitterImage: ogImage.value,
     twitterCard: "summary_large_image",
-    twitterTitle: getTitle?.(title.value, "%s") ?? `%s | ${title.value}`,
-    twitterDescription: getDescription?.(media?.overview) ?? media?.overview ?? t("seo.description"),
+    twitterTitle: getTitle?.(title.value, "Movie Tracker") ?? `Movie Tracker | ${title.value}`,
+    twitterDescription: description,
   })
   if (!withoutSchema && args.mediaType === TmdbMediaTypeEnum.MOVIE) {
     useSchemaOrg([

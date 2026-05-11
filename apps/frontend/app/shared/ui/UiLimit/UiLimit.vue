@@ -40,6 +40,7 @@ const props = withDefaults(defineProps<UiLimitProps>(), {
 }
 
 .limit {
+  // TODO: Add important
   color: var(--c-white-50);
 }
 </style>
