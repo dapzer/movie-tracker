@@ -13,7 +13,6 @@ import { HttpDeliveryModule } from "@/delivery/http/httpDelivery.module"
 import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { DrizzleModule } from "@/services/drizzle/drizzle.module"
 import { MailModule } from "@/services/mail/mail.module"
-import { PrismaModule } from "@/services/prisma/prisma.module"
 import { RedlockModule } from "@/services/redlock/redlock.module"
 import { config } from "@/shared/constants"
 import { envSchema } from "@/shared/schemas/envSchema"
@@ -81,7 +80,6 @@ import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
       },
       forRoutes: [{ path: "/*path", method: RequestMethod.ALL }],
     }),
-    PrismaModule,
     DrizzleModule,
     MailModule,
     HttpDeliveryModule,

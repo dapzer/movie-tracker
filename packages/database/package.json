@@ -13,11 +13,6 @@
       "types": "./dist/drizzle/index.d.ts",
       "require": "./dist/drizzle/index.js",
       "import": "./dist/drizzle/index.js"
-    },
-    "./prisma": {
-      "types": "./dist/prisma/index.d.ts",
-      "require": "./dist/prisma/index.js",
-      "import": "./dist/prisma/index.js"
     }
   },
   "typesVersions": {
@@ -27,28 +22,22 @@
       ],
       "drizzle": [
         "./dist/drizzle/index.d.ts"
-      ],
-      "prisma": [
-        "./dist/prisma/index.d.ts"
       ]
     }
   },
   "scripts": {
-    "build": "tsc && prisma generate",
-    "prisma": "dotenv -e ../../.env prisma",
+    "build": "tsc",
     "drizzle": "dotenv -e ../../.env drizzle-kit",
     "db:generate": "drizzle-kit generate",
     "migrate": "dotenv -e ../../.env drizzle-kit migrate"
   },
   "dependencies": {
     "@movie-tracker/types": "workspace:*",
-    "@prisma/client": "6.18.0",
     "drizzle-orm": "0.45.1",
     "pg": "8.19.0"
   },
   "devDependencies": {
     "@types/pg": "^8.18.0",
-    "drizzle-kit": "^0.31.9",
-    "prisma": "6.18.0"
+    "drizzle-kit": "^0.31.9"
   }
 }

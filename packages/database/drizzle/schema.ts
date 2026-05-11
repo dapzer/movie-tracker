@@ -18,7 +18,6 @@ import {
   timestamp,
   uniqueIndex,
   uuid,
-  varchar,
 } from "drizzle-orm/pg-core"
 
 export const mediaListAccessLevelEnum = pgEnum("MediaListAccessLevelEnum", ["PUBLIC", "URL", "PRIVATE"])
@@ -28,17 +27,6 @@ export const signUpMethodEnum = pgEnum("SignUpMethodEnum", ["EMAIL", "GOOGLE", "
 export const statusNameEnum = pgEnum("StatusNameEnum", ["VIEWED", "WATCHING_NOW", "NOT_VIEWED", "WAIT_NEW_PART"])
 export const userMediaRatingsAccessLevelEnum = pgEnum("UserMediaRatingsAccessLevelEnum", ["PUBLIC", "PRIVATE"])
 export const userRoleEnum = pgEnum("UserRoleEnum", ["ADMIN", "USER"])
-
-export const prismaMigrations = pgTable("_prisma_migrations", {
-  id: varchar({ length: 36 }).primaryKey().notNull(),
-  checksum: varchar({ length: 64 }).notNull(),
-  finishedAt: timestamp("finished_at", { withTimezone: true, mode: "date" }),
-  migrationName: varchar("migration_name", { length: 255 }).notNull(),
-  logs: text(),
-  rolledBackAt: timestamp("rolled_back_at", { withTimezone: true, mode: "date" }),
-  startedAt: timestamp("started_at", { withTimezone: true, mode: "date" }).defaultNow().notNull(),
-  appliedStepsCount: integer("applied_steps_count").default(0).notNull(),
-})
 
 export const sessions = pgTable("sessions", {
   id: text().primaryKey().notNull(),
