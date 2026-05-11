@@ -41,6 +41,10 @@ async function copyLink() {
 }
 
 async function handleLike() {
+  if (props.isUserListOwner) {
+    return
+  }
+
   if (!isAuthorized.value) {
     navigateToSignInPage()
     return

@@ -10,7 +10,7 @@ import { GetMediaItemsByMediaIdParams } from "@/services/mediaItems/dto/getMedia
 import { GetMediaItemsCountByListIdQueryDto } from "@/services/mediaItems/dto/getMediaItemsCountByListIdQuery.dto"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 import { MediaItemsService } from "@/services/mediaItems/mediaItems.service"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { MediaItemListIdDto } from "@/shared/dto/mediaItemListId.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
@@ -84,7 +84,7 @@ export class MediaItemsController {
   async getMediaItemsByListId(
     @Param() param: MediaItemListIdDto,
     @Query() query: GetMediaItemsByListIdQueryDto,
-    @User() user: UserDto,
+    @User() user: OptionalUserDto,
   ) {
     return this.mediaItemsService.getByListId({
       mediaListId: param.mediaListId,
@@ -98,7 +98,7 @@ export class MediaItemsController {
   @GetMediaItemsCountByListIdDocs()
   async getMediaItemsCountByListId(
     @Param() param: MediaItemListIdDto,
-    @User() user: UserDto,
+    @User() user: OptionalUserDto,
     @Query() query: GetMediaItemsCountByListIdQueryDto,
   ) {
     return this.mediaItemsService.getCountByListId({

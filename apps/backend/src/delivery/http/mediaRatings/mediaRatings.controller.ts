@@ -4,7 +4,7 @@ import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRat
 import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParams.dto"
 import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
 import { MediaRatingsService } from "@/services/mediaRatings/mediaRatings.service"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
@@ -49,7 +49,7 @@ export class MediaRatingsController {
 
   @Get("by-user-id/:id")
   @GetMediaRatingsByUserIdDocs()
-  async getMediaRatingsByUserId(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
+  async getMediaRatingsByUserId(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: OptionalUserDto) {
     return this.mediaRatingsService.getByUserId(
       {
         userId: params.id,

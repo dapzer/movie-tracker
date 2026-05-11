@@ -7,7 +7,7 @@ import { GetAllMediaListsDto } from "@/services/mediaLists/dto/getAllMediaLists.
 import { GetMedialListByIdDto } from "@/services/mediaLists/dto/getMedialListById.dto"
 import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
 import { MediaListsService } from "@/services/mediaLists/mediaLists.service"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 import { UnauthorizedError } from "@/shared/errors/core"
@@ -32,7 +32,7 @@ export class MediaListsController {
   @GetMediaListsDocs()
   async getMedialListsByUserId(
     @Query() queries: GetAllMediaListsDto,
-    @User() user: UserDto,
+    @User() user: OptionalUserDto,
   ) {
     if (queries.userId) {
       return this.mediaListsService.getByUserId(
@@ -53,7 +53,7 @@ export class MediaListsController {
   @GetMediaListByIdDocs()
   async getMedialListById(
     @Param() params: GetMedialListByIdDto,
-    @User() user: UserDto,
+    @User() user: OptionalUserDto,
   ) {
     return this.mediaListsService.getById(
       params.id,

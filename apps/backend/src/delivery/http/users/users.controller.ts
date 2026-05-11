@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, UseGuards } from "@nestjs/common"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UsersService } from "@/services/users/users.service"
 import { UuidDto } from "@/shared/dto/uuid.dto"
@@ -36,7 +36,7 @@ export class UsersController {
 
   @Get(":id/stats")
   @GetUserStatsDocs()
-  async getUserStatById(@Param() params: UuidDto, @User() user: UserDto) {
+  async getUserStatById(@Param() params: UuidDto, @User() user: OptionalUserDto) {
     return this.usersService.getStatsByUserId({
       userId: params.id,
       currentUserId: user?.id,

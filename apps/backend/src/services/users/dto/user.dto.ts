@@ -24,4 +24,8 @@ export const userSchema = z.object({
   updatedAt: zDateTimeString.meta({ format: "date-time", example: "2024-01-02T12:00:00.000Z" }),
 })
 
+export const optionalUserSchema = userSchema.optional()
+
 export class UserDto extends createZodDto(userSchema) {}
+
+export class OptionalUserDto extends createZodDto(optionalUserSchema) {}

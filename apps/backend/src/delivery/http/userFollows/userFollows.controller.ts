@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { UserFollowsService } from "@/services/userFollows/userFollows.service"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
@@ -21,7 +21,7 @@ export class UserFollowsController {
 
   @Get(":id/follow-information")
   @GetUserFollowInformationDocs()
-  async getUserFollowInformation(@Param() params: UuidDto, @User() user: UserDto) {
+  async getUserFollowInformation(@Param() params: UuidDto, @User() user: OptionalUserDto) {
     return this.userFollowsService.getUserFollowInformation({
       userId: params.id,
       currentUserId: user?.id,
@@ -30,7 +30,7 @@ export class UserFollowsController {
 
   @Get(":id/followers")
   @GetUserFollowersDocs()
-  async getUserFollowers(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
+  async getUserFollowers(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: OptionalUserDto) {
     return this.userFollowsService.getFollowers({
       userId: params.id,
       limit: query.limit,
@@ -41,7 +41,7 @@ export class UserFollowsController {
 
   @Get(":id/followings")
   @GetUserFollowingsDocs()
-  async getUserFollowings(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: UserDto) {
+  async getUserFollowings(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: OptionalUserDto) {
     return this.userFollowsService.getFollowings({
       userId: params.id,
       limit: query.limit,

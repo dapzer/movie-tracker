@@ -14,7 +14,7 @@ import { SignUpDto } from "@/services/auth/dto/signUp.dto"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { AuthProviderGuard } from "@/services/auth/guards/provider.guard"
 import { ProvidersService } from "@/services/auth/providers/providers.service"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { AlreadyAuthenticatedError, NoCodeProvidedError, SessionError } from "@/shared/errors/auth"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
@@ -69,7 +69,7 @@ export class AuthController {
 
   @Post("/sign-in")
   @SignInDocs()
-  async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: UserDto) {
+  async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: OptionalUserDto) {
     if (currentUser) {
       throw new AlreadyAuthenticatedError()
     }
