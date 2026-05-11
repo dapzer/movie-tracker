@@ -1,7 +1,6 @@
 import { Prisma } from "@movie-tracker/database/prisma"
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from "@nestjs/common"
 import { HttpAdapterHost } from "@nestjs/core"
-import { isArray } from "class-validator"
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientErrorFilter implements ExceptionFilter {
@@ -32,7 +31,7 @@ export class PrismaClientErrorFilter implements ExceptionFilter {
     if (exception.code === this.exceptions.conflict.code) {
       let nonUniqueFields = []
 
-      if (isArray(exception.meta.target)) {
+      if (Array.isArray(exception.meta.target)) {
         nonUniqueFields = exception.meta.target
       }
       else {
