@@ -23,48 +23,50 @@ const model = defineModel<boolean>()
 </script>
 
 <template>
-  <DrawerRoot v-model:open="model">
-    <DrawerTrigger
-      v-if="slots.trigger"
-      as="div"
-    >
-      <slot name="trigger" />
-    </DrawerTrigger>
-    <DrawerPortal>
-      <DrawerOverlay :class="$style.overlay" />
-      <DrawerContent
-        :class="$style.contentWrapper"
+  <ClientOnly>
+    <DrawerRoot v-model:open="model">
+      <DrawerTrigger
+        v-if="slots.trigger"
+        as="div"
       >
-        <div :class="$style.swipeTrigger" />
-
-        <DrawerClose
-          :class="$style.closeButton"
-          :as="UiButton"
-          variant="icon"
-          scheme="primary"
-          size="small"
+        <slot name="trigger" />
+      </DrawerTrigger>
+      <DrawerPortal>
+        <DrawerOverlay :class="$style.overlay" />
+        <DrawerContent
+          :class="$style.contentWrapper"
         >
-          <UiIcon
-            name="icon:cross"
-            :size="8"
-          />
-        </DrawerClose>
+          <div :class="$style.swipeTrigger" />
 
-        <DrawerTitle
-          v-if="props.title"
-          :class="$style.title"
-          :as="UiTypography"
-          variant="title4"
-        >
-          {{ props.title }}
-        </DrawerTitle>
+          <DrawerClose
+            :class="$style.closeButton"
+            :as="UiButton"
+            variant="icon"
+            scheme="primary"
+            size="small"
+          >
+            <UiIcon
+              name="icon:cross"
+              :size="8"
+            />
+          </DrawerClose>
 
-        <div :class="[$style.content, props.contentClass]">
-          <slot name="content" />
-        </div>
-      </DrawerContent>
-    </DrawerPortal>
-  </DrawerRoot>
+          <DrawerTitle
+            v-if="props.title"
+            :class="$style.title"
+            :as="UiTypography"
+            variant="title4"
+          >
+            {{ props.title }}
+          </DrawerTitle>
+
+          <div :class="[$style.content, props.contentClass]">
+            <slot name="content" />
+          </div>
+        </DrawerContent>
+      </DrawerPortal>
+    </DrawerRoot>
+  </ClientOnly>
 </template>
 
 <style module lang="scss">

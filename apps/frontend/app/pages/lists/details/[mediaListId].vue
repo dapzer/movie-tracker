@@ -40,8 +40,8 @@ const externalUserId = computed(() => {
   return getMediaListByIdApi.data.value?.userId
 })
 
-const externalUserProfileApi = useGetUserProfileByIdApi(externalUserId.value || "", {
-  enabled: Boolean(externalUserId.value),
+const externalUserProfileApi = useGetUserProfileByIdApi(externalUserId.value!, {
+  enabled: !!externalUserId.value,
   retry: false,
 })
 
