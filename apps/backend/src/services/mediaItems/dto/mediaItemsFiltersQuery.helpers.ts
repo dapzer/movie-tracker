@@ -10,46 +10,28 @@ export const releaseStatusOptions = [
   "ended",
 ] as const
 
-export function parseStringArrayQuery(value: string): string[] | undefined {
-  if (value === undefined || value === null || value === "") {
+export function parseStringArrayQuery(value: unknown): string[] | undefined {
+  if (!value) {
     return undefined
   }
 
-  const values = value.split(",").map(item => item.trim()).filter(Boolean)
-
-  return values.length ? values : undefined
+  return Array.isArray(value)
+    ? value.filter(Boolean)
+    : String(value)
+        .split(",")
+        .map(v => v.trim())
 }
 
-export function parseNumberArrayQuery(value: string): number[] | undefined {
-  const values = parseStringArrayQuery(value)
-  if (!values) {
+export function parseNumberArrayQuery(value: unknown): (number | undefined)[] | undefined {
+  if (value === undefined) {
     return undefined
   }
 
-  const parsedValues = values.map(item => Number(item))
-
-  return parsedValues.length ? parsedValues : undefined
-}
-
-export function parseRatingQuery(value: string): [number, number] | undefined {
-  if (value === undefined || value === null || value === "") {
-    return undefined
-  }
-
-  const [minRating, maxRating] = value.split(",").map(item => item !== "" ? Number(item) : undefined)
-
-  return [minRating, maxRating]
-}
-
-export function parseReleaseYearQuery(value: string): [number | undefined, number | undefined] | undefined {
-  if (value === undefined || value === null || value === "") {
-    return undefined
-  }
-  const [fromYear, toYear] = value.split(",").map(item => item !== "" ? Number(item) : undefined)
-
-  if (fromYear === undefined && toYear === undefined) {
-    return undefined
-  }
-
-  return [fromYear, toYear]
+  return String(value)
+    .split(",")
+    .map(v =>
+      v === ""
+        ? undefined
+        : Number(v),
+    )
 }

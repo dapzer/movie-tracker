@@ -21,13 +21,7 @@ import {
 } from "class-validator"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { IsNumberOrUndefinedArray } from "@/shared/validations/IsNumberOrUndefinedArray"
-import {
-  parseNumberArrayQuery,
-  parseRatingQuery,
-  parseReleaseYearQuery,
-  parseStringArrayQuery,
-  releaseStatusOptions,
-} from "./mediaItemsFiltersQuery.helpers"
+import { parseNumberArrayQuery, parseStringArrayQuery, releaseStatusOptions } from "./mediaItemsFiltersQuery.helpers"
 
 const sortByOptions: NonNullable<GetMediaItemsByListIdQueries["sortBy"]>[] = ["createdAt", "updatedAt"]
 
@@ -42,47 +36,46 @@ export class GetMediaItemsByListIdQueryDto extends PaginationDto implements GetM
   @IsEnum(MediaItemStatusNameEnum)
   status?: MediaItemStatusNameEnum
 
-  @ApiPropertyOptional({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE })
+  @ApiPropertyOptional({
+    enum: MediaTypeEnum,
+    isArray: true,
+    example: ["movie", "tv"],
+  })
   @IsOptional()
-  @IsEnum(MediaTypeEnum)
-  mediaType?: MediaTypeEnum
-
-  @ApiPropertyOptional({ enum: MediaTypeEnum, isArray: true, example: [MediaTypeEnum.MOVIE, MediaTypeEnum.TV] })
-  @IsOptional()
+  @Transform(({ value }) => parseStringArrayQuery(value))
   @IsArray()
   @IsEnum(MediaTypeEnum, { each: true })
-  @Transform(({ value }) => parseStringArrayQuery(value))
   mediaTypes?: MediaTypeEnum[]
 
-  @ApiPropertyOptional({ type: String, example: "0,10" })
+  @ApiPropertyOptional({ type: Number, isArray: true, example: [0, 10] })
   @IsOptional()
+  @Transform(({ value }) => parseNumberArrayQuery(value))
   @IsArray()
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
   @IsNumber({}, { each: true })
   @Min(0, { each: true })
   @Max(10, { each: true })
-  @Transform(({ value }) => parseRatingQuery(value))
   rating?: [number, number]
 
-  @ApiPropertyOptional({ type: String, example: "1990,2024" })
+  @ApiPropertyOptional({ type: Number, isArray: true, example: [1990, 2024] })
   @IsOptional()
+  @Transform(({ value }) => parseNumberArrayQuery(value))
   @IsNumberOrUndefinedArray()
-  @Transform(({ value }) => parseReleaseYearQuery(value))
   releaseYear?: [number | undefined, number | undefined]
 
-  @ApiPropertyOptional({ type: String, example: "12,28" })
+  @ApiPropertyOptional({ type: Number, isArray: true, example: [12, 28] })
   @IsOptional()
+  @Transform(({ value }) => parseNumberArrayQuery(value))
   @IsArray()
   @IsInt({ each: true })
-  @Transform(({ value }) => parseNumberArrayQuery(value))
   genres?: number[]
 
   @ApiPropertyOptional({ enum: releaseStatusOptions, isArray: true, example: ["released", "ended"] })
   @IsOptional()
+  @Transform(({ value }) => parseStringArrayQuery(value)?.map(status => status.toLowerCase()))
   @IsArray()
   @IsIn(releaseStatusOptions, { each: true })
-  @Transform(({ value }) => parseStringArrayQuery(value)?.map(status => status.toLowerCase()))
   releaseStatuses?: string[]
 
   @ApiPropertyOptional({ enum: SortOrderEnum, example: SortOrderEnum.DESC })
