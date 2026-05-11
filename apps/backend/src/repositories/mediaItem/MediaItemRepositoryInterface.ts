@@ -21,6 +21,7 @@ export interface MediaItemRepositoryInterface {
   getByListId: (args: {
     mediaListId: string
     mediaItemOwnerUserId?: string
+    withoutLimit?: boolean
   } & Omit<GetMediaItemsByListIdQueries, "mediaListId">) => Promise<MediaItemsByListIdResponseType>
 
   getCountByListId: (args: {

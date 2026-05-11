@@ -248,19 +248,27 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }
     conditions.push(...filtersConditions)
 
+    const itemsQuery = this.drizzle.client
+      .select({ mediaItem: mediaItems, mediaDetails, trackingData })
+      .from(mediaItems)
+      .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
+      .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
+      .leftJoin(mediaRatings, mediaRatingsJoinCondition)
+      .where(and(...conditions))
+      .orderBy(sortDirection === SortOrderEnum.ASC
+        ? asc(trackingData[sortBy])
+        : desc(trackingData[sortBy]))
+
+    const itemsWithLimit = args.withoutLimit || typeof args.limit !== "number"
+      ? itemsQuery
+      : itemsQuery.limit(args.limit)
+
+    const itemsWithPagination = typeof args.offset === "number"
+      ? itemsWithLimit.offset(args.offset)
+      : itemsWithLimit
+
     const [items, [totalCountResult]] = await Promise.all([
-      this.drizzle.client
-        .select({ mediaItem: mediaItems, mediaDetails, trackingData })
-        .from(mediaItems)
-        .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
-        .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
-        .leftJoin(mediaRatings, mediaRatingsJoinCondition)
-        .where(and(...conditions))
-        .orderBy(sortDirection === SortOrderEnum.ASC
-          ? asc(trackingData[sortBy])
-          : desc(trackingData[sortBy]))
-        .limit(typeof args.limit === "number" ? args.limit : 20)
-        .offset(typeof args.offset === "number" ? args.offset : 0),
+      itemsWithPagination,
       this.drizzle.client
         .select({ count: count() })
         .from(mediaItems)
