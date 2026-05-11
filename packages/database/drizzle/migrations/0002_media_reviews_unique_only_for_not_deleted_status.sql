@@ -1,2 +1,0 @@
-DROP INDEX "media_reviews_media_id_media_type_user_id_key";--> statement-breakpoint
-CREATE UNIQUE INDEX "media_reviews_media_id_media_type_user_id_key" ON "media_reviews" USING btree ("media_id","media_type","user_id") WHERE "media_reviews"."status" != 'DELETED';
