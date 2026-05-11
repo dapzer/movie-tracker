@@ -9,7 +9,6 @@ import { AppModule } from "@/app.module"
 import { AllExceptionsFilter } from "@/filters/allException.filter"
 import { CustomErrorFilter } from "@/filters/customError.filter"
 import { DrizzleClientErrorFilter } from "@/filters/drizzleClientError.filter"
-import { PrismaClientErrorFilter } from "@/filters/prismaClientError.filter"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { setupOpenApi } from "./openApi"
@@ -37,7 +36,6 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter))
   app.useGlobalFilters(new CustomErrorFilter(httpAdapter))
   app.useGlobalFilters(new DrizzleClientErrorFilter())
-  app.useGlobalFilters(new PrismaClientErrorFilter(httpAdapter))
 
   app.use(cookieParser(configService.get("COOKIE_SECRET")))
   app.use(
