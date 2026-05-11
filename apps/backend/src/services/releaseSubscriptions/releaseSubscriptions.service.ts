@@ -1,3 +1,6 @@
+import type {
+  GetReleaseSubscriptionsByUserIdQueryType,
+} from "@/services/releaseSubscriptions/dto/getReleaseSubscriptionsByUserIdQuery.dto"
 import { ReleaseSubscriptionsResponseType, ReleaseSubscriptionType } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
@@ -6,9 +9,6 @@ import {
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateReleaseSubscriptionDto } from "@/services/releaseSubscriptions/dto/createReleaseSubscription.dto"
-import {
-  GetReleaseSubscriptionsByUserIdQueryDto,
-} from "@/services/releaseSubscriptions/dto/getReleaseSubscriptionsByUserIdQuery.dto"
 import {
   ReleaseSubscriptionNotFoundError,
   ReleaseSubscriptionPermissionDeniedError,
@@ -41,8 +41,12 @@ export class ReleaseSubscriptionsService {
     return this.releaseSubscriptionRepository.getByMediaIdUserId({ mediaId: args.mediaId, userId: args.userId })
   }
 
-  async getByUserId(args: { userId: string } & GetReleaseSubscriptionsByUserIdQueryDto): Promise<ReleaseSubscriptionsResponseType> {
-    return this.releaseSubscriptionRepository.getByUserId(args)
+  async getByUserId(args: { userId: string } & GetReleaseSubscriptionsByUserIdQueryType): Promise<ReleaseSubscriptionsResponseType> {
+    return this.releaseSubscriptionRepository.getByUserId({
+      ...args,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
+    })
   }
 
   async delete(args: { id: string, userId: string }): Promise<ReleaseSubscriptionType> {

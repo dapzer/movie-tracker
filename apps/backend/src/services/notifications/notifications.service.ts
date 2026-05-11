@@ -1,3 +1,4 @@
+import type { PaginationDtoType } from "@/shared/dto/pagination.dto"
 import {
   CreateNotificationArgsType,
   ExtractNotificationMetaType,
@@ -13,7 +14,6 @@ import {
   NotificationRepositoryInterface,
   NotificationRepositorySymbol,
 } from "@/repositories/notification/NotificationRepositoryInterface"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 
 @Injectable()
@@ -51,8 +51,12 @@ export class NotificationsService {
     return this.notificationRepository.createBulk(args)
   }
 
-  async getByUserId(args: { userId: string } & PaginationDto): Promise<NotificationResponseType> {
-    return this.notificationRepository.getByUserId(args)
+  async getByUserId(args: { userId: string } & PaginationDtoType): Promise<NotificationResponseType> {
+    return this.notificationRepository.getByUserId({
+      ...args,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
+    })
   }
 
   async markAsRead(args: { userId: string, ids: Array<string> }): Promise<Array<NotificationType>> {

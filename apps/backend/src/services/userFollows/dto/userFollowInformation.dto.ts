@@ -1,10 +1,9 @@
-import { UserFollowInformationType } from "@movie-tracker/types"
-import { ApiProperty } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UserFollowInformationDto implements UserFollowInformationType {
-  @ApiProperty({ type: Number, example: 123 })
-  followersCount!: number
+const userFollowInformationSchema = z.object({
+  followersCount: z.number().meta({ example: 123 }),
+  isFollowing: z.boolean().meta({ example: false }),
+})
 
-  @ApiProperty({ type: Boolean, example: false })
-  isFollowing!: boolean
-}
+export class UserFollowInformationDto extends createZodDto(userFollowInformationSchema) {}

@@ -1,13 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsString, Length } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class ResetPasswordByTokenDto {
-  @ApiProperty({ type: String, example: "reset-token-abc123" })
-  @IsString()
-  token: string
+const resetPasswordByTokenSchema = z.object({
+  token: z.string().meta({ example: "reset-token-abc123" }),
+  password: z.string().min(8).max(32).meta({ example: "NewStrongPass123" }),
+})
 
-  @ApiProperty({ type: String, example: "NewStrongPass123" })
-  @IsString()
-  @Length(8, 32)
-  password: string
-}
+export class ResetPasswordByTokenDto extends createZodDto(resetPasswordByTokenSchema) {}

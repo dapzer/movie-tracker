@@ -1,21 +1,14 @@
 import { MediaItemStatusNameEnum, MediaTypeEnum } from "@movie-tracker/types"
-import { ApiProperty } from "@nestjs/swagger"
-import { IsEnum, IsNumber, IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CreateMediaItemDto {
-  @ApiProperty({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE })
-  @IsEnum(MediaTypeEnum)
-  mediaType: MediaTypeEnum
+const createMediaItemSchema = z.object({
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
+  mediaId: z.number().meta({ example: 550 }),
+  mediaListId: z.string().uuid().meta({ format: "uuid" }),
+  currentStatus: z
+    .enum(MediaItemStatusNameEnum)
+    .meta({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.WATCHING_NOW }),
+})
 
-  @ApiProperty({ type: Number, example: 550 })
-  @IsNumber()
-  mediaId: number
-
-  @ApiProperty({ type: String, format: "uuid" })
-  @IsUUID()
-  mediaListId: string
-
-  @ApiProperty({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.WATCHING_NOW })
-  @IsEnum(MediaItemStatusNameEnum)
-  currentStatus: MediaItemStatusNameEnum
-}
+export class CreateMediaItemDto extends createZodDto(createMediaItemSchema) {}

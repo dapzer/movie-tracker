@@ -1,9 +1,9 @@
 import {
-  NotificationMetaResponseType,
-  NotificationType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
-import { ApiProperty, getSchemaPath } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 import {
   NotificationMetaMediaListLikeDto,
   NotificationMetaMediaReleaseDto,
@@ -11,29 +11,21 @@ import {
   NotificationMetaUserFollowDto,
 } from "./notificationMeta.dto"
 
-export class NotificationDto implements Omit<NotificationType, "meta"> {
-  @ApiProperty({ type: String, format: "uuid" })
-  id: string
+const notificationMetaSchema = z.discriminatedUnion("type", [
+  NotificationMetaUserFollowDto.schema,
+  NotificationMetaMediaListLikeDto.schema,
+  NotificationMetaMediaReleaseDto.schema,
+  NotificationMetaMediaStatusUpdateDto.schema,
+])
 
-  @ApiProperty({ type: String, format: "uuid" })
-  userId: string
+const notificationSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid" }),
+  userId: z.string().uuid().meta({ format: "uuid" }),
+  type: z.enum(NotificationTypeEnum).meta({ enum: NotificationTypeEnum, example: NotificationTypeEnum.USER_FOLLOW }),
+  meta: notificationMetaSchema,
+  readAt: zDateTimeString.optional().meta({ format: "date-time" }),
+  createdAt: zDateTimeString.meta({ format: "date-time" }),
+})
 
-  @ApiProperty({ enum: NotificationTypeEnum, example: NotificationTypeEnum.USER_FOLLOW })
-  type: NotificationTypeEnum
-
-  @ApiProperty({
-    oneOf: [
-      { $ref: getSchemaPath(NotificationMetaUserFollowDto) },
-      { $ref: getSchemaPath(NotificationMetaMediaListLikeDto) },
-      { $ref: getSchemaPath(NotificationMetaMediaReleaseDto) },
-      { $ref: getSchemaPath(NotificationMetaMediaStatusUpdateDto) },
-    ],
-  })
-  meta: NotificationMetaResponseType
-
-  @ApiProperty({ type: String, format: "date-time" })
-  readAt: Date | undefined
-
-  @ApiProperty({ type: String, format: "date-time" })
-  createdAt: Date
+export class NotificationDto extends createZodDto(notificationSchema) {
 }

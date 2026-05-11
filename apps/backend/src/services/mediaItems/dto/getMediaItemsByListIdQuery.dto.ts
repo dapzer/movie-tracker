@@ -1,90 +1,70 @@
 import {
-  GetMediaItemsByListIdQueries,
   MediaItemStatusNameEnum,
   MediaTypeEnum,
   SortOrderEnum,
 } from "@movie-tracker/types"
-import { ApiPropertyOptional } from "@nestjs/swagger"
-import { Transform } from "class-transformer"
-import {
-  ArrayMaxSize,
-  ArrayMinSize,
-  IsArray,
-  IsEnum,
-  IsIn,
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-} from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
-import { IsNumberOrUndefinedArray } from "@/shared/validations/IsNumberOrUndefinedArray"
 import { parseNumberArrayQuery, parseStringArrayQuery, releaseStatusOptions } from "./mediaItemsFiltersQuery.helpers"
 
-const sortByOptions: NonNullable<GetMediaItemsByListIdQueries["sortBy"]>[] = ["createdAt", "updatedAt"]
+const sortByOptions = ["createdAt", "updatedAt"] as const
 
-export class GetMediaItemsByListIdQueryDto extends PaginationDto implements GetMediaItemsByListIdQueries {
-  @ApiPropertyOptional({ type: String, example: "naruto" })
-  @IsOptional()
-  @IsString()
-  search?: string
+const ratingTupleSchema = z
+  .array(z.number().min(0).max(10))
+  .length(2)
+  .transform(values => [values[0], values[1]] as [number, number])
 
-  @ApiPropertyOptional({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.WATCHING_NOW })
-  @IsOptional()
-  @IsEnum(MediaItemStatusNameEnum)
-  status?: MediaItemStatusNameEnum
+const releaseYearTupleSchema = z
+  .array(z.number().optional())
+  .length(2)
+  .transform(values => [values[0], values[1]] as [number | undefined, number | undefined])
 
-  @ApiPropertyOptional({
-    enum: MediaTypeEnum,
-    isArray: true,
-    example: ["movie", "tv"],
-  })
-  @IsOptional()
-  @Transform(({ value }) => parseStringArrayQuery(value))
-  @IsArray()
-  @IsEnum(MediaTypeEnum, { each: true })
-  mediaTypes?: MediaTypeEnum[]
+const getMediaItemsByListIdQuerySchema = PaginationDto.schema.extend({
+  search: z.string().optional().meta({ example: "naruto" }),
+  status: z
+    .enum(MediaItemStatusNameEnum)
+    .optional()
+    .meta({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.WATCHING_NOW }),
+  mediaTypes: z
+    .preprocess(
+      value => parseStringArrayQuery(value),
+      z.array(z.enum(MediaTypeEnum)),
+    )
+    .optional()
+    .meta({ enum: MediaTypeEnum, required: false, isArray: true, example: ["movie", "tv"] }),
+  rating: z
+    .preprocess(
+      value => parseNumberArrayQuery(value)?.filter((item): item is number => item !== undefined),
+      ratingTupleSchema,
+    )
+    .optional()
+    .meta({ required: false, isArray: true, example: [0, 10] }),
+  releaseYear: z
+    .preprocess(
+      value => parseNumberArrayQuery(value),
+      releaseYearTupleSchema,
+    )
+    .optional()
+    .meta({ required: false, isArray: true, example: [1990, 2024] }),
+  genres: z
+    .preprocess(
+      value => parseNumberArrayQuery(value),
+      z.array(z.number().int()),
+    )
+    .optional()
+    .meta({ required: false, isArray: true, example: [12, 28] }),
+  releaseStatuses: z
+    .preprocess(
+      value => parseStringArrayQuery(value)?.map(status => status.toLowerCase()),
+      z.array(z.enum(releaseStatusOptions)),
+    )
+    .optional()
+    .meta({ enum: releaseStatusOptions, required: false, isArray: true, example: ["released", "ended"] }),
+  sortDirection: z.enum(SortOrderEnum).optional().meta({ enum: SortOrderEnum, example: SortOrderEnum.DESC }),
+  sortBy: z.enum(sortByOptions).optional().meta({ enum: sortByOptions, example: "createdAt" }),
+})
 
-  @ApiPropertyOptional({ type: Number, isArray: true, example: [0, 10] })
-  @IsOptional()
-  @Transform(({ value }) => parseNumberArrayQuery(value))
-  @IsArray()
-  @ArrayMinSize(2)
-  @ArrayMaxSize(2)
-  @IsNumber({}, { each: true })
-  @Min(0, { each: true })
-  @Max(10, { each: true })
-  rating?: [number, number]
+export class GetMediaItemsByListIdQueryDto extends createZodDto(getMediaItemsByListIdQuerySchema) {}
 
-  @ApiPropertyOptional({ type: Number, isArray: true, example: [1990, 2024] })
-  @IsOptional()
-  @Transform(({ value }) => parseNumberArrayQuery(value))
-  @IsNumberOrUndefinedArray()
-  releaseYear?: [number | undefined, number | undefined]
-
-  @ApiPropertyOptional({ type: Number, isArray: true, example: [12, 28] })
-  @IsOptional()
-  @Transform(({ value }) => parseNumberArrayQuery(value))
-  @IsArray()
-  @IsInt({ each: true })
-  genres?: number[]
-
-  @ApiPropertyOptional({ enum: releaseStatusOptions, isArray: true, example: ["released", "ended"] })
-  @IsOptional()
-  @Transform(({ value }) => parseStringArrayQuery(value)?.map(status => status.toLowerCase()))
-  @IsArray()
-  @IsIn(releaseStatusOptions, { each: true })
-  releaseStatuses?: string[]
-
-  @ApiPropertyOptional({ enum: SortOrderEnum, example: SortOrderEnum.DESC })
-  @IsOptional()
-  @IsEnum(SortOrderEnum)
-  sortDirection?: SortOrderEnum
-
-  @ApiPropertyOptional({ enum: sortByOptions, example: "createdAt" })
-  @IsOptional()
-  @IsIn(sortByOptions)
-  sortBy?: GetMediaItemsByListIdQueries["sortBy"]
-}
+export type GetMediaItemsByListIdQueryType = z.infer<typeof getMediaItemsByListIdQuerySchema>

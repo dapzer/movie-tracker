@@ -1,35 +1,19 @@
 import { GetReleaseSubscriptionsByUserIdQueries, MediaTypeEnum, SortOrderEnum } from "@movie-tracker/types"
-import { Transform } from "class-transformer"
-import { IsBoolean, IsEnum, IsIn, IsOptional, IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
+import { zBooleanQuery } from "@/shared/dto/zod.utils"
 
 const sortByOptions: GetReleaseSubscriptionsByUserIdQueries["sortBy"][] = ["createdAt", "lastReleasedAt"]
 
-export class GetReleaseSubscriptionsByUserIdQueryDto extends PaginationDto implements GetReleaseSubscriptionsByUserIdQueries {
-  @IsOptional()
-  @IsString()
-  search?: string
+const getReleaseSubscriptionsByUserIdQuerySchema = PaginationDto.schema.extend({
+  search: z.string().optional(),
+  completed: zBooleanQuery.optional(),
+  mediaType: z.enum(MediaTypeEnum).optional().meta({ enum: MediaTypeEnum }),
+  sortDirection: z.enum(SortOrderEnum).optional().meta({ enum: SortOrderEnum }),
+  sortBy: z.enum(sortByOptions).optional().meta({ enum: sortByOptions }),
+})
 
-  @IsOptional()
-  @IsBoolean()
-  @Transform(({ value }) => {
-    if (value === "true")
-      return true
-    if (value === "false")
-      return false
-    return value
-  })
-  completed?: boolean
+export class GetReleaseSubscriptionsByUserIdQueryDto extends createZodDto(getReleaseSubscriptionsByUserIdQuerySchema) {}
 
-  @IsOptional()
-  @IsEnum(MediaTypeEnum)
-  mediaType?: MediaTypeEnum
-
-  @IsOptional()
-  @IsEnum(SortOrderEnum)
-  sortDirection?: SortOrderEnum
-
-  @IsOptional()
-  @IsIn(sortByOptions)
-  sortBy?: GetReleaseSubscriptionsByUserIdQueries["sortBy"]
-}
+export type GetReleaseSubscriptionsByUserIdQueryType = z.infer<typeof getReleaseSubscriptionsByUserIdQuerySchema>

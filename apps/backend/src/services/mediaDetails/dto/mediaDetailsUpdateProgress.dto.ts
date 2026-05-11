@@ -1,13 +1,10 @@
-import { MediaDetailsUpdateProgressType } from "@movie-tracker/types"
-import { ApiProperty } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class MediaDetailsUpdateProgressDto implements MediaDetailsUpdateProgressType {
-  @ApiProperty({ type: Number, example: 120 })
-  successfulUpdates: number
+const mediaDetailsUpdateProgressSchema = z.object({
+  successfulUpdates: z.number().meta({ example: 120 }),
+  failedUpdatesByApi: z.number().meta({ example: 5 }),
+  failedUpdatesByDb: z.number().meta({ example: 2 }),
+})
 
-  @ApiProperty({ type: Number, example: 5 })
-  failedUpdatesByApi: number
-
-  @ApiProperty({ type: Number, example: 2 })
-  failedUpdatesByDb: number
-}
+export class MediaDetailsUpdateProgressDto extends createZodDto(mediaDetailsUpdateProgressSchema) {}

@@ -1,23 +1,16 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { Type } from "class-transformer"
-import { IsArray, IsUUID, ValidateNested } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { UpdateTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
 
-export class BulkUpdateTrackingDataItemDto {
-  @ApiProperty({ type: String, format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" })
-  @IsUUID()
-  trackingDataId: string
+const bulkUpdateTrackingDataItemSchema = z.object({
+  trackingDataId: z.string().uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
+  body: UpdateTrackingDataDto.schema,
+})
 
-  @ApiProperty({ type: () => UpdateTrackingDataDto })
-  @ValidateNested()
-  @Type(() => UpdateTrackingDataDto)
-  body: UpdateTrackingDataDto
-}
+const bulkUpdateTrackingDataSchema = z.object({
+  items: z.array(bulkUpdateTrackingDataItemSchema),
+})
 
-export class BulkUpdateTrackingDataDto {
-  @ApiProperty({ type: () => [BulkUpdateTrackingDataItemDto] })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => BulkUpdateTrackingDataItemDto)
-  items: BulkUpdateTrackingDataItemDto[]
-}
+export class BulkUpdateTrackingDataItemDto extends createZodDto(bulkUpdateTrackingDataItemSchema) {}
+
+export class BulkUpdateTrackingDataDto extends createZodDto(bulkUpdateTrackingDataSchema) {}

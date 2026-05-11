@@ -1,3 +1,4 @@
+import type { PaginationDtoType } from "@/shared/dto/pagination.dto"
 import { SortOrderEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
@@ -8,7 +9,6 @@ import { GetCommunityListsAllTimeTopQueryDto } from "@/services/communityLists/d
 import { GetCommunityListsNewestQueryDto } from "@/services/communityLists/dto/getCommunityListsNewestQuery.dto"
 import { GetCommunityListsWeekTopQueryDto } from "@/services/communityLists/dto/getCommunityListsWeekTopQuery.dto"
 import { GetCommunityListsWithMediaQueryDto } from "@/services/communityLists/dto/getCommunityListsWithMediaQuery.dto"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
 
 @Injectable()
 export class CommunityListsService {
@@ -33,12 +33,12 @@ export class CommunityListsService {
     return monday
   }
 
-  async getListsSearch(args: { title: string, currentUserId?: string } & PaginationDto) {
+  async getListsSearch(args: { title: string, currentUserId?: string } & PaginationDtoType) {
     return this.communityListsRepository.getSearchResult({
       title: args.title,
       currentUserId: args.currentUserId,
-      limit: args.limit,
-      offset: args.offset,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
     })
   }
 

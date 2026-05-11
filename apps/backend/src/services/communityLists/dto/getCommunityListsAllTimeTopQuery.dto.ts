@@ -2,25 +2,16 @@ import {
   GetCommunityListsAllTimeTopQueries,
   SortOrderEnum,
 } from "@movie-tracker/types"
-import { ApiPropertyOptional } from "@nestjs/swagger"
-import { IsEnum, IsIn, IsOptional, IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 
 const sortByOptions: GetCommunityListsAllTimeTopQueries["sortBy"][] = ["likes", "createdAt", "updatedAt"]
 
-export class GetCommunityListsAllTimeTopQueryDto extends PaginationDto implements GetCommunityListsAllTimeTopQueries {
-  @ApiPropertyOptional({ enum: SortOrderEnum })
-  @IsOptional()
-  @IsEnum(SortOrderEnum)
-  sortDirection?: SortOrderEnum
+const getCommunityListsAllTimeTopQuerySchema = PaginationDto.schema.extend({
+  sortDirection: z.enum(SortOrderEnum).optional().meta({ enum: SortOrderEnum }),
+  sortBy: z.enum(sortByOptions).optional().meta({ enum: sortByOptions }),
+  title: z.string().optional(),
+})
 
-  @ApiPropertyOptional({ enum: sortByOptions })
-  @IsOptional()
-  @IsIn(sortByOptions)
-  sortBy: GetCommunityListsAllTimeTopQueries["sortBy"]
-
-  @ApiPropertyOptional({ type: String })
-  @IsOptional()
-  @IsString()
-  title?: string
-}
+export class GetCommunityListsAllTimeTopQueryDto extends createZodDto(getCommunityListsAllTimeTopQuerySchema) {}

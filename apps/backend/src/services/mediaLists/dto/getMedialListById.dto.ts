@@ -1,8 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class GetMedialListByIdDto {
-  @ApiProperty({ type: String, format: "uuid ot cuid" })
-  @IsString()
-  id: string
-}
+const getMedialListByIdSchema = z.object({
+  id: z.string().meta({ format: "uuid or cuid" }),
+})
+
+export class GetMedialListByIdDto extends createZodDto(getMedialListByIdSchema) {}

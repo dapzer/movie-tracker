@@ -1,69 +1,32 @@
-import { MediaTypeEnum, ReleaseSubscriptionsResponseType, ReleaseSubscriptionType, ReleaseSubscriptionWithDetailsType } from "@movie-tracker/types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { MediaTypeEnum } from "@movie-tracker/types"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 
-export class ReleaseSubscriptionDto implements ReleaseSubscriptionType {
-  @ApiProperty({ type: String, format: "uuid" })
-  id: string
+const releaseSubscriptionSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid" }),
+  mediaId: z.number().meta({ example: 550 }),
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum }),
+  mediaDetailsId: z.string().uuid().meta({ format: "uuid" }),
+  userId: z.string().uuid().meta({ format: "uuid" }),
+  lastReleasedAt: zDateTimeString.nullable().optional().meta({ format: "date-time", nullable: true }),
+  completedAt: zDateTimeString.nullable().optional().meta({ format: "date-time", nullable: true }),
+  createdAt: zDateTimeString.meta({ format: "date-time" }),
+})
 
-  @ApiProperty({ type: Number, example: 550 })
-  mediaId: number
+const releaseSubscriptionWithDetailsSchema = releaseSubscriptionSchema.extend({
+  mediaDetails: MediaDetailsDto.schema,
+})
 
-  @ApiProperty({ enum: MediaTypeEnum })
-  mediaType: MediaTypeEnum
+const releaseSubscriptionsResponseSchema = z.object({
+  items: z.array(releaseSubscriptionWithDetailsSchema),
+  totalCount: z.number().meta({ example: 10 }),
+  totalSubscriptionsCount: z.number().meta({ example: 25 }),
+})
 
-  @ApiProperty({ type: String, format: "uuid" })
-  mediaDetailsId: string
+export class ReleaseSubscriptionDto extends createZodDto(releaseSubscriptionSchema) {}
 
-  @ApiProperty({ type: String, format: "uuid" })
-  userId: string
+export class ReleaseSubscriptionWithDetailsDto extends createZodDto(releaseSubscriptionWithDetailsSchema) {}
 
-  @ApiPropertyOptional({ type: String, format: "date-time", nullable: true })
-  lastReleasedAt: Date | null
-
-  @ApiPropertyOptional({ type: String, format: "date-time", nullable: true })
-  completedAt: Date | null
-
-  @ApiProperty({ type: String, format: "date-time" })
-  createdAt: Date
-}
-
-export class ReleaseSubscriptionWithDetailsDto implements ReleaseSubscriptionWithDetailsType {
-  @ApiProperty({ type: String, format: "uuid" })
-  id: string
-
-  @ApiProperty({ type: Number, example: 550 })
-  mediaId: number
-
-  @ApiProperty({ enum: MediaTypeEnum })
-  mediaType: MediaTypeEnum
-
-  @ApiProperty({ type: String, format: "uuid" })
-  mediaDetailsId: string
-
-  @ApiProperty({ type: String, format: "uuid" })
-  userId: string
-
-  @ApiPropertyOptional({ type: String, format: "date-time", nullable: true })
-  lastReleasedAt: Date | null
-
-  @ApiPropertyOptional({ type: String, format: "date-time", nullable: true })
-  completedAt: Date | null
-
-  @ApiProperty({ type: String, format: "date-time" })
-  createdAt: Date
-
-  @ApiProperty({ type: MediaDetailsDto })
-  mediaDetails: MediaDetailsDto
-}
-
-export class ReleaseSubscriptionsResponseDto implements ReleaseSubscriptionsResponseType {
-  @ApiProperty({ type: [ReleaseSubscriptionWithDetailsDto] })
-  items: ReleaseSubscriptionWithDetailsDto[]
-
-  @ApiProperty({ type: Number, example: 10 })
-  totalCount: number
-
-  @ApiProperty({ type: Number, example: 25 })
-  totalSubscriptionsCount: number
-}
+export class ReleaseSubscriptionsResponseDto extends createZodDto(releaseSubscriptionsResponseSchema) {}

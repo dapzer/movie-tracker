@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from "@nestjs/common"
 import { HttpAdapterHost } from "@nestjs/core"
-import { isArray } from "class-validator"
+import { ZodValidationException } from "nestjs-zod"
+import { ZodError } from "zod"
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -19,18 +20,60 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR
 
-    const errorResponseMessage
+    const rawExceptionResponse
       = exception instanceof HttpException
-        ? (exception.getResponse() as any)?.message
-        : ""
+        ? exception.getResponse()
+        : undefined
+
+    const exceptionResponse
+      = rawExceptionResponse && typeof rawExceptionResponse === "object"
+        ? rawExceptionResponse as { message?: string | string[], errors?: unknown }
+        : undefined
+
+    const formatValidationDetails = (issues: ZodError["issues"]) => {
+      const details = issues
+        .map((issue) => {
+          const path = issue.path
+            .filter(part => typeof part === "string" || typeof part === "number")
+            .map(part => String(part))
+            .join(".")
+
+          if (!path) {
+            return issue.message
+          }
+
+          return `${path.charAt(0).toUpperCase()}${path.slice(1)} - ${issue.message}`
+        })
+
+      return details.length
+        ? `Bad request. ${details.join(", ")}`
+        : "Bad request"
+    }
+
+    let validationMessage: string | undefined
+
+    if (exception instanceof ZodValidationException) {
+      const zodError = exception.getZodError()
+
+      if (zodError instanceof ZodError) {
+        validationMessage = formatValidationDetails(zodError.issues)
+      }
+      else {
+        validationMessage = "Bad request"
+      }
+    }
+    else if (httpStatus === HttpStatus.BAD_REQUEST && Array.isArray(exceptionResponse?.message)) {
+      validationMessage = exceptionResponse.message.length
+        ? `Bad request. ${exceptionResponse.message.join(", ")}`
+        : "Bad request"
+    }
 
     const errorMessage
       = exception instanceof HttpException
-        ? `${exception.message}${
-          isArray(errorResponseMessage)
-            ? `, ${errorResponseMessage?.join(", ")}`
-            : ""
-        }`
+        ? (validationMessage
+          || (typeof exceptionResponse?.message === "string"
+            ? exceptionResponse.message
+            : exception.message))
         : "Unknown error"
 
     const path = httpAdapter.getRequestUrl(ctx.getRequest())

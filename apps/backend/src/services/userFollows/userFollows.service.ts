@@ -1,3 +1,4 @@
+import type { PaginationDtoType } from "@/shared/dto/pagination.dto"
 import { NotificationTypeEnum, UserFollowInformationType } from "@movie-tracker/types"
 import { Inject, Injectable, Logger } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
@@ -6,7 +7,6 @@ import {
   UserFollowRepositorySymbol,
 } from "@/repositories/userFollow/UserFollowRepositoryInterface"
 import { NotificationsService } from "@/services/notifications/notifications.service"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UserNotFoundError } from "@/shared/errors/user"
 import { SelfFollowError, SelfUnfollowError, UserFollowNotFoundError } from "@/shared/errors/userFollow"
 
@@ -29,16 +29,16 @@ export class UserFollowsService {
     }
   }
 
-  async getFollowers(args: { userId: string, currentUserId: string } & PaginationDto) {
+  async getFollowers(args: { userId: string, currentUserId: string } & PaginationDtoType) {
     await this.checkUserExists(args.userId)
 
-    return this.userFollowRepository.getByUserId({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
+    return this.userFollowRepository.getByUserId({ userId: args.userId, limit: args.limit ?? 20, offset: args.offset ?? 0, currentUserId: args.currentUserId })
   }
 
-  async getFollowings(args: { userId: string, currentUserId: string } & PaginationDto) {
+  async getFollowings(args: { userId: string, currentUserId: string } & PaginationDtoType) {
     await this.checkUserExists(args.userId)
 
-    return this.userFollowRepository.getFollowings({ userId: args.userId, limit: args.limit, offset: args.offset, currentUserId: args.currentUserId })
+    return this.userFollowRepository.getFollowings({ userId: args.userId, limit: args.limit ?? 20, offset: args.offset ?? 0, currentUserId: args.currentUserId })
   }
 
   async create(args: { followerUserId: string, followingUserId: string }) {

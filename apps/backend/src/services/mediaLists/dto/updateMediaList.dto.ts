@@ -2,27 +2,27 @@ import {
   MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
   MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
   MediaListAccessLevelEnum,
-  MediaListUpdateBodyType,
 } from "@movie-tracker/types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { Transform } from "class-transformer"
-import { IsEnum, IsOptional, IsString, Length } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UpdateMediaListDto implements MediaListUpdateBodyType {
-  @ApiProperty({ enum: MediaListAccessLevelEnum, example: MediaListAccessLevelEnum.PUBLIC })
-  @IsEnum(MediaListAccessLevelEnum)
-  accessLevel: MediaListAccessLevelEnum
+const updateMediaListSchema = z.object({
+  accessLevel: z.enum(MediaListAccessLevelEnum).meta({ enum: MediaListAccessLevelEnum, example: MediaListAccessLevelEnum.PUBLIC }),
+  title: z.preprocess(
+    (value) => {
+      if (value === null) {
+        return null
+      }
 
-  @ApiPropertyOptional({ type: String, example: "My favorite anime list" })
-  @Transform(({ value }) => value?.trim() ?? null)
-  @Length(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT, MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT)
-  @IsString()
-  @IsOptional()
-  title?: string
+      if (typeof value === "string") {
+        return value.trim()
+      }
 
-  @ApiPropertyOptional({ type: String, example: "List of shows I plan to watch" })
-  @Length(0, 256)
-  @IsString()
-  @IsOptional()
-  description?: string
-}
+      return value
+    },
+    z.string().min(MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT).max(MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT).nullable(),
+  ).optional().meta({ example: "My favorite anime list" }),
+  description: z.string().min(0).max(256).optional().meta({ example: "List of shows I plan to watch" }),
+})
+
+export class UpdateMediaListDto extends createZodDto(updateMediaListSchema) {}

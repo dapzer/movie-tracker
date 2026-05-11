@@ -1,16 +1,10 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { Type } from "class-transformer"
-import { IsNumber, IsOptional, IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 
-export class GetCommunityListsWithMediaQueryDto extends PaginationDto {
-  @ApiProperty({ type: Number, example: 123 })
-  @Type(() => Number)
-  @IsNumber()
-  mediaId: number
+const getCommunityListsWithMediaQuerySchema = PaginationDto.schema.extend({
+  mediaId: z.coerce.number().meta({ example: 123 }),
+  title: z.string().optional().meta({ example: "anime" }),
+})
 
-  @ApiPropertyOptional({ type: String, example: "anime" })
-  @IsOptional()
-  @IsString()
-  title?: string
-}
+export class GetCommunityListsWithMediaQueryDto extends createZodDto(getCommunityListsWithMediaQuerySchema) {}

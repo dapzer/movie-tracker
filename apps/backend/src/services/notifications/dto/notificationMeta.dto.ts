@@ -1,68 +1,42 @@
 import {
-  NotificationMetaResponseType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
 import { NotificationMediaListDto, NotificationMediaReleaseEpisodeDto } from "./notificationLeaf.dto"
 import { NotificationUserDto } from "./notificationUser.dto"
 
-export class NotificationMetaUserFollowDto implements
-  Extract<
-    NotificationMetaResponseType,
-    { type: NotificationTypeEnum.USER_FOLLOW }
-  > {
-  @ApiProperty({ enum: [NotificationTypeEnum.USER_FOLLOW] })
-  type: NotificationTypeEnum.USER_FOLLOW
+const notificationMetaUserFollowSchema = z.object({
+  type: z.literal(NotificationTypeEnum.USER_FOLLOW).meta({ enum: [NotificationTypeEnum.USER_FOLLOW] }),
+  actorUser: NotificationUserDto.schema,
+})
 
-  @ApiProperty({ type: NotificationUserDto })
-  actorUser: NotificationUserDto
-}
+const notificationMetaMediaListLikeSchema = z.object({
+  type: z.literal(NotificationTypeEnum.MEDIA_LIST_LIKE).meta({ enum: [NotificationTypeEnum.MEDIA_LIST_LIKE] }),
+  actorUser: NotificationUserDto.schema,
+  mediaList: NotificationMediaListDto.schema,
+})
 
-export class NotificationMetaMediaListLikeDto implements
-  Extract<
-    NotificationMetaResponseType,
-    { type: NotificationTypeEnum.MEDIA_LIST_LIKE }
-  > {
-  @ApiProperty({ enum: [NotificationTypeEnum.MEDIA_LIST_LIKE] })
-  type: NotificationTypeEnum.MEDIA_LIST_LIKE
+const notificationMetaMediaReleaseSchema = z.object({
+  type: z.literal(NotificationTypeEnum.MEDIA_RELEASE).meta({ enum: [NotificationTypeEnum.MEDIA_RELEASE] }),
+  mediaDetails: MediaDetailsDto.schema,
+  episodes: z.array(NotificationMediaReleaseEpisodeDto.schema).optional(),
+})
 
-  @ApiProperty({ type: NotificationUserDto })
-  actorUser: NotificationUserDto
+const notificationMetaMediaStatusUpdateSchema = z.object({
+  type: z
+    .literal(NotificationTypeEnum.MEDIA_STATUS_UPDATE)
+    .meta({ enum: [NotificationTypeEnum.MEDIA_STATUS_UPDATE] }),
+  mediaDetails: MediaDetailsDto.schema,
+  previousStatus: z.string().meta({ example: "NOT_VIEWED" }),
+  currentStatus: z.string().meta({ example: "WATCHING_NOW" }),
+})
 
-  @ApiProperty({ type: NotificationMediaListDto })
-  mediaList: NotificationMediaListDto
-}
+export class NotificationMetaUserFollowDto extends createZodDto(notificationMetaUserFollowSchema) {}
 
-export class NotificationMetaMediaReleaseDto implements
-  Extract<
-    NotificationMetaResponseType,
-    { type: NotificationTypeEnum.MEDIA_RELEASE }
-  > {
-  @ApiProperty({ enum: [NotificationTypeEnum.MEDIA_RELEASE] })
-  type: NotificationTypeEnum.MEDIA_RELEASE
+export class NotificationMetaMediaListLikeDto extends createZodDto(notificationMetaMediaListLikeSchema) {}
 
-  @ApiProperty({ type: MediaDetailsDto })
-  mediaDetails: MediaDetailsDto
+export class NotificationMetaMediaReleaseDto extends createZodDto(notificationMetaMediaReleaseSchema) {}
 
-  @ApiPropertyOptional({ type: [NotificationMediaReleaseEpisodeDto] })
-  episodes?: NotificationMediaReleaseEpisodeDto[]
-}
-
-export class NotificationMetaMediaStatusUpdateDto implements
-  Extract<
-    NotificationMetaResponseType,
-    { type: NotificationTypeEnum.MEDIA_STATUS_UPDATE }
-  > {
-  @ApiProperty({ enum: [NotificationTypeEnum.MEDIA_STATUS_UPDATE] })
-  type: NotificationTypeEnum.MEDIA_STATUS_UPDATE
-
-  @ApiProperty({ type: MediaDetailsDto })
-  mediaDetails: MediaDetailsDto
-
-  @ApiProperty({ type: String, example: "NOT_VIEWED" })
-  previousStatus: string
-
-  @ApiProperty({ type: String, example: "WATCHING_NOW" })
-  currentStatus: string
-}
+export class NotificationMetaMediaStatusUpdateDto extends createZodDto(notificationMetaMediaStatusUpdateSchema) {}

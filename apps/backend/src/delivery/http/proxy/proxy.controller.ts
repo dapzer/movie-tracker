@@ -13,10 +13,10 @@ export class ProxyController {
     @Query() queries: ProxyQueriesDto,
     @Res() res: Response,
     @Req() req: Request,
-    @Param("everything") everything: string,
+    @Param("everything") everything: string[],
   ) {
     const { stream, contentType } = await this.proxyService.getImage(
-      everything.replace(/,/g, "/"),
+      everything[0].replace(/,/g, "/"),
       queries.keepOriginalType,
       queries.size,
     )
@@ -31,9 +31,9 @@ export class ProxyController {
   @Get("content/*everything")
   @UseInterceptors(CacheInterceptor)
   async getResizedImage(
-    @Param("everything") everything: string,
+    @Param("everything") everything: string[],
     @Query() queries: Record<string, string>,
   ) {
-    return this.proxyService.getData(everything.replace(/,/g, "/"), queries)
+    return this.proxyService.getData(everything.join("/"), queries)
   }
 }

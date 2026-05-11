@@ -1,18 +1,10 @@
-import { UserStatsType } from "@movie-tracker/types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsNumber, IsOptional } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UserStatsDto implements UserStatsType {
-  @ApiProperty({ type: Number, example: 12 })
-  @IsNumber()
-  mediaListCount: number
+const userStatsSchema = z.object({
+  mediaListCount: z.number().meta({ example: 12 }),
+  mediaRatingsCount: z.number().optional().meta({ example: 45 }),
+  mediaListLikeCount: z.number().meta({ example: 30 }),
+})
 
-  @ApiPropertyOptional({ type: Number, example: 45 })
-  @IsOptional()
-  @IsNumber()
-  mediaRatingsCount?: number
-
-  @ApiProperty({ type: Number, example: 30 })
-  @IsNumber()
-  mediaListLikeCount: number
-}
+export class UserStatsDto extends createZodDto(userStatsSchema) {}

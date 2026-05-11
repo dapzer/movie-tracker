@@ -1,4 +1,4 @@
-import { OmitType } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
 import { UserDto } from "./user.dto"
 
-export class UserWithoutPasswordDto extends OmitType(UserDto, ["password"] as const) {}
+export class UserWithoutPasswordDto extends createZodDto(UserDto.schema.omit({ password: true })) {}

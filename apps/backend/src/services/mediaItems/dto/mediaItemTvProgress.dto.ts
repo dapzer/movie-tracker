@@ -1,10 +1,9 @@
-import { MediaItemTvProgressType } from "@movie-tracker/types"
-import { IsInt } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class MediaItemTvProgressDto implements MediaItemTvProgressType {
-  @IsInt()
-  currentSeason: number
+export const mediaItemTvProgressSchema = z.object({
+  currentSeason: z.number().int(),
+  currentEpisode: z.number().int(),
+})
 
-  @IsInt()
-  currentEpisode: number
-}
+export class MediaItemTvProgressDto extends createZodDto(mediaItemTvProgressSchema) {}

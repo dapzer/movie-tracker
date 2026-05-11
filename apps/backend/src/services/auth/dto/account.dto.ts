@@ -1,34 +1,18 @@
-import { IsDateString, IsInt, IsString, IsUUID } from "class-validator"
-import { AccountType } from "@/repositories/account/AccountRepositoryInterface"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 
-export class AccountDto implements AccountType {
-  @IsUUID()
-  id: string
+const accountSchema = z.object({
+  id: z.string().uuid(),
+  userId: z.string().uuid(),
+  access_token: z.string(),
+  refresh_token: z.string(),
+  provider: z.string(),
+  providerAccountId: z.string(),
+  expires_at: z.number().int(),
+  type: z.string(),
+  createdAt: zDateTimeString,
+  updatedAt: zDateTimeString,
+})
 
-  @IsUUID()
-  userId: string
-
-  @IsString()
-  access_token: string
-
-  @IsString()
-  refresh_token: string
-
-  @IsString()
-  provider: string
-
-  @IsString()
-  providerAccountId: string
-
-  @IsInt()
-  expires_at: number
-
-  @IsString()
-  type: string
-
-  @IsDateString()
-  createdAt: Date
-
-  @IsDateString()
-  updatedAt: Date
-}
+export class AccountDto extends createZodDto(accountSchema) {}

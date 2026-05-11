@@ -1,22 +1,10 @@
-import { Transform } from "class-transformer"
-import { IsBoolean, IsNumber, IsOptional } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { zBooleanQuery } from "@/shared/dto/zod.utils"
 
-export class ProxyQueriesDto {
-  @IsOptional()
-  @Transform(({ value }) => {
-    return Number(value)
-  })
-  @IsNumber()
-  size?: number
+const proxyQueriesSchema = z.object({
+  size: z.coerce.number().optional(),
+  keepOriginalType: zBooleanQuery.optional(),
+})
 
-  @IsOptional()
-  @IsBoolean()
-  @Transform(({ value }) => {
-    if (value === "true")
-      return true
-    if (value === "false")
-      return false
-    return value
-  })
-  keepOriginalType?: boolean
-}
+export class ProxyQueriesDto extends createZodDto(proxyQueriesSchema) {}
