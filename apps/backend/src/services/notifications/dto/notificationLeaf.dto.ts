@@ -2,7 +2,7 @@ import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 
 const notificationMediaListSchema = z.object({
-  id: z.string().uuid().meta({ format: "uuid" }),
+  id: z.uuid().meta({ format: "uuid" }),
   title: z.string().meta({ example: "My Favorite Movies" }),
 })
 

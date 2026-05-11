@@ -8,8 +8,8 @@ import { MediaItemTvProgressDto } from "@/services/mediaItems/dto/mediaItemTvPro
 import { zDateTimeString } from "@/shared/dto/zod.utils"
 
 export const mediaItemTrackingDataSchema = z.object({
-  id: z.string().uuid(),
-  mediaItemId: z.string().uuid(),
+  id: z.uuid(),
+  mediaItemId: z.uuid(),
   currentStatus: z.enum(MediaItemStatusNameEnum),
   note: z.string(),
   score: z.number().nullable().optional(),

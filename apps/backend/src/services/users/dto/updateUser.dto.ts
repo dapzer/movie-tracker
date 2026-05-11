@@ -4,7 +4,7 @@ import { z } from "zod"
 
 const updateUserSchema = z.object({
   name: z.string().min(1).max(32).optional().meta({ example: "John Doe" }),
-  image: z.string().url().optional().meta({ example: "https://cdn.example.com/avatar.jpg" }),
+  image: z.url().optional().meta({ example: "https://cdn.example.com/avatar.jpg" }),
   mediaRatingsAccessLevel: z
     .enum(UserMediaRatingsAccessLevelEnum)
     .optional()

@@ -3,7 +3,7 @@ import { z } from "zod"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 
 const bulkUpdateMediaItemSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   data: UpdateMediaItemDto.schema,
 })
 

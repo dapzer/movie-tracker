@@ -5,11 +5,11 @@ import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
 import { zDateTimeString } from "@/shared/dto/zod.utils"
 
 const releaseSubscriptionSchema = z.object({
-  id: z.string().uuid().meta({ format: "uuid" }),
+  id: z.uuid().meta({ format: "uuid" }),
   mediaId: z.number().meta({ example: 550 }),
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum }),
-  mediaDetailsId: z.string().uuid().meta({ format: "uuid" }),
-  userId: z.string().uuid().meta({ format: "uuid" }),
+  mediaDetailsId: z.uuid().meta({ format: "uuid" }),
+  userId: z.uuid().meta({ format: "uuid" }),
   lastReleasedAt: zDateTimeString.nullable().optional().meta({ format: "date-time", nullable: true }),
   completedAt: zDateTimeString.nullable().optional().meta({ format: "date-time", nullable: true }),
   createdAt: zDateTimeString.meta({ format: "date-time" }),

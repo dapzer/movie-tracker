@@ -3,7 +3,7 @@ import { z } from "zod"
 import { UpdateTrackingDataDto } from "@/services/trackingData/dto/updateTrackingData.dto"
 
 const bulkUpdateTrackingDataItemSchema = z.object({
-  trackingDataId: z.string().uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
+  trackingDataId: z.uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
   body: UpdateTrackingDataDto.schema,
 })
 

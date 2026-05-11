@@ -15,8 +15,8 @@ const mediaItemSiteToViewSchema = z.object({
 })
 
 const mediaItemTrackingDataSchema = z.object({
-  id: z.string().uuid().meta({ format: "uuid" }),
-  mediaItemId: z.string().uuid().meta({ format: "uuid" }),
+  id: z.uuid().meta({ format: "uuid" }),
+  mediaItemId: z.uuid().meta({ format: "uuid" }),
   currentStatus: z.enum(MediaItemStatusNameEnum).meta({ enum: MediaItemStatusNameEnum }),
   note: z.string().meta({ maxLength: 2500 }),
   score: z.number().nullable().optional().meta({ nullable: true, example: 8 }),
@@ -27,10 +27,10 @@ const mediaItemTrackingDataSchema = z.object({
 })
 
 const mediaItemSchema = z.object({
-  id: z.string().uuid().meta({ format: "uuid" }),
+  id: z.uuid().meta({ format: "uuid" }),
   mediaId: z.number().meta({ example: 550 }),
-  mediaDetailsId: z.string().uuid().meta({ format: "uuid" }),
-  mediaListId: z.string().uuid().meta({ format: "uuid" }),
+  mediaDetailsId: z.uuid().meta({ format: "uuid" }),
+  mediaListId: z.uuid().meta({ format: "uuid" }),
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum }),
   mediaDetails: MediaDetailsDto.schema.optional(),
   mediaRating: MediaRatingDto.schema.optional(),

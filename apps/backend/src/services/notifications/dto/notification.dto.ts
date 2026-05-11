@@ -19,8 +19,8 @@ const notificationMetaSchema = z.discriminatedUnion("type", [
 ])
 
 const notificationSchema = z.object({
-  id: z.string().uuid().meta({ format: "uuid" }),
-  userId: z.string().uuid().meta({ format: "uuid" }),
+  id: z.uuid().meta({ format: "uuid" }),
+  userId: z.uuid().meta({ format: "uuid" }),
   type: z.enum(NotificationTypeEnum).meta({ enum: NotificationTypeEnum, example: NotificationTypeEnum.USER_FOLLOW }),
   meta: notificationMetaSchema,
   readAt: zDateTimeString.optional().meta({ format: "date-time" }),

@@ -29,7 +29,7 @@ const mediaDetailsInfoSchema = z.object({
 })
 
 const mediaDetailsSchema = z.object({
-  id: z.string().uuid().meta({ format: "uuid", example: "c91f2c3e-6c4f-4a2a-9f1c-2c8e9b7a1d55" }),
+  id: z.uuid().meta({ format: "uuid", example: "c91f2c3e-6c4f-4a2a-9f1c-2c8e9b7a1d55" }),
   mediaId: z.number().meta({ example: 550 }),
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
   score: z.number().min(0).max(10).meta({ minimum: 0, maximum: 10, example: 8 }),

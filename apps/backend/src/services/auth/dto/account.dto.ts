@@ -3,8 +3,8 @@ import { z } from "zod"
 import { zDateTimeString } from "@/shared/dto/zod.utils"
 
 const accountSchema = z.object({
-  id: z.string().uuid(),
-  userId: z.string().uuid(),
+  id: z.uuid(),
+  userId: z.uuid(),
   access_token: z.string(),
   refresh_token: z.string(),
   provider: z.string(),
