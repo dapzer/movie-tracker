@@ -22,6 +22,13 @@
       "when": 1778424068925,
       "tag": "0002_media_details_release_date",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778527269552,
+      "tag": "0003_drop_prisma_migrations",
+      "breakpoints": true
     }
   ]
 }
