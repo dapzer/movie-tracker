@@ -1,15 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class ErrorResponseDto {
-  @ApiProperty({ example: 400 })
-  statusCode: number
+const errorResponseSchema = z.object({
+  statusCode: z.number().meta({ example: 400 }),
+  message: z.string().meta({ example: "Bad Request" }),
+  timestamp: z.string().meta({ example: "2026-04-29T12:34:56.789Z" }),
+  path: z.string().meta({ example: "/api/media-ratings" }),
+})
 
-  @ApiProperty({ example: "Bad Request" })
-  message: string
-
-  @ApiProperty({ example: "2026-04-29T12:34:56.789Z" })
-  timestamp: string
-
-  @ApiProperty({ example: "/api/media-ratings" })
-  path: string
-}
+export class ErrorResponseDto extends createZodDto(errorResponseSchema) {}

@@ -1,21 +1,16 @@
-import {
-  NotificationMediaListType,
-  NotificationMediaReleaseEpisodeType,
-} from "@movie-tracker/types"
-import { ApiProperty } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class NotificationMediaListDto implements NotificationMediaListType {
-  @ApiProperty({ type: String, format: "uuid" })
-  id: string
+const notificationMediaListSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid" }),
+  title: z.string().meta({ example: "My Favorite Movies" }),
+})
 
-  @ApiProperty({ type: String, example: "My Favorite Movies" })
-  title: string
-}
+const notificationMediaReleaseEpisodeSchema = z.object({
+  seasonNumber: z.number().meta({ example: 1 }),
+  episodeNumber: z.number().meta({ example: 2 }),
+})
 
-export class NotificationMediaReleaseEpisodeDto implements NotificationMediaReleaseEpisodeType {
-  @ApiProperty({ type: Number, example: 1 })
-  seasonNumber: number
+export class NotificationMediaListDto extends createZodDto(notificationMediaListSchema) {}
 
-  @ApiProperty({ type: Number, example: 2 })
-  episodeNumber: number
-}
+export class NotificationMediaReleaseEpisodeDto extends createZodDto(notificationMediaReleaseEpisodeSchema) {}

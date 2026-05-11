@@ -1,3 +1,4 @@
+import type { PaginationDtoType } from "@/shared/dto/pagination.dto"
 import { MediaRatingPaginatedType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
@@ -13,7 +14,6 @@ import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.servic
 import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRating.dto"
 import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParams.dto"
 import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
-import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UserNotFoundError } from "@/shared/errors/auth"
 import {
   MediaDetailsCreationFailedError,
@@ -50,14 +50,18 @@ export class MediaRatingsService {
     return mediaRating
   }
 
-  async getRecentlyCreated(args: PaginationDto): Promise<MediaRatingPaginatedType> {
-    return this.mediaRatingRepository.getRecentlyCreated(args)
+  async getRecentlyCreated(args: PaginationDtoType): Promise<MediaRatingPaginatedType> {
+    return this.mediaRatingRepository.getRecentlyCreated({
+      ...args,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
+    })
   }
 
   async getByUserId(args: {
     userId: string
     currentUserId?: string
-  } & PaginationDto): Promise<MediaRatingPaginatedType> {
+  } & PaginationDtoType): Promise<MediaRatingPaginatedType> {
     const user = await this.userRepository.getById(args.userId)
 
     if (!user) {
@@ -70,8 +74,8 @@ export class MediaRatingsService {
 
     const mediaRatings = await this.mediaRatingRepository.getByUserId({
       userId: args.userId,
-      limit: args.limit,
-      offset: args.offset,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
     })
 
     return {

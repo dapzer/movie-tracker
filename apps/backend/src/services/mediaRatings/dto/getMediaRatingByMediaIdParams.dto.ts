@@ -1,12 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { Transform } from "class-transformer"
-import { IsNumber } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class GetMediaRatingByMediaIdParamsDto {
-  @ApiProperty({ type: Number })
-  @Transform(({ value }) => {
-    return Number(value)
-  })
-  @IsNumber()
-  mediaId: number
-}
+const getMediaRatingByMediaIdParamsSchema = z.object({
+  mediaId: z.coerce.number(),
+})
+
+export class GetMediaRatingByMediaIdParamsDto extends createZodDto(getMediaRatingByMediaIdParamsSchema) {}

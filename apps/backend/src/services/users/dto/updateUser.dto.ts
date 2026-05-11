@@ -1,26 +1,14 @@
 import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
-import { ApiPropertyOptional } from "@nestjs/swagger"
-import { IsEnum, IsOptional, IsString, IsUrl, Length } from "class-validator"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UpdateUserDto implements Partial<Pick<UserDto, "name" | "image" | "mediaRatingsAccessLevel">> {
-  @ApiPropertyOptional({ type: String, example: "John Doe" })
-  @IsOptional()
-  @IsString()
-  @Length(1, 32)
-  name?: string
+const updateUserSchema = z.object({
+  name: z.string().min(1).max(32).optional().meta({ example: "John Doe" }),
+  image: z.string().url().optional().meta({ example: "https://cdn.example.com/avatar.jpg" }),
+  mediaRatingsAccessLevel: z
+    .enum(UserMediaRatingsAccessLevelEnum)
+    .optional()
+    .meta({ enum: UserMediaRatingsAccessLevelEnum, example: UserMediaRatingsAccessLevelEnum.PUBLIC }),
+})
 
-  @ApiPropertyOptional({ type: String, example: "https://cdn.example.com/avatar.jpg" })
-  @IsString()
-  @IsUrl()
-  @IsOptional()
-  image?: string
-
-  @ApiPropertyOptional({
-    enum: UserMediaRatingsAccessLevelEnum,
-    example: UserMediaRatingsAccessLevelEnum.PUBLIC,
-  })
-  @IsOptional()
-  @IsEnum(UserMediaRatingsAccessLevelEnum)
-  mediaRatingsAccessLevel?: UserMediaRatingsAccessLevelEnum
-}
+export class UpdateUserDto extends createZodDto(updateUserSchema) {}

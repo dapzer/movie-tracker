@@ -1,14 +1,11 @@
-import { Type } from "@nestjs/common"
-import { ApiProperty } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export function PaginatedDto<T>(classRef: Type<T>) {
-  class PaginatedRes {
-    @ApiProperty({ type: [classRef] })
-    items: T[]
+export function PaginatedDto<T>(classRef: { schema: z.ZodType<T> }) {
+  const paginatedSchema = z.object({
+    items: z.array(classRef.schema),
+    totalCount: z.number().meta({ example: 1 }),
+  })
 
-    @ApiProperty({ type: Number, example: 1 })
-    totalCount: number
-  }
-
-  return PaginatedRes
+  return createZodDto(paginatedSchema)
 }

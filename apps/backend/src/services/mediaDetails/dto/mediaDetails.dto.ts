@@ -1,91 +1,51 @@
 import {
-  MediaDetailsInfoSeasonEpisodeType,
-  MediaDetailsInfoSeasonType,
-  MediaDetailsInfoType,
-  MediaDetailsType,
   MediaTypeEnum,
 } from "@movie-tracker/types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 
-export class MediaDetailsInfoSeasonEpisodeDto implements MediaDetailsInfoSeasonEpisodeType {
-  @ApiProperty({ type: String, example: "2024-01-15" })
-  airDate: string
+const mediaDetailsInfoSeasonEpisodeSchema = z.object({
+  airDate: z.string().meta({ example: "2024-01-15" }),
+  episodeNumber: z.number().meta({ example: 1 }),
+  seasonNumber: z.number().meta({ example: 1 }),
+  poster: z.string().optional().meta({ example: "/poster.jpg" }),
+  name: z.string().meta({ example: "Pilot" }),
+})
 
-  @ApiProperty({ type: Number, example: 1 })
-  episodeNumber: number
+const mediaDetailsInfoSeasonSchema = z.object({
+  name: z.string().meta({ example: "Season 1" }),
+  airDate: z.string().meta({ example: "2024-01-01" }),
+  episodeCount: z.number().meta({ example: 10 }),
+  episodes: z.array(mediaDetailsInfoSeasonEpisodeSchema),
+  seasonNumber: z.number().meta({ example: 1 }),
+})
 
-  @ApiProperty({ type: Number, example: 1 })
-  seasonNumber: number
+const mediaDetailsInfoSchema = z.object({
+  title: z.string().meta({ example: "Inception" }),
+  originalTitle: z.string().meta({ example: "Inception" }),
+  poster: z.string().meta({ example: "/poster.jpg" }),
+  seasons: z.array(mediaDetailsInfoSeasonSchema).optional(),
+})
 
-  @ApiPropertyOptional({ type: String, example: "/poster.jpg" })
-  poster?: string
+const mediaDetailsSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid", example: "c91f2c3e-6c4f-4a2a-9f1c-2c8e9b7a1d55" }),
+  mediaId: z.number().meta({ example: 550 }),
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
+  score: z.number().min(0).max(10).meta({ minimum: 0, maximum: 10, example: 8 }),
+  genres: z.array(z.number()).meta({ example: [28, 12] }),
+  status: z.string().optional().meta({ example: "Released" }),
+  releaseDate: z.string().optional().meta({ example: "2010-07-16" }),
+  en: mediaDetailsInfoSchema,
+  ru: mediaDetailsInfoSchema,
+  createdAt: zDateTimeString.meta({ format: "date-time", example: "2026-04-28T12:34:56.000Z" }),
+  updatedAt: zDateTimeString.meta({ format: "date-time", example: "2026-04-28T12:34:56.000Z" }),
+})
 
-  @ApiProperty({ type: String, example: "Pilot" })
-  name: string
-}
+export class MediaDetailsInfoSeasonEpisodeDto extends createZodDto(mediaDetailsInfoSeasonEpisodeSchema) {}
 
-export class MediaDetailsInfoSeasonDto implements MediaDetailsInfoSeasonType {
-  @ApiProperty({ type: String, example: "Season 1" })
-  name: string
+export class MediaDetailsInfoSeasonDto extends createZodDto(mediaDetailsInfoSeasonSchema) {}
 
-  @ApiProperty({ type: String, example: "2024-01-01" })
-  airDate: string
+export class MediaDetailsInfoDto extends createZodDto(mediaDetailsInfoSchema) {}
 
-  @ApiProperty({ type: Number, example: 10 })
-  episodeCount: number
-
-  @ApiProperty({ type: [MediaDetailsInfoSeasonEpisodeDto] })
-  episodes: MediaDetailsInfoSeasonEpisodeDto[]
-
-  @ApiProperty({ type: Number, example: 1 })
-  seasonNumber: number
-}
-
-export class MediaDetailsInfoDto implements MediaDetailsInfoType {
-  @ApiProperty({ type: String, example: "Inception" })
-  title: string
-
-  @ApiProperty({ type: String, example: "Inception" })
-  originalTitle: string
-
-  @ApiProperty({ type: String, example: "/poster.jpg" })
-  poster: string
-
-  @ApiPropertyOptional({ type: [MediaDetailsInfoSeasonDto] })
-  seasons?: MediaDetailsInfoSeasonDto[]
-}
-
-export class MediaDetailsDto implements MediaDetailsType {
-  @ApiProperty({ type: String, format: "uuid", example: "c91f2c3e-6c4f-4a2a-9f1c-2c8e9b7a1d55" })
-  id: string
-
-  @ApiProperty({ type: Number, example: 550 })
-  mediaId: number
-
-  @ApiProperty({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE })
-  mediaType: MediaTypeEnum
-
-  @ApiProperty({ type: Number, minimum: 0, maximum: 10, example: 8 })
-  score: number
-
-  @ApiProperty({ type: [Number], example: [28, 12] })
-  genres: number[]
-
-  @ApiProperty({ type: String, example: "Released" })
-  status?: string
-
-  @ApiPropertyOptional({ type: String, example: "2010-07-16" })
-  releaseDate?: string
-
-  @ApiProperty({ type: MediaDetailsInfoDto })
-  en: MediaDetailsInfoDto
-
-  @ApiProperty({ type: MediaDetailsInfoDto })
-  ru: MediaDetailsInfoDto
-
-  @ApiProperty({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
-  createdAt: Date
-
-  @ApiProperty({ type: String, format: "date-time", example: "2026-04-28T12:34:56.000Z" })
-  updatedAt: Date
-}
+export class MediaDetailsDto extends createZodDto(mediaDetailsSchema) {}

@@ -1,19 +1,12 @@
-import { AnalyticsRecords } from "@movie-tracker/types"
-import { ApiProperty } from "@nestjs/swagger"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class AnalyticsRecordsDto implements AnalyticsRecords {
-  @ApiProperty({ example: 50000, description: "Number of media details records" })
-  mediaDetails: number
+const analyticsRecordsSchema = z.object({
+  mediaDetails: z.number().meta({ example: 50000, description: "Number of media details records" }),
+  mediaItems: z.number().meta({ example: 15000, description: "Number of media items" }),
+  users: z.number().meta({ example: 5000, description: "Number of users" }),
+  mediaLists: z.number().meta({ example: 10000, description: "Number of media lists" }),
+  mediaRatings: z.number().meta({ example: 100000, description: "Number of media ratings" }),
+})
 
-  @ApiProperty({ example: 15000, description: "Number of media items" })
-  mediaItems: number
-
-  @ApiProperty({ example: 5000, description: "Number of users" })
-  users: number
-
-  @ApiProperty({ example: 10000, description: "Number of media lists" })
-  mediaLists: number
-
-  @ApiProperty({ example: 100000, description: "Number of media ratings" })
-  mediaRatings: number
-}
+export class AnalyticsRecordsDto extends createZodDto(analyticsRecordsSchema) {}

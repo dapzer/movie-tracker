@@ -1,12 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CreateMediaItemCloneDto {
-  @ApiProperty({ type: String, format: "uuid", example: "b10c5d0d-4ce2-4e31-8d1a-7d1a0b944b3a" })
-  @IsUUID()
-  mediaListId: string
+const createMediaItemCloneSchema = z.object({
+  mediaListId: z.string().uuid().meta({ format: "uuid", example: "b10c5d0d-4ce2-4e31-8d1a-7d1a0b944b3a" }),
+  isSaveCreationDate: z.boolean().meta({ example: true }),
+})
 
-  @ApiProperty({ type: Boolean, example: true })
-  @IsBoolean()
-  isSaveCreationDate: boolean
-}
+export class CreateMediaItemCloneDto extends createZodDto(createMediaItemCloneSchema) {}

@@ -1,112 +1,70 @@
-import {
-  MediaItemsByListIdResponseType,
-  MediaItemsCountByStatusType,
-  MediaItemSiteToViewType,
-  MediaItemStatusNameEnum,
-  MediaItemTrackingDataType,
-  MediaItemTvProgressType,
-  MediaItemType,
-  MediaTypeEnum,
-} from "@movie-tracker/types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { MediaItemStatusNameEnum, MediaTypeEnum } from "@movie-tracker/types"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
 import { MediaRatingDto } from "@/services/mediaRatings/dto/mediaRating.dto"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 
-export class MediaItemTvProgressDto implements MediaItemTvProgressType {
-  @ApiProperty({ type: Number, example: 1 })
-  currentSeason: number
+const mediaItemTvProgressSchema = z.object({
+  currentSeason: z.number().meta({ example: 1 }),
+  currentEpisode: z.number().meta({ example: 3 }),
+})
 
-  @ApiProperty({ type: Number, example: 3 })
-  currentEpisode: number
-}
+const mediaItemSiteToViewSchema = z.object({
+  url: z.string().meta({ example: "https://netflix.com/watch/123" }),
+})
 
-export class MediaItemSiteToViewDto implements MediaItemSiteToViewType {
-  @ApiProperty({ type: String, example: "https://netflix.com/watch/123" })
-  url: string
-}
+const mediaItemTrackingDataSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid" }),
+  mediaItemId: z.string().uuid().meta({ format: "uuid" }),
+  currentStatus: z.enum(MediaItemStatusNameEnum).meta({ enum: MediaItemStatusNameEnum }),
+  note: z.string().meta({ maxLength: 2500 }),
+  score: z.number().nullable().optional().meta({ nullable: true, example: 8 }),
+  tvProgress: mediaItemTvProgressSchema,
+  sitesToView: z.array(mediaItemSiteToViewSchema),
+  createdAt: zDateTimeString.meta({ format: "date-time" }),
+  updatedAt: zDateTimeString.meta({ format: "date-time" }),
+})
 
-export class MediaItemTrackingDataDto implements MediaItemTrackingDataType {
-  @ApiProperty({ type: String, format: "uuid" })
-  id: string
+const mediaItemSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid" }),
+  mediaId: z.number().meta({ example: 550 }),
+  mediaDetailsId: z.string().uuid().meta({ format: "uuid" }),
+  mediaListId: z.string().uuid().meta({ format: "uuid" }),
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum }),
+  mediaDetails: MediaDetailsDto.schema.optional(),
+  mediaRating: MediaRatingDto.schema.optional(),
+  trackingData: mediaItemTrackingDataSchema,
+  createdAt: zDateTimeString.meta({ format: "date-time" }),
+  updatedAt: zDateTimeString.meta({ format: "date-time" }),
+})
 
-  @ApiProperty({ type: String, format: "uuid" })
-  mediaItemId: string
+const mediaItemPaginatedSchema = z.object({
+  items: z.array(mediaItemSchema),
+  totalCount: z.number().meta({ example: 42 }),
+})
 
-  @ApiProperty({ enum: MediaItemStatusNameEnum })
-  currentStatus: MediaItemStatusNameEnum
+const mediaItemsCountByStatusSchema = z.object({
+  [MediaItemStatusNameEnum.WATCHING_NOW]: z.number().meta({ example: 5 }),
+  [MediaItemStatusNameEnum.NOT_VIEWED]: z.number().meta({ example: 12 }),
+  [MediaItemStatusNameEnum.WAIT_NEW_PART]: z.number().meta({ example: 3 }),
+  [MediaItemStatusNameEnum.VIEWED]: z.number().meta({ example: 20 }),
+  total: z.number().meta({ example: 40 }),
+})
 
-  @ApiProperty({ type: String, maxLength: 2500 })
-  note: string
+export class MediaItemTvProgressDto extends createZodDto(mediaItemTvProgressSchema) {}
 
-  @ApiPropertyOptional({ type: Number, nullable: true, example: 8 })
-  score: number | null
+export class MediaItemSiteToViewDto extends createZodDto(mediaItemSiteToViewSchema) {}
 
-  @ApiProperty({ type: MediaItemTvProgressDto })
-  tvProgress: MediaItemTvProgressDto
+export class MediaItemTrackingDataDto extends createZodDto(mediaItemTrackingDataSchema) {}
 
-  @ApiProperty({ type: [MediaItemSiteToViewDto] })
-  sitesToView: MediaItemSiteToViewDto[]
+export class MediaItemDto extends createZodDto(mediaItemSchema) {}
 
-  @ApiProperty({ type: String, format: "date-time" })
-  createdAt: Date
+export class MediaItemPaginatedDto extends createZodDto(mediaItemPaginatedSchema) {}
 
-  @ApiProperty({ type: String, format: "date-time" })
-  updatedAt: Date
-}
+export class MediaItemsCountByStatusDto extends createZodDto(mediaItemsCountByStatusSchema) {}
 
-export class MediaItemDto implements MediaItemType {
-  @ApiProperty({ type: String, format: "uuid" })
-  id: string
-
-  @ApiProperty({ type: Number, example: 550 })
-  mediaId: number
-
-  @ApiProperty({ type: String, format: "uuid" })
-  mediaDetailsId: string
-
-  @ApiProperty({ type: String, format: "uuid" })
-  mediaListId: string
-
-  @ApiProperty({ enum: MediaTypeEnum })
-  mediaType: MediaTypeEnum
-
-  @ApiPropertyOptional({ type: MediaDetailsDto })
-  mediaDetails?: MediaDetailsDto
-
-  @ApiPropertyOptional({ type: MediaRatingDto })
-  mediaRating?: MediaRatingDto
-
-  @ApiProperty({ type: MediaItemTrackingDataDto })
-  trackingData: MediaItemTrackingDataDto
-
-  @ApiProperty({ type: String, format: "date-time" })
-  createdAt: Date
-
-  @ApiProperty({ type: String, format: "date-time" })
-  updatedAt: Date
-}
-
-export class MediaItemPaginatedDto implements MediaItemsByListIdResponseType {
-  @ApiProperty({ type: [MediaItemDto] })
-  items: MediaItemDto[]
-
-  @ApiProperty({ type: Number, example: 42 })
-  totalCount: number
-}
-
-export class MediaItemsCountByStatusDto implements MediaItemsCountByStatusType {
-  @ApiProperty({ type: Number, example: 5 })
-  [MediaItemStatusNameEnum.WATCHING_NOW]: number
-
-  @ApiProperty({ type: Number, example: 12 })
-  [MediaItemStatusNameEnum.NOT_VIEWED]: number
-
-  @ApiProperty({ type: Number, example: 3 })
-  [MediaItemStatusNameEnum.WAIT_NEW_PART]: number
-
-  @ApiProperty({ type: Number, example: 20 })
-  [MediaItemStatusNameEnum.VIEWED]: number
-
-  @ApiProperty({ type: Number, example: 40 })
-  total: number
-}
+MediaItemTrackingDataDto.schema.shape.tvProgress = mediaItemTvProgressSchema
+MediaItemTrackingDataDto.schema.shape.sitesToView = z.array(mediaItemSiteToViewSchema)
+MediaItemDto.schema.shape.trackingData = mediaItemTrackingDataSchema
+MediaItemPaginatedDto.schema.shape.items = z.array(mediaItemSchema)

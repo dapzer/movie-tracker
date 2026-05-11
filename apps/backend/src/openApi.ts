@@ -2,6 +2,7 @@ import { INestApplication } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import { apiReference } from "@scalar/nestjs-api-reference"
+import { cleanupOpenApiDoc } from "nestjs-zod"
 
 export function setupOpenApi(app: INestApplication, configService: ConfigService) {
   const isDevelopment = configService.get("NODE_ENV") === "development"
@@ -21,7 +22,7 @@ export function setupOpenApi(app: INestApplication, configService: ConfigService
     })
     .build()
 
-  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig)
+  const swaggerDocument = cleanupOpenApiDoc(SwaggerModule.createDocument(app, swaggerConfig))
   const jsonUrl = "/api/openapi/json"
 
   SwaggerModule.setup("/api/openapi", app, swaggerDocument, {

@@ -1,5 +1,6 @@
+import type { GetMediaItemsByListIdQueryType } from "@/services/mediaItems/dto/getMediaItemsByListIdQuery.dto"
+import type { GetMediaItemsCountByListIdQueryType } from "@/services/mediaItems/dto/getMediaItemsCountByListIdQuery.dto"
 import {
-  GetMediaItemsByListIdQueries,
   MediaItemsFiltersQueries,
   MediaItemStatusNameEnum,
   MediaItemType,
@@ -22,7 +23,6 @@ import {
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
-import { GetMediaItemsCountByListIdQueryDto } from "@/services/mediaItems/dto/getMediaItemsCountByListIdQuery.dto"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 import { MediaItemNotFoundError, MediaItemUnauthorizedError } from "@/shared/errors/mediaItem"
 import { MediaListNotFoundError } from "@/shared/errors/mediaList"
@@ -39,7 +39,13 @@ export class MediaItemsService {
     private readonly mediaDetailsService: MediaDetailsService,
   ) {}
 
-  private normalizeMediaItemsFilters(args: MediaItemsFiltersQueries) {
+  private normalizeMediaItemsFilters(args: {
+    mediaTypes?: MediaTypeEnum[]
+    rating?: [number, number]
+    releaseYear?: [number | undefined, number | undefined]
+    genres?: number[]
+    releaseStatuses?: string[]
+  }): MediaItemsFiltersQueries {
     return {
       mediaTypes: args.mediaTypes,
       rating: args.rating,
@@ -219,7 +225,7 @@ export class MediaItemsService {
     })
   }
 
-  async getCountByListId(args: { mediaListId: string, userId: string } & GetMediaItemsCountByListIdQueryDto) {
+  async getCountByListId(args: { mediaListId: string, userId: string } & GetMediaItemsCountByListIdQueryType) {
     const mediaList = await this.mediaListRepository.getById({ id: args.mediaListId })
 
     if (!mediaList) {
@@ -238,7 +244,7 @@ export class MediaItemsService {
     })
   }
 
-  async getByListId(args: Omit<GetMediaItemsByListIdQueries, "mediaListId"> & {
+  async getByListId(args: GetMediaItemsByListIdQueryType & {
     userId: string
     mediaListId: string
     byHumanFriendlyId?: boolean
@@ -265,8 +271,8 @@ export class MediaItemsService {
       ...this.normalizeMediaItemsFilters(args),
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
-      limit: args.limit,
-      offset: args.offset,
+      limit: args.limit ?? 20,
+      offset: args.offset ?? 0,
     })
 
     if (!response.items || response.items.length === 0) {

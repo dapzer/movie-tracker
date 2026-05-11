@@ -1,10 +1,10 @@
 import { sessions } from "@movie-tracker/database"
-import { ValidationPipe } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { HttpAdapterHost, NestFactory } from "@nestjs/core"
 import * as cookieParser from "cookie-parser"
 import * as session from "express-session"
 import { Logger } from "nestjs-pino"
+import { ZodValidationPipe } from "nestjs-zod"
 import { AppModule } from "@/app.module"
 import { AllExceptionsFilter } from "@/filters/allException.filter"
 import { CustomErrorFilter } from "@/filters/customError.filter"
@@ -33,7 +33,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix("/api")
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
+  app.useGlobalPipes(new ZodValidationPipe())
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter))
   app.useGlobalFilters(new CustomErrorFilter(httpAdapter))
   app.useGlobalFilters(new DrizzleClientErrorFilter())

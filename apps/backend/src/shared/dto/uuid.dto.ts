@@ -1,8 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsUUID } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class UuidDto {
-  @ApiProperty({ type: String, format: "uuid" })
-  @IsUUID()
-  id: string
-}
+const uuidSchema = z.object({
+  id: z.string().uuid().meta({ format: "uuid" }),
+})
+
+export class UuidDto extends createZodDto(uuidSchema) {}
