@@ -7,7 +7,7 @@ export const userSchema = z.object({
   id: z.uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
   name: z.string().meta({ example: "John Doe" }),
   email: z.email().optional().meta({ example: "user@example.com" }),
-  image: z.url().meta({ example: "https://cdn.example.com/avatar.jpg" }),
+  image: z.url().optional().meta({ example: "https://cdn.example.com/avatar.jpg" }),
   password: z.string().min(8).max(32).optional().meta({ minLength: 8, maxLength: 32, example: "StrongPass123" }),
   isEmailVerified: z.boolean().meta({ example: true }),
   roles: z.array(z.enum(UserRoleEnum)).meta({ enum: UserRoleEnum, isArray: true, example: [UserRoleEnum.USER] }),
@@ -25,3 +25,5 @@ export const optionalUserSchema = userSchema.optional()
 export class UserDto extends createZodDto(userSchema) {}
 
 export class OptionalUserDto extends createZodDto(optionalUserSchema) {}
+
+export type UserType = z.infer<typeof userSchema>

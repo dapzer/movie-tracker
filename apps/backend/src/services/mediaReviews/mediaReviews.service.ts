@@ -1,4 +1,4 @@
-import { MediaReviewStatus, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { MediaReviewStatus, UserRoleEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
@@ -17,6 +17,7 @@ import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaRev
 import { CreateMediaReviewDislikeDto } from "@/services/mediaReviews/dto/createMediaReviewDislike.dto"
 import { CreateMediaReviewLikeDto } from "@/services/mediaReviews/dto/createMediaReviewLike.dto"
 import { UpdateMediaReviewDto } from "@/services/mediaReviews/dto/updateMediaReview.dto"
+import { UserType } from "@/services/users/dto/user.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { MediaDetailsCreationFailedError } from "@/shared/errors/mediaRating"
 import {
@@ -61,17 +62,12 @@ export class MediaReviewsService {
     })
   }
 
-  async getByMediaId(args: { mediaId: number, currentUser?: UserType, status?: MediaReviewStatus } & PaginationDto) {
-    if (args.status !== MediaReviewStatus.PUBLISHED && !args.currentUser?.roles.includes(UserRoleEnum.ADMIN)) {
-      throw new MediaReviewPermissionError({ userId: args.currentUser?.id, requiredRoles: [UserRoleEnum.ADMIN] })
-    }
-
+  async getByMediaId(args: { mediaId: number, currentUser?: UserType } & PaginationDto) {
     return this.mediaReviewRepository.getByMediaId({
       mediaId: args.mediaId,
       limit: args.limit,
       offset: args.offset,
       currentUserId: args.currentUser?.id,
-      status: args.status,
     })
   }
 
@@ -140,14 +136,8 @@ export class MediaReviewsService {
       throw new MediaReviewNotFoundError({ mediaReviewId: args.id })
     }
 
-    const isModerator = args.currentUser?.roles.includes(UserRoleEnum.ADMIN)
-
-    if (mediaReview.userId !== args.currentUser.id && !isModerator) {
+    if (mediaReview.userId !== args.currentUser.id) {
       throw new MediaReviewUnauthorizedError({ userId: args.currentUser.id, mediaReviewId: args.id })
-    }
-
-    if (args.body.status && ![MediaReviewStatus.PENDING, MediaReviewStatus.DRAFT].includes(args.body.status) && !isModerator) {
-      throw new MediaReviewPermissionError({ userId: args.currentUser.id })
     }
 
     return this.mediaReviewRepository.update({

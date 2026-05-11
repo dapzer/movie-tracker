@@ -17,7 +17,6 @@ export interface GetMediaReviewByIdArgs {
 
 export type GetMediaReviewsByMediaIdArgs = {
   mediaId: number
-  status?: MediaReviewStatus
 } & PaginationType
 
 export type GetMediaReviewsByUserIdArgs = {

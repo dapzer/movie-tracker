@@ -1,4 +1,4 @@
-import { MediaReviewModerationLogAction, MediaReviewStatus, UserType } from "@movie-tracker/types"
+import { MediaReviewModerationLogAction, MediaReviewStatus } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
@@ -20,11 +20,11 @@ export class MediaReviewModerationService {
     private readonly moderationLogsRepository: MediaReviewsModerationLogsRepositoryInterface,
   ) {}
 
-  async getLogsByReviewId(args: { mediaReviewId: string, currentUser: UserType }) {
+  async getLogsByReviewId(args: { mediaReviewId: string }) {
     return this.moderationLogsRepository.getByReviewId({ mediaReviewId: args.mediaReviewId })
   }
 
-  async moderate(args: { body: ModerateMediaReviewDto, currentUser: UserType }) {
+  async moderate(args: { body: ModerateMediaReviewDto, currentUserId: string }) {
     const mediaReview = await this.mediaReviewRepository.getById({ id: args.body.mediaReviewId })
 
     if (!mediaReview) {
@@ -54,7 +54,7 @@ export class MediaReviewModerationService {
 
     return this.moderationLogsRepository.create({
       mediaReviewId: args.body.mediaReviewId,
-      moderatorId: args.currentUser.id,
+      moderatorId: args.currentUserId,
       action: args.body.action,
       reason: args.body.reason ?? null,
       comment: args.body.comment ?? null,

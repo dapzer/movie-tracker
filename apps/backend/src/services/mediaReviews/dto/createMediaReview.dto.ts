@@ -1,23 +1,22 @@
 import { MediaReviewCreateBodyType, MediaReviewStatus, MediaTypeEnum } from "@movie-tracker/types"
-import { IsBoolean, IsEnum, IsIn, IsNumber, IsString } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
 
-export class CreateMediaReviewDto implements Omit<MediaReviewCreateBodyType, "mediaDetailsId"> {
-  @IsNumber()
-  mediaId: number
+const createMediaReviewStatusValues = [MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING] as const
 
-  @IsEnum(MediaTypeEnum)
-  mediaType: MediaTypeEnum
-
-  @IsString()
-  title: string
-
+const createMediaReviewSchema = z.object({
+  mediaId: z.number().meta({ example: 550 }),
+  mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
+  title: z.string().meta({ example: "A fresh and stylish action film" }),
   // TODO: add validation for content length using constants from packages
-  @IsString()
-  content: string
+  content: z.string().meta({ example: "Great pacing and soundtrack, but the third act feels rushed." }),
+  status: z.enum(createMediaReviewStatusValues).meta({
+    enum: createMediaReviewStatusValues,
+    example: MediaReviewStatus.DRAFT,
+  }),
+  isSpoiler: z.boolean().meta({ example: false }),
+})
 
-  @IsIn([MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING])
-  status: MediaReviewStatus
+export class CreateMediaReviewDto extends createZodDto(createMediaReviewSchema) implements Omit<MediaReviewCreateBodyType, "mediaDetailsId"> {}
 
-  @IsBoolean()
-  isSpoiler: boolean
-}
+export type CreateMediaReviewType = z.infer<typeof createMediaReviewSchema>

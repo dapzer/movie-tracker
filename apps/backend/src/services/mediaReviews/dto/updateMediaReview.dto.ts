@@ -1,16 +1,14 @@
 import { MediaReviewStatus, MediaReviewUpdateBodyType } from "@movie-tracker/types"
-import { IsBoolean, IsDate, IsEnum, IsOptional } from "class-validator"
+import { createZodDto } from "nestjs-zod"
+import { z } from "zod"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 
-export class UpdateMediaReviewDto implements Partial<MediaReviewUpdateBodyType> {
-  @IsBoolean()
-  @IsOptional()
-  isSpoiler?: boolean
+const updateMediaReviewSchema = z.object({
+  isSpoiler: z.boolean().optional().meta({ example: false }),
+  status: z.enum([MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING]).optional().meta({ enum: [MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING], example: MediaReviewStatus.PENDING }),
+  publishedAt: zDateTimeString.optional().meta({ format: "date-time", example: "2026-05-01T12:00:00.000Z" }),
+})
 
-  @IsEnum(MediaReviewStatus)
-  @IsOptional()
-  status?: MediaReviewStatus
+export class UpdateMediaReviewDto extends createZodDto(updateMediaReviewSchema) implements Partial<MediaReviewUpdateBodyType> {}
 
-  @IsDate()
-  @IsOptional()
-  publishedAt?: Date
-}
+export type UpdateMediaReviewType = z.infer<typeof updateMediaReviewSchema>
