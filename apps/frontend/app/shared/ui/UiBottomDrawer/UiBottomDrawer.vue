@@ -14,6 +14,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface UiBottomDrawerProps {
   title?: string
+  contentClass?: string
 }
 
 const props = defineProps<UiBottomDrawerProps>()
@@ -58,7 +59,7 @@ const model = defineModel<boolean>()
           {{ props.title }}
         </DrawerTitle>
 
-        <div :class="$style.content">
+        <div :class="[$style.content, props.contentClass]">
           <slot name="content" />
         </div>
       </DrawerContent>
@@ -68,63 +69,68 @@ const model = defineModel<boolean>()
 
 <style module lang="scss">
 @import "~/shared/styles/mixins";
+@layer internal, external;
 
-.overlay {
-  z-index: var(--i-modal);
-  background: var(--c-black-90);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.contentWrapper {
-  z-index: var(--i-modal);
-  width: 100%;
-  position: fixed;
-  max-height: calc(100% - 208px);
-  height: 100%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--c-card-background-hovered);
-  border-top-left-radius: var(--s-border-radius-huge);
-  border-top-right-radius: var(--s-border-radius-huge);
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  .closeButton {
-    position: absolute;
-    right: 16px;
-    top: 16px;
-    background: var(--c-white-08);
-    border: none;
-  }
-
-  .title {
-    padding: 0 24px;
-    text-align: center;
-  }
-
-  .content {
-    height: 100%;
-    overflow: auto;
-  }
-
-  .swipeTrigger {
-    position: absolute;
-    width: 36px;
-    height: 4px;
-    background: var(--c-white-15);
+@layer internal {
+  .overlay {
+    z-index: var(--i-modal);
+    background: var(--c-black-90);
+    position: fixed;
+    top: 0;
+    bottom: 0;
     left: 0;
-    margin: 0 auto;
     right: 0;
-    top: 6px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .contentWrapper {
+    z-index: var(--i-modal);
+    width: 100%;
+    position: fixed;
+    max-height: calc(100% - 208px);
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--c-card-background-hovered);
+    border-top-left-radius: var(--s-border-radius-huge);
+    border-top-right-radius: var(--s-border-radius-huge);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .closeButton {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      background: var(--c-white-08);
+      border: none;
+    }
+
+    .title {
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .content {
+      height: 100%;
+      min-width: 0;
+      overflow-x: clip;
+      overflow-y: auto;
+    }
+
+    .swipeTrigger {
+      position: absolute;
+      width: 36px;
+      height: 4px;
+      background: var(--c-white-15);
+      left: 0;
+      margin: 0 auto;
+      right: 0;
+      top: 6px;
+    }
   }
 }
 </style>

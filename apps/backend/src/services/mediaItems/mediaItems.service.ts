@@ -1,4 +1,6 @@
 import {
+  GetMediaItemsByListIdQueries,
+  MediaItemsFiltersQueries,
   MediaItemStatusNameEnum,
   MediaItemType,
   MediaListAccessLevelEnum,
@@ -36,6 +38,16 @@ export class MediaItemsService {
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
   ) {}
+
+  private normalizeMediaItemsFilters(args: MediaItemsFiltersQueries) {
+    return {
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      releaseYear: args.releaseYear,
+      genres: args.genres,
+      releaseStatuses: args.releaseStatuses?.map(status => status.toLowerCase()),
+    }
+  }
 
   private async isMediaListOwner(args: { mediaListId: string, userId: string, mediaListBase?: MediaListType }) {
     const mediaList
@@ -210,17 +222,23 @@ export class MediaItemsService {
   async getCountByListId(args: { mediaListId: string, userId: string } & GetMediaItemsCountByListIdQueryDto) {
     const mediaList = await this.mediaListRepository.getById({ id: args.mediaListId })
 
-    if (mediaList && mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
+    if (!mediaList) {
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
+    }
+
+    if (mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
       throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     return this.mediaItemRepository.getCountByListId({
       mediaListId: args.mediaListId,
+      mediaItemOwnerUserId: mediaList.userId,
       search: args.search,
+      ...this.normalizeMediaItemsFilters(args),
     })
   }
 
-  async getByListId(args: Omit<Parameters<MediaItemRepositoryInterface["getByListId"]>[0], "mediaListId"> & {
+  async getByListId(args: Omit<GetMediaItemsByListIdQueries, "mediaListId"> & {
     userId: string
     mediaListId: string
     byHumanFriendlyId?: boolean
@@ -231,15 +249,20 @@ export class MediaItemsService {
         })
       : await this.mediaListRepository.getById({ id: args.mediaListId })
 
-    if (mediaList && mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
+    if (!mediaList) {
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
+    }
+
+    if (mediaList.userId !== args.userId && mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE) {
       throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.mediaListId })
     }
 
     const response = await this.mediaItemRepository.getByListId({
       mediaListId: mediaList.id,
+      mediaItemOwnerUserId: mediaList.userId,
       search: args.search,
       status: args.status,
-      mediaType: args.mediaType,
+      ...this.normalizeMediaItemsFilters(args),
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
       limit: args.limit,

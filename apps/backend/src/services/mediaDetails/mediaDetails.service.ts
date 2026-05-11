@@ -151,7 +151,7 @@ export class MediaDetailsService implements OnModuleInit {
       return
     }
 
-    const statusChanged = args.previousMediaDetails?.en.status && args.mediaDetails.en.status !== args.previousMediaDetails?.en.status
+    const statusChanged = args.previousMediaDetails?.status && args.mediaDetails.status !== args.previousMediaDetails?.status
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
@@ -188,8 +188,8 @@ export class MediaDetailsService implements OnModuleInit {
         }
       }
       else {
-        if (args.mediaDetails.en.releaseDate) {
-          const releaseDate = new Date(args.mediaDetails.en.releaseDate)
+        if (args.mediaDetails.releaseDate) {
+          const releaseDate = new Date(args.mediaDetails.releaseDate)
           const subscriptionUpdatedAt = new Date(subscription.lastReleasedAt || subscription.createdAt)
 
           const isAfterSubscription = releaseDate > subscriptionUpdatedAt
@@ -228,8 +228,8 @@ export class MediaDetailsService implements OnModuleInit {
             type: NotificationTypeEnum.MEDIA_STATUS_UPDATE,
             meta: {
               mediaDetailsId: args.mediaDetails.id,
-              previousStatus: args.previousMediaDetails?.en.status || "",
-              currentStatus: args.mediaDetails.en.status || "",
+              previousStatus: args.previousMediaDetails?.status || "",
+              currentStatus: args.mediaDetails.status || "",
             },
           },
         })
@@ -306,22 +306,28 @@ export class MediaDetailsService implements OnModuleInit {
       }
 
       try {
+        const genres = en.details.genres?.map(el => el.id)
         if (!mediaDetailsItem) {
           mediaDetailsItem = await this.mediaDetailsRepository.create({
             mediaId: args.mediaId,
             mediaType: args.mediaType,
-            mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
-            mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
             score: en?.details?.vote_average || 0,
+            genres,
+            status: en.details.status,
+            releaseDate: en.details.release_date || en.details.first_air_date,
+            ru: convertMediaDetailsToMediaDetailsInfo(ru),
+            en: convertMediaDetailsToMediaDetailsInfo(en),
           })
         }
         else if (args.updateDetails) {
           mediaDetailsItem = await this.mediaDetailsRepository.update({
             mediaId: args.mediaId,
-            mediaType: args.mediaType,
-            mediaDetailsInfoRu: convertMediaDetailsToMediaDetailsInfo(ru),
-            mediaDetailsInfoEn: convertMediaDetailsToMediaDetailsInfo(en),
             score: en?.details?.vote_average || 0,
+            genres,
+            status: en.details.status,
+            releaseDate: en.details.release_date || en.details.first_air_date,
+            ru: convertMediaDetailsToMediaDetailsInfo(ru),
+            en: convertMediaDetailsToMediaDetailsInfo(en),
           })
         }
 

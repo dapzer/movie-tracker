@@ -58,7 +58,15 @@ export interface MediaItemsCountByStatusType {
   total: number
 }
 
-export interface MediaItemsCountByStatusQueries {
+export interface MediaItemsFiltersQueries {
+  mediaTypes?: MediaTypeEnum[]
+  rating?: [number, number]
+  releaseYear?: [number | undefined, number | undefined]
+  genres?: number[]
+  releaseStatuses?: string[]
+}
+
+export interface MediaItemsCountByStatusQueries extends MediaItemsFiltersQueries {
   search?: string
 }
 
@@ -67,10 +75,9 @@ export interface MediaItemsByListIdResponseType {
   totalCount: number
 }
 
-export interface GetMediaItemsByListIdQueries extends PaginationType {
+export interface GetMediaItemsByListIdQueries extends PaginationType, MediaItemsFiltersQueries {
   search?: string
   status?: MediaItemStatusNameEnum
-  mediaType?: MediaTypeEnum
   sortBy?: "createdAt" | "updatedAt"
   sortDirection?: SortOrderEnum
 }

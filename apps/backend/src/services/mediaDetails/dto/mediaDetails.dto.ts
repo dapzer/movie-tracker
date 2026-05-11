@@ -53,12 +53,6 @@ export class MediaDetailsInfoDto implements MediaDetailsInfoType {
 
   @ApiPropertyOptional({ type: [MediaDetailsInfoSeasonDto] })
   seasons?: MediaDetailsInfoSeasonDto[]
-
-  @ApiPropertyOptional({ type: String, example: "Released" })
-  status?: string
-
-  @ApiPropertyOptional({ type: String, example: "2010-07-16" })
-  releaseDate?: string
 }
 
 export class MediaDetailsDto implements MediaDetailsType {
@@ -73,6 +67,15 @@ export class MediaDetailsDto implements MediaDetailsType {
 
   @ApiProperty({ type: Number, minimum: 0, maximum: 10, example: 8 })
   score: number
+
+  @ApiProperty({ type: [Number], example: [28, 12] })
+  genres: number[]
+
+  @ApiProperty({ type: String, example: "Released" })
+  status?: string
+
+  @ApiPropertyOptional({ type: String, example: "2010-07-16" })
+  releaseDate?: string
 
   @ApiProperty({ type: MediaDetailsInfoDto })
   en: MediaDetailsInfoDto

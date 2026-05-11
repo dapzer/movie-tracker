@@ -104,7 +104,7 @@ export class MediaItemsController {
     return this.mediaItemsService.getCountByListId({
       mediaListId: param.mediaListId,
       userId: user?.id,
-      search: query.search,
+      ...query,
     })
   }
 

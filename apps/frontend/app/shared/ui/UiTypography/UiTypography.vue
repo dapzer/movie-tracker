@@ -160,7 +160,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
   &:active,
   &:focus,
   &:hover {
-    color: var(--c-label-lihk-hovered);
+    color: var(--c-label-link-hovered);
   }
 }
 

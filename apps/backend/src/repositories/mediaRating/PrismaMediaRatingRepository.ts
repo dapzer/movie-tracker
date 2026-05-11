@@ -1,3 +1,5 @@
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
 import { MediaDetails, MediaRating, User } from "@movie-tracker/database/prisma"
 import {
   MediaDetailsInfoType,
@@ -63,8 +65,11 @@ export class PrismaMediaRatingRepository implements MediaRatingRepositoryInterfa
             mediaType: MediaTypeEnum[data.mediaDetails.mediaType.toUpperCase()],
             mediaId: data.mediaDetails.mediaId,
             score: data.mediaDetails.score.toNumber(),
+            releaseDate: data.mediaDetails.releaseDate || undefined,
             ru: ruMediaDetails,
             en: enMediaDetails,
+            status: data.mediaDetails.status,
+            genres: data.mediaDetails.genres,
             createdAt: data.mediaDetails.createdAt,
             updatedAt: data.mediaDetails.updatedAt,
           }

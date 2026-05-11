@@ -1,5 +1,7 @@
 import type {
+  GetMediaItemsByListIdQueries,
   MediaItemsByListIdResponseType,
+  MediaItemsCountByStatusQueries,
   MediaItemsCountByStatusType,
   MediaItemTrackingDataType,
   MediaItemType,
@@ -19,12 +21,30 @@ import type {
 } from "~/api/mediaItems/mediaItemsApiTypes"
 import { api } from "~/api/instance"
 
+function serializeYearRange(range?: [number | undefined, number | undefined]) {
+  if (!range) {
+    return undefined
+  }
+
+  return `${range[0] ?? ""},${range[1] ?? ""}`
+}
+
 export async function getMediaItemsApi(options?: RequestOptions) {
   return api.get<MediaItemType[]>("media-items", options)
 }
 
 export async function getMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs, options?: RequestOptions) {
   return api.get<MediaItemType[]>(`media-items/by-media-id/${args.mediaId}`, options)
+}
+
+function serializeItemsFilters(args: GetMediaItemsByListIdQueries | MediaItemsCountByStatusQueries) {
+  return {
+    mediaTypes: args.mediaTypes?.join(","),
+    rating: args.rating?.join(","),
+    releaseYear: serializeYearRange(args.releaseYear),
+    genres: args.genres?.join(","),
+    releaseStatuses: args.releaseStatuses?.join(","),
+  }
 }
 
 export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaListIdApiArgs, options?: RequestOptions) {
@@ -35,7 +55,13 @@ export async function getMediaItemsByMediaListIdApi(args: GetMediaItemsByMediaLi
       offset: args.offset,
       search: args.search,
       status: args.status,
-      mediaType: args.mediaType,
+      ...serializeItemsFilters({
+        mediaTypes: args.mediaTypes,
+        rating: args.rating,
+        releaseYear: args.releaseYear,
+        genres: args.genres,
+        releaseStatuses: args.releaseStatuses,
+      }),
       sortBy: args.sortBy,
       sortDirection: args.sortDirection,
     },
@@ -47,6 +73,13 @@ export async function getMediaItemsCountByMediaListIdApi(args: GetMediaItemsCoun
     ...options,
     params: {
       search: args.search,
+      ...serializeItemsFilters({
+        mediaTypes: args.mediaTypes,
+        rating: args.rating,
+        releaseYear: args.releaseYear,
+        genres: args.genres,
+        releaseStatuses: args.releaseStatuses,
+      }),
     },
   })
 }

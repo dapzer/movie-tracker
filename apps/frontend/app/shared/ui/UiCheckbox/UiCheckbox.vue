@@ -1,19 +1,32 @@
 <script setup lang="ts">
 import { UiIcon } from "~/shared/ui/UiIcon"
 
+export type UiCheckboxVariant = "circle" | "square"
+export type UiCheckboxSize = "small" | "medium"
+
 interface UiCheckboxProps {
   radio?: boolean
+  size?: UiCheckboxSize
+  variant?: UiCheckboxVariant
 }
 
 defineOptions({
   inheritAttrs: false,
 })
-const props = defineProps<UiCheckboxProps>()
+const props = withDefaults(defineProps<UiCheckboxProps>(), {
+  size: "medium",
+  variant: "circle",
+})
 const inputModel = defineModel()
 </script>
 
 <template>
-  <label :class="$style.body">
+  <label
+    :class="[$style.body, {
+      [$style.square]: props.variant === 'square',
+      [$style.small]: props.size === 'small',
+    }]"
+  >
     <input
       v-model="inputModel"
       :type="props.radio ? 'radio' : 'checkbox'"
@@ -42,6 +55,16 @@ const inputModel = defineModel()
 
   .transition {
     display: none;
+  }
+
+  &.square {
+    border-radius: var(--s-border-radius-small);
+  }
+
+  &.small {
+    width: 16px;
+    min-width: 16px;
+    height: 16px;
   }
 
   &:has(input:active),

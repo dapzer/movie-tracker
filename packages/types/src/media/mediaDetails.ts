@@ -5,19 +5,25 @@ export interface MediaDetailsType {
   mediaId: number
   mediaType: MediaTypeEnum
   score: number
+  releaseDate?: string
   en: MediaDetailsInfoType
   ru: MediaDetailsInfoType
+  genres: MediaDetailsGenres
+  status?: string
   createdAt: Date
   updatedAt: Date
 }
+
+export type MediaDetailsGenres = Array<number>
+
+export type MediaDetailsCreateBodyType = Pick<MediaDetailsType, "mediaId" | "mediaType" | "genres" | "score" | "status" | "releaseDate" | "en" | "ru">
+export type MediaDetailsUpdateBodyType = Pick<MediaDetailsType, "genres" | "score" | "status" | "releaseDate" | "en" | "ru">
 
 export interface MediaDetailsInfoType {
   title: string
   originalTitle: string
   poster: string
   seasons?: MediaDetailsInfoSeasonType[]
-  status?: string
-  releaseDate?: string
 }
 
 export interface MediaDetailsInfoSeasonType {

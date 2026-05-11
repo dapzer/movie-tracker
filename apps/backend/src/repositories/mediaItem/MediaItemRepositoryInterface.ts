@@ -1,5 +1,6 @@
 import {
   GetMediaItemsByListIdQueries,
+  MediaItemsCountByStatusQueries,
   MediaItemsByListIdResponseType,
   MediaItemsCountByStatusType,
   MediaItemStatusNameEnum,
@@ -17,9 +18,15 @@ export interface MediaItemRepositoryInterface {
 
   getByIds: (ids: string[]) => Promise<MediaItemType[]>
 
-  getByListId: (args: { mediaListId: string } & Omit<GetMediaItemsByListIdQueries, "mediaListId">) => Promise<MediaItemsByListIdResponseType>
+  getByListId: (args: {
+    mediaListId: string
+    mediaItemOwnerUserId?: string
+  } & Omit<GetMediaItemsByListIdQueries, "mediaListId">) => Promise<MediaItemsByListIdResponseType>
 
-  getCountByListId: (args: { mediaListId: string, search?: string }) => Promise<MediaItemsCountByStatusType>
+  getCountByListId: (args: {
+    mediaListId: string
+    mediaItemOwnerUserId?: string
+  } & MediaItemsCountByStatusQueries) => Promise<MediaItemsCountByStatusType>
 
   getByUserId: (userId: string) => Promise<MediaItemType[]>
 

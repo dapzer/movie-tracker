@@ -3,7 +3,8 @@ import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
 export type UiButtonVariant = "default" | "boxed" | "outlined" | "text" | "icon" | "rounded" | "textIcon"
 export type UiButtonSize = "small" | "medium" | "large"
-export type UiButtonScheme = "default" | "primary" | "secondary" | "tertiary" | "link" | "gold" | "gray" | "light-gray"
+export type UiButtonScheme = "default" | "primary" | "secondary" | "secondary-light" | "tertiary" | "link" | "gold"
+  | "gray" | "light-gray" | "medium-gray"
 
 interface UiButtonProps {
   variant?: UiButtonVariant
@@ -27,10 +28,12 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     :class="[$style.default, {
       [$style.primary]: props.scheme === 'primary',
       [$style.secondary]: props.scheme === 'secondary',
+      [$style.secondaryLight]: props.scheme === 'secondary-light',
       [$style.tertiary]: props.scheme === 'tertiary',
       [$style.gold]: props.scheme === 'gold',
       [$style.gray]: props.scheme === 'gray',
       [$style.lightGray]: props.scheme === 'light-gray',
+      [$style.mediumGray]: props.scheme === 'medium-gray',
       [$style.link]: props.scheme === 'link',
       [$style.boxed]: props.variant === 'boxed',
       [$style.text]: props.variant === 'text',
@@ -93,6 +96,16 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
         background: var(--c-button-background-secondary-hovered);
       }
     }
+    &.secondaryLight {
+      color: var(--c-blue);
+      background: var(--c-blue-25);
+
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-blue-35);
+      }
+    }
 
     &.tertiary {
       color: var(--c-label-tertiary);
@@ -130,6 +143,17 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     &.lightGray {
       color: var(--c-white-90);
       background: var(--c-white-08);
+
+      &:focus,
+      &:active,
+      &:hover {
+        background: var(--c-white-10);
+      }
+    }
+
+    &.mediumGray {
+      color: var(--c-white-75);
+      background: var(--c-white-15);
 
       &:focus,
       &:active,
@@ -188,7 +212,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     }
 
     &.medium {
-      padding: 7px 12px;
+      padding: 8px 12px;
       border-radius: var(--s-border-radius-medium);
     }
 
@@ -212,6 +236,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:focus,
       &:active,
       &:hover {
+        color: var(--c-label-link-hovered);
       }
     }
 
@@ -230,7 +255,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:focus,
       &:active,
       &:hover {
-        color: var(--c-label-lihk-hovered);
+        color: var(--c-label-link-hovered);
       }
     }
 
@@ -289,7 +314,7 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
       &:focus,
       &:active,
       &:hover {
-        color: var(--c-label-lihk-hovered);
+        color: var(--c-label-link-hovered);
       }
     }
 

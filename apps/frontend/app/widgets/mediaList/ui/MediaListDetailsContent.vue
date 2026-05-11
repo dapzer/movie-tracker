@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { MediaListType, SortOrderEnum } from "@movie-tracker/types"
 import { useCookie } from "#app"
-import { useI18n, watchEffect } from "#imports"
-import { MediaItemStatusNameEnum } from "@movie-tracker/types"
+import { watchEffect } from "#imports"
+import { MediaItemStatusNameEnum, MediaTypeEnum } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
-import { computed, h, ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import {
   useGetMediaItemsByMediaListIdApi,
   useGetMediaItemsCountByMediaListIdApi,
@@ -14,38 +14,114 @@ import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import UiAttention from "~/shared/ui/UiAttention/UiAttention.vue"
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
-import { UiDivider } from "~/shared/ui/UiDivider"
-import { UiDropdown, UiDropdownItem } from "~/shared/ui/UiDropdown"
-import { UiIcon } from "~/shared/ui/UiIcon"
-import { UiInput } from "~/shared/ui/UiInput"
 import { UiPagination } from "~/shared/ui/UiPagination"
-import { UiSelect } from "~/shared/ui/UiSelect"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
+import MediaListDetailsFilters from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
+import MediaListDetailsSortPopover from "./MediaListDetailsSortPopover.vue"
 
 interface MediaListDetailsProps {
   mediaList: MediaListType
   isUserListOwner?: boolean
 }
 
+export type MediaListDetailsSortOption = "asc_createdAt" | "desc_createdAt" | "asc_updatedAt" | "desc_updatedAt"
+
 const props = defineProps<MediaListDetailsProps>()
-const storedMediaListSortingType = useCookie(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
+const storedMediaListSortingType = useCookie<MediaListDetailsSortOption>(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
   default: () => "asc_createdAt",
   expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
 })
 
-const sortType = ref<string>(storedMediaListSortingType.value)
+const sortType = ref<MediaListDetailsSortOption>(storedMediaListSortingType.value)
 const activeTab = useRouteQuery<string>("tab", "all", {
   mode: "replace",
 })
 const searchTerm = useRouteQuery<string>("searchTerm", "", {
   mode: "replace",
 })
+const mediaTypes = useRouteQuery<string, MediaTypeEnum[]>("mediaTypes", "", {
+  mode: "replace",
+  transform: {
+    get: (value) => {
+      if (!value) {
+        return []
+      }
+
+      return value
+        .split(",")
+        .filter((type): type is MediaTypeEnum => type === MediaTypeEnum.MOVIE || type === MediaTypeEnum.TV)
+    },
+    set: value => value.length ? value.join(",") : "",
+  },
+})
+const rating = useRouteQuery<string, [number, number]>("rating", "0,10", {
+  mode: "replace",
+  transform: {
+    get: (value): [number, number] => {
+      if (!value) {
+        return [0, 10]
+      }
+
+      const [min, max] = value.split(",")
+      const minRating = Number(min)
+      const maxRating = Number(max)
+
+      if (Number.isNaN(minRating) || Number.isNaN(maxRating)) {
+        return [0, 10]
+      }
+
+      return [minRating, maxRating]
+    },
+    set: value => `${value[0]},${value[1]}`,
+  },
+})
+const releaseYear = useRouteQuery<string, [number | undefined, number | undefined]>("releaseYear", "", {
+  mode: "replace",
+  transform: {
+    get: (value): [number | undefined, number | undefined] => {
+      if (!value) {
+        return [undefined, undefined]
+      }
+
+      const [fromYear, toYear] = value.split(",")
+      const parsedFromYear = fromYear ? Number(fromYear) : undefined
+      const parsedToYear = toYear ? Number(toYear) : undefined
+
+      return [
+        parsedFromYear === undefined || Number.isNaN(parsedFromYear) ? undefined : parsedFromYear,
+        parsedToYear === undefined || Number.isNaN(parsedToYear) ? undefined : parsedToYear,
+      ]
+    },
+    set: (value) => {
+      const [fromYear, toYear] = value
+
+      if (fromYear === undefined && toYear === undefined) {
+        return ""
+      }
+
+      return `${fromYear ?? ""},${toYear ?? ""}`
+    },
+  },
+})
+const genres = useRouteQuery<string, string[]>("genres", "", {
+  mode: "replace",
+  transform: {
+    get: value => value ? value.split(",").filter(Boolean) : [],
+    set: value => value.length ? value.join(",") : "",
+  },
+})
+const releaseStatuses = useRouteQuery<string, string[]>("releaseStatuses", "", {
+  mode: "replace",
+  transform: {
+    get: value => value ? value.split(",").filter(Boolean) : [],
+    set: value => value.length ? value.join(",") : "",
+  },
+})
 const currentPage = useRouteQuery<number>("page", 1, {
   transform: Number,
   mode: "replace",
 })
-const { t } = useI18n()
 
 const sortConfig = computed(() => {
   const [sortDirection, sortBy] = sortType.value.split("_") as [SortOrderEnum, "createdAt" | "updatedAt"]
@@ -60,6 +136,14 @@ const mediaItemsQueryArgs = computed(() => {
     mediaListId: props.mediaList.id,
     search: searchTerm.value || undefined,
     status: activeTab.value === "all" ? undefined : activeTab.value as MediaItemStatusNameEnum,
+    mediaTypes: mediaTypes.value.length ? mediaTypes.value : undefined,
+    rating: rating.value[0] === 0 && rating.value[1] === 10 ? undefined : rating.value,
+    releaseYear:
+      releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
+        ? undefined
+        : releaseYear.value,
+    genres: genres.value.length ? genres.value.map(Number) : undefined,
+    releaseStatuses: releaseStatuses.value.length ? releaseStatuses.value : undefined,
     sortBy: sortConfig.value.sortBy,
     sortDirection: sortConfig.value.sortDirection,
     ...getPaginationParams({
@@ -73,7 +157,28 @@ const getMediaItemsCountByMediaListIdArgs = computed(() => {
   return {
     mediaListId: props.mediaList.id,
     search: searchTerm.value || undefined,
+    mediaTypes: mediaTypes.value.length ? mediaTypes.value : undefined,
+    rating: rating.value[0] === 0 && rating.value[1] === 10 ? undefined : rating.value,
+    releaseYear:
+      releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
+        ? undefined
+        : releaseYear.value,
+    genres: genres.value.length ? genres.value.map(Number) : undefined,
+    releaseStatuses: releaseStatuses.value.length ? releaseStatuses.value : undefined,
   }
+})
+
+const isFiltersActive = computed(() => {
+  return Boolean(
+    searchTerm.value
+    || mediaTypes.value.length
+    || rating.value[0] !== 0
+    || rating.value[1] !== 10
+    || releaseYear.value[0] !== undefined
+    || releaseYear.value[1] !== undefined
+    || genres.value.length
+    || releaseStatuses.value.length,
+  )
 })
 
 const getMediaItemsByMediaListIdApi = useGetMediaItemsByMediaListIdApi(mediaItemsQueryArgs, {
@@ -92,34 +197,6 @@ watch(() => sortType.value, () => {
 
 watch([searchTerm, activeTab], () => {
   currentPage.value = 1
-})
-
-const sortArrowUpIcon = h(UiIcon, { name: "icon:sort-arrow-up" })
-const sortArrowDownIcon = h(UiIcon, { name: "icon:sort-arrow-down" })
-
-const options = computed(() => {
-  return [
-    {
-      label: t("mediaList.sort.createdAt"),
-      value: "asc_createdAt",
-      icon: sortArrowUpIcon,
-    },
-    {
-      label: t("mediaList.sort.createdAt"),
-      value: "desc_createdAt",
-      icon: sortArrowDownIcon,
-    },
-    {
-      label: t("mediaList.sort.updatedAt"),
-      value: "asc_updatedAt",
-      icon: sortArrowUpIcon,
-    },
-    {
-      label: t("mediaList.sort.updatedAt"),
-      value: "desc_updatedAt",
-      icon: sortArrowDownIcon,
-    },
-  ]
 })
 
 const pagedResponse = computed(() => {
@@ -150,86 +227,52 @@ watchEffect(() => {
 
 <template>
   <div :class="$style.wrapper">
-    <div :class="$style.search">
-      <UiInput
-        v-model="searchTerm"
-        size="small"
-        :placeholder="$t('search.placeholder')"
-      >
-        <template #icon>
-          <UiIcon name="icon:search" />
-        </template>
-      </UiInput>
-
-      <UiDropdown
-        align="end"
-        :indent="12"
-        :trigger-class="$style.dropdownTrigger"
-      >
-        <template #trigger>
-          <UiIcon
-            name="icon:sort"
-            :size="20"
-          />
-        </template>
-
-        <template #content>
-          <UiDropdownItem
-            v-for="option in options"
-            :key="option.value"
-            @click="sortType = option.value"
-          >
-            <template #iconStart>
-              <component
-                :is="option?.icon"
-                v-if="option?.icon"
-              />
-            </template>
-            <template #content>
-              {{ option.label }}
-            </template>
-          </UiDropdownItem>
-        </template>
-      </UiDropdown>
-    </div>
-    <UiDivider />
     <UiTabsPane
       v-model="activeTab"
       :class="$style.tabs"
       :tabs="[
         {
-          label: `${$t('ui.all')} (${groupedByStatus?.total || 0})`,
+          label: $t('ui.all'),
+          description: groupedByStatus?.total,
           key: 'all',
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`)} (${groupedByStatus?.WATCHING_NOW || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.WATCHING_NOW}`),
+          description: groupedByStatus?.WATCHING_NOW,
           key: MediaItemStatusNameEnum.WATCHING_NOW,
         },
         {
-          label:
-            `${$t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`)} (${groupedByStatus?.NOT_VIEWED || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.NOT_VIEWED}`),
+          description: groupedByStatus?.NOT_VIEWED,
           key: MediaItemStatusNameEnum.NOT_VIEWED,
         },
         {
-          label:
-            `${$t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`)} (${groupedByStatus?.WAIT_NEW_PART || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.WAIT_NEW_PART}`),
+          description: groupedByStatus?.WAIT_NEW_PART,
           key: MediaItemStatusNameEnum.WAIT_NEW_PART,
         },
         {
-          label: `${$t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`)} (${groupedByStatus?.VIEWED || 0})`,
+          label: $t(`mediaItem.status.${MediaItemStatusNameEnum.VIEWED}`),
+          description: groupedByStatus?.VIEWED,
           key: MediaItemStatusNameEnum.VIEWED,
         },
       ] as const"
     >
-      <template #afterTabs>
-        <UiSelect
-          v-model="sortType"
-          :class="$style.select"
-          :width="232"
-          :options="options"
-        />
-      </template>
       <template #content>
+        <div :class="$style.controls">
+          <MediaListDetailsFilters
+            v-model:search-term="searchTerm"
+            v-model:media-types="mediaTypes"
+            v-model:rating="rating"
+            v-model:release-year="releaseYear"
+            v-model:genres="genres"
+            v-model:release-statuses="releaseStatuses"
+          />
+          <MediaListDetailsSortPopover
+            v-model="sortType"
+          />
+        </div>
+
         <UiCardsGrid v-if="getMediaItemsByMediaListIdApi.isPending.value || currentTabContent.length">
           <template v-if="getMediaItemsByMediaListIdApi.isPending.value">
             <UiMediaCardSkeleton
@@ -250,7 +293,8 @@ watchEffect(() => {
         </UiCardsGrid>
         <template v-else>
           <UiAttention
-            :title="searchTerm.length ? $t('search.notingFound') : activeTab !== 'all' ? $t('mediaList.noMediaItems')
+            :title="(searchTerm.length || isFiltersActive) ? $t('search.notingFound') : activeTab !== 'all'
+              ? $t('mediaList.noMediaItems')
               : $t('mediaList.noMediaItemsAll')"
             :indent="24"
           />
@@ -270,46 +314,25 @@ watchEffect(() => {
 
 <style module lang="scss">
 @import "~/shared/styles/mixins";
-@import "~/shared/styles/breakpoints";
 
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  .search {
-    max-width: 384px;
+  .controls {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
 
-    @include mobileDevice {
-      max-width: 100%;
-
-      input {
-        height: 40px;
-      }
+    & > div {
+      flex: 1;
     }
-  }
 
-  .dropdownTrigger {
-    display: none;
-
-    @include mobileDevice {
-      width: 38px;
-      min-width: 38px;
-      height: 38px;
-      background: var(--c-card-background-hovered);
-      border: 1px solid var(--c-stroke);
-      border-radius: var(--s-border-radius-medium);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-
-  @include mobileDevice {
-    .select {
-      display: none;
+    @include mobilePlusDevice {
+      gap: 8px;
     }
   }
 

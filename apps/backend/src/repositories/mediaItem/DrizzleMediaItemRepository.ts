@@ -1,4 +1,4 @@
-import { mediaDetails, mediaItems, mediaLists, trackingData } from "@movie-tracker/database"
+import { mediaDetails, mediaItems, mediaLists, mediaRatings, trackingData } from "@movie-tracker/database"
 import { and, desc, eq, inArray, sql } from "@movie-tracker/database/drizzle"
 import {
   MediaItemsCountByStatusType,
@@ -59,6 +59,9 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
             mediaType: MediaTypeEnum[args.mediaDetails.mediaType.toUpperCase()],
             mediaId: args.mediaDetails.mediaId,
             score: args.mediaDetails.score ? Number(args.mediaDetails.score) : 0,
+            releaseDate: args.mediaDetails.releaseDate || undefined,
+            status: args.mediaDetails.status,
+            genres: args.mediaDetails.genres,
             ru: args.mediaDetails.ru,
             en: args.mediaDetails.en,
             createdAt: args.mediaDetails.createdAt,
@@ -81,6 +84,69 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       sql`lower(${mediaDetails.en} ->> 'title') LIKE ${pattern}`,
       sql`lower(${mediaDetails.en} ->> 'originalTitle') LIKE ${pattern}`,
       sql`lower(${mediaDetails.ru} ->> 'title') LIKE ${pattern}`,
+    )
+  }
+
+  private getFiltersConditions(args: {
+    mediaTypes?: MediaTypeEnum[]
+    rating?: [number, number]
+    releaseYear?: [number | undefined, number | undefined]
+    genres?: number[]
+    releaseStatuses?: string[]
+    mediaItemOwnerUserId?: string
+  }) {
+    const conditions = []
+
+    if (args.mediaTypes?.length) {
+      conditions.push(inArray(mediaItems.mediaType, args.mediaTypes))
+    }
+
+    if (args.rating && args.rating.length === 2) {
+      const [minRating, maxRating] = args.rating
+      if (minRating === 0 || maxRating === 0) {
+        conditions.push(sql`((
+          ${mediaRatings.rating} >= ${minRating}
+          and ${mediaRatings.rating} <= ${maxRating}
+        ) or ${mediaRatings.id} is null)`)
+      }
+      else {
+        conditions.push(sql`${mediaRatings.rating} >= ${minRating}`)
+        conditions.push(sql`${mediaRatings.rating} <= ${maxRating}`)
+      }
+    }
+
+    if (args.releaseYear && args.releaseYear.length === 2) {
+      const [fromYear, toYear] = args.releaseYear
+
+      if (toYear) {
+        conditions.push(sql`nullif(${mediaDetails.releaseDate}, '') is not null`)
+      }
+
+      if (fromYear !== undefined) {
+        conditions.push(sql`substring(${mediaDetails.releaseDate}, 1, 4) >= ${String(fromYear)}`)
+      }
+      if (toYear !== undefined) {
+        conditions.push(sql`substring(${mediaDetails.releaseDate}, 1, 4) <= ${String(toYear)}`)
+      }
+    }
+
+    if (args.genres?.length) {
+      const genresSql = sql.join(args.genres.map(genre => sql`${genre}`), sql`, `)
+      conditions.push(sql`${mediaDetails.genres} && ARRAY[${genresSql}]::integer[]`)
+    }
+
+    if (args.releaseStatuses?.length) {
+      conditions.push(or(...args.releaseStatuses.map(status => sql`lower(${mediaDetails.status}) = ${status}`)))
+    }
+
+    return conditions
+  }
+
+  private getMediaRatingsJoinCondition(mediaItemOwnerUserId: string) {
+    return and(
+      eq(mediaRatings.userId, mediaItemOwnerUserId),
+      eq(mediaRatings.mediaId, mediaItems.mediaId),
+      eq(mediaRatings.mediaType, mediaItems.mediaType),
     )
   }
 
@@ -160,17 +226,27 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     const sortBy = args.sortBy ?? "createdAt"
     const sortDirection = args.sortDirection ?? SortOrderEnum.DESC
     const searchCondition = this.getSearchCondition(search)
+    const filtersConditions = this.getFiltersConditions({
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      releaseYear: args.releaseYear,
+      genres: args.genres,
+      releaseStatuses: args.releaseStatuses,
+      mediaItemOwnerUserId: args.mediaItemOwnerUserId,
+    })
+
+    const mediaRatingsJoinCondition = args.mediaItemOwnerUserId
+      ? this.getMediaRatingsJoinCondition(args.mediaItemOwnerUserId)
+      : sql`false`
 
     const conditions = [eq(mediaItems.mediaListId, args.mediaListId)]
-    if (args.mediaType) {
-      conditions.push(eq(mediaItems.mediaType, args.mediaType))
-    }
     if (args.status) {
       conditions.push(eq(trackingData.currentStatus, args.status))
     }
     if (searchCondition) {
       conditions.push(searchCondition)
     }
+    conditions.push(...filtersConditions)
 
     const [items, [totalCountResult]] = await Promise.all([
       this.drizzle.client
@@ -178,6 +254,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         .from(mediaItems)
         .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
         .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
+        .leftJoin(mediaRatings, mediaRatingsJoinCondition)
         .where(and(...conditions))
         .orderBy(sortDirection === SortOrderEnum.ASC
           ? asc(trackingData[sortBy])
@@ -189,6 +266,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         .from(mediaItems)
         .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
         .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
+        .leftJoin(mediaRatings, mediaRatingsJoinCondition)
         .where(and(...conditions)),
     ])
 
@@ -386,15 +464,28 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
 
     const search = args.search?.trim()
     const searchCondition = this.getSearchCondition(search)
+    const filtersConditions = this.getFiltersConditions({
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      releaseYear: args.releaseYear,
+      genres: args.genres,
+      releaseStatuses: args.releaseStatuses,
+      mediaItemOwnerUserId: args.mediaItemOwnerUserId,
+    })
+    const mediaRatingsJoinCondition = args.mediaItemOwnerUserId
+      ? this.getMediaRatingsJoinCondition(args.mediaItemOwnerUserId)
+      : sql`false`
     const conditions = [eq(mediaItems.mediaListId, args.mediaListId)]
     if (searchCondition) {
       conditions.push(searchCondition)
     }
+    conditions.push(...filtersConditions)
 
     const items = await this.drizzle.client
       .select({ id: mediaItems.id })
       .from(mediaItems)
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
+      .leftJoin(mediaRatings, mediaRatingsJoinCondition)
       .where(and(...conditions))
 
     const mediaItemIds = items.map(item => item.id)

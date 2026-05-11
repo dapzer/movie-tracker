@@ -8,9 +8,12 @@ interface UiUserProfileLinkProps {
   userId: string
   userName: string
   userPageUrl?: string
+  avatarSize?: number
 }
 
-const props = defineProps<UiUserProfileLinkProps>()
+const props = withDefaults(defineProps<UiUserProfileLinkProps>(), {
+  avatarSize: 24,
+})
 </script>
 
 <template>
@@ -22,7 +25,7 @@ const props = defineProps<UiUserProfileLinkProps>()
     <UiAvatar
       :src="props.userAvatarSrc"
       :placeholder-id="props.userId"
-      :size="24"
+      :size="props.avatarSize"
       :alt="`${props.userName} avatar`"
     />
     <UiTypography
@@ -41,6 +44,7 @@ const props = defineProps<UiUserProfileLinkProps>()
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 
   .userName {
     color: var(--c-description);

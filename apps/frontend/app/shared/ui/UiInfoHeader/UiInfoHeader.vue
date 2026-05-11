@@ -167,7 +167,7 @@ const slots = defineSlots()
     &:hover {
       &,
       .backArrowSmall {
-        color: var(--c-label-lihk-hovered);
+        color: var(--c-label-link-hovered);
       }
     }
 
@@ -442,7 +442,7 @@ const slots = defineSlots()
           &:active,
           &:focus,
           &:hover {
-            color: var(--c-label-lihk-hovered);
+            color: var(--c-label-link-hovered);
           }
         }
       }

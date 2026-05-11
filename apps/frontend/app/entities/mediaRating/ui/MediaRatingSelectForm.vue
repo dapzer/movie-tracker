@@ -124,6 +124,8 @@ function handleRatingClick(rating: number, event: MouseEvent) {
           @click="handleRatingClick(i, $event)"
           @mouseover="hoveredRating = i"
           @mouseleave="hoveredRating = undefined"
+          @touchstart="hoveredRating = i"
+          @touchend="hoveredRating = undefined"
         >
           <UiIcon
             :class="$style.icon"
