@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
     :full-height="props.fullHeight"
     :link-url="props.linkUrl"
     :width="props.width"
+    :class="$style.wrapper"
   >
     <template #image>
       <UiImage
@@ -68,6 +69,12 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
 <style lang="scss" module>
 @import "~/shared/styles/mixins";
 @import "~/shared/styles/breakpoints";
+
+.wrapper {
+  @include mobileDevice {
+    max-width: unset;
+  }
+}
 
 .image {
   aspect-ratio: 2/3;
