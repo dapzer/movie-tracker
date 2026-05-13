@@ -17,6 +17,19 @@ const props = defineProps<NotificationGroupProps>()
 const { locale } = useI18n()
 const popupOpen = inject<Ref<boolean>>(notificationPopupOpenInjectionKey)
 
+function parseDateKey(dateKey: string) {
+  const [yearString, monthString, dayString] = dateKey.split("-")
+  const year = Number(yearString)
+  const month = Number(monthString)
+  const day = Number(dayString)
+
+  if (!year || !month || !day) {
+    return undefined
+  }
+
+  return new Date(year, month - 1, day)
+}
+
 function handleClosePopup() {
   if (popupOpen) {
     popupOpen.value = false
@@ -24,7 +37,11 @@ function handleClosePopup() {
 }
 
 const dateString = computed(() => {
-  const date = new Date(props.date)
+  const date = parseDateKey(props.date)
+
+  if (!date || Number.isNaN(date.getTime())) {
+    return undefined
+  }
 
   if (date.toLocaleDateString() === new Date().toLocaleDateString()) {
     return undefined
