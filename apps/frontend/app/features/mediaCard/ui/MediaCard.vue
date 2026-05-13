@@ -3,6 +3,7 @@ import type { MediaItemType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { ref } from "vue"
+import { MovieHoverMenu } from "~/entities/movieHoverMenu"
 import MediaCardManagementMenuDrawer from "~/features/mediaCard/ui/managementMenu/MediaCardManagementMenuDrawer.vue"
 import MediaCardRating from "~/features/mediaCard/ui/MediaCardRating.vue"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -63,6 +64,10 @@ const createdDate = computed(() => {
           :media-item="props.mediaItem"
         />
       </UiButton>
+      <MovieHoverMenu
+        :media-id="props.mediaItem.mediaId"
+        :media-type="props.mediaItem.mediaType"
+      />
     </template>
     <template
       v-if="props.canEditRating || props.mediaItem.mediaRating"
