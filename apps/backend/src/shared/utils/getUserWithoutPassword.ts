@@ -4,8 +4,8 @@ export function getUserWithoutPassword(user: UserType): Omit<UserType, "password
   return {
     id: user.id,
     name: user.name,
-    email: user.email,
-    image: user.image,
+    email: user.email ?? undefined,
+    image: user.image ?? undefined,
     roles: user.roles,
     signUpMethod: user.signUpMethod,
     mediaRatingsAccessLevel: user.mediaRatingsAccessLevel,
