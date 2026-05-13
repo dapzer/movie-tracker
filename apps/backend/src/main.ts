@@ -11,6 +11,7 @@ import { CustomErrorFilter } from "@/filters/customError.filter"
 import { DrizzleClientErrorFilter } from "@/filters/drizzleClientError.filter"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
+import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import { setupOpenApi } from "./openApi"
 import { DrizzleSessionStore } from "./services/drizzle/drizzleSessionStore"
 import "dotenv/config"
@@ -50,7 +51,7 @@ async function bootstrap() {
         domain: `.${new URL(configService.get("CLIENT_BASE_URL")).hostname}`,
         maxAge: getMillisecondsFromDays(14),
       },
-      store: new DrizzleSessionStore(drizzle.client, sessions),
+      store: new DrizzleSessionStore(drizzle.client, sessions, { checkPeriod: getMillisecondsFromMins(5) }),
     }),
   )
 
