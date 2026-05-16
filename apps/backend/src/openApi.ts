@@ -1,13 +1,15 @@
 import { INestApplication } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import { apiReference } from "@scalar/nestjs-api-reference"
 import { cleanupOpenApiDoc } from "nestjs-zod"
 
-export function setupOpenApi(app: INestApplication) {
+export function setupOpenApi(app: INestApplication, configService: ConfigService) {
   const swaggerConfig = new DocumentBuilder()
     .setTitle("Movie Tracker API")
     .setDescription("Movie Tracker API documentation")
     .setVersion("1.0")
+    .addServer(configService.get("API_BASE_URL"))
     .addCookieAuth("session", {
       type: "apiKey",
       in: "cookie",

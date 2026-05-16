@@ -55,7 +55,7 @@ async function bootstrap() {
     }),
   )
 
-  setupOpenApi(app)
+  setupOpenApi(app, configService)
 
   const PORT = configService.get("APP_PORT") || 5000
 

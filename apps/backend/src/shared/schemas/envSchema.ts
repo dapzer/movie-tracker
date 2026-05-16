@@ -12,6 +12,7 @@ const zNumber = z
 
 export const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  API_BASE_URL: z.string(),
   PORT: zNumber.default(1337),
   AUTH_REDIRECT_URL: z.string(),
   CLIENT_BASE_URL: z.string(),
