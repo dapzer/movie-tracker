@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } f
 import { isCuid } from "@paralleldrive/cuid2"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { BulkCreateMediaItemDto } from "@/services/mediaItems/dto/bulkCreateMediaItem.dto"
+import { BulkCreateMediaItemCloneDto } from "@/services/mediaItems/dto/bulkCreateMediaItemClone.dto"
 import { BulkDeleteMediaItemDto } from "@/services/mediaItems/dto/bulkDeleteMediaItem.dto"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
 import { CreateMediaItemCloneDto } from "@/services/mediaItems/dto/createMediaItemClone.dto"
@@ -15,6 +16,7 @@ import { User } from "@/services/users/user.decorator"
 import { MediaItemListIdDto } from "@/shared/dto/mediaItemListId.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 import {
+  BulkCloneMediaItemDocs,
   BulkCreateMediaItemDocs,
   BulkDeleteMediaItemDocs,
   CloneMediaItemDocs,
@@ -128,6 +130,19 @@ export class MediaItemsController {
     })
   }
 
+  @Post("bulk/clone")
+  @BulkCloneMediaItemDocs()
+  @UseGuards(AuthGuard)
+  async bulkCloneMediaItem(
+    @Body() body: BulkCreateMediaItemCloneDto,
+    @User() user: UserDto,
+  ) {
+    return this.mediaItemsService.createBulkClone({
+      userId: user.id,
+      items: body.items,
+    })
+  }
+
   @Patch(":id")
   @UpdateMediaItemDocs()
   @UseGuards(AuthGuard)
@@ -151,6 +166,7 @@ export class MediaItemsController {
       id: param.id,
       userId: user?.id,
       mediaListId: body.mediaListId,
+      currentStatus: body.currentStatus,
       isSaveCreationDate: body.isSaveCreationDate,
     })
   }

@@ -61,6 +61,18 @@ export interface MediaItemRepositoryInterface {
     createdAt?: Date
   }) => Promise<MediaItemType>
 
+  createWithExistedDataBulk: (args: Array<{
+    mediaId: number
+    mediaType: MediaTypeEnum
+    mediaListId: string
+    mediaDetailsId: string
+    trackingData: Omit<
+      MediaItemTrackingDataType,
+      "id" | "updatedAt" | "createdAt" | "mediaItemId"
+    >
+    createdAt?: Date
+  }>) => Promise<MediaItemType[]>
+
   getByMediaId: (args: {
     mediaId: number
     userId: string
