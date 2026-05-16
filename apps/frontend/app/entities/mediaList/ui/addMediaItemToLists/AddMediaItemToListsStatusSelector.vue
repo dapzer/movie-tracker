@@ -5,14 +5,7 @@ import { computed } from "vue"
 import { UiDropdown, UiDropdownGroup, UiDropdownItem } from "~/shared/ui/UiDropdown"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
-interface AddMediaItemToListsStatusSelectorProps {
-  currentStatus: MediaItemStatusNameEnum
-}
-
-const props = defineProps<AddMediaItemToListsStatusSelectorProps>()
-const emits = defineEmits<{
-  (e: "onStatusChange", status: MediaItemStatusNameEnum): void
-}>()
+const currentStatusModel = defineModel<MediaItemStatusNameEnum>()
 const { t } = useI18n()
 
 const dropdownItems = computed(() => {
@@ -37,7 +30,7 @@ const dropdownItems = computed(() => {
     size="small"
   >
     <template #trigger>
-      {{ t(`mediaItem.status.${props.currentStatus}`) }}
+      {{ t(`mediaItem.status.${currentStatusModel}`) }}
       <UiIcon
         name="icon:double-arrow"
         :size="16"
@@ -49,11 +42,11 @@ const dropdownItems = computed(() => {
         <UiDropdownItem
           v-for="item in dropdownItems"
           :key="item.value"
-          @click="emits('onStatusChange', item.value)"
+          @click="currentStatusModel = item.value"
         >
           <template #iconStart>
             <UiIcon
-              v-if="item.value === props.currentStatus"
+              v-if="item.value === currentStatusModel"
               name="icon:check"
               :class="$style.dropdownIcon"
             />

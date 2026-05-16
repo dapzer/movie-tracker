@@ -142,7 +142,7 @@ const isHasSelectedMediaLists = computed(() => {
           :value="mediaList.id"
           :media-list="mediaList"
           @update:model-value="handleCheckboxChange(mediaList.id, $event)"
-          @on-status-change="handleStatusChange(mediaList.id, $event)"
+          @update:current-status="handleStatusChange(mediaList.id, $event)"
         />
       </template>
       <UiTypography

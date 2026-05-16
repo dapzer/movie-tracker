@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaItemStatusNameEnum, MediaItemType, MediaListType } from "@movie-tracker/types"
+import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { SortOrderEnum } from "@movie-tracker/types"
 import { useQueryClient } from "@tanstack/vue-query"
@@ -81,10 +81,6 @@ const { formValue, onFormSubmit } = useForm({
   },
 })
 
-function handleStatusChange(status: MediaItemStatusNameEnum) {
-  formValue.value.selectedStatus = status
-}
-
 const availableMediaLists = computed(() => {
   if (!getMediaListsApi.data.value)
     return []
@@ -133,12 +129,11 @@ const sortedMediaLists = computed(() => {
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="formValue.selectedMediaListId"
-          :current-status="formValue.selectedStatus"
+          v-model:current-status="formValue.selectedStatus"
           radio
           :disabled="updateMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value"
           :value="mediaList.id"
           :media-list="mediaList"
-          @on-status-change="handleStatusChange"
         />
       </template>
       <UiTypography
