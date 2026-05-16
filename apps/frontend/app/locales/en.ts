@@ -1207,6 +1207,9 @@ export default {
     listTitle: "List",
     addToList: "Add to list",
     addToListTitle: "Add ‘{title}’ to lists",
+    addToListsForm: {
+      rememberSelectedLists: "Remember selected lists and statuses for future additions",
+    },
     unauthorizedDescription: "to display your lists",
     unauthorizedTitle: "Sign in",
     yourLists: "Your lists",

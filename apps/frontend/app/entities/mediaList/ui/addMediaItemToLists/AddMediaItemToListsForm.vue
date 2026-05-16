@@ -3,6 +3,7 @@ import type { MediaItemTrackingDataType, MediaTypeEnum, TmdbMediaTypeEnum } from
 import type { MediaItemCreateApiTypes } from "~/api/mediaItems/mediaItemsApiTypes"
 import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum, SortOrderEnum } from "@movie-tracker/types"
+import { useLocalStorage } from "@vueuse/core"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
 import {
@@ -13,10 +14,12 @@ import {
 } from "~/api/mediaItems/useMediaItemsApi"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
+import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
+import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getSortedArrayByDate } from "~/shared/utils/getSortedArrayByDate"
 
@@ -31,6 +34,11 @@ export interface MediaListChangeType {
 interface MediaListSelectorModalProps {
   mediaId: number
   mediaType: TmdbMediaTypeEnum | MediaTypeEnum
+}
+
+interface AddMediaItemToListsFormStateType {
+  isRememberSelectedLists: boolean
+  selectedLists: Record<string, MediaItemStatusNameEnum>
 }
 
 const props = defineProps<MediaListSelectorModalProps>()
@@ -57,6 +65,61 @@ const bulkUpdateMediaItemTrackingDataApi = useBulkUpdateMediaItemTrackingDataApi
 
 const searchTerm = ref("")
 const changes = ref<Record<string, MediaListChangeType>>({})
+const chosenMediaListsToAddByDefault = useLocalStorage<AddMediaItemToListsFormStateType>(LocalStorageEnum.CHOSEN_MEDIA_LISTS_TO_ADD_BY_DEFAULT, {
+  isRememberSelectedLists: false,
+  selectedLists: {},
+})
+
+function handleRememberSelectedListsChange(isRememberEnabled: boolean) {
+  chosenMediaListsToAddByDefault.value.isRememberSelectedLists = isRememberEnabled
+
+  if (!isRememberEnabled) {
+    chosenMediaListsToAddByDefault.value.selectedLists = {}
+  }
+}
+
+function saveSelectedListsToLocalStorage() {
+  if (!chosenMediaListsToAddByDefault.value.isRememberSelectedLists) {
+    return
+  }
+
+  const entries: Array<[string, MediaItemStatusNameEnum]> = []
+  for (const item of Object.values(changes.value)) {
+    if (item.checked) {
+      entries.push([item.mediaListId, item.currentStatus])
+    }
+  }
+  chosenMediaListsToAddByDefault.value.selectedLists = Object.fromEntries(entries)
+}
+
+function removeUnavailableRememberedLists() {
+  const availableListIds = new Set((getMediaListsApi.data.value || []).map(mediaList => mediaList.id))
+  chosenMediaListsToAddByDefault.value.selectedLists = Object.fromEntries(
+    Object.entries(chosenMediaListsToAddByDefault.value.selectedLists)
+      .filter(([mediaListId]) => {
+        return availableListIds.has(mediaListId)
+      }),
+  )
+}
+
+function setRememberedListStates() {
+  if (!chosenMediaListsToAddByDefault.value.isRememberSelectedLists) {
+    return
+  }
+
+  removeUnavailableRememberedLists()
+
+  for (const [mediaListId, currentStatus] of Object.entries(chosenMediaListsToAddByDefault.value.selectedLists)) {
+    const currentListChange = changes.value[mediaListId]
+    if (!currentListChange || currentListChange.mediaItemId) {
+      continue
+    }
+
+    currentListChange.checked = true
+    currentListChange.currentStatus = currentStatus
+    currentListChange.action = "add"
+  }
+}
 
 function setCurrentListStates() {
   for (const mediaList of getMediaListsApi.data.value || []) {
@@ -76,6 +139,7 @@ function setCurrentListStates() {
 
 watch([() => getMediaItemsByMediaId.data.value, () => getMediaListsApi.data.value], () => {
   setCurrentListStates()
+  setRememberedListStates()
 }, { immediate: true })
 
 const isLoading = computed(() => bulkCreateMediaItemsApi.isPending.value || bulkDeleteMediaItemsApi.isPending.value || bulkUpdateMediaItemTrackingDataApi.isPending.value)
@@ -172,6 +236,7 @@ function handleSaveChanges() {
   }
 
   Promise.all(requests).then(() => {
+    saveSelectedListsToLocalStorage()
     toast.success(t("toasts.changesSuccessfullySaved"))
     emit("onAfterSave")
   }).catch(() => {
@@ -251,6 +316,18 @@ const isHasChanges = computed(() => {
         {{ t("ui.errors.nothingFound") }}
       </UiTypography>
     </div>
+
+    <div :class="$style.switch">
+      <UiTypography variant="description">
+        {{ t("mediaList.addToListsForm.rememberSelectedLists") }}
+      </UiTypography>
+      <UiSwitch
+        :model-value="chosenMediaListsToAddByDefault.isRememberSelectedLists"
+        :disabled="isLoading"
+        @update:model-value="handleRememberSelectedListsChange"
+      />
+    </div>
+
     <div :class="$style.actions">
       <UiButton
         :disabled="!isHasChanges || isLoading"
@@ -284,10 +361,19 @@ const isHasChanges = computed(() => {
     max-height: calc(40px * 5);
   }
 
+  .switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
   .actions {
     margin-top: 12px;
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    gap: 12px;
 
     @include mobileDevice {
       justify-content: center;
