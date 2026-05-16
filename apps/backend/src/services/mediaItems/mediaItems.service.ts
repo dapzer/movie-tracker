@@ -23,6 +23,7 @@ import {
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
+import { CreateMediaItemCloneDto } from "@/services/mediaItems/dto/createMediaItemClone.dto"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 import { MediaItemNotFoundError, MediaItemUnauthorizedError } from "@/shared/errors/mediaItem"
 import { MediaListNotFoundError } from "@/shared/errors/mediaList"
@@ -388,34 +389,97 @@ export class MediaItemsService {
     id: string
     userId: string
     mediaListId: string
+    currentStatus: MediaItemStatusNameEnum
     isSaveCreationDate: boolean
   }) {
-    const isMediaItemOwner = await this.isMediaItemOwner({ id: args.id, userId: args.userId })
-    const mediaList = await this.mediaListRepository.getById({ id: args.mediaListId })
-    const isMediaListOwner = await this.isMediaListOwner({ mediaListId: args.mediaListId, userId: args.userId, mediaListBase: mediaList })
-
-    if (!isMediaItemOwner || !isMediaListOwner) {
-      throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.id })
-    }
-
-    const mediaItem = await this.mediaItemRepository.getById(args.id)
-    const createdMediaItem = await this.mediaItemRepository.createWithExistedData({
-      mediaId: mediaItem.mediaId,
-      mediaType: mediaItem.mediaType,
-      mediaListId: args.mediaListId,
-      mediaDetailsId: mediaItem.mediaDetailsId,
-      trackingData: mediaItem.trackingData,
-      createdAt: args.isSaveCreationDate ? mediaItem.createdAt : undefined,
+    const [createdMediaItem] = await this.createBulkClone({
+      userId: args.userId,
+      items: [
+        {
+          mediaItemId: args.id,
+          mediaListId: args.mediaListId,
+          currentStatus: args.currentStatus,
+          isSaveCreationDate: args.isSaveCreationDate,
+        },
+      ],
     })
 
-    const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId({
-      mediaId: mediaItem.mediaId,
-      userId: mediaList.userId,
+    return createdMediaItem
+  }
+
+  async createBulkClone(args: {
+    userId: string
+    items: Array<CreateMediaItemCloneDto & { mediaItemId: string }>
+  }) {
+    if (!args.items.length) {
+      return []
+    }
+
+    const sourceMediaItemIds = Array.from(new Set(args.items.map(item => item.mediaItemId)))
+    const sourceMediaItems = await this.mediaItemRepository.getByIds(sourceMediaItemIds)
+
+    if (sourceMediaItems.length !== sourceMediaItemIds.length) {
+      throw new MediaItemNotFoundError({ mediaItemId: sourceMediaItemIds[0] })
+    }
+
+    const sourceMediaItemById = new Map(sourceMediaItems.map(item => [item.id, item]))
+
+    const sourceMediaListIds = sourceMediaItems.map(item => item.mediaListId)
+    const targetMediaListIds = args.items.map(item => item.mediaListId)
+    const allMediaListIds = Array.from(new Set([...sourceMediaListIds, ...targetMediaListIds]))
+
+    const mediaLists = await this.mediaListRepository.getByIds({
+      ids: allMediaListIds,
+      currentUserId: args.userId,
+    })
+    const mediaListById = new Map(mediaLists.map(list => [list.id, list]))
+
+    // Check if all media lists exist and user is owner, source and destination
+    for (const listId of allMediaListIds) {
+      const mediaList = mediaListById.get(listId)
+      if (!mediaList) {
+        throw new MediaListNotFoundError({ mediaListId: listId })
+      }
+      else if (mediaList.userId !== args.userId) {
+        throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: listId })
+      }
+    }
+
+    const createBulkArgs: Parameters<MediaItemRepositoryInterface["createWithExistedDataBulk"]>[0] = args.items.map((item) => {
+      const sourceMediaItem = sourceMediaItemById.get(item.mediaItemId)
+      if (!sourceMediaItem) {
+        throw new MediaItemNotFoundError({ mediaItemId: item.mediaItemId })
+      }
+
+      return {
+        mediaId: sourceMediaItem.mediaId,
+        mediaType: sourceMediaItem.mediaType,
+        mediaListId: item.mediaListId,
+        mediaDetailsId: sourceMediaItem.mediaDetailsId,
+        trackingData: {
+          ...sourceMediaItem.trackingData,
+          currentStatus: item.currentStatus,
+        },
+        createdAt: item.isSaveCreationDate ? sourceMediaItem.createdAt : undefined,
+      }
     })
 
-    return {
-      ...createdMediaItem,
-      mediaRating,
-    }
+    const createdMediaItems = await this.mediaItemRepository.createWithExistedDataBulk(createBulkArgs)
+
+    const mediaRatings = await this.mediaRatingRepository.getByUserIdAndMediaIds({
+      userId: args.userId,
+      mediaIds: createdMediaItems.map(item => item.mediaId),
+    })
+
+    return createdMediaItems.map((item) => {
+      const mediaRating = mediaRatings.find(
+        rating => rating.mediaId === item.mediaId && rating.mediaType === item.mediaType,
+      )
+
+      return {
+        ...item,
+        mediaRating,
+      }
+    })
   }
 }

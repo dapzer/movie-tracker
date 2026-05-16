@@ -343,37 +343,32 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }
 
     const createdIds = await this.drizzle.client.transaction(async (tx) => {
-      const ids: string[] = []
-      for (const item of args) {
-        const [mediaItem] = await tx
-          .insert(mediaItems)
-          .values({
-            mediaListId: item.mediaListId,
-            mediaId: item.mediaId,
-            mediaType: item.mediaType,
-            mediaDetailsId: item.mediaDetailsId,
-            createdAt: item.createdAt,
-          })
-          .returning()
+      const insertedMediaItems = await tx
+        .insert(mediaItems)
+        .values(args.map(item => ({
+          mediaListId: item.mediaListId,
+          mediaId: item.mediaId,
+          mediaType: item.mediaType,
+          mediaDetailsId: item.mediaDetailsId,
+          createdAt: item.createdAt,
+        })))
+        .returning({ id: mediaItems.id })
 
-        await tx
-          .insert(trackingData)
-          .values({
-            mediaItemId: mediaItem.id,
-            score: null,
-            sitesToView: [],
-            tvProgress: {
-              currentSeason: 0,
-              currentEpisode: 1,
-            },
-            currentStatus: item.currentStatus,
-            createdAt: item.createdAt,
-          })
+      await tx
+        .insert(trackingData)
+        .values(insertedMediaItems.map((mediaItem, index) => ({
+          mediaItemId: mediaItem.id,
+          score: null,
+          sitesToView: [],
+          tvProgress: {
+            currentSeason: 0,
+            currentEpisode: 1,
+          },
+          currentStatus: args[index]?.currentStatus,
+          createdAt: args[index]?.createdAt,
+        })))
 
-        ids.push(mediaItem.id)
-      }
-
-      return ids
+      return insertedMediaItems.map(item => item.id)
     })
 
     return this.getWithRelationsByIds(createdIds)
@@ -406,6 +401,43 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
 
     const [result] = await this.getWithRelationsByIds([mediaItem.id])
     return result
+  }
+
+  async createWithExistedDataBulk(
+    args: Parameters<MediaItemRepositoryInterface["createWithExistedDataBulk"]>[0],
+  ) {
+    if (!args.length) {
+      return []
+    }
+
+    const createdIds = await this.drizzle.client.transaction(async (tx) => {
+      const insertedMediaItems = await tx
+        .insert(mediaItems)
+        .values(args.map(item => ({
+          mediaListId: item.mediaListId,
+          mediaId: item.mediaId,
+          mediaType: item.mediaType,
+          mediaDetailsId: item.mediaDetailsId,
+          createdAt: item.createdAt,
+        })))
+        .returning({ id: mediaItems.id })
+
+      await tx
+        .insert(trackingData)
+        .values(insertedMediaItems.map((mediaItem, index) => ({
+          mediaItemId: mediaItem.id,
+          score: args[index]?.trackingData.score,
+          note: args[index]?.trackingData.note,
+          sitesToView: args[index]?.trackingData.sitesToView,
+          tvProgress: args[index]?.trackingData.tvProgress,
+          currentStatus: args[index]?.trackingData.currentStatus,
+          createdAt: args[index]?.createdAt,
+        })))
+
+      return insertedMediaItems.map(item => item.id)
+    })
+
+    return this.getWithRelationsByIds(createdIds)
   }
 
   async delete(id: string) {

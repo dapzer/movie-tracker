@@ -9,6 +9,7 @@ export const MediaItemsQueryKeys = {
   UPDATE_TRACKING_DATA: "mediaItem/updateTrackingData",
   CREATE_CLONE: "mediaItem/createClone",
   BULK_CREATE: "mediaItem/bulkCreate",
+  BULK_CREATE_CLONE: "mediaItem/bulkCreateClone",
   BULK_DELETE: "mediaItem/bulkDelete",
   BULK_UPDATE_TRACKING_DATA: "trackingData/bulkUpdate",
 } as const

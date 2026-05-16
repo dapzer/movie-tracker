@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { MediaItemType } from "@movie-tracker/types"
+import type { MediaItemStatusNameEnum, MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { SortOrderEnum } from "@movie-tracker/types"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
-import { useCreateMediaItemCloneApi, useGetMediaItemsByMediaIdApi } from "~/api/mediaItems/useMediaItemsApi"
+import { useBulkCreateMediaItemCloneApi, useGetMediaItemsByMediaIdApi } from "~/api/mediaItems/useMediaItemsApi"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
-import { useForm } from "~/shared/composables/useForm"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -34,40 +33,52 @@ const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
 })
 const { t } = useI18n()
 const searchTerm = ref("")
-const createMediaItemCloneApi = useCreateMediaItemCloneApi()
+const selectedAddings = ref<Record<string, MediaItemStatusNameEnum>>({})
+const isSaveCreationDate = ref(false)
+const bulkCreateMediaItemCloneApi = useBulkCreateMediaItemCloneApi()
 
-const { formValue, onFormSubmit } = useForm({
-  initialValue: {
-    selectedMediaListIds: [],
-    isSaveCreationDate: false,
-  },
-  onSubmit: (formValue) => {
-    Promise.all(formValue.selectedMediaListIds.map((listId) => {
-      return createMediaItemCloneApi.mutateAsync({
-        mediaListId: listId,
-        isSaveCreationDate: formValue.isSaveCreationDate,
-        mediaItemId: props.mediaItem.id,
-      })
-    })).then(() => {
-      toast.success(t("toasts.mediaItem.successCloneCreated"))
-      model.value = false
-    }).catch(() => {
-      toast.error(t("toasts.mediaItem.unsuccessfullyCloneCreated"))
-    })
-  },
-})
-
-const availableMediaLists = computed(() => {
-  if (!getMediaListsApi.data.value)
+const allAvailableMediaLists = computed(() => {
+  if (!getMediaListsApi.data.value) {
     return []
+  }
 
   return getMediaListsApi.data.value.filter((item) => {
-    if (getMediaItemsByMediaId.data.value?.some((el) => {
+    return !getMediaItemsByMediaId.data.value?.some((el) => {
       return el.mediaType === props.mediaItem.mediaType && el.mediaId === props.mediaItem.mediaId && el.mediaListId === item.id
-    })) {
-      return false
-    }
+    })
+  })
+})
 
+watch(() => allAvailableMediaLists.value, () => {
+  const availableListIds = new Set(allAvailableMediaLists.value.map(mediaList => mediaList.id))
+  selectedAddings.value = Object.fromEntries(Object.entries(selectedAddings.value).filter(([listId]) => {
+    return availableListIds.has(listId)
+  }))
+})
+
+function onFormSubmit() {
+  const selectedMediaLists = Object.entries(selectedAddings.value)
+
+  bulkCreateMediaItemCloneApi.mutateAsync({
+    items: selectedMediaLists.map(([listId, status]) => ({
+      mediaListId: listId,
+      currentStatus: status,
+      isSaveCreationDate: isSaveCreationDate.value,
+      mediaItemId: props.mediaItem.id,
+    })),
+  }).then(() => {
+    toast.success(t("toasts.mediaItem.successCloneCreated"))
+    model.value = false
+  }).catch(() => {
+    toast.error(t("toasts.mediaItem.unsuccessfullyCloneCreated"))
+  })
+}
+
+const availableMediaLists = computed(() => {
+  if (!allAvailableMediaLists.value.length)
+    return []
+
+  return allAvailableMediaLists.value.filter((item) => {
     return searchTerm.value
       ? (item.title || t("mediaList.favorites")).toLowerCase().includes(searchTerm.value.toLowerCase())
       : true
@@ -76,6 +87,27 @@ const availableMediaLists = computed(() => {
 
 const sortedMediaLists = computed(() => {
   return getSortedArrayByDate(availableMediaLists.value, SortOrderEnum.DESC, "createdAt")
+})
+
+function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
+  if (isChecked) {
+    selectedAddings.value[mediaListId] = props.mediaItem.trackingData.currentStatus
+    return
+  }
+
+  delete selectedAddings.value[mediaListId]
+}
+
+function handleStatusChange(mediaListId: string, status: MediaItemStatusNameEnum) {
+  if (!selectedAddings.value[mediaListId]) {
+    return
+  }
+
+  selectedAddings.value[mediaListId] = status
+}
+
+const isHasSelectedMediaLists = computed(() => {
+  return Object.keys(selectedAddings.value).length > 0
 })
 </script>
 
@@ -104,10 +136,13 @@ const sortedMediaLists = computed(() => {
         <MediaItemCreateCloneFormItem
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
-          v-model="formValue.selectedMediaListIds"
-          :disabled="createMediaItemCloneApi.isPending.value"
+          :model-value="Boolean(selectedAddings[mediaList.id])"
+          :current-status="selectedAddings[mediaList.id] || props.mediaItem.trackingData.currentStatus"
+          :disabled="bulkCreateMediaItemCloneApi.isPending.value"
           :value="mediaList.id"
           :media-list="mediaList"
+          @update:model-value="handleCheckboxChange(mediaList.id, $event)"
+          @on-status-change="handleStatusChange(mediaList.id, $event)"
         />
       </template>
       <UiTypography
@@ -123,13 +158,13 @@ const sortedMediaLists = computed(() => {
       <UiTypography variant="description">
         {{ $t('mediaItem.createClone.isSaveCreationDate') }}
       </UiTypography>
-      <UiSwitch v-model="formValue.isSaveCreationDate" />
+      <UiSwitch v-model="isSaveCreationDate" />
     </div>
 
     <div :class="$style.actions">
       <UiButton
         size="small"
-        :disabled="createMediaItemCloneApi.isPending.value || !formValue.selectedMediaListIds.length"
+        :disabled="bulkCreateMediaItemCloneApi.isPending.value || !isHasSelectedMediaLists"
         @click="onFormSubmit"
       >
         {{ $t('mediaItem.createClone.clone') }}

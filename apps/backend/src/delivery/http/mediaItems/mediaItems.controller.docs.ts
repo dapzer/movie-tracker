@@ -115,3 +115,13 @@ export function CloneMediaItemDocs() {
     ApiForbiddenResponse({ description: "Not owner of source or target list", type: ErrorResponseDto }),
   )
 }
+
+export function BulkCloneMediaItemDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Bulk clone media items to lists" }),
+    ApiSecurity("cookie"),
+    ApiOkResponse({ description: "Cloned media items", type: [MediaItemDto] }),
+    ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiForbiddenResponse({ description: "Not owner of source items or target lists", type: ErrorResponseDto }),
+  )
+}

@@ -9,6 +9,7 @@ import type {
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
+  bulkCreateMediaItemCloneApi,
   bulkCreateMediaItemsApi,
   bulkDeleteMediaItemsApi,
   bulkUpdateMediaItemTrackingDataApi,
@@ -156,6 +157,31 @@ export function useCreateMediaItemCloneApi() {
         if (!mediaList)
           return mediaList
         mediaList.mediaItemsCount = (mediaList.mediaItemsCount || 0) + 1
+        return oldData
+      })
+    },
+  })
+}
+
+export function useBulkCreateMediaItemCloneApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemsQueryKeys.BULK_CREATE_CLONE],
+    mutationFn: bulkCreateMediaItemCloneApi,
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaListCounts = new Map<string, number>()
+        for (const item of data) {
+          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
+        }
+
+        for (const list of oldData) {
+          const diff = mediaListCounts.get(list.id)
+          if (diff) {
+            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+          }
+        }
         return oldData
       })
     },
