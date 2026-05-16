@@ -36,6 +36,7 @@ export function GetMediaReviewByCurrentUserAndMediaIdDocs() {
     ApiSecurity("cookie"),
     ApiOkResponse({ description: "Current user media review", type: MediaReviewDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiNotFoundResponse({ description: "Media review not found", type: ErrorResponseDto }),
   )
 }
 

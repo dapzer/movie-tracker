@@ -55,11 +55,17 @@ export class MediaReviewsService {
   }
 
   async getByCurrentUserAndMediaId(args: { mediaId: number, currentUserId: string }) {
-    return this.mediaReviewRepository.getByUserIdAndMediaId({
+    const mediaReview = await this.mediaReviewRepository.getByUserIdAndMediaId({
       userId: args.currentUserId,
       mediaId: args.mediaId,
       currentUserId: args.currentUserId,
     })
+
+    if (!mediaReview) {
+      throw new MediaReviewNotFoundError({ mediaId: args.mediaId })
+    }
+
+    return mediaReview
   }
 
   async getByMediaId(args: { mediaId: number, currentUser?: UserType } & PaginationDto) {
