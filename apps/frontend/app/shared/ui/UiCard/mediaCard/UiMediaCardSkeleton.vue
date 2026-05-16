@@ -55,6 +55,9 @@ const props = withDefaults(defineProps<UiMediaCardSkeletonProps>(), {
 
 .wrapper {
   pointer-events: none;
+  @include mobileDevice {
+    max-width: unset;
+  }
 }
 
 .image {

@@ -1,8 +1,12 @@
+import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 
 const createMediaItemCloneSchema = z.object({
   mediaListId: z.uuid().meta({ format: "uuid", example: "b10c5d0d-4ce2-4e31-8d1a-7d1a0b944b3a" }),
+  currentStatus: z
+    .enum(MediaItemStatusNameEnum)
+    .meta({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.WATCHING_NOW }),
   isSaveCreationDate: z.boolean().meta({ example: true }),
 })
 

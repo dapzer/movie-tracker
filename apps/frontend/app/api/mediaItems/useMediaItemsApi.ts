@@ -9,6 +9,7 @@ import type {
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import {
+  bulkCreateMediaItemCloneApi,
   bulkCreateMediaItemsApi,
   bulkDeleteMediaItemsApi,
   bulkUpdateMediaItemTrackingDataApi,
@@ -162,6 +163,31 @@ export function useCreateMediaItemCloneApi() {
   })
 }
 
+export function useBulkCreateMediaItemCloneApi() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationKey: [MediaItemsQueryKeys.BULK_CREATE_CLONE],
+    mutationFn: bulkCreateMediaItemCloneApi,
+    onSuccess: async (data) => {
+      await queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+        const mediaListCounts = new Map<string, number>()
+        for (const item of data) {
+          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
+        }
+
+        for (const list of oldData) {
+          const diff = mediaListCounts.get(list.id)
+          if (diff) {
+            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+          }
+        }
+        return oldData
+      })
+    },
+  })
+}
+
 export function useUpdateMediaItemApi() {
   const queryClient = useQueryClient()
 
@@ -188,20 +214,28 @@ export function useBulkCreateMediaItemsApi() {
     mutationKey: [MediaItemsQueryKeys.BULK_CREATE],
     mutationFn: bulkCreateMediaItemsApi,
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
-        const mediaListCounts = new Map<string, number>()
-        for (const item of data) {
-          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
-        }
-
-        for (const list of oldData) {
-          const diff = mediaListCounts.get(list.id)
-          if (diff) {
-            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [MediaItemsQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+          const mediaListCounts = new Map<string, number>()
+          for (const item of data) {
+            mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
           }
-        }
-        return oldData
-      })
+
+          for (const list of oldData) {
+            const diff = mediaListCounts.get(list.id)
+            if (diff) {
+              list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+            }
+          }
+          return oldData
+        }),
+      ])
     },
   })
 }
@@ -213,27 +247,47 @@ export function useBulkDeleteMediaItemsApi() {
     mutationKey: [MediaItemsQueryKeys.BULK_DELETE],
     mutationFn: bulkDeleteMediaItemsApi,
     onSuccess: async (data) => {
-      await queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
-        const mediaListCounts = new Map<string, number>()
-        for (const item of data) {
-          mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) - 1)
-        }
-
-        for (const list of oldData) {
-          const diff = mediaListCounts.get(list.id)
-          if (diff) {
-            list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [MediaItemsQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
+          const mediaListCounts = new Map<string, number>()
+          for (const item of data) {
+            mediaListCounts.set(item.mediaListId, (mediaListCounts.get(item.mediaListId) || 0) + 1)
           }
-        }
-        return oldData
-      })
+
+          for (const list of oldData) {
+            const diff = mediaListCounts.get(list.id)
+            if (diff) {
+              list.mediaItemsCount = (list.mediaItemsCount || 0) + diff
+            }
+          }
+          return oldData
+        }),
+      ])
     },
   })
 }
 
 export function useBulkUpdateMediaItemTrackingDataApi() {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationKey: [MediaItemsQueryKeys.BULK_UPDATE_TRACKING_DATA],
     mutationFn: bulkUpdateMediaItemTrackingDataApi,
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [MediaItemsQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
+        }),
+      ])
+    },
   })
 }

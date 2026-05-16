@@ -5,7 +5,7 @@ import { SortOrderEnum } from "@movie-tracker/types"
 import { useQueryClient } from "@tanstack/vue-query"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi } from "~/api/mediaItems/useMediaItemsApi"
+import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi"
 import { MediaListsQueryKeys } from "~/api/mediaLists/mediaListsApiQueryKeys"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
 import MediaItemChangeMediaListFormItem
@@ -37,19 +37,30 @@ const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
 const { t } = useI18n()
 const searchTerm = ref("")
 const updateMediaItemApi = useUpdateMediaItemApi()
+const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 const queryClient = useQueryClient()
 
 const { formValue, onFormSubmit } = useForm({
   initialValue: {
     selectedMediaListId: "",
+    selectedStatus: props.mediaItem.trackingData.currentStatus,
   },
   onSubmit: (formValue) => {
-    updateMediaItemApi.mutateAsync({
-      mediaItemId: props.mediaItem.id,
-      body: {
-        mediaListId: formValue.selectedMediaListId,
-      },
-    }).then(async () => {
+    Promise.all([
+      updateMediaItemApi.mutateAsync({
+        mediaItemId: props.mediaItem.id,
+        body: {
+          mediaListId: formValue.selectedMediaListId,
+        },
+      }),
+      updateMediaItemTrackingDataApi.mutateAsync({
+        trackingDataId: props.mediaItem.trackingData.id,
+        body: {
+          ...props.mediaItem.trackingData,
+          currentStatus: formValue.selectedStatus,
+        },
+      }),
+    ]).then(async () => {
       await queryClient.setQueryData([MediaListsQueryKeys.GET_ALL], (oldData: MediaListType[]) => {
         return oldData.map((el) => {
           if (el.id === formValue.selectedMediaListId) {
@@ -118,8 +129,9 @@ const sortedMediaLists = computed(() => {
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="formValue.selectedMediaListId"
+          v-model:current-status="formValue.selectedStatus"
           radio
-          :disabled="updateMediaItemApi.isPending.value"
+          :disabled="updateMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value"
           :value="mediaList.id"
           :media-list="mediaList"
         />
@@ -136,7 +148,7 @@ const sortedMediaLists = computed(() => {
     <div :class="$style.actions">
       <UiButton
         size="small"
-        :disabled="updateMediaItemApi.isPending.value || !formValue.selectedMediaListId"
+        :disabled="updateMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value || !formValue.selectedMediaListId"
         @click="onFormSubmit"
       >
         {{ $t('mediaItem.changeMediaList.button') }}

@@ -10,14 +10,11 @@ import { getElementDeclensionTranslationKey } from "~/shared/utils/getElementDec
 
 interface AddMediaItemToListsFormItemProps {
   mediaList: MediaListType
-  currentStatus: MediaItemStatusNameEnum
 }
 
 const props = defineProps<AddMediaItemToListsFormItemProps>()
-const emits = defineEmits<{
-  (e: "onStatusChange", status: MediaItemStatusNameEnum): void
-}>()
 const model = defineModel<boolean>()
+const currentStatusModel = defineModel<MediaItemStatusNameEnum>("currentStatus", { required: true })
 
 const titlesInListCount = computed(() => {
   return props.mediaList.mediaItemsCount || 0
@@ -55,8 +52,7 @@ const titlesInListCount = computed(() => {
 
       <template v-else>
         <AddMediaItemToListsStatusSelector
-          :current-status="props.currentStatus"
-          @on-status-change="emits('onStatusChange', $event)"
+          v-model="currentStatusModel"
         />
       </template>
     </template>

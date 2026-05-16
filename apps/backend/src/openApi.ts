@@ -5,16 +5,11 @@ import { apiReference } from "@scalar/nestjs-api-reference"
 import { cleanupOpenApiDoc } from "nestjs-zod"
 
 export function setupOpenApi(app: INestApplication, configService: ConfigService) {
-  const isDevelopment = configService.get("NODE_ENV") === "development"
-
-  if (!isDevelopment) {
-    return
-  }
-
   const swaggerConfig = new DocumentBuilder()
     .setTitle("Movie Tracker API")
     .setDescription("Movie Tracker API documentation")
     .setVersion("1.0")
+    .addServer(configService.get("API_BASE_URL"))
     .addCookieAuth("session", {
       type: "apiKey",
       in: "cookie",

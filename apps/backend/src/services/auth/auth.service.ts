@@ -154,10 +154,23 @@ export class AuthService {
       providerAccountId: profile.id,
     })
 
-    let user = null
+    let user: UserType | null = null
 
     if (account) {
       user = await this.usersRepository.getById(account.userId)
+
+      if (profile.email && user.email !== profile.email) {
+        const userWithSameEmail = await this.usersRepository.getByEmail(profile.email)
+
+        if (!userWithSameEmail || userWithSameEmail.id === user.id) {
+          user = await this.usersRepository.update({
+            id: user.id,
+            body: {
+              email: profile.email,
+            },
+          })
+        }
+      }
     }
     else if (profile.email) {
       user = await this.usersRepository.getByEmail(profile.email)

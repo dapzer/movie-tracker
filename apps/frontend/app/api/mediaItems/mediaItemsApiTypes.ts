@@ -24,6 +24,7 @@ export type MediaItemUpdateBodyApiTypes = Partial<Pick<MediaItemType, "mediaDeta
 export interface MediaItemCreateCloneApiTypes {
   mediaItemId: string
   mediaListId: string
+  currentStatus: MediaItemStatusNameEnum
   isSaveCreationDate: boolean
 }
 
@@ -50,4 +51,8 @@ export interface MediaItemBulkDeleteApiTypes {
 
 export interface MediaItemBulkUpdateTrackingDataApiTypes {
   items: MediaItemTrackingDataUpdateApiArgs[]
+}
+
+export interface MediaItemBulkCreateCloneApiTypes {
+  items: Array<MediaItemCreateCloneApiTypes>
 }

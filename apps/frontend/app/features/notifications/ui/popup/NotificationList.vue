@@ -22,6 +22,14 @@ const getNotificationsApi = useGetNotificationsApi(getNotificationsApiArgs)
 const getNotificationCountApi = useGetNotificationCountApi()
 const markNotificationsAsReadApi = useMarkNotificationsAsReadApi()
 
+function getLocalDateKey(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+
+  return `${year}-${month}-${day}`
+}
+
 const readTimeout = setTimeout(() => {
   if (!getNotificationsApi.data.value?.items.length || !getNotificationCountApi.data.value?.unread) {
     return
@@ -40,7 +48,7 @@ const notificationGroups = computed(() => {
 
   for (const notification of getNotificationsApi.data.value?.items || []) {
     const date = new Date(notification.createdAt)
-    const dateKey = date.toLocaleDateString()
+    const dateKey = getLocalDateKey(date)
 
     if (!groupsByDate.has(dateKey)) {
       groupsByDate.set(dateKey, [])

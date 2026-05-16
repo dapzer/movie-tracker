@@ -146,6 +146,7 @@ export class MediaListsService {
 
     const mediaItems = await this.mediaItemRepository.getByListId({
       mediaListId: id,
+      withoutLimit: true,
     })
     const newMediaList = await this.mediaListRepository.create({
       userId,

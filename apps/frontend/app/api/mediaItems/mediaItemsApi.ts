@@ -12,6 +12,7 @@ import type {
   GetMediaItemsByMediaListIdApiArgs,
   GetMediaItemsCountByMediaListIdApiArgs,
   MediaItemBulkCreateApiTypes,
+  MediaItemBulkCreateCloneApiTypes,
   MediaItemBulkDeleteApiTypes,
   MediaItemBulkUpdateTrackingDataApiTypes,
   MediaItemCreateApiTypes,
@@ -99,8 +100,13 @@ export async function updateMediaItemTrackingDataApi(args: MediaItemTrackingData
 export async function createMediaItemCloneApi(args: MediaItemCreateCloneApiTypes) {
   return api.post<MediaItemType>(`media-items/${args.mediaItemId}/clone`, {
     mediaListId: args.mediaListId,
+    currentStatus: args.currentStatus,
     isSaveCreationDate: args.isSaveCreationDate,
   })
+}
+
+export async function bulkCreateMediaItemCloneApi(body: MediaItemBulkCreateCloneApiTypes) {
+  return api.post<MediaItemType[]>("media-items/bulk/clone", body)
 }
 
 export async function updateMediaItemApi(args: MediaItemUpdateApiArgs) {
