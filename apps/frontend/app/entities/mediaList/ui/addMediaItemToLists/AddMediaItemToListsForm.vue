@@ -235,11 +235,11 @@ const isHasChanges = computed(() => {
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           v-model="changes[mediaList.id]!.checked"
-          :current-status="changes[mediaList.id]!.currentStatus"
+          v-model:current-status="changes[mediaList.id]!.currentStatus"
           :disabled="isLoading"
           :media-list="mediaList"
           @change="(e: Event) => handleCheckboxChange(mediaList.id, (e.target as HTMLInputElement).checked)"
-          @on-status-change="handleStatusChange(mediaList.id, $event)"
+          @update:current-status="handleStatusChange(mediaList.id, $event)"
         />
       </template>
 
