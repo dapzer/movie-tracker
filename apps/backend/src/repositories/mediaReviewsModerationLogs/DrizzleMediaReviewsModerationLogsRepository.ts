@@ -94,7 +94,10 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
       .leftJoin(users, eq(users.id, mediaReviewsModerationLogs.moderatorId))
       .where(eq(mediaReviewsModerationLogs.mediaReviewId, args.mediaReviewId))
 
-    return rows.map(this.convertToInterface)
+    return rows.map(el => this.convertToInterface({
+      moderationLog: el.moderationLog,
+      moderator: el.moderator,
+    }))
   }
 
   async create(
