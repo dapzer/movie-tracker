@@ -25,3 +25,5 @@ export const optionalUserSchema = userSchema.optional()
 export class UserDto extends createZodDto(userSchema) {}
 
 export class OptionalUserDto extends createZodDto(optionalUserSchema) {}
+
+export type UserType = z.infer<typeof userSchema>

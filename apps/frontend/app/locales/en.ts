@@ -1472,6 +1472,48 @@ export default {
       description: "To receive notifications about the release of new films and TV series, subscribe to the films you are interested in.",
     },
   },
+  mediaReviews: {
+    title: "Reviews",
+    create: "Review this title",
+    createTooltip: "You have already written a review for this title",
+    noReviews: "There are no reviews for this title yet",
+    yourRating: "Your rating",
+    form: {
+      publish: "Publish",
+      title: "Headline of review (optional)",
+      content: "Review",
+      contentDescription: "Required characters: 5 - 10 000",
+      confirmDeleteTitle: "Are you sure you want to cancel writing the review?",
+      confirmDeleteDescription: "All your changes will be irreversibly lost",
+    },
+    moderation: {
+      review: "Review",
+      publish: "Publish",
+      publishWithSpoiler: "Publish with spoiler",
+      status: {
+        changesRequested: "Request changes",
+        removed: "Reject",
+      },
+      reason: {
+        offTopic: "Off topic",
+        spam: "Spam",
+        toxicity: "Toxicity",
+        lowEffortJunk: "Low effort / junk",
+        other: "Other",
+      },
+      form: {
+        statusPlaceholder: "Select action",
+        reasonPlaceholder: "Select reason",
+        descriptionPlaceholder: "Comment (optional)",
+      },
+      result: {
+        confirm: {
+          title: "Are you sure?",
+          description: "This decision will be applied to the review without the possibility of cancellation.",
+        },
+      },
+    },
+  },
   legals: {
     privacyPolicy: `## Privacy policy
 1. **Your privacy**: Movie Tracker is committed to ensuring the privacy of your information.
@@ -1570,6 +1612,22 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successDisliked: "List disliked successfully",
       unsuccessfullyDisliked: "An error occurred while disliking the list",
     },
+    mediaReview: {
+      successLiked: "Review liked successfully",
+      unsuccessfullyLiked: "An error occurred while liking the review",
+      successUnliked: "Like removed successfully",
+      unsuccessfullyUnliked: "An error occurred while removing the like",
+      successDisliked: "Review disliked successfully",
+      unsuccessfullyDisliked: "An error occurred while disliking the review",
+      successUndisliked: "Dislike removed successfully",
+      unsuccessfullyUndisliked: "An error occurred while removing the dislike",
+      successUpdated: "Review updated successfully",
+      unsuccessfullyUpdated: "An error occurred while updating the review",
+      successDeleted: "Review deleted successfully",
+      unsuccessfullyDeleted: "An error occurred while deleting the review",
+      successCreated: "Review created successfully",
+      unsuccessfullyCreated: "An error occurred while creating the review",
+    },
     mediaRating: {
       successRated: "Rating saved successfully",
       unsuccessfullyRated: "An error occurred while saving the rating",
@@ -1640,6 +1698,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     unfollow: "Unfollow",
     nothingFound: "Nothing found",
     share: "Share",
+    unsavedChanges: "Are you sure you want to leave the page? Any unsaved changes will be lost.",
     like: {
       single: "Like",
       multiple: "Likes",
@@ -1654,6 +1713,11 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       single: "Follower",
       multiple: "Followers",
       many: "Followers",
+    },
+    reviews: {
+      single: "Review",
+      many: "Reviews",
+      multiple: "Reviews",
     },
     errors: {
       nothingFound: "Nothing found",
@@ -1775,5 +1839,11 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
         prepositional: "December",
       },
     },
+  },
+  validation: {
+    required: "This field is required",
+    minLength: "Minimum length is {min}",
+    maxLength: "Maximum length is {max}",
+    betweenLength: "Length must be between {min} and {max}",
   },
 }

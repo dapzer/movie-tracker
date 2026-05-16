@@ -29,6 +29,20 @@
       "when": 1778527269552,
       "tag": "0003_drop_prisma_migrations",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778532139152,
+      "tag": "0004_media_reviews_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1778532161716,
+      "tag": "0005_media_reviews_moderation_logs_table",
+      "breakpoints": true
     }
   ]
 }
