@@ -1490,6 +1490,7 @@ export default {
       confirmDeleteDescription: "All your changes will be irreversibly lost",
     },
     moderation: {
+      logs: "Moderation history",
       review: "Review",
       publish: "Publish",
       publishWithSpoiler: "Publish with spoiler",
@@ -1508,6 +1509,17 @@ export default {
         statusPlaceholder: "Select action",
         reasonPlaceholder: "Select reason",
         descriptionPlaceholder: "Comment (optional)",
+      },
+      logsModal: {
+        title: "Moderation history",
+        empty: "No moderation history yet",
+        table: {
+          date: "Date",
+          action: "Action",
+          reason: "Reason",
+          moderator: "Moderator",
+          comment: "Comment",
+        },
       },
       result: {
         confirm: {

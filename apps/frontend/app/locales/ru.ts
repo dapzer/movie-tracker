@@ -1492,6 +1492,7 @@ export default {
       confirmDeleteDescription: "Все ваши изменение будут безвозвратно утеряны",
     },
     moderation: {
+      logs: "История модерации",
       review: "Рассмотреть",
       publish: "Опубликовать",
       publishWithSpoiler: "Опубликовать со спойлером",
@@ -1510,6 +1511,17 @@ export default {
         statusPlaceholder: "Выберите действие",
         reasonPlaceholder: "Выберите причину",
         descriptionPlaceholder: "Комментарий (необязательно)",
+      },
+      logsModal: {
+        title: "История модерации",
+        empty: "История модерации отсутствуют",
+        table: {
+          date: "Дата",
+          action: "Действие",
+          reason: "Причина",
+          moderator: "Модератор",
+          comment: "Комментарий",
+        },
       },
       result: {
         confirm: {

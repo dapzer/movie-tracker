@@ -7,6 +7,7 @@ import { MediaReviewModerationLogAction } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useModerateMediaReviewApi } from "~/api/mediaReviewModeration/useMediaReviewModerationApi"
 import { MediaReviewCard } from "~/entities/mediaReview"
+import MediaReviewModerationLogsModal from "~/entities/mediaReview/ui/moderation/MediaReviewModerationLogsModal.vue"
 import MediaReviewModerationModal from "~/entities/mediaReview/ui/moderation/MediaReviewModerationModal.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -60,27 +61,42 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
     </div>
     <MediaReviewCard :media-review="props.mediaReview" />
     <div :class="$style.actions">
-      <MediaReviewModerationModal :media-review-id="mediaReview.id">
-        <template #trigger="{ openModal }">
-          <UiButton
-            scheme="tertiary"
-            @click="openModal"
-          >
-            {{ $t("mediaReviews.moderation.review") }}
-          </UiButton>
-        </template>
-      </MediaReviewModerationModal>
+      <div>
+        <MediaReviewModerationLogsModal :media-review-id="props.mediaReview.id">
+          <template #trigger="{ openModal }">
+            <UiButton
+              variant="outlined"
+              @click="openModal"
+            >
+              {{ $t("mediaReviews.moderation.logs") }}
+            </UiButton>
+          </template>
+        </MediaReviewModerationLogsModal>
+      </div>
 
-      <UiButton
-        scheme="secondary"
-        @click="handlePublish(props.mediaReview.id, true)"
-      >
-        {{ $t("mediaReviews.moderation.publishWithSpoiler") }}
-      </UiButton>
+      <div>
+        <MediaReviewModerationModal :media-review-id="props.mediaReview.id">
+          <template #trigger="{ openModal }">
+            <UiButton
+              scheme="tertiary"
+              @click="openModal"
+            >
+              {{ $t("mediaReviews.moderation.review") }}
+            </UiButton>
+          </template>
+        </MediaReviewModerationModal>
 
-      <UiButton @click="handlePublish(props.mediaReview.id)">
-        {{ $t("mediaReviews.moderation.publish") }}
-      </UiButton>
+        <UiButton
+          scheme="secondary"
+          @click="handlePublish(props.mediaReview.id, true)"
+        >
+          {{ $t("mediaReviews.moderation.publishWithSpoiler") }}
+        </UiButton>
+
+        <UiButton @click="handlePublish(props.mediaReview.id)">
+          {{ $t("mediaReviews.moderation.publish") }}
+        </UiButton>
+      </div>
     </div>
   </div>
 </template>
@@ -102,5 +118,13 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
 .actions {
   display: flex;
   gap: 12px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  & > div {
+    flex-wrap: wrap;
+    display: flex;
+    gap: 12px;
+  }
 }
 </style>
