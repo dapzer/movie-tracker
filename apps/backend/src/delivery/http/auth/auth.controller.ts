@@ -17,6 +17,7 @@ import { ProvidersService } from "@/services/auth/providers/providers.service"
 import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { AlreadyAuthenticatedError, NoCodeProvidedError, SessionError } from "@/shared/errors/auth"
+import { NotImplementedError } from "@/shared/errors/core"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
@@ -58,9 +59,16 @@ export class AuthController {
   ) {
   }
 
+  private notImplemented() {
+    if (this.configService.get("NODE_ENV") === "production") {
+      throw new NotImplementedError()
+    }
+  }
+
   @Post("/sign-up")
   @SignUpDocs()
   async signUp(@Req() req: Request, @Body() body: SignUpDto) {
+    this.notImplemented()
     const user = await this.authService.signUp(body)
 
     req.session.user = getUserWithoutPassword(user)
@@ -70,6 +78,7 @@ export class AuthController {
   @Post("/sign-in")
   @SignInDocs()
   async signIn(@Req() req: Request, @Body() body: SignInDto, @User() currentUser: OptionalUserDto) {
+    this.notImplemented()
     if (currentUser) {
       throw new AlreadyAuthenticatedError()
     }
@@ -89,6 +98,7 @@ export class AuthController {
   @Post("/recover-password")
   @RecoverPasswordDocs()
   async getRecoverPasswordEmail(@Body() body: GetRecoverPasswordEmailDto) {
+    this.notImplemented()
     return this.authService.sendPasswordRecoveryEmail(body.email)
   }
 
@@ -98,6 +108,7 @@ export class AuthController {
     @Req() req: Request,
     @Body() body: ResetPasswordByTokenDto,
   ) {
+    this.notImplemented()
     const user = await this.authService.resetPasswordByToken(body.token, body.password)
 
     req.session.user = getUserWithoutPassword(user)
@@ -114,6 +125,7 @@ export class AuthController {
   @Post("/change-email")
   @RequestChangeEmailDocs()
   async requestChangeEmail(@User() user: UserDto, @Body() body: RequestChangeEmailDto) {
+    this.notImplemented()
     return this.authService.requestChangeEmail(user.id, body.email)
   }
 
@@ -121,6 +133,7 @@ export class AuthController {
   @ConfirmChangeEmailDocs()
   @UseGuards(AuthGuard)
   async confirmEmailChanging(@Req() req: Request, @User() user: UserDto, @Body() body: ConfirmChangeEmailDto) {
+    this.notImplemented()
     const updatedUser = await this.authService.confirmEmailChanging(body.token)
 
     req.session.user = getUserWithoutPassword(updatedUser)
@@ -137,6 +150,7 @@ export class AuthController {
   @SendConfirmEmailDocs()
   @UseGuards(AuthGuard)
   async getConfirmEmail(@User() user: UserDto) {
+    this.notImplemented()
     return this.authService.sendConfirmationEmail(user.email)
   }
 
@@ -148,6 +162,7 @@ export class AuthController {
     @User() user: UserDto,
     @Body() body: ConfirmEmailDto,
   ) {
+    this.notImplemented()
     await this.authService.confirmEmail(user.email, body.token)
 
     req.session.user.isEmailVerified = true

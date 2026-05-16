@@ -7,6 +7,7 @@ import {
   ForbiddenError,
   InternalError,
   NotFoundError,
+  NotImplementedError,
   UnauthorizedError,
   UnprocessableError,
 } from "@/shared/errors/core"
@@ -39,6 +40,7 @@ export class CustomErrorFilter implements ExceptionFilter {
     [UnprocessableError, HttpStatus.UNPROCESSABLE_ENTITY],
     [ExternalServiceError, HttpStatus.BAD_GATEWAY],
     [InternalError, HttpStatus.INTERNAL_SERVER_ERROR],
+    [NotImplementedError, HttpStatus.NOT_IMPLEMENTED],
   ])
 
   ignoredErrorsForLogging: Array<{

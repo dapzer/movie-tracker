@@ -1208,6 +1208,9 @@ export default {
     listTitle: "Список",
     addToList: "Добавить в список",
     addToListTitle: "Добавить ‘{title}’ в списки",
+    addToListsForm: {
+      rememberSelectedLists: "Запомнить выбранные списки и статусы для последующих добавлений",
+    },
     unauthorizedDescription: "для отображения ваших списков",
     unauthorizedTitle: "Войдите",
     yourLists: "Ваши списки",

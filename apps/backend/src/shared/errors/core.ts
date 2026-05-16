@@ -47,3 +47,9 @@ export class ExternalServiceError extends CustomError {
     super(message, options)
   }
 }
+
+export class NotImplementedError extends CustomError {
+  constructor(message = "Not implemented", options?: Omit<CustomErrorOptions, "message">) {
+    super(message, options)
+  }
+}
