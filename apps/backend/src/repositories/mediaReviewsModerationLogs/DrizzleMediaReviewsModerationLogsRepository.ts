@@ -1,31 +1,62 @@
-import { mediaReviewsModerationLogs } from "@movie-tracker/database"
+import { mediaReviewsModerationLogs, users } from "@movie-tracker/database"
 import { eq } from "@movie-tracker/database/drizzle"
 import {
   MediaReviewModerationLog,
   MediaReviewModerationLogAction,
   MediaReviewModerationLogReason,
+  SignUpMethodEnum,
+  UserMediaRatingsAccessLevelEnum,
+  UserPublicType,
+  UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import {
   MediaReviewsModerationLogsRepositoryInterface,
 } from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
+import { getPublicUser } from "@/shared/utils/getPublicUser"
 
 type MediaReviewModerationLogRow = typeof mediaReviewsModerationLogs.$inferSelect
+type UserRow = typeof users.$inferSelect
 
 @Injectable()
 export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviewsModerationLogsRepositoryInterface {
   constructor(private readonly drizzle: DrizzleService) {}
 
-  private convertToInterface(row?: MediaReviewModerationLogRow): MediaReviewModerationLog | undefined {
-    if (!row) {
+  private convertUserToInterface(user?: UserRow | null): UserPublicType | null {
+    if (!user) {
+      return null
+    }
+
+    return getPublicUser({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      signUpMethod: SignUpMethodEnum[user.signUpMethod],
+      isEmailVerified: user.isEmailVerified,
+      password: user.password,
+      roles: user.roles.map(role => UserRoleEnum[role]),
+      mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    })
+  }
+
+  private convertToInterface(args?: {
+    moderationLog: MediaReviewModerationLogRow
+    moderator?: UserRow | null
+  }): MediaReviewModerationLog | undefined {
+    if (!args) {
       return undefined
     }
+
+    const { moderationLog: row } = args
 
     return {
       id: row.id,
       mediaReviewId: row.mediaReviewId,
-      moderatorId: row.moderatorId,
+      moderator: this.convertUserToInterface(args.moderator),
       action: MediaReviewModerationLogAction[row.action as keyof typeof MediaReviewModerationLogAction],
       reason: row.reason
         ? MediaReviewModerationLogReason[row.reason as keyof typeof MediaReviewModerationLogReason]
@@ -39,8 +70,12 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
     args: Parameters<MediaReviewsModerationLogsRepositoryInterface["getById"]>[0],
   ): Promise<MediaReviewModerationLog | undefined> {
     const [row] = await this.drizzle.client
-      .select()
+      .select({
+        moderationLog: mediaReviewsModerationLogs,
+        moderator: users,
+      })
       .from(mediaReviewsModerationLogs)
+      .leftJoin(users, eq(users.id, mediaReviewsModerationLogs.moderatorId))
       .where(eq(mediaReviewsModerationLogs.id, args.id))
       .limit(1)
 
@@ -51,8 +86,12 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
     args: Parameters<MediaReviewsModerationLogsRepositoryInterface["getByReviewId"]>[0],
   ): Promise<MediaReviewModerationLog[]> {
     const rows = await this.drizzle.client
-      .select()
+      .select({
+        moderationLog: mediaReviewsModerationLogs,
+        moderator: users,
+      })
       .from(mediaReviewsModerationLogs)
+      .leftJoin(users, eq(users.id, mediaReviewsModerationLogs.moderatorId))
       .where(eq(mediaReviewsModerationLogs.mediaReviewId, args.mediaReviewId))
 
     return rows.map(this.convertToInterface)
@@ -73,6 +112,6 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
       })
       .returning()
 
-    return this.convertToInterface(row)
+    return this.getById({ id: row.id })
   }
 }

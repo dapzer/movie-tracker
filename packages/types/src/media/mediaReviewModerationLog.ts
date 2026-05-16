@@ -1,7 +1,9 @@
+import { UserPublicType } from "../user"
+
 export interface MediaReviewModerationLog {
   id: string
   mediaReviewId: string
-  moderatorId: string | null
+  moderator: UserPublicType | null
   action: MediaReviewModerationLogAction
   reason: MediaReviewModerationLogReason | null
   comment: string | null
