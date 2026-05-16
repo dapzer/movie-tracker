@@ -1,6 +1,7 @@
 import { applyDecorators } from "@nestjs/common"
 import {
   ApiInternalServerErrorResponse,
+  ApiNotImplementedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiSecurity,
@@ -21,7 +22,7 @@ export function SignUpDocs() {
     ApiOperation({ summary: "Sign up user" }),
     ApiOkResponse({ description: "User created and session started" }),
     ApiInternalServerErrorResponse({ description: "Failed to sign up", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
   )
 }
 
@@ -30,7 +31,7 @@ export function SignInDocs() {
     ApiOperation({ summary: "Sign in user" }),
     ApiOkResponse({ description: "User authenticated" }),
     ApiUnauthorizedResponse({ description: "Invalid credentials or already authenticated", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
   )
 }
 
@@ -47,7 +48,7 @@ export function ResetPasswordDocs() {
     ApiOperation({ summary: "Reset password by token" }),
     ApiOkResponse({ description: "Password reset and session updated" }),
     ApiUnauthorizedResponse({ description: "Invalid token", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
   )
 }
 
@@ -57,7 +58,7 @@ export function RequestChangeEmailDocs() {
     ApiSecurity("cookie"),
     ApiOkResponse({ description: "Confirmation email sent" }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
     ApiTooManyRequestsResponse({ description: "Too many requests", type: ErrorResponseDto }),
   )
 }
@@ -68,7 +69,7 @@ export function ConfirmChangeEmailDocs() {
     ApiSecurity("cookie"),
     ApiOkResponse({ description: "Email updated" }),
     ApiUnauthorizedResponse({ description: "Unauthorized or invalid token", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
   )
 }
 
@@ -78,7 +79,7 @@ export function SendConfirmEmailDocs() {
     ApiSecurity("cookie"),
     ApiOkResponse({ description: "Confirmation email sent" }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
     ApiTooManyRequestsResponse({ description: "Too many requests", type: ErrorResponseDto }),
   )
 }
@@ -89,7 +90,7 @@ export function ConfirmEmailDocs() {
     ApiSecurity("cookie"),
     ApiOkResponse({ description: "Email confirmed" }),
     ApiUnauthorizedResponse({ description: "Invalid token", type: ErrorResponseDto }),
-    ApiInternalServerErrorResponse({ description: "Not implemented", type: ErrorResponseDto }),
+    ApiNotImplementedResponse({ description: "Not implemented", type: ErrorResponseDto }),
   )
 }
 
