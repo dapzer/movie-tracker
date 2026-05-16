@@ -1,16 +1,9 @@
 import { INestApplication } from "@nestjs/common"
-import { ConfigService } from "@nestjs/config"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import { apiReference } from "@scalar/nestjs-api-reference"
 import { cleanupOpenApiDoc } from "nestjs-zod"
 
-export function setupOpenApi(app: INestApplication, configService: ConfigService) {
-  const isDevelopment = configService.get("NODE_ENV") === "development"
-
-  if (!isDevelopment) {
-    return
-  }
-
+export function setupOpenApi(app: INestApplication) {
   const swaggerConfig = new DocumentBuilder()
     .setTitle("Movie Tracker API")
     .setDescription("Movie Tracker API documentation")
