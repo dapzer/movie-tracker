@@ -22,6 +22,12 @@ const activeTab = defineModel<string>({ default: "" })
 if (!activeTab.value) {
   activeTab.value = props.tabs[0]?.key ?? ""
 }
+
+function handleTabClick(tabItem: T[number]) {
+  if (!tabItem.href) {
+    activeTab.value = tabItem.key
+  }
+}
 </script>
 
 <template>
@@ -39,7 +45,7 @@ if (!activeTab.value) {
             :active="activeTab === item.key"
             :href="item.href"
             :description="item.description"
-            @click="activeTab = item.key"
+            @click="handleTabClick(item)"
           >
             {{ item.label }}
           </UiTabTrigger>

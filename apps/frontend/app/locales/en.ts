@@ -14,6 +14,10 @@ export default {
   },
   dashboard: {
     title: "Dashboard",
+    tabs: {
+      systemManagement: "System management",
+      reviewsModeration: "Reviews moderation",
+    },
     dataGeneration: "Data generation",
     dataSummary: "Data summary",
     generateSitemap: "Start sitemap generation",

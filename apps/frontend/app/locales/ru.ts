@@ -14,6 +14,10 @@ export default {
   },
   dashboard: {
     title: "Панель управления",
+    tabs: {
+      systemManagement: "Управление системой",
+      reviewsModeration: "Модерация рецензий",
+    },
     dataGeneration: "Генерация данных",
     dataSummary: "Сводка данных",
     generateSitemap: "Запустить генерацию карты сайта",
