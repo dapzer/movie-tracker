@@ -44,6 +44,16 @@ const options = computed<Array<Option>>(() => {
       value: "desc_updatedAt",
       icon: sortArrowDownIcon,
     },
+    {
+      label: t("mediaList.sort.rating"),
+      value: "asc_rating",
+      icon: sortArrowUpIcon,
+    },
+    {
+      label: t("mediaList.sort.rating"),
+      value: "desc_rating",
+      icon: sortArrowDownIcon,
+    },
   ]
 })
 
