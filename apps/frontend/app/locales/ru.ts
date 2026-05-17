@@ -1259,6 +1259,7 @@ export default {
       title: "Сортировка",
       createdAt: "По дате добавления",
       updatedAt: "По дате обновления",
+      rating: "По оценке пользователя",
     },
     filters: {
       title: "Фильтры",

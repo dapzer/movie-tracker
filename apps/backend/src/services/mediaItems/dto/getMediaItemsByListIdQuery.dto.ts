@@ -8,7 +8,7 @@ import { z } from "zod"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { parseNumberArrayQuery, parseStringArrayQuery, releaseStatusOptions } from "./mediaItemsFiltersQuery.helpers"
 
-const sortByOptions = ["createdAt", "updatedAt"] as const
+const sortByOptions = ["createdAt", "updatedAt", "rating"] as const
 
 const ratingTupleSchema = z
   .array(z.number().min(0).max(10))

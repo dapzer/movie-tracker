@@ -9,7 +9,7 @@ import {
   SortOrderEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { asc, count, or } from "drizzle-orm"
+import { asc, count, or, SQL } from "drizzle-orm"
 import { MediaItemRepositoryInterface } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 
@@ -19,7 +19,8 @@ type TrackingDataRow = typeof trackingData.$inferSelect
 
 @Injectable()
 export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface {
-  constructor(private readonly drizzle: DrizzleService) {}
+  constructor(private readonly drizzle: DrizzleService) {
+  }
 
   private convertTrackingDataToInterface(
     data?: TrackingDataRow | null,
@@ -81,9 +82,18 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     const pattern = `%${search.toLowerCase()}%`
 
     return or(
-      sql`lower(${mediaDetails.en} ->> 'title') LIKE ${pattern}`,
-      sql`lower(${mediaDetails.en} ->> 'originalTitle') LIKE ${pattern}`,
-      sql`lower(${mediaDetails.ru} ->> 'title') LIKE ${pattern}`,
+      sql`lower
+          (${mediaDetails.en} ->> 'title')
+          LIKE
+          ${pattern}`,
+      sql`lower
+          (${mediaDetails.en} ->> 'originalTitle')
+          LIKE
+          ${pattern}`,
+      sql`lower
+          (${mediaDetails.ru} ->> 'title')
+          LIKE
+          ${pattern}`,
     )
   }
 
@@ -104,14 +114,14 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     if (args.rating && args.rating.length === 2) {
       const [minRating, maxRating] = args.rating
       if (minRating === 0 || maxRating === 0) {
-        conditions.push(sql`((
-          ${mediaRatings.rating} >= ${minRating}
-          and ${mediaRatings.rating} <= ${maxRating}
-        ) or ${mediaRatings.id} is null)`)
+        conditions.push(sql`(( ${mediaRatings.rating} >= ${minRating}
+            and ${mediaRatings.rating} <= ${maxRating}) or ${mediaRatings.id} is null)`)
       }
       else {
-        conditions.push(sql`${mediaRatings.rating} >= ${minRating}`)
-        conditions.push(sql`${mediaRatings.rating} <= ${maxRating}`)
+        conditions.push(sql`${mediaRatings.rating} >=
+        ${minRating}`)
+        conditions.push(sql`${mediaRatings.rating} <=
+        ${maxRating}`)
       }
     }
 
@@ -119,24 +129,41 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       const [fromYear, toYear] = args.releaseYear
 
       if (toYear) {
-        conditions.push(sql`nullif(${mediaDetails.releaseDate}, '') is not null`)
+        conditions.push(sql`nullif
+            (${mediaDetails.releaseDate}, '')
+            is not null`)
       }
 
       if (fromYear !== undefined) {
-        conditions.push(sql`substring(${mediaDetails.releaseDate}, 1, 4) >= ${String(fromYear)}`)
+        conditions.push(sql`substring
+            (${mediaDetails.releaseDate}, 1, 4)
+            >=
+            ${String(fromYear)}`)
       }
       if (toYear !== undefined) {
-        conditions.push(sql`substring(${mediaDetails.releaseDate}, 1, 4) <= ${String(toYear)}`)
+        conditions.push(sql`substring
+            (${mediaDetails.releaseDate}, 1, 4)
+            <=
+            ${String(toYear)}`)
       }
     }
 
     if (args.genres?.length) {
       const genresSql = sql.join(args.genres.map(genre => sql`${genre}`), sql`, `)
-      conditions.push(sql`${mediaDetails.genres} && ARRAY[${genresSql}]::integer[]`)
+      conditions.push(sql`${mediaDetails.genres} && ARRAY[
+      ${genresSql}
+      ]
+      ::
+      integer
+      [
+      ]`)
     }
 
     if (args.releaseStatuses?.length) {
-      conditions.push(or(...args.releaseStatuses.map(status => sql`lower(${mediaDetails.status}) = ${status}`)))
+      conditions.push(or(...args.releaseStatuses.map(status => sql`lower
+          (${mediaDetails.status})
+          =
+          ${status}`)))
     }
 
     return conditions
@@ -248,6 +275,19 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }
     conditions.push(...filtersConditions)
 
+    let orderByExpression: SQL<unknown> = null
+    switch (sortBy) {
+      case "createdAt":
+      case "updatedAt":
+        orderByExpression = sortDirection === SortOrderEnum.ASC
+          ? asc(mediaItems[sortBy])
+          : desc(mediaItems[sortBy])
+        break
+      case "rating":
+        orderByExpression = sql`${mediaRatings.rating} ${sql.raw(sortDirection)} nulls last`
+        break
+    }
+
     const itemsQuery = this.drizzle.client
       .select({ mediaItem: mediaItems, mediaDetails, trackingData })
       .from(mediaItems)
@@ -255,9 +295,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
       .leftJoin(mediaRatings, mediaRatingsJoinCondition)
       .where(and(...conditions))
-      .orderBy(sortDirection === SortOrderEnum.ASC
-        ? asc(trackingData[sortBy])
-        : desc(trackingData[sortBy]))
+      .orderBy(orderByExpression)
 
     const itemsWithLimit = args.withoutLimit || typeof args.limit !== "number"
       ? itemsQuery

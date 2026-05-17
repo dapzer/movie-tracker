@@ -1258,6 +1258,7 @@ export default {
       title: "Sorting",
       createdAt: "Sort by date added",
       updatedAt: "Sort by date updated",
+      rating: "Sort by user rating",
     },
     filters: {
       title: "Filters",

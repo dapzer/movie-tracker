@@ -78,6 +78,6 @@ export interface MediaItemsByListIdResponseType {
 export interface GetMediaItemsByListIdQueries extends PaginationType, MediaItemsFiltersQueries {
   search?: string
   status?: MediaItemStatusNameEnum
-  sortBy?: "createdAt" | "updatedAt"
+  sortBy?: "createdAt" | "updatedAt" | "rating"
   sortDirection?: SortOrderEnum
 }
