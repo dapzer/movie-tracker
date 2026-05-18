@@ -29,6 +29,13 @@
       "when": 1778527269552,
       "tag": "0003_drop_prisma_migrations",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1779094775707,
+      "tag": "0004_media_id_unique_without_media_type",
+      "breakpoints": true
     }
   ]
 }
