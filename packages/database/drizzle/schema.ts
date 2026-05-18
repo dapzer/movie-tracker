@@ -181,7 +181,12 @@ export const releaseSubscriptions = pgTable("release_subscriptions", {
   lastReleasedAt: timestamp("last_released_at", { precision: 3, mode: "date", withTimezone: true }),
   mediaId: integer("media_id").notNull(),
   mediaType: mediaTypeEnum("media_type").notNull(),
-})
+}, table => [
+  uniqueIndex("release_subscriptions_media_id_user_id_key").on(
+    table.mediaId,
+    table.userId,
+  ),
+])
 
 export const notifications = pgTable("notifications", {
   id: uuid().defaultRandom().primaryKey().notNull(),

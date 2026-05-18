@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "release_subscriptions_media_id_user_id_key" ON "release_subscriptions" USING btree ("media_id","user_id");
