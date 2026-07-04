@@ -3,7 +3,7 @@ import type { MediaReview } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { MediaReviewModerationLogAction } from "@movie-tracker/types"
+import { MediaReviewModerationLogAction, MediaReviewStatus } from "@movie-tracker/types"
 import { computed } from "vue"
 import { useModerateMediaReviewApi } from "~/api/mediaReviewModeration/useMediaReviewModerationApi"
 import { MediaReviewCard } from "~/entities/mediaReview"
@@ -74,7 +74,7 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
         </MediaReviewModerationLogsModal>
       </div>
 
-      <div>
+      <div v-if="mediaReview.status === MediaReviewStatus.PENDING">
         <MediaReviewModerationModal :media-review-id="props.mediaReview.id">
           <template #trigger="{ openModal }">
             <UiButton

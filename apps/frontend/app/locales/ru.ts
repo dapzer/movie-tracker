@@ -1502,6 +1502,16 @@ export default {
       publish: "Опубликовать",
       publishWithSpoiler: "Опубликовать со спойлером",
       noReviews: "Нет рецензий для модерации",
+      filters: {
+        status: "Статус",
+      },
+      reviewStatus: {
+        draft: "Черновик",
+        pending: "На модерации",
+        published: "Опубликована",
+        removed: "Удалена",
+        deleted: "Удалена пользователем",
+      },
       status: {
         changesRequested: "Запросить изменения",
         removed: "Удалить",

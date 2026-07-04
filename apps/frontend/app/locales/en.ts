@@ -1500,6 +1500,16 @@ export default {
       publish: "Publish",
       publishWithSpoiler: "Publish with spoiler",
       noReviews: "No reviews for moderation",
+      filters: {
+        status: "Status",
+      },
+      reviewStatus: {
+        draft: "Draft",
+        pending: "Pending",
+        published: "Published",
+        removed: "Removed",
+        deleted: "Deleted by user",
+      },
       status: {
         changesRequested: "Request changes",
         removed: "Reject",

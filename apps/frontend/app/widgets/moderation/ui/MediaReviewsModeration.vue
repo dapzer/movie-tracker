@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import type { GetMediaReviewsListArgs } from "~/api/mediaReviews/mediaReviewsApiTypes"
 import { MediaReviewStatus } from "@movie-tracker/types"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { useGetMediaReviewsListApi } from "~/api/mediaReviews/useMediaReviewsApi"
 import { MediaReviewCardSkeleton, MediaReviewModerationCard } from "~/entities/mediaReview"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import UiAttention from "../../../shared/ui/UiAttention/UiAttention.vue"
+import MediaReviewsModerationStatusFilterPopover from "./MediaReviewsModerationStatusFilterPopover.vue"
 
 const currentPage = ref<number>(1)
+const status = ref<MediaReviewStatus>(MediaReviewStatus.PENDING)
 
 const getMediaReviewsListApiArgs = computed<GetMediaReviewsListArgs>(() => {
   return {
-    status: MediaReviewStatus.PENDING,
+    status: status.value,
     ...getPaginationParams({
       page: currentPage.value,
       itemsPerPage: 10,
@@ -24,10 +26,18 @@ const getMediaReviewsListApi = useGetMediaReviewsListApi(getMediaReviewsListApiA
 await getMediaReviewsListApi.suspense()
 
 const data = computed(() => getMediaReviewsListApi.data.value)
+
+watch(status, () => {
+  currentPage.value = 1
+})
 </script>
 
 <template>
   <div :class="$style.wrapper">
+    <div :class="$style.filters">
+      <MediaReviewsModerationStatusFilterPopover v-model="status" />
+    </div>
+
     <div :class="$style.list">
       <template v-if="!getMediaReviewsListApi.isPending.value && data?.items.length">
         <MediaReviewModerationCard
@@ -62,6 +72,12 @@ const data = computed(() => getMediaReviewsListApi.data.value)
 
 <style module lang="scss">
 .wrapper {
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .list {
