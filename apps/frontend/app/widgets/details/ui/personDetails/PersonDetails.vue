@@ -91,7 +91,7 @@ useHead({
       as: "image",
       href: tmdbGetPersonDetailsApi.data.value?.profile_path
         ? getProxiedImageUrl(tmdbGetPersonDetailsApi.data.value.profile_path, 350)
-        : "/defaultPersonProfile.svg",
+        : "/avatarPoster.svg",
       fetchpriority: "high",
     },
   ],

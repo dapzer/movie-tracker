@@ -132,7 +132,7 @@ export class DrizzleReleaseSubscriptionRepository implements ReleaseSubscription
       .from(releaseSubscriptions)
       .where(and(
         eq(releaseSubscriptions.mediaDetailsId, args.mediaDetailsId),
-        eq(releaseSubscriptions.completedAt, null),
+        isNull(releaseSubscriptions.completedAt),
       ))
 
     return rows.map(row => this.convertToInterface({

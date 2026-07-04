@@ -9,7 +9,6 @@ import MediaCardRating from "~/features/mediaCard/ui/MediaCardRating.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiMediaCard } from "~/shared/ui/UiCard"
 import { UiIcon } from "~/shared/ui/UiIcon"
-import { formatDate } from "~/shared/utils/formatDate"
 import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 
@@ -32,7 +31,7 @@ const details = computed(() => {
 })
 
 const createdDate = computed(() => {
-  return formatDate(props.mediaItem.createdAt, locale.value)
+  return props.mediaItem.createdAt
 })
 </script>
 
@@ -40,13 +39,23 @@ const createdDate = computed(() => {
   <UiMediaCard
     :class="$style.wrapper"
     :title="(details?.title || details?.originalTitle)!"
-    :description="createdDate"
     :image-src="getProxiedImageUrl(details?.poster, 360)"
     :link-url="localePath(`/details/${props.mediaItem.mediaType}/${props.mediaItem.mediaId}`)"
     :width="props.width"
     :full-height="props.fullHeight"
     fallback-image-src="/defaultMoviePoster.svg"
   >
+    <template #description>
+      <NuxtTime
+        v-if="createdDate"
+        :datetime="createdDate"
+        :locale="locale"
+        month="short"
+        day="numeric"
+        year="numeric"
+      />
+    </template>
+
     <template
       v-if="!props.hideTrackingMenu"
       #control

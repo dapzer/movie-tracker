@@ -56,7 +56,9 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
             variant="description"
             data-allow-mismatch
           >
-            {{ props.description }}
+            <slot name="description">
+              {{ props.description }}
+            </slot>
           </UiTypography>
 
           <slot name="control" />
