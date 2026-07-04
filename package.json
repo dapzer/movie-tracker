@@ -29,10 +29,6 @@
     "typescript": "5.9.3"
   },
   "pnpm": {
-    "overrides": {
-      "@vercel/nft": "^0.27.4",
-      "css-tree": "2.2.1"
-    },
     "supportedArchitectures": {
       "os": [
         "linux",
@@ -46,6 +42,20 @@
         "musl",
         "current"
       ]
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@parcel/watcher",
+      "@prisma/client",
+      "@prisma/engines",
+      "@scarf/scarf",
+      "@sentry/cli",
+      "@swc/core",
+      "bcrypt",
+      "esbuild",
+      "protobufjs",
+      "sharp",
+      "vue-demi"
+    ]
   }
 }
