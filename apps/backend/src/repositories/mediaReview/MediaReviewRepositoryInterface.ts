@@ -44,7 +44,7 @@ export interface MediaReviewRepositoryInterface {
 
   update: (args: {
     id: string
-  } & MediaReviewUpdateBodyType) => Promise<MediaReview>
+  } & Partial<MediaReviewUpdateBodyType>) => Promise<MediaReview>
 
   delete: (id: string) => Promise<MediaReview>
 

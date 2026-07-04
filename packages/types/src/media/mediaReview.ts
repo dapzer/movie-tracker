@@ -41,9 +41,15 @@ export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"
   | "isSpoiler"
   | "status">
 
-export type MediaReviewUpdateBodyType = Pick<MediaReview, "isSpoiler"
+export type MediaReviewUpdateBodyType = Pick<MediaReview, "title"
+  | "content"
+  | "isSpoiler"
   | "status"
   | "publishedAt">
+
+export const MEDIA_REVIEW_TITLE_MAX_LENGTH = 86
+export const MEDIA_REVIEW_CONTENT_MIN_LENGTH = 5
+export const MEDIA_REVIEW_CONTENT_MAX_LENGTH = 10000
 
 export interface MediaReviewLike {
   id: string

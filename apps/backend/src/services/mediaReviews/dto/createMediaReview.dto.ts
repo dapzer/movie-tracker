@@ -1,4 +1,11 @@
-import { MediaReviewCreateBodyType, MediaReviewStatus, MediaTypeEnum } from "@movie-tracker/types"
+import {
+  MEDIA_REVIEW_CONTENT_MAX_LENGTH,
+  MEDIA_REVIEW_CONTENT_MIN_LENGTH,
+  MEDIA_REVIEW_TITLE_MAX_LENGTH,
+  MediaReviewCreateBodyType,
+  MediaReviewStatus,
+  MediaTypeEnum,
+} from "@movie-tracker/types"
 import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 
@@ -7,9 +14,15 @@ const createMediaReviewStatusValues = [MediaReviewStatus.DRAFT, MediaReviewStatu
 const createMediaReviewSchema = z.object({
   mediaId: z.number().meta({ example: 550 }),
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
-  title: z.string().meta({ example: "A fresh and stylish action film" }),
-  // TODO: add validation for content length using constants from packages
-  content: z.string().meta({ example: "Great pacing and soundtrack, but the third act feels rushed." }),
+  title: z.string().max(MEDIA_REVIEW_TITLE_MAX_LENGTH).meta({
+    maxLength: MEDIA_REVIEW_TITLE_MAX_LENGTH,
+    example: "A fresh and stylish action film",
+  }),
+  content: z.string().min(MEDIA_REVIEW_CONTENT_MIN_LENGTH).max(MEDIA_REVIEW_CONTENT_MAX_LENGTH).meta({
+    minLength: MEDIA_REVIEW_CONTENT_MIN_LENGTH,
+    maxLength: MEDIA_REVIEW_CONTENT_MAX_LENGTH,
+    example: "Great pacing and soundtrack, but the third act feels rushed.",
+  }),
   status: z.enum(createMediaReviewStatusValues).meta({
     enum: createMediaReviewStatusValues,
     example: MediaReviewStatus.DRAFT,

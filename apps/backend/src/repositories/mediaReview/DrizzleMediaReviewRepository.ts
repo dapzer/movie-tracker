@@ -471,6 +471,8 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
     const [mediaReview] = await this.drizzle.client
       .update(mediaReviews)
       .set({
+        title: args.title,
+        content: args.content,
         isSpoiler: args.isSpoiler,
         status: args.status,
         publishedAt: args.publishedAt,

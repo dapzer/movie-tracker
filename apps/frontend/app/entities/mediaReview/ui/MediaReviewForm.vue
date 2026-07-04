@@ -3,7 +3,12 @@ import type { MediaReview, MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-track
 import type { CreateMediaReviewBody } from "~/api/mediaReviews/mediaReviewsApiTypes"
 import { onBeforeRouteLeave } from "#app"
 import { useI18n } from "#imports"
-import { MediaReviewStatus } from "@movie-tracker/types"
+import {
+  MEDIA_REVIEW_CONTENT_MAX_LENGTH,
+  MEDIA_REVIEW_CONTENT_MIN_LENGTH,
+  MEDIA_REVIEW_TITLE_MAX_LENGTH,
+  MediaReviewStatus,
+} from "@movie-tracker/types"
 import { useEventListener } from "@vueuse/core"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
@@ -154,9 +159,12 @@ const { formValue, onFormSubmit, errors, isFormValueChanged } = useForm<FormValu
     emits("onSuccess")
   },
   validationSchema: yup.object().shape({
-    title: yup.string(),
-    content:
-        yup.string().min(5, t("validation.minLength", { min: 5 })).max(10000, t("validation.maxLength", { max: "10 000" })).required(t("validation.required")),
+    title: yup.string()
+      .max(MEDIA_REVIEW_TITLE_MAX_LENGTH, t("validation.maxLength", { max: MEDIA_REVIEW_TITLE_MAX_LENGTH })),
+    content: yup.string()
+      .min(MEDIA_REVIEW_CONTENT_MIN_LENGTH, t("validation.minLength", { min: MEDIA_REVIEW_CONTENT_MIN_LENGTH }))
+      .max(MEDIA_REVIEW_CONTENT_MAX_LENGTH, t("validation.maxLength", { max: MEDIA_REVIEW_CONTENT_MAX_LENGTH }))
+      .required(t("validation.required")),
   }),
 })
 
@@ -239,6 +247,7 @@ const isRatingChanged = computed(() => {
         :placeholder="$t('mediaReviews.form.title')"
         :error="errors?.title"
         :disabled="isLoading"
+        :maxlength="MEDIA_REVIEW_TITLE_MAX_LENGTH"
       />
       <UiTextarea
         v-model="formValue.content"
@@ -246,6 +255,7 @@ const isRatingChanged = computed(() => {
         :placeholder="$t('mediaReviews.form.content')"
         :description="$t('mediaReviews.form.contentDescription')"
         :disabled="isLoading"
+        :maxlength="MEDIA_REVIEW_CONTENT_MAX_LENGTH"
       />
 
       <div :class="$style.actions">

@@ -148,6 +148,8 @@ export class MediaReviewsService {
 
     return this.mediaReviewRepository.update({
       id: args.id,
+      title: args.body.title,
+      content: args.body.content,
       isSpoiler: args.body.isSpoiler,
       status: args.body.status,
       publishedAt: args.body.publishedAt,
