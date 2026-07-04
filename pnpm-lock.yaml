@@ -6,6 +6,7 @@ settings:
 
 overrides:
   '@vercel/nft': ^0.27.4
+  css-tree: 2.2.1
 
 importers:
 
@@ -6926,10 +6927,6 @@ packages:
     resolution: {integrity: sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
 
-  css-tree@3.1.0:
-    resolution: {integrity: sha512-0eW44TGN5SQXU1mWSkKwFstI/22X2bG1nYzZTYMAWjylYURhse752YgbE4Cx46AC+bAvI+/dYTPRk1LqSUnu6w==}
-    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
-
   css-what@6.1.0:
     resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==}
     engines: {node: '>= 6'}
@@ -9111,9 +9108,6 @@ packages:
 
   mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
-
-  mdn-data@2.12.2:
-    resolution: {integrity: sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA==}
 
   mdurl@2.0.0:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
@@ -12620,7 +12614,7 @@ snapshots:
     dependencies:
       '@asamuzakjp/nwsapi': 2.3.9
       bidi-js: 1.0.3
-      css-tree: 3.1.0
+      css-tree: 2.2.1
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.2.6
 
@@ -19191,11 +19185,6 @@ snapshots:
       mdn-data: 2.0.28
       source-map-js: 1.2.1
 
-  css-tree@3.1.0:
-    dependencies:
-      mdn-data: 2.12.2
-      source-map-js: 1.2.1
-
   css-what@6.1.0: {}
 
   cssesc@3.0.0: {}
@@ -19254,7 +19243,7 @@ snapshots:
     dependencies:
       '@asamuzakjp/css-color': 4.1.2
       '@csstools/css-syntax-patches-for-csstree': 1.0.28
-      css-tree: 3.1.0
+      css-tree: 2.2.1
       lru-cache: 11.2.6
 
   csstype@3.2.3: {}
@@ -20408,7 +20397,7 @@ snapshots:
   fontaine@0.8.0:
     dependencies:
       '@capsizecss/unpack': 4.0.0
-      css-tree: 3.1.0
+      css-tree: 2.2.1
       magic-regexp: 0.10.0
       magic-string: 0.30.21
       pathe: 2.0.3
@@ -20434,7 +20423,7 @@ snapshots:
   fontless@0.2.1(@netlify/blobs@9.1.2)(db0@0.3.4(drizzle-orm@0.45.1(@opentelemetry/api@1.9.1)(@prisma/client@6.18.0(prisma@6.18.0(magicast@0.5.2)(typescript@5.9.3))(typescript@5.9.3))(@types/pg@8.18.0)(pg@8.19.0)(prisma@6.18.0(magicast@0.5.2)(typescript@5.9.3))))(ioredis@5.11.1)(vite@7.3.6(@types/node@24.10.12)(jiti@2.7.0)(lightningcss@1.31.1)(sass@1.77.4)(terser@5.36.0)(yaml@2.9.0)):
     dependencies:
       consola: 3.4.2
-      css-tree: 3.1.0
+      css-tree: 2.2.1
       defu: 6.1.4
       esbuild: 0.27.3
       fontaine: 0.8.0
@@ -21935,8 +21924,6 @@ snapshots:
       '@types/mdast': 4.0.4
 
   mdn-data@2.0.28: {}
-
-  mdn-data@2.12.2: {}
 
   mdurl@2.0.0: {}
 
@@ -25119,7 +25106,7 @@ snapshots:
     dependencies:
       commander: 11.1.0
       css-select: 5.1.0
-      css-tree: 3.1.0
+      css-tree: 2.2.1
       css-what: 6.1.0
       csso: 5.0.5
       picocolors: 1.1.1
@@ -25533,7 +25520,7 @@ snapshots:
 
   unifont@0.7.4:
     dependencies:
-      css-tree: 3.1.0
+      css-tree: 2.2.1
       ofetch: 1.5.1
       ohash: 2.0.11
 
