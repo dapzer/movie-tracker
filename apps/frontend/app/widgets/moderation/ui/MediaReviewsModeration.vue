@@ -44,7 +44,7 @@ const data = computed(() => getMediaReviewsListApi.data.value)
       </template>
       <UiAttention
         v-else
-        :title="$t('mediaReviews.noReviews')"
+        :title="$t('mediaReviews.moderation.noReviews')"
         :indent="0"
         title-variant="subheading"
       />

@@ -1499,6 +1499,7 @@ export default {
       review: "Review",
       publish: "Publish",
       publishWithSpoiler: "Publish with spoiler",
+      noReviews: "No reviews for moderation",
       status: {
         changesRequested: "Request changes",
         removed: "Reject",
@@ -1525,6 +1526,9 @@ export default {
           moderator: "Moderator",
           comment: "Comment",
         },
+      },
+      reviewModal: {
+        title: "Decision",
       },
       result: {
         confirm: {

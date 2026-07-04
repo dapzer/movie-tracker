@@ -79,6 +79,7 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
           <template #trigger="{ openModal }">
             <UiButton
               scheme="tertiary"
+              :disabled="moderateMediaReviewApi.isPending.value"
               @click="openModal"
             >
               {{ $t("mediaReviews.moderation.review") }}
@@ -88,12 +89,16 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
 
         <UiButton
           scheme="secondary"
+          :disabled="moderateMediaReviewApi.isPending.value"
           @click="handlePublish(props.mediaReview.id, true)"
         >
           {{ $t("mediaReviews.moderation.publishWithSpoiler") }}
         </UiButton>
 
-        <UiButton @click="handlePublish(props.mediaReview.id)">
+        <UiButton
+          :disabled="moderateMediaReviewApi.isPending.value"
+          @click="handlePublish(props.mediaReview.id)"
+        >
           {{ $t("mediaReviews.moderation.publish") }}
         </UiButton>
       </div>

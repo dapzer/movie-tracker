@@ -17,7 +17,7 @@ const modalVisible = ref<boolean>()
   <UiModal
     v-model="modalVisible"
     :max-width="495"
-    :title="$t('mediaReviews.moderation.modal.title')"
+    :title="$t('mediaReviews.moderation.reviewModal.title')"
   >
     <template
       v-if="slots.trigger"

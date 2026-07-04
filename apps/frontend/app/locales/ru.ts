@@ -1501,6 +1501,7 @@ export default {
       review: "Рассмотреть",
       publish: "Опубликовать",
       publishWithSpoiler: "Опубликовать со спойлером",
+      noReviews: "Нет рецензий для модерации",
       status: {
         changesRequested: "Запросить изменения",
         removed: "Удалить",
@@ -1527,6 +1528,9 @@ export default {
           moderator: "Модератор",
           comment: "Комментарий",
         },
+      },
+      reviewModal: {
+        title: "Решение",
       },
       result: {
         confirm: {
