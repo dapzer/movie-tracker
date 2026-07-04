@@ -47,6 +47,15 @@
     "nuxt-vitalizer": "2.0.0",
     "vue": "3.5.39",
     "vue-router": "5.1.0",
-    "vue-tsc": "3.2.5"
+    "vue-tsc": "3.3.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "css-tree": "2.2.1"
+    },
+    "supportedArchitectures": {
+      "os": ["current", "linux"],
+      "cpu": ["current", "x64", "arm64"]
+    }
   }
 }
