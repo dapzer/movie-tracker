@@ -43,6 +43,13 @@
       "when": 1779095064965,
       "tag": "0005_media_id_unique_for_release_subscription",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783177697218,
+      "tag": "0006_media_reviews_tables",
+      "breakpoints": true
     }
   ]
 }
