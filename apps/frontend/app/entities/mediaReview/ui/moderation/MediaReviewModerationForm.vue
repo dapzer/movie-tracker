@@ -42,7 +42,7 @@ const { formValue, onFormSubmit, errors } = useForm<MediaReviewModerationFormVal
       mediaReviewId: props.mediaReviewId,
       action: formValue.action,
       reason: formValue.reason ?? null,
-      comment: formValue.comment || null,
+      comment: formValue.comment || undefined,
     })
     emit("onSuccess")
   },

@@ -1,5 +1,5 @@
-import { MediaReviewModerationLogAction, MediaReviewStatus } from "@movie-tracker/types"
-import { Inject, Injectable } from "@nestjs/common"
+import { MediaReviewModerationLogAction, MediaReviewStatus, NotificationTypeEnum } from "@movie-tracker/types"
+import { Inject, Injectable, Logger } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
   MediaReviewRepositorySymbol,
@@ -9,15 +9,19 @@ import {
   MediaReviewsModerationLogsRepositorySymbol,
 } from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
 import { ModerateMediaReviewDto } from "@/services/mediaReviewModeration/dto/moderateMediaReview.dto"
+import { NotificationsService } from "@/services/notifications/notifications.service"
 import { MediaReviewNotFoundError } from "@/shared/errors/mediaReview"
 
 @Injectable()
 export class MediaReviewModerationService {
+  private readonly logger = new Logger("MediaReviewModerationService")
+
   constructor(
     @Inject(MediaReviewRepositorySymbol)
     private readonly mediaReviewRepository: MediaReviewRepositoryInterface,
     @Inject(MediaReviewsModerationLogsRepositorySymbol)
     private readonly moderationLogsRepository: MediaReviewsModerationLogsRepositoryInterface,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async getLogsByReviewId(args: { mediaReviewId: string }) {
@@ -45,12 +49,28 @@ export class MediaReviewModerationService {
       ? true
       : mediaReview.isSpoiler
 
-    await this.mediaReviewRepository.update({
+    const updatedMediaReview = await this.mediaReviewRepository.update({
       id: args.body.mediaReviewId,
       status: newStatus,
       publishedAt: isApproved ? new Date() : undefined,
       isSpoiler,
     })
+
+    if (updatedMediaReview) {
+      await this.notificationsService.create({
+        userId: mediaReview.userId,
+        type: NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE,
+        meta: {
+          mediaReviewId: mediaReview.id,
+          mediaDetailsId: updatedMediaReview.mediaDetailsId,
+          action: args.body.action,
+          reason: args.body.reason,
+        },
+        createdAt: updatedMediaReview.updatedAt,
+      }).catch((err) => {
+        this.logger.error(err, "Failed to create media review moderation update notification")
+      })
+    }
 
     return this.moderationLogsRepository.create({
       mediaReviewId: args.body.mediaReviewId,

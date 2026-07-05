@@ -83,7 +83,7 @@ export class GenerateDetailsSitemapsService {
       await fs.rm(dirPath, { force: true, recursive: true })
     }
     catch (error) {
-      this.logger.error("Failed to clear sitemap folder.", error)
+      this.logger.error(error, "Failed to clear sitemap folder")
     }
   }
 

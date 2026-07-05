@@ -1,0 +1,1 @@
+ALTER TYPE "public"."NotificationTypeEnum" ADD VALUE 'MEDIA_REVIEW_MODERATION_UPDATE';

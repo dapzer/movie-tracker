@@ -23,7 +23,7 @@ import {
 
 export const mediaListAccessLevelEnum = pgEnum("MediaListAccessLevelEnum", ["PUBLIC", "URL", "PRIVATE"])
 export const mediaTypeEnum = pgEnum("MediaTypeEnum", ["movie", "tv"])
-export const notificationTypeEnum = pgEnum("NotificationTypeEnum", ["MEDIA_LIST_LIKE", "USER_FOLLOW", "MEDIA_RELEASE", "MEDIA_STATUS_UPDATE"])
+export const notificationTypeEnum = pgEnum("NotificationTypeEnum", ["MEDIA_LIST_LIKE", "USER_FOLLOW", "MEDIA_RELEASE", "MEDIA_STATUS_UPDATE", "MEDIA_REVIEW_MODERATION_UPDATE"])
 export const signUpMethodEnum = pgEnum("SignUpMethodEnum", ["EMAIL", "GOOGLE", "GITHUB", "VK", "YANDEX"])
 export const statusNameEnum = pgEnum("StatusNameEnum", ["VIEWED", "WATCHING_NOW", "NOT_VIEWED", "WAIT_NEW_PART"])
 export const userMediaRatingsAccessLevelEnum = pgEnum("UserMediaRatingsAccessLevelEnum", ["PUBLIC", "PRIVATE"])

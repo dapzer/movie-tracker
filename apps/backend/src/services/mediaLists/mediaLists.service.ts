@@ -194,7 +194,7 @@ export class MediaListsService {
         },
         createdAt: mediaListLike.createdAt,
       }).catch((err) => {
-        this.logger.error("Failed to create media list like notification", err)
+        this.logger.error(err, "Failed to create media list like notification")
       })
     }
 

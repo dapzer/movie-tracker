@@ -43,7 +43,10 @@ export class NotificationsService {
       return null
     }
 
-    await this.cacheManager.set(existingNotificationKey, true, getMillisecondsFromDays(1))
+    if (existingNotificationKey) {
+      await this.cacheManager.set(existingNotificationKey, true, getMillisecondsFromDays(1))
+    }
+
     return this.notificationRepository.create(args)
   }
 

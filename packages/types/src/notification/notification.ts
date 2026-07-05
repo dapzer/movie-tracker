@@ -1,4 +1,4 @@
-import { MediaDetailsType, MediaListType } from "../media"
+import { MediaDetailsType, MediaListType, MediaReviewModerationLogAction, MediaReviewModerationLogReason } from "../media"
 import { UserPublicType } from "../user"
 
 export interface NotificationType {
@@ -24,6 +24,7 @@ export enum NotificationTypeEnum {
   USER_FOLLOW = "USER_FOLLOW",
   MEDIA_RELEASE = "MEDIA_RELEASE",
   MEDIA_STATUS_UPDATE = "MEDIA_STATUS_UPDATE",
+  MEDIA_REVIEW_MODERATION_UPDATE = "MEDIA_REVIEW_MODERATION_UPDATE",
 }
 
 export interface NotificationMediaReleaseEpisodeType {
@@ -50,6 +51,12 @@ export type NotificationMetaType
     mediaDetailsId: string
     previousStatus: string
     currentStatus: string
+  } | {
+    type: NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE
+    mediaReviewId: string
+    mediaDetailsId: string
+    action: MediaReviewModerationLogAction
+    reason?: MediaReviewModerationLogReason
   }
 
 export type ExtractNotificationMetaType<T extends NotificationTypeEnum> = Extract<NotificationMetaType, { type: T }>
@@ -76,6 +83,12 @@ export type NotificationMetaResponseType
     mediaDetails: MediaDetailsType
     previousStatus: string
     currentStatus: string
+  } | {
+    type: NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE
+    mediaReviewId: string
+    mediaDetails: MediaDetailsType
+    action: MediaReviewModerationLogAction
+    reason?: MediaReviewModerationLogReason
   }
 
 export type ExtractNotificationMetaResponseType<T extends NotificationTypeEnum> = Extract<NotificationMetaResponseType, { type: T }>

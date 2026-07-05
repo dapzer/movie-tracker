@@ -4,6 +4,7 @@ import { and, eq, inArray, sql } from "@movie-tracker/database/drizzle"
 import {
   ExtractNotificationMetaResponseType,
   MediaDetailsInfoType,
+  MediaDetailsType,
   MediaTypeEnum,
   NotificationType,
   NotificationTypeEnum,
@@ -45,6 +46,22 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
   constructor(private readonly drizzle: DrizzleService) {
   }
 
+  private convertMediaDetailsToInterface(data: NotificationRawResult): MediaDetailsType {
+    return {
+      id: data.mediaDetails_id!,
+      mediaId: data.mediaDetails_mediaId!,
+      mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
+      score: data.mediaDetails_score ? Number(data.mediaDetails_score) : 0,
+      releaseDate: data.mediaDetails_releaseDate || undefined,
+      en: data.mediaDetails_en as MediaDetailsInfoType,
+      ru: data.mediaDetails_ru as MediaDetailsInfoType,
+      genres: data.mediaDetails_genres,
+      status: data.mediaDetails_status,
+      createdAt: data.mediaDetails_createdAt!,
+      updatedAt: data.mediaDetails_updatedAt!,
+    }
+  }
+
   private convertToInterface(data: NotificationRow | NotificationRawResult): NotificationType {
     if ("user_id" in data) {
       let meta = data.meta as unknown
@@ -78,19 +95,7 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
           const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_RELEASE>
           meta = {
             type: NotificationTypeEnum.MEDIA_RELEASE,
-            mediaDetails: {
-              id: data.mediaDetails_id!,
-              mediaId: data.mediaDetails_mediaId!,
-              mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
-              score: data.mediaDetails_score ? Number(data.mediaDetails_score) : 0,
-              releaseDate: data.mediaDetails_releaseDate || undefined,
-              en: data.mediaDetails_en as MediaDetailsInfoType,
-              ru: data.mediaDetails_ru as MediaDetailsInfoType,
-              genres: data.mediaDetails_genres,
-              status: data.mediaDetails_status,
-              createdAt: data.mediaDetails_createdAt!,
-              updatedAt: data.mediaDetails_updatedAt!,
-            },
+            mediaDetails: this.convertMediaDetailsToInterface(data),
             episodes: typedMeta?.episodes,
           } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_RELEASE>
           break
@@ -99,22 +104,21 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
           const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
           meta = {
             type: NotificationTypeEnum.MEDIA_STATUS_UPDATE,
-            mediaDetails: {
-              id: data.mediaDetails_id!,
-              mediaId: data.mediaDetails_mediaId!,
-              mediaType: data.mediaDetails_mediaType as MediaTypeEnum,
-              score: data.mediaDetails_score ? Number(data.mediaDetails_score) : 0,
-              releaseDate: data.mediaDetails_releaseDate || undefined,
-              en: data.mediaDetails_en as MediaDetailsInfoType,
-              ru: data.mediaDetails_ru as MediaDetailsInfoType,
-              genres: data.mediaDetails_genres,
-              status: data.mediaDetails_status,
-              createdAt: data.mediaDetails_createdAt!,
-              updatedAt: data.mediaDetails_updatedAt!,
-            },
+            mediaDetails: this.convertMediaDetailsToInterface(data),
             previousStatus: typedMeta.previousStatus,
             currentStatus: typedMeta.currentStatus,
           } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
+          break
+        }
+        case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE: {
+          const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE>
+          meta = {
+            type: NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE,
+            mediaDetails: this.convertMediaDetailsToInterface(data),
+            mediaReviewId: typedMeta.mediaReviewId,
+            action: typedMeta.action,
+            reason: typedMeta.reason,
+          } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE>
           break
         }
         default:
@@ -211,7 +215,7 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
     ])
 
     return {
-      items: notificationsResult.map(this.convertToInterface),
+      items: notificationsResult.map(row => this.convertToInterface(row)),
       totalCount: notificationsCount.count ?? 0,
     }
   }
