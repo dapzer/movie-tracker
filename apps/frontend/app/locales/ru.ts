@@ -1537,6 +1537,15 @@ export default {
           reason: "Причина",
           moderator: "Модератор",
           comment: "Комментарий",
+          snapshot: "Снимок",
+        },
+        snapshotModal: {
+          title: "Снимок рецензии",
+          open: "Смотреть",
+          reviewTitle: "Заголовок",
+          reviewContent: "Текст рецензии",
+          reviewIsSpoiler: "Спойлер",
+          noTitle: "Без заголовка",
         },
       },
       reviewModal: {

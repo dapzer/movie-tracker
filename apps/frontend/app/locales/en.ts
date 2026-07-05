@@ -1535,6 +1535,15 @@ export default {
           reason: "Reason",
           moderator: "Moderator",
           comment: "Comment",
+          snapshot: "Snapshot",
+        },
+        snapshotModal: {
+          title: "Review snapshot",
+          open: "View",
+          reviewTitle: "Title",
+          reviewContent: "Review content",
+          reviewIsSpoiler: "Spoiler",
+          noTitle: "No title",
         },
       },
       reviewModal: {

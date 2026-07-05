@@ -3,6 +3,9 @@ import type { MediaReviewModerationLog } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { MediaReviewModerationLogAction, MediaReviewModerationLogReason } from "@movie-tracker/types"
+import MediaReviewModerationLogSnapshotModal
+  from "~/entities/mediaReview/ui/moderation/MediaReviewModerationLogSnapshotModal.vue"
+import { UiButton } from "~/shared/ui/UiButton"
 import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 import { UiTable, UiTableBody, UiTableCell, UiTableHead, UiTableHeader, UiTableRow } from "~/shared/ui/UiTable"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
@@ -68,6 +71,9 @@ function getReasonText(log: MediaReviewModerationLog) {
         <UiTableHead :width="250">
           {{ $t("mediaReviews.moderation.logsModal.table.comment") }}
         </UiTableHead>
+        <UiTableHead :width="130">
+          {{ $t("mediaReviews.moderation.logsModal.table.snapshot") }}
+        </UiTableHead>
         <UiTableHead :width="264">
           {{ $t("mediaReviews.moderation.logsModal.table.moderator") }}
         </UiTableHead>
@@ -95,6 +101,19 @@ function getReasonText(log: MediaReviewModerationLog) {
             </div>
           </UiTableCell>
           <UiTableCell>
+            <MediaReviewModerationLogSnapshotModal :log="log">
+              <template #trigger="{ openModal }">
+                <UiButton
+                  variant="text"
+                  scheme="link"
+                  @click="openModal"
+                >
+                  {{ $t("mediaReviews.moderation.logsModal.snapshotModal.open") }}
+                </UiButton>
+              </template>
+            </MediaReviewModerationLogSnapshotModal>
+          </UiTableCell>
+          <UiTableCell>
             <UiUserProfileLink
               v-if="log.moderator"
               :user-id="log.moderator.id"
@@ -117,6 +136,7 @@ function getReasonText(log: MediaReviewModerationLog) {
           v-for="i of props.loadingItemsCount"
           :key="i"
         >
+          <UiTableCell><UiSkeleton /></UiTableCell>
           <UiTableCell><UiSkeleton /></UiTableCell>
           <UiTableCell><UiSkeleton /></UiTableCell>
           <UiTableCell><UiSkeleton /></UiTableCell>
