@@ -1448,6 +1448,11 @@ export default {
     episodesReleasedInSpecialSeason: "Episodes {episode} of season ’{season}’ of the series ‘{title}’ have been released",
     movieReleased: "The film '{title}' has been released",
     statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
+    reviewModerationApproved: "Your review of '{title}' has been published",
+    reviewModerationApprovedWithSpoiler: "Your review of '{title}' has been published with a spoiler mark",
+    reviewModerationChangesRequested: "Changes were requested for your review of '{title}'",
+    reviewModerationRejected: "Your review of '{title}' was rejected",
+    reviewModerationWithReason: "{message}. Reason: {reason}",
   },
   releaseSubscription: {
     pageTitle: "Movie subscriptions",

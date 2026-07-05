@@ -1450,6 +1450,11 @@ export default {
     episodesReleasedInSpecialSeason: "Вышли {episode} серии сезона ’{season}’ сериала ’{title}’",
     movieReleased: "Кинокартина ’{title}’ вышла",
     statusUpdated: "Статус сериала ’{title}’ изменился с ’{oldStatus}’ на ’{newStatus}’",
+    reviewModerationApproved: "Ваша рецензия к ’{title}’ опубликована",
+    reviewModerationApprovedWithSpoiler: "Ваша рецензия к ’{title}’ опубликована с отметкой спойлера",
+    reviewModerationChangesRequested: "Для вашей рецензии к ’{title}’ запрошены изменения",
+    reviewModerationRejected: "Ваша рецензия к ’{title}’ отклонена",
+    reviewModerationWithReason: "{message}. Причина: {reason}",
   },
   releaseSubscription: {
     pageTitle: "Подписки на кинокартины",
@@ -1520,7 +1525,7 @@ export default {
         offTopic: "Не по теме",
         spam: "Спам",
         toxicity: "Токсичность",
-        lowEffortJunk: "Низкое качество / мусор",
+        lowEffortJunk: "Низкое качество",
         other: "Другое",
       },
       form: {

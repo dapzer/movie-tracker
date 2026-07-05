@@ -2,7 +2,7 @@
 import type { ExtractNotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { MediaTypeEnum, NotificationTypeEnum } from "@movie-tracker/types"
+import { MediaReviewModerationLogAction, MediaReviewModerationLogReason, MediaTypeEnum, NotificationTypeEnum } from "@movie-tracker/types"
 import { computed } from "vue"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
 import { UiBadge } from "~/shared/ui/UiBadge"
@@ -23,6 +23,34 @@ const props = defineProps<NotificationItem>()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
+function getReviewModerationTranslationKey(action: MediaReviewModerationLogAction) {
+  switch (action) {
+    case MediaReviewModerationLogAction.APPROVED:
+      return "notifications.reviewModerationApproved"
+    case MediaReviewModerationLogAction.APPROVED_WITH_SPOILER_MARK:
+      return "notifications.reviewModerationApprovedWithSpoiler"
+    case MediaReviewModerationLogAction.CHANGES_REQUESTED:
+      return "notifications.reviewModerationChangesRequested"
+    default:
+      return "notifications.reviewModerationRejected"
+  }
+}
+
+function getReviewModerationReasonTranslationKey(reason: MediaReviewModerationLogReason) {
+  switch (reason) {
+    case MediaReviewModerationLogReason.OFF_TOPIC:
+      return "mediaReviews.moderation.reason.offTopic"
+    case MediaReviewModerationLogReason.SPAM:
+      return "mediaReviews.moderation.reason.spam"
+    case MediaReviewModerationLogReason.TOXICITY:
+      return "mediaReviews.moderation.reason.toxicity"
+    case MediaReviewModerationLogReason.LOW_EFFORT_JUNK:
+      return "mediaReviews.moderation.reason.lowEffortJunk"
+    default:
+      return "mediaReviews.moderation.reason.other"
+  }
+}
+
 const metaData = computed(() => {
   switch (props.notification.type) {
     case NotificationTypeEnum.MEDIA_LIST_LIKE:
@@ -33,6 +61,8 @@ const metaData = computed(() => {
       return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_RELEASE>
     case NotificationTypeEnum.MEDIA_STATUS_UPDATE:
       return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
+    case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE:
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE>
     default:
       return undefined
   }
@@ -92,6 +122,28 @@ const notificationMessage = computed(() => {
         newStatus: t(`details.seriesStatusName.${metaData.value?.currentStatus.toLowerCase()}`),
       })
     }
+    case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE: {
+      const details = getCurrentMediaDetails(metaData.value.mediaDetails, locale.value)
+      if (!details) {
+        return ""
+      }
+
+      const message = t(getReviewModerationTranslationKey(metaData.value.action), {
+        title: getShortText(details.title || details.originalTitle!, 16),
+      })
+
+      if (
+        metaData.value.reason
+        && (metaData.value.action === MediaReviewModerationLogAction.CHANGES_REQUESTED || metaData.value.action === MediaReviewModerationLogAction.REJECTED)
+      ) {
+        return t("notifications.reviewModerationWithReason", {
+          message,
+          reason: t(getReviewModerationReasonTranslationKey(metaData.value.reason)),
+        })
+      }
+
+      return message
+    }
 
     default:
       return ""
@@ -111,6 +163,8 @@ const linkTo = computed(() => {
       return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}`
     case NotificationTypeEnum.MEDIA_STATUS_UPDATE:
       return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}`
+    case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE:
+      return `/reviews/${metaData.value.mediaReviewId}`
     default:
       return "/notifications"
   }
@@ -157,7 +211,7 @@ const linkTo = computed(() => {
           </UiBadge>
         </div>
       </template>
-      <template v-else-if="metaData?.type === NotificationTypeEnum.MEDIA_RELEASE || metaData?.type === NotificationTypeEnum.MEDIA_STATUS_UPDATE">
+      <template v-else-if="metaData?.type === NotificationTypeEnum.MEDIA_RELEASE || metaData?.type === NotificationTypeEnum.MEDIA_STATUS_UPDATE || metaData?.type === NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE">
         <UiImage
           :class="$style.poster"
           width="42"

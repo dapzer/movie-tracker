@@ -75,7 +75,7 @@ const deleteMediaRatingApi = useDeleteMediaRatingApi()
 const initialValue = computed(() => {
   if (props.currentReview?.status === MediaReviewStatus.DRAFT) {
     return {
-      title: props.currentReview.title,
+      title: props.currentReview.title || "",
       content: props.currentReview.content,
       isSpoiler: props.currentReview.isSpoiler,
     }
