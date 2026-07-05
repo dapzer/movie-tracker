@@ -58,6 +58,9 @@ export class MediaReviewModerationService {
       action: args.body.action,
       reason: args.body.reason ?? null,
       comment: args.body.comment ?? null,
+      reviewTitleSnapshot: mediaReview.title ?? null,
+      reviewContentSnapshot: mediaReview.content,
+      reviewIsSpoilerSnapshot: mediaReview.isSpoiler,
     })
   }
 }

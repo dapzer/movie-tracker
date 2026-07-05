@@ -18,6 +18,9 @@ const mediaReviewModerationLogSchema = z.object({
     example: MediaReviewModerationLogReason.SPAM,
   }),
   comment: z.string().nullable().optional().meta({ nullable: true, example: "Please remove spoilers in the first paragraph." }),
+  reviewTitleSnapshot: z.string().nullable().meta({ nullable: true, example: "Why this movie works" }),
+  reviewContentSnapshot: z.string().meta({ example: "A thoughtful review text captured during moderation." }),
+  reviewIsSpoilerSnapshot: z.boolean().meta({ example: false }),
   createdAt: zDateTimeString.meta({ format: "date-time", example: "2026-05-01T12:00:00.000Z" }),
 })
 

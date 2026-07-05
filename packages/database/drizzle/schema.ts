@@ -254,6 +254,9 @@ export const mediaReviewsModerationLogs = pgTable("media_reviews_moderation_logs
   action: mediaReviewModerationActionEnum("action").notNull(),
   reason: mediaReviewModerationReasonEnum("reason"),
   comment: text(),
+  reviewTitleSnapshot: text("review_title_snapshot"),
+  reviewContentSnapshot: text("review_content_snapshot").notNull(),
+  reviewIsSpoilerSnapshot: boolean("review_is_spoiler_snapshot").notNull(),
   createdAt: timestamp("created_at").notNull(),
 }, table => [
   check(

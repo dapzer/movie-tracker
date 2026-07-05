@@ -57,6 +57,13 @@
       "when": 1783248516968,
       "tag": "0007_media_review_title_nullable",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1783250711269,
+      "tag": "0008_media_review_moderation_log_snapshot_fields",
+      "breakpoints": true
     }
   ]
 }

@@ -7,6 +7,9 @@ export interface MediaReviewModerationLog {
   action: MediaReviewModerationLogAction
   reason: MediaReviewModerationLogReason | null
   comment: string | null
+  reviewTitleSnapshot: string | null
+  reviewContentSnapshot: string
+  reviewIsSpoilerSnapshot: boolean
   createdAt: Date
 }
 

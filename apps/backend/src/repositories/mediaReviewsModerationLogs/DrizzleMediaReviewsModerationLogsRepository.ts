@@ -60,8 +60,11 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
       action: MediaReviewModerationLogAction[row.action as keyof typeof MediaReviewModerationLogAction],
       reason: row.reason
         ? MediaReviewModerationLogReason[row.reason as keyof typeof MediaReviewModerationLogReason]
-        : undefined,
+        : null,
       comment: row.comment,
+      reviewTitleSnapshot: row.reviewTitleSnapshot,
+      reviewContentSnapshot: row.reviewContentSnapshot,
+      reviewIsSpoilerSnapshot: row.reviewIsSpoilerSnapshot,
       createdAt: row.createdAt,
     }
   }
@@ -111,6 +114,9 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
         action: args.action,
         reason: args.reason ?? null,
         comment: args.comment ?? null,
+        reviewTitleSnapshot: args.reviewTitleSnapshot,
+        reviewContentSnapshot: args.reviewContentSnapshot,
+        reviewIsSpoilerSnapshot: args.reviewIsSpoilerSnapshot,
         createdAt: new Date(),
       })
       .returning()
