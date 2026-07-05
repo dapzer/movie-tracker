@@ -1,0 +1,1 @@
+ALTER TABLE "media_reviews" ALTER COLUMN "title" DROP NOT NULL;

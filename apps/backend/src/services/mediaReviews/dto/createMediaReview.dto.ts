@@ -14,7 +14,7 @@ const createMediaReviewStatusValues = [MediaReviewStatus.DRAFT, MediaReviewStatu
 const createMediaReviewSchema = z.object({
   mediaId: z.number().meta({ example: 550 }),
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
-  title: z.string().max(MEDIA_REVIEW_TITLE_MAX_LENGTH).meta({
+  title: z.string().min(1).max(MEDIA_REVIEW_TITLE_MAX_LENGTH).optional().meta({
     maxLength: MEDIA_REVIEW_TITLE_MAX_LENGTH,
     example: "A fresh and stylish action film",
   }),

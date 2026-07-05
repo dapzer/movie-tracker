@@ -230,7 +230,7 @@ export const mediaReviews = pgTable("media_reviews", {
     onUpdate: "cascade",
     onDelete: "set null",
   }),
-  title: text().notNull(),
+  title: text(),
   content: text().notNull(),
   isSpoiler: boolean("is_spoiler").default(false).notNull(),
   status: mediaReviewStatusEnum("status").default("DRAFT").notNull(),

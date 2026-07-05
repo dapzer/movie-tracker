@@ -18,7 +18,7 @@ export interface MediaReview {
   mediaType: MediaTypeEnum
   mediaDetailsId: string
   mediaDetails?: MediaDetailsType
-  title: string
+  title?: string
   content: string
   isSpoiler: boolean
   status: MediaReviewStatus
@@ -41,11 +41,11 @@ export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"
   | "isSpoiler"
   | "status">
 
-export type MediaReviewUpdateBodyType = Pick<MediaReview, "title"
+export type MediaReviewUpdateBodyType = Partial<Pick<MediaReview, "title"
   | "content"
   | "isSpoiler"
   | "status"
-  | "publishedAt">
+  | "publishedAt">>
 
 export const MEDIA_REVIEW_TITLE_MAX_LENGTH = 86
 export const MEDIA_REVIEW_CONTENT_MIN_LENGTH = 5

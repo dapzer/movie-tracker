@@ -1879,5 +1879,6 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     minLength: "Minimum length is {min}",
     maxLength: "Maximum length is {max}",
     betweenLength: "Length must be between {min} and {max}",
+    notOnlySpaces: "This field cannot contain only spaces",
   },
 }

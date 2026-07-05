@@ -108,7 +108,7 @@ async function handleUpdateRating() {
         mediaId: props.mediaId,
         mediaType: props.mediaType as unknown as MediaTypeEnum,
       }).catch((err) => {
-        toast.error(t("toasts.mediaRating.unsuccessfullyUpdated"))
+        toast.error(t("toasts.mediaRating.unsuccessfullyCreated"))
         throw err
       })
     }
@@ -127,6 +127,7 @@ async function handlePublishReview(formValue: FormValue) {
       id: props.currentReview.id,
       body: {
         ...formValue,
+        title: formValue.title || undefined,
         status: MediaReviewStatus.PENDING,
       },
     }).then(() => {
@@ -139,6 +140,7 @@ async function handlePublishReview(formValue: FormValue) {
   else {
     await createMediaReviewApi.mutateAsync({
       ...formValue,
+      title: formValue.title || undefined,
       status: MediaReviewStatus.PENDING,
       mediaId: props.mediaId,
       mediaType: props.mediaType as unknown as MediaTypeEnum,
@@ -159,8 +161,9 @@ const { formValue, onFormSubmit, errors, isFormValueChanged } = useForm<FormValu
     emits("onSuccess")
   },
   validationSchema: yup.object().shape({
-    title: yup.string()
-      .max(MEDIA_REVIEW_TITLE_MAX_LENGTH, t("validation.maxLength", { max: MEDIA_REVIEW_TITLE_MAX_LENGTH })),
+    title: yup.string().test("not-only-spaces", t("validation.notOnlySpaces"), (value) => {
+      return value === undefined || value === "" || value.trim().length > 0
+    }).max(MEDIA_REVIEW_TITLE_MAX_LENGTH, t("validation.maxLength", { max: MEDIA_REVIEW_TITLE_MAX_LENGTH })),
     content: yup.string()
       .min(MEDIA_REVIEW_CONTENT_MIN_LENGTH, t("validation.minLength", { min: MEDIA_REVIEW_CONTENT_MIN_LENGTH }))
       .max(MEDIA_REVIEW_CONTENT_MAX_LENGTH, t("validation.maxLength", { max: MEDIA_REVIEW_CONTENT_MAX_LENGTH }))
