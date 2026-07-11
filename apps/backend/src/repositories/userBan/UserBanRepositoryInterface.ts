@@ -1,8 +1,19 @@
-import { UserBan, UserBanCreateBodyType, UserBanRevokeBodyType } from "@movie-tracker/types"
+import {
+  PaginationType,
+  UserBan,
+  UserBanCreateBodyType,
+  UserBanRevokeBodyType,
+  UserBansPaginatedType,
+} from "@movie-tracker/types"
 
 export const UserBanRepositorySymbol = Symbol("UserBanRepository")
 
 export interface UserBanRepositoryInterface {
+  getList: (args: {
+    expired?: boolean
+    userId?: string
+  } & PaginationType) => Promise<UserBansPaginatedType>
+
   getById: (args: {
     id: string
   }) => Promise<UserBan | undefined>

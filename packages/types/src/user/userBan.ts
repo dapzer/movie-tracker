@@ -17,6 +17,11 @@ export interface UserBan {
   revokerUserProfile?: UserPublicType
 }
 
+export interface UserBansPaginatedType {
+  items: UserBan[]
+  totalCount: number
+}
+
 export type UserBanCreateBodyType = Pick<UserBan, "userId" | "issuedBy" | "reason"> & Partial<Pick<UserBan, "comment" | "expiresAt">>
 
 export type UserBanRevokeBodyType = Pick<UserBan, "revokedBy"> & Partial<Pick<UserBan, "revokedAt">>

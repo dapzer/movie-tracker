@@ -8,7 +8,7 @@ import {
   UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, desc, eq, gt, isNull, or } from "drizzle-orm"
+import { and, count, desc, eq, gt, isNull, lte, or } from "drizzle-orm"
 import { alias } from "drizzle-orm/pg-core"
 import { UserBanRepositoryInterface } from "@/repositories/userBan/UserBanRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
@@ -64,11 +64,54 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
       comment: row.comment,
       createdAt: row.createdAt,
       revokedAt: row.revokedAt,
-      revokedBy: row.revokedBy,
       expiresAt: row.expiresAt,
+      revokedBy: row.revokedBy,
       userProfile: this.convertUserToInterface(args.userProfile),
       issuerUserProfile: this.convertUserToInterface(args.issuerUserProfile),
       revokerUserProfile: this.convertUserToInterface(args.revokerUserProfile),
+    }
+  }
+
+  async getList(
+    args: Parameters<UserBanRepositoryInterface["getList"]>[0],
+  ) {
+    const dateNow = new Date()
+
+    const expiresAtFilter = args.expired === true
+      ? lte(userBans.expiresAt, dateNow)
+      : args.expired === false
+        ? or(isNull(userBans.expiresAt), gt(userBans.expiresAt, dateNow))
+        : undefined
+    const filter = and(
+      args.userId ? eq(userBans.userId, args.userId) : undefined,
+      expiresAtFilter,
+    )
+
+    const [rows, [totalCountResult]] = await Promise.all([
+      this.drizzle.client
+        .select({
+          userBan: userBans,
+          userProfile: users,
+          issuerUserProfile: issuerUsers,
+          revokerUserProfile: revokerUsers,
+        })
+        .from(userBans)
+        .innerJoin(users, eq(users.id, userBans.userId))
+        .innerJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
+        .leftJoin(revokerUsers, eq(revokerUsers.id, userBans.revokedBy))
+        .where(filter)
+        .orderBy(desc(userBans.createdAt))
+        .limit(args.limit)
+        .offset(args.offset),
+      this.drizzle.client
+        .select({ count: count() })
+        .from(userBans)
+        .where(filter),
+    ])
+
+    return {
+      items: rows.map(row => this.convertToInterface(row)),
+      totalCount: totalCountResult?.count ?? 0,
     }
   }
 
