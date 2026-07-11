@@ -38,3 +38,8 @@ export interface UserStatsType {
 }
 
 export type UserPublicType = Pick<UserType, "id" | "name" | "image" | "createdAt">
+
+export interface UserPaginatedType {
+  items: UserPublicType[]
+  totalCount: number
+}

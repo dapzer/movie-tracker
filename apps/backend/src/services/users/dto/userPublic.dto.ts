@@ -11,4 +11,10 @@ const userPublicSchema = z.object({
   createdAt: zDateTimeString.meta({ format: "date-time", example: "2026-04-28T12:34:56.000Z" }),
 })
 
+const userPaginatedSchema = z.object({
+  items: z.array(userPublicSchema),
+  totalCount: z.number().meta({ example: 25 }),
+})
+
 export class UserPublicDto extends createZodDto(userPublicSchema) {}
+export class UserPaginatedDto extends createZodDto(userPaginatedSchema) {}

@@ -1,7 +1,7 @@
 import { mediaListLikes, mediaLists, mediaRatings, users } from "@movie-tracker/database"
 import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, count, eq } from "drizzle-orm"
+import { and, count, desc, eq } from "drizzle-orm"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 
@@ -26,6 +26,25 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
       mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+    }
+  }
+
+  async getList(args: Parameters<UserRepositoryInterface["getList"]>[0]) {
+    const [items, [totalCountResult]] = await Promise.all([
+      this.drizzle.client
+        .select()
+        .from(users)
+        .orderBy(desc(users.createdAt))
+        .limit(args.limit)
+        .offset(args.offset),
+      this.drizzle.client
+        .select({ count: count() })
+        .from(users),
+    ])
+
+    return {
+      items: items.map(user => this.convertToInterface(user)),
+      totalCount: totalCountResult?.count ?? 0,
     }
   }
 

@@ -1,8 +1,10 @@
-import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
+import { UserMediaRatingsAccessLevelEnum, UserPaginatedType } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
+import { GetUsersQueryDto } from "@/services/users/dto/getUsersQuery.dto"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
 import { UserNotFoundError, UserUnauthorizedError } from "@/shared/errors/user"
+import { getPublicUser } from "@/shared/utils/getPublicUser"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
 
 @Injectable()
@@ -11,6 +13,15 @@ export class UsersService {
     @Inject(UserRepositorySymbol)
     private readonly userRepository: UserRepositoryInterface,
   ) {
+  }
+
+  async getList(query: GetUsersQueryDto): Promise<UserPaginatedType> {
+    const result = await this.userRepository.getList(query)
+
+    return {
+      items: result.items.map(getPublicUser),
+      totalCount: result.totalCount,
+    }
   }
 
   async getById(id: string) {
