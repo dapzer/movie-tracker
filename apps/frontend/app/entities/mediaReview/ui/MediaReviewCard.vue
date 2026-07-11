@@ -13,6 +13,7 @@ import {
 import { UiAvatar } from "~/shared/ui/UiAvatar"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiSpoilerText } from "~/shared/ui/UiSpoilerText"
 import { UiTrimmedText } from "~/shared/ui/UiTrimmedText"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { formatDate } from "~/shared/utils/formatDate"
@@ -118,10 +119,12 @@ const isOpinionButtonsDisabled = computed(() => {
           {{ props.mediaReview.title }}
         </UiTypography>
         <UiTrimmedText
+          :as="UiSpoilerText"
           :class="$style.text"
-          :text="props.mediaReview.content/*.replace(/\r\s*!/g, '\n\n')*/"
+          :text="props.mediaReview.content"
           :max-lines="5"
           :max-chars-in-line="109"
+          :disabled="!props.mediaReview.isSpoiler"
         />
       </div>
       <div :class="$style.footer">
