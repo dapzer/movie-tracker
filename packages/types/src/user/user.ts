@@ -37,4 +37,4 @@ export interface UserStatsType {
   mediaListLikeCount: number
 }
 
-export type UserPublicType = Omit<UserType, "password" | "email" | "roles" | "updatedAt" | "isEmailVerified" | "signUpMethod">
+export type UserPublicType = Pick<UserType, "id" | "name" | "image" | "createdAt">
