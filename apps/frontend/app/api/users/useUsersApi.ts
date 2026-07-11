@@ -1,8 +1,20 @@
 import type { UseQueryOptions } from "@tanstack/vue-query"
+import type { Ref } from "vue"
+import type { GetUsersArgs } from "~/api/users/usersApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-import { getUserProfileApi, getUserProfileByIdApi, getUserStatsByIdApi, updateUserProfileApi } from "~/api/users/usersApi"
+import { getUserProfileApi, getUserProfileByIdApi, getUserStatsByIdApi, getUsersApi, updateUserProfileApi } from "~/api/users/usersApi"
 import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
+
+export function useGetUsersApi(args: Ref<GetUsersArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [UsersQueryKeys.LIST, args],
+    queryFn: () => getUsersApi(args.value),
+    retry: false,
+    retryOnMount: false,
+    ...options,
+  })
+}
 
 export function useGetUserProfileApi() {
   return useQuery({

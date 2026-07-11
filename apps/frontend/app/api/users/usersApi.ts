@@ -1,7 +1,17 @@
-import type { UserPublicType, UserStatsType, UserType } from "@movie-tracker/types"
+import type { UserPaginatedType, UserPublicType, UserStatsType, UserType } from "@movie-tracker/types"
 import type { RequestOptions } from "@movie-tracker/utils"
-import type { UserApiUpdateTypes } from "~/api/users/usersApiTypes"
+import type { GetUsersArgs, UserApiUpdateTypes } from "~/api/users/usersApiTypes"
 import { api } from "~/api/instance"
+
+export async function getUsersApi(args: GetUsersArgs, options?: Omit<RequestOptions, "params">) {
+  return api.get<UserPaginatedType>("users", {
+    ...options,
+    params: {
+      limit: args.limit,
+      offset: args.offset,
+    },
+  })
+}
 
 export async function getUserProfileApi(options?: RequestOptions) {
   return api.get<UserType>("users/me", options)
