@@ -3,13 +3,25 @@ import type { Ref } from "vue"
 import type { GetUsersArgs } from "~/api/users/usersApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-import { getUserProfileApi, getUserProfileByIdApi, getUserStatsByIdApi, getUsersApi, updateUserProfileApi } from "~/api/users/usersApi"
+import {
+  getUserProfileApi,
+  getUserProfileByIdApi,
+  getUsersApi,
+  getUserStatsByIdApi,
+  updateUserProfileApi,
+} from "~/api/users/usersApi"
 import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
 
 export function useGetUsersApi(args: Ref<GetUsersArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
     queryKey: [UsersQueryKeys.LIST, args],
-    queryFn: () => getUsersApi(args.value),
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found")
+      }
+      return getUsersApi(args.value, { headers })
+    },
     retry: false,
     retryOnMount: false,
     ...options,

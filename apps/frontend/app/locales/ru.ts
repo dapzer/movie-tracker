@@ -17,6 +17,7 @@ export default {
     tabs: {
       systemManagement: "Управление системой",
       reviewsModeration: "Модерация рецензий",
+      usersModeration: "Управление пользователями",
     },
     dataGeneration: "Генерация данных",
     dataSummary: "Сводка данных",
@@ -1428,6 +1429,13 @@ export default {
       mediaListCount: "Списков",
       mediaRatingsCount: "Оценок",
       mediaListLikeCount: "Лайков",
+    },
+  },
+  users: {
+    table: {
+      user: "Пользователь",
+      id: "ID",
+      joined: "Дата регистрации",
     },
   },
   userFollow: {

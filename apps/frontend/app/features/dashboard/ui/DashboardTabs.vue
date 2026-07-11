@@ -4,7 +4,7 @@ import { ref } from "vue"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-type DashboardTab = "systemManagement" | "reviewsModeration"
+type DashboardTab = "systemManagement" | "reviewsModeration" | "usersModeration"
 
 interface DashboardTabsProps {
   tab: DashboardTab
@@ -28,6 +28,11 @@ const activeTab = ref<DashboardTab>(props.tab)
           key: 'systemManagement',
           label: $t('dashboard.tabs.systemManagement'),
           href: localePath('/dashboard'),
+        },
+        {
+          key: 'usersModeration',
+          label: $t('dashboard.tabs.usersModeration'),
+          href: localePath('/dashboard/moderation/users'),
         },
         {
           key: 'reviewsModeration',

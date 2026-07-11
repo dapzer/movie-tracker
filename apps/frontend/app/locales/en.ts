@@ -17,6 +17,7 @@ export default {
     tabs: {
       systemManagement: "System management",
       reviewsModeration: "Reviews moderation",
+      usersModeration: "Users management",
     },
     dataGeneration: "Data generation",
     dataSummary: "Data summary",
@@ -1426,6 +1427,13 @@ export default {
       mediaListCount: "Lists",
       mediaRatingsCount: "Ratings",
       mediaListLikeCount: "Likes",
+    },
+  },
+  users: {
+    table: {
+      user: "User",
+      id: "ID",
+      joined: "Joined",
     },
   },
   userFollow: {
