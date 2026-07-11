@@ -71,6 +71,13 @@
       "when": 1783257264639,
       "tag": "0009_notification_media_review_moderation_update_enum_value",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1783776150164,
+      "tag": "0010_user_bans_table",
+      "breakpoints": true
     }
   ]
 }
