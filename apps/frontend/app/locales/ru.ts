@@ -18,6 +18,7 @@ export default {
       systemManagement: "Управление системой",
       reviewsModeration: "Модерация рецензий",
       usersModeration: "Управление пользователями",
+      userBansModeration: "Блокировки пользователей",
     },
     dataGeneration: "Генерация данных",
     dataSummary: "Сводка данных",
@@ -1472,6 +1473,31 @@ export default {
         thirtyDays: "30 дней",
         oneYear: "1 год",
       },
+    },
+  },
+  userBans: {
+    filters: {
+      userIdPlaceholder: "Фильтр по ID пользователя",
+      status: {
+        title: "Статус",
+        active: "Активные",
+        expired: "Истекшие",
+      },
+    },
+    table: {
+      user: "Пользователь",
+      reason: "Причина",
+      comment: "Комментарий",
+      issuer: "Кто заблокировал",
+      createdAt: "Создана",
+      expiresAt: "Истекает",
+      status: "Статус",
+      permanent: "Навсегда",
+    },
+    status: {
+      active: "Активна",
+      expired: "Истекла",
+      revoked: "Отозвана",
     },
   },
   userFollow: {

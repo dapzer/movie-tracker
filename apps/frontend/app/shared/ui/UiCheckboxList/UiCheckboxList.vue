@@ -2,11 +2,11 @@
 import { UiCheckbox } from "~/shared/ui/UiCheckbox"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-interface CheckboxListProps {
+interface UiCheckboxListProps {
   options: Array<{ value: string, label: string | number }>
 }
 
-const props = defineProps<CheckboxListProps>()
+const props = defineProps<UiCheckboxListProps>()
 const model = defineModel<Array<string> | Array<number>>({ default: () => [] })
 </script>
 

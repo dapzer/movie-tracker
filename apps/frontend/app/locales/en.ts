@@ -18,6 +18,7 @@ export default {
       systemManagement: "System management",
       reviewsModeration: "Reviews moderation",
       usersModeration: "Users management",
+      userBansModeration: "User bans",
     },
     dataGeneration: "Data generation",
     dataSummary: "Data summary",
@@ -1470,6 +1471,31 @@ export default {
         thirtyDays: "30 days",
         oneYear: "1 year",
       },
+    },
+  },
+  userBans: {
+    filters: {
+      userIdPlaceholder: "Filter by user ID",
+      status: {
+        title: "Status",
+        active: "Active",
+        expired: "Expired",
+      },
+    },
+    table: {
+      user: "User",
+      reason: "Reason",
+      comment: "Comment",
+      issuer: "Issued by",
+      createdAt: "Created",
+      expiresAt: "Expires",
+      status: "Status",
+      permanent: "Permanent",
+    },
+    status: {
+      active: "Active",
+      expired: "Expired",
+      revoked: "Revoked",
     },
   },
   userFollow: {
