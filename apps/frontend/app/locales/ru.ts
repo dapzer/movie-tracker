@@ -1436,6 +1436,39 @@ export default {
       user: "Пользователь",
       id: "ID",
       joined: "Дата регистрации",
+      actions: "Действия",
+    },
+    actions: {
+      ban: "Заблокировать пользователя",
+    },
+    ban: {
+      modal: {
+        title: "Заблокировать пользователя",
+      },
+      form: {
+        reasonPlaceholder: "Причина блокировки",
+        durationPlaceholder: "Длительность блокировки",
+        commentPlaceholder: "Комментарий (необязательно)",
+        submit: "Заблокировать",
+      },
+      confirm: {
+        title: "Подтвердите блокировку",
+        description: "Вы уверены, что хотите заблокировать {userName}?",
+      },
+      reason: {
+        spam: "Спам",
+        toxicity: "Токсичность",
+        msfw: "Неприемлемый контент",
+        fraud: "Мошенничество",
+        other: "Другое",
+      },
+      duration: {
+        permanent: "Навсегда",
+        oneDay: "1 день",
+        sevenDays: "7 дней",
+        thirtyDays: "30 дней",
+        oneYear: "1 год",
+      },
     },
   },
   userFollow: {
@@ -1705,6 +1738,10 @@ export default {
       unsuccessfullyFollowed: "Произошла ошибка при подписке на пользователя",
       successUnfollowed: "Вы успешно отписались от пользователя",
       unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
+    },
+    userBan: {
+      successCreated: "Пользователь успешно заблокирован",
+      unsuccessfullyCreated: "Произошла ошибка при блокировке пользователя",
     },
     releaseSubscription: {
       tv: {

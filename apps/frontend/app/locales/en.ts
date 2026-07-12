@@ -1434,6 +1434,39 @@ export default {
       user: "User",
       id: "ID",
       joined: "Joined",
+      actions: "Actions",
+    },
+    actions: {
+      ban: "Ban user",
+    },
+    ban: {
+      modal: {
+        title: "Ban user",
+      },
+      form: {
+        reasonPlaceholder: "Ban reason",
+        durationPlaceholder: "Ban duration",
+        commentPlaceholder: "Comment (optional)",
+        submit: "Ban user",
+      },
+      confirm: {
+        title: "Confirm user ban",
+        description: "Are you sure you want to ban {userName}?",
+      },
+      reason: {
+        spam: "Spam",
+        toxicity: "Toxicity",
+        msfw: "MSFW",
+        fraud: "Fraud",
+        other: "Other",
+      },
+      duration: {
+        permanent: "Permanent",
+        oneDay: "1 day",
+        sevenDays: "7 days",
+        thirtyDays: "30 days",
+        oneYear: "1 year",
+      },
     },
   },
   userFollow: {
@@ -1703,6 +1736,10 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       unsuccessfullyFollowed: "An error occurred while following to the user.",
       successUnfollowed: "You have successfully unfollowed the user",
       unsuccessfullyUnfollowed: "An error occurred while unfollowing from the user",
+    },
+    userBan: {
+      successCreated: "User banned successfully",
+      unsuccessfullyCreated: "An error occurred while banning the user",
     },
     releaseSubscription: {
       tv: {

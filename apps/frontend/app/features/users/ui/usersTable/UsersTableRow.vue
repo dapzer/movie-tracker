@@ -2,6 +2,7 @@
 import type { UserPublicType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
+import UsersTableRowActions from "~/features/users/ui/usersTable/UsersTableRowActions.vue"
 import { UiTableCell, UiTableRow } from "~/shared/ui/UiTable"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiUserProfileLink } from "~/shared/ui/UiUserProfileLink"
@@ -34,6 +35,9 @@ const { locale } = useI18n()
     </UiTableCell>
     <UiTableCell>
       {{ formatDateWithTime(props.user.createdAt, locale) }}
+    </UiTableCell>
+    <UiTableCell align="right">
+      <UsersTableRowActions :user="props.user" />
     </UiTableCell>
   </UiTableRow>
 </template>

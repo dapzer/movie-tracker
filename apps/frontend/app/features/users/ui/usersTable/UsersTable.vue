@@ -34,6 +34,12 @@ const currentPage = defineModel<number>("currentPage", { default: 1 })
           <UiTableHead :width="220">
             {{ $t("users.table.joined") }}
           </UiTableHead>
+          <UiTableHead
+            :width="120"
+            align="right"
+          >
+            {{ $t("users.table.actions") }}
+          </UiTableHead>
         </UiTableRow>
       </UiTableHeader>
 

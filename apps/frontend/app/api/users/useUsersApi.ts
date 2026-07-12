@@ -24,6 +24,7 @@ export function useGetUsersApi(args: Ref<GetUsersArgs>, options?: Omit<UseQueryO
     },
     retry: false,
     retryOnMount: false,
+    refetchOnWindowFocus: false,
     ...options,
   })
 }
