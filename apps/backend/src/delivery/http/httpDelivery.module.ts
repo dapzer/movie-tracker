@@ -15,6 +15,7 @@ import { ProxyModule } from "@/delivery/http/proxy/proxy.module"
 import { ReleaseSubscriptionsModule } from "@/delivery/http/releaseSubscriptions/releaseSubscriptions.module"
 import { SitemapsModule } from "@/delivery/http/sitemaps/sitemaps.module"
 import { TrackingDataModule } from "@/delivery/http/trackingData/trackingData.module"
+import { UserBansModule } from "@/delivery/http/userBans/userBans.module"
 import { UserFollowsModule } from "@/delivery/http/userFollows/userFollows.module"
 import { UsersModule } from "@/delivery/http/users/users.module"
 
@@ -36,6 +37,7 @@ import { UsersModule } from "@/delivery/http/users/users.module"
     ReleaseSubscriptionsModule,
     SitemapsModule,
     TrackingDataModule,
+    UserBansModule,
     UsersModule,
     UserFollowsModule,
   ],

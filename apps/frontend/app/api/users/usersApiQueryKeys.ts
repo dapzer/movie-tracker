@@ -1,4 +1,5 @@
 export const UsersQueryKeys = {
+  LIST: "user/list",
   PROFILE: "user/profile",
   PROFILE_BY_ID: "user/profileById",
   STATS_BY_ID: "user/statsById",

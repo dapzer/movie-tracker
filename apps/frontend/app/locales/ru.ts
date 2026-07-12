@@ -17,6 +17,8 @@ export default {
     tabs: {
       systemManagement: "Управление системой",
       reviewsModeration: "Модерация рецензий",
+      usersManagement: "Управление пользователями",
+      userBansManagement: "Управление блокировками пользователей",
     },
     dataGeneration: "Генерация данных",
     dataSummary: "Сводка данных",
@@ -1430,6 +1432,94 @@ export default {
       mediaListLikeCount: "Лайков",
     },
   },
+  users: {
+    table: {
+      user: "Пользователь",
+      id: "ID",
+      email: "Email",
+      roles: "Роли",
+      signUpMethod: "Способ регистрации",
+      status: "Статус",
+      joined: "Дата регистрации",
+      updated: "Дата обновления",
+      actions: "Действия",
+    },
+    status: {
+      active: "Активен",
+      banned: "Заблокирован",
+    },
+    actions: {
+      ban: "Заблокировать пользователя",
+    },
+    filters: {
+      searchPlaceholder: "Поиск по ID или имени",
+    },
+    ban: {
+      modal: {
+        title: "Заблокировать пользователя",
+      },
+      form: {
+        reasonPlaceholder: "Причина блокировки",
+        durationPlaceholder: "Длительность блокировки",
+        commentPlaceholder: "Комментарий (необязательно)",
+        submit: "Заблокировать",
+      },
+      confirm: {
+        title: "Подтвердите блокировку",
+        description: "Вы уверены, что хотите заблокировать {userName}?",
+      },
+      reason: {
+        spam: "Спам",
+        toxicity: "Токсичность",
+        msfw: "Неприемлемый контент",
+        fraud: "Мошенничество",
+        other: "Другое",
+      },
+      duration: {
+        permanent: "Навсегда",
+        oneDay: "1 день",
+        sevenDays: "7 дней",
+        thirtyDays: "30 дней",
+        oneYear: "1 год",
+      },
+    },
+  },
+  userBans: {
+    filters: {
+      userIdPlaceholder: "Фильтр по ID пользователя",
+      status: {
+        title: "Статус",
+        active: "Активные",
+        expired: "Истекшие",
+        revoked: "Отозванные",
+      },
+    },
+    table: {
+      user: "Пользователь",
+      reason: "Причина",
+      comment: "Комментарий",
+      issuer: "Кто заблокировал",
+      createdAt: "Создана",
+      expiresAt: "Истекает",
+      status: "Статус",
+      permanent: "Навсегда",
+      actions: "Действия",
+    },
+    actions: {
+      revoke: "Отозвать блокировку",
+    },
+    revoke: {
+      confirm: {
+        title: "Отозвать блокировку",
+        description: "Вы уверены, что хотите отозвать блокировку для {userName}?",
+      },
+    },
+    status: {
+      active: "Активна",
+      expired: "Истекла",
+      revoked: "Отозвана",
+    },
+  },
   userFollow: {
     noFollowers: "У пользователя нет подписчиков",
     noFollowings: "У пользователя нет подписок",
@@ -1697,6 +1787,12 @@ export default {
       unsuccessfullyFollowed: "Произошла ошибка при подписке на пользователя",
       successUnfollowed: "Вы успешно отписались от пользователя",
       unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
+    },
+    userBan: {
+      successCreated: "Пользователь успешно заблокирован",
+      unsuccessfullyCreated: "Произошла ошибка при блокировке пользователя",
+      successRevoked: "Блокировка успешно отозвана",
+      unsuccessfullyRevoked: "Произошла ошибка при отзыве блокировки",
     },
     releaseSubscription: {
       tv: {

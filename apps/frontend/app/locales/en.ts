@@ -17,6 +17,8 @@ export default {
     tabs: {
       systemManagement: "System management",
       reviewsModeration: "Reviews moderation",
+      usersManagement: "Users management",
+      userBansManagement: "User bans management",
     },
     dataGeneration: "Data generation",
     dataSummary: "Data summary",
@@ -1428,6 +1430,94 @@ export default {
       mediaListLikeCount: "Likes",
     },
   },
+  users: {
+    table: {
+      user: "User",
+      id: "ID",
+      email: "Email",
+      roles: "Roles",
+      signUpMethod: "Sign-up method",
+      status: "Status",
+      joined: "Joined",
+      updated: "Updated",
+      actions: "Actions",
+    },
+    status: {
+      active: "Active",
+      banned: "Banned",
+    },
+    actions: {
+      ban: "Ban user",
+    },
+    filters: {
+      searchPlaceholder: "Search by ID or name",
+    },
+    ban: {
+      modal: {
+        title: "Ban user",
+      },
+      form: {
+        reasonPlaceholder: "Ban reason",
+        durationPlaceholder: "Ban duration",
+        commentPlaceholder: "Comment (optional)",
+        submit: "Ban user",
+      },
+      confirm: {
+        title: "Confirm user ban",
+        description: "Are you sure you want to ban {userName}?",
+      },
+      reason: {
+        spam: "Spam",
+        toxicity: "Toxicity",
+        msfw: "MSFW",
+        fraud: "Fraud",
+        other: "Other",
+      },
+      duration: {
+        permanent: "Permanent",
+        oneDay: "1 day",
+        sevenDays: "7 days",
+        thirtyDays: "30 days",
+        oneYear: "1 year",
+      },
+    },
+  },
+  userBans: {
+    filters: {
+      userIdPlaceholder: "Filter by user ID",
+      status: {
+        title: "Status",
+        active: "Active",
+        expired: "Expired",
+        revoked: "Revoked",
+      },
+    },
+    table: {
+      user: "User",
+      reason: "Reason",
+      comment: "Comment",
+      issuer: "Issued by",
+      createdAt: "Created",
+      expiresAt: "Expires",
+      status: "Status",
+      permanent: "Permanent",
+      actions: "Actions",
+    },
+    actions: {
+      revoke: "Revoke ban",
+    },
+    revoke: {
+      confirm: {
+        title: "Revoke ban",
+        description: "Are you sure you want to revoke the ban for {userName}?",
+      },
+    },
+    status: {
+      active: "Active",
+      expired: "Expired",
+      revoked: "Revoked",
+    },
+  },
   userFollow: {
     noFollowers: "The user has no followers",
     noFollowings: "The user has no followings",
@@ -1695,6 +1785,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       unsuccessfullyFollowed: "An error occurred while following to the user.",
       successUnfollowed: "You have successfully unfollowed the user",
       unsuccessfullyUnfollowed: "An error occurred while unfollowing from the user",
+    },
+    userBan: {
+      successCreated: "User banned successfully",
+      unsuccessfullyCreated: "An error occurred while banning the user",
+      successRevoked: "Ban revoked successfully",
+      unsuccessfullyRevoked: "An error occurred while revoking the ban",
     },
     releaseSubscription: {
       tv: {

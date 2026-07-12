@@ -26,6 +26,7 @@ export const mediaTypeEnum = pgEnum("MediaTypeEnum", ["movie", "tv"])
 export const notificationTypeEnum = pgEnum("NotificationTypeEnum", ["MEDIA_LIST_LIKE", "USER_FOLLOW", "MEDIA_RELEASE", "MEDIA_STATUS_UPDATE", "MEDIA_REVIEW_MODERATION_UPDATE"])
 export const signUpMethodEnum = pgEnum("SignUpMethodEnum", ["EMAIL", "GOOGLE", "GITHUB", "VK", "YANDEX"])
 export const statusNameEnum = pgEnum("StatusNameEnum", ["VIEWED", "WATCHING_NOW", "NOT_VIEWED", "WAIT_NEW_PART"])
+export const userBanReasonEnum = pgEnum("UserBanReasonEnum", ["SPAM", "TOXICITY", "MSFW", "FRAUD", "OTHER"])
 export const userMediaRatingsAccessLevelEnum = pgEnum("UserMediaRatingsAccessLevelEnum", ["PUBLIC", "PRIVATE"])
 export const userRoleEnum = pgEnum("UserRoleEnum", ["ADMIN", "USER"])
 export const mediaReviewStatusEnum = pgEnum("MediaReviewStatusEnum", [
@@ -71,6 +72,18 @@ export const users = pgTable("users", {
 }, table => [
   uniqueIndex("users_email_lower_unique").on(sql`lower(${table.email})`),
 ])
+
+export const userBans = pgTable("user_bans", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  issuedBy: uuid("issued_by").references(() => users.id, { onUpdate: "cascade", onDelete: "set null" }),
+  reason: userBanReasonEnum("reason").notNull(),
+  comment: text(),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+  revokedAt: timestamp("revoked_at", { precision: 3, mode: "date", withTimezone: true }),
+  revokedBy: uuid("revoked_by").references(() => users.id, { onUpdate: "cascade", onDelete: "set null" }),
+  expiresAt: timestamp("expires_at", { precision: 3, mode: "date", withTimezone: true }),
+})
 
 export const accounts = pgTable("accounts", {
   id: uuid().defaultRandom().primaryKey().notNull(),

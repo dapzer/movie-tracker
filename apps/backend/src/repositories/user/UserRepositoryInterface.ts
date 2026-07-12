@@ -1,8 +1,13 @@
-import { UserStatsType, UserType } from "@movie-tracker/types"
+import { ManagedUserType, PaginationType, UserStatsType, UserType } from "@movie-tracker/types"
 
 export const UserRepositorySymbol = Symbol("UserRepository")
 
 export interface UserRepositoryInterface {
+  getList: (args: PaginationType & { searchTerm?: string }) => Promise<{
+    items: ManagedUserType[]
+    totalCount: number
+  }>
+
   getById: (id: string) => Promise<UserType>
 
   getStatsById: (id: string) => Promise<UserStatsType>

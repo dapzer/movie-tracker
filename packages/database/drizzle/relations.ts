@@ -10,6 +10,7 @@ import {
   notifications,
   releaseSubscriptions,
   trackingData,
+  userBans,
   userFollows,
   users,
 } from "./schema"
@@ -23,6 +24,15 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
+  userBans_userId: many(userBans, {
+    relationName: "userBans_userId_users_id",
+  }),
+  userBans_issuedBy: many(userBans, {
+    relationName: "userBans_issuedBy_users_id",
+  }),
+  userBans_revokedBy: many(userBans, {
+    relationName: "userBans_revokedBy_users_id",
+  }),
   mediaLists: many(mediaLists),
   mediaListLikes: many(mediaListLikes),
   notifications: many(notifications),
@@ -35,6 +45,24 @@ export const usersRelations = relations(users, ({ many }) => ({
   }),
   mediaRatings: many(mediaRatings),
   releaseSubscriptions: many(releaseSubscriptions),
+}))
+
+export const userBansRelations = relations(userBans, ({ one }) => ({
+  user: one(users, {
+    fields: [userBans.userId],
+    references: [users.id],
+    relationName: "userBans_userId_users_id",
+  }),
+  issuer: one(users, {
+    fields: [userBans.issuedBy],
+    references: [users.id],
+    relationName: "userBans_issuedBy_users_id",
+  }),
+  revoker: one(users, {
+    fields: [userBans.revokedBy],
+    references: [users.id],
+    relationName: "userBans_revokedBy_users_id",
+  }),
 }))
 
 export const mediaItemsRelations = relations(mediaItems, ({ one, many }) => ({
