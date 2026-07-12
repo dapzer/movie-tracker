@@ -39,7 +39,14 @@ export interface UserStatsType {
 
 export type UserPublicType = Pick<UserType, "id" | "name" | "image" | "createdAt">
 
+export type ManagedUserType = Pick<
+  UserType,
+  "id" | "name" | "image" | "roles" | "email" | "signUpMethod" | "createdAt" | "updatedAt"
+> & {
+  isBanned: boolean
+}
+
 export interface UserPaginatedType {
-  items: UserPublicType[]
+  items: ManagedUserType[]
   totalCount: number
 }

@@ -4,7 +4,6 @@ import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/us
 import { GetUsersQueryDto } from "@/services/users/dto/getUsersQuery.dto"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
 import { UserNotFoundError, UserUnauthorizedError } from "@/shared/errors/user"
-import { getPublicUser } from "@/shared/utils/getPublicUser"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
 
 @Injectable()
@@ -16,12 +15,7 @@ export class UsersService {
   }
 
   async getList(query: GetUsersQueryDto): Promise<UserPaginatedType> {
-    const result = await this.userRepository.getList(query)
-
-    return {
-      items: result.items.map(getPublicUser),
-      totalCount: result.totalCount,
-    }
+    return this.userRepository.getList(query)
   }
 
   async getById(id: string) {

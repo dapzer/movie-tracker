@@ -1,7 +1,7 @@
-import { mediaListLikes, mediaLists, mediaRatings, users } from "@movie-tracker/database"
-import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { mediaListLikes, mediaLists, mediaRatings, userBans, users } from "@movie-tracker/database"
+import { ManagedUserType, SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, count, desc, eq, or, sql } from "drizzle-orm"
+import { and, count, desc, eq, gt, isNull, or, sql } from "drizzle-orm"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 
@@ -29,6 +29,20 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
     }
   }
 
+  private convertToManagedInterface(user: typeof users.$inferSelect, isBanned: boolean): ManagedUserType {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      roles: user.roles.map(el => UserRoleEnum[el]),
+      signUpMethod: SignUpMethodEnum[user.signUpMethod],
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      isBanned,
+    }
+  }
+
   async getList(args: Parameters<UserRepositoryInterface["getList"]>[0]) {
     const searchTerm = args.searchTerm?.trim().toLowerCase()
     const searchFilter = searchTerm
@@ -40,7 +54,15 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
 
     const [items, [totalCountResult]] = await Promise.all([
       this.drizzle.client
-        .select()
+        .select({
+          user: users,
+          isBanned: sql<boolean>`exists (
+            select 1 from ${userBans}
+            where ${userBans.userId} = ${users.id}
+              and ${isNull(userBans.revokedAt)}
+              and (${isNull(userBans.expiresAt)} or ${gt(userBans.expiresAt, new Date())})
+          )`,
+        })
         .from(users)
         .where(searchFilter)
         .orderBy(desc(users.createdAt))
@@ -53,7 +75,7 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
     ])
 
     return {
-      items: items.map(user => this.convertToInterface(user)),
+      items: items.map(row => this.convertToManagedInterface(row.user, row.isBanned)),
       totalCount: totalCountResult?.count ?? 0,
     }
   }
