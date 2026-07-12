@@ -1,6 +1,7 @@
 import { UserPublicType } from "./user"
 
-export type BanReason = "SPAM" | "TOXICITY" | "MSFW" | "FRAUD" | "OTHER"
+export const BanReasonValues = ["SPAM", "TOXICITY", "MSFW", "FRAUD", "OTHER"] as const
+export type BanReason = typeof BanReasonValues[number]
 export const UserBanStatusFilterValues = ["active", "expired", "revoked"] as const
 export type UserBanStatusFilter = typeof UserBanStatusFilterValues[number]
 

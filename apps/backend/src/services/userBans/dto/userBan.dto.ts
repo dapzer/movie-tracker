@@ -1,3 +1,4 @@
+import { BanReasonValues } from "@movie-tracker/types"
 import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 import { UserPublicDto } from "@/services/users/dto/userPublic.dto"
@@ -7,8 +8,8 @@ const userBanSchema = z.object({
   id: z.uuid().meta({ format: "uuid", example: "a23d2b67-8a7e-4f70-9c8b-0a8f7a53c021" }),
   userId: z.uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
   issuedBy: z.uuid().meta({ format: "uuid", example: "e9a2f5b7-c6d3-4c0a-a35f-84c7f902ad59" }),
-  reason: z.enum(["SPAM", "TOXICITY", "MSFW", "FRAUD", "OTHER"]).meta({
-    enum: ["SPAM", "TOXICITY", "MSFW", "FRAUD", "OTHER"],
+  reason: z.enum(BanReasonValues).meta({
+    enum: BanReasonValues,
     example: "SPAM",
   }),
   comment: z.string().nullable().optional(),

@@ -1,12 +1,12 @@
-import { UserBanCreateBodyType } from "@movie-tracker/types"
+import { BanReasonValues, UserBanCreateBodyType } from "@movie-tracker/types"
 import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 import { zDateTimeString } from "@/shared/dto/zod.utils"
 
 const createUserBanSchema = z.object({
   userId: z.uuid().meta({ format: "uuid", example: "c1a9b6e2-3f4d-4a7c-9d2e-123456789abc" }),
-  reason: z.enum(["SPAM", "TOXICITY", "MSFW", "FRAUD", "OTHER"]).meta({
-    enum: ["SPAM", "TOXICITY", "MSFW", "FRAUD", "OTHER"],
+  reason: z.enum(BanReasonValues).meta({
+    enum: BanReasonValues,
     example: "SPAM",
   }),
   comment: z.string().optional().meta({ example: "Repeated unsolicited promotional messages." }),
