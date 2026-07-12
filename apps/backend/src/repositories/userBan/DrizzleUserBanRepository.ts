@@ -24,9 +24,9 @@ const revokerUsers = alias(users, "revoker_users")
 export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
   constructor(private readonly drizzle: DrizzleService) {}
 
-  private convertUserToInterface(user?: UserRow | null): UserPublicType | null {
+  private convertUserToInterface(user?: UserRow | null): UserPublicType | undefined {
     if (!user) {
-      return null
+      return undefined
     }
 
     return getPublicUser({
@@ -47,7 +47,7 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
   private convertToInterface(args?: {
     userBan: UserBanRow
     userProfile?: UserRow
-    issuerUserProfile?: UserRow
+    issuerUserProfile?: UserRow | null
     revokerUserProfile?: UserRow | null
   }): UserBan | undefined {
     if (!args) {
@@ -112,7 +112,7 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
         })
         .from(userBans)
         .innerJoin(users, eq(users.id, userBans.userId))
-        .innerJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
+        .leftJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
         .leftJoin(revokerUsers, eq(revokerUsers.id, userBans.revokedBy))
         .where(filter)
         .orderBy(desc(userBans.createdAt))
@@ -142,7 +142,7 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
       })
       .from(userBans)
       .innerJoin(users, eq(users.id, userBans.userId))
-      .innerJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
+      .leftJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
       .leftJoin(revokerUsers, eq(revokerUsers.id, userBans.revokedBy))
       .where(eq(userBans.id, args.id))
       .limit(1)
@@ -162,7 +162,7 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
       })
       .from(userBans)
       .innerJoin(users, eq(users.id, userBans.userId))
-      .innerJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
+      .leftJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
       .leftJoin(revokerUsers, eq(revokerUsers.id, userBans.revokedBy))
       .where(eq(userBans.userId, args.userId))
       .orderBy(desc(userBans.createdAt))

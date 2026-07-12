@@ -8,7 +8,7 @@ export type UserBanStatusFilter = typeof UserBanStatusFilterValues[number]
 export interface UserBan {
   id: string
   userId: string
-  issuedBy: string
+  issuedBy?: string
   reason: BanReason
   comment?: string
   createdAt: Date
@@ -25,6 +25,8 @@ export interface UserBansPaginatedType {
   totalCount: number
 }
 
-export type UserBanCreateBodyType = Pick<UserBan, "userId" | "issuedBy" | "reason"> & Partial<Pick<UserBan, "comment" | "expiresAt">>
+export type UserBanCreateBodyType = Pick<UserBan, "userId" | "reason"> & { issuedBy: string } & Partial<Pick<UserBan, "comment" | "expiresAt">>
 
-export type UserBanRevokeBodyType = Pick<UserBan, "revokedBy">
+export interface UserBanRevokeBodyType {
+  revokedBy: string
+}
