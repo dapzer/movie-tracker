@@ -71,10 +71,8 @@ export function useUpdateUserProfileApi() {
   return useMutation({
     mutationKey: [UsersQueryKeys.UPDATE_PROFILE],
     mutationFn: updateUserProfileApi,
-    onSuccess: async (data) => {
-      await queryClient.setQueryData([UsersQueryKeys.PROFILE], () => {
-        return data
-      })
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.PROFILE] })
     },
   })
 }

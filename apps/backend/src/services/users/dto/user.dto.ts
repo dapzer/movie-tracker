@@ -27,3 +27,11 @@ export class UserDto extends createZodDto(userSchema) {}
 export class OptionalUserDto extends createZodDto(optionalUserSchema) {}
 
 export type UserType = z.infer<typeof userSchema>
+
+export class UserWithoutPasswordDto extends createZodDto(UserDto.schema.omit({ password: true })) {
+}
+
+export class UserProfileDto extends createZodDto(UserDto.schema.omit({ password: true }).extend({
+  isBanned: z.boolean().meta({ example: false }),
+})) {
+}

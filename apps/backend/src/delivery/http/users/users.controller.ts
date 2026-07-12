@@ -37,7 +37,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @GetCurrentUserDocs()
   async getUser(@User() user: UserDto) {
-    return this.usersService.getById(user?.id)
+    return this.usersService.getProfileById(user?.id)
   }
 
   @Get(":id")

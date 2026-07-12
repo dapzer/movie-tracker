@@ -59,6 +59,7 @@ export function useCreateUserBanApi() {
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_LIST] }),
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_BY_ID] }),
         queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.LIST] }),
+        queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.PROFILE] }),
       ])
     },
   })
@@ -75,6 +76,7 @@ export function useRevokeUserBanApi() {
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_LIST] }),
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_BY_ID] }),
         queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.LIST] }),
+        queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.PROFILE] }),
       ])
     },
   })

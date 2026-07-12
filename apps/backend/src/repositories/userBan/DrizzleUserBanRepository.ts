@@ -46,8 +46,8 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
 
   private convertToInterface(args?: {
     userBan: UserBanRow
-    userProfile: UserRow
-    issuerUserProfile: UserRow
+    userProfile?: UserRow
+    issuerUserProfile?: UserRow
     revokerUserProfile?: UserRow | null
   }): UserBan | undefined {
     if (!args) {
@@ -176,14 +176,8 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
     const [row] = await this.drizzle.client
       .select({
         userBan: userBans,
-        userProfile: users,
-        issuerUserProfile: issuerUsers,
-        revokerUserProfile: revokerUsers,
       })
       .from(userBans)
-      .innerJoin(users, eq(users.id, userBans.userId))
-      .innerJoin(issuerUsers, eq(issuerUsers.id, userBans.issuedBy))
-      .leftJoin(revokerUsers, eq(revokerUsers.id, userBans.revokedBy))
       .where(and(
         eq(userBans.userId, args.userId),
         isNull(userBans.revokedAt),

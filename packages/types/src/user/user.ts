@@ -39,6 +39,10 @@ export interface UserStatsType {
 
 export type UserPublicType = Pick<UserType, "id" | "name" | "image" | "createdAt">
 
+export type UserProfileType = Omit<UserType, "password"> & {
+  isBanned: boolean
+}
+
 export type ManagedUserType = Pick<
   UserType,
   "id" | "name" | "image" | "roles" | "email" | "signUpMethod" | "createdAt" | "updatedAt"
