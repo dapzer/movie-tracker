@@ -3,9 +3,9 @@ import type { GetUserBansArgs } from "~/api/userBans/userBansApiTypes"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
 import { useGetUserBansApi } from "~/api/userBans/useUserBansApi"
-import UserBansFilters from "~/features/userBans/ui/UserBansFilters.vue"
 import UserBansTable from "~/features/userBans/ui/userBansTable/UserBansTable.vue"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
+import UserBansFilters from "./filters/UserBansFilters.vue"
 
 type UserBanStatusFilter = "active" | "expired"
 

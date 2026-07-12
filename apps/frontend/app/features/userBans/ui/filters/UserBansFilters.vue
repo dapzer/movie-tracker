@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UserBansExpiredFilterPopover from "~/features/userBans/ui/UserBansExpiredFilterPopover.vue"
+import UserBansExpiredFilterPopover from "~/features/userBans/ui/filters/UserBansExpiredFilterPopover.vue"
 import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
 
