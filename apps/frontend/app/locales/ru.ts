@@ -1441,6 +1441,9 @@ export default {
     actions: {
       ban: "Заблокировать пользователя",
     },
+    filters: {
+      searchPlaceholder: "Поиск по ID или имени",
+    },
     ban: {
       modal: {
         title: "Заблокировать пользователя",

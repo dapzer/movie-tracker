@@ -1439,6 +1439,9 @@ export default {
     actions: {
       ban: "Ban user",
     },
+    filters: {
+      searchPlaceholder: "Search by ID or name",
+    },
     ban: {
       modal: {
         title: "Ban user",

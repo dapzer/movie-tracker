@@ -9,6 +9,7 @@ export async function getUsersApi(args: GetUsersArgs, options?: Omit<RequestOpti
     params: {
       limit: args.limit,
       offset: args.offset,
+      searchTerm: args.searchTerm,
     },
   })
 }
