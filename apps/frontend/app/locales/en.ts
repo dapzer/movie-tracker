@@ -17,8 +17,8 @@ export default {
     tabs: {
       systemManagement: "System management",
       reviewsModeration: "Reviews moderation",
-      usersModeration: "Users management",
-      userBansModeration: "User bans",
+      usersManagement: "Users management",
+      userBansManagement: "User bans management",
     },
     dataGeneration: "Data generation",
     dataSummary: "Data summary",

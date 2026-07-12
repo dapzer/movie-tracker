@@ -3,8 +3,8 @@ import {
   UserBan,
   UserBanCreateBodyType,
   UserBanRevokeBodyType,
-  UserBanStatusFilter,
   UserBansPaginatedType,
+  UserBanStatusFilter,
 } from "@movie-tracker/types"
 
 export const UserBanRepositorySymbol = Symbol("UserBanRepository")
