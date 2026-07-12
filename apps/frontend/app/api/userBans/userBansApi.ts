@@ -14,7 +14,7 @@ export function getUserBansApi(args: GetUserBansArgs, options?: Omit<RequestOpti
     params: {
       limit: args.limit,
       offset: args.offset,
-      expired: args.expired,
+      status: args.status,
       userId: args.userId,
     },
   })

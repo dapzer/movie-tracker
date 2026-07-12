@@ -1,7 +1,7 @@
-import type { PaginationType, UserBanCreateBodyType } from "@movie-tracker/types"
+import type { PaginationType, UserBanCreateBodyType, UserBanStatusFilter } from "@movie-tracker/types"
 
 export interface GetUserBansArgs extends PaginationType {
-  expired?: boolean
+  status?: UserBanStatusFilter[]
   userId?: string
 }
 

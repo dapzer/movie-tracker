@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { UserBanStatusFilter } from "@movie-tracker/types"
 import type { GetUserBansArgs } from "~/api/userBans/userBansApiTypes"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
@@ -6,8 +7,6 @@ import { useGetUserBansApi } from "~/api/userBans/useUserBansApi"
 import UserBansTable from "~/features/userBans/ui/userBansTable/UserBansTable.vue"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import UserBansFilters from "./filters/UserBansFilters.vue"
-
-type UserBanStatusFilter = "active" | "expired"
 
 const PAGE_SIZE = 10
 
@@ -28,20 +27,12 @@ const statuses = useRouteQuery<string, UserBanStatusFilter[]>("status", "", {
   },
 })
 
-const expired = computed(() => {
-  if (statuses.value.length === 0 || statuses.value.length === 2) {
-    return undefined
-  }
-
-  return !!statuses.value.includes("expired")
-})
-
 const getUserBansArgs = computed<GetUserBansArgs>(() => ({
   ...getPaginationParams({
     page: currentPage.value,
     itemsPerPage: PAGE_SIZE,
   }),
-  expired: expired.value,
+  status: statuses.value.length ? statuses.value : undefined,
   userId: userId.value || undefined,
 }))
 

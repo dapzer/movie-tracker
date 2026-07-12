@@ -1480,6 +1480,7 @@ export default {
         title: "Status",
         active: "Active",
         expired: "Expired",
+        revoked: "Revoked",
       },
     },
     table: {

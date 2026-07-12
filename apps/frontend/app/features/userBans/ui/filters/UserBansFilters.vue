@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import type { UserBanStatusFilter } from "@movie-tracker/types"
 import UserBansExpiredFilterPopover from "~/features/userBans/ui/filters/UserBansExpiredFilterPopover.vue"
 import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
-
-type UserBanStatusFilter = "active" | "expired"
 
 const userId = defineModel<string>("userId", { default: "" })
 const statuses = defineModel<UserBanStatusFilter[]>("statuses", { default: () => [] })

@@ -3,6 +3,7 @@ import {
   UserBan,
   UserBanCreateBodyType,
   UserBanRevokeBodyType,
+  UserBanStatusFilter,
   UserBansPaginatedType,
 } from "@movie-tracker/types"
 
@@ -10,7 +11,7 @@ export const UserBanRepositorySymbol = Symbol("UserBanRepository")
 
 export interface UserBanRepositoryInterface {
   getList: (args: {
-    expired?: boolean
+    status?: UserBanStatusFilter[]
     userId?: string
   } & PaginationType) => Promise<UserBansPaginatedType>
 

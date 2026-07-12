@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import type { UserBanStatusFilter } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed, ref, watch } from "vue"
 import { UiCheckboxList } from "~/shared/ui/UiCheckboxList"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
-
-type UserBanStatusFilter = "active" | "expired"
 
 const statuses = defineModel<UserBanStatusFilter[]>({ default: () => [] })
 const openModel = ref(false)
@@ -21,6 +20,10 @@ const statusOptions = computed(() => [
   {
     label: t("userBans.filters.status.expired"),
     value: "expired",
+  },
+  {
+    label: t("userBans.filters.status.revoked"),
+    value: "revoked",
   },
 ])
 

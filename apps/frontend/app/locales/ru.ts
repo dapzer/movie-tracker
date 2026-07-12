@@ -1482,6 +1482,7 @@ export default {
         title: "Статус",
         active: "Активные",
         expired: "Истекшие",
+        revoked: "Отозванные",
       },
     },
     table: {

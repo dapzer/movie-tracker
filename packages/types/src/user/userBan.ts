@@ -1,6 +1,8 @@
 import { UserPublicType } from "./user"
 
 export type BanReason = "SPAM" | "TOXICITY" | "MSFW" | "FRAUD" | "OTHER"
+export const UserBanStatusFilterValues = ["active", "expired", "revoked"] as const
+export type UserBanStatusFilter = typeof UserBanStatusFilterValues[number]
 
 export interface UserBan {
   id: string

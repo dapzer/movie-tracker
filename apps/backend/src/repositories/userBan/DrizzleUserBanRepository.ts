@@ -8,7 +8,7 @@ import {
   UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, count, desc, eq, gt, isNull, lte, or } from "drizzle-orm"
+import { and, count, desc, eq, gt, isNotNull, isNull, lte, or, SQL } from "drizzle-orm"
 import { alias } from "drizzle-orm/pg-core"
 import { UserBanRepositoryInterface } from "@/repositories/userBan/UserBanRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
@@ -76,15 +76,30 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
     args: Parameters<UserBanRepositoryInterface["getList"]>[0],
   ) {
     const dateNow = new Date()
+    const statusFilters: SQL[] = []
 
-    const expiresAtFilter = args.expired === true
-      ? lte(userBans.expiresAt, dateNow)
-      : args.expired === false
-        ? or(isNull(userBans.expiresAt), gt(userBans.expiresAt, dateNow))
-        : undefined
+    if (args.status?.includes("active")) {
+      statusFilters.push(and(
+        isNull(userBans.revokedAt),
+        or(isNull(userBans.expiresAt), gt(userBans.expiresAt, dateNow)),
+      ))
+    }
+
+    if (args.status?.includes("expired")) {
+      statusFilters.push(and(
+        isNull(userBans.revokedAt),
+        lte(userBans.expiresAt, dateNow),
+      ))
+    }
+
+    if (args.status?.includes("revoked")) {
+      statusFilters.push(isNotNull(userBans.revokedAt))
+    }
+
+    const statusFilter = statusFilters.length ? or(...statusFilters) : undefined
     const filter = and(
       args.userId ? eq(userBans.userId, args.userId) : undefined,
-      expiresAtFilter,
+      statusFilter,
     )
 
     const [rows, [totalCountResult]] = await Promise.all([
