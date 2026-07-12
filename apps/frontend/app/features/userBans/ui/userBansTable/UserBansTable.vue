@@ -46,6 +46,12 @@ const currentPage = defineModel<number>("currentPage", { default: 1 })
           <UiTableHead :width="180">
             {{ $t("userBans.table.createdAt") }}
           </UiTableHead>
+          <UiTableHead
+            :width="110"
+            align="right"
+          >
+            {{ $t("userBans.table.actions") }}
+          </UiTableHead>
         </UiTableRow>
       </UiTableHeader>
 

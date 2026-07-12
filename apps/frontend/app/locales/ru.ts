@@ -1493,6 +1493,16 @@ export default {
       expiresAt: "Истекает",
       status: "Статус",
       permanent: "Навсегда",
+      actions: "Действия",
+    },
+    actions: {
+      revoke: "Отозвать блокировку",
+    },
+    revoke: {
+      confirm: {
+        title: "Отозвать блокировку",
+        description: "Вы уверены, что хотите отозвать блокировку для {userName}?",
+      },
     },
     status: {
       active: "Активна",
@@ -1771,6 +1781,8 @@ export default {
     userBan: {
       successCreated: "Пользователь успешно заблокирован",
       unsuccessfullyCreated: "Произошла ошибка при блокировке пользователя",
+      successRevoked: "Блокировка успешно отозвана",
+      unsuccessfullyRevoked: "Произошла ошибка при отзыве блокировки",
     },
     releaseSubscription: {
       tv: {

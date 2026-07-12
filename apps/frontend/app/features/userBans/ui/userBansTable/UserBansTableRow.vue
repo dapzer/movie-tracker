@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { BanReason, UserBan, UserPublicType } from "@movie-tracker/types"
+import type { UiBadgeColor } from "~/shared/ui/UiBadge"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { computed } from "vue"
+import UserBansTableRowActions from "~/features/userBans/ui/userBansTable/UserBansTableRowActions.vue"
 import { UiBadge } from "~/shared/ui/UiBadge"
 import { UiTableCell, UiTableRow } from "~/shared/ui/UiTable"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -45,6 +47,19 @@ function getReasonText(reason: BanReason) {
   }
 }
 
+const statusTagColor = computed<UiBadgeColor>(() => {
+  switch (status.value) {
+    case "active":
+      return "primary"
+    case "expired":
+      return "gray"
+    case "revoked":
+      return "orange"
+    default:
+      return "gray"
+  }
+})
+
 function getUserProfileUrl(user?: UserPublicType) {
   return user ? localePath(`/profile/${user.id}`) : undefined
 }
@@ -70,7 +85,7 @@ function getUserProfileUrl(user?: UserPublicType) {
     <UiTableCell>
       <UiBadge
         size="small"
-        :color="status === 'active' ? 'primary' : 'tertiary'"
+        :color="statusTagColor"
       >
         {{ $t(`userBans.status.${status}`) }}
       </UiBadge>
@@ -100,6 +115,9 @@ function getUserProfileUrl(user?: UserPublicType) {
     </UiTableCell>
     <UiTableCell>
       {{ formatDateWithTime(props.userBan.createdAt, locale) }}
+    </UiTableCell>
+    <UiTableCell align="right">
+      <UserBansTableRowActions :user-ban="props.userBan" />
     </UiTableCell>
   </UiTableRow>
 </template>

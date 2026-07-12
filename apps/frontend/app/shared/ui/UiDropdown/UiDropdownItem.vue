@@ -42,6 +42,11 @@ const size = inject<UiDropdownSize | undefined>(uiDropdownSizeInjectionKey)
 
 .wrapper {
   @include dropdownItem;
+
+  &[data-disabled] {
+    opacity: var(--s-disabled-opacity);
+    pointer-events: none;
+  }
 }
 
 .wrapperSmall {

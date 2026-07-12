@@ -42,5 +42,12 @@ import { UiUserProfileLinkSkeleton } from "~/shared/ui/UiUserProfileLink"
         is-fixed-width
       />
     </UiTableCell>
+    <UiTableCell align="right">
+      <UiSkeleton
+        :width="24"
+        :height="24"
+        is-fixed-width
+      />
+    </UiTableCell>
   </UiTableRow>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiModal } from "~/shared/ui/UiModal"
 
@@ -20,6 +20,14 @@ const emit = defineEmits<{
 const slots = defineSlots()
 const model = defineModel<boolean>()
 const isOpen = ref(model.value ?? false)
+
+watch(model, (value) => {
+  isOpen.value = value ?? false
+})
+
+watch(isOpen, (value) => {
+  model.value = value
+})
 
 function handleCancel() {
   emit("cancel")

@@ -38,7 +38,7 @@ async function onBanUserModalOpen() {
         size="small"
         :aria-label="$t('users.table.actions')"
       >
-        <UiIcon name="icon:settings" />
+        <UiIcon name="icon:ellipsis-vertical" />
       </UiButton>
     </template>
 

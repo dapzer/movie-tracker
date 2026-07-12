@@ -1491,6 +1491,16 @@ export default {
       expiresAt: "Expires",
       status: "Status",
       permanent: "Permanent",
+      actions: "Actions",
+    },
+    actions: {
+      revoke: "Revoke ban",
+    },
+    revoke: {
+      confirm: {
+        title: "Revoke ban",
+        description: "Are you sure you want to revoke the ban for {userName}?",
+      },
     },
     status: {
       active: "Active",
@@ -1769,6 +1779,8 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     userBan: {
       successCreated: "User banned successfully",
       unsuccessfullyCreated: "An error occurred while banning the user",
+      successRevoked: "Ban revoked successfully",
+      unsuccessfullyRevoked: "An error occurred while revoking the ban",
     },
     releaseSubscription: {
       tv: {

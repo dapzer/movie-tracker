@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export type UiBadgeSize = "small" | "medium"
-export type UiBadgeColor = "primary" | "tertiary"
+export type UiBadgeColor = "primary" | "tertiary" | "gray" | "orange"
 
 interface UiBadgeProps {
   size?: UiBadgeSize
@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<UiBadgeProps>(), {
       [$style.medium]: props.size === 'medium',
       [$style.primary]: props.color === 'primary',
       [$style.tertiary]: props.color === 'tertiary',
+      [$style.gray]: props.color === 'gray',
+      [$style.orange]: props.color === 'orange',
     }]"
   >
     <slot />
@@ -59,5 +61,15 @@ const props = withDefaults(defineProps<UiBadgeProps>(), {
 
 .tertiary {
   background-color: var(--c-badge-tertiary);
+}
+
+.gray {
+  background-color: var(--c-white-06);
+  color: var(--c-white-75);
+}
+
+.orange {
+  background-color: var(--c-orange-15);
+  color: var(--c-orange);
 }
 </style>
