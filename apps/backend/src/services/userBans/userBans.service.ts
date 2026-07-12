@@ -1,11 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common"
-import {
-  UserBanRepositoryInterface,
-  UserBanRepositorySymbol,
-} from "@/repositories/userBan/UserBanRepositoryInterface"
+import { UserBanRepositoryInterface, UserBanRepositorySymbol } from "@/repositories/userBan/UserBanRepositoryInterface"
 import { CreateUserBanDto } from "@/services/userBans/dto/createUserBan.dto"
 import { GetUserBansQueryDto } from "@/services/userBans/dto/getUserBansQuery.dto"
-import { UserBanNotFoundError } from "@/shared/errors/userBan"
+import { UserBanAlreadyRevokedError, UserBanNotFoundError } from "@/shared/errors/userBan"
 
 @Injectable()
 export class UserBansService {
@@ -44,15 +41,19 @@ export class UserBansService {
   }
 
   async revoke(args: { id: string, currentUserId: string }) {
-    const userBan = await this.userBanRepository.revoke({
-      id: args.id,
-      revokedBy: args.currentUserId,
-    })
+    const userBan = await this.userBanRepository.getById({ id: args.id })
 
     if (!userBan) {
       throw new UserBanNotFoundError({ userBanId: args.id })
     }
 
-    return userBan
+    if (userBan.revokedAt) {
+      throw new UserBanAlreadyRevokedError({ userBanId: args.id })
+    }
+
+    return this.userBanRepository.revoke({
+      id: args.id,
+      revokedBy: args.currentUserId,
+    })
   }
 }

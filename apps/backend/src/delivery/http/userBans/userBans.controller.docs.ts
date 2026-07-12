@@ -1,5 +1,6 @@
 import { applyDecorators } from "@nestjs/common"
 import {
+  ApiBadRequestResponse,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -51,6 +52,7 @@ export function RevokeUserBanDocs() {
     ApiOperation({ summary: "Revoke user ban" }),
     ApiOkResponse({ description: "User ban revoked", type: UserBanDto }),
     ApiNotFoundResponse({ description: "User ban not found", type: ErrorResponseDto }),
+    ApiBadRequestResponse({ description: "User ban already revoked", type: ErrorResponseDto }),
     ...protectedResponses,
   )
 }
