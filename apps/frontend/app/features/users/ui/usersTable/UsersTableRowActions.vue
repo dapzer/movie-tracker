@@ -33,6 +33,7 @@ async function onBanUserModalOpen() {
   >
     <template #trigger>
       <UiButton
+        as="span"
         variant="icon"
         size="small"
         :aria-label="$t('users.table.actions')"
