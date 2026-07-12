@@ -10,6 +10,7 @@ import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
 import { createUserBanApi, getUserBanByIdApi, getUserBansApi, revokeUserBanApi } from "~/api/userBans/userBansApi"
 import { UserBansApiQueryKeys } from "~/api/userBans/userBansApiQueryKeys"
+import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
 
 export function useGetUserBansApi(args: Ref<GetUserBansArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
   return useQuery({
@@ -57,6 +58,7 @@ export function useCreateUserBanApi() {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_LIST] }),
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_BY_ID] }),
+        queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.LIST] }),
       ])
     },
   })
@@ -72,6 +74,7 @@ export function useRevokeUserBanApi() {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_LIST] }),
         queryClient.invalidateQueries({ queryKey: [UserBansApiQueryKeys.GET_BY_ID] }),
+        queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.LIST] }),
       ])
     },
   })

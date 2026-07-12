@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserPublicType } from "@movie-tracker/types"
+import type { ManagedUserType } from "@movie-tracker/types"
 import UsersTableRow from "~/features/users/ui/usersTable/UsersTableRow.vue"
 import UsersTableRowSkeleton from "~/features/users/ui/usersTable/UsersTableRowSkeleton.vue"
 import { UiAttention } from "~/shared/ui/UiAttention"
@@ -7,7 +7,7 @@ import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiTable, UiTableBody, UiTableHead, UiTableHeader, UiTableRow } from "~/shared/ui/UiTable"
 
 interface UsersTableProps {
-  users?: UserPublicType[]
+  users?: ManagedUserType[]
   totalCount?: number
   itemsPerPage?: number
   loading?: boolean
@@ -25,14 +25,26 @@ const currentPage = defineModel<number>("currentPage", { default: 1 })
     <UiTable>
       <UiTableHeader>
         <UiTableRow>
-          <UiTableHead :width="340">
+          <UiTableHead :width="300">
             {{ $t("users.table.user") }}
           </UiTableHead>
-          <UiTableHead :width="360">
-            {{ $t("users.table.id") }}
+          <UiTableHead :width="240">
+            {{ $t("users.table.email") }}
           </UiTableHead>
-          <UiTableHead :width="220">
+          <UiTableHead :width="160">
+            {{ $t("users.table.roles") }}
+          </UiTableHead>
+          <UiTableHead :width="160">
+            {{ $t("users.table.signUpMethod") }}
+          </UiTableHead>
+          <UiTableHead :width="150">
+            {{ $t("users.table.status") }}
+          </UiTableHead>
+          <UiTableHead :width="180">
             {{ $t("users.table.joined") }}
+          </UiTableHead>
+          <UiTableHead :width="180">
+            {{ $t("users.table.updated") }}
           </UiTableHead>
           <UiTableHead
             :width="120"

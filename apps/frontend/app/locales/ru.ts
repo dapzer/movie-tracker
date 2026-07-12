@@ -1436,8 +1436,17 @@ export default {
     table: {
       user: "Пользователь",
       id: "ID",
+      email: "Email",
+      roles: "Роли",
+      signUpMethod: "Способ регистрации",
+      status: "Статус",
       joined: "Дата регистрации",
+      updated: "Дата обновления",
       actions: "Действия",
+    },
+    status: {
+      active: "Активен",
+      banned: "Заблокирован",
     },
     actions: {
       ban: "Заблокировать пользователя",

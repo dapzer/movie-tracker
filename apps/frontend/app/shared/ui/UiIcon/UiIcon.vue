@@ -77,6 +77,7 @@ export type UiIconName = "icon:close"
   | "icon:thumb-down-outlined"
   | "icon:reviews-outlined"
   | "icon:ellipsis-vertical"
+  | "icon:copy"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

@@ -1434,8 +1434,17 @@ export default {
     table: {
       user: "User",
       id: "ID",
+      email: "Email",
+      roles: "Roles",
+      signUpMethod: "Sign-up method",
+      status: "Status",
       joined: "Joined",
+      updated: "Updated",
       actions: "Actions",
+    },
+    status: {
+      active: "Active",
+      banned: "Banned",
     },
     actions: {
       ban: "Ban user",

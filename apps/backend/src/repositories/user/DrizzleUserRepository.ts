@@ -1,7 +1,7 @@
 import { mediaListLikes, mediaLists, mediaRatings, userBans, users } from "@movie-tracker/database"
 import { ManagedUserType, SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, count, desc, eq, gt, isNull, or, sql } from "drizzle-orm"
+import { and, count, desc, eq, exists, gt, isNull, or, sql } from "drizzle-orm"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 
@@ -45,6 +45,7 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
 
   async getList(args: Parameters<UserRepositoryInterface["getList"]>[0]) {
     const searchTerm = args.searchTerm?.trim().toLowerCase()
+    const dateNow = new Date()
     const searchFilter = searchTerm
       ? or(
           sql`lower(cast(${users.id} as text)) like ${`%${searchTerm}%`}`,
@@ -56,12 +57,20 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
       this.drizzle.client
         .select({
           user: users,
-          isBanned: sql<boolean>`exists (
-            select 1 from ${userBans}
-            where ${userBans.userId} = ${users.id}
-              and ${isNull(userBans.revokedAt)}
-              and (${isNull(userBans.expiresAt)} or ${gt(userBans.expiresAt, new Date())})
-          )`,
+          isBanned: exists(
+            this.drizzle.client
+              .select({ id: userBans.id })
+              .from(userBans)
+              .where(and(
+                eq(userBans.userId, users.id),
+                isNull(userBans.revokedAt),
+                or(
+                  isNull(userBans.expiresAt),
+                  gt(userBans.expiresAt, dateNow),
+                ),
+              ))
+              .limit(1),
+          ).mapWith(Boolean),
         })
         .from(users)
         .where(searchFilter)

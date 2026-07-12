@@ -8,7 +8,7 @@ interface UiSpoilerTextProps {
 }
 
 const props = withDefaults(defineProps<UiSpoilerTextProps>(), {
-  as: "div",
+  as: "span",
   disabled: false,
 })
 

@@ -11,7 +11,37 @@ import { UiUserProfileLinkSkeleton } from "~/shared/ui/UiUserProfileLink"
     </UiTableCell>
     <UiTableCell>
       <UiSkeleton
-        :width="260"
+        :width="180"
+        is-fixed-width
+      />
+    </UiTableCell>
+    <UiTableCell>
+      <UiSkeleton
+        :width="180"
+        is-fixed-width
+      />
+    </UiTableCell>
+    <UiTableCell>
+      <UiSkeleton
+        :width="80"
+        is-fixed-width
+      />
+    </UiTableCell>
+    <UiTableCell>
+      <UiSkeleton
+        :width="100"
+        is-fixed-width
+      />
+    </UiTableCell>
+    <UiTableCell>
+      <UiSkeleton
+        :width="80"
+        is-fixed-width
+      />
+    </UiTableCell>
+    <UiTableCell>
+      <UiSkeleton
+        :width="160"
         is-fixed-width
       />
     </UiTableCell>
