@@ -26,4 +26,4 @@ export interface UserBansPaginatedType {
 
 export type UserBanCreateBodyType = Pick<UserBan, "userId" | "issuedBy" | "reason"> & Partial<Pick<UserBan, "comment" | "expiresAt">>
 
-export type UserBanRevokeBodyType = Pick<UserBan, "revokedBy"> & Partial<Pick<UserBan, "revokedAt">>
+export type UserBanRevokeBodyType = Pick<UserBan, "revokedBy">

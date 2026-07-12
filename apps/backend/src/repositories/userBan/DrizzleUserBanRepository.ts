@@ -215,7 +215,7 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
     const [row] = await this.drizzle.client
       .update(userBans)
       .set({
-        revokedAt: args.revokedAt ?? new Date(),
+        revokedAt: new Date(),
         revokedBy: args.revokedBy,
       })
       .where(eq(userBans.id, args.id))
