@@ -1,7 +1,7 @@
 import { mediaListLikes, mediaLists, mediaRatings, users } from "@movie-tracker/database"
 import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, count, desc, eq } from "drizzle-orm"
+import { and, count, desc, eq, or, sql } from "drizzle-orm"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 
@@ -30,16 +30,26 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
   }
 
   async getList(args: Parameters<UserRepositoryInterface["getList"]>[0]) {
+    const searchTerm = args.searchTerm?.trim().toLowerCase()
+    const searchFilter = searchTerm
+      ? or(
+          sql`lower(cast(${users.id} as text)) like ${`%${searchTerm}%`}`,
+          sql`lower(${users.name}) like ${`%${searchTerm}%`}`,
+        )
+      : undefined
+
     const [items, [totalCountResult]] = await Promise.all([
       this.drizzle.client
         .select()
         .from(users)
+        .where(searchFilter)
         .orderBy(desc(users.createdAt))
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
         .select({ count: count() })
-        .from(users),
+        .from(users)
+        .where(searchFilter),
     ])
 
     return {
