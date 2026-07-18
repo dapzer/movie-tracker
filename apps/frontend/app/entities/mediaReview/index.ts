@@ -1,4 +1,5 @@
 export { default as MediaReviewCard } from "./ui/card/MediaReviewCard.vue"
 export { default as MediaReviewCardSkeleton } from "./ui/card/MediaReviewCardSkeleton.vue"
+export { default as MediaReviewCardStatused } from "./ui/card/MediaReviewCardStatused.vue"
 export { default as MediaReviewForm } from "./ui/MediaReviewForm.vue"
 export { default as MediaReviewModerationCard } from "./ui/moderation/MediaReviewModerationCard.vue"

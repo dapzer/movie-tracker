@@ -1,6 +1,7 @@
 import { UserPublicType } from "../user"
 import { MediaDetailsType } from "./mediaDetails"
 import { MediaTypeEnum } from "./mediaItem"
+import { MediaReviewModerationLogReason } from "./mediaReviewModerationLog"
 
 export enum MediaReviewStatus {
   DRAFT = "DRAFT",
@@ -31,6 +32,10 @@ export interface MediaReview {
   likeId?: string
   dislikeId?: string
   rating?: number
+}
+
+export type MediaReviewWithReason = MediaReview & {
+  reason?: MediaReviewModerationLogReason
 }
 
 export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"

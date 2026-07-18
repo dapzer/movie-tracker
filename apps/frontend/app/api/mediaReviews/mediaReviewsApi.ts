@@ -1,4 +1,10 @@
-import type { MediaReview, MediaReviewDislike, MediaReviewLike, MediaReviewPaginatedType } from "@movie-tracker/types"
+import type {
+  MediaReview,
+  MediaReviewDislike,
+  MediaReviewLike,
+  MediaReviewPaginatedType,
+  MediaReviewWithReason,
+} from "@movie-tracker/types"
 import type { RequestOptions } from "@movie-tracker/utils"
 import type {
   CreateMediaReviewBody,
@@ -30,7 +36,7 @@ export function getMediaReviewsListApi(args: GetMediaReviewsListArgs, options?: 
 }
 
 export function getMediaReviewByCurrentUserAndMediaIdApi(args: GetMediaReviewByCurrentUserAndMediaIdArgs, options?: RequestOptions) {
-  return api.get<MediaReview | undefined>(`media-reviews/by-current-user-and-media/${args.mediaId}`, options)
+  return api.get<MediaReviewWithReason | undefined>(`media-reviews/by-current-user-and-media/${args.mediaId}`, options)
 }
 
 export function getMediaReviewByIdApi(args: GetMediaReviewByIdArgs, options?: RequestOptions) {

@@ -108,7 +108,7 @@ const userProfileUrl = computed(() => {
 }
 
 .avatarMobile {
-  display: none !important;
+  display: none;
 }
 
 @include mobileDevice() {

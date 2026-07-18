@@ -1,5 +1,4 @@
 import { mediaReviewsModerationLogs, users } from "@movie-tracker/database"
-import { eq } from "@movie-tracker/database/drizzle"
 import {
   MediaReviewModerationLog,
   MediaReviewModerationLogAction,
@@ -10,6 +9,7 @@ import {
   UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
+import { and, desc, eq } from "drizzle-orm"
 import {
   MediaReviewsModerationLogsRepositoryInterface,
 } from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
@@ -101,6 +101,26 @@ export class DrizzleMediaReviewsModerationLogsRepository implements MediaReviews
       moderationLog: el.moderationLog,
       moderator: el.moderator,
     }))
+  }
+
+  async getLatestByReviewIdAndAction(
+    args: Parameters<MediaReviewsModerationLogsRepositoryInterface["getLatestByReviewIdAndAction"]>[0],
+  ): Promise<MediaReviewModerationLog | undefined> {
+    const [row] = await this.drizzle.client
+      .select({
+        moderationLog: mediaReviewsModerationLogs,
+        moderator: users,
+      })
+      .from(mediaReviewsModerationLogs)
+      .leftJoin(users, eq(users.id, mediaReviewsModerationLogs.moderatorId))
+      .where(and(
+        eq(mediaReviewsModerationLogs.mediaReviewId, args.mediaReviewId),
+        eq(mediaReviewsModerationLogs.action, args.action),
+      ))
+      .orderBy(desc(mediaReviewsModerationLogs.createdAt))
+      .limit(1)
+
+    return this.convertToInterface(row)
   }
 
   async create(

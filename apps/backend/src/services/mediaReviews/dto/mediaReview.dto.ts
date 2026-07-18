@@ -2,6 +2,7 @@ import {
   MEDIA_REVIEW_CONTENT_MAX_LENGTH,
   MEDIA_REVIEW_CONTENT_MIN_LENGTH,
   MEDIA_REVIEW_TITLE_MAX_LENGTH,
+  MediaReviewModerationLogReason,
   MediaReviewStatus,
   MediaTypeEnum,
 } from "@movie-tracker/types"
@@ -41,6 +42,13 @@ const mediaReviewSchema = z.object({
   rating: z.number().min(0).max(10).optional().meta({ minimum: 0, maximum: 10, example: 8 }),
 })
 
+const mediaReviewWithReasonSchema = mediaReviewSchema.extend({
+  reason: z.enum(MediaReviewModerationLogReason).nullable().optional().meta({
+    enum: MediaReviewModerationLogReason,
+    example: MediaReviewModerationLogReason.SPAM,
+  }),
+})
+
 const mediaReviewLikeSchema = z.object({
   id: z.uuid().meta({ format: "uuid", example: "a23d2b67-8a7e-4f70-9c8b-0a8f7a53c021" }),
   userId: z.uuid().meta({ format: "uuid", example: "b10c5d0d-4ce2-4e31-8d1a-7d1a0b944b3a" }),
@@ -62,6 +70,8 @@ const mediaReviewDislikeSchema = z.object({
 })
 
 export class MediaReviewDto extends createZodDto(mediaReviewSchema) {}
+
+export class MediaReviewWithReasonDto extends createZodDto(mediaReviewWithReasonSchema) {}
 
 export class MediaReviewLikeDto extends createZodDto(mediaReviewLikeSchema) {}
 

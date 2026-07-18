@@ -194,16 +194,6 @@ function handleBeforeUnload(event: Event) {
 useEventListener(window, "beforeunload", handleBeforeUnload)
 
 async function handleCancel() {
-  if (props.currentReview) {
-    await deleteMediaReviewApi.mutateAsync({ id: props.currentReview.id })
-      .then(() => {
-        toast.success(t("toasts.mediaReview.successDeleted"))
-      })
-      .catch((err) => {
-        toast.error(t("toasts.mediaReview.unsuccessfullyDeleted"))
-        throw err
-      })
-  }
   emits("onCancel")
 }
 

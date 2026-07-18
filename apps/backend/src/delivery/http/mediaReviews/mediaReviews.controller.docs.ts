@@ -15,6 +15,7 @@ import {
   MediaReviewDto,
   MediaReviewLikeDto,
   MediaReviewPaginatedDto,
+  MediaReviewWithReasonDto,
 } from "@/services/mediaReviews/dto/mediaReview.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
@@ -34,7 +35,7 @@ export function GetMediaReviewByCurrentUserAndMediaIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get current user media review by media id" }),
     ApiSecurity("cookie"),
-    ApiOkResponse({ description: "Current user media review", type: MediaReviewDto }),
+    ApiOkResponse({ description: "Current user media review", type: MediaReviewWithReasonDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media review not found", type: ErrorResponseDto }),
   )

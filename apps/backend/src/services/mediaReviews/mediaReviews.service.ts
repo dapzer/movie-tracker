@@ -1,4 +1,10 @@
-import { MediaReviewStatus, UserRoleEnum } from "@movie-tracker/types"
+import type { MediaReviewWithReason } from "@movie-tracker/types"
+import {
+  MediaReviewModerationLogAction,
+  MediaReviewStatus,
+
+  UserRoleEnum,
+} from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
@@ -12,6 +18,10 @@ import {
   MediaReviewLikeRepositoryInterface,
   MediaReviewLikeRepositorySymbol,
 } from "@/repositories/mediaReviewLike/MediaReviewLikeRepositoryInterface"
+import {
+  MediaReviewsModerationLogsRepositoryInterface,
+  MediaReviewsModerationLogsRepositorySymbol,
+} from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaReview.dto"
 import { CreateMediaReviewDislikeDto } from "@/services/mediaReviews/dto/createMediaReviewDislike.dto"
@@ -40,6 +50,8 @@ export class MediaReviewsService {
     private readonly mediaReviewLikeRepository: MediaReviewLikeRepositoryInterface,
     @Inject(MediaReviewDislikeRepositorySymbol)
     private readonly mediaReviewDislikeRepository: MediaReviewDislikeRepositoryInterface,
+    @Inject(MediaReviewsModerationLogsRepositorySymbol)
+    private readonly moderationLogsRepository: MediaReviewsModerationLogsRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
   ) {
   }
@@ -54,7 +66,7 @@ export class MediaReviewsService {
     return mediaReview
   }
 
-  async getByCurrentUserAndMediaId(args: { mediaId: number, currentUserId: string }) {
+  async getByCurrentUserAndMediaId(args: { mediaId: number, currentUserId: string }): Promise<MediaReviewWithReason> {
     const mediaReview = await this.mediaReviewRepository.getByUserIdAndMediaId({
       userId: args.currentUserId,
       mediaId: args.mediaId,
@@ -65,7 +77,23 @@ export class MediaReviewsService {
       throw new MediaReviewNotFoundError({ mediaId: args.mediaId })
     }
 
-    return mediaReview
+    if (![MediaReviewStatus.DRAFT, MediaReviewStatus.REMOVED].includes(mediaReview.status)) {
+      return mediaReview
+    }
+
+    const action = mediaReview.status === MediaReviewStatus.DRAFT
+      ? MediaReviewModerationLogAction.CHANGES_REQUESTED
+      : MediaReviewModerationLogAction.REJECTED
+
+    const moderationLog = await this.moderationLogsRepository.getLatestByReviewIdAndAction({
+      mediaReviewId: mediaReview.id,
+      action,
+    })
+
+    return {
+      ...mediaReview,
+      reason: moderationLog?.reason,
+    }
   }
 
   async getByMediaId(args: { mediaId: number, currentUser?: UserType } & PaginationDto) {

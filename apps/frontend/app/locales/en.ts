@@ -1604,7 +1604,7 @@ export default {
         status: "Status",
       },
       reviewStatus: {
-        draft: "Draft",
+        draft: "Changes requested",
         pending: "Pending",
         published: "Published",
         removed: "Removed",
@@ -1615,6 +1615,7 @@ export default {
         removed: "Reject",
       },
       reason: {
+        title: "Reason",
         offTopic: "Off topic",
         spam: "Spam",
         toxicity: "Toxicity",

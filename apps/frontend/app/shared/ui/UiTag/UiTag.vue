@@ -3,7 +3,7 @@ import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import type { UiTypographyVariant } from "~/shared/ui/UiTypography"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-export type UiTagColor = "gray" | "green" | "orange" | "blue"
+export type UiTagColor = "gray" | "green" | "orange" | "blue" | "yellow" | "tertiary"
 export type UiTagVariant = "boxed"
 
 interface UiTagProps {
@@ -28,6 +28,8 @@ const props = withDefaults(defineProps<UiTagProps>(), {
       [$style.orange]: props.color === 'orange',
       [$style.gray]: props.color === 'gray',
       [$style.blue]: props.color === 'blue',
+      [$style.yellow]: props.color === 'yellow',
+      [$style.tertiary]: props.color === 'tertiary',
       [$style.boxed]: props.variant === 'boxed',
     }]"
   >
@@ -105,6 +107,22 @@ const props = withDefaults(defineProps<UiTagProps>(), {
 
     .value {
       color: var(--c-label-link);
+    }
+  }
+
+  &.yellow {
+    background-color: var(--c-yellow-08);
+
+    .value {
+      color: var(--c-yellow);
+    }
+  }
+
+  &.tertiary {
+    background-color: var(--c-tag-tertiary-background);
+
+    .value {
+      color: var(--c-tag-tertiary);
     }
   }
 

@@ -2,12 +2,17 @@
 import type { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { computed } from "#imports"
 import { MediaReviewStatus } from "@movie-tracker/types"
-import { ref, watch } from "vue"
+import { ref } from "vue"
 import {
   useGetMediaReviewByCurrentUserAndMediaIdApi,
   useGetMediaReviewsByMediaIdApi,
 } from "~/api/mediaReviews/useMediaReviewsApi"
-import { MediaReviewCard, MediaReviewCardSkeleton, MediaReviewForm } from "~/entities/mediaReview"
+import {
+  MediaReviewCard,
+  MediaReviewCardSkeleton,
+  MediaReviewCardStatused,
+  MediaReviewForm,
+} from "~/entities/mediaReview"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -50,14 +55,14 @@ await Promise.all([
   getMediaReviewByCurrentUserAndMediaIdApi.suspense(),
 ])
 
-const isDraftExists = computed(() => {
-  return getMediaReviewByCurrentUserAndMediaIdApi.data.value?.status === MediaReviewStatus.DRAFT
+const createFormVisible = ref<boolean>(false)
+
+const currentReview = computed(() => {
+  return getMediaReviewByCurrentUserAndMediaIdApi.data.value
 })
 
-const createFormVisible = ref<boolean>(isDraftExists.value)
-
-watch(() => isDraftExists.value, (newValue) => {
-  createFormVisible.value = Boolean(newValue)
+const isShowStatusedCard = computed(() => {
+  return currentReview.value && [MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING, MediaReviewStatus.REMOVED].includes(currentReview.value.status) && !createFormVisible.value
 })
 
 const data = computed(() => {
@@ -67,8 +72,12 @@ const data = computed(() => {
 const isPublishedReviewsExists = computed(() => {
   const data = getMediaReviewByCurrentUserAndMediaIdApi.data.value
   const status = data?.status
-  return data && status !== MediaReviewStatus.DRAFT && status !== MediaReviewStatus.DELETED
+  return data && status !== MediaReviewStatus.DELETED
 })
+
+function handleStartEditing() {
+  createFormVisible.value = true
+}
 </script>
 
 <template>
@@ -121,9 +130,14 @@ const isPublishedReviewsExists = computed(() => {
         v-if="createFormVisible"
         :media-id="props.mediaId"
         :media-type="props.mediaType"
-        :current-review="getMediaReviewByCurrentUserAndMediaIdApi.data.value"
+        :current-review="currentReview"
         @on-cancel="createFormVisible = false"
         @on-success="createFormVisible = false"
+      />
+      <MediaReviewCardStatused
+        v-if="isShowStatusedCard && currentReview"
+        :media-review="currentReview"
+        @on-edit-click="handleStartEditing"
       />
       <template v-if="!getMediaReviewsByMediaIdApi.isPending.value && data?.items.length">
         <MediaReviewCard

@@ -113,18 +113,20 @@ export function useCreateMediaReviewApi() {
     mutationKey: [MediaReviewsApiQueryKeys.CREATE],
     mutationFn: (body: CreateMediaReviewBody) => createMediaReviewApi(body),
     onSuccess: async (data: MediaReview) => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
+        }),
+      ])
       queryClient.setQueryData([MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }], data)
     },
   })
@@ -136,18 +138,20 @@ export function useUpdateMediaReviewApi() {
     mutationKey: [MediaReviewsApiQueryKeys.UPDATE],
     mutationFn: (args: UpdateMediaReviewArgs) => updateMediaReviewApi(args),
     onSuccess: async (data: MediaReview) => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
+        }),
+      ])
       queryClient.setQueryData([MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }], data)
     },
   })
@@ -159,18 +163,21 @@ export function useDeleteMediaReviewApi() {
     mutationKey: [MediaReviewsApiQueryKeys.DELETE],
     mutationFn: (args: DeleteMediaReviewArgs) => deleteMediaReviewApi(args),
     onSuccess: async (data: MediaReview) => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
-      })
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_LIST],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+      ])
+      queryClient.setQueriesData(
+        { queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID, { mediaId: data.mediaId }] },
+        data,
+      )
       queryClient.removeQueries({
         queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
       })

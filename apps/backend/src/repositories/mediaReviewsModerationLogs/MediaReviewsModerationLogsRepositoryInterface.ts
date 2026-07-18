@@ -1,4 +1,4 @@
-import { MediaReviewModerationLog, MediaReviewModerationLogCreateBodyType } from "@movie-tracker/types"
+import { MediaReviewModerationLog, MediaReviewModerationLogAction, MediaReviewModerationLogCreateBodyType } from "@movie-tracker/types"
 
 export const MediaReviewsModerationLogsRepositorySymbol = Symbol("MediaReviewsModerationLogsRepository")
 
@@ -10,6 +10,11 @@ export interface MediaReviewsModerationLogsRepositoryInterface {
   getByReviewId: (args: {
     mediaReviewId: string
   }) => Promise<MediaReviewModerationLog[]>
+
+  getLatestByReviewIdAndAction: (args: {
+    mediaReviewId: string
+    action: MediaReviewModerationLogAction
+  }) => Promise<MediaReviewModerationLog | undefined>
 
   create: (args: {
     moderatorId: string

@@ -1606,7 +1606,7 @@ export default {
         status: "Статус",
       },
       reviewStatus: {
-        draft: "Черновик",
+        draft: "Требуются изменения",
         pending: "На модерации",
         published: "Опубликована",
         removed: "Удалена",
@@ -1617,6 +1617,7 @@ export default {
         removed: "Удалить",
       },
       reason: {
+        title: "Причина",
         offTopic: "Не по теме",
         spam: "Спам",
         toxicity: "Токсичность",
