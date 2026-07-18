@@ -1293,6 +1293,7 @@ export default {
     rate: "Rate",
     howRate: "How would you rate",
     deleteRate: "Delete rating",
+    removeRate: "Remove rating",
     updateRate: "Update rating",
   },
   accountSettings: {

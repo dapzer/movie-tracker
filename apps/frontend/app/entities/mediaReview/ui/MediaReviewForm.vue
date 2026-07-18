@@ -88,6 +88,11 @@ const initialValue = computed(() => {
   }
 })
 
+function handleRemoveRate() {
+  selectedRating.value = undefined
+  hoveredRating.value = undefined
+}
+
 async function handleUpdateRating() {
   const currentRating = getMediaRatingApi.data.value
   if (selectedRating.value !== currentRating?.rating) {
@@ -229,20 +234,31 @@ const isRatingChanged = computed(() => {
     />
     <div :class="$style.content">
       <div :class="$style.rating">
-        <UiTypography variant="subheading">
-          {{ $t("mediaReviews.yourRating") }}
-        </UiTypography>
         <div>
-          <UiStarsList
-            v-model="selectedRating"
-            v-model:hovered-rating="hoveredRating"
-            :size="20"
-            :disabled="isLoading"
-          />
-          <UiTypography v-if="hoveredRating || selectedRating">
-            {{ hoveredRating || selectedRating }}
+          <UiTypography variant="subheading">
+            {{ $t("mediaReviews.yourRating") }}
           </UiTypography>
+          <div :class="$style.selectedRating">
+            <UiStarsList
+              v-model="selectedRating"
+              v-model:hovered-rating="hoveredRating"
+              :size="20"
+              :disabled="isLoading"
+            />
+            <UiTypography v-if="hoveredRating || selectedRating">
+              {{ hoveredRating || selectedRating }}
+            </UiTypography>
+          </div>
         </div>
+        <UiButton
+          v-if="selectedRating"
+          variant="text"
+          scheme="tertiary"
+          :disabled="isLoading"
+          @click="handleRemoveRate"
+        >
+          {{ $t("mediaRating.removeRate") }}
+        </UiButton>
       </div>
 
       <UiInput
@@ -317,18 +333,36 @@ const isRatingChanged = computed(() => {
 
 .rating {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
   gap: 24px;
 
   @include mobilePlusDevice() {
     flex-direction: column;
+    align-items: flex-start;
     gap: 4px;
   }
 
   & > div {
     display: flex;
+    align-items: flex-start;
+    gap: 24px;
+
+    @include mobilePlusDevice() {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  .selectedRating {
+    display: flex;
     align-items: center;
     gap: 10px;
+
+    & button {
+      height: 24px;
+      width: 24px;
+    }
   }
 }
 

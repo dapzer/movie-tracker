@@ -1294,6 +1294,7 @@ export default {
     rate: "Оценить",
     howRate: "Как бы вы оценили",
     deleteRate: "Удалить оценку",
+    removeRate: "Удалить оценку",
     updateRate: "Обновить оценку",
   },
   accountSettings: {
