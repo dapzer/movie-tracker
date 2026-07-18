@@ -21,7 +21,7 @@ import {
   UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { count, sql } from "drizzle-orm"
+import { count, not, sql } from "drizzle-orm"
 import { MediaReviewRepositoryInterface } from "@/repositories/mediaReview/MediaReviewRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getPublicUser } from "@/shared/utils/getPublicUser"
@@ -219,6 +219,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         and(
           eq(mediaReviews.userId, args.userId),
           eq(mediaReviews.mediaId, args.mediaId),
+          not(eq(mediaReviews.status, MediaReviewStatus.DELETED)),
         ),
       )
       .limit(1)

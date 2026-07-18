@@ -1582,6 +1582,10 @@ export default {
     createTooltip: "You have already written a review for this title",
     noReviews: "There are no reviews for this title yet",
     yourRating: "Your rating",
+    deleteModal: {
+      title: "Delete review",
+      description: "Are you sure you want to delete your review? This action cannot be undone.",
+    },
     form: {
       publish: "Publish",
       title: "Headline of review (optional)",

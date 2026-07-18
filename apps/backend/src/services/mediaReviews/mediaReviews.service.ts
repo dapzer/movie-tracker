@@ -167,7 +167,10 @@ export class MediaReviewsService {
       throw new MediaReviewUnauthorizedError({ userId: args.userId, mediaReviewId: args.id })
     }
 
-    return this.mediaReviewRepository.delete(args.id)
+    return this.mediaReviewRepository.update({
+      id: args.id,
+      status: MediaReviewStatus.DELETED,
+    })
   }
 
   async getLikesByReviewId(args: { mediaReviewId: string }) {
