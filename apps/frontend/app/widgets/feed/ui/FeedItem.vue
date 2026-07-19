@@ -1,14 +1,14 @@
 <script generic="T" setup lang="ts">
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
-import { UiSlider } from "~/shared/ui/UiSlider"
+import FeedSlider from "~/widgets/feed/ui/FeedSlider.vue"
 
 interface FeedItemProps<T> {
   data: T[] | undefined
   title: string
   seeMoreUrl: string
-  isLoading?: boolean
-  slideWidth?: number
+  isLoading: boolean
+  slideWidth: number
   sliderWithShadow?: boolean
 }
 
@@ -24,15 +24,16 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i)
     see-more-align="end"
     :see-more-url="props.seeMoreUrl"
   >
-    <UiSlider
+    <FeedSlider
       :buttons-top-offset="142"
       :class="$style.slider"
-      :data="isLoading ? loadingArray as T[] : props.data as T[]"
-      :max-width="props.slideWidth"
+      :data="props.data"
+      :slide-width="props.slideWidth"
       :with-shadow="props.sliderWithShadow"
+      :is-loading="isLoading"
+      :skeletons-count="20"
     >
       <template
-        v-if="!isLoading"
         #slide="{ item }"
       >
         <slot
@@ -41,12 +42,11 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i)
         />
       </template>
       <template
-        v-else
-        #slide
+        #skeleton
       >
         <slot name="skeleton" />
       </template>
-    </UiSlider>
+    </FeedSlider>
 
     <UiCardsGrid :class="$style.grid">
       <template v-if="!isLoading">

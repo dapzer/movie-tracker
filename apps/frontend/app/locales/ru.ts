@@ -1170,6 +1170,7 @@ export default {
     newEpisodes: "Новые эпизоды",
     onTheAir: "В эфире",
     futureTv: "Будущие сериалы",
+    recentReviews: "Свежие рецензии",
   },
   mediaItem: {
     addedDate: "Дата добавления",

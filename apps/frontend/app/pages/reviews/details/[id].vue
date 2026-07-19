@@ -47,7 +47,7 @@ const details = computed(() => {
 })
 
 const title = computed(() => {
-  return `${t("mediaReview.pageTitle")} | ${details.value?.title} | ${t(`details.mediaType.${review.value?.mediaType}`)}`
+  return `${t("mediaReview.pageTitle")} | ${details.value?.title || details.value?.originalTitle} | ${t(`details.mediaType.${review.value?.mediaType}`)}`
 })
 
 useSeoMeta({
@@ -73,7 +73,7 @@ watch(() => review.value, (newValue, oldValue) => {
 <template>
   <UiContainer :class="$style.wrapper">
     <ContentListHeader
-      :title="t('mediaReview.reviewOf', { title: details?.title })"
+      :title="t('mediaReview.reviewOf', { title: details?.title || details?.originalTitle })"
       :back-button-text="details?.title "
       :back-button-url="moviePagePath"
     />
@@ -81,6 +81,7 @@ watch(() => review.value, (newValue, oldValue) => {
     <MediaReviewCard
       v-if="review"
       :media-review="review"
+      hide-review-page-link
     />
   </UiContainer>
 </template>

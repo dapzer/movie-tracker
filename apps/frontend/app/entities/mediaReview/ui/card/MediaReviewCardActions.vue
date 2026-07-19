@@ -11,6 +11,7 @@ import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface MediaReviewCardActionsProps {
   mediaReview: MediaReview
+  hidePageLink?: boolean
 }
 
 const props = defineProps<MediaReviewCardActionsProps>()
@@ -40,6 +41,7 @@ const isDeletable = computed(() => {
 <template>
   <div :class="$style.wrapper">
     <UiButton
+      v-if="!props.hidePageLink"
       :class="$style.button"
       :as="NuxtLink"
       :to="reviewPagePath"

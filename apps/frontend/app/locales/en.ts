@@ -1169,6 +1169,7 @@ export default {
     latestReleases: "Latest releases",
     newEpisodes: "New episodes",
     futureTv: "Future TV shows",
+    recentReviews: "Recent reviews",
   },
   mediaItem: {
     addedDate: "Added Date",

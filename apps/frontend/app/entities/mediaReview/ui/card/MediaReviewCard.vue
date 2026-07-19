@@ -6,6 +6,7 @@ import MediaReviewCardVotes from "~/entities/mediaReview/ui/card/MediaReviewCard
 
 interface MediaReviewCardProps {
   mediaReview: MediaReview
+  hideReviewPageLink?: boolean
 }
 
 const props = defineProps<MediaReviewCardProps>()
@@ -19,7 +20,10 @@ const props = defineProps<MediaReviewCardProps>()
     <template #footer>
       <div :class="$style.footer">
         <MediaReviewCardVotes :media-review="props.mediaReview" />
-        <MediaReviewCardActions :media-review="props.mediaReview" />
+        <MediaReviewCardActions
+          :hide-page-link="props.hideReviewPageLink"
+          :media-review="props.mediaReview"
+        />
       </div>
     </template>
   </MediaReviewCardBase>

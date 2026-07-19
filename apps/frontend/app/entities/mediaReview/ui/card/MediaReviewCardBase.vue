@@ -49,7 +49,10 @@ const userProfileUrl = computed(() => {
             :placeholder-id="props.mediaReview.user?.id"
             :alt="props.mediaReview.user?.name"
           />
-          <UiTypography variant="cardTitle">
+          <UiTypography
+            :class="$style.userName"
+            variant="cardTitle"
+          >
             {{ props.mediaReview.user?.name }}
           </UiTypography>
         </NuxtLink>
@@ -134,6 +137,10 @@ const userProfileUrl = computed(() => {
   gap: 12px;
 }
 
+.userName {
+  @include ellipsisText();
+}
+
 .body {
   width: 100%;
   display: flex;
@@ -149,13 +156,6 @@ const userProfileUrl = computed(() => {
 
 .text {
   white-space: pre-wrap;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
 }
 
 .rating {
