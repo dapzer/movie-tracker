@@ -21,7 +21,7 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 
 const reviewPagePath = computed(() => {
-  return localePath(`/reviews/${props.mediaReview.id}`)
+  return localePath(`/reviews/details/${props.mediaReview.id}`)
 })
 
 async function copyLink() {

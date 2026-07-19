@@ -226,7 +226,7 @@ const isRatingChanged = computed(() => {
       <div :class="$style.rating">
         <div>
           <UiTypography variant="subheading">
-            {{ $t("mediaReviews.yourRating") }}
+            {{ $t("mediaReview.yourRating") }}
           </UiTypography>
           <div :class="$style.selectedRating">
             <UiStarsList
@@ -253,7 +253,7 @@ const isRatingChanged = computed(() => {
 
       <UiInput
         v-model="formValue.title"
-        :placeholder="$t('mediaReviews.form.title')"
+        :placeholder="$t('mediaReview.form.title')"
         :error="errors?.title"
         :disabled="isLoading"
         :maxlength="MEDIA_REVIEW_TITLE_MAX_LENGTH"
@@ -261,16 +261,16 @@ const isRatingChanged = computed(() => {
       <UiTextarea
         v-model="formValue.content"
         :error="errors?.content"
-        :placeholder="$t('mediaReviews.form.content')"
-        :description="$t('mediaReviews.form.contentDescription')"
+        :placeholder="$t('mediaReview.form.content')"
+        :description="$t('mediaReview.form.contentDescription')"
         :disabled="isLoading"
         :maxlength="MEDIA_REVIEW_CONTENT_MAX_LENGTH"
       />
 
       <div :class="$style.actions">
         <UiConfirmationModal
-          :title="$t('mediaReviews.form.confirmDeleteTitle')"
-          :description="$t('mediaReviews.form.confirmDeleteDescription')"
+          :title="$t('mediaReview.form.confirmDeleteTitle')"
+          :description="$t('mediaReview.form.confirmDeleteDescription')"
           :confirm-text="$t('ui.yes')"
           :cancel-text="$t('ui.no')"
           scheme="danger"
@@ -291,7 +291,7 @@ const isRatingChanged = computed(() => {
           type="action"
           :disabled="isLoading || (!isRatingChanged && !isFormValueChanged)"
         >
-          {{ $t("mediaReviews.form.publish") }}
+          {{ $t("mediaReview.form.publish") }}
         </UiButton>
       </div>
     </div>

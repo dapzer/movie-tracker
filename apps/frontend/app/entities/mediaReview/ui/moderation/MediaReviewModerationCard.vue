@@ -68,7 +68,7 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
               variant="outlined"
               @click="openModal"
             >
-              {{ $t("mediaReviews.moderation.logs") }}
+              {{ $t("mediaReview.moderation.logs") }}
             </UiButton>
           </template>
         </MediaReviewModerationLogsModal>
@@ -82,7 +82,7 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
               :disabled="moderateMediaReviewApi.isPending.value"
               @click="openModal"
             >
-              {{ $t("mediaReviews.moderation.review") }}
+              {{ $t("mediaReview.moderation.review") }}
             </UiButton>
           </template>
         </MediaReviewModerationModal>
@@ -92,14 +92,14 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
           :disabled="moderateMediaReviewApi.isPending.value"
           @click="handlePublish(props.mediaReview.id, true)"
         >
-          {{ $t("mediaReviews.moderation.publishWithSpoiler") }}
+          {{ $t("mediaReview.moderation.publishWithSpoiler") }}
         </UiButton>
 
         <UiButton
           :disabled="moderateMediaReviewApi.isPending.value"
           @click="handlePublish(props.mediaReview.id)"
         >
-          {{ $t("mediaReviews.moderation.publish") }}
+          {{ $t("mediaReview.moderation.publish") }}
         </UiButton>
       </div>
     </div>

@@ -58,34 +58,34 @@ const { formValue, onFormSubmit, errors } = useForm<MediaReviewModerationFormVal
 
 const actionOptions = computed(() => [
   {
-    label: t("mediaReviews.moderation.status.changesRequested"),
+    label: t("mediaReview.moderation.status.changesRequested"),
     value: MediaReviewModerationLogAction.CHANGES_REQUESTED,
   },
   {
-    label: t("mediaReviews.moderation.status.removed"),
+    label: t("mediaReview.moderation.status.removed"),
     value: MediaReviewModerationLogAction.REJECTED,
   },
 ])
 
 const reasonOptions = computed(() => [
   {
-    label: t("mediaReviews.moderation.reason.offTopic"),
+    label: t("mediaReview.moderation.reason.offTopic"),
     value: MediaReviewModerationLogReason.OFF_TOPIC,
   },
   {
-    label: t("mediaReviews.moderation.reason.spam"),
+    label: t("mediaReview.moderation.reason.spam"),
     value: MediaReviewModerationLogReason.SPAM,
   },
   {
-    label: t("mediaReviews.moderation.reason.toxicity"),
+    label: t("mediaReview.moderation.reason.toxicity"),
     value: MediaReviewModerationLogReason.TOXICITY,
   },
   {
-    label: t("mediaReviews.moderation.reason.lowEffortJunk"),
+    label: t("mediaReview.moderation.reason.lowEffortJunk"),
     value: MediaReviewModerationLogReason.LOW_EFFORT_JUNK,
   },
   {
-    label: t("mediaReviews.moderation.reason.other"),
+    label: t("mediaReview.moderation.reason.other"),
     value: MediaReviewModerationLogReason.OTHER,
   },
 ])
@@ -99,19 +99,19 @@ const reasonOptions = computed(() => [
     <UiSelect
       v-model="formValue.action"
       :options="actionOptions"
-      :placeholder="$t('mediaReviews.moderation.form.statusPlaceholder')"
+      :placeholder="$t('mediaReview.moderation.form.statusPlaceholder')"
     />
 
     <UiSelect
       v-model="formValue.reason"
       :options="reasonOptions"
-      :placeholder="$t('mediaReviews.moderation.form.reasonPlaceholder')"
+      :placeholder="$t('mediaReview.moderation.form.reasonPlaceholder')"
     />
 
     <UiTextarea
       v-model="formValue.comment"
       :error="errors?.comment"
-      :placeholder="$t('mediaReviews.moderation.form.descriptionPlaceholder')"
+      :placeholder="$t('mediaReview.moderation.form.descriptionPlaceholder')"
       maxlength="1000"
     />
 
@@ -127,8 +127,8 @@ const reasonOptions = computed(() => [
       </UiButton>
 
       <UiConfirmationModal
-        :title="$t('mediaReviews.moderation.result.confirm.title')"
-        :description="$t('mediaReviews.moderation.result.confirm.description')"
+        :title="$t('mediaReview.moderation.result.confirm.title')"
+        :description="$t('mediaReview.moderation.result.confirm.description')"
         :confirm-text="$t('ui.yes')"
         :cancel-text="$t('ui.no')"
         scheme="danger"

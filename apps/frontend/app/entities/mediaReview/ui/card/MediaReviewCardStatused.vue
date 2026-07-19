@@ -31,11 +31,11 @@ const statusTagColorMap: Partial<Record<MediaReview["status"], UiTagColor>> = {
 const statusTagTextMap = computed(() => {
   switch (props.mediaReview.status) {
     case "PENDING":
-      return t("mediaReviews.moderation.reviewStatus.pending")
+      return t("mediaReview.moderation.reviewStatus.pending")
     case "DRAFT":
-      return t("mediaReviews.moderation.reviewStatus.draft")
+      return t("mediaReview.moderation.reviewStatus.draft")
     case "REMOVED":
-      return t("mediaReviews.moderation.reviewStatus.removed")
+      return t("mediaReview.moderation.reviewStatus.removed")
     default:
       return ""
   }
@@ -44,15 +44,15 @@ const statusTagTextMap = computed(() => {
 const reasonText = computed(() => {
   switch (props.mediaReview.reason) {
     case MediaReviewModerationLogReason.OFF_TOPIC:
-      return t("mediaReviews.moderation.reason.offTopic")
+      return t("mediaReview.moderation.reason.offTopic")
     case MediaReviewModerationLogReason.SPAM:
-      return t("mediaReviews.moderation.reason.spam")
+      return t("mediaReview.moderation.reason.spam")
     case MediaReviewModerationLogReason.TOXICITY:
-      return t("mediaReviews.moderation.reason.toxicity")
+      return t("mediaReview.moderation.reason.toxicity")
     case MediaReviewModerationLogReason.LOW_EFFORT_JUNK:
-      return t("mediaReviews.moderation.reason.lowEffortJunk")
+      return t("mediaReview.moderation.reason.lowEffortJunk")
     default:
-      return t("mediaReviews.moderation.reason.other")
+      return t("mediaReview.moderation.reason.other")
   }
 })
 </script>
@@ -80,7 +80,7 @@ const reasonText = computed(() => {
             v-if="props.mediaReview.reason"
             schema="tertiary"
           >
-            {{ $t("mediaReviews.moderation.reason.title") }}:{{ " " }}
+            {{ $t("mediaReview.moderation.reason.title") }}:{{ " " }}
             {{ reasonText.toLowerCase() }}
           </UiTypography>
         </div>

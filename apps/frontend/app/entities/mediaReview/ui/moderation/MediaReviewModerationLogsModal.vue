@@ -14,7 +14,7 @@ const slots = defineSlots()
 <template>
   <UiModal
     :max-width="1248"
-    :title="$t('mediaReviews.moderation.logsModal.title')"
+    :title="$t('mediaReview.moderation.logsModal.title')"
   >
     <template
       v-if="slots.trigger"

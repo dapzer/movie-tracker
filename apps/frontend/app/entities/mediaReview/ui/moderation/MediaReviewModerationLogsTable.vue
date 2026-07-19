@@ -29,13 +29,13 @@ const localePath = useLocalePath()
 function getActionTranslationKey(action: MediaReviewModerationLogAction) {
   switch (action) {
     case MediaReviewModerationLogAction.APPROVED:
-      return "mediaReviews.moderation.publish"
+      return "mediaReview.moderation.publish"
     case MediaReviewModerationLogAction.APPROVED_WITH_SPOILER_MARK:
-      return "mediaReviews.moderation.publishWithSpoiler"
+      return "mediaReview.moderation.publishWithSpoiler"
     case MediaReviewModerationLogAction.CHANGES_REQUESTED:
-      return "mediaReviews.moderation.status.changesRequested"
+      return "mediaReview.moderation.status.changesRequested"
     default:
-      return "mediaReviews.moderation.status.removed"
+      return "mediaReview.moderation.status.removed"
   }
 }
 
@@ -45,15 +45,15 @@ function getReasonText(log: MediaReviewModerationLog) {
 
   switch (log.reason) {
     case MediaReviewModerationLogReason.OFF_TOPIC:
-      return t("mediaReviews.moderation.reason.offTopic")
+      return t("mediaReview.moderation.reason.offTopic")
     case MediaReviewModerationLogReason.SPAM:
-      return t("mediaReviews.moderation.reason.spam")
+      return t("mediaReview.moderation.reason.spam")
     case MediaReviewModerationLogReason.TOXICITY:
-      return t("mediaReviews.moderation.reason.toxicity")
+      return t("mediaReview.moderation.reason.toxicity")
     case MediaReviewModerationLogReason.LOW_EFFORT_JUNK:
-      return t("mediaReviews.moderation.reason.lowEffortJunk")
+      return t("mediaReview.moderation.reason.lowEffortJunk")
     default:
-      return t("mediaReviews.moderation.reason.other")
+      return t("mediaReview.moderation.reason.other")
   }
 }
 </script>
@@ -63,22 +63,22 @@ function getReasonText(log: MediaReviewModerationLog) {
     <UiTableHeader>
       <UiTableRow>
         <UiTableHead :width="190">
-          {{ $t("mediaReviews.moderation.logsModal.table.action") }}
+          {{ $t("mediaReview.moderation.logsModal.table.action") }}
         </UiTableHead>
         <UiTableHead :width="170">
-          {{ $t("mediaReviews.moderation.logsModal.table.reason") }}
+          {{ $t("mediaReview.moderation.logsModal.table.reason") }}
         </UiTableHead>
         <UiTableHead :width="250">
-          {{ $t("mediaReviews.moderation.logsModal.table.comment") }}
+          {{ $t("mediaReview.moderation.logsModal.table.comment") }}
         </UiTableHead>
         <UiTableHead :width="130">
-          {{ $t("mediaReviews.moderation.logsModal.table.snapshot") }}
+          {{ $t("mediaReview.moderation.logsModal.table.snapshot") }}
         </UiTableHead>
         <UiTableHead :width="264">
-          {{ $t("mediaReviews.moderation.logsModal.table.moderator") }}
+          {{ $t("mediaReview.moderation.logsModal.table.moderator") }}
         </UiTableHead>
         <UiTableHead :width="140">
-          {{ $t("mediaReviews.moderation.logsModal.table.date") }}
+          {{ $t("mediaReview.moderation.logsModal.table.date") }}
         </UiTableHead>
       </UiTableRow>
     </UiTableHeader>
@@ -108,7 +108,7 @@ function getReasonText(log: MediaReviewModerationLog) {
                   scheme="link"
                   @click="openModal"
                 >
-                  {{ $t("mediaReviews.moderation.logsModal.snapshotModal.open") }}
+                  {{ $t("mediaReview.moderation.logsModal.snapshotModal.open") }}
                 </UiButton>
               </template>
             </MediaReviewModerationLogSnapshotModal>

@@ -155,7 +155,10 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         eq(mediaRatings.userId, mediaReviews.userId),
         eq(mediaRatings.mediaId, mediaReviews.mediaId),
       ))
-      .where(eq(mediaReviews.id, args.id))
+      .where(and(
+        eq(mediaReviews.id, args.id),
+        args.status ? eq(mediaReviews.status, args.status) : undefined,
+      ))
       .limit(1)
 
     return row

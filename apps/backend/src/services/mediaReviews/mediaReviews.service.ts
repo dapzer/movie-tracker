@@ -1,10 +1,5 @@
 import type { MediaReviewWithReason } from "@movie-tracker/types"
-import {
-  MediaReviewModerationLogAction,
-  MediaReviewStatus,
-
-  UserRoleEnum,
-} from "@movie-tracker/types"
+import { MediaReviewModerationLogAction, MediaReviewStatus, UserRoleEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
@@ -57,7 +52,11 @@ export class MediaReviewsService {
   }
 
   async getById(args: { id: string, currentUserId?: string }) {
-    const mediaReview = await this.mediaReviewRepository.getById({ id: args.id, currentUserId: args.currentUserId })
+    const mediaReview = await this.mediaReviewRepository.getById({
+      id: args.id,
+      currentUserId: args.currentUserId,
+      status: MediaReviewStatus.PUBLISHED,
+    })
 
     if (!mediaReview) {
       throw new MediaReviewNotFoundError({ mediaReviewId: args.id })

@@ -173,14 +173,14 @@ export function useDeleteMediaReviewApi() {
         queryClient.invalidateQueries({
           queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
         }),
+        queryClient.resetQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
+        }),
       ])
       queryClient.setQueriesData(
         { queryKey: [MediaReviewsApiQueryKeys.GET_BY_CURRENT_USER_AND_MEDIA_ID, { mediaId: data.mediaId }] },
         data,
       )
-      queryClient.removeQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
-      })
     },
   })
 }

@@ -2,7 +2,12 @@
 import type { ExtractNotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
-import { MediaReviewModerationLogAction, MediaReviewModerationLogReason, MediaTypeEnum, NotificationTypeEnum } from "@movie-tracker/types"
+import {
+  MediaReviewModerationLogAction,
+  MediaReviewModerationLogReason,
+  MediaTypeEnum,
+  NotificationTypeEnum,
+} from "@movie-tracker/types"
 import { computed } from "vue"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
 import { UiBadge } from "~/shared/ui/UiBadge"
@@ -39,15 +44,15 @@ function getReviewModerationTranslationKey(action: MediaReviewModerationLogActio
 function getReviewModerationReasonTranslationKey(reason: MediaReviewModerationLogReason) {
   switch (reason) {
     case MediaReviewModerationLogReason.OFF_TOPIC:
-      return "mediaReviews.moderation.reason.offTopic"
+      return "mediaReview.moderation.reason.offTopic"
     case MediaReviewModerationLogReason.SPAM:
-      return "mediaReviews.moderation.reason.spam"
+      return "mediaReview.moderation.reason.spam"
     case MediaReviewModerationLogReason.TOXICITY:
-      return "mediaReviews.moderation.reason.toxicity"
+      return "mediaReview.moderation.reason.toxicity"
     case MediaReviewModerationLogReason.LOW_EFFORT_JUNK:
-      return "mediaReviews.moderation.reason.lowEffortJunk"
+      return "mediaReview.moderation.reason.lowEffortJunk"
     default:
-      return "mediaReviews.moderation.reason.other"
+      return "mediaReview.moderation.reason.other"
   }
 }
 

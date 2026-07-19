@@ -31,7 +31,7 @@ const logs = computed(() => getMediaReviewModerationLogsApi.data.value || [])
 
   <UiAttention
     v-else
-    :title="$t('mediaReviews.moderation.logsModal.empty')"
+    :title="$t('mediaReview.moderation.logsModal.empty')"
     :indent="0"
     title-variant="subheading"
   />

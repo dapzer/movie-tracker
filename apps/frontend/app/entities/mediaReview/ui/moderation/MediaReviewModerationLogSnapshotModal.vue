@@ -17,15 +17,15 @@ const { t } = useI18n()
 const rows = computed(() => {
   return [
     {
-      label: "mediaReviews.moderation.logsModal.snapshotModal.reviewTitle",
-      value: props.log.reviewTitleSnapshot || t("mediaReviews.moderation.logsModal.snapshotModal.noTitle"),
+      label: "mediaReview.moderation.logsModal.snapshotModal.reviewTitle",
+      value: props.log.reviewTitleSnapshot || t("mediaReview.moderation.logsModal.snapshotModal.noTitle"),
     },
     {
-      label: "mediaReviews.moderation.logsModal.snapshotModal.reviewIsSpoiler",
+      label: "mediaReview.moderation.logsModal.snapshotModal.reviewIsSpoiler",
       value: props.log.reviewIsSpoilerSnapshot ? t("ui.yes") : t("ui.no"),
     },
     {
-      label: "mediaReviews.moderation.logsModal.snapshotModal.reviewContent",
+      label: "mediaReview.moderation.logsModal.snapshotModal.reviewContent",
       value: props.log.reviewContentSnapshot,
     },
   ]
@@ -35,7 +35,7 @@ const rows = computed(() => {
 <template>
   <UiModal
     :max-width="720"
-    :title="$t('mediaReviews.moderation.logsModal.snapshotModal.title')"
+    :title="$t('mediaReview.moderation.logsModal.snapshotModal.title')"
   >
     <template
       v-if="slots.trigger"

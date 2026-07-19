@@ -88,7 +88,7 @@ function handleStartEditing() {
           variant="title3"
           as="h2"
         >
-          {{ $t("mediaReviews.title") }}
+          {{ $t("mediaReview.title") }}
         </UiTypography>
         <UiTooltip
           :disabled="!isPublishedReviewsExists || createFormVisible"
@@ -107,7 +107,7 @@ function handleStartEditing() {
                 name="icon:reviews-outlined"
                 :size="20"
               />
-              {{ $t("mediaReviews.create") }}
+              {{ $t("mediaReview.create") }}
             </UiButton>
           </template>
           <template #content>
@@ -115,7 +115,7 @@ function handleStartEditing() {
               variant="description"
               :class="$style.tooltipTitle"
             >
-              {{ $t("mediaReviews.createTooltip") }}
+              {{ $t("mediaReview.createTooltip") }}
             </UiTypography>
           </template>
         </UiTooltip>
@@ -154,7 +154,7 @@ function handleStartEditing() {
       </template>
       <UiAttention
         v-else
-        :title="$t('mediaReviews.noReviews')"
+        :title="$t('mediaReview.noReviews')"
         :indent="0"
         title-variant="subheading"
       />

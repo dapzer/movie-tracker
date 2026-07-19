@@ -1576,8 +1576,10 @@ export default {
       description: "To receive notifications about the release of new films and TV series, subscribe to the films you are interested in.",
     },
   },
-  mediaReviews: {
+  mediaReview: {
+    pageTitle: "Review",
     title: "Reviews",
+    reviewOf: "Review of {title}",
     create: "Review this title",
     createTooltip: "You have already written a review for this title",
     noReviews: "There are no reviews for this title yet",

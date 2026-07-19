@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { UiBackLink } from "~/shared/ui/UiBackLink"
 import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiContainer } from "~/shared/ui/UiContainer"
-import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiPagination } from "~/shared/ui/UiPagination"
-import { UiTypography } from "~/shared/ui/UiTypography"
+import ContentListHeader from "~/widgets/contentList/ui/ContentListHeader.vue"
 
 interface ContentListProps {
   title: string
@@ -21,19 +19,11 @@ const currentPage = defineModel<number>("currentPage")
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <div :class="$style.header">
-      <UiBackLink
-        :url="props.backButtonUrl"
-        :text="props.backButtonText"
-      />
-      <UiTypography
-        as="h1"
-        variant="title"
-      >
-        {{ props.title }}
-      </UiTypography>
-    </div>
-    <UiDivider :class="$style.divider" />
+    <ContentListHeader
+      :title="props.title"
+      :back-button-text="props.backButtonText"
+      :back-button-url="props.backButtonUrl"
+    />
 
     <UiCardsGrid :class="$style.content">
       <slot />
@@ -69,10 +59,10 @@ const currentPage = defineModel<number>("currentPage")
 
   .divider {
     margin-top: 20px;
+    margin-bottom: 16px;
   }
 
   .content {
-    margin-top: 16px;
     margin-bottom: 30px;
   }
 }

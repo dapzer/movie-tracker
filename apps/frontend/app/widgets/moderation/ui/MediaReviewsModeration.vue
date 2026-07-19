@@ -54,7 +54,7 @@ watch(status, () => {
       </template>
       <UiAttention
         v-else
-        :title="$t('mediaReviews.moderation.noReviews')"
+        :title="$t('mediaReview.moderation.noReviews')"
         :indent="0"
         title-variant="subheading"
       />

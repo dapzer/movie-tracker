@@ -15,23 +15,23 @@ const draftStatus = ref<MediaReviewStatus>(status.value)
 
 const statusOptions = computed(() => [
   {
-    label: t("mediaReviews.moderation.reviewStatus.draft"),
+    label: t("mediaReview.moderation.reviewStatus.draft"),
     value: MediaReviewStatus.DRAFT,
   },
   {
-    label: t("mediaReviews.moderation.reviewStatus.pending"),
+    label: t("mediaReview.moderation.reviewStatus.pending"),
     value: MediaReviewStatus.PENDING,
   },
   {
-    label: t("mediaReviews.moderation.reviewStatus.published"),
+    label: t("mediaReview.moderation.reviewStatus.published"),
     value: MediaReviewStatus.PUBLISHED,
   },
   {
-    label: t("mediaReviews.moderation.reviewStatus.removed"),
+    label: t("mediaReview.moderation.reviewStatus.removed"),
     value: MediaReviewStatus.REMOVED,
   },
   {
-    label: t("mediaReviews.moderation.reviewStatus.deleted"),
+    label: t("mediaReview.moderation.reviewStatus.deleted"),
     value: MediaReviewStatus.DELETED,
   },
 ])
@@ -64,7 +64,7 @@ watch(openModel, (isOpen) => {
         :active="isActive"
         @clear="clearStatus"
       >
-        {{ t("mediaReviews.moderation.filters.status") }}
+        {{ t("mediaReview.moderation.filters.status") }}
       </UiFilterTrigger>
     </template>
     <template #content>

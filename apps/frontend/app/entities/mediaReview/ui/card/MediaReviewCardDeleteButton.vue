@@ -33,8 +33,8 @@ function handleDeleteMediaReviewApi() {
 
 <template>
   <UiConfirmationModal
-    :title="$t('mediaReviews.deleteModal.title')"
-    :description="$t('mediaReviews.deleteModal.description', { title: mediaTitle })"
+    :title="$t('mediaReview.deleteModal.title')"
+    :description="$t('mediaReview.deleteModal.description', { title: mediaTitle })"
     @confirm="handleDeleteMediaReviewApi"
   >
     <template #trigger="{ openModal }">
