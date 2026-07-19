@@ -31,6 +31,7 @@ import { UiButton } from "~/shared/ui/UiButton"
 import { UiConfirmationModal } from "~/shared/ui/UiConfirmationModal"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiStarsList } from "~/shared/ui/UiStarsList"
+import { UiSwitch } from "~/shared/ui/UiSwitch"
 import { UiTextarea } from "~/shared/ui/UiTextarea"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
@@ -262,10 +263,23 @@ const isRatingChanged = computed(() => {
         v-model="formValue.content"
         :error="errors?.content"
         :placeholder="$t('mediaReview.form.content')"
-        :description="$t('mediaReview.form.contentDescription')"
         :disabled="isLoading"
         :maxlength="MEDIA_REVIEW_CONTENT_MAX_LENGTH"
       />
+
+      <label :class="$style.spoilerSwitch">
+        <UiSwitch
+          v-model="formValue.isSpoiler"
+          :disabled="isLoading"
+          scheme="gray"
+        />
+        <UiTypography
+          variant="label"
+          as="span"
+        >
+          {{ $t("mediaReview.form.spoiler") }}
+        </UiTypography>
+      </label>
 
       <div :class="$style.actions">
         <UiConfirmationModal
@@ -354,6 +368,13 @@ const isRatingChanged = computed(() => {
       width: 24px;
     }
   }
+}
+
+.spoilerSwitch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
 }
 
 .actions {

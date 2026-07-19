@@ -1593,6 +1593,7 @@ export default {
       publish: "Publish",
       title: "Headline of review (optional)",
       content: "Review",
+      spoiler: "Mark as spoiler",
       contentDescription: "Required characters: 5 - 10 000",
       confirmDeleteTitle: "Are you sure you want to cancel writing the review?",
       confirmDeleteDescription: "All your changes will be irreversibly lost",
