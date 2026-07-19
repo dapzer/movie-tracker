@@ -14,6 +14,12 @@ export default {
   },
   dashboard: {
     title: "Панель управления",
+    tabs: {
+      systemManagement: "Управление системой",
+      reviewsModeration: "Модерация рецензий",
+      usersManagement: "Управление пользователями",
+      userBansManagement: "Управление блокировками пользователей",
+    },
     dataGeneration: "Генерация данных",
     dataSummary: "Сводка данных",
     generateSitemap: "Запустить генерацию карты сайта",
@@ -1164,6 +1170,7 @@ export default {
     newEpisodes: "Новые эпизоды",
     onTheAir: "В эфире",
     futureTv: "Будущие сериалы",
+    recentReviews: "Свежие рецензии",
   },
   mediaItem: {
     addedDate: "Дата добавления",
@@ -1288,6 +1295,7 @@ export default {
     rate: "Оценить",
     howRate: "Как бы вы оценили",
     deleteRate: "Удалить оценку",
+    removeRate: "Удалить оценку",
     updateRate: "Обновить оценку",
   },
   accountSettings: {
@@ -1426,6 +1434,94 @@ export default {
       mediaListLikeCount: "Лайков",
     },
   },
+  users: {
+    table: {
+      user: "Пользователь",
+      id: "ID",
+      email: "Email",
+      roles: "Роли",
+      signUpMethod: "Способ регистрации",
+      status: "Статус",
+      joined: "Дата регистрации",
+      updated: "Дата обновления",
+      actions: "Действия",
+    },
+    status: {
+      active: "Активен",
+      banned: "Заблокирован",
+    },
+    actions: {
+      ban: "Заблокировать пользователя",
+    },
+    filters: {
+      searchPlaceholder: "Поиск по ID или имени",
+    },
+    ban: {
+      modal: {
+        title: "Заблокировать пользователя",
+      },
+      form: {
+        reasonPlaceholder: "Причина блокировки",
+        durationPlaceholder: "Длительность блокировки",
+        commentPlaceholder: "Комментарий (необязательно)",
+        submit: "Заблокировать",
+      },
+      confirm: {
+        title: "Подтвердите блокировку",
+        description: "Вы уверены, что хотите заблокировать {userName}?",
+      },
+      reason: {
+        spam: "Спам",
+        toxicity: "Токсичность",
+        msfw: "Неприемлемый контент",
+        fraud: "Мошенничество",
+        other: "Другое",
+      },
+      duration: {
+        permanent: "Навсегда",
+        oneDay: "1 день",
+        sevenDays: "7 дней",
+        thirtyDays: "30 дней",
+        oneYear: "1 год",
+      },
+    },
+  },
+  userBans: {
+    filters: {
+      userIdPlaceholder: "Фильтр по ID пользователя",
+      status: {
+        title: "Статус",
+        active: "Активные",
+        expired: "Истекшие",
+        revoked: "Отозванные",
+      },
+    },
+    table: {
+      user: "Пользователь",
+      reason: "Причина",
+      comment: "Комментарий",
+      issuer: "Кто заблокировал",
+      createdAt: "Создана",
+      expiresAt: "Истекает",
+      status: "Статус",
+      permanent: "Навсегда",
+      actions: "Действия",
+    },
+    actions: {
+      revoke: "Отозвать блокировку",
+    },
+    revoke: {
+      confirm: {
+        title: "Отозвать блокировку",
+        description: "Вы уверены, что хотите отозвать блокировку для {userName}?",
+      },
+    },
+    status: {
+      active: "Активна",
+      expired: "Истекла",
+      revoked: "Отозвана",
+    },
+  },
   userFollow: {
     noFollowers: "У пользователя нет подписчиков",
     noFollowings: "У пользователя нет подписок",
@@ -1446,6 +1542,11 @@ export default {
     episodesReleasedInSpecialSeason: "Вышли {episode} серии сезона ’{season}’ сериала ’{title}’",
     movieReleased: "Кинокартина ’{title}’ вышла",
     statusUpdated: "Статус сериала ’{title}’ изменился с ’{oldStatus}’ на ’{newStatus}’",
+    reviewModerationApproved: "Ваша рецензия к ’{title}’ опубликована",
+    reviewModerationApprovedWithSpoiler: "Ваша рецензия к ’{title}’ опубликована с отметкой спойлера",
+    reviewModerationChangesRequested: "Для вашей рецензии к ’{title}’ запрошены изменения",
+    reviewModerationRejected: "Ваша рецензия к ’{title}’ отклонена",
+    reviewModerationWithReason: "{message}. Причина: {reason}",
   },
   releaseSubscription: {
     pageTitle: "Подписки на кинокартины",
@@ -1476,6 +1577,91 @@ export default {
     noSubscriptions: {
       title: "У вас нет подписок на кинокартины",
       description: "Чтобы получать уведомления о выходе новых фильмов и сериалов, подпишитесь на интересующие вас кинокартины.",
+    },
+  },
+  mediaReview: {
+    pageTitle: "Рецензия",
+    title: "Рецензии",
+    reviewOf: "Рецензия на '{title}'",
+    create: "Написать рецензию",
+    createTooltip: "Вы уже написали рецензию для этой кинокартины",
+    noReviews: "Для этой кинокартины нет рецензий",
+    yourRating: "Ваша оценка",
+    deleteModal: {
+      title: "Удалить рецензию",
+      description: "Вы уверены, что хотите удалить рецензию? Это действие нельзя отменить.",
+    },
+    form: {
+      publish: "Опубликовать",
+      title: "Заголовок рецензии (необязательно)",
+      content: "Рецензия",
+      spoiler: "Отметить как спойлер",
+      contentDescription: "Необходимое количество символов: 5 - 10 000",
+      confirmDeleteTitle: "Вы уверены, что хотите отменить написание рецензии?",
+      confirmDeleteDescription: "Все ваши изменение будут безвозвратно утеряны",
+    },
+    moderation: {
+      logs: "История модерации",
+      review: "Рассмотреть",
+      publish: "Опубликовать",
+      publishWithSpoiler: "Опубликовать со спойлером",
+      noReviews: "Нет рецензий для модерации",
+      filters: {
+        status: "Статус",
+      },
+      reviewStatus: {
+        draft: "Требуются изменения",
+        pending: "На модерации",
+        published: "Опубликована",
+        removed: "Удалена",
+        deleted: "Удалена пользователем",
+      },
+      status: {
+        changesRequested: "Запросить изменения",
+        removed: "Удалить",
+      },
+      reason: {
+        title: "Причина",
+        offTopic: "Не по теме",
+        spam: "Спам",
+        toxicity: "Токсичность",
+        lowEffortJunk: "Низкое качество",
+        other: "Другое",
+      },
+      form: {
+        statusPlaceholder: "Выберите действие",
+        reasonPlaceholder: "Выберите причину",
+        descriptionPlaceholder: "Комментарий (необязательно)",
+      },
+      logsModal: {
+        title: "История модерации",
+        empty: "История модерации отсутствуют",
+        table: {
+          date: "Дата",
+          action: "Действие",
+          reason: "Причина",
+          moderator: "Модератор",
+          comment: "Комментарий",
+          snapshot: "Снимок",
+        },
+        snapshotModal: {
+          title: "Снимок рецензии",
+          open: "Смотреть",
+          reviewTitle: "Заголовок",
+          reviewContent: "Текст рецензии",
+          reviewIsSpoiler: "Спойлер",
+          noTitle: "Без заголовка",
+        },
+      },
+      reviewModal: {
+        title: "Решение",
+      },
+      result: {
+        confirm: {
+          title: "Вы уверены?",
+          description: "Данное решение будет применено к рецензии без возможности отмены.",
+        },
+      },
     },
   },
   legals: {
@@ -1576,6 +1762,22 @@ export default {
       successDisliked: "Список успешно убран из понравившихся",
       unsuccessfullyDisliked: "Произошла ошибка при удалении списка из понравившихся",
     },
+    mediaReview: {
+      successLiked: "Отзыв успешно оценён",
+      unsuccessfullyLiked: "Произошла ошибка при оценке отзыва",
+      successUnliked: "Лайк успешно убран",
+      unsuccessfullyUnliked: "Произошла ошибка при удалении лайка",
+      successDisliked: "Дизлайк успешно поставлен",
+      unsuccessfullyDisliked: "Произошла ошибка при постановке дизлайка",
+      successUndisliked: "Дизлайк успешно убран",
+      unsuccessfullyUndisliked: "Произошла ошибка при удалении дизлайка",
+      successUpdated: "Отзыв успешно обновлен",
+      unsuccessfullyUpdated: "При обновлении отзыва произошла ошибка",
+      successDeleted: "Отзыв успешно удален",
+      unsuccessfullyDeleted: "Произошла ошибка при удалении отзыва",
+      successCreated: "Отзыв успешно создан",
+      unsuccessfullyCreated: "Произошла ошибка при создании отзыва",
+    },
     mediaRating: {
       successRated: "Оценка успешно сохранена",
       unsuccessfullyRated: "Произошла ошибка при сохранении оценки",
@@ -1595,6 +1797,12 @@ export default {
       unsuccessfullyFollowed: "Произошла ошибка при подписке на пользователя",
       successUnfollowed: "Вы успешно отписались от пользователя",
       unsuccessfullyUnfollowed: "Произошла ошибка при отписке от пользователя",
+    },
+    userBan: {
+      successCreated: "Пользователь успешно заблокирован",
+      unsuccessfullyCreated: "Произошла ошибка при блокировке пользователя",
+      successRevoked: "Блокировка успешно отозвана",
+      unsuccessfullyRevoked: "Произошла ошибка при отзыве блокировки",
     },
     releaseSubscription: {
       tv: {
@@ -1646,6 +1854,7 @@ export default {
     unfollow: "Отписаться",
     nothingFound: "Ничего не найдено",
     share: "Поделиться",
+    unsavedChanges: "Вы уверены, что хотите покинуть страницу? Все несохраненные изменения будут потеряны.",
     like: {
       single: "Лайк",
       multiple: "Лайков",
@@ -1660,6 +1869,11 @@ export default {
       single: "Подписчик",
       multiple: "Подписчиков",
       many: "Подписчика",
+    },
+    reviews: {
+      single: "Рецензия",
+      many: "Рецензии",
+      multiple: "Рецензий",
     },
     errors: {
       nothingFound: "Ничего не найдено",
@@ -1781,5 +1995,12 @@ export default {
         prepositional: "Декабре",
       },
     },
+  },
+  validation: {
+    required: "Это поле обязательно для заполнения",
+    minLength: "Минимальная количество символов составляет {min}",
+    maxLength: "Максимальная количество символов составляет {max}",
+    betweenLength: "Количество символов должно быть в пределах от {min} до {max}",
+    notOnlySpaces: "Поле не может содержать только пробелы",
   },
 }

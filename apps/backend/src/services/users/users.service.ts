@@ -1,6 +1,8 @@
-import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
+import { UserMediaRatingsAccessLevelEnum, UserPaginatedType, UserProfileType } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import { UserRepositoryInterface, UserRepositorySymbol } from "@/repositories/user/UserRepositoryInterface"
+import { UserBansService } from "@/services/userBans/userBans.service"
+import { GetUsersQueryDto } from "@/services/users/dto/getUsersQuery.dto"
 import { UpdateUserDto } from "@/services/users/dto/updateUser.dto"
 import { UserNotFoundError, UserUnauthorizedError } from "@/shared/errors/user"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
@@ -10,7 +12,12 @@ export class UsersService {
   constructor(
     @Inject(UserRepositorySymbol)
     private readonly userRepository: UserRepositoryInterface,
+    private readonly userBansService: UserBansService,
   ) {
+  }
+
+  async getList(query: GetUsersQueryDto): Promise<UserPaginatedType> {
+    return this.userRepository.getList(query)
   }
 
   async getById(id: string) {
@@ -21,6 +28,22 @@ export class UsersService {
     }
 
     return getUserWithoutPassword(user)
+  }
+
+  async getProfileById(id: string): Promise<UserProfileType> {
+    const [user, activeBan] = await Promise.all([
+      this.userRepository.getById(id),
+      this.userBansService.getActiveByUserId(id),
+    ])
+
+    if (!user) {
+      throw new UserNotFoundError({ userId: id })
+    }
+
+    return {
+      ...getUserWithoutPassword(user),
+      isBanned: Boolean(activeBan),
+    }
   }
 
   async getStatsByUserId(args: { currentUserId?: string, userId?: string }) {

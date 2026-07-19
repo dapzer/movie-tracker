@@ -9,9 +9,9 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
-import { UserPublicDto } from "@/services/users/dto/userPublic.dto"
+import { UserProfileDto, UserWithoutPasswordDto } from "@/services/users/dto/user.dto"
+import { UserPaginatedDto, UserPublicDto } from "@/services/users/dto/userPublic.dto"
 import { UserStatsDto } from "@/services/users/dto/userStats.dto"
-import { UserWithoutPasswordDto } from "@/services/users/dto/userWithoutPassword.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function UsersControllerDocs() {
@@ -22,8 +22,17 @@ export function GetCurrentUserDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get current user" }),
     ApiSecurity("cookie"),
-    ApiOkResponse({ description: "Current user", type: UserWithoutPasswordDto }),
+    ApiOkResponse({ description: "Current user", type: UserProfileDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+  )
+}
+
+export function GetUsersDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Get users" }),
+    ApiOkResponse({ description: "Paginated users", type: UserPaginatedDto }),
+    ApiInternalServerErrorResponse({ description: "Failed to fetch users", type: ErrorResponseDto }),
+    ApiForbiddenResponse({ description: "Insufficient permissions", type: ErrorResponseDto }),
   )
 }
 

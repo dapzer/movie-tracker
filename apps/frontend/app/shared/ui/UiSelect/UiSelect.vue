@@ -99,6 +99,12 @@ const selectModel = defineModel<string>()
   align-items: center;
   gap: 8px;
 
+  &[data-placeholder] {
+    .value {
+      color: var(--c-placeholder);
+    }
+  }
+
   &[data-state="open"] {
     background: var(--c-card-background-hovered);
 

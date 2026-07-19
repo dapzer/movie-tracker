@@ -1,8 +1,33 @@
 import type { UseQueryOptions } from "@tanstack/vue-query"
+import type { Ref } from "vue"
+import type { GetUsersArgs } from "~/api/users/usersApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
-import { getUserProfileApi, getUserProfileByIdApi, getUserStatsByIdApi, updateUserProfileApi } from "~/api/users/usersApi"
+import {
+  getUserProfileApi,
+  getUserProfileByIdApi,
+  getUsersApi,
+  getUserStatsByIdApi,
+  updateUserProfileApi,
+} from "~/api/users/usersApi"
 import { UsersQueryKeys } from "~/api/users/usersApiQueryKeys"
+
+export function useGetUsersApi(args: Ref<GetUsersArgs>, options?: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
+  return useQuery({
+    queryKey: [UsersQueryKeys.LIST, args],
+    queryFn: () => {
+      const headers = useRequestHeaders(["cookie"])
+      if (!headers.cookie?.includes("session") && import.meta.server) {
+        throw new Error("No session cookie found")
+      }
+      return getUsersApi(args.value, { headers })
+    },
+    retry: false,
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
+    ...options,
+  })
+}
 
 export function useGetUserProfileApi() {
   return useQuery({
@@ -46,10 +71,8 @@ export function useUpdateUserProfileApi() {
   return useMutation({
     mutationKey: [UsersQueryKeys.UPDATE_PROFILE],
     mutationFn: updateUserProfileApi,
-    onSuccess: async (data) => {
-      await queryClient.setQueryData([UsersQueryKeys.PROFILE], () => {
-        return data
-      })
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [UsersQueryKeys.PROFILE] })
     },
   })
 }

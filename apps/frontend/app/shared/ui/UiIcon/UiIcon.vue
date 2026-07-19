@@ -72,6 +72,13 @@ export type UiIconName = "icon:close"
   | "icon:list-logo"
   | "icon:create-clone"
   | "icon:filter"
+  | "icon:thumb-up-outlined"
+  | "icon:thumb-down"
+  | "icon:thumb-down-outlined"
+  | "icon:reviews-outlined"
+  | "icon:ellipsis-vertical"
+  | "icon:copy"
+  | "icon:ref"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

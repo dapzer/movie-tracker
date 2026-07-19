@@ -14,6 +14,12 @@ export default {
   },
   dashboard: {
     title: "Dashboard",
+    tabs: {
+      systemManagement: "System management",
+      reviewsModeration: "Reviews moderation",
+      usersManagement: "Users management",
+      userBansManagement: "User bans management",
+    },
     dataGeneration: "Data generation",
     dataSummary: "Data summary",
     generateSitemap: "Start sitemap generation",
@@ -1163,6 +1169,7 @@ export default {
     latestReleases: "Latest releases",
     newEpisodes: "New episodes",
     futureTv: "Future TV shows",
+    recentReviews: "Recent reviews",
   },
   mediaItem: {
     addedDate: "Added Date",
@@ -1287,6 +1294,7 @@ export default {
     rate: "Rate",
     howRate: "How would you rate",
     deleteRate: "Delete rating",
+    removeRate: "Remove rating",
     updateRate: "Update rating",
   },
   accountSettings: {
@@ -1424,6 +1432,94 @@ export default {
       mediaListLikeCount: "Likes",
     },
   },
+  users: {
+    table: {
+      user: "User",
+      id: "ID",
+      email: "Email",
+      roles: "Roles",
+      signUpMethod: "Sign-up method",
+      status: "Status",
+      joined: "Joined",
+      updated: "Updated",
+      actions: "Actions",
+    },
+    status: {
+      active: "Active",
+      banned: "Banned",
+    },
+    actions: {
+      ban: "Ban user",
+    },
+    filters: {
+      searchPlaceholder: "Search by ID or name",
+    },
+    ban: {
+      modal: {
+        title: "Ban user",
+      },
+      form: {
+        reasonPlaceholder: "Ban reason",
+        durationPlaceholder: "Ban duration",
+        commentPlaceholder: "Comment (optional)",
+        submit: "Ban user",
+      },
+      confirm: {
+        title: "Confirm user ban",
+        description: "Are you sure you want to ban {userName}?",
+      },
+      reason: {
+        spam: "Spam",
+        toxicity: "Toxicity",
+        msfw: "MSFW",
+        fraud: "Fraud",
+        other: "Other",
+      },
+      duration: {
+        permanent: "Permanent",
+        oneDay: "1 day",
+        sevenDays: "7 days",
+        thirtyDays: "30 days",
+        oneYear: "1 year",
+      },
+    },
+  },
+  userBans: {
+    filters: {
+      userIdPlaceholder: "Filter by user ID",
+      status: {
+        title: "Status",
+        active: "Active",
+        expired: "Expired",
+        revoked: "Revoked",
+      },
+    },
+    table: {
+      user: "User",
+      reason: "Reason",
+      comment: "Comment",
+      issuer: "Issued by",
+      createdAt: "Created",
+      expiresAt: "Expires",
+      status: "Status",
+      permanent: "Permanent",
+      actions: "Actions",
+    },
+    actions: {
+      revoke: "Revoke ban",
+    },
+    revoke: {
+      confirm: {
+        title: "Revoke ban",
+        description: "Are you sure you want to revoke the ban for {userName}?",
+      },
+    },
+    status: {
+      active: "Active",
+      expired: "Expired",
+      revoked: "Revoked",
+    },
+  },
   userFollow: {
     noFollowers: "The user has no followers",
     noFollowings: "The user has no followings",
@@ -1444,6 +1540,11 @@ export default {
     episodesReleasedInSpecialSeason: "Episodes {episode} of season ’{season}’ of the series ‘{title}’ have been released",
     movieReleased: "The film '{title}' has been released",
     statusUpdated: "The status of the series '{title}' has changed from '{oldStatus}' to '{newStatus}'",
+    reviewModerationApproved: "Your review of '{title}' has been published",
+    reviewModerationApprovedWithSpoiler: "Your review of '{title}' has been published with a spoiler mark",
+    reviewModerationChangesRequested: "Changes were requested for your review of '{title}'",
+    reviewModerationRejected: "Your review of '{title}' was rejected",
+    reviewModerationWithReason: "{message}. Reason: {reason}",
   },
   releaseSubscription: {
     pageTitle: "Movie subscriptions",
@@ -1474,6 +1575,91 @@ export default {
     noSubscriptions: {
       title: "You do not have subscriptions to the films",
       description: "To receive notifications about the release of new films and TV series, subscribe to the films you are interested in.",
+    },
+  },
+  mediaReview: {
+    pageTitle: "Review",
+    title: "Reviews",
+    reviewOf: "Review of {title}",
+    create: "Review this title",
+    createTooltip: "You have already written a review for this title",
+    noReviews: "There are no reviews for this title yet",
+    yourRating: "Your rating",
+    deleteModal: {
+      title: "Delete review",
+      description: "Are you sure you want to delete your review? This action cannot be undone.",
+    },
+    form: {
+      publish: "Publish",
+      title: "Headline of review (optional)",
+      content: "Review",
+      spoiler: "Mark as spoiler",
+      contentDescription: "Required characters: 5 - 10 000",
+      confirmDeleteTitle: "Are you sure you want to cancel writing the review?",
+      confirmDeleteDescription: "All your changes will be irreversibly lost",
+    },
+    moderation: {
+      logs: "Moderation history",
+      review: "Review",
+      publish: "Publish",
+      publishWithSpoiler: "Publish with spoiler",
+      noReviews: "No reviews for moderation",
+      filters: {
+        status: "Status",
+      },
+      reviewStatus: {
+        draft: "Changes requested",
+        pending: "Pending",
+        published: "Published",
+        removed: "Removed",
+        deleted: "Deleted by user",
+      },
+      status: {
+        changesRequested: "Request changes",
+        removed: "Reject",
+      },
+      reason: {
+        title: "Reason",
+        offTopic: "Off topic",
+        spam: "Spam",
+        toxicity: "Toxicity",
+        lowEffortJunk: "Low effort / junk",
+        other: "Other",
+      },
+      form: {
+        statusPlaceholder: "Select action",
+        reasonPlaceholder: "Select reason",
+        descriptionPlaceholder: "Comment (optional)",
+      },
+      logsModal: {
+        title: "Moderation history",
+        empty: "No moderation history yet",
+        table: {
+          date: "Date",
+          action: "Action",
+          reason: "Reason",
+          moderator: "Moderator",
+          comment: "Comment",
+          snapshot: "Snapshot",
+        },
+        snapshotModal: {
+          title: "Review snapshot",
+          open: "View",
+          reviewTitle: "Title",
+          reviewContent: "Review content",
+          reviewIsSpoiler: "Spoiler",
+          noTitle: "No title",
+        },
+      },
+      reviewModal: {
+        title: "Decision",
+      },
+      result: {
+        confirm: {
+          title: "Are you sure?",
+          description: "This decision will be applied to the review without the possibility of cancellation.",
+        },
+      },
     },
   },
   legals: {
@@ -1574,6 +1760,22 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successDisliked: "List disliked successfully",
       unsuccessfullyDisliked: "An error occurred while disliking the list",
     },
+    mediaReview: {
+      successLiked: "Review liked successfully",
+      unsuccessfullyLiked: "An error occurred while liking the review",
+      successUnliked: "Like removed successfully",
+      unsuccessfullyUnliked: "An error occurred while removing the like",
+      successDisliked: "Review disliked successfully",
+      unsuccessfullyDisliked: "An error occurred while disliking the review",
+      successUndisliked: "Dislike removed successfully",
+      unsuccessfullyUndisliked: "An error occurred while removing the dislike",
+      successUpdated: "Review updated successfully",
+      unsuccessfullyUpdated: "An error occurred while updating the review",
+      successDeleted: "Review deleted successfully",
+      unsuccessfullyDeleted: "An error occurred while deleting the review",
+      successCreated: "Review created successfully",
+      unsuccessfullyCreated: "An error occurred while creating the review",
+    },
     mediaRating: {
       successRated: "Rating saved successfully",
       unsuccessfullyRated: "An error occurred while saving the rating",
@@ -1593,6 +1795,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       unsuccessfullyFollowed: "An error occurred while following to the user.",
       successUnfollowed: "You have successfully unfollowed the user",
       unsuccessfullyUnfollowed: "An error occurred while unfollowing from the user",
+    },
+    userBan: {
+      successCreated: "User banned successfully",
+      unsuccessfullyCreated: "An error occurred while banning the user",
+      successRevoked: "Ban revoked successfully",
+      unsuccessfullyRevoked: "An error occurred while revoking the ban",
     },
     releaseSubscription: {
       tv: {
@@ -1644,6 +1852,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     unfollow: "Unfollow",
     nothingFound: "Nothing found",
     share: "Share",
+    unsavedChanges: "Are you sure you want to leave the page? Any unsaved changes will be lost.",
     like: {
       single: "Like",
       multiple: "Likes",
@@ -1658,6 +1867,11 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       single: "Follower",
       multiple: "Followers",
       many: "Followers",
+    },
+    reviews: {
+      single: "Review",
+      many: "Reviews",
+      multiple: "Reviews",
     },
     errors: {
       nothingFound: "Nothing found",
@@ -1779,5 +1993,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
         prepositional: "December",
       },
     },
+  },
+  validation: {
+    required: "This field is required",
+    minLength: "Minimum length is {min}",
+    maxLength: "Maximum length is {max}",
+    betweenLength: "Length must be between {min} and {max}",
+    notOnlySpaces: "This field cannot contain only spaces",
   },
 }

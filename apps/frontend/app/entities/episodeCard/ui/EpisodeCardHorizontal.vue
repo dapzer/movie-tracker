@@ -65,13 +65,12 @@ const episodeTitle = computed(() =>
           />
         </div>
 
-        <UiSpoilerText>
-          <UiTypography
-            :class="$style.description"
-            variant="description"
-          >
-            {{ props.episode.overview }}
-          </UiTypography>
+        <UiSpoilerText
+          :as="UiTypography"
+          :class="$style.description"
+          variant="description"
+        >
+          {{ props.episode.overview }}
         </UiSpoilerText>
       </div>
     </template>

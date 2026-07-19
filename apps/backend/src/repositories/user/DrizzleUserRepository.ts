@@ -1,7 +1,7 @@
-import { mediaListLikes, mediaLists, mediaRatings, users } from "@movie-tracker/database"
-import { SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { mediaListLikes, mediaLists, mediaRatings, userBans, users } from "@movie-tracker/database"
+import { ManagedUserType, SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { and, count, eq } from "drizzle-orm"
+import { and, count, desc, eq, exists, gt, isNull, or, sql } from "drizzle-orm"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 
@@ -26,6 +26,66 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
       mediaRatingsAccessLevel: UserMediaRatingsAccessLevelEnum[user.mediaRatingsAccessLevel],
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+    }
+  }
+
+  private convertToManagedInterface(user: typeof users.$inferSelect, isBanned: boolean): ManagedUserType {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      roles: user.roles.map(el => UserRoleEnum[el]),
+      signUpMethod: SignUpMethodEnum[user.signUpMethod],
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      isBanned,
+    }
+  }
+
+  async getList(args: Parameters<UserRepositoryInterface["getList"]>[0]) {
+    const searchTerm = args.searchTerm?.trim().toLowerCase()
+    const dateNow = new Date()
+    const searchFilter = searchTerm
+      ? or(
+          sql`lower(cast(${users.id} as text)) like ${`%${searchTerm}%`}`,
+          sql`lower(${users.name}) like ${`%${searchTerm}%`}`,
+        )
+      : undefined
+
+    const [items, [totalCountResult]] = await Promise.all([
+      this.drizzle.client
+        .select({
+          user: users,
+          isBanned: exists(
+            this.drizzle.client
+              .select({ id: userBans.id })
+              .from(userBans)
+              .where(and(
+                eq(userBans.userId, users.id),
+                isNull(userBans.revokedAt),
+                or(
+                  isNull(userBans.expiresAt),
+                  gt(userBans.expiresAt, dateNow),
+                ),
+              ))
+              .limit(1),
+          ).mapWith(Boolean),
+        })
+        .from(users)
+        .where(searchFilter)
+        .orderBy(desc(users.createdAt))
+        .limit(args.limit)
+        .offset(args.offset),
+      this.drizzle.client
+        .select({ count: count() })
+        .from(users)
+        .where(searchFilter),
+    ])
+
+    return {
+      items: items.map(row => this.convertToManagedInterface(row.user, row.isBanned)),
+      totalCount: totalCountResult?.count ?? 0,
     }
   }
 

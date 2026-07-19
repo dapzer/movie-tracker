@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 
-export type UiTypographySchema = "link"
+export type UiTypographySchema = "link" | "tertiary"
 export type UiTypographyVariant = "text"
   | "title"
   | "title2"
@@ -45,8 +45,8 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
       [$style.cardTitle]: variant === 'cardTitle',
       [$style.description]: variant === 'description',
       [$style.badge]: variant === 'badge',
-      [$style.badge]: variant === 'badge',
       [$style.link]: schema === 'link',
+      [$style.tertiary]: schema === 'tertiary',
       [$style.landingTitle]: variant === 'landingTitle',
       [$style.ellipsis]: props.ellipsis,
     }"
@@ -162,6 +162,10 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
   &:hover {
     color: var(--c-label-link-hovered);
   }
+}
+
+.tertiary {
+  color: var(--c-tag-tertiary);
 }
 
 .ellipsis {

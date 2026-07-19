@@ -37,4 +37,20 @@ export interface UserStatsType {
   mediaListLikeCount: number
 }
 
-export type UserPublicType = Omit<UserType, "password" | "email" | "roles" | "updatedAt" | "isEmailVerified" | "signUpMethod">
+export type UserPublicType = Pick<UserType, "id" | "name" | "image" | "createdAt">
+
+export type UserProfileType = Omit<UserType, "password"> & {
+  isBanned: boolean
+}
+
+export type ManagedUserType = Pick<
+  UserType,
+  "id" | "name" | "image" | "roles" | "email" | "signUpMethod" | "createdAt" | "updatedAt"
+> & {
+  isBanned: boolean
+}
+
+export interface UserPaginatedType {
+  items: ManagedUserType[]
+  totalCount: number
+}
