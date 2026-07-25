@@ -93,8 +93,8 @@ const isCreateButtonDisabled = computed(() => {
 </script>
 
 <template>
-  <section :class="$style.wrapper">
-    <div :class="$style.header">
+  <section>
+    <div>
       <div :class="$style.title">
         <UiTypography
           variant="title3"

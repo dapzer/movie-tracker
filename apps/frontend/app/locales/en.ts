@@ -86,6 +86,7 @@ export default {
     noSeasons: "This series has no episodes",
     noEpisodes: "There are no episodes in the selected season",
     backToTvPage: "Back to the TV series page",
+    backToMoviePage: "Back to the movie page",
     multipleElements: "elements",
     manyElements: "elements",
     singleElements: "element",

@@ -9,8 +9,11 @@ import { computed, watch } from "vue"
 import { useGetMediaReviewByIdApi } from "~/api/mediaReviews/useMediaReviewsApi"
 import { MediaReviewCard } from "~/entities/mediaReview"
 import { UiContainer } from "~/shared/ui/UiContainer"
+import { UiDivider } from "~/shared/ui/UiDivider"
+import { UiInfoHeader } from "~/shared/ui/UiInfoHeader"
 import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
-import { ContentListHeader } from "~/widgets/contentList"
+import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
+import MovieDetailsActions from "~/widgets/details/ui/MovieDetailsActions.vue"
 
 const route = useRoute()
 const reviewId = route.params.id
@@ -72,12 +75,41 @@ watch(() => review.value, (newValue, oldValue) => {
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <ContentListHeader
-      :title="t('mediaReview.reviewOf', { title: details?.title || details?.originalTitle })"
-      :back-button-text="details?.title "
+    <UiInfoHeader
+      poster-size="small"
+      :description="$t(`details.mediaType.${review?.mediaType}`)"
+      :image="details?.poster && getProxiedImageUrl(details?.poster, 350)"
+      fallback-image="/defaultMoviePoster.svg"
+      :title="details?.title || details?.originalTitle!"
+      :back-button-text="$t(`details.backTo${review?.mediaType === 'movie' ? 'Movie' : 'Tv'}Page`)"
       :back-button-url="moviePagePath"
-    />
-
+    >
+      <template
+        v-if="review"
+        #posterFooter
+      >
+        <MovieDetailsActions
+          hide-rating
+          :class="$style.actionsMobile"
+          :title="details?.title || details?.originalTitle"
+          :media-id="review.mediaId"
+          :media-type="review.mediaType"
+        />
+      </template>
+      <template
+        v-if="review"
+        #content
+      >
+        <MovieDetailsActions
+          hide-rating
+          :class="$style.actionsPc"
+          :title="details?.title || details?.originalTitle"
+          :media-id="review.mediaId"
+          :media-type="review.mediaType"
+        />
+      </template>
+    </UiInfoHeader>
+    <UiDivider :class="$style.divider" />
     <MediaReviewCard
       v-if="review"
       :media-review="review"
@@ -87,7 +119,50 @@ watch(() => review.value, (newValue, oldValue) => {
 </template>
 
 <style module lang="scss">
+@import "~/shared/styles/breakpoints";
+@import "~/shared/styles/mixins";
+
 .wrapper {
-  padding-top: 44px !important;
+  padding-top: 50px !important;
+
+  @include mobileDevice() {
+    padding-top: 0 !important;
+  }
+}
+
+.divider {
+  margin-top: 20px;
+  margin-bottom: 16px;
+
+  @include mobileDevice() {
+    display: none;
+  }
+}
+
+.actionsMobile {
+  display: none !important;
+
+  @include mobilePlusDevice() {
+    display: flex !important;
+    &,
+    button,
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+.actionsPc {
+  margin-top: auto;
+  flex-direction: row;
+  gap: 8px;
+
+  button {
+    margin: 0 !important;
+  }
+
+  @include mobilePlusDevice() {
+    display: none !important;
+  }
 }
 </style>

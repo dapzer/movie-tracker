@@ -86,6 +86,7 @@ export default {
     noSeasons: "Данный сериал не имеет эпизодов",
     noEpisodes: "В выбранном сезоне нет эпизодов",
     backToTvPage: "Вернуться на страницу сериала",
+    backToMoviePage: "Вернуться на страницу фильма",
     multipleElements: "элементов",
     manyElements: "элемента",
     singleElements: "элемент",
