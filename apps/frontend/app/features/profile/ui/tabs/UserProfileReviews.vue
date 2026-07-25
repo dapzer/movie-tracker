@@ -4,7 +4,7 @@ import { computed, onBeforeUnmount } from "#imports"
 import { MediaReviewStatus } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { useGetMediaReviewsByUserIdApi } from "~/api/mediaReviews/useMediaReviewsApi"
-import { MediaReviewCardSkeleton, MediaReviewCardWithPoster } from "~/entities/mediaReview"
+import { MediaReviewCardWithPoster, MediaReviewCardWithPosterSkeleton } from "~/entities/mediaReview"
 import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
@@ -59,7 +59,7 @@ const mediaReviews = computed(() => {
         />
       </template>
       <template v-else>
-        <MediaReviewCardSkeleton
+        <MediaReviewCardWithPosterSkeleton
           v-for="i in itemsPerPage"
           :key="i"
         />

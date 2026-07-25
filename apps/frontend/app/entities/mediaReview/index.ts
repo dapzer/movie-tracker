@@ -5,6 +5,7 @@ export { default as MediaReviewCardCompactSkeleton } from "./ui/card/MediaReview
 export { default as MediaReviewCardSkeleton } from "./ui/card/MediaReviewCardSkeleton.vue"
 export { default as MediaReviewCardStatused } from "./ui/card/MediaReviewCardStatused.vue"
 export { default as MediaReviewCardWithPoster } from "./ui/card/MediaReviewCardWithPoster.vue"
+export { default as MediaReviewCardWithPosterSkeleton } from "./ui/card/MediaReviewCardWithPosterSkeleton.vue"
 export { default as MediaReviewCardMediaNameLink } from "./ui/card/MediaReviewMediaNameLink.vue"
 export { default as MediaReviewForm } from "./ui/MediaReviewForm.vue"
 export { default as MediaReviewModerationCard } from "./ui/moderation/MediaReviewModerationCard.vue"
