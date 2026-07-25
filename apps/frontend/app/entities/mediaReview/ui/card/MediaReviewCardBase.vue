@@ -43,6 +43,7 @@ const userProfileUrl = computed(() => {
           :to="userProfileUrl"
         >
           <UiAvatar
+            aria-hidden="true"
             :class="$style.avatarMobile"
             :size="32"
             :src="props.mediaReview.user?.image"

@@ -1593,7 +1593,6 @@ export default {
       description: "Будьте первым, кто поделится своим мнением.",
       action: "Написать рецензию",
     },
-    noReviewsDescr: "Для этой кинокартины нет рецензий",
     yourRating: "Ваша оценка",
     deleteModal: {
       title: "Удалить рецензию",

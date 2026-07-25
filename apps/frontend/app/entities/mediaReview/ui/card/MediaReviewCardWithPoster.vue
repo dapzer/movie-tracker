@@ -52,11 +52,20 @@ const mediaDetailsUrl = computed(() => {
         />
       </NuxtLink>
       <div :class="$style.posterOverlay">
+        <UiTypography
+          :as="NuxtLink"
+          :to="mediaDetailsUrl"
+          :class="$style.titleTextMobile"
+          variant="cardTitle"
+          aria-hidden="true"
+        >
+          {{ mediaTitle }}
+        </UiTypography>
         <UiRating
           :class="$style.rating"
           :value="props.mediaReview?.mediaDetails?.score"
         />
-        <div>
+        <div :class="$style.hoverMenuWrapper">
           <MovieHoverMenu
             :class="$style.hoverMenu"
             :media-id="props.mediaReview.mediaId"
@@ -130,10 +139,6 @@ const mediaDetailsUrl = computed(() => {
   position: relative;
   width: 100%;
   max-width: 129px;
-
-  @include mobileDevice() {
-    display: none;
-  }
 }
 
 .posterOverlay {
@@ -208,6 +213,46 @@ const mediaDetailsUrl = computed(() => {
   @include mobileDevice() {
     flex-wrap: wrap;
     justify-content: flex-start;
+  }
+}
+
+.titleTextMobile {
+  display: none;
+}
+
+@include mobileDevice() {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .posterWrapper {
+    max-width: unset;
+    display: flex;
+    gap: 16px;
+
+    .poster {
+      width: 50px;
+    }
+  }
+
+  .posterOverlay {
+    position: unset;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: unset;
+  }
+
+  .hoverMenuWrapper {
+    display: none;
+  }
+
+  .titleText {
+    display: none;
+  }
+
+  .titleTextMobile {
+    @include ellipsisText();
+    display: block;
   }
 }
 </style>
