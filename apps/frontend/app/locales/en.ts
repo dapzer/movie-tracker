@@ -1585,6 +1585,7 @@ export default {
     reviewOf: "Review of {title}",
     create: "Review this title",
     createTooltip: "You have already written a review for this title",
+    createTooltipBanned: "You cannot write a review for this title because you are banned",
     noReviews: {
       title: "No reviews yet",
       description: "Be the first to share your thoughts.",

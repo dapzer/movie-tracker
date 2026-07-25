@@ -1,8 +1,12 @@
 import { Module } from "@nestjs/common"
 import { DrizzleMediaReviewRepository } from "@/repositories/mediaReview/DrizzleMediaReviewRepository"
 import { MediaReviewRepositorySymbol } from "@/repositories/mediaReview/MediaReviewRepositoryInterface"
-import { DrizzleMediaReviewDislikeRepository } from "@/repositories/mediaReviewDislike/DrizzleMediaReviewDislikeRepository"
-import { MediaReviewDislikeRepositorySymbol } from "@/repositories/mediaReviewDislike/MediaReviewDislikeRepositoryInterface"
+import {
+  DrizzleMediaReviewDislikeRepository,
+} from "@/repositories/mediaReviewDislike/DrizzleMediaReviewDislikeRepository"
+import {
+  MediaReviewDislikeRepositorySymbol,
+} from "@/repositories/mediaReviewDislike/MediaReviewDislikeRepositoryInterface"
 import { DrizzleMediaReviewLikeRepository } from "@/repositories/mediaReviewLike/DrizzleMediaReviewLikeRepository"
 import { MediaReviewLikeRepositorySymbol } from "@/repositories/mediaReviewLike/MediaReviewLikeRepositoryInterface"
 import {
@@ -13,9 +17,10 @@ import {
 } from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
 import { MediaDetailsServiceModule } from "@/services/mediaDetails/mediaDetails.module"
 import { MediaReviewsService } from "@/services/mediaReviews/mediaReviews.service"
+import { UserBansServiceModule } from "@/services/userBans/userBans.module"
 
 @Module({
-  imports: [MediaDetailsServiceModule],
+  imports: [MediaDetailsServiceModule, UserBansServiceModule],
   providers: [
     MediaReviewsService,
     { provide: MediaReviewRepositorySymbol, useClass: DrizzleMediaReviewRepository },

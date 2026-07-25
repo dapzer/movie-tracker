@@ -103,3 +103,15 @@ export class MediaReviewDislikeAlreadyExistsError extends ConflictError {
     this.mediaReviewId = args.mediaReviewId
   }
 }
+
+export class MediaReviewUserBannedError extends ForbiddenError {
+  readonly userId: string
+
+  constructor(args: { userId: string } & CustomErrorOptions) {
+    super(
+      args.message ?? `User is banned from creating media reviews.`,
+      { cause: args.cause, details: args.details },
+    )
+    this.userId = args.userId
+  }
+}

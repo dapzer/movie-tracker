@@ -22,6 +22,7 @@ import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaRev
 import { CreateMediaReviewDislikeDto } from "@/services/mediaReviews/dto/createMediaReviewDislike.dto"
 import { CreateMediaReviewLikeDto } from "@/services/mediaReviews/dto/createMediaReviewLike.dto"
 import { UpdateMediaReviewDto } from "@/services/mediaReviews/dto/updateMediaReview.dto"
+import { UserBansService } from "@/services/userBans/userBans.service"
 import { UserType } from "@/services/users/dto/user.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { MediaDetailsCreationFailedError } from "@/shared/errors/mediaRating"
@@ -34,6 +35,7 @@ import {
   MediaReviewNotFoundError,
   MediaReviewPermissionError,
   MediaReviewUnauthorizedError,
+  MediaReviewUserBannedError,
 } from "@/shared/errors/mediaReview"
 
 @Injectable()
@@ -48,6 +50,7 @@ export class MediaReviewsService {
     @Inject(MediaReviewsModerationLogsRepositorySymbol)
     private readonly moderationLogsRepository: MediaReviewsModerationLogsRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
+    private readonly userBansService: UserBansService,
   ) {
   }
 
@@ -142,6 +145,12 @@ export class MediaReviewsService {
 
     if (existing) {
       throw new MediaReviewAlreadyExistsError({ userId: args.userId, mediaId: args.body.mediaId })
+    }
+
+    const activeBan = await this.userBansService.getActiveByUserId(args.userId)
+
+    if (activeBan) {
+      throw new MediaReviewUserBannedError({ userId: args.userId })
     }
 
     const mediaDetails = await this.mediaDetailsService.createOrUpdate({

@@ -13,6 +13,8 @@ import {
   MediaReviewCardStatused,
   MediaReviewForm,
 } from "~/entities/mediaReview"
+import { useAuth } from "~/shared/composables/useAuth"
+import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -31,6 +33,8 @@ interface MovieDetailsProducersProps {
 const props = defineProps<MovieDetailsProducersProps>()
 
 const currentPage = ref<number>(1)
+const { profile, isAuthorized } = useAuth()
+const { navigateToSignInPage } = useNavigateToSignInPage()
 
 const getMediaReviewsByMediaIdApiQueries = computed(() => ({
   mediaId: props.mediaId,
@@ -76,8 +80,16 @@ const isPublishedReviewsExists = computed(() => {
 })
 
 function handleOpenForm() {
+  if (!isAuthorized.value) {
+    navigateToSignInPage()
+    return
+  }
   createFormVisible.value = true
 }
+
+const isCreateButtonDisabled = computed(() => {
+  return isPublishedReviewsExists.value || createFormVisible.value || profile.value?.isBanned
+})
 </script>
 
 <template>
@@ -91,12 +103,12 @@ function handleOpenForm() {
           {{ $t("mediaReview.title") }}
         </UiTypography>
         <UiTooltip
-          :disabled="!isPublishedReviewsExists || createFormVisible"
+          :disabled="!isCreateButtonDisabled"
           side="bottom"
         >
           <template #trigger>
             <UiButton
-              :disabled="isPublishedReviewsExists || createFormVisible"
+              :disabled="isCreateButtonDisabled"
               variant="boxed"
               scheme="secondary"
               size="medium"
@@ -115,7 +127,7 @@ function handleOpenForm() {
               variant="description"
               :class="$style.tooltipTitle"
             >
-              {{ $t("mediaReview.createTooltip") }}
+              {{ $t(profile?.isBanned ? "mediaReview.createTooltipBanned" : "mediaReview.createTooltip") }}
             </UiTypography>
           </template>
         </UiTooltip>
@@ -159,16 +171,31 @@ function handleOpenForm() {
         :indent="0"
         title-variant="subheading"
       >
-        <UiButton
-          with-icon
-          variant="text"
-          scheme="link"
-          :disabled="createFormVisible || isPublishedReviewsExists"
-          @click="handleOpenForm"
+        <UiTooltip
+          side="bottom"
+          :disabled="!isCreateButtonDisabled"
         >
-          {{ $t('mediaReview.noReviews.action') }}
-          <UiIcon name="icon:plus" />
-        </UiButton>
+          <template #trigger>
+            <UiButton
+              with-icon
+              variant="text"
+              scheme="link"
+              :disabled="isCreateButtonDisabled"
+              @click="handleOpenForm"
+            >
+              {{ $t('mediaReview.noReviews.action') }}
+              <UiIcon name="icon:plus" />
+            </UiButton>
+          </template>
+          <template #content>
+            <UiTypography
+              variant="description"
+              :class="$style.tooltipTitle"
+            >
+              {{ $t(profile?.isBanned ? "mediaReview.createTooltipBanned" : "mediaReview.createTooltip") }}
+            </UiTypography>
+          </template>
+        </UiTooltip>
       </UiAttention>
     </div>
 
