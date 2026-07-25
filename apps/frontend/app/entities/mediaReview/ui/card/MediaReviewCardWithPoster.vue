@@ -109,6 +109,7 @@ const mediaDetailsUrl = computed(() => {
           :max-lines="5"
           :max-chars-in-line="109"
           :disabled="!props.mediaReview.isSpoiler"
+          without-shadow
         />
         <MediaReviewCardRate :rating="props.mediaReview.rating" />
       </div>

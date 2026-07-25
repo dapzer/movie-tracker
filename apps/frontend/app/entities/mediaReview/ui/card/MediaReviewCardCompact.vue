@@ -63,6 +63,7 @@ const { locale } = useI18n()
         :max-chars-in-line="109"
         :disabled="!props.mediaReview.isSpoiler"
         :expandable="false"
+        without-shadow
       />
       <MediaReviewCardRate :rating="props.mediaReview.rating" />
     </div>
