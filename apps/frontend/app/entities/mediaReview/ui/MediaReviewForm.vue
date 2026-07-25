@@ -263,50 +263,53 @@ const isRatingChanged = computed(() => {
         v-model="formValue.content"
         :error="errors?.content"
         :placeholder="$t('mediaReview.form.content')"
+        :description="$t('mediaReview.form.contentDescription')"
         :disabled="isLoading"
         :maxlength="MEDIA_REVIEW_CONTENT_MAX_LENGTH"
       />
 
-      <label :class="$style.spoilerSwitch">
-        <UiSwitch
-          v-model="formValue.isSpoiler"
-          :disabled="isLoading"
-          scheme="gray"
-        />
-        <UiTypography
-          variant="label"
-          as="span"
-        >
-          {{ $t("mediaReview.form.spoiler") }}
-        </UiTypography>
-      </label>
+      <div :class="$style.footer">
+        <label :class="$style.spoilerSwitch">
+          <UiSwitch
+            v-model="formValue.isSpoiler"
+            :disabled="isLoading"
+            scheme="gray"
+          />
+          <UiTypography
+            variant="label"
+            as="span"
+          >
+            {{ $t("mediaReview.form.spoiler") }}
+          </UiTypography>
+        </label>
 
-      <div :class="$style.actions">
-        <UiConfirmationModal
-          :title="$t('mediaReview.form.confirmDeleteTitle')"
-          :description="$t('mediaReview.form.confirmDeleteDescription')"
-          :confirm-text="$t('ui.yes')"
-          :cancel-text="$t('ui.no')"
-          scheme="danger"
-          @confirm="handleCancel"
-        >
-          <template #trigger="{ openModal }">
-            <UiButton
-              variant="outlined"
-              type="button"
-              :disabled="isLoading"
-              @click="openModal"
-            >
-              {{ $t('ui.actions.cancel') }}
-            </UiButton>
-          </template>
-        </UiConfirmationModal>
-        <UiButton
-          type="action"
-          :disabled="isLoading || (!isRatingChanged && !isFormValueChanged)"
-        >
-          {{ $t("mediaReview.form.publish") }}
-        </UiButton>
+        <div :class="$style.actions">
+          <UiConfirmationModal
+            :title="$t('mediaReview.form.confirmDeleteTitle')"
+            :description="$t('mediaReview.form.confirmDeleteDescription')"
+            :confirm-text="$t('ui.yes')"
+            :cancel-text="$t('ui.no')"
+            scheme="danger"
+            @confirm="handleCancel"
+          >
+            <template #trigger="{ openModal }">
+              <UiButton
+                variant="outlined"
+                type="button"
+                :disabled="isLoading"
+                @click="openModal"
+              >
+                {{ $t('ui.actions.cancel') }}
+              </UiButton>
+            </template>
+          </UiConfirmationModal>
+          <UiButton
+            type="action"
+            :disabled="isLoading || (!isRatingChanged && !isFormValueChanged)"
+          >
+            {{ $t("mediaReview.form.publish") }}
+          </UiButton>
+        </div>
       </div>
     </div>
   </form>
@@ -377,9 +380,25 @@ const isRatingChanged = computed(() => {
   width: fit-content;
 }
 
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+
+  @include mobileDevice() {
+    width: 100%;
+
+    button {
+      width: 100%;
+    }
+  }
 }
 </style>
