@@ -1404,7 +1404,7 @@ export default {
         },
         leaveReview: {
           title: "How do I leave a review?",
-          description: "Currently, the review feature is not available, but we are working on it. Stay tuned for updates!",
+          description: "To leave a review, go to the movie or TV show page, scroll down to the \"Reviews\" section, and click the \"Write a review\" button. After that, you can share your opinion and rate the movie or TV show.",
         },
         contactSupport: {
           title: "How can I contact customer support?",
