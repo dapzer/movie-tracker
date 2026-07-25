@@ -73,7 +73,6 @@ const props = withDefaults(defineProps<UiVideoCardProps>(), {
     gap: 4px;
 
     .title {
-      @include ellipsisText();
       @include multiLineEllipsis(2);
     }
   }

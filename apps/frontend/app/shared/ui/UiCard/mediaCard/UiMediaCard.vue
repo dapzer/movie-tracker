@@ -89,7 +89,6 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
   gap: 4px;
 
   .title {
-    @include ellipsisText();
     @include multiLineEllipsis(2);
     width: fit-content;
   }
