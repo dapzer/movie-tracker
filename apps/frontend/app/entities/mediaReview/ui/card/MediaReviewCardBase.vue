@@ -67,7 +67,7 @@ const userProfileUrl = computed(() => {
       <div :class="$style.content">
         <UiTypography
           v-if="props.mediaReview.title"
-          variant="subheading"
+          variant="listTitle"
         >
           {{ props.mediaReview.title }}
         </UiTypography>
