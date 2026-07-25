@@ -1583,7 +1583,11 @@ export default {
     reviewOf: "Review of {title}",
     create: "Review this title",
     createTooltip: "You have already written a review for this title",
-    noReviews: "There are no reviews for this title yet",
+    noReviews: {
+      title: "No reviews yet",
+      description: "Be the first to share your thoughts.",
+      action: "Write a review",
+    },
     yourRating: "Your rating",
     deleteModal: {
       title: "Delete review",

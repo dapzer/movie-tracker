@@ -75,7 +75,7 @@ const isPublishedReviewsExists = computed(() => {
   return data && status !== MediaReviewStatus.DELETED
 })
 
-function handleStartEditing() {
+function handleOpenForm() {
   createFormVisible.value = true
 }
 </script>
@@ -101,7 +101,7 @@ function handleStartEditing() {
               scheme="secondary"
               size="medium"
               with-icon
-              @click="createFormVisible = true"
+              @click="handleOpenForm"
             >
               <UiIcon
                 name="icon:reviews-outlined"
@@ -137,7 +137,7 @@ function handleStartEditing() {
       <MediaReviewCardStatused
         v-if="isShowStatusedCard && currentReview"
         :media-review="currentReview"
-        @on-edit-click="handleStartEditing"
+        @on-edit-click="handleOpenForm"
       />
       <template v-if="!getMediaReviewsByMediaIdApi.isPending.value && data?.items.length">
         <MediaReviewCard
@@ -154,10 +154,22 @@ function handleStartEditing() {
       </template>
       <UiAttention
         v-else
-        :title="$t('mediaReview.noReviews')"
+        :title="$t('mediaReview.noReviews.title')"
+        :description="$t('mediaReview.noReviews.description')"
         :indent="0"
         title-variant="subheading"
-      />
+      >
+        <UiButton
+          with-icon
+          variant="text"
+          scheme="link"
+          :disabled="createFormVisible || isPublishedReviewsExists"
+          @click="handleOpenForm"
+        >
+          {{ $t('mediaReview.noReviews.action') }}
+          <UiIcon name="icon:plus" />
+        </UiButton>
+      </UiAttention>
     </div>
 
     <template v-if="data?.totalCount && data.totalCount >= 1">
