@@ -35,6 +35,7 @@ function onOpenButtonClicked() {
     :class="$style.trigger"
     align="start"
     side="right"
+    v-bind="$attrs"
   >
     <template #trigger>
       <UiIcon

@@ -72,7 +72,7 @@ const trackSince = computed(() => {
   gap: 24px;
   min-width: 0;
 
-  @include mobileDevice() {
+  @include mobilePlusDevice() {
     flex-direction: column;
     gap: 20px;
   }

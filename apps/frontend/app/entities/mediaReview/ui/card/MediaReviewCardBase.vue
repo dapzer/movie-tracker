@@ -3,8 +3,8 @@ import type { MediaReview } from "@movie-tracker/types"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { computed } from "vue"
+import MediaReviewCardRate from "~/entities/mediaReview/ui/card/MediaReviewCardRate.vue"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
-import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiSpoilerText } from "~/shared/ui/UiSpoilerText"
 import { UiTrimmedText } from "~/shared/ui/UiTrimmedText"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -16,7 +16,7 @@ interface MediaReviewCardBaseProps {
 
 const props = defineProps<MediaReviewCardBaseProps>()
 const localePath = useLocalePath()
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 
 const userProfileUrl = computed(() => {
   return localePath(`/profile/${props.mediaReview.user?.id}`)
@@ -79,19 +79,7 @@ const userProfileUrl = computed(() => {
           :max-chars-in-line="109"
           :disabled="!props.mediaReview.isSpoiler"
         />
-        <div :class="$style.rating">
-          <template v-if="props.mediaReview.rating">
-            <UiIcon
-              :class="$style.star"
-              name="icon:rating-star-filled"
-              :size="16"
-              block
-            />
-            <UiTypography variant="description">
-              {{ props.mediaReview.rating }}/10
-            </UiTypography>
-          </template>
-        </div>
+        <MediaReviewCardRate :rating="props.mediaReview.rating" />
       </div>
 
       <slot name="footer" />
@@ -152,15 +140,10 @@ const userProfileUrl = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
 
-.text {
-  white-space: pre-wrap;
-}
-
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+  .text {
+    white-space: pre-wrap;
+    color: var(--c-description);
+  }
 }
 </style>

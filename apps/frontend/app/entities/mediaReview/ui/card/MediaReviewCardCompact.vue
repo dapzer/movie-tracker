@@ -4,8 +4,8 @@ import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { MediaReviewCardMediaNameLink } from "~/entities/mediaReview"
+import MediaReviewCardRate from "~/entities/mediaReview/ui/card/MediaReviewCardRate.vue"
 import { UiAvatar } from "~/shared/ui/UiAvatar"
-import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiSpoilerText } from "~/shared/ui/UiSpoilerText"
 import { UiTrimmedText } from "~/shared/ui/UiTrimmedText"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -64,19 +64,7 @@ const { locale } = useI18n()
         :disabled="!props.mediaReview.isSpoiler"
         :expandable="false"
       />
-      <div :class="$style.rating">
-        <template v-if="props.mediaReview.rating">
-          <UiIcon
-            :class="$style.star"
-            name="icon:rating-star-filled"
-            :size="16"
-            block
-          />
-          <UiTypography variant="description">
-            {{ props.mediaReview.rating }}/10
-          </UiTypography>
-        </template>
-      </div>
+      <MediaReviewCardRate :rating="props.mediaReview.rating" />
     </div>
 
     <MediaReviewCardMediaNameLink
@@ -128,11 +116,5 @@ const { locale } = useI18n()
 
 .link {
   margin-top: auto;
-}
-
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 2px;
 }
 </style>
