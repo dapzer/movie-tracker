@@ -11,6 +11,10 @@ movie-tracker.app {
     reverse_proxy frontend:3000
 }
 
+www.movie-tracker.app {
+    redir https://movie-tracker.app{uri} permanent
+}
+
 api.movie-tracker.app {
     reverse_proxy backend:1337
 }
