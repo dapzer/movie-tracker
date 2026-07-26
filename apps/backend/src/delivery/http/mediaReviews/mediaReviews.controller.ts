@@ -37,7 +37,7 @@ export class MediaReviewsController {
 
   @Get()
   @GetMediaReviewsListDocs()
-  async getMediaReviewsList(@User() user: UserDto, @Query() query: GetMediaReviewsListQueryDto) {
+  async getMediaReviewsList(@User() user: OptionalUserDto, @Query() query: GetMediaReviewsListQueryDto) {
     return this.mediaReviewsService.getList({
       limit: query.limit,
       offset: query.offset,
