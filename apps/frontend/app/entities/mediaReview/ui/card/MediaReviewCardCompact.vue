@@ -60,7 +60,7 @@ const { locale } = useI18n()
         :class="$style.text"
         :text="props.mediaReview.content"
         :max-lines="5"
-        :max-chars-in-line="109"
+        :max-chars-in-line="44"
         :disabled="!props.mediaReview.isSpoiler"
         :expandable="false"
         without-shadow
