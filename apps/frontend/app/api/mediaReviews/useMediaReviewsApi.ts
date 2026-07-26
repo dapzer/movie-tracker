@@ -211,8 +211,8 @@ export function useCreateMediaReviewLikeApi() {
         queryClient.invalidateQueries({
           queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
         }),
-        queryClient.resetQueries({
-          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.mediaReviewId }],
         }),
       ])
     },
@@ -232,8 +232,8 @@ export function useDeleteMediaReviewLikeApi() {
         queryClient.invalidateQueries({
           queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
         }),
-        queryClient.resetQueries({
-          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.mediaReviewId }],
         }),
       ])
     },
@@ -266,8 +266,8 @@ export function useCreateMediaReviewDislikeApi() {
         queryClient.invalidateQueries({
           queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
         }),
-        queryClient.resetQueries({
-          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.mediaReviewId }],
         }),
       ])
     },
@@ -287,8 +287,8 @@ export function useDeleteMediaReviewDislikeApi() {
         queryClient.invalidateQueries({
           queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
         }),
-        queryClient.resetQueries({
-          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.id }],
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_ID, { id: data.mediaReviewId }],
         }),
       ])
     },
