@@ -112,7 +112,7 @@ export class OpenGraphImagesService {
             position: "relative",
             backgroundColor: "#0D0D0D",
             width: "1200px",
-            height: "600px",
+            height: "630px",
             display: "flex",
           },
           children: [
@@ -151,7 +151,7 @@ export class OpenGraphImagesService {
                 alt: "",
                 style: {
                   width: "407px",
-                  height: "600px",
+                  height: "630px",
                   objectFit: "cover",
                 },
               },
@@ -235,7 +235,7 @@ export class OpenGraphImagesService {
       },
       {
         width: 1200,
-        height: 600,
+        height: 630,
         embedFont: true,
         debug: false,
         fonts: [
