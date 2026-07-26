@@ -1,9 +1,11 @@
 import {
+  BanReasonValues,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
 import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
+import { zDateTimeString } from "@/shared/dto/zod.utils"
 import { NotificationMediaListDto, NotificationMediaReleaseEpisodeDto } from "./notificationLeaf.dto"
 import { NotificationUserDto } from "./notificationUser.dto"
 
@@ -33,6 +35,18 @@ const notificationMetaMediaStatusUpdateSchema = z.object({
   currentStatus: z.string().meta({ example: "WATCHING_NOW" }),
 })
 
+const notificationMetaUserBanCreatedSchema = z.object({
+  type: z.literal(NotificationTypeEnum.USER_BAN_CREATED).meta({ enum: [NotificationTypeEnum.USER_BAN_CREATED] }),
+  userBanId: z.uuid().meta({ format: "uuid" }),
+  reason: z.enum(BanReasonValues).meta({ enum: BanReasonValues, example: "SPAM" }),
+  expiresAt: zDateTimeString.optional().meta({ format: "date-time" }),
+})
+
+const notificationMetaUserBanRevokedSchema = z.object({
+  type: z.literal(NotificationTypeEnum.USER_BAN_REVOKED).meta({ enum: [NotificationTypeEnum.USER_BAN_REVOKED] }),
+  userBanId: z.uuid().meta({ format: "uuid" }),
+})
+
 export class NotificationMetaUserFollowDto extends createZodDto(notificationMetaUserFollowSchema) {}
 
 export class NotificationMetaMediaListLikeDto extends createZodDto(notificationMetaMediaListLikeSchema) {}
@@ -40,3 +54,7 @@ export class NotificationMetaMediaListLikeDto extends createZodDto(notificationM
 export class NotificationMetaMediaReleaseDto extends createZodDto(notificationMetaMediaReleaseSchema) {}
 
 export class NotificationMetaMediaStatusUpdateDto extends createZodDto(notificationMetaMediaStatusUpdateSchema) {}
+
+export class NotificationMetaUserBanCreatedDto extends createZodDto(notificationMetaUserBanCreatedSchema) {}
+
+export class NotificationMetaUserBanRevokedDto extends createZodDto(notificationMetaUserBanRevokedSchema) {}

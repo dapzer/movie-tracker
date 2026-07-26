@@ -1548,6 +1548,9 @@ export default {
     reviewModerationChangesRequested: "Changes were requested for your review of '{title}'",
     reviewModerationRejected: "Your review of '{title}' was rejected",
     reviewModerationWithReason: "{message}. Reason: {reason}",
+    userBanCreated: "Your account has been banned. Reason: {reason}. Duration: permanent",
+    userBanCreatedUntil: "Your account has been banned. Reason: {reason}. Expires: {expiresAt}",
+    userBanRevoked: "Your account ban has been revoked",
   },
   releaseSubscription: {
     pageTitle: "Movie subscriptions",

@@ -1550,6 +1550,9 @@ export default {
     reviewModerationChangesRequested: "Для вашей рецензии к ’{title}’ запрошены изменения",
     reviewModerationRejected: "Ваша рецензия к ’{title}’ отклонена",
     reviewModerationWithReason: "{message}. Причина: {reason}",
+    userBanCreated: "Ваш аккаунт заблокирован. Причина: {reason}. Срок: навсегда",
+    userBanCreatedUntil: "Ваш аккаунт заблокирован. Причина: {reason}. Действует до: {expiresAt}",
+    userBanRevoked: "Блокировка вашего аккаунта отозвана",
   },
   releaseSubscription: {
     pageTitle: "Подписки на кинокартины",

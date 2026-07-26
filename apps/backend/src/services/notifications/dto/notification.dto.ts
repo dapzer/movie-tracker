@@ -8,6 +8,8 @@ import {
   NotificationMetaMediaListLikeDto,
   NotificationMetaMediaReleaseDto,
   NotificationMetaMediaStatusUpdateDto,
+  NotificationMetaUserBanCreatedDto,
+  NotificationMetaUserBanRevokedDto,
   NotificationMetaUserFollowDto,
 } from "./notificationMeta.dto"
 
@@ -16,6 +18,8 @@ const notificationMetaSchema = z.discriminatedUnion("type", [
   NotificationMetaMediaListLikeDto.schema,
   NotificationMetaMediaReleaseDto.schema,
   NotificationMetaMediaStatusUpdateDto.schema,
+  NotificationMetaUserBanCreatedDto.schema,
+  NotificationMetaUserBanRevokedDto.schema,
 ])
 
 const notificationSchema = z.object({

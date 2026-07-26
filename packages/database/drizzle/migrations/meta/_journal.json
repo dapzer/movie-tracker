@@ -78,6 +78,13 @@
       "when": 1783776150164,
       "tag": "0010_user_bans_table",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1785079587362,
+      "tag": "0011_notification_user_ban_enum_values",
+      "breakpoints": true
     }
   ]
 }
