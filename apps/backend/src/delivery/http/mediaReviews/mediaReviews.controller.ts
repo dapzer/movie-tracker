@@ -8,7 +8,7 @@ import { CreateMediaReviewDislikeDto } from "@/services/mediaReviews/dto/createM
 import { CreateMediaReviewLikeDto } from "@/services/mediaReviews/dto/createMediaReviewLike.dto"
 import { UpdateMediaReviewDto } from "@/services/mediaReviews/dto/updateMediaReview.dto"
 import { MediaReviewsService } from "@/services/mediaReviews/mediaReviews.service"
-import { UserDto } from "@/services/users/dto/user.dto"
+import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 import {
@@ -58,13 +58,13 @@ export class MediaReviewsController {
 
   @Get(":id")
   @GetMediaReviewByIdDocs()
-  async getMediaReviewById(@Param() params: UuidDto, @User() user: UserDto) {
+  async getMediaReviewById(@Param() params: UuidDto, @User() user: OptionalUserDto) {
     return this.mediaReviewsService.getById({ id: params.id, currentUserId: user?.id })
   }
 
   @Get("by-media/:mediaId")
   @GetMediaReviewsByMediaIdDocs()
-  async getMediaReviewsByMediaId(@User() user: UserDto, @Param("mediaId") mediaId: string, @Query() query: GetMediaReviewsByMediaIdQueryDto) {
+  async getMediaReviewsByMediaId(@User() user: OptionalUserDto, @Param("mediaId") mediaId: string, @Query() query: GetMediaReviewsByMediaIdQueryDto) {
     return this.mediaReviewsService.getByMediaId({
       mediaId: Number(mediaId),
       limit: query.limit,
@@ -75,7 +75,7 @@ export class MediaReviewsController {
 
   @Get("by-user/:id")
   @GetMediaReviewsByUserIdDocs()
-  async getMediaReviewsByUserId(@Param() params: UuidDto, @Query() query: GetMediaReviewsByUserIdQueryDto, @User() user: UserDto) {
+  async getMediaReviewsByUserId(@Param() params: UuidDto, @Query() query: GetMediaReviewsByUserIdQueryDto, @User() user: OptionalUserDto) {
     return this.mediaReviewsService.getByUserId({
       userId: params.id,
       limit: query.limit,
