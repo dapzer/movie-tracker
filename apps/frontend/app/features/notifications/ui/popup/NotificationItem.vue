@@ -184,7 +184,7 @@ const linkTo = computed(() => {
     case NotificationTypeEnum.MEDIA_STATUS_UPDATE:
       return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}`
     case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE:
-      return `/reviews/${metaData.value.mediaReviewId}`
+      return `/reviews/details/${metaData.value.mediaReviewId}`
     case NotificationTypeEnum.USER_BAN_CREATED:
     case NotificationTypeEnum.USER_BAN_REVOKED:
       return undefined
