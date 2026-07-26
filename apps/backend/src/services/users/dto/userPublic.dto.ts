@@ -23,11 +23,11 @@ const managedUserSchema = UserDto.schema.pick({
   isBanned: z.boolean().meta({ example: false }),
 })
 
-const userPaginatedSchema = z.object({
+const managedUserPaginatedSchema = z.object({
   items: z.array(managedUserSchema),
   totalCount: z.number().meta({ example: 25 }),
 })
 
 export class UserPublicDto extends createZodDto(userPublicSchema) {}
 export class ManagedUserDto extends createZodDto(managedUserSchema) {}
-export class UserPaginatedDto extends createZodDto(userPaginatedSchema) {}
+export class ManagedUserPaginatedDto extends createZodDto(managedUserPaginatedSchema) {}

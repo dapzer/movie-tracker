@@ -201,8 +201,8 @@ export class DrizzleUserBanRepository implements UserBanRepositoryInterface {
         userId: args.userId,
         issuedBy: args.issuedBy,
         reason: args.reason,
-        comment: args.comment ?? null,
-        expiresAt: args.expiresAt ?? null,
+        comment: args.comment,
+        expiresAt: args.expiresAt,
       })
       .returning()
 

@@ -10,7 +10,7 @@ import {
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
 import { UserProfileDto, UserWithoutPasswordDto } from "@/services/users/dto/user.dto"
-import { UserPaginatedDto, UserPublicDto } from "@/services/users/dto/userPublic.dto"
+import { ManagedUserPaginatedDto, UserPublicDto } from "@/services/users/dto/userPublic.dto"
 import { UserStatsDto } from "@/services/users/dto/userStats.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
@@ -30,7 +30,7 @@ export function GetCurrentUserDocs() {
 export function GetUsersDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get users" }),
-    ApiOkResponse({ description: "Paginated users", type: UserPaginatedDto }),
+    ApiOkResponse({ description: "Paginated users", type: ManagedUserPaginatedDto }),
     ApiInternalServerErrorResponse({ description: "Failed to fetch users", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Insufficient permissions", type: ErrorResponseDto }),
   )

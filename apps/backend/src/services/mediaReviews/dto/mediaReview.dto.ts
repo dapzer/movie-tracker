@@ -21,11 +21,11 @@ const mediaReviewSchema = z.object({
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum, example: MediaTypeEnum.MOVIE }),
   mediaDetailsId: z.uuid().meta({ format: "uuid", example: "f6b49f5d-2c8a-4f3e-9e74-7a3f7d2d5a01" }),
   mediaDetails: MediaDetailsDto.schema.optional(),
-  title: z.string().meta({
+  title: z.string().max(MEDIA_REVIEW_TITLE_MAX_LENGTH).optional().meta({
     maxLength: MEDIA_REVIEW_TITLE_MAX_LENGTH,
     example: "A fresh and stylish action film",
   }),
-  content: z.string().meta({
+  content: z.string().min(MEDIA_REVIEW_CONTENT_MIN_LENGTH).max(MEDIA_REVIEW_CONTENT_MAX_LENGTH).meta({
     minLength: MEDIA_REVIEW_CONTENT_MIN_LENGTH,
     maxLength: MEDIA_REVIEW_CONTENT_MAX_LENGTH,
     example: "Great pacing and soundtrack, but the third act feels rushed.",
