@@ -1,5 +1,5 @@
 import { MediaDetailsType, MediaListType, MediaReviewModerationLogAction, MediaReviewModerationLogReason } from "../media"
-import { UserPublicType } from "../user"
+import { BanReason, UserPublicType } from "../user"
 
 export interface NotificationType {
   id: string
@@ -25,6 +25,8 @@ export enum NotificationTypeEnum {
   MEDIA_RELEASE = "MEDIA_RELEASE",
   MEDIA_STATUS_UPDATE = "MEDIA_STATUS_UPDATE",
   MEDIA_REVIEW_MODERATION_UPDATE = "MEDIA_REVIEW_MODERATION_UPDATE",
+  USER_BAN_CREATED = "USER_BAN_CREATED",
+  USER_BAN_REVOKED = "USER_BAN_REVOKED",
 }
 
 export interface NotificationMediaReleaseEpisodeType {
@@ -57,6 +59,14 @@ export type NotificationMetaType
     mediaDetailsId: string
     action: MediaReviewModerationLogAction
     reason?: MediaReviewModerationLogReason
+  } | {
+    type: NotificationTypeEnum.USER_BAN_CREATED
+    userBanId: string
+    reason: BanReason
+    expiresAt?: Date
+  } | {
+    type: NotificationTypeEnum.USER_BAN_REVOKED
+    userBanId: string
   }
 
 export type ExtractNotificationMetaType<T extends NotificationTypeEnum> = Extract<NotificationMetaType, { type: T }>
@@ -89,6 +99,14 @@ export type NotificationMetaResponseType
     mediaDetails: MediaDetailsType
     action: MediaReviewModerationLogAction
     reason?: MediaReviewModerationLogReason
+  } | {
+    type: NotificationTypeEnum.USER_BAN_CREATED
+    userBanId: string
+    reason: BanReason
+    expiresAt?: Date
+  } | {
+    type: NotificationTypeEnum.USER_BAN_REVOKED
+    userBanId: string
   }
 
 export type ExtractNotificationMetaResponseType<T extends NotificationTypeEnum> = Extract<NotificationMetaResponseType, { type: T }>

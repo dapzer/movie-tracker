@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { ExtractNotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
+import type { BanReason, ExtractNotificationMetaResponseType, NotificationType } from "@movie-tracker/types"
+import { NuxtLink } from "#components"
 import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import {
@@ -14,6 +15,7 @@ import { UiBadge } from "~/shared/ui/UiBadge"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiTypography } from "~/shared/ui/UiTypography"
+import { formatDateWithTime } from "~/shared/utils/formatDateWithTime"
 import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import { getShortText } from "~/shared/utils/getShortText"
@@ -28,33 +30,28 @@ const props = defineProps<NotificationItem>()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
-function getReviewModerationTranslationKey(action: MediaReviewModerationLogAction) {
-  switch (action) {
-    case MediaReviewModerationLogAction.APPROVED:
-      return "notifications.reviewModerationApproved"
-    case MediaReviewModerationLogAction.APPROVED_WITH_SPOILER_MARK:
-      return "notifications.reviewModerationApprovedWithSpoiler"
-    case MediaReviewModerationLogAction.CHANGES_REQUESTED:
-      return "notifications.reviewModerationChangesRequested"
-    default:
-      return "notifications.reviewModerationRejected"
-  }
-}
+const reviewModerationTranslationKeys = {
+  [MediaReviewModerationLogAction.APPROVED]: "notifications.reviewModerationApproved",
+  [MediaReviewModerationLogAction.APPROVED_WITH_SPOILER_MARK]: "notifications.reviewModerationApprovedWithSpoiler",
+  [MediaReviewModerationLogAction.CHANGES_REQUESTED]: "notifications.reviewModerationChangesRequested",
+  [MediaReviewModerationLogAction.REJECTED]: "notifications.reviewModerationRejected",
+} satisfies Record<MediaReviewModerationLogAction, string>
 
-function getReviewModerationReasonTranslationKey(reason: MediaReviewModerationLogReason) {
-  switch (reason) {
-    case MediaReviewModerationLogReason.OFF_TOPIC:
-      return "mediaReview.moderation.reason.offTopic"
-    case MediaReviewModerationLogReason.SPAM:
-      return "mediaReview.moderation.reason.spam"
-    case MediaReviewModerationLogReason.TOXICITY:
-      return "mediaReview.moderation.reason.toxicity"
-    case MediaReviewModerationLogReason.LOW_EFFORT_JUNK:
-      return "mediaReview.moderation.reason.lowEffortJunk"
-    default:
-      return "mediaReview.moderation.reason.other"
-  }
-}
+const reviewModerationReasonTranslationKeys = {
+  [MediaReviewModerationLogReason.OFF_TOPIC]: "mediaReview.moderation.reason.offTopic",
+  [MediaReviewModerationLogReason.SPAM]: "mediaReview.moderation.reason.spam",
+  [MediaReviewModerationLogReason.TOXICITY]: "mediaReview.moderation.reason.toxicity",
+  [MediaReviewModerationLogReason.LOW_EFFORT_JUNK]: "mediaReview.moderation.reason.lowEffortJunk",
+  [MediaReviewModerationLogReason.OTHER]: "mediaReview.moderation.reason.other",
+} satisfies Record<MediaReviewModerationLogReason, string>
+
+const banReasonTranslationKeys = {
+  SPAM: "users.ban.reason.spam",
+  TOXICITY: "users.ban.reason.toxicity",
+  MSFW: "users.ban.reason.msfw",
+  FRAUD: "users.ban.reason.fraud",
+  OTHER: "users.ban.reason.other",
+} satisfies Record<BanReason, string>
 
 const metaData = computed(() => {
   switch (props.notification.type) {
@@ -68,6 +65,10 @@ const metaData = computed(() => {
       return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_STATUS_UPDATE>
     case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE:
       return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE>
+    case NotificationTypeEnum.USER_BAN_CREATED:
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_BAN_CREATED>
+    case NotificationTypeEnum.USER_BAN_REVOKED:
+      return props.notification.meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_BAN_REVOKED>
     default:
       return undefined
   }
@@ -133,7 +134,7 @@ const notificationMessage = computed(() => {
         return ""
       }
 
-      const message = t(getReviewModerationTranslationKey(metaData.value.action), {
+      const message = t(reviewModerationTranslationKeys[metaData.value.action], {
         title: getShortText(details.title || details.originalTitle!, 16),
       })
 
@@ -143,12 +144,26 @@ const notificationMessage = computed(() => {
       ) {
         return t("notifications.reviewModerationWithReason", {
           message,
-          reason: t(getReviewModerationReasonTranslationKey(metaData.value.reason)),
+          reason: t(reviewModerationReasonTranslationKeys[metaData.value.reason]),
         })
       }
 
       return message
     }
+    case NotificationTypeEnum.USER_BAN_CREATED: {
+      const reason = t(banReasonTranslationKeys[metaData.value.reason])
+
+      if (metaData.value.expiresAt) {
+        return t("notifications.userBanCreatedUntil", {
+          reason,
+          expiresAt: formatDateWithTime(metaData.value.expiresAt, locale.value),
+        })
+      }
+
+      return t("notifications.userBanCreated", { reason })
+    }
+    case NotificationTypeEnum.USER_BAN_REVOKED:
+      return t("notifications.userBanRevoked")
 
     default:
       return ""
@@ -170,6 +185,9 @@ const linkTo = computed(() => {
       return `/details/${metaData.value?.mediaDetails.mediaType}/${metaData.value?.mediaDetails.mediaId}`
     case NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE:
       return `/reviews/${metaData.value.mediaReviewId}`
+    case NotificationTypeEnum.USER_BAN_CREATED:
+    case NotificationTypeEnum.USER_BAN_REVOKED:
+      return undefined
     default:
       return "/notifications"
   }
@@ -177,9 +195,10 @@ const linkTo = computed(() => {
 </script>
 
 <template>
-  <NuxtLink
+  <component
+    :is="linkTo ? NuxtLink : 'div'"
     :class="$style.wrapper"
-    :to="localePath(linkTo)"
+    :to="linkTo ? localePath(linkTo) : undefined"
   >
     <div :class="$style.leftSection">
       <span
@@ -225,6 +244,12 @@ const linkTo = computed(() => {
           :src="getProxiedImageUrl(getCurrentMediaDetails(metaData.mediaDetails, locale)?.poster, 100)"
         />
       </template>
+      <template v-else-if="metaData?.type === NotificationTypeEnum.USER_BAN_CREATED || metaData?.type === NotificationTypeEnum.USER_BAN_REVOKED">
+        <UiIcon
+          name="icon:logo"
+          :size="36"
+        />
+      </template>
     </div>
     <div>
       <UiTypography
@@ -237,7 +262,7 @@ const linkTo = computed(() => {
         {{ getTimeSinceDate(props.notification.createdAt, locale) }}
       </UiTypography>
     </div>
-  </NuxtLink>
+  </component>
 </template>
 
 <style module lang="scss">

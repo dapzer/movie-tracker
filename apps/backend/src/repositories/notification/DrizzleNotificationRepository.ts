@@ -121,6 +121,24 @@ export class DrizzleNotificationRepository implements NotificationRepositoryInte
           } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.MEDIA_REVIEW_MODERATION_UPDATE>
           break
         }
+        case NotificationTypeEnum.USER_BAN_CREATED: {
+          const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_BAN_CREATED>
+          meta = {
+            type: NotificationTypeEnum.USER_BAN_CREATED,
+            userBanId: typedMeta.userBanId,
+            reason: typedMeta.reason,
+            expiresAt: typedMeta.expiresAt,
+          } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_BAN_CREATED>
+          break
+        }
+        case NotificationTypeEnum.USER_BAN_REVOKED: {
+          const typedMeta = meta as ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_BAN_REVOKED>
+          meta = {
+            type: NotificationTypeEnum.USER_BAN_REVOKED,
+            userBanId: typedMeta.userBanId,
+          } satisfies ExtractNotificationMetaResponseType<NotificationTypeEnum.USER_BAN_REVOKED>
+          break
+        }
         default:
           throw new Error(`Unknown notification type: ${data.type}`)
       }

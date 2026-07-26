@@ -1,14 +1,19 @@
-import { Inject, Injectable } from "@nestjs/common"
+import { NotificationTypeEnum } from "@movie-tracker/types"
+import { Inject, Injectable, Logger } from "@nestjs/common"
 import { UserBanRepositoryInterface, UserBanRepositorySymbol } from "@/repositories/userBan/UserBanRepositoryInterface"
+import { NotificationsService } from "@/services/notifications/notifications.service"
 import { CreateUserBanDto } from "@/services/userBans/dto/createUserBan.dto"
 import { GetUserBansQueryDto } from "@/services/userBans/dto/getUserBansQuery.dto"
 import { UserBanAlreadyRevokedError, UserBanNotFoundError } from "@/shared/errors/userBan"
 
 @Injectable()
 export class UserBansService {
+  private readonly logger = new Logger("UserBansService")
+
   constructor(
     @Inject(UserBanRepositorySymbol)
     private readonly userBanRepository: UserBanRepositoryInterface,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async getList(query: GetUserBansQueryDto) {
@@ -34,10 +39,25 @@ export class UserBansService {
   }
 
   async create(args: { body: CreateUserBanDto, currentUserId: string }) {
-    return this.userBanRepository.create({
+    const userBan = await this.userBanRepository.create({
       ...args.body,
       issuedBy: args.currentUserId,
     })
+
+    await this.notificationsService.create({
+      userId: userBan.userId,
+      type: NotificationTypeEnum.USER_BAN_CREATED,
+      meta: {
+        userBanId: userBan.id,
+        reason: userBan.reason,
+        expiresAt: userBan.expiresAt,
+      },
+      createdAt: userBan.createdAt,
+    }).catch((err) => {
+      this.logger.error(err, "Failed to create user ban notification")
+    })
+
+    return userBan
   }
 
   async revoke(args: { id: string, currentUserId: string }) {
@@ -51,9 +71,24 @@ export class UserBansService {
       throw new UserBanAlreadyRevokedError({ userBanId: args.id })
     }
 
-    return this.userBanRepository.revoke({
+    const revokedUserBan = await this.userBanRepository.revoke({
       id: args.id,
       revokedBy: args.currentUserId,
     })
+
+    if (revokedUserBan) {
+      await this.notificationsService.create({
+        userId: revokedUserBan.userId,
+        type: NotificationTypeEnum.USER_BAN_REVOKED,
+        meta: {
+          userBanId: revokedUserBan.id,
+        },
+        createdAt: revokedUserBan.revokedAt,
+      }).catch((err) => {
+        this.logger.error(err, "Failed to create user ban revoked notification")
+      })
+    }
+
+    return revokedUserBan
   }
 }
