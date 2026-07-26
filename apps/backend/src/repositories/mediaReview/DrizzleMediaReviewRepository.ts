@@ -285,6 +285,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           eq(mediaRatings.mediaId, mediaReviews.mediaId),
         ))
         .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
+        .orderBy(sql`COALESCE(${mediaReviews.publishedAt}, ${mediaReviews.createdAt}) DESC`)
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
@@ -356,6 +357,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           eq(mediaRatings.mediaId, mediaReviews.mediaId),
         ))
         .where(statusFilter)
+        .orderBy(sql`COALESCE(${mediaReviews.publishedAt}, ${mediaReviews.createdAt}) DESC`)
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
@@ -446,6 +448,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           eq(mediaRatings.mediaId, mediaReviews.mediaId),
         ))
         .where(and(eq(mediaReviews.userId, args.userId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
+        .orderBy(sql`COALESCE(${mediaReviews.publishedAt}, ${mediaReviews.createdAt}) DESC`)
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
