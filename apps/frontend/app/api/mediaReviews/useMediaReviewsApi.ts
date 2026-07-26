@@ -204,9 +204,14 @@ export function useCreateMediaReviewLikeApi() {
     mutationKey: [MediaReviewsApiQueryKeys.CREATE_LIKE],
     mutationFn: (body: CreateMediaReviewLikeBody) => createMediaReviewLikeApi(body),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+      ])
     },
   })
 }
@@ -217,9 +222,14 @@ export function useDeleteMediaReviewLikeApi() {
     mutationKey: [MediaReviewsApiQueryKeys.DELETE_LIKE],
     mutationFn: (args: DeleteMediaReviewLikeArgs) => deleteMediaReviewLikeApi(args),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+      ])
     },
   })
 }
@@ -243,9 +253,14 @@ export function useCreateMediaReviewDislikeApi() {
     mutationKey: [MediaReviewsApiQueryKeys.CREATE_DISLIKE],
     mutationFn: (body: CreateMediaReviewDislikeBody) => createMediaReviewDislikeApi(body),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+      ])
     },
   })
 }
@@ -256,9 +271,14 @@ export function useDeleteMediaReviewDislikeApi() {
     mutationKey: [MediaReviewsApiQueryKeys.DELETE_DISLIKE],
     mutationFn: (args: DeleteMediaReviewDislikeArgs) => deleteMediaReviewDislikeApi(args),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
-      })
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_MEDIA_ID],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: [MediaReviewsApiQueryKeys.GET_BY_USER_ID],
+        }),
+      ])
     },
   })
 }
