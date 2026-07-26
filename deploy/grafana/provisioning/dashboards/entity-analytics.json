@@ -2993,6 +2993,7 @@
   },
   "title": "Entity analytics",
   "variables": [],
-  "version": 21,
-  "uid": "40bc5a93-3340-4e81-9301-dc0c9c93dbe9"
+  "version": 23,
+  "uid": "40bc5a93-3340-4e81-9301-dc0c9c93dbe9",
+  "id": 1
 }
