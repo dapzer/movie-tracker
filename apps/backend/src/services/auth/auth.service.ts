@@ -107,7 +107,7 @@ export class AuthService {
       })
     }
     catch (e) {
-      this.logger.error(`Failed to send welcome email. ${e}`)
+      this.logger.error(e, `Failed to send welcome email`)
     }
   }
 

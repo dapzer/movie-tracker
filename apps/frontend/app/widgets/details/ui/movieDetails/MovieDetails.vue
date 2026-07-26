@@ -25,6 +25,7 @@ import { UiSlider } from "~/shared/ui/UiSlider"
 import { formatDate } from "~/shared/utils/formatDate"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
+import MovieDetailsReviews from "~/widgets/details/ui/movieDetails/MovieDetailsReviews.vue"
 import { PersonWithDescription } from "~/widgets/personWithDescription"
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer"
 import MovieDetailsHeader from "./MovieDetailsHeader.vue"
@@ -285,6 +286,11 @@ const releasedEpisodes = computed(() => {
         </template>
       </UiSlider>
     </UiSectionWithSeeMore>
+
+    <MovieDetailsReviews
+      :media-id="props.mediaId"
+      :media-type="props.mediaType"
+    />
   </UiContainer>
 </template>
 

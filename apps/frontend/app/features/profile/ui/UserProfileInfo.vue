@@ -41,7 +41,7 @@ const props = defineProps<UserProfileInfoProps>()
   align-items: center;
   gap: 24px;
 
-  @include mobileDevice() {
+  @include mobilePlusDevice() {
     flex-direction: column;
     align-items: flex-start;
     padding-top: 24px;

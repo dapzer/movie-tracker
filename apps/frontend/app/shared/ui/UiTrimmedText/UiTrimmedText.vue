@@ -9,12 +9,17 @@ interface UiTrimmedTextProps extends UiTypographyProps {
   text: string
   maxLines: number
   maxCharsInLine: number
+  expandable?: boolean
+  withoutShadow?: boolean
 }
 
 defineOptions({
   inheritAttrs: false,
 })
-const props = defineProps<UiTrimmedTextProps>()
+
+const props = withDefaults(defineProps<UiTrimmedTextProps>(), {
+  expandable: true,
+})
 const showMore = ref(false)
 
 const trimText = computed(() => {
@@ -28,6 +33,7 @@ const trimText = computed(() => {
       v-bind="$attrs"
       :class="[$style.text, {
         [$style.trimmed]: !showMore && trimText,
+        [$style.shadow]: !props.withoutShadow,
       }]"
       :variant="props.variant"
       :as="props.as"
@@ -36,11 +42,11 @@ const trimText = computed(() => {
         '--max-lines': props.maxLines,
       }"
     >
-      {{ text }}
+      {{ props.text }}
     </UiTypography>
 
     <UiButton
-      v-if="trimText"
+      v-if="trimText && props.expandable"
       :class="[$style.button, {
         [$style.active]: showMore,
       }]"
@@ -73,9 +79,10 @@ const trimText = computed(() => {
       @include multiLineEllipsis(var(--max-lines));
       text-overflow: unset;
 
-      &::after {
+      &.shadow::after {
         content: "\00a0";
         position: absolute;
+
         bottom: 0;
         right: 0;
         left: 0;

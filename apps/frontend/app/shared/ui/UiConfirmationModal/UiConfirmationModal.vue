@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiModal } from "~/shared/ui/UiModal"
 
@@ -8,6 +7,7 @@ interface UiConfirmationModalProps {
   title: string
   description?: string
   confirmText?: string
+  cancelText?: string
   scheme?: UiConfirmationModalScheme
 }
 
@@ -18,24 +18,21 @@ const emit = defineEmits<{
 }>()
 const slots = defineSlots()
 const model = defineModel<boolean>()
-const isOpen = ref(model.value ?? false)
 
 function handleCancel() {
   emit("cancel")
   model.value = false
-  isOpen.value = false
 }
 
 function handleConfirm() {
   emit("confirm")
   model.value = false
-  isOpen.value = false
 }
 </script>
 
 <template>
   <UiModal
-    v-model="isOpen "
+    v-model="model"
     :title="props.title"
     :description="props.description"
     :max-width="425"
@@ -56,7 +53,7 @@ function handleConfirm() {
           variant="outlined"
           @click="handleCancel"
         >
-          {{ $t("ui.actions.cancel") }}
+          {{ props.cancelText || $t("ui.actions.cancel") }}
         </UiButton>
         <UiButton
           :scheme="props.scheme === 'danger' ? 'tertiary' : undefined"

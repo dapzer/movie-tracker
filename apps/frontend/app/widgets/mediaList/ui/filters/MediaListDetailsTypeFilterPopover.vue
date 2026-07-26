@@ -3,9 +3,9 @@ import type { MediaListDetailsFilters } from "~/widgets/mediaList/ui/filters/Med
 import { useI18n } from "#imports"
 import { MediaTypeEnum as MediaType } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
+import { UiCheckboxList } from "~/shared/ui/UiCheckboxList"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
-import CheckboxList from "~/widgets/mediaList/ui/filters/CheckboxList.vue"
 
 const { t } = useI18n()
 
@@ -58,7 +58,7 @@ watch(openModel, (isOpen) => {
       </UiFilterTrigger>
     </template>
     <template #content>
-      <CheckboxList
+      <UiCheckboxList
         v-model="draftMediaTypes"
         :options="mediaTypeOptions"
       />

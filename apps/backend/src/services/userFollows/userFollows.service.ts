@@ -59,7 +59,7 @@ export class UserFollowsService {
         },
         createdAt: follow.createdAt,
       }).catch((err) => {
-        this.logger.error("Failed to create follow notification", err)
+        this.logger.error(err, "Failed to create follow notification")
       })
     }
 

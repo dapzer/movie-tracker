@@ -165,6 +165,18 @@ export default defineNuxtConfig({
         },
       },
     },
+    optimizeDeps: {
+      include: [
+        "@tanstack/vue-query",
+        "@unhead/schema-org/vue",
+        "@vue/devtools-core",
+        "@vue/devtools-kit",
+        "embla-carousel-vue",
+        "vaul-vue",
+        "vue3-toastify",
+        "yup",
+      ],
+    },
   },
 
   compatibilityDate: "2025-01-19",

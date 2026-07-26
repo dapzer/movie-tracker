@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { GetRecentlyCreatedMediaRatingsArgs } from "~/api/mediaRatings/mediaRatingsApiTypes"
+import type { GetMediaReviewsListArgs } from "~/api/mediaReviews/mediaReviewsApiTypes"
 import type { TmdbDiscoverMovieQueriesType, TmdbDiscoverTvQueriesType } from "~/api/tmdb/tmdbApiTypes"
 import { useLocalePath } from "#i18n"
 import { computed, useI18n } from "#imports"
 import { MediaTypeEnum, TmdbTvGenresEnum } from "@movie-tracker/types"
 import { useMediaRatingsGetRecentlyCreatedApi } from "~/api/mediaRatings/useMediaRatingsApi"
+import { useGetMediaReviewsListApi } from "~/api/mediaReviews/useMediaReviewsApi"
 import { useGetTmdbDiscoverMovieApi, useGetTmdbDiscoverTvApi, useGetTmdbPopularListApi } from "~/api/tmdb/useTmdbApi"
 import { MediaRatingCardWithHoverMenu } from "~/features/mediaRatingCardWithHoverMenu"
 import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
@@ -12,6 +14,7 @@ import { getNextThirtyDaysWithoutTime, getTodayWithoutTime } from "~/shared/cons
 import { UiMediaCardSkeleton } from "~/shared/ui/UiCard"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import FeedItem from "~/widgets/feed/ui/FeedItem.vue"
+import FeedMediaReviews from "~/widgets/feed/ui/FeedMediaReviews.vue"
 
 const { locale } = useI18n()
 const localePath = useLocalePath()
@@ -72,12 +75,20 @@ const mediaRatingQueries = computed<GetRecentlyCreatedMediaRatingsArgs>(() => {
   }
 })
 
+const mediaReviewsQueries = computed<GetMediaReviewsListArgs>(() => {
+  return {
+    limit: 20,
+    offset: 0,
+  }
+})
+
 const getTmdbMoviePopularListApi = useGetTmdbPopularListApi(movieQueries)
 const getTmdbTvPopularListApi = useGetTmdbPopularListApi(tvQueries)
 const getTmdbUpcomingMoviesApi = useGetTmdbDiscoverMovieApi(upcomingMoviesQueries)
 const getTmdbTvOnTheAirApi = useGetTmdbDiscoverTvApi(tvOnTheAirQueries)
 const getTmdbTvAiringTodayApi = useGetTmdbDiscoverTvApi(tvAiringTodayQueries)
 const getMediaRatingsGetRecentlyCreatedApi = useMediaRatingsGetRecentlyCreatedApi(mediaRatingQueries)
+const getMediaReviewsListApi = useGetMediaReviewsListApi(mediaReviewsQueries)
 
 await Promise.all([
   getTmdbMoviePopularListApi.suspense(),
@@ -86,6 +97,7 @@ await Promise.all([
   getTmdbTvOnTheAirApi.suspense(),
   getTmdbTvAiringTodayApi.suspense(),
   getMediaRatingsGetRecentlyCreatedApi.suspense(),
+  getMediaReviewsListApi.suspense(),
 ])
 </script>
 
@@ -151,6 +163,12 @@ await Promise.all([
         <UiMediaCardSkeleton :width="195" />
       </template>
     </FeedItem>
+
+    <FeedMediaReviews
+      v-if="!!getMediaReviewsListApi.data.value?.totalCount || getMediaReviewsListApi.isPending.value"
+      :media-reviews="getMediaReviewsListApi.data.value?.items"
+      :is-loading="getMediaReviewsListApi.isPending.value"
+    />
 
     <FeedItem
       :title="$t('feed.futureReleases')"

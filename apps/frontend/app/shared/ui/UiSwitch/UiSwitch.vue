@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { useAttrs } from "#imports"
 
+export type UiSwitchScheme = "gray"
+
+interface UiSwitchProps {
+  scheme?: UiSwitchScheme
+}
+
 defineOptions({
   inheritAttrs: false,
 })
+
+const props = defineProps<UiSwitchProps>()
 
 const inputModel = defineModel()
 
@@ -14,6 +22,7 @@ const attrs = useAttrs()
   <label
     :class="[$style.switch, {
       [$style.disabled]: attrs.disabled,
+      [$style.gray]: props.scheme === 'gray',
     }]"
   >
     <input
@@ -35,6 +44,10 @@ const attrs = useAttrs()
   --toggle-wider: 40px;
   --color-grey: var(--c-card-background);
   --color-green: var(--c-button-background-primary);
+
+  &.gray {
+    --color-grey: var(--c-stroke);
+  }
 
   width: fit-content;
   display: inline-block;

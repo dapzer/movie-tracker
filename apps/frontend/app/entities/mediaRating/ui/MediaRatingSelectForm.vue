@@ -10,6 +10,7 @@ import {
 } from "~/api/mediaRatings/useMediaRatingsApi"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
+import { UiStarsList } from "~/shared/ui/UiStarsList"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaRatingSelectFormProps {
@@ -81,12 +82,6 @@ async function handleDelete() {
 
   emits("afterSubmit")
 }
-
-function handleRatingClick(rating: number, event: MouseEvent) {
-  selectedRating.value = rating
-  const target = event.currentTarget as HTMLElement
-  target.blur()
-}
 </script>
 
 <template>
@@ -113,32 +108,10 @@ function handleRatingClick(rating: number, event: MouseEvent) {
           {{ hoveredRating || (selectedRating ? selectedRating : "?") }}
         </UiTypography>
       </div>
-      <div :class="$style.list">
-        <UiButton
-          v-for="i in 10"
-          :key="i"
-          :class="[$style.item, {
-            [$style.active]: selectedRating && selectedRating >= i,
-          }]"
-          variant="textIcon"
-          @click="handleRatingClick(i, $event)"
-          @mouseover="hoveredRating = i"
-          @mouseleave="hoveredRating = undefined"
-          @touchstart="hoveredRating = i"
-          @touchend="hoveredRating = undefined"
-        >
-          <UiIcon
-            :class="$style.icon"
-            :size="24"
-            name="icon:rating-star"
-          />
-          <UiIcon
-            :class="$style.iconFilled"
-            :size="24"
-            name="icon:rating-star-filled"
-          />
-        </UiButton>
-      </div>
+      <UiStarsList
+        v-model="selectedRating"
+        v-model:hovered-rating="hoveredRating"
+      />
     </div>
     <div :class="$style.actions">
       <UiButton
@@ -172,8 +145,6 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -220,62 +191,6 @@ function handleRatingClick(rating: number, event: MouseEvent) {
 
     p {
       color: var(--c-card-background-hovered);
-    }
-  }
-}
-
-.list {
-  display: flex;
-
-  .iconFilled {
-    display: none;
-  }
-
-  .icon {
-    color: var(--c-description);
-  }
-
-  .item {
-    width: 28px;
-    height: 28px;
-
-    &.active {
-      .icon {
-        display: none;
-      }
-
-      .iconFilled {
-        display: block;
-      }
-    }
-
-    &:focus,
-    &:hover {
-      background-color: transparent;
-    }
-  }
-
-  @include hoverAvailable {
-    &:hover .item,
-    &:focus-within .item {
-      .icon {
-        display: none;
-      }
-
-      .iconFilled {
-        display: block;
-      }
-    }
-
-    .item:hover ~ .item,
-    .item:focus ~ .item {
-      .icon {
-        display: block;
-      }
-
-      .iconFilled {
-        display: none;
-      }
     }
   }
 }

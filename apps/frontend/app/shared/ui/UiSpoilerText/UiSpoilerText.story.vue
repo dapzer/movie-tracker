@@ -9,10 +9,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
     title="UiSpoilerText"
   >
     <template #default>
-      <UiSpoilerText>
-        <UiTypography>
-          This is a spoiler text
-        </UiTypography>
+      <UiSpoilerText :as="UiTypography">
+        This is a spoiler text
       </UiSpoilerText>
     </template>
   </Story>

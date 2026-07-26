@@ -5,6 +5,7 @@ import UserProfileFollowers from "~/features/profile/ui/tabs/UserProfileFollower
 import UserProfileFollowings from "~/features/profile/ui/tabs/UserProfileFollowings.vue"
 import UserProfileLists from "~/features/profile/ui/tabs/UserProfileLists.vue"
 import UserProfileRatings from "~/features/profile/ui/tabs/UserProfileRatings.vue"
+import UserProfileReviews from "~/features/profile/ui/tabs/UserProfileReviews.vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiTabs } from "~/shared/ui/UiTabs"
 
@@ -35,6 +36,10 @@ const activeTab = useRouteQuery<string>("tab", "lists", {
           label: $t('userProfile.tabs.ratings'),
         },
         {
+          key: 'reviews',
+          label: $t('userProfile.tabs.reviews'),
+        },
+        {
           key: 'followers',
           label: $t('userProfile.tabs.followers'),
         },
@@ -55,6 +60,9 @@ const activeTab = useRouteQuery<string>("tab", "lists", {
           :user="props.user"
           :ratings-count="props.stats.mediaRatingsCount"
         />
+      </template>
+      <template #reviews>
+        <UserProfileReviews :user-id="props.user.id" />
       </template>
       <template #followers>
         <UserProfileFollowers

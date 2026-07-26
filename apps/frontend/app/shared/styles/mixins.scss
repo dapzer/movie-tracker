@@ -77,8 +77,8 @@
 }
 
 @mixin multiLineEllipsis($lineCount) {
-  @include ellipsisText();
-  white-space: unset;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
   line-clamp: $lineCount;
   -webkit-line-clamp: $lineCount;
