@@ -40,21 +40,25 @@ const props = defineProps<MovieDetailsActionsProps>()
 @import "~/shared/styles/breakpoints";
 @import "~/shared/styles/mixins";
 
-.wrapper {
-  height: fit-content;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
+@layer ui, external;
 
-  button:not(:last-child) {
-    margin-bottom: 8px;
-  }
+@layer ui {
+  .wrapper {
+    height: fit-content;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
 
-  @include mobileDevice() {
-    &,
-    button {
-      width: 100%;
+    button:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    @include mobileDevice() {
+      &,
+      button {
+        width: 100%;
+      }
     }
   }
 }

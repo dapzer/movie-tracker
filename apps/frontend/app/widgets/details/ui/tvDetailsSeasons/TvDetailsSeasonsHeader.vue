@@ -91,12 +91,14 @@ const title = computed(() => {
 @import "~/shared/styles/mixins";
 
 .actionsMobile {
-  display: none !important;
+  display: none;
 
   @include mobilePlusDevice() {
-    display: flex !important;
+    display: flex;
+
     &,
-    button {
+    button,
+    > * {
       width: 100%;
     }
   }
@@ -108,11 +110,11 @@ const title = computed(() => {
   gap: 8px;
 
   button {
-    margin: 0 !important;
+    margin: 0;
   }
 
   @include mobilePlusDevice() {
-    display: none !important;
+    display: none;
   }
 }
 </style>

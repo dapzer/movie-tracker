@@ -94,6 +94,7 @@ watch(() => review.value, (newValue, oldValue) => {
           :title="details?.title || details?.originalTitle"
           :media-id="review.mediaId"
           :media-type="review.mediaType"
+          :release-date="review.mediaDetails?.releaseDate"
         />
       </template>
       <template
@@ -106,6 +107,7 @@ watch(() => review.value, (newValue, oldValue) => {
           :title="details?.title || details?.originalTitle"
           :media-id="review.mediaId"
           :media-type="review.mediaType"
+          :release-date="review.mediaDetails?.releaseDate"
         />
       </template>
     </UiInfoHeader>
@@ -123,10 +125,10 @@ watch(() => review.value, (newValue, oldValue) => {
 @import "~/shared/styles/mixins";
 
 .wrapper {
-  padding-top: 50px !important;
+  padding-top: 50px;
 
   @include mobileDevice() {
-    padding-top: 0 !important;
+    padding-top: 0;
   }
 }
 
@@ -140,10 +142,11 @@ watch(() => review.value, (newValue, oldValue) => {
 }
 
 .actionsMobile {
-  display: none !important;
+  display: none;
 
   @include mobilePlusDevice() {
-    display: flex !important;
+    display: flex;
+
     &,
     button,
     > * {
@@ -158,11 +161,11 @@ watch(() => review.value, (newValue, oldValue) => {
   gap: 8px;
 
   button {
-    margin: 0 !important;
+    margin: 0;
   }
 
   @include mobilePlusDevice() {
-    display: none !important;
+    display: none;
   }
 }
 </style>

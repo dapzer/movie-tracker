@@ -89,24 +89,28 @@ function handleTriggerClick() {
 </template>
 
 <style module lang="scss">
-.trigger {
-  width: fit-content;
-}
+@layer ui, external;
 
-.content {
-  z-index: var(--i-tooltip);
-  padding: 12px;
-  background: var(--c-tooltip-background);
-  max-height: var(--radix-tooltip-content-available-height);
-  width: max-content;
-  max-width: min(var(--radix-tooltip-content-available-width), var(--s-container));
-  border-radius: var(--s-border-radius-medium);
-}
+@layer ui {
+  .trigger {
+    width: fit-content;
+  }
 
-.arrow {
-  will-change: transform, opacity;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
+  .content {
+    z-index: var(--i-tooltip);
+    padding: 12px;
+    background: var(--c-tooltip-background);
+    max-height: var(--radix-tooltip-content-available-height);
+    width: max-content;
+    max-width: min(var(--radix-tooltip-content-available-width), var(--s-container));
+    border-radius: var(--s-border-radius-medium);
+  }
+
+  .arrow {
+    will-change: transform, opacity;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>
