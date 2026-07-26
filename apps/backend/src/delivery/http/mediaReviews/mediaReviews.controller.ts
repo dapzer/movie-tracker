@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { Throttle } from "@nestjs/throttler"
 import { GetMediaReviewsByMediaIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByMediaIdQuery.dto"
 import { GetMediaReviewsByUserIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByUserIdQuery.dto"
 import { GetMediaReviewsListQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsListQuery.dto"
@@ -11,6 +12,7 @@ import { MediaReviewsService } from "@/services/mediaReviews/mediaReviews.servic
 import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
+import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import {
   CreateMediaReviewDislikeDocs,
   CreateMediaReviewDocs,
@@ -86,6 +88,12 @@ export class MediaReviewsController {
   }
 
   @Post()
+  @Throttle({
+    default: {
+      limit: 20,
+      ttl: getMillisecondsFromMins(10),
+    },
+  })
   @UseGuards(AuthGuard)
   @CreateMediaReviewDocs()
   async createMediaReview(@User() user: UserDto, @Body() body: CreateMediaReviewDto) {

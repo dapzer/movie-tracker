@@ -1743,6 +1743,7 @@ export default {
     changesUnsuccessfullySaved: "Произошла ошибка при сохранении изменений",
     linkSuccessfullyCopied: "Ссылка успешно скопирована",
     linkUnsuccessfullyCopied: "Произошла ошибка при копировании ссылки",
+    rateLimitExceeded: "Превышен лимит на количество запросов. Пожалуйста, попробуйте позже.",
     mediaItem: {
       successAddedToList: "{media} добавлен в список «{listName}»",
       successRemovedFromList: "{media} удален из списка «{listName}»",

@@ -1741,6 +1741,7 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     changesUnsuccessfullySaved: "An error occurred while saving changes",
     linkSuccessfullyCopied: "Link copied successfully",
     linkUnsuccessfullyCopied: "An error occurred while copying the link",
+    rateLimitExceeded: "Rate limit exceeded. Please try again later.",
     mediaItem: {
       successAddedToList: "{media} added to the list «{listName}»",
       successRemovedFromList: "{media} removed from the list «{listName}»",

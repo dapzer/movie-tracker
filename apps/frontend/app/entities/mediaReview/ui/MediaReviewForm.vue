@@ -9,6 +9,7 @@ import {
   MEDIA_REVIEW_TITLE_MAX_LENGTH,
   MediaReviewStatus,
 } from "@movie-tracker/types"
+import { FetchError, HttpStatus } from "@movie-tracker/utils"
 import { useEventListener } from "@vueuse/core"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
@@ -139,6 +140,10 @@ async function handlePublishReview(formValue: FormValue) {
     }).then(() => {
       toast.success(t("toasts.mediaReview.successUpdated"))
     }).catch((err) => {
+      if (err instanceof FetchError && err.statusCode === HttpStatus.TOO_MANY_REQUESTS) {
+        toast.error(t("toasts.rateLimitExceeded"))
+        return
+      }
       toast.error(t("toasts.mediaReview.unsuccessfullyUpdated"))
       throw err
     })
