@@ -87,26 +87,28 @@ function handleImageLoadingError() {
 </template>
 
 <style module lang="scss">
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@layer ui {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  &,
-  img,
-  .placeholder {
-    width: var(--size);
-    height: var(--size);
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-  }
+    &,
+    img,
+    .placeholder {
+      width: var(--size);
+      height: var(--size);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+    }
 
-  .placeholder {
-    background: var(--background);
-  }
+    .placeholder {
+      background: var(--background);
+    }
 
-  img {
-    object-fit: cover;
+    img {
+      object-fit: cover;
+    }
   }
 }
 </style>
