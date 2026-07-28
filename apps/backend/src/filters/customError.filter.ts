@@ -13,6 +13,7 @@ import {
 } from "@/shared/errors/core"
 import { CustomError } from "@/shared/errors/customError"
 import { MediaRatingNotFoundError } from "@/shared/errors/mediaRating"
+import { MediaReviewNotFoundError } from "@/shared/errors/mediaReview"
 import { ProxyFetchNotFoundError, ProxyImageNotFoundError } from "@/shared/errors/proxy"
 import { ReleaseSubscriptionNotFoundError } from "@/shared/errors/releaseSubscription"
 
@@ -78,6 +79,11 @@ export class CustomErrorFilter implements ExceptionFilter {
       path: "/api/proxy/image/*everything",
       methods: ["GET"],
       errors: [ProxyImageNotFoundError],
+    },
+    {
+      path: "/api/media-reviews/by-current-user-and-media/:mediaId",
+      methods: ["GET"],
+      errors: [UnauthorizedError, MediaReviewNotFoundError],
     },
   ]
 
