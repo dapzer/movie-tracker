@@ -3,6 +3,7 @@ import { Throttle } from "@nestjs/throttler"
 import { GetMediaReviewsByMediaIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByMediaIdQuery.dto"
 import { GetMediaReviewsByUserIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByUserIdQuery.dto"
 import { GetMediaReviewsListQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsListQuery.dto"
+import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaReview.dto"
 import { CreateMediaReviewDislikeDto } from "@/services/mediaReviews/dto/createMediaReviewDislike.dto"
@@ -94,7 +95,7 @@ export class MediaReviewsController {
       ttl: getMillisecondsFromMins(10),
     },
   })
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, ThrottlerBehindProxyGuard)
   @CreateMediaReviewDocs()
   async createMediaReview(@User() user: UserDto, @Body() body: CreateMediaReviewDto) {
     return this.mediaReviewsService.create({ userId: user.id, body })

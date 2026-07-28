@@ -140,10 +140,6 @@ async function handlePublishReview(formValue: FormValue) {
     }).then(() => {
       toast.success(t("toasts.mediaReview.successUpdated"))
     }).catch((err) => {
-      if (err instanceof FetchError && err.statusCode === HttpStatus.TOO_MANY_REQUESTS) {
-        toast.error(t("toasts.rateLimitExceeded"))
-        return
-      }
       toast.error(t("toasts.mediaReview.unsuccessfullyUpdated"))
       throw err
     })
@@ -158,6 +154,10 @@ async function handlePublishReview(formValue: FormValue) {
     }).then(() => {
       toast.success(t("toasts.mediaReview.successCreated"))
     }).catch((err) => {
+      if (err instanceof FetchError && err.statusCode === HttpStatus.TOO_MANY_REQUESTS) {
+        toast.error(t("toasts.rateLimitExceeded"))
+        throw err
+      }
       toast.error(t("toasts.mediaReview.unsuccessfullyCreated"))
       throw err
     })

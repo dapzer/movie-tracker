@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Query, Req, Res,
 import { ConfigService } from "@nestjs/config"
 import { Throttle } from "@nestjs/throttler"
 import { Request, Response } from "express"
+import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { AuthService } from "@/services/auth/auth.service"
 import { AllowedProvider } from "@/services/auth/dto/allowedProvider"
 import { ConfirmChangeEmailDto } from "@/services/auth/dto/confirmChangeEmail.dto"
@@ -95,6 +96,7 @@ export class AuthController {
       ttl: getMillisecondsFromMins(30),
     },
   })
+  @UseGuards(ThrottlerBehindProxyGuard)
   @Post("/recover-password")
   @RecoverPasswordDocs()
   async getRecoverPasswordEmail(@Body() body: GetRecoverPasswordEmailDto) {
@@ -121,7 +123,7 @@ export class AuthController {
       ttl: getMillisecondsFromHours(12),
     },
   })
-  @UseGuards(AuthGuard)
+  @UseGuards(ThrottlerBehindProxyGuard, AuthGuard)
   @Post("/change-email")
   @RequestChangeEmailDocs()
   async requestChangeEmail(@User() user: UserDto, @Body() body: RequestChangeEmailDto) {
@@ -148,7 +150,7 @@ export class AuthController {
   })
   @Get("/confirm-email")
   @SendConfirmEmailDocs()
-  @UseGuards(AuthGuard)
+  @UseGuards(ThrottlerBehindProxyGuard, AuthGuard)
   async getConfirmEmail(@User() user: UserDto) {
     this.notImplemented()
     return this.authService.sendConfirmationEmail(user.email)

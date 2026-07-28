@@ -3,14 +3,12 @@ import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis"
 import { CacheModule } from "@nestjs/cache-manager"
 import { Module, RequestMethod } from "@nestjs/common"
 import { ConfigModule, ConfigService } from "@nestjs/config"
-import { APP_GUARD } from "@nestjs/core"
 import { ScheduleModule } from "@nestjs/schedule"
 import { ThrottlerModule } from "@nestjs/throttler"
 import { createClient } from "@redis/client"
 import { LoggerModule } from "nestjs-pino"
 import { NodeRedisAdapter } from "redlock-universal"
 import { HttpDeliveryModule } from "@/delivery/http/httpDelivery.module"
-import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { DrizzleModule } from "@/services/drizzle/drizzle.module"
 import { MailModule } from "@/services/mail/mail.module"
 import { RedlockModule } from "@/services/redlock/redlock.module"
@@ -27,7 +25,13 @@ import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
         return {
-          throttlers: [],
+          throttlers: [
+            {
+              name: "default",
+              limit: Number.MAX_SAFE_INTEGER,
+              ttl: 1000,
+            },
+          ],
           storage: new ThrottlerStorageRedisService(
             configService.get("REDIS_URL")!,
           ),
@@ -83,12 +87,6 @@ import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
     DrizzleModule,
     MailModule,
     HttpDeliveryModule,
-  ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerBehindProxyGuard,
-    },
   ],
 })
 export class AppModule {}
