@@ -121,7 +121,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.databases == true
+          - node.labels.databases != true
 
 #configs:
 #  caddy_config:
