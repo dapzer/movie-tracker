@@ -280,8 +280,8 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       case "createdAt":
       case "updatedAt":
         orderByExpression = sortDirection === SortOrderEnum.ASC
-          ? asc(mediaItems[sortBy])
-          : desc(mediaItems[sortBy])
+          ? asc(trackingData[sortBy])
+          : desc(trackingData[sortBy])
         break
       case "rating":
         orderByExpression = sql`${mediaRatings.rating} ${sql.raw(sortDirection)} nulls last`
