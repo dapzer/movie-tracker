@@ -21,7 +21,7 @@ The main goal in the creation of this project was the realization of personal li
 - NestJS
 - Redis
 - PostgreSQL
-- Prisma
+- Drizzle ORM
 - Docker
 
 ### Development
