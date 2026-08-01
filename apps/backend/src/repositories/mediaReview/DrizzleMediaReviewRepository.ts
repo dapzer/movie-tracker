@@ -141,7 +141,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
               AND ${mediaReviewLikes.userId} = ${args.currentUserId}
               LIMIT 1
             )`
-          : sql<string | null>`NULL`,
+          : sql<string | null>`    NULL`,
         dislikeId: args.currentUserId
           ? sql<string | null>`(
               SELECT id FROM ${mediaReviewDislikes}

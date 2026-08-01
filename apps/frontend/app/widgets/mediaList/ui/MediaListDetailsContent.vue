@@ -25,13 +25,13 @@ interface MediaListDetailsProps {
   isUserListOwner?: boolean
 }
 
-export type MediaListDetailsSortOption =
-  | "asc_createdAt"
-  | "desc_createdAt"
-  | "asc_updatedAt"
-  | "desc_updatedAt"
-  | "asc_rating"
-  | "desc_rating"
+export type MediaListDetailsSortOption
+  = | "asc_createdAt"
+    | "desc_createdAt"
+    | "asc_updatedAt"
+    | "desc_updatedAt"
+    | "asc_rating"
+    | "desc_rating"
 
 const props = defineProps<MediaListDetailsProps>()
 const storedMediaListSortingType = useCookie<MediaListDetailsSortOption>(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {

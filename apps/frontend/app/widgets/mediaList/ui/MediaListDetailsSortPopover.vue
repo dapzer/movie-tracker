@@ -12,7 +12,7 @@ const sortTypeModel = defineModel<MediaListDetailsSortOption>()
 const sortArrowUpIcon = h(UiIcon, { name: "icon:arrow-up-with-list", size: 20 })
 const sortArrowDownIcon = h(UiIcon, { name: "icon:arrow-down-with-list", size: 20 })
 
-const options = computed<Array<UiOptionPickerOption<MediaListDetailsSortOption>>>(() => {
+const options = computed<Array<UiOptionPickerOption>>(() => {
   return [
     {
       label: t("mediaList.sort.createdAt"),
