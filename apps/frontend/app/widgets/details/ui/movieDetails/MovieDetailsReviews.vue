@@ -58,14 +58,16 @@ watch(currentSort, () => {
 const sortArrowUpIcon = h(UiIcon, { name: "icon:sort-arrow-up" })
 const sortArrowDownIcon = h(UiIcon, { name: "icon:sort-arrow-down" })
 
-const sortOptions = computed<Array<UiOptionPickerOption>>(() => [
-  { value: "createdAt_asc", label: t("mediaReview.sort.createdAt"), icon: sortArrowUpIcon },
-  { value: "createdAt_desc", label: t("mediaReview.sort.createdAt"), icon: sortArrowDownIcon },
-  { value: "likesCount_asc", label: t("mediaReview.sort.likes"), icon: sortArrowUpIcon },
-  { value: "likesCount_desc", label: t("mediaReview.sort.likes"), icon: sortArrowDownIcon },
-  { value: "dislikesCount_asc", label: t("mediaReview.sort.dislikes"), icon: sortArrowUpIcon },
-  { value: "dislikesCount_desc", label: t("mediaReview.sort.dislikes"), icon: sortArrowDownIcon },
-])
+const sortOptions = computed<Array<UiOptionPickerOption>>(() => {
+  return [
+    { value: "createdAt_asc", label: t("mediaReview.sort.createdAt"), icon: sortArrowUpIcon },
+    { value: "createdAt_desc", label: t("mediaReview.sort.createdAt"), icon: sortArrowDownIcon },
+    { value: "likesCount_asc", label: t("mediaReview.sort.likes"), icon: sortArrowUpIcon },
+    { value: "likesCount_desc", label: t("mediaReview.sort.likes"), icon: sortArrowDownIcon },
+    { value: "dislikesCount_asc", label: t("mediaReview.sort.dislikes"), icon: sortArrowUpIcon },
+    { value: "dislikesCount_desc", label: t("mediaReview.sort.dislikes"), icon: sortArrowDownIcon },
+  ]
+})
 
 const getMediaReviewsByMediaIdApiQueries = computed(() => {
   const [sortBy, sortDirection] = currentSort.value.split("_") as [MediaReviewSortField, SortOrderEnum]
@@ -83,7 +85,12 @@ const getMediaReviewsByMediaIdApiQueries = computed(() => {
 
 const getMediaReviewsByMediaIdApi = useGetMediaReviewsByMediaIdApi(getMediaReviewsByMediaIdApiQueries)
 
-const getMediaReviewByCurrentUserAndMediaIdApiArgs = computed(() => ({ mediaId: props.mediaId }))
+const getMediaReviewByCurrentUserAndMediaIdApiArgs = computed(() => {
+  return {
+    mediaId: props.mediaId,
+  }
+})
+
 const getMediaReviewByCurrentUserAndMediaIdApi = useGetMediaReviewByCurrentUserAndMediaIdApi(getMediaReviewByCurrentUserAndMediaIdApiArgs)
 
 await Promise.all([
@@ -165,7 +172,7 @@ const isCreateButtonDisabled = computed(() => {
         </UiTooltip>
       </div>
       <UiDivider :class="$style.headerDivider" />
-      <div :class="$style.reviewsMeta">
+      <div :class="$style.subheader">
         <UiTypography variant="description">
           {{ data?.totalCount || 0 }}
           {{ $t(getReviewDeclensionTranslationKey(data?.totalCount || 0)).toLocaleLowerCase() }}
@@ -264,7 +271,7 @@ const isCreateButtonDisabled = computed(() => {
   flex-wrap: wrap;
 }
 
-.reviewsMeta {
+.subheader {
   display: flex;
   justify-content: space-between;
   align-items: center;
