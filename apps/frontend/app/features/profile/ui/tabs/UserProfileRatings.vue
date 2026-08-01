@@ -2,7 +2,6 @@
 import type { UserPublicType } from "@movie-tracker/types"
 import type { FetchError } from "@movie-tracker/utils"
 import type { GetMediaRatingByUserIdArgs } from "~/api/mediaRatings/mediaRatingsApiTypes"
-import { onBeforeUnmount, onServerPrefetch } from "#imports"
 import { HttpStatus } from "@movie-tracker/utils"
 import { useRouteQuery } from "@vueuse/router"
 import { computed } from "vue"
@@ -33,14 +32,7 @@ const getMediaRatingByUserIdArgs = computed<GetMediaRatingByUserIdArgs>(() => {
 })
 
 const getMediaRatingByUserIdApi = useGetMediaRatingByUserIdApi(getMediaRatingByUserIdArgs)
-
-onServerPrefetch(async () => {
-  await getMediaRatingByUserIdApi.suspense()
-})
-
-onBeforeUnmount(() => {
-  currentPage.value = 1
-})
+await getMediaRatingByUserIdApi.suspense()
 
 const mediaItems = computed(() => {
   if (!getMediaRatingByUserIdApi.data.value?.items) {

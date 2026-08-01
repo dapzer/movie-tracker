@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useLocalePath } from "#i18n"
-import { ref } from "vue"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-type DashboardTab = "systemManagement" | "reviewsModeration" | "usersManagement" | "userBansManagement"
+export type DashboardTab = "systemManagement" | "reviewsModeration" | "usersManagement" | "userBansManagement"
 
 interface DashboardTabsProps {
   tab: DashboardTab
@@ -13,7 +12,6 @@ interface DashboardTabsProps {
 const props = defineProps<DashboardTabsProps>()
 
 const localePath = useLocalePath()
-const activeTab = ref<DashboardTab>(props.tab)
 </script>
 
 <template>
@@ -22,12 +20,12 @@ const activeTab = ref<DashboardTab>(props.tab)
       {{ $t("dashboard.title") }}
     </UiTypography>
     <UiTabsPane
-      v-model="activeTab"
+      :model-value="props.tab"
       :tabs="[
         {
           key: 'systemManagement',
           label: $t('dashboard.tabs.systemManagement'),
-          href: localePath('/dashboard'),
+          href: localePath('/dashboard/system-management'),
         },
         {
           key: 'usersManagement',
