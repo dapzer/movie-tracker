@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onServerPrefetch } from "#imports"
 import { useGetMediaListsByUserIdApi } from "~/api/mediaLists/useMediaListsApi"
 import { MediaListCard, MediaListCardSkeleton } from "~/entities/mediaList"
 import { UiAttention } from "~/shared/ui/UiAttention"
@@ -13,9 +12,7 @@ interface UserProfileListsProps {
 const props = defineProps<UserProfileListsProps>()
 
 const getMediaListsByUserIdApi = useGetMediaListsByUserIdApi(props.userId)
-onServerPrefetch(async () => {
-  await getMediaListsByUserIdApi.suspense()
-})
+await getMediaListsByUserIdApi.suspense()
 </script>
 
 <template>
