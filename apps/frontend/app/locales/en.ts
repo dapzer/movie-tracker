@@ -1584,6 +1584,11 @@ export default {
     },
   },
   mediaReview: {
+    sort: {
+      createdAt: "Created",
+      likes: "Likes",
+      dislikes: "Dislikes",
+    },
     pageTitle: "Review",
     title: "Reviews",
     reviewOf: "Review of {title}",

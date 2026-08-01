@@ -1,5 +1,5 @@
-import type { MediaReviewWithReason } from "@movie-tracker/types"
-import { MediaReviewModerationLogAction, MediaReviewStatus, UserRoleEnum } from "@movie-tracker/types"
+import type { MediaReviewSortField, MediaReviewWithReason } from "@movie-tracker/types"
+import { MediaReviewModerationLogAction, MediaReviewStatus, SortOrderEnum, UserRoleEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaReviewRepositoryInterface,
@@ -98,12 +98,19 @@ export class MediaReviewsService {
     }
   }
 
-  async getByMediaId(args: { mediaId: number, currentUser?: UserType } & PaginationDto) {
+  async getByMediaId(args: {
+    mediaId: number
+    currentUser?: UserType
+    sortBy: MediaReviewSortField
+    sortDirection: SortOrderEnum
+  } & PaginationDto) {
     return this.mediaReviewRepository.getByMediaId({
       mediaId: args.mediaId,
       limit: args.limit,
       offset: args.offset,
       currentUserId: args.currentUser?.id,
+      sortBy: args.sortBy,
+      sortDirection: args.sortDirection,
     })
   }
 
