@@ -73,6 +73,8 @@ export class MediaReviewsController {
       limit: query.limit,
       offset: query.offset,
       currentUser: user,
+      sortBy: query.sortBy,
+      sortDirection: query.sortDirection,
     })
   }
 

@@ -1,3 +1,4 @@
+import type { SQL } from "drizzle-orm"
 import {
   mediaDetails,
   mediaRatings,
@@ -13,15 +14,17 @@ import {
   MediaReview,
   MediaReviewCreateBodyType,
   MediaReviewPaginatedType,
+  MediaReviewSortField,
   MediaReviewStatus,
   MediaTypeEnum,
   SignUpMethodEnum,
+  SortOrderEnum,
   UserMediaRatingsAccessLevelEnum,
   UserPublicType,
   UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { count, not, sql } from "drizzle-orm"
+import { asc, count, desc, not, sql } from "drizzle-orm"
 import { MediaReviewRepositoryInterface } from "@/repositories/mediaReview/MediaReviewRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getPublicUser } from "@/shared/utils/getPublicUser"
@@ -253,6 +256,13 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       .from(mediaReviewDislikes)
       .where(eq(mediaReviewDislikes.mediaReviewId, mediaReviews.id))
 
+    const orderDirection = args.sortDirection === SortOrderEnum.ASC ? asc : desc
+    const orderByExpressions: Record<MediaReviewSortField, readonly [SQL, ...SQL[]]> = {
+      createdAt: [orderDirection(mediaReviews.createdAt)],
+      likesCount: [orderDirection(sql<number>`(${likesSubquery})`), desc(mediaReviews.createdAt)],
+      dislikesCount: [orderDirection(sql<number>`(${dislikesSubquery})`), desc(mediaReviews.createdAt)],
+    }
+
     const [items, totalCount] = await Promise.all([
       this.drizzle.client
         .select({
@@ -285,7 +295,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           eq(mediaRatings.mediaId, mediaReviews.mediaId),
         ))
         .where(and(eq(mediaReviews.mediaId, args.mediaId), eq(mediaReviews.status, args.status || MediaReviewStatus.PUBLISHED)))
-        .orderBy(sql`COALESCE(${mediaReviews.publishedAt}, ${mediaReviews.createdAt}) DESC`)
+        .orderBy(...orderByExpressions[args.sortBy])
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client

@@ -56,6 +56,10 @@ export const MEDIA_REVIEW_TITLE_MAX_LENGTH = 86
 export const MEDIA_REVIEW_CONTENT_MIN_LENGTH = 5
 export const MEDIA_REVIEW_CONTENT_MAX_LENGTH = 10000
 
+export const MEDIA_REVIEW_SORT_FIELDS = ["createdAt", "likesCount", "dislikesCount"] as const
+
+export type MediaReviewSortField = (typeof MEDIA_REVIEW_SORT_FIELDS)[number]
+
 export interface MediaReviewLike {
   id: string
   userId: string

@@ -1586,6 +1586,11 @@ export default {
     },
   },
   mediaReview: {
+    sort: {
+      createdAt: "Дата создания",
+      likes: "Лайки",
+      dislikes: "Дизлайки",
+    },
     pageTitle: "Рецензия",
     title: "Рецензии",
     reviewOf: "Рецензия на '{title}'",

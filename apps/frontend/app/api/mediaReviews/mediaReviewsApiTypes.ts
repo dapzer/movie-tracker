@@ -5,6 +5,8 @@ import type {
   MediaReviewStatus,
   MediaReviewUpdateBodyType,
   PaginationType,
+  MediaReviewSortField,
+  SortOrderEnum,
 } from "@movie-tracker/types"
 
 export interface GetMediaReviewByCurrentUserAndMediaIdArgs {
@@ -17,6 +19,8 @@ export interface GetMediaReviewByIdArgs {
 
 export type GetMediaReviewsByMediaIdArgs = {
   mediaId: number
+  sortBy?: MediaReviewSortField
+  sortDirection?: SortOrderEnum
 } & PaginationType
 
 export type GetMediaReviewsByUserIdArgs = {

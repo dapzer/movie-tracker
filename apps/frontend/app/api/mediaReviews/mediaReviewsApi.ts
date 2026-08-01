@@ -49,6 +49,8 @@ export function getMediaReviewsByMediaIdApi(args: GetMediaReviewsByMediaIdArgs, 
     params: {
       limit: args.limit,
       offset: args.offset,
+      sortBy: args.sortBy,
+      sortDirection: args.sortDirection,
     },
   })
 }

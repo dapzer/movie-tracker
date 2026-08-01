@@ -2,9 +2,11 @@ import {
   MediaReview,
   MediaReviewCreateBodyType,
   MediaReviewPaginatedType,
+  MediaReviewSortField,
   MediaReviewStatus,
   MediaReviewUpdateBodyType,
   PaginationType,
+  SortOrderEnum,
 } from "@movie-tracker/types"
 
 export const MediaReviewRepositorySymbol = Symbol("MediaReviewRepository")
@@ -26,6 +28,8 @@ export interface MediaReviewRepositoryInterface {
     mediaId: number
     currentUserId?: string
     status?: MediaReviewStatus
+    sortBy: MediaReviewSortField
+    sortDirection: SortOrderEnum
   } & PaginationType) => Promise<MediaReviewPaginatedType>
 
   getByUserId: (args: {
