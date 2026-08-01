@@ -3,7 +3,7 @@ import type { DashboardTab } from "~/features/dashboard/ui/DashboardTabs.vue"
 import { useRouteBaseName } from "#i18n"
 import { useRoute } from "#imports"
 import { UserRoleEnum } from "@movie-tracker/types"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { DashboardTabs } from "~/features/dashboard"
 import { useProtectedRoute } from "~/shared/composables/useProtectedRoute"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -20,9 +20,16 @@ useProtectedRoute([UserRoleEnum.ADMIN])
 const route = useRoute()
 const routeBaseName = useRouteBaseName()
 
-const activeTab = computed<DashboardTab>(() => {
-  const name = routeBaseName(route) as string
-  return dashboardRouteTabMap[name] ?? "systemManagement"
+const currentTabName = computed(() => {
+  return dashboardRouteTabMap[routeBaseName(route) as string]
+})
+
+const activeTab = ref<DashboardTab>(currentTabName.value ?? "systemManagement")
+
+watch(currentTabName, (tab) => {
+  if (tab) {
+    activeTab.value = tab
+  }
 })
 </script>
 

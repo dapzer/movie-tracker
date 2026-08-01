@@ -5,7 +5,7 @@ import { useLocalePath } from "#i18n"
 import { useI18n, useRouteBaseName, useSeoMeta } from "#imports"
 import { useRoute } from "#vue-router"
 import { FetchError, HttpStatus } from "@movie-tracker/utils"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import { useGetUserFollowInformationApi } from "~/api/userFollows/useUserFollowsApi"
 import { useGetUserProfileByIdApi, useGetUserStatsByIdApi } from "~/api/users/useUsersApi"
 import { UserProfileInfo } from "~/features/profile"
@@ -26,6 +26,19 @@ const route = useRoute()
 const userId = route.params.id as string
 const localePath = useLocalePath()
 const { t } = useI18n()
+const getRouteBaseName = useRouteBaseName()
+
+const currentTabName = computed(() => {
+  return profileRouteTabMap[getRouteBaseName(route) as string]
+})
+
+const activeTab = ref<UserProfileTab>(currentTabName.value ?? "lists")
+
+watch(currentTabName, (tab) => {
+  if (tab) {
+    activeTab.value = tab
+  }
+})
 
 const getUserProfileByIdApi = useGetUserProfileByIdApi(userId)
 const getUserStatsByIdApi = useGetUserStatsByIdApi(userId)
@@ -40,13 +53,6 @@ await Promise.all([
 const user = computed(() => getUserProfileByIdApi.data.value)
 const stats = computed(() => getUserStatsByIdApi.data.value)
 const followInformation = computed(() => getUserFollowInformationApi.data.value)
-
-const getRouteBaseName = useRouteBaseName()
-
-const activeTab = computed<UserProfileTab>(() => {
-  const name = getRouteBaseName(route) as string
-  return profileRouteTabMap[name] ?? "lists"
-})
 
 const title = computed(() => {
   return `${getShortText(user.value?.name, 12)} | ${t(`userProfile.tabs.${activeTab.value}`)} | ${t("userProfile.pageTitle")}`

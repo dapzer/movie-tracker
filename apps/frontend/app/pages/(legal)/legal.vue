@@ -2,7 +2,7 @@
 import type { LegalsTab } from "~/widgets/legals/ui/LegalsTabs.vue"
 import { useRouteBaseName } from "#i18n"
 import { useRoute } from "#imports"
-import { computed } from "vue"
+import { computed, ref, watch } from "vue"
 import LegalsTabs from "~/widgets/legals/ui/LegalsTabs.vue"
 
 const legalRouteTabMap: Record<string, LegalsTab> = {
@@ -14,9 +14,16 @@ const legalRouteTabMap: Record<string, LegalsTab> = {
 const routeBaseName = useRouteBaseName()
 const route = useRoute()
 
-const activeTab = computed<LegalsTab>(() => {
-  const name = routeBaseName(route) as string
-  return legalRouteTabMap[name] ?? "termsOfUse"
+const currentTabName = computed(() => {
+  return legalRouteTabMap[routeBaseName(route) as string]
+})
+
+const activeTab = ref<LegalsTab>(currentTabName.value ?? "termsOfUse")
+
+watch(currentTabName, (tab) => {
+  if (tab) {
+    activeTab.value = tab
+  }
 })
 </script>
 
