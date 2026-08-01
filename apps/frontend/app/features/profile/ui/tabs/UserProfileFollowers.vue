@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { UserFollowInformationType, UserPublicType } from "@movie-tracker/types"
 import type { GetUserFollowersApiArgs } from "~/api/userFollows/userFollowsApiTypes"
-import { onBeforeUnmount, onServerPrefetch } from "#imports"
 import { useRouteQuery } from "@vueuse/router"
 import { computed } from "vue"
 import { useGetUserFollowersApi } from "~/api/userFollows/useUserFollowsApi"
@@ -30,13 +29,7 @@ const getUserFollowersApiArgs = computed<GetUserFollowersApiArgs>(() => {
 })
 
 const getUserFollowersApi = useGetUserFollowersApi(getUserFollowersApiArgs)
-onServerPrefetch(async () => {
-  await getUserFollowersApi.suspense()
-})
-
-onBeforeUnmount(() => {
-  currentPage.value = 1
-})
+await getUserFollowersApi.suspense()
 
 const skeletonsCount = computed(() => {
   return Math.min(

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { UiTab } from "~/shared/ui/UiTabs"
 import { useLocalePath } from "#i18n"
-import { ref } from "vue"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiSlider } from "~/shared/ui/UiSlider"
 import { UiTabsPaneWrapper, UiTabsWrapper } from "~/shared/ui/UiTabs"
@@ -16,7 +15,6 @@ interface LegalsTabsProps {
 const props = defineProps<LegalsTabsProps>()
 
 const localePath = useLocalePath()
-const activeTab = ref<LegalsTab>(props.tab)
 </script>
 
 <template>
@@ -51,7 +49,7 @@ const activeTab = ref<LegalsTab>(props.tab)
           <template #slide="{ item }">
             <UiTabTrigger
               :key="item.key"
-              :active="activeTab === item.key"
+              :active="props.tab === item.key"
               :href="item.href"
             >
               {{ item.label }}
@@ -59,7 +57,7 @@ const activeTab = ref<LegalsTab>(props.tab)
           </template>
         </UiSlider>
       </UiTabsPaneWrapper>
-      <UiMarkdown :value="$t(`legals.${props.tab}`)" />
+      <slot />
     </UiTabsWrapper>
   </UiContainer>
 </template>

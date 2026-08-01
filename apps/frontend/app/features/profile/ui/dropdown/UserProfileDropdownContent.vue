@@ -88,7 +88,7 @@ const isAdmin = computed(() => {
       <UiDropdownSeparator />
       <UiDropdownItem
         :as="NuxtLink"
-        :to="localePath('/dashboard')"
+        :to="localePath('/dashboard/system-management')"
       >
         <template #iconStart>
           <UiIcon name="icon:dashboard" />

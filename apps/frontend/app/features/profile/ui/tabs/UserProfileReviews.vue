@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { GetMediaReviewsByUserIdArgs } from "~/api/mediaReviews/mediaReviewsApiTypes"
-import { computed, onBeforeUnmount } from "#imports"
+import { computed } from "#imports"
 import { MediaReviewStatus } from "@movie-tracker/types"
 import { useRouteQuery } from "@vueuse/router"
 import { useGetMediaReviewsByUserIdApi } from "~/api/mediaReviews/useMediaReviewsApi"
@@ -34,10 +34,6 @@ const mediaReviewsQueries = computed<GetMediaReviewsByUserIdArgs>(() => {
 
 const getMediaReviewsByUserIdApi = useGetMediaReviewsByUserIdApi(mediaReviewsQueries)
 await getMediaReviewsByUserIdApi.suspense()
-
-onBeforeUnmount(() => {
-  currentPage.value = 1
-})
 
 const mediaReviews = computed(() => {
   return getMediaReviewsByUserIdApi.data.value?.items || []

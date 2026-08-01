@@ -1,79 +1,57 @@
 <script setup lang="ts">
-import type { UserFollowInformationType, UserPublicType, UserStatsType } from "@movie-tracker/types"
-import { useRouteQuery } from "@vueuse/router"
-import UserProfileFollowers from "~/features/profile/ui/tabs/UserProfileFollowers.vue"
-import UserProfileFollowings from "~/features/profile/ui/tabs/UserProfileFollowings.vue"
-import UserProfileLists from "~/features/profile/ui/tabs/UserProfileLists.vue"
-import UserProfileRatings from "~/features/profile/ui/tabs/UserProfileRatings.vue"
-import UserProfileReviews from "~/features/profile/ui/tabs/UserProfileReviews.vue"
+import type { UserPublicType } from "@movie-tracker/types"
+import { useLocalePath } from "#i18n"
 import { UiContainer } from "~/shared/ui/UiContainer"
-import { UiTabs } from "~/shared/ui/UiTabs"
+import { UiTabsPane } from "~/shared/ui/UiTabs"
+
+export type UserProfileTab = "lists" | "ratings" | "reviews" | "followers" | "followings"
 
 interface UserProfileContentProps {
   user: UserPublicType
-  followInformation: UserFollowInformationType
-  stats: UserStatsType
+  tab: UserProfileTab
 }
 
 const props = defineProps<UserProfileContentProps>()
 
-const activeTab = useRouteQuery<string>("tab", "lists", {
-  mode: "replace",
-})
+const localePath = useLocalePath()
 </script>
 
 <template>
   <UiContainer :class="$style.wrapper">
-    <UiTabs
-      v-model="activeTab"
+    <UiTabsPane
+      :model-value="props.tab"
       :tabs="[
         {
           key: 'lists',
           label: $t('userProfile.tabs.lists'),
+          href: localePath(`/profile/${props.user.id}`)
         },
         {
           key: 'ratings',
           label: $t('userProfile.tabs.ratings'),
+          href: localePath(`/profile/${props.user.id}/ratings`)
         },
         {
           key: 'reviews',
           label: $t('userProfile.tabs.reviews'),
+          href: localePath(`/profile/${props.user.id}/reviews`)
         },
         {
           key: 'followers',
           label: $t('userProfile.tabs.followers'),
+          href: localePath(`/profile/${props.user.id}/followers`)
         },
         {
           key: 'followings',
           label: $t('userProfile.tabs.followings'),
+          href: localePath(`/profile/${props.user.id}/followings`)
         },
       ] as const"
     >
-      <template #lists>
-        <UserProfileLists
-          :user-id="props.user.id"
-          :lists-count="props.stats.mediaListCount"
-        />
+      <template #content>
+        <slot />
       </template>
-      <template #ratings>
-        <UserProfileRatings
-          :user="props.user"
-          :ratings-count="props.stats.mediaRatingsCount"
-        />
-      </template>
-      <template #reviews>
-        <UserProfileReviews :user-id="props.user.id" />
-      </template>
-      <template #followers>
-        <UserProfileFollowers
-          :user="props.user"
-          :follow-information="props.followInformation"
-        />
-      </template>
-      <template #followings>
-        <UserProfileFollowings :user="props.user" />
-      </template>
-    </UiTabs>
+    </UiTabsPane>
   </UiContainer>
 </template>
 
