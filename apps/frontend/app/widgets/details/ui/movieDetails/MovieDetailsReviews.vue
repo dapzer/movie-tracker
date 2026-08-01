@@ -39,7 +39,6 @@ const { profile, isAuthorized } = useAuth()
 const { navigateToSignInPage } = useNavigateToSignInPage()
 
 const { t } = useI18n()
-const reviewsItemsPerPage = 10
 
 type ReviewSortValue
   = "createdAt_desc"
@@ -50,24 +49,7 @@ type ReviewSortValue
     | "dislikesCount_asc"
 
 const currentSort = ref<ReviewSortValue>("createdAt_desc")
-
-watch(currentSort, () => {
-  currentPage.value = 1
-})
-
-const sortArrowUpIcon = h(UiIcon, { name: "icon:sort-arrow-up" })
-const sortArrowDownIcon = h(UiIcon, { name: "icon:sort-arrow-down" })
-
-const sortOptions = computed<Array<UiOptionPickerOption>>(() => {
-  return [
-    { value: "createdAt_asc", label: t("mediaReview.sort.createdAt"), icon: sortArrowUpIcon },
-    { value: "createdAt_desc", label: t("mediaReview.sort.createdAt"), icon: sortArrowDownIcon },
-    { value: "likesCount_asc", label: t("mediaReview.sort.likes"), icon: sortArrowUpIcon },
-    { value: "likesCount_desc", label: t("mediaReview.sort.likes"), icon: sortArrowDownIcon },
-    { value: "dislikesCount_asc", label: t("mediaReview.sort.dislikes"), icon: sortArrowUpIcon },
-    { value: "dislikesCount_desc", label: t("mediaReview.sort.dislikes"), icon: sortArrowDownIcon },
-  ]
-})
+const reviewsItemsPerPage = 10
 
 const getMediaReviewsByMediaIdApiQueries = computed(() => {
   const [sortBy, sortDirection] = currentSort.value.split("_") as [MediaReviewSortField, SortOrderEnum]
@@ -97,6 +79,24 @@ await Promise.all([
   getMediaReviewsByMediaIdApi.suspense(),
   getMediaReviewByCurrentUserAndMediaIdApi.suspense(),
 ])
+
+const sortArrowUpIcon = h(UiIcon, { name: "icon:sort-arrow-up" })
+const sortArrowDownIcon = h(UiIcon, { name: "icon:sort-arrow-down" })
+
+const sortOptions = computed<Array<UiOptionPickerOption>>(() => {
+  return [
+    { value: "createdAt_asc", label: t("mediaReview.sort.createdAt"), icon: sortArrowUpIcon },
+    { value: "createdAt_desc", label: t("mediaReview.sort.createdAt"), icon: sortArrowDownIcon },
+    { value: "likesCount_asc", label: t("mediaReview.sort.likes"), icon: sortArrowUpIcon },
+    { value: "likesCount_desc", label: t("mediaReview.sort.likes"), icon: sortArrowDownIcon },
+    { value: "dislikesCount_asc", label: t("mediaReview.sort.dislikes"), icon: sortArrowUpIcon },
+    { value: "dislikesCount_desc", label: t("mediaReview.sort.dislikes"), icon: sortArrowDownIcon },
+  ]
+})
+
+watch(currentSort, () => {
+  currentPage.value = 1
+})
 
 const createFormVisible = ref<boolean>(false)
 
