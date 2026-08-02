@@ -6,7 +6,7 @@ import {
   PaginationNext,
   PaginationPrev,
   PaginationRoot,
-} from "radix-vue"
+} from "reka-ui"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import UiPaginationItem from "~/shared/ui/UiPagination/UiPaginationItem.vue"
@@ -110,16 +110,19 @@ const currentPage = defineModel<number>()
     }
   }
 
+  .arrowIcon {
+    width: 12px;
+    height: 7px;
+  }
+
   .prevPage {
     .arrowIcon {
-      width: 12px;
       transform: rotate(90deg);
     }
   }
 
   .nextPage {
     .arrowIcon {
-      width: 12px;
       transform: rotate(-90deg);
     }
   }

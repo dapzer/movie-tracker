@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { MediaListType, TmdbSearchResponseResultItemType } from "@movie-tracker/types"
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-expect-error
-import type { SelectEvent } from "radix-vue/dist/Combobox/ComboboxItem"
+import type { ListboxItemSelectEvent } from "reka-ui"
 import { useLocalePath } from "#i18n"
 import { computed } from "#imports"
 import { useRouter } from "#vue-router"
@@ -20,6 +18,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 
 const router = useRouter()
 const localePath = useLocalePath()
+
+type SelectEvent = ListboxItemSelectEvent<string>
 
 const open = ref<boolean>(false)
 const { searchValue, tmdbGetSearchByTermApi, getCommunityListsSearchApi, isLoading, isResultsEmpty } = useSearch()
@@ -67,9 +67,7 @@ const itemsToRender = computed(() => {
     :indent="12"
     :width="568"
     align="center"
-    :reset-search-term-on-blur="false"
     :placeholder="$t('search.placeholder')"
-    :filter-function="(items: TmdbSearchResponseResultItemType[]) => items"
   >
     <template v-if="!isLoading">
       <template

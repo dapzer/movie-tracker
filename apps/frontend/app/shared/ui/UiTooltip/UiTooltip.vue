@@ -1,9 +1,7 @@
 <script setup lang="ts">
-// eslint-disable-next-line ts/ban-ts-comment
-// @ts-expect-error
-import type { TooltipContentProps } from "radix-vue/dist/Tooltip/TooltipContent"
+import type { TooltipContentProps } from "reka-ui"
 import { useMediaQuery } from "@vueuse/core"
-import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from "radix-vue"
+import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from "reka-ui"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 export type UiTooltipSide = "top" | "right" | "bottom" | "left"
@@ -22,12 +20,12 @@ interface UiTooltipProps {
 
 const props = withDefaults(defineProps<UiTooltipProps>(), {
   offset: 12,
-  collisionPadding: {
+  collisionPadding: () => ({
     top: 68,
     right: 24,
     bottom: 24,
     left: 24,
-  },
+  }),
 })
 
 const mediaQueryTouch = useMediaQuery("(hover: none) and (pointer: coarse)")
@@ -100,9 +98,9 @@ function handleTriggerClick() {
     z-index: var(--i-tooltip);
     padding: 12px;
     background: var(--c-tooltip-background);
-    max-height: var(--radix-tooltip-content-available-height);
+    max-height: var(--reka-tooltip-content-available-height);
     width: max-content;
-    max-width: min(var(--radix-tooltip-content-available-width), var(--s-container));
+    max-width: min(var(--reka-tooltip-content-available-width), var(--s-container));
     border-radius: var(--s-border-radius-medium);
   }
 

@@ -9,6 +9,8 @@
 </template>
 
 <style module lang="scss">
+@import "~/shared/styles/breakpoints";
+
 .body {
   display: flex;
   flex-direction: column;
@@ -18,7 +20,7 @@
     padding: var(--s-header-height) 0;
     flex: 1 1 auto;
 
-    @media screen and (max-width: var(--bp-md)) {
+    @media screen and (max-width: $bp-md) {
       min-height: 100vh;
     }
   }

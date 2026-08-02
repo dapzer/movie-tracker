@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UiDropdownSize } from "~/shared/ui/UiDropdown/UiDropdown.vue"
 import { inject } from "#imports"
-import { DropdownMenuGroup } from "radix-vue"
+import { DropdownMenuGroup } from "reka-ui"
 import { uiDropdownSizeInjectionKey } from "~/shared/ui/UiDropdown/model/constants"
 
 const size = inject<UiDropdownSize | undefined>(uiDropdownSizeInjectionKey)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ComboboxItem } from "radix-vue"
+import { ComboboxItem } from "reka-ui"
 
 interface ComboboxItemProps {
   value: string

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMediaQuery } from "@vueuse/core"
-import { SliderThumb } from "radix-vue"
+import { SliderThumb } from "reka-ui"
 import { ref } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import UiTooltip from "~/shared/ui/UiTooltip/UiTooltip.vue"

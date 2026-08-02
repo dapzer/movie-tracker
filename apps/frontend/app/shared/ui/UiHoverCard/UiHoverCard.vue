@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
-import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from "radix-vue"
+import { HoverCardArrow, HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from "reka-ui"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 interface UiHoverCardProps {
@@ -71,7 +71,7 @@ const props = withDefaults(defineProps<UiHoverCardProps>(), {
 .contentWrapper {
   z-index: var(--i-hover-card);
   width: max-content;
-  max-width: min(var(--radix-hover-card-content-available-width), var(--s-container));
+  max-width: min(var(--reka-hover-card-content-available-width), var(--s-container));
   cursor: auto;
 
   .arrow {
@@ -98,7 +98,7 @@ const props = withDefaults(defineProps<UiHoverCardProps>(), {
   flex-direction: column;
   gap: 16px;
   background: var(--c-card-background-hovered);
-  max-height: var(--radix-hover-card-content-available-height);
+  max-height: var(--reka-hover-card-content-available-height);
   overflow-y: auto;
   max-width: max-content;
   border-radius: var(--s-border-radius-medium);
