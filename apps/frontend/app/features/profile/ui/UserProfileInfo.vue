@@ -26,8 +26,8 @@ const props = defineProps<UserProfileInfoProps>()
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/breakpoints";
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/breakpoints" as *;
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   background: var(--c-profile-background-gradient);

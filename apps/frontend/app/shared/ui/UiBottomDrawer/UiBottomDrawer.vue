@@ -70,7 +70,7 @@ const model = defineModel<boolean>()
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 @layer internal, external;
 
 @layer internal {

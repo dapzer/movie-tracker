@@ -68,7 +68,7 @@ const genres = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .description {
   display: flex;

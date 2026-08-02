@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<UiTypographyProps>(), {
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .title {
   color: var(--c-text);

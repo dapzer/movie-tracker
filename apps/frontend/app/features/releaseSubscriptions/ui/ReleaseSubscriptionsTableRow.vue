@@ -141,7 +141,7 @@ const lastRelease = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .info {
   display: flex;

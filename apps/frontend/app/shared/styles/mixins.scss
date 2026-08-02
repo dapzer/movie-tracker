@@ -1,4 +1,4 @@
-@import "breakpoints";
+@use "breakpoints" as *;
 
 @mixin fullWidthBg($background) {
   box-shadow: 0 0 0 100vmax $background;

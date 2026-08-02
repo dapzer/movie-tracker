@@ -9,7 +9,7 @@
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/breakpoints";
+@use "~/shared/styles/breakpoints" as *;
 
 .body {
   display: flex;

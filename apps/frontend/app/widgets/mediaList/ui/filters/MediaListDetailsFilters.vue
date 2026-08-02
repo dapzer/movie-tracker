@@ -69,7 +69,7 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   width: 100%;

@@ -50,8 +50,8 @@ const props = withDefaults(defineProps<UiMediaCardSkeletonProps>(), {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
-@import "~/shared/styles/breakpoints";
+@use "~/shared/styles/mixins" as *;
+@use "~/shared/styles/breakpoints" as *;
 
 .wrapper {
   pointer-events: none;

@@ -30,8 +30,8 @@ const props = defineProps<MediaReviewCardProps>()
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
-@import "~/shared/styles/variables";
+@use "~/shared/styles/mixins" as *;
+@use "~/shared/styles/variables" as *;
 
 .footer {
   display: flex;

@@ -43,8 +43,8 @@ const props = defineProps<AccountSettingsFormItemProps>()
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/variables.scss";
-@import "~/shared/styles/mixins.scss";
+@use "~/shared/styles/variables" as *;
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   gap: 20px;

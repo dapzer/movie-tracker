@@ -68,7 +68,7 @@ import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   display: flex;

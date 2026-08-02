@@ -49,8 +49,8 @@ const currentYear = new Date().getFullYear()
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/breakpoints";
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/breakpoints" as *;
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   width: 100%;

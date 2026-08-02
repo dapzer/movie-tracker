@@ -98,8 +98,8 @@ function handleOptionSelect(option: UiOptionPickerOption) {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
-@import "~/shared/styles/breakpoints";
+@use "~/shared/styles/mixins" as *;
+@use "~/shared/styles/breakpoints" as *;
 
 .trigger {
   border-radius: var(--s-border-radius-super-mega-huge);

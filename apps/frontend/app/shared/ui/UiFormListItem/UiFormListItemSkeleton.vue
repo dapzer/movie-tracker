@@ -27,7 +27,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   display: flex;

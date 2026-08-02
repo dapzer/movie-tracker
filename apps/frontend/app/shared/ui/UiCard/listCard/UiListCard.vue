@@ -76,8 +76,8 @@ const imagesCount = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/mixins";
-@import "~/shared/styles/breakpoints";
+@use "~/shared/styles/mixins" as *;
+@use "~/shared/styles/breakpoints" as *;
 
 .wrapper {
   padding: 16px;

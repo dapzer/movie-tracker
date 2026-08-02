@@ -45,7 +45,7 @@ const model = defineModel()
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   display: flex;

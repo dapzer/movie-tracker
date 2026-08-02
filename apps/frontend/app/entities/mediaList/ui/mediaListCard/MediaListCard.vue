@@ -177,7 +177,7 @@ const accessLevel = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .header {
   display: flex;

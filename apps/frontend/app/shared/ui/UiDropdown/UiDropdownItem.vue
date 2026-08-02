@@ -38,7 +38,7 @@ const size = inject<UiDropdownSize | undefined>(uiDropdownSizeInjectionKey)
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   @include dropdownItem;

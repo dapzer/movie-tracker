@@ -1,6 +1,7 @@
-@import "variables";
-@import "breakpoints";
-@import "fonts";
+@use "variables" as *;
+@use "breakpoints" as *;
+@use "mixins" as *;
+@use "fonts";
 
 @layer global {
   html,

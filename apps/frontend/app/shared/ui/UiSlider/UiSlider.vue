@@ -136,8 +136,8 @@ const maxWidthStyle = computed(() => {
 </template>
 
 <style lang="scss">
-@import "~/shared/styles/breakpoints";
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/breakpoints" as *;
+@use "~/shared/styles/mixins" as *;
 
 .embla {
   position: relative;

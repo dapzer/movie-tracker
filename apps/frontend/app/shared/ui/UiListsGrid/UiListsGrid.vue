@@ -9,8 +9,8 @@
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/breakpoints";
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/breakpoints" as *;
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   display: grid;

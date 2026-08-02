@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<UiUserProfileLinkProps>(), {
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .wrapper {
   display: flex;

@@ -116,7 +116,7 @@ const isAdmin = computed(() => {
 </template>
 
 <style lang="scss" module>
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .info {
   display: flex;

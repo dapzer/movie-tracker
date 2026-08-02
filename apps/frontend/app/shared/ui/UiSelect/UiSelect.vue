@@ -96,7 +96,7 @@ const selectedOption = computed(() => {
 </template>
 
 <style module lang="scss">
-@import "~/shared/styles/mixins";
+@use "~/shared/styles/mixins" as *;
 
 .trigger {
   outline: none;
