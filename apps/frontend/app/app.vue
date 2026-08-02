@@ -55,9 +55,6 @@ useSeoMeta({
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogType: "website",
-  keywords() {
-    return t("seo.keywords")
-  },
 })
 </script>
 

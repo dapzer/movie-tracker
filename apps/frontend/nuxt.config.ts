@@ -19,6 +19,13 @@ export default defineNuxtConfig({
 
   experimental: {
     emitRouteChunkError: "automatic-immediate",
+    typescriptPlugin: true,
+  },
+
+  dxup: {
+    features: {
+      namedLayoutSlots: true,
+    },
   },
 
   devtools: { enabled: true },
