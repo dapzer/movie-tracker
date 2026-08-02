@@ -35,6 +35,7 @@ export interface UserStatsType {
   mediaListCount: number
   mediaRatingsCount?: number
   mediaListLikeCount: number
+  mediaReviewsCount: number
 }
 
 export type UserPublicType = Pick<UserType, "id" | "name" | "image" | "createdAt">
