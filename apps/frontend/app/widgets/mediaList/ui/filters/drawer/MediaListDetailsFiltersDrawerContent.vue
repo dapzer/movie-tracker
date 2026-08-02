@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MediaListDetailsFilters } from "@/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
 import { onBeforeUnmount, useI18n } from "#imports"
-import { MediaTypeEnum } from "@movie-tracker/types"
+import { MediaTypeEnum, TMDB_GENRE_IDS, TMDB_RELEASE_STATUSES } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { UiButton } from "@/shared/ui/UiButton"
 import { UiDivider } from "@/shared/ui/UiDivider"
@@ -45,41 +45,11 @@ const mediaTypeOptions = computed(() => {
 })
 
 const genreOptions = computed(() => {
-  return [
-    "12",
-    "14",
-    "16",
-    "18",
-    "27",
-    "28",
-    "35",
-    "36",
-    "37",
-    "53",
-    "80",
-    "99",
-    "878",
-    "9648",
-    "10402",
-    "10749",
-    "10751",
-    "10752",
-    "10770",
-  ].map(el => ({ label: t(`details.genres.all.${el}`), value: el }))
+  return TMDB_GENRE_IDS.map(value => ({ label: t(`details.genres.all.${value}`), value }))
 })
 
 const releaseStatusOptions = computed(() => {
-  return [
-    "rumored",
-    "canceled",
-    "planned",
-    "pilot",
-    "in production",
-    "returning series",
-    "post production",
-    "released",
-    "ended",
-  ].map(el => ({ label: t(`details.allStatusNames.${el}`), value: el }))
+  return TMDB_RELEASE_STATUSES.map(value => ({ label: t(`details.allStatusNames.${value}`), value }))
 })
 
 function resetDraftFilters() {

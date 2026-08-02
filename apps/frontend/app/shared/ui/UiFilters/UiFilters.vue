@@ -46,9 +46,13 @@ const model = defineModel<UiFiltersModel<TConfig>>({ required: true })
       />
       <UiDateRangeFilterPopover
         v-else-if="filter.type === 'dateRange'"
-        v-model="model[filter.id] as [number, number]"
+        v-model="model[filter.id] as [number | undefined, number | undefined]"
         :title="filter.title"
-        :options="filter.options"
+        :from-label="filter.fromLabel"
+        :to-label="filter.toLabel"
+        :min-year="filter.minYear"
+        :max-year="filter.maxYear"
+        :shortcuts="filter.shortcuts"
         :initial-value="filter.initialValue"
       />
     </template>

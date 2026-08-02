@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { UiDateRangeFilterConfig, UiDateRangeFilterValue } from "~/shared/ui/UiFilters/model/types.ts"
 import { computed, ref, watch } from "vue"
-import { UiButton } from "~/shared/ui/UiButton"
-import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
+import { UiYearRangePicker } from "~/shared/ui/UiYearRangePicker"
 
 type UiDateRangeFilterPopoverProps = Omit<UiDateRangeFilterConfig, "id" | "type">
 
@@ -13,7 +12,7 @@ const model = defineModel<UiDateRangeFilterValue>({ required: true })
 const openModel = ref(false)
 const draftModel = ref<UiDateRangeFilterValue>([model.value[0], model.value[1]])
 
-const initialValue = computed<UiDateRangeFilterValue>(() => props.initialValue ?? props.options[0].value)
+const initialValue = computed<UiDateRangeFilterValue>(() => props.initialValue ?? [undefined, undefined])
 
 function isSameRange(left: UiDateRangeFilterValue, right: UiDateRangeFilterValue) {
   return left[0] === right[0] && left[1] === right[1]
@@ -26,10 +25,6 @@ const isActive = computed(() => {
 function clearModel() {
   draftModel.value = [initialValue.value[0], initialValue.value[1]]
   model.value = [initialValue.value[0], initialValue.value[1]]
-}
-
-function selectOption(value: UiDateRangeFilterValue) {
-  draftModel.value = [value[0], value[1]]
 }
 
 watch(openModel, (isOpen) => {
@@ -59,40 +54,14 @@ watch(openModel, (isOpen) => {
       </UiFilterTrigger>
     </template>
     <template #content>
-      <template
-        v-for="(option, index) in props.options"
-        :key="`${option.value[0]}-${option.value[1]}`"
-      >
-        <UiButton
-          variant="text"
-          :class="[$style.option, {
-            [$style.optionSelected]: isSameRange(draftModel, option.value),
-          }]"
-          @click="selectOption(option.value)"
-        >
-          {{ option.label }}
-        </UiButton>
-        <UiDivider v-if="index < props.options.length - 1" />
-      </template>
+      <UiYearRangePicker
+        v-model="draftModel"
+        :from-label="props.fromLabel"
+        :to-label="props.toLabel"
+        :min-year="props.minYear"
+        :max-year="props.maxYear"
+        :shortcuts="props.shortcuts"
+      />
     </template>
   </UiPopover>
 </template>
-
-<style module lang="scss">
-.option {
-  padding: 8px 10px;
-  width: 100%;
-  font-size: var(--fs-label-small);
-  justify-content: flex-start;
-
-  &:focus,
-  &:active,
-  &:hover {
-    background: var(--c-white-05);
-  }
-}
-
-.optionSelected {
-  color: var(--c-label-secondary);
-}
-</style>

@@ -38,3 +38,37 @@ export enum TmdbMovieGenresEnum {
   WAR = 10752,
   WESTERN = 37,
 }
+
+export const TMDB_GENRE_IDS = [
+  "12",
+  "14",
+  "16",
+  "18",
+  "27",
+  "28",
+  "35",
+  "36",
+  "37",
+  "53",
+  "80",
+  "99",
+  "878",
+  "9648",
+  "10402",
+  "10749",
+  "10751",
+  "10752",
+  "10770",
+] as const
+
+export const TMDB_RELEASE_STATUSES = [
+  "rumored",
+  "canceled",
+  "planned",
+  "pilot",
+  "in production",
+  "returning series",
+  "post production",
+  "released",
+  "ended",
+] as const

@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import type { MediaTypeEnum } from "@movie-tracker/types"
+import type {
+  UiDateRangeFilterConfig,
+  UiFiltersModel,
+  UiMultiSelectFilterConfig,
+  UiRangeFilterConfig,
+} from "~/shared/ui/UiFilters"
+import { useI18n } from "#imports"
+import { MediaTypeEnum, TMDB_GENRE_IDS, TMDB_RELEASE_STATUSES } from "@movie-tracker/types"
+import { computed } from "vue"
 import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
+import { UiFilters } from "~/shared/ui/UiFilters"
 import MediaListDetailsFiltersDrawer from "./drawer/MediaListDetailsFiltersDrawer.vue"
-import MediaListDetailsGenresFilterPopover from "./MediaListDetailsGenresFilterPopover.vue"
-import MediaListDetailsRatingFilterPopover from "./MediaListDetailsRatingFilterPopover.vue"
-import MediaListDetailsReleaseStatusFilterPopover from "./MediaListDetailsReleaseStatusFilterPopover.vue"
-import MediaListDetailsReleaseYearFilterPopover from "./MediaListDetailsReleaseYearFilterPopover.vue"
-import MediaListDetailsTypeFilterPopover from "./MediaListDetailsTypeFilterPopover.vue"
+
+const RATING_MIN = 0
+const RATING_MAX = 10
 
 export interface MediaListDetailsFilters {
   searchTerm: string
@@ -25,7 +32,101 @@ const releaseYearModel = defineModel<MediaListDetailsFilters["releaseYear"]>("re
 const genresModel = defineModel<MediaListDetailsFilters["genres"]>("genres", { default: () => [] })
 const releaseStatusesModel = defineModel<MediaListDetailsFilters["releaseStatuses"]>("releaseStatuses", { default: () => [] })
 
+const { t } = useI18n()
 const { searchValue } = useDebouncedSearchTerm(searchTerm)
+
+type MediaListDesktopFiltersConfig = [
+  UiMultiSelectFilterConfig & { id: "mediaTypes" },
+  UiRangeFilterConfig & { id: "rating" },
+  UiMultiSelectFilterConfig & { id: "releaseStatuses" },
+  UiDateRangeFilterConfig & { id: "releaseYear" },
+  UiMultiSelectFilterConfig & { id: "genres" },
+]
+
+const desktopFiltersConfig = computed(() => [
+  {
+    type: "multiSelect",
+    id: "mediaTypes",
+    title: t("mediaList.filters.mediaType"),
+    options: [
+      {
+        label: t("details.mediaType.movie"),
+        value: MediaTypeEnum.MOVIE,
+      },
+      {
+        label: t("details.mediaType.tv"),
+        value: MediaTypeEnum.TV,
+      },
+    ],
+  },
+  {
+    type: "range",
+    id: "rating",
+    title: t("ui.rating.single"),
+    min: RATING_MIN,
+    max: RATING_MAX,
+    step: 1,
+    minLabel: t("mediaList.filters.withoutRating"),
+    getLabel: (value: number) => value === RATING_MIN ? t("mediaList.filters.withoutRating") : undefined,
+  },
+  {
+    type: "multiSelect",
+    id: "releaseStatuses",
+    title: t("mediaList.filters.releaseStatus"),
+    options: TMDB_RELEASE_STATUSES.map(value => ({
+      label: t(`details.allStatusNames.${value}`),
+      value,
+    })),
+  },
+  {
+    type: "dateRange",
+    id: "releaseYear",
+    title: t("mediaList.filters.releaseYear.title"),
+    fromLabel: t("mediaList.filters.releaseYear.from"),
+    toLabel: t("mediaList.filters.releaseYear.to"),
+  },
+  {
+    type: "multiSelect",
+    id: "genres",
+    title: t("mediaList.filters.genres"),
+    options: TMDB_GENRE_IDS.map(value => ({ label: t(`details.genres.all.${value}`), value })),
+  },
+] satisfies MediaListDesktopFiltersConfig)
+
+const desktopFiltersModel = computed<UiFiltersModel<MediaListDesktopFiltersConfig>>(() => {
+  return {
+    get mediaTypes() {
+      return mediaTypesModel.value
+    },
+    set mediaTypes(value) {
+      mediaTypesModel.value = value as MediaTypeEnum[]
+    },
+    get rating() {
+      return ratingModel.value
+    },
+    set rating(value) {
+      ratingModel.value = value
+    },
+    get releaseStatuses() {
+      return releaseStatusesModel.value
+    },
+    set releaseStatuses(value) {
+      releaseStatusesModel.value = value
+    },
+    get releaseYear() {
+      return releaseYearModel.value
+    },
+    set releaseYear(value) {
+      releaseYearModel.value = value
+    },
+    get genres() {
+      return genresModel.value
+    },
+    set genres(value) {
+      genresModel.value = value
+    },
+  }
+})
 </script>
 
 <template>
@@ -38,20 +139,9 @@ const { searchValue } = useDebouncedSearchTerm(searchTerm)
       />
 
       <div :class="$style.desktopFilters">
-        <MediaListDetailsTypeFilterPopover
-          v-model="mediaTypesModel"
-        />
-        <MediaListDetailsRatingFilterPopover
-          v-model="ratingModel"
-        />
-        <MediaListDetailsReleaseStatusFilterPopover
-          v-model="releaseStatusesModel"
-        />
-        <MediaListDetailsReleaseYearFilterPopover
-          v-model="releaseYearModel"
-        />
-        <MediaListDetailsGenresFilterPopover
-          v-model="genresModel"
+        <UiFilters
+          v-model="desktopFiltersModel"
+          :config="desktopFiltersConfig"
         />
       </div>
 

@@ -6,14 +6,7 @@ export interface UiFilterOption<TValue extends UiFilterOptionValue> {
 }
 
 export type UiRangeFilterValue = [number, number]
-export type UiDateRangeFilterValue = [number, number]
-
-export interface UiDateRangeFilterOption {
-  label: string
-  value: UiDateRangeFilterValue
-}
-
-export type UiDateRangeFilterOptions = [UiDateRangeFilterOption, ...UiDateRangeFilterOption[]]
+export type UiDateRangeFilterValue = [number | undefined, number | undefined]
 
 export interface UiMultiSelectFilterConfig {
   type: "multiSelect"
@@ -47,7 +40,11 @@ export interface UiDateRangeFilterConfig {
   type: "dateRange"
   id: string
   title: string
-  options: UiDateRangeFilterOptions
+  fromLabel: string
+  toLabel: string
+  minYear?: number
+  maxYear?: number
+  shortcuts?: number[]
   initialValue?: UiDateRangeFilterValue
 }
 
@@ -66,7 +63,7 @@ export type UiFilterModelValue<TConfig extends UiFilterConfig> = TConfig extends
         ? UiDateRangeFilterValue
         : never
 
-export type UiFiltersModelValue = string[] | UiFilterOptionValue | UiRangeFilterValue | undefined
+export type UiFiltersModelValue = string[] | UiFilterOptionValue | UiRangeFilterValue | UiDateRangeFilterValue | undefined
 
 export type UiFiltersModel<TConfig extends UiFilterConfig[]> = Record<string, UiFiltersModelValue> & {
   [TFilter in TConfig[number] as TFilter["id"]]: UiFilterModelValue<TFilter>

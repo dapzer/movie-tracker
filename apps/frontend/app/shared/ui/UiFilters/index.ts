@@ -1,7 +1,5 @@
 export type {
   UiDateRangeFilterConfig,
-  UiDateRangeFilterOption,
-  UiDateRangeFilterOptions,
   UiDateRangeFilterValue,
   UiFilterConfig,
   UiFilterModelValue,

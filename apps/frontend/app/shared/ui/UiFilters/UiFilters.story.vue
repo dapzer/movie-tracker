@@ -52,12 +52,12 @@ const config = [
   {
     type: "dateRange",
     id: "release-date",
-    title: "Release date",
-    options: [
-      { label: "Last 30 days", value: [0, 30] },
-      { label: "Last 90 days", value: [0, 90] },
-      { label: "Last year", value: [0, 365] },
-    ],
+    title: "Release year",
+    fromLabel: "From",
+    toLabel: "To",
+    minYear: 1900,
+    maxYear: 2030,
+    shortcuts: [2020, 2010, 2000, 1990],
   },
 ] satisfies StoryFiltersConfig
 
@@ -65,7 +65,7 @@ const filters = ref<UiFiltersModel<typeof config>>({
   "genres": [],
   "review-status": "pending",
   "rating": [2, 8],
-  "release-date": [0, 30],
+  "release-date": [2000, 2010],
 })
 </script>
 
@@ -101,7 +101,7 @@ const filters = ref<UiFiltersModel<typeof config>>({
         as="p"
         variant="description"
       >
-        Release date: {{ filters["release-date"][0] }} – {{ filters["release-date"][1] }} days
+        Release year: {{ filters["release-date"][0] ?? "not set" }} – {{ filters["release-date"][1] ?? "not set" }}
       </UiTypography>
     </Variant>
   </Story>
