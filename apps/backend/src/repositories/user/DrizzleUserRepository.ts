@@ -1,5 +1,5 @@
-import { mediaListLikes, mediaLists, mediaRatings, userBans, users } from "@movie-tracker/database"
-import { ManagedUserType, SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
+import { mediaListLikes, mediaLists, mediaRatings, mediaReviews, userBans, users } from "@movie-tracker/database"
+import { ManagedUserType, MediaReviewStatus, SignUpMethodEnum, UserMediaRatingsAccessLevelEnum, UserRoleEnum, UserType } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { and, count, desc, eq, exists, gt, isNull, or, sql } from "drizzle-orm"
 import { UserRepositoryInterface } from "@/repositories/user/UserRepositoryInterface"
@@ -100,7 +100,7 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
   }
 
   async getStatsById(id: string) {
-    const [[mediaListCountResult], [mediaRatingsCountResult], [mediaListLikeCountResult]] = await Promise.all([
+    const [[mediaListCountResult], [mediaRatingsCountResult], [mediaListLikeCountResult], [mediaReviewsCountResult]] = await Promise.all([
       this.drizzle.client
         .select({ count: count() })
         .from(mediaLists)
@@ -116,12 +116,20 @@ export class DrizzleUserRepository implements UserRepositoryInterface {
         .select({ count: count() })
         .from(mediaListLikes)
         .where(eq(mediaListLikes.userId, id)),
+      this.drizzle.client
+        .select({ count: count() })
+        .from(mediaReviews)
+        .where(and(
+          eq(mediaReviews.userId, id),
+          eq(mediaReviews.status, MediaReviewStatus.PUBLISHED),
+        )),
     ])
 
     return {
       mediaListCount: mediaListCountResult?.count ?? 0,
       mediaRatingsCount: mediaRatingsCountResult?.count ?? 0,
       mediaListLikeCount: mediaListLikeCountResult?.count ?? 0,
+      mediaReviewsCount: mediaReviewsCountResult?.count ?? 0,
     }
   }
 

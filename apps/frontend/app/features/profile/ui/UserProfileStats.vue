@@ -6,6 +6,7 @@ import { UiSlider } from "~/shared/ui/UiSlider"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getDeclensionTranslationKey } from "~/shared/utils/getDeclensionTranslationKey"
 import { getListDeclensionTranslationKey } from "~/shared/utils/getListDeclensionTranslationKey"
+import { getReviewDeclensionTranslationKey } from "~/shared/utils/getReviewDeclensionTranslationKey"
 
 interface UserProfileStatsProps {
   stats: UserStatsType
@@ -28,6 +29,10 @@ const columns = computed(() => {
     {
       label: t(`ui.rating.${getDeclensionTranslationKey(props.stats.mediaRatingsCount || 0)}`),
       value: props.stats.mediaRatingsCount,
+    },
+    {
+      label: t(getReviewDeclensionTranslationKey(props.stats.mediaReviewsCount)),
+      value: props.stats.mediaReviewsCount,
     },
   ].filter(el => el.value !== undefined)
 })
