@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import type { VNode } from "vue"
-import {
-  SelectContent,
-  SelectItem,
-  SelectPortal,
-  SelectRoot,
-  SelectTrigger,
-  SelectValue,
-  SelectViewport,
-} from "radix-vue"
+import { SelectContent, SelectItem, SelectPortal, SelectRoot, SelectTrigger, SelectValue, SelectViewport } from "reka-ui"
+import { computed } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 
 export interface OptionType {
@@ -28,6 +21,9 @@ interface UiSelectProps {
 
 const props = defineProps<UiSelectProps>()
 const selectModel = defineModel<string>()
+const selectedOption = computed(() => {
+  return props.options.find(option => option.value === selectModel.value)
+})
 </script>
 
 <template>
@@ -40,6 +36,22 @@ const selectModel = defineModel<string>()
       }"
     >
       <SelectValue
+        v-if="selectedOption"
+        :class="[$style.value, {
+          [$style.valueLargeGap]: props.valueGapSize === 'large',
+        }]"
+        :aria-label="selectedOption.label"
+      >
+        <component
+          :is="selectedOption.icon"
+          v-if="selectedOption.icon"
+        />
+        <span>
+          {{ selectedOption.label }}
+        </span>
+      </SelectValue>
+      <SelectValue
+        v-else
         :class="[$style.value, {
           [$style.valueLargeGap]: props.valueGapSize === 'large',
         }]"
@@ -137,8 +149,8 @@ const selectModel = defineModel<string>()
 }
 
 .content {
-  width: var(--radix-popper-anchor-width);
-  max-height: var(--radix-select-content-available-height);
+  width: var(--reka-popper-anchor-width);
+  max-height: var(--reka-select-content-available-height);
   background: var(--c-card-background);
   padding: 6px;
   border: 1px solid var(--c-stroke);
@@ -151,7 +163,7 @@ const selectModel = defineModel<string>()
   }
 
   &[data-side="top"] {
-    max-height: calc(var(--radix-select-content-available-height) - var(--s-header-height));
+    max-height: calc(var(--reka-select-content-available-height) - var(--s-header-height));
     border-top-left-radius: var(--s-border-radius);
     border-top-right-radius: var(--s-border-radius);
     border-bottom: unset;

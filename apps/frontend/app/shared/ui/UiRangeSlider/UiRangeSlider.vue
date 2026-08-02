@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SliderRange, SliderRoot, SliderTrack } from "radix-vue"
+import { SliderRange, SliderRoot, SliderTrack } from "reka-ui"
 import { computed } from "vue"
 import UiRangeSliderThumbTooltip from "~/shared/ui/UiRangeSlider/UiRangeSliderThumbTooltip.vue"
 import { UiTypography } from "~/shared/ui/UiTypography"

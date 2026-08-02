@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { VNodeRef } from "vue"
-import { ComboboxAnchor, ComboboxInput, ComboboxRoot } from "radix-vue"
+import { ComboboxAnchor, ComboboxInput, ComboboxRoot } from "reka-ui"
 import { ref, watch } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -35,9 +35,7 @@ watch(() => open.value, (value) => {
 <template>
   <ComboboxRoot
     v-bind="$attrs"
-    v-model:search-term="searchTerm"
     v-model:open="open"
-    @update:search-term="value => searchTerm = value"
   >
     <ComboboxAnchor :class="$style.anchor">
       <UiIcon
@@ -46,6 +44,7 @@ watch(() => open.value, (value) => {
       />
       <ComboboxInput
         ref="inputRef"
+        v-model="searchTerm"
         as="input"
         :placeholder="props.placeholder"
         :class="[$style.input, $style.small, $style.withIcon]"
@@ -67,7 +66,7 @@ watch(() => open.value, (value) => {
       <ComboboxContent
         :class="$style.contentWrapper"
         :style="{
-          '--width': props.width ? `${props.width}px` : 'var(--radix-combobox-trigger-width)',
+          '--width': props.width ? `${props.width}px` : 'var(--reka-combobox-trigger-width)',
         }"
         hide-when-detached
         position="popper"
@@ -128,7 +127,7 @@ watch(() => open.value, (value) => {
   background: var(--c-card-background);
   overflow: hidden;
   color: #fff;
-  width: min(var(--radix-combobox-content-available-width), var(--width));
+  width: min(var(--reka-combobox-content-available-width), var(--width));
 }
 
 .content {
@@ -137,17 +136,17 @@ watch(() => open.value, (value) => {
   flex-direction: column;
   gap: 8px;
   background: var(--c-card-background);
-  max-height: var(--radix-combobox-content-available-height);
+  max-height: var(--reka-combobox-content-available-height);
   overflow-y: auto;
   width: 100%;
   border-radius: var(--s-border-radius);
   @include scrollbar;
 
-  &[data-radix-combobox-viewport]::-webkit-scrollbar {
+  &[data-reka-combobox-viewport]::-webkit-scrollbar {
     display: block;
   }
 
-  &[data-radix-combobox-viewport] {
+  &[data-reka-combobox-viewport] {
     scrollbar-width: inherit;
   }
 }

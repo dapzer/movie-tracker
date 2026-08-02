@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide } from "#imports"
-import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from "radix-vue"
+import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from "reka-ui"
 import { uiDropdownSizeInjectionKey } from "~/shared/ui/UiDropdown/model/constants"
 
 export type UiDropdownSize = "small"
@@ -69,7 +69,7 @@ provide(uiDropdownSizeInjectionKey, props.size)
 .contentWrapper {
   z-index: var(--i-dropdown);
   width: max-content;
-  max-width: min(var(--radix-dropdown-menu-content-available-width), var(--s-container));
+  max-width: min(var(--reka-dropdown-menu-content-available-width), var(--s-container));
   cursor: auto;
 }
 
@@ -79,7 +79,7 @@ provide(uiDropdownSizeInjectionKey, props.size)
   flex-direction: column;
   gap: 10px;
   background: var(--c-card-background);
-  max-height: var(--radix-dropdown-menu-content-available-height);
+  max-height: var(--reka-dropdown-menu-content-available-height);
   overflow-y: auto;
   max-width: max-content;
   border-radius: var(--s-border-radius);

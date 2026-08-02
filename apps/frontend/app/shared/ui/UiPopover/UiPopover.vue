@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from "radix-vue"
+import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from "reka-ui"
 
 export type UiPopoverAlign = "start" | "center" | "end"
 export type UiPopoverSide = "top" | "right" | "bottom" | "left"
@@ -74,8 +74,8 @@ const model = defineModel<boolean>()
   z-index: var(--i-popover);
   width: var(--width);
   cursor: auto;
-  max-width: min(var(--radix-popover-content-available-width), var(--s-container));
-  max-height: var(--radix-popover-content-available-height);
+  max-width: min(var(--reka-popover-content-available-width), var(--s-container));
+  max-height: var(--reka-popover-content-available-height);
 }
 
 .content {

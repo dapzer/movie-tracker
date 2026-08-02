@@ -19,7 +19,7 @@
     "@types/sharp": "0.32.0",
     "@vueuse/router": "14.4.0",
     "embla-carousel-vue": "8.6.0",
-    "radix-vue": "1.9.17",
+    "reka-ui": "2.10.1",
     "sass": "1.102.0",
     "sharp": "0.35.3",
     "vaul-vue": "0.4.1",

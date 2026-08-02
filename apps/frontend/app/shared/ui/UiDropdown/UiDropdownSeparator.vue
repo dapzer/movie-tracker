@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DropdownMenuSeparator } from "radix-vue"
+import { DropdownMenuSeparator } from "reka-ui"
 </script>
 
 <template>

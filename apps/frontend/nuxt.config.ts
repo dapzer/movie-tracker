@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "nuxt-schema-org",
     "@nuxt/fonts",
-    "radix-vue/nuxt",
+    "reka-ui/nuxt",
     "@nuxt/icon",
     "nuxt-umami",
     "@nuxtjs/mdc",

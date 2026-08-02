@@ -2,7 +2,7 @@
 import { useId } from "#app"
 import { useLocaleHead } from "#i18n"
 import { useHead, useI18n, useSeoMeta } from "#imports"
-import { ConfigProvider } from "radix-vue"
+import { ConfigProvider } from "reka-ui"
 import { useAuth } from "~/shared/composables/useAuth"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
 

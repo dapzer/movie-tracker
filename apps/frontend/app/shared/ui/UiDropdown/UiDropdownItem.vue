@@ -2,7 +2,7 @@
 import type { ComponentOrTag } from "~/shared/types/ComponentOrTag"
 import type { UiDropdownSize } from "~/shared/ui/UiDropdown/UiDropdown.vue"
 import { inject } from "#imports"
-import { DropdownMenuItem } from "radix-vue"
+import { DropdownMenuItem } from "reka-ui"
 import { uiDropdownSizeInjectionKey } from "~/shared/ui/UiDropdown/model/constants"
 
 interface UiDropdownItemProps {
