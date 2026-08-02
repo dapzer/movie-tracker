@@ -178,6 +178,7 @@ const isCreateButtonDisabled = computed(() => {
           {{ $t(getReviewDeclensionTranslationKey(data?.totalCount || 0)).toLocaleLowerCase() }}
         </UiTypography>
         <UiOptionPicker
+          v-if="data?.totalCount"
           v-model="currentSort"
           :options="sortOptions"
           :width="220"
