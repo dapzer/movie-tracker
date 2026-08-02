@@ -108,7 +108,7 @@ const sortedMediaLists = computed(() => {
 <style lang="scss" module>
 @layer external {
   .wrapper {
-    padding-top: 60px !important;
+    padding-top: 60px;
     display: flex;
     flex-direction: column;
     gap: 16px;

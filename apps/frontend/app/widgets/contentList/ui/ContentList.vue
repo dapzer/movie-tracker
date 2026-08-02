@@ -49,7 +49,7 @@ const currentPage = defineModel<number>("currentPage")
 
 <style module lang="scss">
 .wrapper {
-  padding-top: 24px !important;
+  padding-top: 24px;
 
   .header {
     display: flex;

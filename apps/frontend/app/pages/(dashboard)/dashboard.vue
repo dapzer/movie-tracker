@@ -43,6 +43,6 @@ watch(currentTabName, (tab) => {
 
 <style lang="scss" module>
 .wrapper {
-  margin-top: 60px !important;
+  padding-top: 60px;
 }
 </style>

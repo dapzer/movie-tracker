@@ -92,7 +92,7 @@ useSeoMeta({
 
 <style module lang="scss">
 .wrapper {
-  padding-top: 24px !important;
+  padding-top: 24px;
 }
 
 .list {

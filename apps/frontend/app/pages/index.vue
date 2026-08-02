@@ -10,6 +10,6 @@ import { Hero } from "~/widgets/hero"
 
 <style lang="scss" module>
 .feed {
-  margin-top: 60px !important;
+  margin-top: 60px;
 }
 </style>

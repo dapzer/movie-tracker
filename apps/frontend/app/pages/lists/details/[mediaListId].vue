@@ -115,6 +115,6 @@ useSeoMeta({
 
 <style lang="scss" module>
 .wrapper {
-  margin-top: 60px !important;
+  margin-top: 60px;
 }
 </style>

@@ -23,6 +23,6 @@ useSeoMeta({
 
 <style module lang="scss">
 .wrapper {
-  margin-top: 60px !important;
+  margin-top: 60px;
 }
 </style>

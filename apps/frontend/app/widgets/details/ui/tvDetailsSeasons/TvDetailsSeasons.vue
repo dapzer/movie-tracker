@@ -73,10 +73,10 @@ useMovieDetailsSeo({
   display: flex;
   flex-direction: column;
   gap: 70px;
-  padding-top: 50px !important;
+  padding-top: 50px;
 
   @include mobileDevice() {
-    padding-top: 0 !important;
+    padding-top: 0;
   }
 }
 
