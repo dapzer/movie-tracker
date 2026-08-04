@@ -1,5 +1,12 @@
 <script setup lang="ts" generic="TConfig extends UiFilterConfig[]">
-import type { UiFilterConfig, UiFiltersModel } from "./model/types.ts"
+import type {
+  UiDateRangeFilterValue,
+  UiFilterConfig,
+  UiFiltersModel,
+  UiMultiSelectFilterValue,
+  UiRangeFilterValue,
+  UiSingleSelectFilterValue,
+} from "./model/types"
 import { UiDateRangeFilterPopover } from "~/shared/ui/UiDateRangeFilterPopover"
 import { UiMultiSelectFilterPopover } from "~/shared/ui/UiMultiSelectFilterPopover"
 import { UiRangeFilterPopover } from "~/shared/ui/UiRangeFilterPopover"
@@ -21,20 +28,20 @@ const model = defineModel<UiFiltersModel<TConfig>>({ required: true })
     >
       <UiMultiSelectFilterPopover
         v-if="filter.type === 'multiSelect'"
-        v-model="model[filter.id] as string[]"
+        v-model="model[filter.id] as UiMultiSelectFilterValue"
         :title="filter.title"
         :options="filter.options"
       />
       <UiSingleSelectFilterPopover
         v-else-if="filter.type === 'singleSelect'"
-        v-model="model[filter.id] as string | number | undefined"
+        v-model="model[filter.id] as UiSingleSelectFilterValue"
         :title="filter.title"
         :options="filter.options"
         :initial-value="filter.initialValue"
       />
       <UiRangeFilterPopover
         v-else-if="filter.type === 'range'"
-        v-model="model[filter.id] as [number, number]"
+        v-model="model[filter.id] as UiRangeFilterValue"
         :title="filter.title"
         :min="filter.min"
         :max="filter.max"
@@ -46,7 +53,7 @@ const model = defineModel<UiFiltersModel<TConfig>>({ required: true })
       />
       <UiDateRangeFilterPopover
         v-else-if="filter.type === 'dateRange'"
-        v-model="model[filter.id] as [number | undefined, number | undefined]"
+        v-model="model[filter.id] as UiDateRangeFilterValue"
         :title="filter.title"
         :from-label="filter.fromLabel"
         :to-label="filter.toLabel"

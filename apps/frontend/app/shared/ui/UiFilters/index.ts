@@ -1,15 +1,3 @@
-export type {
-  UiDateRangeFilterConfig,
-  UiDateRangeFilterValue,
-  UiFilterConfig,
-  UiFilterModelValue,
-  UiFilterOption,
-  UiFilterOptionValue,
-  UiFiltersFallbackModel,
-  UiFiltersModel,
-  UiMultiSelectFilterConfig,
-  UiRangeFilterConfig,
-  UiRangeFilterValue,
-  UiSingleSelectFilterConfig,
-} from "./model/types.ts"
+export * from "./model/types"
 export { default as UiFilters } from "./UiFilters.vue"
+export { default as UiFiltersDrawer } from "./UiFiltersDrawer.vue"

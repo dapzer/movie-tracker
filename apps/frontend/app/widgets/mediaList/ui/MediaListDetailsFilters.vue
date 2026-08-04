@@ -8,10 +8,9 @@ import type {
 import { useI18n } from "#imports"
 import { MediaTypeEnum, TMDB_GENRE_IDS, TMDB_RELEASE_STATUSES } from "@movie-tracker/types"
 import { computed } from "vue"
-import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
+import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm.ts"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
-import { UiFilters } from "~/shared/ui/UiFilters"
-import MediaListDetailsFiltersDrawer from "./drawer/MediaListDetailsFiltersDrawer.vue"
+import { UiFilters, UiFiltersDrawer } from "~/shared/ui/UiFilters"
 
 const RATING_MIN = 0
 const RATING_MAX = 10
@@ -35,19 +34,22 @@ const releaseStatusesModel = defineModel<MediaListDetailsFilters["releaseStatuse
 const { t } = useI18n()
 const { searchValue } = useDebouncedSearchTerm(searchTerm)
 
-type MediaListDesktopFiltersConfig = [
-  UiMultiSelectFilterConfig & { id: "mediaTypes" },
-  UiRangeFilterConfig & { id: "rating" },
-  UiMultiSelectFilterConfig & { id: "releaseStatuses" },
-  UiDateRangeFilterConfig & { id: "releaseYear" },
-  UiMultiSelectFilterConfig & { id: "genres" },
-]
+interface MediaListFilterConfigs {
+  mediaTypes: UiMultiSelectFilterConfig & { id: "mediaTypes" }
+  rating: UiRangeFilterConfig & { id: "rating" }
+  releaseStatuses: UiMultiSelectFilterConfig & { id: "releaseStatuses" }
+  releaseYear: UiDateRangeFilterConfig & { id: "releaseYear" }
+  genres: UiMultiSelectFilterConfig & { id: "genres" }
+}
 
-const desktopFiltersConfig = computed(() => [
-  {
+type MediaListFiltersConfig = Array<MediaListFilterConfigs[keyof MediaListFilterConfigs]>
+
+const filterConfigs = computed(() => ({
+  mediaTypes: {
     type: "multiSelect",
     id: "mediaTypes",
     title: t("mediaList.filters.mediaType"),
+    drawerVariant: "checkbox",
     options: [
       {
         label: t("details.mediaType.movie"),
@@ -59,7 +61,7 @@ const desktopFiltersConfig = computed(() => [
       },
     ],
   },
-  {
+  rating: {
     type: "range",
     id: "rating",
     title: t("ui.rating.single"),
@@ -69,31 +71,49 @@ const desktopFiltersConfig = computed(() => [
     minLabel: t("mediaList.filters.withoutRating"),
     getLabel: (value: number) => value === RATING_MIN ? t("mediaList.filters.withoutRating") : undefined,
   },
-  {
+  releaseStatuses: {
     type: "multiSelect",
     id: "releaseStatuses",
     title: t("mediaList.filters.releaseStatus"),
-    options: TMDB_RELEASE_STATUSES.map(value => ({
+    drawerVariant: "checkbox",
+    options: TMDB_RELEASE_STATUSES.map((value: string) => ({
       label: t(`details.allStatusNames.${value}`),
       value,
     })),
   },
-  {
+  releaseYear: {
     type: "dateRange",
     id: "releaseYear",
     title: t("mediaList.filters.releaseYear.title"),
     fromLabel: t("mediaList.filters.releaseYear.from"),
     toLabel: t("mediaList.filters.releaseYear.to"),
   },
-  {
+  genres: {
     type: "multiSelect",
     id: "genres",
     title: t("mediaList.filters.genres"),
-    options: TMDB_GENRE_IDS.map(value => ({ label: t(`details.genres.all.${value}`), value })),
+    drawerVariant: "tag",
+    options: TMDB_GENRE_IDS.map((value: string) => ({ label: t(`details.genres.all.${value}`), value })),
   },
-] satisfies MediaListDesktopFiltersConfig)
+} satisfies MediaListFilterConfigs))
 
-const desktopFiltersModel = computed<UiFiltersModel<MediaListDesktopFiltersConfig>>(() => {
+const desktopFiltersConfig = computed<MediaListFiltersConfig>(() => [
+  filterConfigs.value.mediaTypes,
+  filterConfigs.value.rating,
+  filterConfigs.value.releaseStatuses,
+  filterConfigs.value.releaseYear,
+  filterConfigs.value.genres,
+])
+
+const mobileFiltersConfig = computed<MediaListFiltersConfig>(() => [
+  filterConfigs.value.mediaTypes,
+  filterConfigs.value.releaseStatuses,
+  filterConfigs.value.genres,
+  filterConfigs.value.rating,
+  filterConfigs.value.releaseYear,
+])
+
+const filtersModel = computed<UiFiltersModel<MediaListFiltersConfig>>(() => {
   return {
     get mediaTypes() {
       return mediaTypesModel.value
@@ -140,18 +160,17 @@ const desktopFiltersModel = computed<UiFiltersModel<MediaListDesktopFiltersConfi
 
       <div :class="$style.desktopFilters">
         <UiFilters
-          v-model="desktopFiltersModel"
+          v-model="filtersModel"
           :config="desktopFiltersConfig"
         />
       </div>
 
       <div :class="$style.mobileFilters">
-        <MediaListDetailsFiltersDrawer
-          v-model:media-types="mediaTypesModel"
-          v-model:rating="ratingModel"
-          v-model:release-year="releaseYearModel"
-          v-model:genres="genresModel"
-          v-model:release-statuses="releaseStatusesModel"
+        <UiFiltersDrawer
+          v-model="filtersModel"
+          :config="mobileFiltersConfig"
+          :title="$t('mediaList.filters.title')"
+          :reset-label="$t('mediaList.filters.reset')"
         />
       </div>
     </div>

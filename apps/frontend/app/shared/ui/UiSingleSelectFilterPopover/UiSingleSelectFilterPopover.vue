@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UiFilterOptionValue, UiSingleSelectFilterConfig } from "~/shared/ui/UiFilters/model/types.ts"
+import type { UiFilterOptionValue, UiSingleSelectFilterConfig } from "~/shared/ui/UiFilters/model/types"
 import { computed, ref, watch } from "vue"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"

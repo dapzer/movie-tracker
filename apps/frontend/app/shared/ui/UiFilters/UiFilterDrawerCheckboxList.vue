@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import type { UiFilterOption, UiMultiSelectFilterValue } from "~/shared/ui/UiFilters"
 import { UiCheckbox } from "~/shared/ui/UiCheckbox"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-interface CheckboxListProps {
-  options: Array<{ value: string, label: string | number }>
+interface UiFilterDrawerCheckboxListProps {
+  options: Array<UiFilterOption<string>>
 }
 
-const props = defineProps<CheckboxListProps>()
-const model = defineModel<Array<string> | Array<number>>({ default: () => [] })
+const props = defineProps<UiFilterDrawerCheckboxListProps>()
+const model = defineModel<UiMultiSelectFilterValue>({ default: () => [] })
 </script>
 
 <template>
