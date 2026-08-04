@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { UiMultiSelectFilterConfig } from "~/shared/ui/UiFilters/model/types.ts"
+import type { UiMultiSelectFilterConfig, UiMultiSelectFilterValue } from "~/shared/ui/UiFilters"
 import { computed, ref, watch } from "vue"
 import { UiCheckboxList } from "~/shared/ui/UiCheckboxList"
 import { UiFilterTrigger } from "~/shared/ui/UiFilterTrigger"
 import { UiPopover } from "~/shared/ui/UiPopover"
 
-type UiMultiSelectFilterPopoverProps = Omit<UiMultiSelectFilterConfig, "id" | "type">
+type UiMultiSelectFilterPopoverProps = Pick<UiMultiSelectFilterConfig, "options" | "title">
 
 const props = defineProps<UiMultiSelectFilterPopoverProps>()
-const model = defineModel<string[]>({ default: () => [] })
+const model = defineModel<UiMultiSelectFilterValue>({ default: () => [] })
 const openModel = ref(false)
-const draftModel = ref<string[]>([...model.value])
+const draftModel = ref<UiMultiSelectFilterValue>([...model.value])
 
 const isActive = computed(() => model.value.length > 0)
 

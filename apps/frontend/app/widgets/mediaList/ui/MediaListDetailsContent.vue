@@ -17,7 +17,7 @@ import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiPagination } from "~/shared/ui/UiPagination"
 import { UiTabsPane } from "~/shared/ui/UiTabs"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
-import MediaListDetailsFilters from "~/widgets/mediaList/ui/filters/MediaListDetailsFilters.vue"
+import MediaListDetailsFilters from "~/widgets/mediaList/ui/MediaListDetailsFilters.vue"
 import MediaListDetailsSortPopover from "./MediaListDetailsSortPopover.vue"
 
 interface MediaListDetailsProps {
@@ -26,12 +26,12 @@ interface MediaListDetailsProps {
 }
 
 export type MediaListDetailsSortOption
-  = | "asc_createdAt"
-    | "desc_createdAt"
-    | "asc_updatedAt"
-    | "desc_updatedAt"
-    | "asc_rating"
-    | "desc_rating"
+    = | "asc_createdAt"
+      | "desc_createdAt"
+      | "asc_updatedAt"
+      | "desc_updatedAt"
+      | "asc_rating"
+      | "desc_rating"
 
 const props = defineProps<MediaListDetailsProps>()
 const storedMediaListSortingType = useCookie<MediaListDetailsSortOption>(LocalStorageEnum.MEDIA_LIST_SORTING_TYPE, {
@@ -145,9 +145,9 @@ const mediaItemsQueryArgs = computed(() => {
     mediaTypes: mediaTypes.value.length ? mediaTypes.value : undefined,
     rating: rating.value[0] === 0 && rating.value[1] === 10 ? undefined : rating.value,
     releaseYear:
-      releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
-        ? undefined
-        : releaseYear.value,
+        releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
+          ? undefined
+          : releaseYear.value,
     genres: genres.value.length ? genres.value.map(Number) : undefined,
     releaseStatuses: releaseStatuses.value.length ? releaseStatuses.value : undefined,
     sortBy: sortConfig.value.sortBy,
@@ -166,9 +166,9 @@ const getMediaItemsCountByMediaListIdArgs = computed(() => {
     mediaTypes: mediaTypes.value.length ? mediaTypes.value : undefined,
     rating: rating.value[0] === 0 && rating.value[1] === 10 ? undefined : rating.value,
     releaseYear:
-      releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
-        ? undefined
-        : releaseYear.value,
+        releaseYear.value[0] === undefined && releaseYear.value[1] === undefined
+          ? undefined
+          : releaseYear.value,
     genres: genres.value.length ? genres.value.map(Number) : undefined,
     releaseStatuses: releaseStatuses.value.length ? releaseStatuses.value : undefined,
   }
