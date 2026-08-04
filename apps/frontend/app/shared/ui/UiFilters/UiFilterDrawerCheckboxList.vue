@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UiFilterOption, UiMultiSelectFilterValue } from "~/shared/ui/UiFilters/model/types.ts"
+import type { UiFilterOption, UiMultiSelectFilterValue } from "~/shared/ui/UiFilters"
 import { UiCheckbox } from "~/shared/ui/UiCheckbox"
 import { UiTypography } from "~/shared/ui/UiTypography"
 

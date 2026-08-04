@@ -6,7 +6,7 @@ import type {
   UiMultiSelectFilterValue,
   UiRangeFilterValue,
   UiSingleSelectFilterValue,
-} from "./model/types.ts"
+} from "./model/types"
 import { UiDateRangeFilterPopover } from "~/shared/ui/UiDateRangeFilterPopover"
 import { UiMultiSelectFilterPopover } from "~/shared/ui/UiMultiSelectFilterPopover"
 import { UiRangeFilterPopover } from "~/shared/ui/UiRangeFilterPopover"

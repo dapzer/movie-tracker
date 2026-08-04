@@ -8,7 +8,7 @@ import type {
   UiMultiSelectFilterValue,
   UiRangeFilterValue,
   UiSingleSelectFilterValue,
-} from "./model/types.ts"
+} from "~/shared/ui/UiFilters"
 import { onBeforeUnmount, ref, toRaw } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
@@ -18,7 +18,7 @@ import { UiRangeSlider } from "~/shared/ui/UiRangeSlider"
 import { UiTag } from "~/shared/ui/UiTag"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { UiYearRangePicker } from "~/shared/ui/UiYearRangePicker"
-import { getFilterDefaultValue } from "./model/getFilterDefaultValue.ts"
+import { getFilterDefaultValue } from "./model/getFilterDefaultValue"
 
 interface UiFiltersDrawerContentProps {
   config: TConfig

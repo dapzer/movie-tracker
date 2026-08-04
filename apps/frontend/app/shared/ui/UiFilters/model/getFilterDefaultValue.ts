@@ -1,4 +1,4 @@
-import type { UiFilterConfig, UiFiltersModelValue } from "./types.ts"
+import type { UiFilterConfig, UiFiltersModelValue } from "./types"
 
 export function getFilterDefaultValue(filter: UiFilterConfig): UiFiltersModelValue {
   switch (filter.type) {

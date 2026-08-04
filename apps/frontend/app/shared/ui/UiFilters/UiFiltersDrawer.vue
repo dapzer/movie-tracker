@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="TConfig extends UiFilterConfig[]">
-import type { UiFilterConfig, UiFiltersModel, UiFiltersModelValue } from "./model/types.ts"
+import type { UiFilterConfig, UiFiltersModel, UiFiltersModelValue } from "./model/types"
 import { computed, ref } from "vue"
 import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"
 import { UiButton } from "~/shared/ui/UiButton"
