@@ -6,7 +6,7 @@ import { computed, watch } from "vue"
 import { useGetUserBansApi } from "~/api/userBans/useUserBansApi"
 import UserBansTable from "~/features/userBans/ui/userBansTable/UserBansTable.vue"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
-import UserBansFilters from "./filters/UserBansFilters.vue"
+import UserBansFilters from "./UserBansFilters.vue"
 
 const PAGE_SIZE = 10
 

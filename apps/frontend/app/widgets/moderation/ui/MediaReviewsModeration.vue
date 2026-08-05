@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import type { GetMediaReviewsListArgs } from "~/api/mediaReviews/mediaReviewsApiTypes"
+import { useI18n } from "#imports"
 import { MediaReviewStatus } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { useGetMediaReviewsListApi } from "~/api/mediaReviews/useMediaReviewsApi"
 import { MediaReviewCardSkeleton, MediaReviewModerationCard } from "~/entities/mediaReview"
 import { UiPagination } from "~/shared/ui/UiPagination"
+import { UiSingleSelectFilterPopover } from "~/shared/ui/UiSingleSelectFilterPopover"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams"
 import UiAttention from "../../../shared/ui/UiAttention/UiAttention.vue"
-import MediaReviewsModerationStatusFilterPopover from "./MediaReviewsModerationStatusFilterPopover.vue"
 
 const currentPage = ref<number>(1)
 const status = ref<MediaReviewStatus>(MediaReviewStatus.PENDING)
+const { t } = useI18n()
 
 const getMediaReviewsListApiArgs = computed<GetMediaReviewsListArgs>(() => {
   return {
@@ -30,12 +32,40 @@ const data = computed(() => getMediaReviewsListApi.data.value)
 watch(status, () => {
   currentPage.value = 1
 })
+
+const statusOptions = computed(() => [
+  {
+    label: t("mediaReview.moderation.reviewStatus.draft"),
+    value: MediaReviewStatus.DRAFT,
+  },
+  {
+    label: t("mediaReview.moderation.reviewStatus.pending"),
+    value: MediaReviewStatus.PENDING,
+  },
+  {
+    label: t("mediaReview.moderation.reviewStatus.published"),
+    value: MediaReviewStatus.PUBLISHED,
+  },
+  {
+    label: t("mediaReview.moderation.reviewStatus.removed"),
+    value: MediaReviewStatus.REMOVED,
+  },
+  {
+    label: t("mediaReview.moderation.reviewStatus.deleted"),
+    value: MediaReviewStatus.DELETED,
+  },
+])
 </script>
 
 <template>
   <div :class="$style.wrapper">
     <div :class="$style.filters">
-      <MediaReviewsModerationStatusFilterPopover v-model="status" />
+      <UiSingleSelectFilterPopover
+        v-model="status"
+        :title="$t('mediaReview.moderation.filters.status')"
+        :options="statusOptions"
+        :initial-value="MediaReviewStatus.PENDING"
+      />
     </div>
 
     <div :class="$style.list">

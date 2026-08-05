@@ -1,13 +1,31 @@
 <script setup lang="ts">
 import type { UserBanStatusFilter } from "@movie-tracker/types"
-import UserBansExpiredFilterPopover from "~/features/userBans/ui/filters/UserBansExpiredFilterPopover.vue"
-import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm"
+import { useI18n } from "#imports"
+import { computed } from "vue"
+import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm.ts"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
+import { UiMultiSelectFilterPopover } from "~/shared/ui/UiMultiSelectFilterPopover"
 
 const userId = defineModel<string>("userId", { default: "" })
 const statuses = defineModel<UserBanStatusFilter[]>("statuses", { default: () => [] })
 
+const { t } = useI18n()
 const { searchValue } = useDebouncedSearchTerm(userId)
+
+const statusOptions = computed(() => [
+  {
+    label: t("userBans.filters.status.active"),
+    value: "active",
+  },
+  {
+    label: t("userBans.filters.status.expired"),
+    value: "expired",
+  },
+  {
+    label: t("userBans.filters.status.revoked"),
+    value: "revoked",
+  },
+])
 </script>
 
 <template>
@@ -18,7 +36,11 @@ const { searchValue } = useDebouncedSearchTerm(userId)
       :placeholder="$t('userBans.filters.userIdPlaceholder')"
     />
 
-    <UserBansExpiredFilterPopover v-model="statuses" />
+    <UiMultiSelectFilterPopover
+      v-model="statuses"
+      :title="$t('userBans.filters.status.title')"
+      :options="statusOptions"
+    />
   </div>
 </template>
 
