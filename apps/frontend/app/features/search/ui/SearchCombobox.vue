@@ -62,6 +62,7 @@ const itemsToRender = computed(() => {
   <UiCombobox
     v-model="searchValue"
     v-model:open="open"
+    ignore-filter
     :class="$style.wrapper"
     :content-class="$style.content"
     :indent="12"
