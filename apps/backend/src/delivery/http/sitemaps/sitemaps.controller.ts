@@ -10,15 +10,16 @@ import { SitemapsService } from "@/services/sitemaps/sitemaps.service"
 export class SitemapsController {
   constructor(private readonly sitemapsService: SitemapsService) {}
 
-  @Get(":folder/:subFolder/:fileName")
+  @Get(":domain/:folder/:language/:fileName")
   @Header("Content-Type", "application/xml")
   async getSitemapFile(
-    @Param("fileName") fileName: string,
-    @Param("subFolder") subFolder: string,
-    @Req() req: Request,
+    @Param("domain") domain: string,
     @Param("folder") folder: string,
+    @Param("language") language: string,
+    @Param("fileName") fileName: string,
+    @Req() req: Request,
   ) {
-    const fileLocation = `${folder}/${subFolder}/${fileName}`
+    const fileLocation = `${domain}/${folder}/${language}/${fileName}`
     const stream = await this.sitemapsService.readFile(fileLocation)
 
     req.on("close", () => {
