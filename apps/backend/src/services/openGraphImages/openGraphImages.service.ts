@@ -1,3 +1,4 @@
+import type { Font } from "satori"
 import * as buffer from "node:buffer"
 import { readFile } from "node:fs/promises"
 import * as path from "node:path"
@@ -80,10 +81,29 @@ export class OpenGraphImagesService {
     return Math.floor(optimal * safetyFactor)
   }
 
-  async get(title: string, imageUrl: string, isAvatarPlaceholder: boolean) {
-    const [libreFranklin, inter, logoSvg, backgroundSvg, circleBackgroundSvg, defaultMoviePosterSvg, avatarPosterSvg] = await Promise.all([
+  private fontsPromise() {
+    return Promise.all([
       readFile(path.join(process.cwd(), "assets/fonts/LibreFranklin-Bold.ttf")),
       readFile(path.join(process.cwd(), "assets/fonts/Inter-SemiBold.ttf")),
+      readFile(path.join(process.cwd(), "assets/fonts/NotoSansCJKtc-Bold.otf")),
+      readFile(path.join(process.cwd(), "assets/fonts/NotoSansCJKsc-Bold.otf")),
+      readFile(path.join(process.cwd(), "assets/fonts/NotoSansCJKhk-Bold.otf")),
+      readFile(path.join(process.cwd(), "assets/fonts/NotoSansCJKjp-Bold.otf")),
+      readFile(path.join(process.cwd(), "assets/fonts/NotoSansCJKkr-Bold.otf")),
+    ]).then(([libreFranklin, inter, notoSansTc, notoSansSc, notoSansHk, notoSansJp, notoSansKr]): Font[] => [
+      { name: "Libre Franklin", data: libreFranklin, weight: 700, style: "normal" },
+      { name: "Inter", data: inter, weight: 500, style: "normal" },
+      { name: "Noto Sans CJK", data: notoSansTc, weight: 700, style: "normal", lang: "zh-TW" },
+      { name: "Noto Sans CJK", data: notoSansSc, weight: 700, style: "normal", lang: "zh-CN" },
+      { name: "Noto Sans CJK", data: notoSansHk, weight: 700, style: "normal", lang: "zh-HK" },
+      { name: "Noto Sans CJK", data: notoSansJp, weight: 700, style: "normal", lang: "ja-JP" },
+      { name: "Noto Sans CJK", data: notoSansKr, weight: 700, style: "normal", lang: "ko-KR" },
+    ])
+  }
+
+  async get(title: string, imageUrl: string, isAvatarPlaceholder: boolean) {
+    const [fonts, logoSvg, backgroundSvg, circleBackgroundSvg, defaultMoviePosterSvg, avatarPosterSvg] = await Promise.all([
+      this.fontsPromise(),
       readFile(path.join(process.cwd(), "assets/logo.svg"), "utf-8"),
       readFile(path.join(process.cwd(), "assets/mediaOgImageBackground.svg"), "utf-8"),
       readFile(path.join(process.cwd(), "assets/mediaOgImageBackgroundCircle.svg"), "utf-8"),
@@ -174,14 +194,13 @@ export class OpenGraphImagesService {
                     props: {
                       style: {
                         fontSize: `${fontSize}px`,
-                        fontFamily: "Libre Franklin",
+                        fontFamily: "Libre Franklin, Noto Sans CJK",
                         fontWeight: 700,
                         display: "block",
                         color: "#fff",
                         lineHeight: 1.1,
                         width: "100%",
                         maxHeight: "310px",
-                        textOverflow: "ellipsis",
                         whiteSpace: "normal",
                         margin: 0,
                       },
@@ -238,20 +257,7 @@ export class OpenGraphImagesService {
         height: 630,
         embedFont: true,
         debug: false,
-        fonts: [
-          {
-            name: "Libre Franklin",
-            data: libreFranklin,
-            weight: 700,
-            style: "normal",
-          },
-          {
-            name: "Inter",
-            data: inter,
-            weight: 500,
-            style: "normal",
-          },
-        ],
+        fonts,
       },
     )
 
