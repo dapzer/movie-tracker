@@ -1,0 +1,13 @@
+# Upstream repository: https://github.com/notofonts/noto-cjk
+# Pinned upstream commit: f8d157532fbfaeda587e826d4cd5b21a49186f7c
+# Upstream OTF base URL: https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/OTF/
+# Simplified Chinese source: SimplifiedChinese/NotoSansCJKsc-Bold.otf
+b5f0d1a190a7f9b43c310a8850630af12553df32c4c050543f9059732d9b4c0a  NotoSansCJKsc-Bold.otf
+# Traditional Chinese source: TraditionalChinese/NotoSansCJKtc-Bold.otf
+3ee160e5015106e3ec1a394301df54fa9bbbf8a251519984aec5c0abc50840c0  NotoSansCJKtc-Bold.otf
+# Traditional Chinese (Hong Kong) source: TraditionalChineseHK/NotoSansCJKhk-Bold.otf
+a9b0265b7beae89767bb952094a1765fb8b4868064974e5f12ec783d8fe97d99  NotoSansCJKhk-Bold.otf
+# Japanese source: Japanese/NotoSansCJKjp-Bold.otf
+e53dcb0dcb2922e45d01aae1ebd2f382bb81d4229b18b6b883bd170678af1f76  NotoSansCJKjp-Bold.otf
+# Korean source: Korean/NotoSansCJKkr-Bold.otf
+26d0c6748500a0444844280b308f5b62c7ae92ac6c6ac88148e502dd211eb52a  NotoSansCJKkr-Bold.otf
