@@ -10,6 +10,19 @@ const zNumber = z
     return parsedValue
   })
 
+const zBoolean = z
+  .string()
+  .optional()
+  .transform((value) => {
+    if (value === "true") {
+      return true
+    }
+    if (value === "false") {
+      return false
+    }
+    throw new TypeError(`Invalid boolean: ${value}`)
+  })
+
 export const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   API_BASE_URL: z.string(),
@@ -38,4 +51,6 @@ export const envSchema = z.object({
   TMDB_FILES_API_URL: z.string(),
   TMDB_IMAGE_API_URL: z.string(),
   TMDB_API_KEY: z.string(),
+
+  MEDIA_REVIEWS_MODERATION_REQUIRED: zBoolean.default(false),
 })

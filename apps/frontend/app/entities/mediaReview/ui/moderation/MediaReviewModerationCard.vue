@@ -32,6 +32,12 @@ const mediaDetailsUrl = computed(() => {
   return localePath(`/details/${props.mediaReview.mediaDetails?.mediaType}/${props.mediaReview.mediaId}`)
 })
 
+const isShowReviewControls = computed(() => {
+  return [MediaReviewStatus.PENDING, MediaReviewStatus.PUBLISHED].includes(props.mediaReview.status)
+})
+
+const isShowPublishControls = computed(() => props.mediaReview.status === MediaReviewStatus.PENDING)
+
 async function handlePublish(id: string, isSpoiler?: boolean) {
   moderateMediaReviewApi.mutateAsync({
     mediaReviewId: id,
@@ -74,7 +80,7 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
         </MediaReviewModerationLogsModal>
       </div>
 
-      <div v-if="mediaReview.status === MediaReviewStatus.PENDING">
+      <div v-if="isShowReviewControls">
         <MediaReviewModerationModal :media-review-id="props.mediaReview.id">
           <template #trigger="{ openModal }">
             <UiButton
@@ -87,20 +93,22 @@ async function handlePublish(id: string, isSpoiler?: boolean) {
           </template>
         </MediaReviewModerationModal>
 
-        <UiButton
-          scheme="secondary"
-          :disabled="moderateMediaReviewApi.isPending.value"
-          @click="handlePublish(props.mediaReview.id, true)"
-        >
-          {{ $t("mediaReview.moderation.publishWithSpoiler") }}
-        </UiButton>
+        <template v-if="isShowPublishControls">
+          <UiButton
+            scheme="secondary"
+            :disabled="moderateMediaReviewApi.isPending.value"
+            @click="handlePublish(props.mediaReview.id, true)"
+          >
+            {{ $t("mediaReview.moderation.publishWithSpoiler") }}
+          </UiButton>
 
-        <UiButton
-          :disabled="moderateMediaReviewApi.isPending.value"
-          @click="handlePublish(props.mediaReview.id)"
-        >
-          {{ $t("mediaReview.moderation.publish") }}
-        </UiButton>
+          <UiButton
+            :disabled="moderateMediaReviewApi.isPending.value"
+            @click="handlePublish(props.mediaReview.id)"
+          >
+            {{ $t("mediaReview.moderation.publish") }}
+          </UiButton>
+        </template>
       </div>
     </div>
   </div>

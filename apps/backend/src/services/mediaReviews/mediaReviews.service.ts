@@ -1,6 +1,7 @@
 import type { MediaReviewSortField, MediaReviewWithReason } from "@movie-tracker/types"
 import { MediaReviewModerationLogAction, MediaReviewStatus, SortOrderEnum, UserRoleEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import {
   MediaReviewRepositoryInterface,
   MediaReviewRepositorySymbol,
@@ -51,7 +52,22 @@ export class MediaReviewsService {
     private readonly moderationLogsRepository: MediaReviewsModerationLogsRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
     private readonly userBansService: UserBansService,
+    private readonly configService: ConfigService,
   ) {
+  }
+
+  private getReviewPublicationFields(status: MediaReviewStatus | undefined) {
+    if (
+      status === MediaReviewStatus.PENDING
+      && !this.configService.get<boolean>("MEDIA_REVIEWS_MODERATION_REQUIRED")
+    ) {
+      return {
+        status: MediaReviewStatus.PUBLISHED,
+        publishedAt: new Date(),
+      }
+    }
+
+    return { status }
   }
 
   async getById(args: { id: string, currentUserId?: string }) {
@@ -171,10 +187,13 @@ export class MediaReviewsService {
       throw new MediaDetailsCreationFailedError({ mediaId: args.body.mediaId, mediaType: args.body.mediaType })
     }
 
+    const reviewPublicationFields = this.getReviewPublicationFields(args.body.status)
+
     return this.mediaReviewRepository.create({
       userId: args.userId,
       mediaDetailsId: mediaDetails.id,
       ...args.body,
+      ...reviewPublicationFields,
     })
   }
 
@@ -195,7 +214,6 @@ export class MediaReviewsService {
       content: args.body.content,
       isSpoiler: args.body.isSpoiler,
       status: args.body.status,
-      publishedAt: args.body.publishedAt,
     })
   }
 

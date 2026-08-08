@@ -44,7 +44,8 @@ export type MediaReviewCreateBodyType = Pick<MediaReview, "mediaId"
   | "title"
   | "content"
   | "isSpoiler"
-  | "status">
+  | "status"
+  | "publishedAt">
 
 export type MediaReviewUpdateBodyType = Partial<Pick<MediaReview, "title"
   | "content"
