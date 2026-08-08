@@ -1262,12 +1262,6 @@ export default {
         url: "By link",
       },
     },
-    sort: {
-      title: "Sorting",
-      createdAt: "Sort by date added",
-      updatedAt: "Sort by date updated",
-      rating: "Sort by user rating",
-    },
     filters: {
       title: "Filters",
       mediaType: "Type",
@@ -1338,7 +1332,7 @@ export default {
     description: "Found {count} for request '{searchTerm}'.",
     placeholder: "Search",
     totalResults: "Total results",
-    notingFound: "Nothing found",
+    nothingFound: "Nothing found",
     mediaPlaceholder: "Enter the title of the film",
     seeAllResults: "See all results for “{searchTerm}”",
     singleMatch: "match",
@@ -1870,6 +1864,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     nothingFound: "Nothing found",
     share: "Share",
     unsavedChanges: "Are you sure you want to leave the page? Any unsaved changes will be lost.",
+    sort: {
+      title: "Sorting",
+      createdAt: "Sort by date added",
+      updatedAt: "Sort by date updated",
+      rating: "Sort by user rating",
+    },
     like: {
       single: "Like",
       multiple: "Likes",

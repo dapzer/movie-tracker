@@ -1,4 +1,4 @@
-import type { PaginationType } from "@movie-tracker/types"
+import type { GetMediaRatingsByUserIdQueries, PaginationType } from "@movie-tracker/types"
 import {
   MediaRatingCreateBodyType,
   MediaRatingPaginatedType,
@@ -24,7 +24,7 @@ export interface MediaRatingRepositoryInterface {
 
   getByUserId: (args: {
     userId: string
-  } & PaginationType) => Promise<MediaRatingPaginatedType>
+  } & GetMediaRatingsByUserIdQueries) => Promise<MediaRatingPaginatedType>
 
   getByUserIdAndMediaIds: (args: {
     userId: string

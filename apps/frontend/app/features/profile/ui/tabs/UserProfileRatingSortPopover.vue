@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import type { UserProfileRatingsSortOption } from "~/features/profile/ui/tabs/UserProfileRatings.vue"
 import type { UiOptionPickerOption } from "~/shared/ui/UiOptionPicker"
-import type { MediaListDetailsSortOption } from "~/widgets/mediaList/ui/MediaListDetailsContent.vue"
 import { useI18n } from "#imports"
 import { computed, h } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiOptionPicker } from "~/shared/ui/UiOptionPicker"
 
 const { t } = useI18n()
-const sortTypeModel = defineModel<MediaListDetailsSortOption>()
+const sortTypeModel = defineModel<UserProfileRatingsSortOption>()
 
 const sortArrowUpIcon = h(UiIcon, { name: "icon:arrow-up-with-list", size: 20 })
 const sortArrowDownIcon = h(UiIcon, { name: "icon:arrow-down-with-list", size: 20 })
@@ -22,16 +22,6 @@ const options = computed<Array<UiOptionPickerOption>>(() => {
     {
       label: t("ui.sort.createdAt"),
       value: "desc_createdAt",
-      icon: sortArrowDownIcon,
-    },
-    {
-      label: t("ui.sort.updatedAt"),
-      value: "asc_updatedAt",
-      icon: sortArrowUpIcon,
-    },
-    {
-      label: t("ui.sort.updatedAt"),
-      value: "desc_updatedAt",
       icon: sortArrowDownIcon,
     },
     {

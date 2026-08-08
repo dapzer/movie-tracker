@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } f
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateMediaRatingDto } from "@/services/mediaRatings/dto/createMediaRating.dto"
 import { GetMediaRatingByMediaIdParamsDto } from "@/services/mediaRatings/dto/getMediaRatingByMediaIdParams.dto"
+import { GetMediaRatingsByUserIdQueryDto } from "@/services/mediaRatings/dto/getMediaRatingsByUserIdQuery.dto"
 import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRating.dto"
 import { MediaRatingsService } from "@/services/mediaRatings/mediaRatings.service"
 import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
@@ -49,13 +50,22 @@ export class MediaRatingsController {
 
   @Get("by-user-id/:id")
   @GetMediaRatingsByUserIdDocs()
-  async getMediaRatingsByUserId(@Param() params: UuidDto, @Query() query: PaginationDto, @User() user: OptionalUserDto) {
+  async getMediaRatingsByUserId(
+    @Param() params: UuidDto,
+    @Query() query: GetMediaRatingsByUserIdQueryDto,
+    @User() user: OptionalUserDto,
+  ) {
     return this.mediaRatingsService.getByUserId(
       {
         userId: params.id,
         currentUserId: user?.id,
         limit: query.limit,
         offset: query.offset,
+        mediaTypes: query.mediaTypes,
+        rating: query.rating,
+        search: query.search,
+        sortBy: query.sortBy,
+        sortDirection: query.sortDirection,
       },
     )
   }

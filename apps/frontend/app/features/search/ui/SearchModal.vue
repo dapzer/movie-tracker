@@ -143,7 +143,7 @@ const itemsToRender = computed(() => {
               v-if="isResultsEmpty && searchValue.length"
               title-variant="text"
               :indent="0"
-              :title="$t('search.notingFound')"
+              :title="$t('search.nothingFound')"
             />
           </template>
 

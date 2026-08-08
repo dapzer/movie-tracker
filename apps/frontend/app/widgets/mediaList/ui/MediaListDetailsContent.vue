@@ -299,7 +299,7 @@ watchEffect(() => {
         </UiCardsGrid>
         <template v-else>
           <UiAttention
-            :title="(searchTerm.length || isFiltersActive) ? $t('search.notingFound') : activeTab !== 'all'
+            :title="(searchTerm.length || isFiltersActive) ? $t('search.nothingFound') : activeTab !== 'all'
               ? $t('mediaList.noMediaItems')
               : $t('mediaList.noMediaItemsAll')"
             :indent="24"
