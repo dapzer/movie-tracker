@@ -405,6 +405,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         content: args.content,
         isSpoiler: args.isSpoiler,
         status: args.status,
+        publishedAt: args.publishedAt,
       })
       .returning()
 

@@ -52,7 +52,7 @@ export class MediaReviewModerationService {
     const updatedMediaReview = await this.mediaReviewRepository.update({
       id: args.body.mediaReviewId,
       status: newStatus,
-      publishedAt: isApproved ? new Date() : undefined,
+      publishedAt: isApproved ? mediaReview.publishedAt ?? new Date() : undefined,
       isSpoiler,
     })
 
