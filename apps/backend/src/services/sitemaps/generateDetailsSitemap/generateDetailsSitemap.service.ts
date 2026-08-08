@@ -5,11 +5,21 @@ import { promisify } from "node:util"
 import { unzip } from "node:zlib"
 import { Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import { EnumChangefreq, simpleSitemapAndIndex, SitemapItemLoose } from "sitemap"
+import { simpleSitemapAndIndex } from "sitemap"
 import { SitemapSourceDataFetchError } from "@/shared/errors/sitemap"
 
 const unzipAsync = promisify(unzip)
 const idRegex = /"id":(\d+)/g
+const sitemapLanguages = [
+  {
+    code: "ru",
+    urlPrefix: "",
+  },
+  {
+    code: "en",
+    urlPrefix: "/en",
+  },
+] as const
 
 @Injectable()
 export class GenerateDetailsSitemapsService {
@@ -97,54 +107,36 @@ export class GenerateDetailsSitemapsService {
       const unzippedData = await unzipAsync(body)
       const parsedData = unzippedData.toString()
 
-      const matches = parsedData.matchAll(idRegex)
-      let sitemapItems: SitemapItemLoose[] = []
+      const ids = Array.from(parsedData.matchAll(idRegex), match => match[1])
 
-      for (const match of matches) {
-        const id = match[1]
-
-        sitemapItems.push({
-          url: `/details/${mediaType.type}/${id}`,
-          links: [
-            {
-              lang: "ru",
-              url: `/details/${mediaType.type}/${id}`,
-            },
-            {
-              lang: "en",
-              url: `/en/details/${mediaType.type}/${id}`,
-            },
-          ],
-          changefreq: EnumChangefreq.DAILY,
+      for (const language of sitemapLanguages) {
+        const sitemapItems = ids.map(id => ({
+          url: `${language.urlPrefix}/details/${mediaType.type}/${id}`,
+          // changefreq: EnumChangefreq.DAILY,
           // lastmod: modifiedDate,
-          priority: 0.6,
-        })
-      }
+          priority: 0.7,
+        }))
 
-      this.logger.log(
-        `Start generate sitemap for ${mediaType.type}. Link count: ${sitemapItems.length}.`,
-      )
-      await simpleSitemapAndIndex({
-        limit: 25000,
-        hostname: this.configService.get("CLIENT_BASE_URL"),
-        sitemapHostname: `${this.configService.get("CLIENT_BASE_URL")}/sitemaps/details/${mediaType.type}/`,
-        destinationDir: `./sitemaps/details/${mediaType.type}/`,
-        sourceData: sitemapItems,
-        gzip: false,
-      })
-        .then(() => {
-          this.logger.log(`Finish generate sitemap for ${mediaType.type}!`)
-        })
-        .catch(() => {
-          this.logger.error(
-            `Failed to generate sitemap for ${mediaType.type}!`,
-          )
-        })
-        .finally(
-          () => {
-            sitemapItems = []
-          },
+        this.logger.log(
+          `Start generate sitemap for ${mediaType.type}/${language.code}. Link count: ${sitemapItems.length}.`,
         )
+        await simpleSitemapAndIndex({
+          limit: 10000,
+          hostname: this.configService.get("CLIENT_BASE_URL"),
+          sitemapHostname: `${this.configService.get("CLIENT_BASE_URL")}/sitemaps/details/${mediaType.type}/${language.code}/`,
+          destinationDir: `./sitemaps/details/${mediaType.type}/${language.code}/`,
+          sourceData: sitemapItems,
+          gzip: false,
+        })
+          .then(() => {
+            this.logger.log(`Finish generate sitemap for ${mediaType.type}/${language.code}!`)
+          })
+          .catch(() => {
+            this.logger.error(
+              `Failed to generate sitemap for ${mediaType.type}/${language.code}!`,
+            )
+          })
+      }
     }
   }
 }

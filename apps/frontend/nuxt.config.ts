@@ -66,8 +66,10 @@ export default defineNuxtConfig({
     defaultSitemapsChunkSize: 50000,
     sitemaps: {
       index: [
-        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/sitemap-index.xml` },
-        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/sitemap-index.xml` },
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/ru/sitemap-index.xml` },
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/tv/en/sitemap-index.xml` },
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/ru/sitemap-index.xml` },
+        { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/movie/en/sitemap-index.xml` },
         // { sitemap: `${process.env.VITE_BASE_URL}/sitemaps/details/person/sitemap-index.xml` },
       ],
     },
