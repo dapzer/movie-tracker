@@ -89,7 +89,7 @@ const totalPages = computed(() => {
         v-else
         title-variant="text"
         :indent="0"
-        :title="$t('search.notingFound')"
+        :title="$t('search.nothingFound')"
       />
     </div>
 

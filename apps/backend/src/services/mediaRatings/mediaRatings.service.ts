@@ -1,5 +1,6 @@
+import type { GetMediaRatingsByUserIdQueries, MediaRatingPaginatedType } from "@movie-tracker/types"
 import type { PaginationDtoType } from "@/shared/dto/pagination.dto"
-import { MediaRatingPaginatedType, UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
+import { UserMediaRatingsAccessLevelEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   MediaDetailsRepositoryInterface,
@@ -61,7 +62,7 @@ export class MediaRatingsService {
   async getByUserId(args: {
     userId: string
     currentUserId?: string
-  } & PaginationDtoType): Promise<MediaRatingPaginatedType> {
+  } & GetMediaRatingsByUserIdQueries): Promise<MediaRatingPaginatedType> {
     const user = await this.userRepository.getById(args.userId)
 
     if (!user) {
@@ -74,8 +75,13 @@ export class MediaRatingsService {
 
     const mediaRatings = await this.mediaRatingRepository.getByUserId({
       userId: args.userId,
-      limit: args.limit ?? 20,
-      offset: args.offset ?? 0,
+      limit: args.limit,
+      offset: args.offset,
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      search: args.search,
+      sortBy: args.sortBy,
+      sortDirection: args.sortDirection,
     })
 
     return {

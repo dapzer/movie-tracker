@@ -74,7 +74,7 @@ const isFetching = computed(() => getTmdbMoviePopularListApi.isFetching.value)
       <UiAttention
         title-variant="text"
         :indent="0"
-        :title="$t('search.notingFound')"
+        :title="$t('search.nothingFound')"
       />
     </template>
   </ContentList>

@@ -22,6 +22,11 @@ export function getMediaRatingByUserId(args: GetMediaRatingByUserIdArgs, options
     params: {
       offset: args.offset,
       limit: args.limit,
+      search: args.search,
+      mediaTypes: args.mediaTypes,
+      rating: args.rating,
+      sortBy: args.sortBy,
+      sortDirection: args.sortDirection,
     },
   })
 }

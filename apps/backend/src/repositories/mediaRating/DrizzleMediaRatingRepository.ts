@@ -1,16 +1,17 @@
 import { mediaDetails, mediaRatings, users } from "@movie-tracker/database"
-import { and, desc, eq, inArray } from "@movie-tracker/database/drizzle"
+import { and, desc, eq, inArray, sql } from "@movie-tracker/database/drizzle"
 import {
   MediaDetailsInfoType,
   MediaRatingType,
   MediaTypeEnum,
   SignUpMethodEnum,
+  SortOrderEnum,
   UserMediaRatingsAccessLevelEnum,
   UserPublicType,
   UserRoleEnum,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
-import { count } from "drizzle-orm"
+import { asc, count } from "drizzle-orm"
 import { MediaRatingRepositoryInterface } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { getPublicUser } from "@/shared/utils/getPublicUser"
@@ -163,19 +164,48 @@ export class DrizzleMediaRatingRepository implements MediaRatingRepositoryInterf
   }
 
   async getByUserId(args: Parameters<MediaRatingRepositoryInterface["getByUserId"]>[0]) {
+    const search = args.search?.trim()
+    const sortBy = args.sortBy ?? "createdAt"
+    const sortDirection = args.sortDirection ?? SortOrderEnum.DESC
+    const conditions = [eq(mediaRatings.userId, args.userId)]
+
+    if (search) {
+      const pattern = `%${search.toLowerCase()}%`
+      conditions.push(sql`(
+        lower(${mediaDetails.en} ->> 'title') LIKE ${pattern}
+        OR lower(${mediaDetails.en} ->> 'originalTitle') LIKE ${pattern}
+        OR lower(${mediaDetails.ru} ->> 'title') LIKE ${pattern}
+      )`)
+    }
+
+    if (args.mediaTypes?.length) {
+      conditions.push(inArray(mediaRatings.mediaType, args.mediaTypes))
+    }
+
+    if (args.rating) {
+      const [minimum, maximum] = args.rating
+      conditions.push(sql`${mediaRatings.rating} >= ${minimum}`)
+      conditions.push(sql`${mediaRatings.rating} <= ${maximum}`)
+    }
+
+    const orderByExpression = sortDirection === SortOrderEnum.ASC
+      ? asc(mediaRatings[sortBy])
+      : desc(mediaRatings[sortBy])
+
     const [items, totalCount] = await Promise.all([
       this.drizzle.client
         .select({ mediaRating: mediaRatings, mediaDetails })
         .from(mediaRatings)
         .leftJoin(mediaDetails, eq(mediaDetails.id, mediaRatings.mediaDetailsId))
-        .where(eq(mediaRatings.userId, args.userId))
-        .orderBy(desc(mediaRatings.createdAt))
+        .where(and(...conditions))
+        .orderBy(orderByExpression)
         .limit(args.limit)
         .offset(args.offset),
       this.drizzle.client
         .select({ count: count() })
         .from(mediaRatings)
-        .where(eq(mediaRatings.userId, args.userId)),
+        .leftJoin(mediaDetails, eq(mediaDetails.id, mediaRatings.mediaDetailsId))
+        .where(and(...conditions)),
     ])
 
     return {

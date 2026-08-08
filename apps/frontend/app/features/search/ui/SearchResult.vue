@@ -222,7 +222,7 @@ function handleTabChange(tab: Tab) {
             v-if="!contentCount.total"
             title-variant="text"
             :indent="0"
-            :title="$t('search.notingFound')"
+            :title="$t('search.nothingFound')"
           />
           <UiSectionWithSeeMore
             v-if="contentCount.movie"
@@ -334,7 +334,7 @@ function handleTabChange(tab: Tab) {
             v-if="!dataToRender.items?.length && !isPending"
             title-variant="text"
             :indent="0"
-            :title="$t('search.notingFound')"
+            :title="$t('search.nothingFound')"
           />
           <SearchResultPagination
             v-model="currentPage"

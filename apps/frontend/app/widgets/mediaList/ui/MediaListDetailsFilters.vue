@@ -11,6 +11,7 @@ import { computed } from "vue"
 import { useDebouncedSearchTerm } from "~/shared/composables/useDebouncedSearchTerm.ts"
 import { UiExpandableSearchInput } from "~/shared/ui/UiExpandableSearchInput"
 import { UiFilters, UiFiltersDrawer } from "~/shared/ui/UiFilters"
+import { refsToAccessorObject } from "~/shared/utils/refsToAccessorObject.ts"
 
 const RATING_MIN = 0
 const RATING_MAX = 10
@@ -114,38 +115,13 @@ const mobileFiltersConfig = computed<MediaListFiltersConfig>(() => [
 ])
 
 const filtersModel = computed<UiFiltersModel<MediaListFiltersConfig>>(() => {
-  return {
-    get mediaTypes() {
-      return mediaTypesModel.value
-    },
-    set mediaTypes(value) {
-      mediaTypesModel.value = value as MediaTypeEnum[]
-    },
-    get rating() {
-      return ratingModel.value
-    },
-    set rating(value) {
-      ratingModel.value = value
-    },
-    get releaseStatuses() {
-      return releaseStatusesModel.value
-    },
-    set releaseStatuses(value) {
-      releaseStatusesModel.value = value
-    },
-    get releaseYear() {
-      return releaseYearModel.value
-    },
-    set releaseYear(value) {
-      releaseYearModel.value = value
-    },
-    get genres() {
-      return genresModel.value
-    },
-    set genres(value) {
-      genresModel.value = value
-    },
-  }
+  return refsToAccessorObject({
+    mediaTypes: mediaTypesModel,
+    rating: ratingModel,
+    releaseStatuses: releaseStatusesModel,
+    releaseYear: releaseYearModel,
+    genres: genresModel,
+  })
 })
 </script>
 

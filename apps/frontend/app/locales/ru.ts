@@ -1263,12 +1263,6 @@ export default {
         url: "По ссылке",
       },
     },
-    sort: {
-      title: "Сортировка",
-      createdAt: "По дате добавления",
-      updatedAt: "По дате обновления",
-      rating: "По оценке пользователя",
-    },
     filters: {
       title: "Фильтры",
       mediaType: "Тип",
@@ -1340,7 +1334,7 @@ export default {
     description: "Найдено {count} для запроса ‘{searchTerm}’.",
     placeholder: "Поиск",
     totalResults: "Найдено результатов",
-    notingFound: "Ничего не найдено",
+    nothingFound: "Ничего не найдено",
     mediaPlaceholder: "Введите название кинокартины",
     seeAllResults: "Посмотреть все результаты для “{searchTerm}”",
     singleMatch: "совпадение",
@@ -1872,6 +1866,12 @@ export default {
     nothingFound: "Ничего не найдено",
     share: "Поделиться",
     unsavedChanges: "Вы уверены, что хотите покинуть страницу? Все несохраненные изменения будут потеряны.",
+    sort: {
+      title: "Сортировка",
+      createdAt: "По дате добавления",
+      updatedAt: "По дате обновления",
+      rating: "По оценке пользователя",
+    },
     like: {
       single: "Лайк",
       multiple: "Лайков",

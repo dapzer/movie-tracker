@@ -1,6 +1,7 @@
-import { UserPublicType } from "../user"
-import { MediaDetailsType } from "./mediaDetails"
-import { MediaTypeEnum } from "./mediaItem"
+import type { PaginationType, SortOrderEnum } from "../common"
+import type { UserPublicType } from "../user"
+import type { MediaDetailsType } from "./mediaDetails"
+import type { MediaTypeEnum } from "./mediaItem"
 
 export interface MediaRatingType {
   id: string
@@ -22,4 +23,12 @@ export type MediaRatingUpdateBodyType = Pick<MediaRatingType, "rating">
 export interface MediaRatingPaginatedType {
   items: MediaRatingType[]
   totalCount: number
+}
+
+export interface GetMediaRatingsByUserIdQueries extends PaginationType {
+  search?: string
+  mediaTypes?: MediaTypeEnum[]
+  rating?: [number, number]
+  sortBy?: "createdAt" | "updatedAt" | "rating"
+  sortDirection?: SortOrderEnum
 }
