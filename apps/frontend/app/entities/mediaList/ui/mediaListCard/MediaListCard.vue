@@ -6,6 +6,7 @@ import { useI18n } from "#imports"
 import { MediaListAccessLevelEnum } from "@movie-tracker/types"
 import { useClipboard } from "@vueuse/core"
 import { computed } from "vue"
+import { toast } from "vue3-toastify"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiListCard } from "~/shared/ui/UiCard/listCard"
 import { UiIcon } from "~/shared/ui/UiIcon"
@@ -30,7 +31,11 @@ const title = computed(() => {
 })
 
 function copyLink() {
-  copy(`${window.location.origin}/lists/details/${props.list.humanFriendlyId}`)
+  copy(`${window.location.origin}/lists/details/${props.list.humanFriendlyId}`).then(() => {
+    toast.success(t("toasts.linkSuccessfullyCopied"))
+  }).catch(() => {
+    toast.error(t("toasts.linkUnsuccessfullyCopied"))
+  })
 }
 
 const listPageUrl = computed(() => localePath(`/lists/details/${props.list.humanFriendlyId}`))
