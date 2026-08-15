@@ -17,6 +17,8 @@ services:
         target: /etc/grafana/provisioning/dashboards/entity-analytics.json
       - source: grafana_provisioning_dashboards_logs
         target: /etc/grafana/provisioning/dashboards/logs.json
+      - source: grafana_provisioning_dashboards_swarm_services
+        target: /etc/grafana/provisioning/dashboards/swarm-services.json
       - source: grafana_provisioning_datasources_loki
         target: /etc/grafana/provisioning/datasources/loki.yml
     deploy:
@@ -136,6 +138,8 @@ configs:
     file: ./provisioning/dashboards/entity-analytics.json
   grafana_provisioning_dashboards_logs:
     file: ./provisioning/dashboards/logs.json
+  grafana_provisioning_dashboards_swarm_services:
+    file: ./provisioning/dashboards/swarm-services.json
   grafana_provisioning_datasources_loki:
     file: ./provisioning/datasources/loki.yml
   prometheus_config:
