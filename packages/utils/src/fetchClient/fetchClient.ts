@@ -75,7 +75,7 @@ export class FetchClient {
 
     if (!response.ok) {
       const error = await response.json() as { message: string } | undefined
-      throw new FetchError(response.status, error?.message || response.statusText)
+      throw new FetchError(response.status, error?.message || response.statusText, Object.fromEntries(response.headers))
     }
 
     if (response.headers.get("Content-Type")?.includes("application/json")) {

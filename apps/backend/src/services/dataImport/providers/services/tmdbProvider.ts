@@ -7,6 +7,7 @@ import { tmdbApi } from "@/api/instance"
 import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImport"
 import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
+import { getMillisecondsFromSeconds } from "@/shared/utils/getMillisecondsFromSeconds"
 
 export type TmdbExternalIdSource = "imdb_id" | "tvdb_id"
 
@@ -21,14 +22,14 @@ export interface TmdbFindResponseType {
   tv_results: TmdbFindResultItemType[]
 }
 
-const DEFAULT_RETRY_AFTER_SECONDS = 1
-
 @Injectable()
 export class TmdbProvider {
   private readonly logger = new Logger("TmdbProvider")
   private readonly inFlight = new Map<string, Promise<unknown>>()
+  private readonly MAX_RETRIES = 10
 
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
+  }
 
   private async cached<T>(args: { key: string, ttl: number, resolve: () => Promise<T> }): Promise<T> {
     const cached = await this.cacheManager.get<T>(args.key)
@@ -55,15 +56,50 @@ export class TmdbProvider {
     return promise
   }
 
-  private async request<T>(args: { endpoint: string, params: Record<string, string | number | boolean | undefined> }): Promise<T> {
+  private getRetryAfterMs(args: {
+    headers?: Record<string, string>
+    defaultValue?: number
+    maxValue?: number
+  }): number {
+    const retryAfter = args.headers?.["retry-after"]
+
+    if (!retryAfter) {
+      return args.defaultValue
+    }
+
+    const seconds = Number(retryAfter)
+    if (Number.isFinite(seconds) && seconds >= 0) {
+      return Math.min(seconds * 1000, args.maxValue)
+    }
+
+    const date = Date.parse(retryAfter)
+    if (!Number.isNaN(date)) {
+      return Math.min(Math.max(date - Date.now(), 0), args.maxValue)
+    }
+
+    return args.defaultValue
+  }
+
+  private async request<T>(args: {
+    endpoint: string
+    params: Record<string, string | number | boolean | undefined>
+  }): Promise<T> {
+    let attempt = 0
+
     while (true) {
       try {
         return await tmdbApi.get<T>(args.endpoint, { params: args.params })
       }
       catch (error) {
-        if (error instanceof FetchError && error.statusCode === HttpStatus.TOO_MANY_REQUESTS) {
-          this.logger.warn(`TMDB rate limit reached for "${args.endpoint}". Retrying.`)
-          await new Promise(resolve => setTimeout(resolve, DEFAULT_RETRY_AFTER_SECONDS * 1000))
+        if (error instanceof FetchError && error.statusCode === HttpStatus.TOO_MANY_REQUESTS && attempt < this.MAX_RETRIES) {
+          attempt++
+          const retryAfterMs = this.getRetryAfterMs({
+            headers: error.headers,
+            defaultValue: getMillisecondsFromSeconds(1),
+            maxValue: getMillisecondsFromSeconds(30),
+          })
+          this.logger.warn(`TMDB rate limit reached for "${args.endpoint}". Retrying in ${retryAfterMs}ms (attempt ${attempt}/${this.MAX_RETRIES}).`)
+          await new Promise(resolve => setTimeout(resolve, retryAfterMs))
           continue
         }
 
@@ -72,9 +108,12 @@ export class TmdbProvider {
     }
   }
 
-  async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{ id: number, type: "movie" | "tv" }> {
+  async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{
+    id: number
+    type: "movie" | "tv"
+  }> {
     return this.cached({
-      key: `tmdb:find:${args.source}:${args.externalId}`,
+      key: `import:tmdb:find:${args.source}:${args.externalId}`,
       ttl: getMillisecondsFromDays(7),
       resolve: async () => {
         let response: TmdbFindResponseType
@@ -109,12 +148,14 @@ export class TmdbProvider {
     })
   }
 
-  async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }): Promise<{ id: number, type: "movie" | "tv" }> {
+  async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }): Promise<{
+    id: number
+    type: "movie" | "tv"
+  }> {
     const normalizedTitle = args.title.trim().toLowerCase()
-    const cacheKey = `tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type ?? "any"}`
 
     return this.cached({
-      key: cacheKey,
+      key: `import:tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type ?? "any"}`,
       ttl: getMillisecondsFromHours(12),
       resolve: async () => {
         const getMatch = async (mediaType: "movie" | "tv") => {
@@ -160,7 +201,11 @@ export class TmdbProvider {
     })
   }
 
-  private pickSearchResult(args: { results: TmdbSearchResponseResultItemType[], title: string, year?: number }): TmdbSearchResponseResultItemType | null {
+  private pickSearchResult(args: {
+    results: TmdbSearchResponseResultItemType[]
+    title: string
+    year?: number
+  }): TmdbSearchResponseResultItemType | null {
     if (!args.results.length) {
       return null
     }
