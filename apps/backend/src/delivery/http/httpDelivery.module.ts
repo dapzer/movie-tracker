@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common"
 import { AnalyticsModule } from "@/delivery/http/analytics/analytics.module"
 import { AuthModule } from "@/delivery/http/auth/auth.module"
 import { CommunityListsModule } from "@/delivery/http/communityLists/communityLists.module"
+import { DataImportModule } from "@/delivery/http/dataImport/dataImport.module"
 import { MediaDetailsModule } from "@/delivery/http/mediaDetails/mediaDetails.module"
 import { MediaItemsModule } from "@/delivery/http/mediaItems/mediaItems.module"
 import { MediaListsModule } from "@/delivery/http/mediaLists/mediaLists.module"
@@ -24,6 +25,7 @@ import { UsersModule } from "@/delivery/http/users/users.module"
     AnalyticsModule,
     AuthModule,
     CommunityListsModule,
+    DataImportModule,
     MediaDetailsModule,
     MediaItemsModule,
     MediaListsModule,

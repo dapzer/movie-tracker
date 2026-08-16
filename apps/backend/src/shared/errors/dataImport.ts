@@ -16,6 +16,12 @@ export class InvalidDataImportArchiveError extends BadArgumentsError {
   }
 }
 
+export class DataImportArchiveIsRequiredError extends BadArgumentsError {
+  constructor(args: CustomErrorOptions = {}) {
+    super(args.message ?? "Archive is required.", { cause: args.cause, details: args.details })
+  }
+}
+
 export class DataImportArchiveLimitError extends BadArgumentsError {
   limit: string
 

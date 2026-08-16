@@ -29,6 +29,7 @@ export class DataImportProvidersModule {
         },
         DataImportProvidersService,
       ],
+      exports: [DataImportProvidersService],
     }
   }
 }
