@@ -18,8 +18,8 @@ import {
   letterboxdWatchedSchema,
   letterboxdWatchlistSchema,
 } from "@/services/dataImport/dto/letterboxdRaw.dto"
-import { BaseProvider } from "@/services/dataImport/providers/services/base/baseProvider"
-import { TmdbProvider } from "@/services/dataImport/providers/services/tmdbProvider"
+import { BaseService } from "@/services/dataImport/providers/services/base/base"
+import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { LetterboxdInvalidListContentError, SourceFileMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 
@@ -30,11 +30,11 @@ const LIST_ITEMS_SEPARATOR = "Position,Name,Year,URL,Description"
 type LetterboxdFilmRecord = z.infer<typeof letterboxdWatchedSchema>
 
 @Injectable()
-export class LetterboxdProvider extends BaseProvider {
+export class LetterboxdProvider extends BaseService {
   constructor(
-    tmdbProvider: TmdbProvider,
+    tmdbResolver: TmdbResolver,
   ) {
-    super(DataImportSourceEnum.LETTERBOXD, tmdbProvider)
+    super(DataImportSourceEnum.LETTERBOXD, tmdbResolver)
   }
 
   get requiredFiles(): string[] {

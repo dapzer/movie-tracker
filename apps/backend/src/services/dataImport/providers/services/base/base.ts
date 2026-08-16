@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common"
 import { z } from "zod"
 import { ImportBucket, ImportRawResult, Media } from "@/services/dataImport/dto/importResult.dto"
 import { DataImportSource } from "@/services/dataImport/dto/importSource.dto"
-import { TmdbProvider } from "@/services/dataImport/providers/services/tmdbProvider"
+import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { SourceFileParseError, SourceFilesMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 import { extractArchiveData } from "@/shared/utils/extractArchiveData"
@@ -18,10 +18,10 @@ export interface ResolveMediaInput {
 }
 
 @Injectable()
-export abstract class BaseProvider {
+export abstract class BaseService {
   protected constructor(
     readonly name: DataImportSource,
-    protected readonly tmdbProvider: TmdbProvider,
+    protected readonly tmdbResolver: TmdbResolver,
   ) {
   }
 
@@ -48,7 +48,7 @@ export abstract class BaseProvider {
   }
 
   protected async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }) {
-    return this.tmdbProvider.findByTitleAndReleaseDate(args)
+    return this.tmdbResolver.findByTitleAndReleaseDate(args)
   }
 
   protected async resolveMedia(args: ResolveMediaInput): Promise<Pick<Media, "ids" | "type">> {
@@ -63,7 +63,7 @@ export abstract class BaseProvider {
     }
 
     if (args.imdbId) {
-      const result = await this.tmdbProvider.findByExternalId({ externalId: args.imdbId, source: "imdb_id" })
+      const result = await this.tmdbResolver.findByExternalId({ externalId: args.imdbId, source: "imdb_id" })
       return {
         ids: { tmdbId: result.id, imdbId: args.imdbId },
         type: args.type ?? result.type,
@@ -71,7 +71,7 @@ export abstract class BaseProvider {
     }
 
     if (args.tvdbId) {
-      const result = await this.tmdbProvider.findByExternalId({
+      const result = await this.tmdbResolver.findByExternalId({
         externalId: String(args.tvdbId),
         source: "tvdb_id",
       })

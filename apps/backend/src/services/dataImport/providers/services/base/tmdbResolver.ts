@@ -23,8 +23,8 @@ export interface TmdbFindResponseType {
 }
 
 @Injectable()
-export class TmdbProvider {
-  private readonly logger = new Logger("TmdbProvider")
+export class TmdbResolver {
+  private readonly logger = new Logger("TmdbResolver")
   private readonly inFlight = new Map<string, Promise<unknown>>()
   private readonly MAX_RETRIES = 10
 

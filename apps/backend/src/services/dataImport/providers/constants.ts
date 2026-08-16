@@ -1,11 +1,11 @@
 import { FactoryProvider, ModuleMetadata } from "@nestjs/common"
-import { BaseProvider } from "./services/base/baseProvider"
+import { BaseService } from "./services/base/base"
 
 export const DataImportProvidersOptsSymbol = Symbol("DataImportProvidersOpts")
 
 export interface Opts {
-  services: BaseProvider[]
+  services: BaseService[]
 }
 
-export type AsyncOpts = Pick<ModuleMetadata, "imports">
+export type AsyncOpts = Pick<ModuleMetadata, "imports" | "providers">
   & Pick<FactoryProvider<Opts>, "useFactory" | "inject">

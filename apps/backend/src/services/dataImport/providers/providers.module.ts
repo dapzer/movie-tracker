@@ -22,6 +22,7 @@ export class DataImportProvidersModule {
     return {
       module: DataImportProvidersModule,
       providers: [
+        ...(opts.providers ?? []),
         {
           useFactory: opts.useFactory,
           inject: opts.inject,

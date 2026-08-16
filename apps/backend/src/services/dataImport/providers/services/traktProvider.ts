@@ -23,8 +23,8 @@ import {
   traktWatchedShowItemSchema,
   traktWatchlistItemSchema,
 } from "@/services/dataImport/dto/traktRaw.dto"
-import { BaseProvider } from "@/services/dataImport/providers/services/base/baseProvider"
-import { TmdbProvider } from "@/services/dataImport/providers/services/tmdbProvider"
+import { BaseService } from "@/services/dataImport/providers/services/base/base"
+import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { SourceFileMissingError } from "@/shared/errors/dataImport"
 
 const CUSTOM_LIST_FILE_NAME_PATTERN = /^lists-list-\d+-.+\.json$/
@@ -43,11 +43,11 @@ interface TraktMediaRef {
 }
 
 @Injectable()
-export class TraktProvider extends BaseProvider {
+export class TraktProvider extends BaseService {
   constructor(
-    tmdbProvider: TmdbProvider,
+    tmdbResolver: TmdbResolver,
   ) {
-    super(DataImportSourceEnum.TRAKT, tmdbProvider)
+    super(DataImportSourceEnum.TRAKT, tmdbResolver)
   }
 
   get requiredFiles(): string[] {
