@@ -49,6 +49,15 @@ export class SourceFileMissingError extends BadArgumentsError {
   }
 }
 
+export class SourceFilesMissingError extends BadArgumentsError {
+  fileNames: Array<string>
+
+  constructor(args: { fileNames: Array<string> } & CustomErrorOptions) {
+    super(args.message ?? `Source files are missing: ${args.fileNames.join(", ")}.`, { cause: args.cause, details: args.details })
+    this.fileNames = args.fileNames
+  }
+}
+
 export class InvalidSourceRecordError extends BadArgumentsError {
   constructor(args: CustomErrorOptions = {}) {
     super(args.message ?? "Source record is invalid.", { cause: args.cause, details: args.details })

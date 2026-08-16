@@ -13,6 +13,8 @@ export class DataImportService {
     const provider = this.providersService.findService(args.source)
     const files = await extractArchiveData(args.archive)
 
+    provider.validateFiles({ files })
+
     return provider.import({ files })
   }
 }

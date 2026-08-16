@@ -20,7 +20,7 @@ import {
 } from "@/services/dataImport/dto/letterboxdRaw.dto"
 import { BaseProvider } from "@/services/dataImport/providers/services/base/baseProvider"
 import { TmdbProvider } from "@/services/dataImport/providers/services/tmdbProvider"
-import { LetterboxdInvalidListContentError } from "@/shared/errors/dataImport"
+import { LetterboxdInvalidListContentError, SourceFileMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 
 const LIST_FILE_NAME_PATTERN = /^lists\/.+\.csv$/
@@ -35,6 +35,15 @@ export class LetterboxdProvider extends BaseProvider {
     tmdbProvider: TmdbProvider,
   ) {
     super(DataImportSourceEnum.LETTERBOXD, tmdbProvider)
+  }
+
+  get requiredFiles(): string[] {
+    return [
+      "watched.csv",
+      "watchlist.csv",
+      "ratings.csv",
+      "reviews.csv",
+    ]
   }
 
   async import(args: { files: Map<string, string> }): Promise<ImportRawResult> {
@@ -64,7 +73,7 @@ export class LetterboxdProvider extends BaseProvider {
     const content = args.files.get(args.fileName)
 
     if (!content) {
-      return this.createBucket<z.infer<T>>()
+      throw new SourceFileMissingError({ fileName: args.fileName })
     }
 
     const parsedJson = this.convertCsvToJson({ content, fileName: args.fileName })

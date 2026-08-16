@@ -4,7 +4,7 @@ import { z } from "zod"
 import { ImportBucket, ImportRawResult, Media } from "@/services/dataImport/dto/importResult.dto"
 import { DataImportSource } from "@/services/dataImport/dto/importSource.dto"
 import { TmdbProvider } from "@/services/dataImport/providers/services/tmdbProvider"
-import { SourceFileParseError } from "@/shared/errors/dataImport"
+import { SourceFileParseError, SourceFilesMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 import { extractArchiveData } from "@/shared/utils/extractArchiveData"
 
@@ -26,6 +26,22 @@ export abstract class BaseProvider {
   }
 
   abstract import(args: { files: Map<string, string> }): Promise<ImportRawResult>
+
+  abstract get requiredFiles(): string[]
+
+  validateFiles(args: { files: Map<string, string> }): void {
+    const missingFiles: Array<string> = []
+
+    for (const fileName of this.requiredFiles) {
+      if (!args.files.has(fileName)) {
+        missingFiles.push(fileName)
+      }
+    }
+
+    if (missingFiles.length > 0) {
+      throw new SourceFilesMissingError({ fileNames: missingFiles })
+    }
+  }
 
   protected async unzip(args: { archive: Buffer | Uint8Array }): Promise<Map<string, string>> {
     return extractArchiveData(args.archive)

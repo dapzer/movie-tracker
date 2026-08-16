@@ -50,6 +50,21 @@ export class TraktProvider extends BaseProvider {
     super(DataImportSourceEnum.TRAKT, tmdbProvider)
   }
 
+  get requiredFiles(): string[] {
+    return [
+      "watched-movies.json",
+      "watched-shows.json",
+      "watched-history.json",
+      "lists-watchlist.json",
+      "ratings-movies.json",
+      "ratings-shows.json",
+      "comments-movies.json",
+      "comments-shows.json",
+      "lists-lists.json",
+      "lists-favorites.json",
+    ]
+  }
+
   async import(args: { files: Map<string, string> }): Promise<ImportRawResult> {
     const [watched, watchList, ratings, reviews, lists] = await Promise.all([
       this.importWatched({ files: args.files }),
