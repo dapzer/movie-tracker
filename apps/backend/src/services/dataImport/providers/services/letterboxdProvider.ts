@@ -11,6 +11,7 @@ import {
 } from "@/services/dataImport/dto/importResult.dto"
 import { DataImportSourceEnum } from "@/services/dataImport/dto/importSource.dto"
 import {
+  letterboxdDiarySchema,
   letterboxdListItemSchema,
   letterboxdListMetadataSchema,
   letterboxdRatingSchema,
@@ -28,6 +29,7 @@ const LIST_METADATA_SEPARATOR = "Date,Name,Tags,URL,Description"
 const LIST_ITEMS_SEPARATOR = "Position,Name,Year,URL,Description"
 
 type LetterboxdFilmRecord = z.infer<typeof letterboxdWatchedSchema>
+type LetterboxdDiaryRecord = z.infer<typeof letterboxdDiarySchema>
 
 @Injectable()
 export class LetterboxdProvider extends BaseService {
@@ -47,13 +49,18 @@ export class LetterboxdProvider extends BaseService {
   }
 
   async import(args: { files: Map<string, string> }): Promise<ImportRawResult> {
-    const [watched, watchList, ratings, reviews, lists] = await Promise.all([
+    const [watched, watchList, ratings, reviews, lists, diary] = await Promise.all([
       this.importWatched({ files: args.files }),
       this.importWatchlist({ files: args.files }),
       this.importRatings({ files: args.files }),
       this.importReviews({ files: args.files }),
       this.importLists({ files: args.files }),
+      this.importDiary({ files: args.files }),
     ])
+
+    if (diary) {
+      lists.success.push(diary)
+    }
 
     return {
       watched,
@@ -173,6 +180,57 @@ export class LetterboxdProvider extends BaseService {
     bucket.failed.push(...parsed.failed)
 
     return bucket
+  }
+
+  private async resolveDiaryMedia(args: { record: LetterboxdDiaryRecord }): Promise<Media> {
+    const resolved = await this.resolveMedia({
+      title: args.record.Name,
+      year: args.record.Year,
+      type: "movie",
+    })
+
+    return {
+      ...resolved,
+      title: args.record.Name,
+      createdAt: args.record["Watched Date"] ?? args.record.Date,
+    }
+  }
+
+  private async importDiary(args: { files: Map<string, string> }): Promise<List | undefined> {
+    const content = args.files.get("diary.csv")
+
+    if (!content) {
+      return undefined
+    }
+
+    const parsedJson = this.convertCsvToJson({ content, fileName: "diary.csv" })
+    const parsed = this.safeParseJson({ json: parsedJson, schema: letterboxdDiarySchema })
+
+    const items: ImportBucket<Media> = this.createBucket<Media>()
+    let createdAt: Date | undefined
+
+    for (const record of parsed.success) {
+      try {
+        const media = await this.resolveDiaryMedia({ record })
+        items.success.push(media)
+
+        if (!createdAt || (media.createdAt && media.createdAt < createdAt)) {
+          createdAt = media.createdAt
+        }
+      }
+      catch (error) {
+        items.failed.push(this.toFailure({ error, sourceRecord: record }))
+      }
+    }
+
+    items.failed.push(...parsed.failed)
+
+    return {
+      title: "Diary",
+      isPrivate: true,
+      createdAt,
+      items,
+    }
   }
 
   private async importLists(args: { files: Map<string, string> }): Promise<ImportBucket<List>> {
