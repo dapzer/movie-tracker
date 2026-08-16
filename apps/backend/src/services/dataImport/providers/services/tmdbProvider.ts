@@ -1,8 +1,12 @@
-import { TmdbMediaTypeEnum, TmdbSearchResponseResultItemType, TmdbSearchResponseType } from "@movie-tracker/types"
+import { TmdbSearchResponseResultItemType, TmdbSearchResponseType } from "@movie-tracker/types"
 import { FetchError } from "@movie-tracker/utils"
-import { Injectable, Logger } from "@nestjs/common"
+import { CACHE_MANAGER } from "@nestjs/cache-manager"
+import { HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
+import { Cache } from "cache-manager"
 import { tmdbApi } from "@/api/instance"
 import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImport"
+import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
+import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
 
 export type TmdbExternalIdSource = "imdb_id" | "tvdb_id"
 
@@ -17,12 +21,39 @@ export interface TmdbFindResponseType {
   tv_results: TmdbFindResultItemType[]
 }
 
-const TOO_MANY_REQUESTS_STATUS = 429
 const DEFAULT_RETRY_AFTER_SECONDS = 1
 
 @Injectable()
 export class TmdbProvider {
   private readonly logger = new Logger("TmdbProvider")
+  private readonly inFlight = new Map<string, Promise<unknown>>()
+
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+
+  private async cached<T>(args: { key: string, ttl: number, resolve: () => Promise<T> }): Promise<T> {
+    const cached = await this.cacheManager.get<T>(args.key)
+    if (cached !== undefined && cached !== null) {
+      return cached
+    }
+
+    const pending = this.inFlight.get(args.key)
+    if (pending) {
+      return pending as Promise<T>
+    }
+
+    const promise = args.resolve()
+      .then(async (result) => {
+        await this.cacheManager.set(args.key, result, args.ttl)
+        return result
+      })
+      .finally(() => {
+        this.inFlight.delete(args.key)
+      })
+
+    this.inFlight.set(args.key, promise)
+
+    return promise
+  }
 
   private async request<T>(args: { endpoint: string, params: Record<string, string | number | boolean | undefined> }): Promise<T> {
     while (true) {
@@ -30,7 +61,7 @@ export class TmdbProvider {
         return await tmdbApi.get<T>(args.endpoint, { params: args.params })
       }
       catch (error) {
-        if (error instanceof FetchError && error.statusCode === TOO_MANY_REQUESTS_STATUS) {
+        if (error instanceof FetchError && error.statusCode === HttpStatus.TOO_MANY_REQUESTS) {
           this.logger.warn(`TMDB rate limit reached for "${args.endpoint}". Retrying.`)
           await new Promise(resolve => setTimeout(resolve, DEFAULT_RETRY_AFTER_SECONDS * 1000))
           continue
@@ -42,76 +73,91 @@ export class TmdbProvider {
   }
 
   async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{ id: number, type: "movie" | "tv" }> {
-    let response: TmdbFindResponseType
+    return this.cached({
+      key: `tmdb:find:${args.source}:${args.externalId}`,
+      ttl: getMillisecondsFromDays(7),
+      resolve: async () => {
+        let response: TmdbFindResponseType
 
-    try {
-      response = await this.request<TmdbFindResponseType>({
-        endpoint: `find/${args.externalId}`,
-        params: {
-          external_source: args.source,
-        },
-      })
-    }
-    catch (error) {
-      if (error instanceof FetchError) {
-        throw new TmdbResolutionError("find", error.statusCode)
-      }
-      throw error
-    }
+        try {
+          response = await this.request<TmdbFindResponseType>({
+            endpoint: `find/${args.externalId}`,
+            params: {
+              external_source: args.source,
+            },
+          })
+        }
+        catch (error) {
+          if (error instanceof FetchError) {
+            throw new TmdbResolutionError("find", error.statusCode)
+          }
+          throw error
+        }
 
-    const movie = response.movie_results?.[0]
-    if (movie) {
-      return { id: movie.id, type: "movie" }
-    }
+        const movie = response.movie_results?.[0]
+        if (movie) {
+          return { id: movie.id, type: "movie" as const }
+        }
 
-    const tv = response.tv_results?.[0]
-    if (tv) {
-      return { id: tv.id, type: "tv" }
-    }
+        const tv = response.tv_results?.[0]
+        if (tv) {
+          return { id: tv.id, type: "tv" as const }
+        }
 
-    throw new TmdbNotFoundError()
+        throw new TmdbNotFoundError()
+      },
+    })
   }
 
   async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }): Promise<{ id: number, type: "movie" | "tv" }> {
-    const match = async (mediaType: "movie" | "tv") => {
-      let response: TmdbSearchResponseType
+    const normalizedTitle = args.title.trim().toLowerCase()
+    const cacheKey = `tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type ?? "any"}`
 
-      try {
-        response = await this.request<TmdbSearchResponseType>({
-          endpoint: `search/${mediaType}`,
-          params: {
-            query: args.title,
-            year: mediaType === "movie" ? args.year : undefined,
-            first_air_date_year: mediaType === "tv" ? args.year : undefined,
-          },
-        })
-      }
-      catch (error) {
-        if (error instanceof FetchError) {
-          throw new TmdbResolutionError("search", error.statusCode)
+    return this.cached({
+      key: cacheKey,
+      ttl: getMillisecondsFromHours(12),
+      resolve: async () => {
+        const getMatch = async (mediaType: "movie" | "tv") => {
+          let response: TmdbSearchResponseType
+
+          try {
+            response = await this.request<TmdbSearchResponseType>({
+              endpoint: `search/${mediaType}`,
+              params: {
+                query: args.title,
+                year: mediaType === "movie" ? args.year : undefined,
+                first_air_date_year: mediaType === "tv" ? args.year : undefined,
+              },
+            })
+          }
+          catch (error) {
+            if (error instanceof FetchError) {
+              throw new TmdbResolutionError("search", error.statusCode)
+            }
+            throw error
+          }
+
+          return this.pickSearchResult({ results: response.results, title: args.title, year: args.year })
         }
-        throw error
-      }
 
-      return this.pickSearchResult({ results: response.results, title: args.title, year: args.year })
-    }
+        if (args.type) {
+          const result = await getMatch(args.type)
+          if (!result) {
+            throw new TmdbNotFoundError()
+          }
+          return { id: result.id, type: args.type }
+        }
 
-    if (args.type) {
-      const result = await match(args.type)
-      if (!result) {
-        throw new TmdbNotFoundError()
-      }
-      return { id: result.id, type: args.type }
-    }
+        const [movie, tv] = await Promise.all([getMatch("movie"), getMatch("tv")])
+        const result = movie ?? tv
 
-    const [movie, tv] = await Promise.all([match("movie"), match("tv")])
-    const result = movie ?? tv
+        if (!result) {
+          throw new TmdbNotFoundError()
+        }
 
-    if (!result) {
-      throw new TmdbNotFoundError()
-    }
-
-    return { id: result.id, type: movie ? "movie" : "tv" }
+        return { id: result.id, type: movie ? "movie" : "tv" }
+      },
+    })
   }
 
   private pickSearchResult(args: { results: TmdbSearchResponseResultItemType[], title: string, year?: number }): TmdbSearchResponseResultItemType | null {
@@ -139,9 +185,5 @@ export class TmdbProvider {
     })
 
     return exact ?? args.results[0]
-  }
-
-  getMediaTypeValue(args: { type: "movie" | "tv" }): TmdbMediaTypeEnum {
-    return args.type === "movie" ? TmdbMediaTypeEnum.MOVIE : TmdbMediaTypeEnum.TV
   }
 }

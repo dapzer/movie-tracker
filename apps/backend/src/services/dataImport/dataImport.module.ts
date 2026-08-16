@@ -1,4 +1,6 @@
+import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { Module } from "@nestjs/common"
+import { Cache } from "cache-manager"
 import { DataImportService } from "@/services/dataImport/dataImport.service"
 import { DataImportProvidersModule } from "@/services/dataImport/providers/providers.module"
 import { LetterboxdProvider } from "@/services/dataImport/providers/services/letterboxdProvider"
@@ -8,8 +10,8 @@ import { TraktProvider } from "@/services/dataImport/providers/services/traktPro
 @Module({
   imports: [
     DataImportProvidersModule.registerAsync({
-      useFactory: () => {
-        const tmdbProvider = new TmdbProvider()
+      useFactory: (cacheManager: Cache) => {
+        const tmdbProvider = new TmdbProvider(cacheManager)
         return {
           services: [
             new LetterboxdProvider(tmdbProvider),
@@ -17,6 +19,7 @@ import { TraktProvider } from "@/services/dataImport/providers/services/traktPro
           ],
         }
       },
+      inject: [CACHE_MANAGER],
     }),
   ],
   providers: [DataImportService],
