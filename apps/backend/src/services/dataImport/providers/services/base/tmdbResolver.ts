@@ -1,13 +1,10 @@
 import { TmdbSearchResponseResultItemType, TmdbSearchResponseType } from "@movie-tracker/types"
-import { FetchError } from "@movie-tracker/utils"
+import { FetchError, getMillisecondsFromDays, getMillisecondsFromHours, getMillisecondsFromSeconds } from "@movie-tracker/utils"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
 import { Cache } from "cache-manager"
 import { tmdbApi } from "@/api/instance"
 import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImport"
-import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
-import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
-import { getMillisecondsFromSeconds } from "@/shared/utils/getMillisecondsFromSeconds"
 
 export type TmdbExternalIdSource = "imdb_id" | "tvdb_id"
 

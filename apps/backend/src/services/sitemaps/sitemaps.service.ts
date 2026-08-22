@@ -2,11 +2,11 @@ import { createReadStream, statSync } from "node:fs"
 import { join, resolve } from "node:path"
 import * as process from "node:process"
 import { Worker } from "node:worker_threads"
+import { getMillisecondsFromDays } from "@movie-tracker/utils"
 import { Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { Interval } from "@nestjs/schedule"
 import { SitemapFileNotFoundError } from "@/shared/errors/sitemap"
-import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 
 @Injectable()
 export class SitemapsService {

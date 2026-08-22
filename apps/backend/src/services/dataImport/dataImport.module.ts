@@ -6,9 +6,13 @@ import { DataImportProvidersModule } from "@/services/dataImport/providers/provi
 import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { LetterboxdProvider } from "@/services/dataImport/providers/services/letterboxdProvider"
 import { TraktProvider } from "@/services/dataImport/providers/services/traktProvider"
+import { MediaItemsServiceModule } from "@/services/mediaItems/mediaItems.module"
+import { MediaListsServiceModule } from "@/services/mediaLists/mediaLists.module"
 
 @Module({
   imports: [
+    MediaItemsServiceModule,
+    MediaListsServiceModule,
     DataImportProvidersModule.registerAsync({
       providers: [TmdbResolver, LetterboxdProvider, TraktProvider],
       useFactory: (letterboxdProvider: LetterboxdProvider, traktProvider: TraktProvider) => ({

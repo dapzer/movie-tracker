@@ -21,6 +21,17 @@ export class DataImportUnauthorizedError extends UnauthorizedError {
   }
 }
 
+export class DataImportInvalidStatusError extends BadArgumentsError {
+  dataImportId: string
+  status: string
+
+  constructor(args: { dataImportId: string, status: string } & CustomErrorOptions) {
+    super(args.message ?? `Data import with id '${args.dataImportId}' cannot be processed in status '${args.status}'.`, { cause: args.cause, details: args.details })
+    this.dataImportId = args.dataImportId
+    this.status = args.status
+  }
+}
+
 export class UnsupportedDataImportSourceError extends BadArgumentsError {
   source: string
 

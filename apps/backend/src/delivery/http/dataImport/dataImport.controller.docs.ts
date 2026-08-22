@@ -11,7 +11,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
-import { DataImportDto, DataImportsPaginatedDto, ImportDataResponseDto } from "@/services/dataImport/dto/dataImport.dto"
+import { DataImportDto, DataImportsPaginatedDto, ImportDataResponseDto, ProcessDataImportResponseDto } from "@/services/dataImport/dto/dataImport.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function DataImportControllerDocs() {
@@ -61,5 +61,17 @@ export function GetDataImportByIdDocs() {
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Data import not found", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to get data import", type: ErrorResponseDto }),
+  )
+}
+
+export function ProcessDataImportDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Process data import into media lists and media items" }),
+    ApiSecurity("cookie"),
+    ApiOkResponse({ description: "Data import processed successfully", type: ProcessDataImportResponseDto }),
+    ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiBadRequestResponse({ description: "Invalid request", type: ErrorResponseDto }),
+    ApiNotFoundResponse({ description: "Data import not found", type: ErrorResponseDto }),
+    ApiInternalServerErrorResponse({ description: "Failed to process data import", type: ErrorResponseDto }),
   )
 }

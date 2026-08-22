@@ -28,4 +28,12 @@ export class DataImportDto extends createZodDto(dataImportSchema) {}
 
 export class ImportDataResponseDto extends createZodDto(importDataResponseSchema) {}
 
+export const processDataImportResponseSchema = z.object({
+  createdMediaLists: z.number().meta({ example: 2 }),
+  createdMediaItems: z.number().meta({ example: 42 }),
+  skippedMediaItems: z.array(z.number()).meta({ example: [1396, 27205] }),
+})
+
+export class ProcessDataImportResponseDto extends createZodDto(processDataImportResponseSchema) {}
+
 export class DataImportsPaginatedDto extends PaginatedDto(DataImportListItemDto) {}

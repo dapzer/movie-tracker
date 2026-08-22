@@ -1,3 +1,4 @@
+import { getMillisecondsFromHours, getMillisecondsFromMins } from "@movie-tracker/utils"
 import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Query, Req, Res, UseGuards } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { Throttle } from "@nestjs/throttler"
@@ -19,8 +20,6 @@ import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { AlreadyAuthenticatedError, NoCodeProvidedError, SessionError } from "@/shared/errors/auth"
 import { NotImplementedError } from "@/shared/errors/core"
-import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import { getUserWithoutPassword } from "@/shared/utils/getUserWithoutPassword"
 import {
   AuthControllerDocs,

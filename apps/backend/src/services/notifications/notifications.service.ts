@@ -7,6 +7,7 @@ import {
   NotificationType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
+import { getMillisecondsFromDays } from "@movie-tracker/utils"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { Inject, Injectable } from "@nestjs/common"
 import { Cache } from "cache-manager"
@@ -14,7 +15,6 @@ import {
   NotificationRepositoryInterface,
   NotificationRepositorySymbol,
 } from "@/repositories/notification/NotificationRepositoryInterface"
-import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
 
 @Injectable()
 export class NotificationsService {
