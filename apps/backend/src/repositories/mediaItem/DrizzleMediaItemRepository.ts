@@ -364,7 +364,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         score: null,
         sitesToView: [],
         tvProgress: {
-          currentSeason: 0,
+          currentSeason: 1,
           currentEpisode: 1,
         },
         currentStatus: args.currentStatus,
@@ -399,7 +399,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
           score: null,
           sitesToView: [],
           tvProgress: {
-            currentSeason: 0,
+            currentSeason: 1,
             currentEpisode: 1,
           },
           currentStatus: args[index]?.currentStatus,
