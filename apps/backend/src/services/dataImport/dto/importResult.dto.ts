@@ -60,6 +60,7 @@ export interface ImportRawResult {
   ratings: ImportBucket<Rating>
   reviews: ImportBucket<Review>
   lists: ImportBucket<List>
+  // TODO: Think about to remove it
   notes: ImportBucket<Media>
 }
 
