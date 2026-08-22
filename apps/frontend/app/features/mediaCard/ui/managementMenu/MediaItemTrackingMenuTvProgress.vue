@@ -38,15 +38,17 @@ watch(() => currentValue.value.currentSeason, () => {
 })
 
 const seasonOptions = computed(() => {
-  return currentMediaDetails.value?.seasons?.map((season, index) => ({
+  return currentMediaDetails.value?.seasons?.map(season => ({
     label: season.name,
-    value: index.toString(),
+    value: season.seasonNumber.toString(),
   })) || []
 })
 
 const episodeOptions = computed(() => {
   const result: Array<OptionType> = []
-  const episodeCount = currentMediaDetails.value?.seasons?.[Number(currentValue.value.currentSeason)]?.episodeCount
+  const episodeCount = currentMediaDetails.value?.seasons
+    ?.find(season => season.seasonNumber === Number(currentValue.value.currentSeason))
+    ?.episodeCount
 
   if (!episodeCount) {
     return result
