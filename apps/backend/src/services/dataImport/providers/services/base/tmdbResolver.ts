@@ -15,6 +15,8 @@ export interface TmdbFindResultItemType {
   id: number
   title?: string
   name?: string
+  release_date?: string
+  first_air_date?: string
 }
 
 export interface TmdbFindResponseType {
@@ -111,6 +113,7 @@ export class TmdbResolver {
   async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{
     id: number
     type: "movie" | "tv"
+    releaseDate?: string
   }> {
     return this.cached({
       key: `import:tmdb:find:${args.source}:${args.externalId}`,
@@ -135,12 +138,12 @@ export class TmdbResolver {
 
         const movie = response.movie_results?.[0]
         if (movie) {
-          return { id: movie.id, type: "movie" as const }
+          return { id: movie.id, type: "movie" as const, releaseDate: movie.release_date || undefined }
         }
 
         const tv = response.tv_results?.[0]
         if (tv) {
-          return { id: tv.id, type: "tv" as const }
+          return { id: tv.id, type: "tv" as const, releaseDate: tv.first_air_date || undefined }
         }
 
         throw new TmdbNotFoundError()
@@ -151,6 +154,7 @@ export class TmdbResolver {
   async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }): Promise<{
     id: number
     type: "movie" | "tv"
+    releaseDate?: string
   }> {
     const normalizedTitle = args.title.trim().toLowerCase()
 
@@ -186,7 +190,7 @@ export class TmdbResolver {
           if (!result) {
             throw new TmdbNotFoundError()
           }
-          return { id: result.id, type: args.type }
+          return { id: result.id, type: args.type, releaseDate: this.getResultReleaseDate(result) }
         }
 
         const [movie, tv] = await Promise.all([getMatch("movie"), getMatch("tv")])
@@ -196,9 +200,13 @@ export class TmdbResolver {
           throw new TmdbNotFoundError()
         }
 
-        return { id: result.id, type: movie ? "movie" : "tv" }
+        return { id: result.id, type: movie ? "movie" : "tv", releaseDate: this.getResultReleaseDate(result) }
       },
     })
+  }
+
+  private getResultReleaseDate(result: TmdbSearchResponseResultItemType): string | undefined {
+    return (result.release_date ?? result.first_air_date) || undefined
   }
 
   private pickSearchResult(args: {

@@ -51,7 +51,18 @@ export abstract class BaseService {
     return this.tmdbResolver.findByTitleAndReleaseDate(args)
   }
 
-  protected async resolveMedia(args: ResolveMediaInput): Promise<Pick<Media, "ids" | "type">> {
+  private toReleaseDate(args: { releaseDate?: string, year?: number }): Date | undefined {
+    if (args.releaseDate) {
+      const parsed = new Date(args.releaseDate)
+      if (!Number.isNaN(parsed.getTime())) {
+        return parsed
+      }
+    }
+
+    return args.year ? new Date(Date.UTC(args.year, 0, 1)) : undefined
+  }
+
+  protected async resolveMedia(args: ResolveMediaInput): Promise<Pick<Media, "ids" | "type" | "releaseDate">> {
     if (args.tmdbId) {
       return {
         ids: {
@@ -59,6 +70,7 @@ export abstract class BaseService {
           imdbId: args.imdbId,
         },
         type: args.type ?? "movie",
+        releaseDate: this.toReleaseDate({ year: args.year }),
       }
     }
 
@@ -67,6 +79,7 @@ export abstract class BaseService {
       return {
         ids: { tmdbId: result.id, imdbId: args.imdbId },
         type: args.type ?? result.type,
+        releaseDate: this.toReleaseDate({ releaseDate: result.releaseDate, year: args.year }),
       }
     }
 
@@ -78,6 +91,7 @@ export abstract class BaseService {
       return {
         ids: { tmdbId: result.id },
         type: args.type ?? result.type,
+        releaseDate: this.toReleaseDate({ releaseDate: result.releaseDate, year: args.year }),
       }
     }
 
@@ -89,6 +103,7 @@ export abstract class BaseService {
         imdbId: args.imdbId,
       },
       type: result.type,
+      releaseDate: this.toReleaseDate({ releaseDate: result.releaseDate, year: args.year }),
     }
   }
 

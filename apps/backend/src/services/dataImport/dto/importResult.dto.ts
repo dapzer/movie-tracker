@@ -17,6 +17,7 @@ export interface Media {
   title: string
   ids: MediaIds
   createdAt?: Date
+  releaseDate?: Date
   note?: string
   episodesProgress?: EpisodeProgress[]
 }
@@ -83,6 +84,7 @@ export const mediaSchema = z.object({
   title: z.string().min(1),
   ids: mediaIdsSchema,
   createdAt: z.date().optional(),
+  releaseDate: z.date().optional(),
   note: z.string().optional(),
   episodesProgress: z.array(episodeProgressSchema).optional(),
 })
