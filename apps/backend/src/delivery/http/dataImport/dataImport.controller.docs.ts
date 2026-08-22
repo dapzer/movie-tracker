@@ -4,12 +4,14 @@ import {
   ApiBody,
   ApiConsumes,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiSecurity,
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
+import { DataImportDto, DataImportsPaginatedDto, ImportDataResponseDto } from "@/services/dataImport/dto/dataImport.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function DataImportControllerDocs() {
@@ -34,9 +36,30 @@ export function ImportDataDocs() {
         },
       },
     }),
-    ApiOkResponse({ description: "Data imported successfully" }),
+    ApiOkResponse({ description: "Data imported successfully", type: ImportDataResponseDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiBadRequestResponse({ description: "Invalid request", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to import data", type: ErrorResponseDto }),
+  )
+}
+
+export function GetDataImportsDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Get data imports history" }),
+    ApiSecurity("cookie"),
+    ApiOkResponse({ description: "Data imports history", type: DataImportsPaginatedDto }),
+    ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiInternalServerErrorResponse({ description: "Failed to get data imports", type: ErrorResponseDto }),
+  )
+}
+
+export function GetDataImportByIdDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Get data import by id" }),
+    ApiSecurity("cookie"),
+    ApiOkResponse({ description: "Data import details", type: DataImportDto }),
+    ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiNotFoundResponse({ description: "Data import not found", type: ErrorResponseDto }),
+    ApiInternalServerErrorResponse({ description: "Failed to get data import", type: ErrorResponseDto }),
   )
 }

@@ -1,15 +1,15 @@
+import {
+  DataImportBucketType,
+  DataImportFailureType,
+  DataImportListType,
+  DataImportMediaType,
+  DataImportRatingType,
+  DataImportRawResultType,
+  DataImportReviewType,
+  DataImportSourceEnum,
+} from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { z } from "zod"
-import {
-  Failure,
-  ImportBucket,
-  ImportRawResult,
-  List,
-  Media,
-  Rating,
-  Review,
-} from "@/services/dataImport/dto/importResult.dto"
-import { DataImportSourceEnum } from "@/services/dataImport/dto/importSource.dto"
 import {
   letterboxdDiarySchema,
   letterboxdListItemSchema,
@@ -48,7 +48,7 @@ export class LetterboxdProvider extends BaseService {
     ]
   }
 
-  async import(args: { files: Map<string, string> }): Promise<ImportRawResult> {
+  async import(args: { files: Map<string, string> }): Promise<DataImportRawResultType> {
     const [watched, watchList, ratings, reviews, lists, diary] = await Promise.all([
       this.importWatched({ files: args.files }),
       this.importWatchlist({ files: args.files }),
@@ -72,7 +72,7 @@ export class LetterboxdProvider extends BaseService {
     }
   }
 
-  private createBucket<T>(): ImportBucket<T> {
+  private createBucket<T>(): DataImportBucketType<T> {
     return { success: [], failed: [] }
   }
 
@@ -88,7 +88,7 @@ export class LetterboxdProvider extends BaseService {
     return this.safeParseJson({ json: parsedJson, schema: args.schema })
   }
 
-  private async resolveFilmMedia(args: { record: LetterboxdFilmRecord }): Promise<Media> {
+  private async resolveFilmMedia(args: { record: LetterboxdFilmRecord }): Promise<DataImportMediaType> {
     const resolved = await this.resolveMedia({
       title: args.record.Name,
       year: args.record.Year,
@@ -102,8 +102,8 @@ export class LetterboxdProvider extends BaseService {
     }
   }
 
-  private async collectMedia(args: { records: LetterboxdFilmRecord[] }): Promise<ImportBucket<Media>> {
-    const bucket = this.createBucket<Media>()
+  private async collectMedia(args: { records: LetterboxdFilmRecord[] }): Promise<DataImportBucketType<DataImportMediaType>> {
+    const bucket = this.createBucket<DataImportMediaType>()
 
     for (const record of args.records) {
       try {
@@ -118,7 +118,7 @@ export class LetterboxdProvider extends BaseService {
     return bucket
   }
 
-  private async importWatched(args: { files: Map<string, string> }): Promise<ImportBucket<Media>> {
+  private async importWatched(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportMediaType>> {
     const parsed = this.parseFile({ files: args.files, fileName: "watched.csv", schema: letterboxdWatchedSchema })
     const bucket = await this.collectMedia({ records: parsed.success })
     bucket.failed.push(...parsed.failed)
@@ -126,7 +126,7 @@ export class LetterboxdProvider extends BaseService {
     return bucket
   }
 
-  private async importWatchlist(args: { files: Map<string, string> }): Promise<ImportBucket<Media>> {
+  private async importWatchlist(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportMediaType>> {
     const parsed = this.parseFile({ files: args.files, fileName: "watchlist.csv", schema: letterboxdWatchlistSchema })
     const bucket = await this.collectMedia({ records: parsed.success })
     bucket.failed.push(...parsed.failed)
@@ -134,9 +134,9 @@ export class LetterboxdProvider extends BaseService {
     return bucket
   }
 
-  private async importRatings(args: { files: Map<string, string> }): Promise<ImportBucket<Rating>> {
+  private async importRatings(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportRatingType>> {
     const parsed = this.parseFile({ files: args.files, fileName: "ratings.csv", schema: letterboxdRatingSchema })
-    const bucket = this.createBucket<Rating>()
+    const bucket = this.createBucket<DataImportRatingType>()
 
     for (const record of parsed.success) {
       try {
@@ -157,9 +157,9 @@ export class LetterboxdProvider extends BaseService {
     return bucket
   }
 
-  private async importReviews(args: { files: Map<string, string> }): Promise<ImportBucket<Review>> {
+  private async importReviews(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportReviewType>> {
     const parsed = this.parseFile({ files: args.files, fileName: "reviews.csv", schema: letterboxdReviewSchema })
-    const bucket = this.createBucket<Review>()
+    const bucket = this.createBucket<DataImportReviewType>()
 
     for (const record of parsed.success) {
       try {
@@ -182,7 +182,7 @@ export class LetterboxdProvider extends BaseService {
     return bucket
   }
 
-  private async resolveDiaryMedia(args: { record: LetterboxdDiaryRecord }): Promise<Media> {
+  private async resolveDiaryMedia(args: { record: LetterboxdDiaryRecord }): Promise<DataImportMediaType> {
     const resolved = await this.resolveMedia({
       title: args.record.Name,
       year: args.record.Year,
@@ -196,7 +196,7 @@ export class LetterboxdProvider extends BaseService {
     }
   }
 
-  private async importDiary(args: { files: Map<string, string> }): Promise<List | undefined> {
+  private async importDiary(args: { files: Map<string, string> }): Promise<DataImportListType | undefined> {
     const content = args.files.get("diary.csv")
 
     if (!content) {
@@ -206,7 +206,7 @@ export class LetterboxdProvider extends BaseService {
     const parsedJson = this.convertCsvToJson({ content, fileName: "diary.csv" })
     const parsed = this.safeParseJson({ json: parsedJson, schema: letterboxdDiarySchema })
 
-    const items: ImportBucket<Media> = this.createBucket<Media>()
+    const items: DataImportBucketType<DataImportMediaType> = this.createBucket<DataImportMediaType>()
     let createdAt: Date | undefined
 
     for (const record of parsed.success) {
@@ -233,8 +233,8 @@ export class LetterboxdProvider extends BaseService {
     }
   }
 
-  private async importLists(args: { files: Map<string, string> }): Promise<ImportBucket<List>> {
-    const bucket = this.createBucket<List>()
+  private async importLists(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportListType>> {
+    const bucket = this.createBucket<DataImportListType>()
 
     for (const [fileName, content] of args.files) {
       if (!LIST_FILE_NAME_PATTERN.test(fileName)) {
@@ -253,7 +253,7 @@ export class LetterboxdProvider extends BaseService {
     return bucket
   }
 
-  private async parseListFile(args: { content: string }): Promise<List> {
+  private async parseListFile(args: { content: string }): Promise<DataImportListType> {
     const sections = args.content.split(/\r?\n\r?\n/)
     const metadataSection = sections.find(section => section.split(/\r?\n/).some(line => line.startsWith(LIST_METADATA_SEPARATOR)))
     const itemsSection = sections.find(section => section.split(/\r?\n/).some(line => line.startsWith(LIST_ITEMS_SEPARATOR)))
@@ -267,7 +267,7 @@ export class LetterboxdProvider extends BaseService {
     const metadataCsv = metadataSection.split(/\r?\n/).slice(1).join("\n")
     const metadata = letterboxdListMetadataSchema.parse(convertCsvToJson(metadataCsv)[0])
 
-    const items: ImportBucket<Media> = this.createBucket<Media>()
+    const items: DataImportBucketType<DataImportMediaType> = this.createBucket<DataImportMediaType>()
 
     if (itemsSection) {
       const itemsCsv = itemsSection.split(/\r?\n/).join("\n")
@@ -306,7 +306,7 @@ export class LetterboxdProvider extends BaseService {
     }
   }
 
-  private toFailure(args: { error: unknown, sourceRecord: unknown }): Failure {
+  private toFailure(args: { error: unknown, sourceRecord: unknown }): DataImportFailureType {
     return {
       reason: args.error instanceof Error ? args.error.message : String(args.error),
       sourceRecord: args.sourceRecord,

@@ -1,8 +1,12 @@
 import { Buffer } from "node:buffer"
+import {
+  DataImportBucketType,
+  DataImportMediaType,
+  DataImportRawResultType,
+  DataImportSourceEnum,
+} from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { z } from "zod"
-import { ImportBucket, ImportRawResult, Media } from "@/services/dataImport/dto/importResult.dto"
-import { DataImportSource } from "@/services/dataImport/dto/importSource.dto"
 import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { SourceFileParseError, SourceFilesMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
@@ -20,12 +24,12 @@ export interface ResolveMediaInput {
 @Injectable()
 export abstract class BaseService {
   protected constructor(
-    readonly name: DataImportSource,
+    readonly name: DataImportSourceEnum,
     protected readonly tmdbResolver: TmdbResolver,
   ) {
   }
 
-  abstract import(args: { files: Map<string, string> }): Promise<ImportRawResult>
+  abstract import(args: { files: Map<string, string> }): Promise<DataImportRawResultType>
 
   abstract get requiredFiles(): string[]
 
@@ -62,7 +66,7 @@ export abstract class BaseService {
     return args.year ? new Date(Date.UTC(args.year, 0, 1)) : undefined
   }
 
-  protected async resolveMedia(args: ResolveMediaInput): Promise<Pick<Media, "ids" | "type" | "releaseDate">> {
+  protected async resolveMedia(args: ResolveMediaInput): Promise<Pick<DataImportMediaType, "ids" | "type" | "releaseDate">> {
     if (args.tmdbId) {
       return {
         ids: {
@@ -111,7 +115,7 @@ export abstract class BaseService {
     return args.json.map(record => args.schema.parse(record))
   }
 
-  safeParseJson<T extends z.ZodType>(args: { json: Array<Record<string, unknown>>, schema: T }): ImportBucket<z.infer<T>> {
+  safeParseJson<T extends z.ZodType>(args: { json: Array<Record<string, unknown>>, schema: T }): DataImportBucketType<z.infer<T>> {
     const success: z.infer<T>[] = []
     const failed: { reason: string, sourceRecord: unknown }[] = []
 

@@ -1,4 +1,6 @@
 import { Module } from "@nestjs/common"
+import { DataImportRepositorySymbol } from "@/repositories/dataImport/DataImportRepositoryInterface"
+import { DrizzleDataImportRepository } from "@/repositories/dataImport/DrizzleDataImportRepository"
 import { DataImportService } from "@/services/dataImport/dataImport.service"
 import { DataImportProvidersModule } from "@/services/dataImport/providers/providers.module"
 import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
@@ -15,7 +17,10 @@ import { TraktProvider } from "@/services/dataImport/providers/services/traktPro
       inject: [LetterboxdProvider, TraktProvider],
     }),
   ],
-  providers: [DataImportService],
+  providers: [
+    DataImportService,
+    { provide: DataImportRepositorySymbol, useClass: DrizzleDataImportRepository },
+  ],
   exports: [DataImportService],
 })
 export class DataImportServiceModule {}

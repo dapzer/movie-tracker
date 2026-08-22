@@ -1,5 +1,25 @@
 import type { CustomErrorOptions } from "@/shared/errors/customError"
-import { BadArgumentsError, ExternalServiceError } from "@/shared/errors/core"
+import { BadArgumentsError, ExternalServiceError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
+
+export class DataImportNotFoundError extends NotFoundError {
+  dataImportId: string
+
+  constructor(args: { dataImportId: string } & CustomErrorOptions) {
+    super(args.message ?? `Data import with id '${args.dataImportId}' doesn't exist.`, { cause: args.cause, details: args.details })
+    this.dataImportId = args.dataImportId
+  }
+}
+
+export class DataImportUnauthorizedError extends UnauthorizedError {
+  userId: string
+  dataImportId: string
+
+  constructor(args: { userId: string, dataImportId: string } & CustomErrorOptions) {
+    super(args.message ?? "Unauthorized.", { cause: args.cause, details: args.details })
+    this.userId = args.userId
+    this.dataImportId = args.dataImportId
+  }
+}
 
 export class UnsupportedDataImportSourceError extends BadArgumentsError {
   source: string

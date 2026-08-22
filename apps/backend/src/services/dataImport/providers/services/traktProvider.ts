@@ -1,15 +1,15 @@
+import {
+  DataImportBucketType,
+  DataImportFailureType,
+  DataImportListType,
+  DataImportMediaType,
+  DataImportRatingType,
+  DataImportRawResultType,
+  DataImportReviewType,
+  DataImportSourceEnum,
+} from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { z } from "zod"
-import {
-  Failure,
-  ImportBucket,
-  ImportRawResult,
-  List,
-  Media,
-  Rating,
-  Review,
-} from "@/services/dataImport/dto/importResult.dto"
-import { DataImportSourceEnum } from "@/services/dataImport/dto/importSource.dto"
 import {
   traktCommentMovieItemSchema,
   traktCommentShowItemSchema,
@@ -65,7 +65,7 @@ export class TraktProvider extends BaseService {
     ]
   }
 
-  async import(args: { files: Map<string, string> }): Promise<ImportRawResult> {
+  async import(args: { files: Map<string, string> }): Promise<DataImportRawResultType> {
     const [watched, watchList, ratings, reviews, lists] = await Promise.all([
       this.importWatched({ files: args.files }),
       this.importWatchlist({ files: args.files }),
@@ -84,7 +84,7 @@ export class TraktProvider extends BaseService {
     }
   }
 
-  private createBucket<T>(): ImportBucket<T> {
+  private createBucket<T>(): DataImportBucketType<T> {
     return { success: [], failed: [] }
   }
 
@@ -101,7 +101,7 @@ export class TraktProvider extends BaseService {
     return this.safeParseJson({ json, schema: args.schema })
   }
 
-  private async toMedia(args: { media: TraktMediaRef, type: "movie" | "tv" }): Promise<Media> {
+  private async toMedia(args: { media: TraktMediaRef, type: "movie" | "tv" }): Promise<DataImportMediaType> {
     const resolved = await this.resolveMedia({
       tmdbId: args.media.ids.tmdb,
       imdbId: args.media.ids.imdb,
@@ -121,13 +121,13 @@ export class TraktProvider extends BaseService {
     }
   }
 
-  private async importWatched(args: { files: Map<string, string> }): Promise<ImportBucket<Media>> {
+  private async importWatched(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportMediaType>> {
     const movies = this.parseFile({ files: args.files, fileName: "watched-movies.json", schema: traktWatchedMovieItemSchema })
     const shows = this.parseFile({ files: args.files, fileName: "watched-shows.json", schema: traktWatchedShowItemSchema })
     const historyEpisodes = this.parseFile({ files: args.files, fileName: "watched-history.json", schema: traktWatchedHistoryEpisodeItemSchema })
 
-    const bucket = this.createBucket<Media>()
-    const showProgress = new Map<number, Media>()
+    const bucket = this.createBucket<DataImportMediaType>()
+    const showProgress = new Map<number, DataImportMediaType>()
 
     for (const record of shows.success) {
       try {
@@ -172,7 +172,7 @@ export class TraktProvider extends BaseService {
     return bucket
   }
 
-  private async processListItem(args: { record: z.infer<typeof traktCustomListItemSchema> }): Promise<Media> {
+  private async processListItem(args: { record: z.infer<typeof traktCustomListItemSchema> }): Promise<DataImportMediaType> {
     const ref = args.record.type === "movie" ? args.record.movie : args.record.show
     const media = await this.toMedia({ media: ref, type: args.record.type === "movie" ? "movie" : "tv" })
     media.createdAt = args.record.listed_at
@@ -181,9 +181,9 @@ export class TraktProvider extends BaseService {
     return media
   }
 
-  private async importWatchlist(args: { files: Map<string, string> }): Promise<ImportBucket<Media>> {
+  private async importWatchlist(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportMediaType>> {
     const parsed = this.parseFile({ files: args.files, fileName: "lists-watchlist.json", schema: traktWatchlistItemSchema })
-    const bucket = this.createBucket<Media>()
+    const bucket = this.createBucket<DataImportMediaType>()
 
     for (const record of parsed.success) {
       try {
@@ -200,10 +200,10 @@ export class TraktProvider extends BaseService {
     return bucket
   }
 
-  private async importRatings(args: { files: Map<string, string> }): Promise<ImportBucket<Rating>> {
+  private async importRatings(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportRatingType>> {
     const movies = this.parseFile({ files: args.files, fileName: "ratings-movies.json", schema: traktRatingMovieItemSchema })
     const shows = this.parseFile({ files: args.files, fileName: "ratings-shows.json", schema: traktRatingShowItemSchema })
-    const bucket = this.createBucket<Rating>()
+    const bucket = this.createBucket<DataImportRatingType>()
 
     const records: { ref: TraktMediaRef, type: "movie" | "tv", value: number, createdAt: Date, source: unknown }[] = [
       ...movies.success.map(record => ({
@@ -241,10 +241,10 @@ export class TraktProvider extends BaseService {
     return bucket
   }
 
-  private async importReviews(args: { files: Map<string, string> }): Promise<ImportBucket<Review>> {
+  private async importReviews(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportReviewType>> {
     const movies = this.parseFile({ files: args.files, fileName: "comments-movies.json", schema: traktCommentMovieItemSchema })
     const shows = this.parseFile({ files: args.files, fileName: "comments-shows.json", schema: traktCommentShowItemSchema })
-    const bucket = this.createBucket<Review>()
+    const bucket = this.createBucket<DataImportReviewType>()
 
     const records = [
       ...movies.success.map(record => ({ ...record, ref: record.movie, mediaType: "movie" as const })),
@@ -272,8 +272,8 @@ export class TraktProvider extends BaseService {
     return bucket
   }
 
-  private async importLists(args: { files: Map<string, string> }): Promise<ImportBucket<List>> {
-    const bucket = this.createBucket<List>()
+  private async importLists(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportListType>> {
+    const bucket = this.createBucket<DataImportListType>()
 
     const parsedListsMetadata = this.parseFile({ files: args.files, fileName: "lists-lists.json", schema: traktCustomListMetadataSchema })
     bucket.failed.push(...parsedListsMetadata.failed)
@@ -285,7 +285,7 @@ export class TraktProvider extends BaseService {
         )
         const itemsFileContent = itemsFileName ? args.files.get(itemsFileName) : null
 
-        const items: ImportBucket<Media> = this.createBucket<Media>()
+        const items: DataImportBucketType<DataImportMediaType> = this.createBucket<DataImportMediaType>()
 
         if (itemsFileContent && itemsFileName) {
           const parsedItemsJson = this.convertStringToJson({ content: itemsFileContent, fileName: itemsFileName })
@@ -322,7 +322,7 @@ export class TraktProvider extends BaseService {
     const favorites = this.parseFile({ files: args.files, fileName: "lists-favorites.json", schema: traktFavoritesItemSchema })
 
     if (favorites.success.length) {
-      const items: ImportBucket<Media> = this.createBucket<Media>()
+      const items: DataImportBucketType<DataImportMediaType> = this.createBucket<DataImportMediaType>()
 
       for (const record of favorites.success) {
         try {
@@ -346,7 +346,7 @@ export class TraktProvider extends BaseService {
     return bucket
   }
 
-  private toFailure(args: { error: unknown, sourceRecord: unknown }): Failure {
+  private toFailure(args: { error: unknown, sourceRecord: unknown }): DataImportFailureType {
     return {
       reason: args.error instanceof Error ? args.error.message : String(args.error),
       sourceRecord: args.sourceRecord,
