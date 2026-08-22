@@ -85,13 +85,6 @@
       "when": 1785079587362,
       "tag": "0011_notification_user_ban_enum_values",
       "breakpoints": true
-    },
-    {
-      "idx": 12,
-      "version": "7",
-      "when": 1787401921557,
-      "tag": "0012_data_imports_table",
-      "breakpoints": true
     }
   ]
 }
