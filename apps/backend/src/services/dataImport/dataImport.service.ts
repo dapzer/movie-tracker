@@ -1,11 +1,13 @@
 import { Buffer } from "node:buffer"
 import {
   DataImportBucketType,
+  DataImportEpisodeProgressType,
   DataImportMediaType,
   DataImportRawResultType,
   DataImportSourceEnum,
   DataImportStatusEnum,
   MediaItemStatusNameEnum,
+  MediaItemTvProgressType,
   MediaListAccessLevelEnum,
   MediaTypeEnum,
 } from "@movie-tracker/types"
@@ -79,6 +81,24 @@ export class DataImportService {
     return MediaTypeEnum[type.toUpperCase() as keyof typeof MediaTypeEnum]
   }
 
+  private getLastWatchedTvProgress(episodes?: DataImportEpisodeProgressType[]): MediaItemTvProgressType | undefined {
+    const watched = episodes?.filter(episode => episode.status === "watched")
+
+    if (!watched?.length) {
+      return undefined
+    }
+
+    const last = watched.reduce((a, b) => {
+      const isSeasonHigher = b.seasonNumber > a.seasonNumber
+      const isSameSeason = b.seasonNumber === a.seasonNumber
+      const isEpisodeHigher = b.episodeNumber > a.episodeNumber
+
+      return (isSeasonHigher || (isSameSeason && isEpisodeHigher)) ? b : a
+    })
+
+    return { currentSeason: last.seasonNumber, currentEpisode: last.episodeNumber }
+  }
+
   private async createMediaItemsFromBucket(args: {
     userId: string
     bucket: DataImportBucketType<DataImportMediaType>
@@ -111,6 +131,9 @@ export class DataImportService {
         mediaType: this.toMediaType(media.type),
         mediaListId: args.mediaListId,
         currentStatus: args.status,
+        note: media.note,
+        tvProgress: media.episodesProgress?.length ? this.getLastWatchedTvProgress(media.episodesProgress) : undefined,
+        createdAt: media.createdAt ? new Date(media.createdAt) : undefined,
       })),
     })
 

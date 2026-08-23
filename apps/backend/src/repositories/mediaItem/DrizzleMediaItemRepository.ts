@@ -394,17 +394,22 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
 
       await tx
         .insert(trackingData)
-        .values(insertedMediaItems.map((mediaItem, index) => ({
-          mediaItemId: mediaItem.id,
-          score: null,
-          sitesToView: [],
-          tvProgress: {
-            currentSeason: 1,
-            currentEpisode: 1,
-          },
-          currentStatus: args[index]?.currentStatus,
-          createdAt: args[index]?.createdAt,
-        })))
+        .values(insertedMediaItems.map((mediaItem, index) => {
+          const item = args[index]
+
+          return {
+            mediaItemId: mediaItem.id,
+            score: null,
+            note: item?.note,
+            sitesToView: [],
+            tvProgress: item?.tvProgress ?? {
+              currentSeason: 1,
+              currentEpisode: 1,
+            },
+            currentStatus: item?.currentStatus,
+            createdAt: item?.createdAt,
+          }
+        }))
 
       return insertedMediaItems.map(item => item.id)
     })

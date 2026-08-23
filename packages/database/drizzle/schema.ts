@@ -147,6 +147,7 @@ export const trackingData = pgTable("tracking_data", {
   id: uuid().defaultRandom().primaryKey().notNull(),
   currentStatus: statusNameEnum("current_status").default("NOT_VIEWED").notNull(),
   note: text().default("").notNull(),
+  // TODO: Remove
   score: integer(),
   sitesToView: jsonb("sites_to_view").default([]).notNull().$type<MediaItemSiteToViewType[]>(),
   tvProgress: jsonb("tv_progress").notNull().$type<MediaItemTvProgressType>(),
