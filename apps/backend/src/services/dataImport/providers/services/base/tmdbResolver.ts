@@ -1,7 +1,7 @@
 import { TmdbSearchResponseResultItemType, TmdbSearchResponseType } from "@movie-tracker/types"
-import { FetchError, getMillisecondsFromDays, getMillisecondsFromHours, getMillisecondsFromSeconds } from "@movie-tracker/utils"
+import { FetchError, getMillisecondsFromDays, getMillisecondsFromHours } from "@movie-tracker/utils"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
-import { HttpStatus, Inject, Injectable, Logger } from "@nestjs/common"
+import { HttpStatus, Inject, Injectable } from "@nestjs/common"
 import { Cache } from "cache-manager"
 import { tmdbApi } from "@/api/instance"
 import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImport"
@@ -23,9 +23,7 @@ export interface TmdbFindResponseType {
 
 @Injectable()
 export class TmdbResolver {
-  private readonly logger = new Logger("TmdbResolver")
   private readonly inFlight = new Map<string, Promise<unknown>>()
-  private readonly MAX_RETRIES = 10
 
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
   }
@@ -55,56 +53,16 @@ export class TmdbResolver {
     return promise
   }
 
-  private getRetryAfterMs(args: {
-    headers?: Record<string, string>
-    defaultValue?: number
-    maxValue?: number
-  }): number {
-    const retryAfter = args.headers?.["retry-after"]
-
-    if (!retryAfter) {
-      return args.defaultValue
-    }
-
-    const seconds = Number(retryAfter)
-    if (Number.isFinite(seconds) && seconds >= 0) {
-      return Math.min(seconds * 1000, args.maxValue)
-    }
-
-    const date = Date.parse(retryAfter)
-    if (!Number.isNaN(date)) {
-      return Math.min(Math.max(date - Date.now(), 0), args.maxValue)
-    }
-
-    return args.defaultValue
-  }
-
   private async request<T>(args: {
     endpoint: string
     params: Record<string, string | number | boolean | undefined>
   }): Promise<T> {
-    let attempt = 0
-
-    while (true) {
-      try {
-        return await tmdbApi.get<T>(args.endpoint, { params: args.params })
-      }
-      catch (error) {
-        if (error instanceof FetchError && error.statusCode === HttpStatus.TOO_MANY_REQUESTS && attempt < this.MAX_RETRIES) {
-          attempt++
-          const retryAfterMs = this.getRetryAfterMs({
-            headers: error.headers,
-            defaultValue: getMillisecondsFromSeconds(1),
-            maxValue: getMillisecondsFromSeconds(30),
-          })
-          this.logger.warn(`TMDB rate limit reached for "${args.endpoint}". Retrying in ${retryAfterMs}ms (attempt ${attempt}/${this.MAX_RETRIES}).`)
-          await new Promise(resolve => setTimeout(resolve, retryAfterMs))
-          continue
-        }
-
-        throw error
-      }
-    }
+    return tmdbApi.get<T>(args.endpoint, {
+      params: args.params,
+      retries: {
+        [HttpStatus.TOO_MANY_REQUESTS]: 10,
+      },
+    })
   }
 
   async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{
