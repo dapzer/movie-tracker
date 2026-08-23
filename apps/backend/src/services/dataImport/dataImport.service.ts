@@ -22,6 +22,7 @@ import {
 } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
 import { ProcessDataImportDto } from "@/services/dataImport/dto/processDataImport.dto"
 import { DataImportProvidersService } from "@/services/dataImport/providers/providers.service"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { MediaItemsService } from "@/services/mediaItems/mediaItems.service"
 import { MediaListsService } from "@/services/mediaLists/mediaLists.service"
 import {
@@ -41,6 +42,7 @@ export class DataImportService {
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     private readonly mediaItemsService: MediaItemsService,
     private readonly mediaListsService: MediaListsService,
+    private readonly drizzleService: DrizzleService,
   ) {}
 
   async import(args: { userId: string, source: DataImportSourceEnum, archive: Buffer | Uint8Array }): Promise<{ importId: string, result: DataImportRawResultType }> {
@@ -152,53 +154,55 @@ export class DataImportService {
     const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[] }
 
     try {
-      for (const bucketKey of ["watched", "watchList"] as const) {
-        const config = args.config[bucketKey]
+      await this.drizzleService.runInTransaction(async () => {
+        for (const bucketKey of ["watched", "watchList"] as const) {
+          const config = args.config[bucketKey]
 
-        if (!config) {
-          continue
-        }
+          if (!config) {
+            continue
+          }
 
-        let mediaListId = config.mediaListId
+          let mediaListId = config.mediaListId
 
-        if (!mediaListId) {
-          const mediaList = await this.mediaListsService.create(args.userId, {
-            title: config.newListTitle!,
-            accessLevel: MediaListAccessLevelEnum.PRIVATE,
-          })
-          mediaListId = mediaList.id
-          summary.createdMediaLists += 1
-        }
-
-        const bucketResult = await this.createMediaItemsFromBucket({
-          userId: args.userId,
-          bucket: dataImport.result[bucketKey],
-          mediaListId,
-          status: config.status,
-        })
-        summary.createdMediaItems += bucketResult.created
-        summary.skippedMediaItems.push(...bucketResult.skipped)
-      }
-
-      if (args.config.lists) {
-        for (const list of dataImport.result.lists.success) {
-          const mediaList = await this.mediaListsService.create(args.userId, {
-            title: list.title,
-            description: list.description,
-            accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
-          })
-          summary.createdMediaLists += 1
+          if (!mediaListId) {
+            const mediaList = await this.mediaListsService.create(args.userId, {
+              title: config.newListTitle!,
+              accessLevel: MediaListAccessLevelEnum.PRIVATE,
+            })
+            mediaListId = mediaList.id
+            summary.createdMediaLists += 1
+          }
 
           const bucketResult = await this.createMediaItemsFromBucket({
             userId: args.userId,
-            bucket: list.items,
-            mediaListId: mediaList.id,
-            status: args.config.lists.status,
+            bucket: dataImport.result[bucketKey],
+            mediaListId,
+            status: config.status,
           })
           summary.createdMediaItems += bucketResult.created
           summary.skippedMediaItems.push(...bucketResult.skipped)
         }
-      }
+
+        if (args.config.lists) {
+          for (const list of dataImport.result.lists.success) {
+            const mediaList = await this.mediaListsService.create(args.userId, {
+              title: list.title,
+              description: list.description,
+              accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
+            })
+            summary.createdMediaLists += 1
+
+            const bucketResult = await this.createMediaItemsFromBucket({
+              userId: args.userId,
+              bucket: list.items,
+              mediaListId: mediaList.id,
+              status: args.config.lists.status,
+            })
+            summary.createdMediaItems += bucketResult.created
+            summary.skippedMediaItems.push(...bucketResult.skipped)
+          }
+        }
+      })
 
       await this.dataImportRepository.updateStatus({
         id: args.id,
