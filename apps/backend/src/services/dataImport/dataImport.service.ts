@@ -149,6 +149,13 @@ export class DataImportService {
       throw new DataImportInvalidStatusError({ dataImportId: args.id, status: dataImport.status })
     }
 
+    const listsToCreateCount = [args.config.watched, args.config.watchList]
+      .filter(config => config && !config.mediaListId)
+      .length
+      + (args.config.lists ? dataImport.result.lists.success.length : 0)
+
+    await this.mediaListsService.validateIsMediaListsLimitReached(args.userId, listsToCreateCount)
+
     await this.dataImportRepository.updateStatus({ id: args.id, status: DataImportStatusEnum.PROCESSING })
 
     const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[] }
