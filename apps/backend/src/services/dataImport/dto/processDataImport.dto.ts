@@ -19,8 +19,26 @@ const processDataImportSchema = z.object({
   watchList: processBucketSchema.optional(),
   lists: z.array(z.object({
     id: z.string().min(1).meta({ description: "Imported list id from data import result" }),
+    mediaListId: z.uuid().optional().meta({ format: "uuid", description: "Existing media list id" }),
     status: z.enum(MediaItemStatusNameEnum).meta({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.VIEWED }),
-  })).optional(),
+  })).optional().superRefine((lists, ctx) => {
+    if (!lists) {
+      return
+    }
+
+    const seenIds = new Set<string>()
+
+    for (const [index, list] of lists.entries()) {
+      if (seenIds.has(list.id)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "List id must be unique",
+          path: [index, "id"],
+        })
+      }
+      seenIds.add(list.id)
+    }
+  }),
 })
 
 export class ProcessDataImportDto extends createZodDto(processDataImportSchema) {}

@@ -149,10 +149,18 @@ export class DataImportService {
       throw new DataImportInvalidStatusError({ dataImportId: args.id, status: dataImport.status })
     }
 
+    const existingMediaListIds = [
+      args.config.watched?.mediaListId,
+      args.config.watchList?.mediaListId,
+      ...(args.config.lists?.map(list => list.mediaListId) ?? []),
+    ].filter((id): id is string => Boolean(id))
+
+    await Promise.all(existingMediaListIds.map(id => this.mediaListsService.validateIsListOwner(id, args.userId)))
+
     const listsToCreateCount = [args.config.watched, args.config.watchList]
       .filter(config => config && !config.mediaListId)
       .length
-      + (args.config.lists?.length ?? 0)
+      + (args.config.lists?.filter(list => !list.mediaListId).length ?? 0)
 
     await this.mediaListsService.validateIsMediaListsLimitReached(args.userId, listsToCreateCount)
 
@@ -199,17 +207,22 @@ export class DataImportService {
               continue
             }
 
-            const mediaList = await this.mediaListsService.create(args.userId, {
-              title: list.title,
-              description: list.description,
-              accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
-            })
-            summary.createdMediaLists += 1
+            let mediaListId = listConfig.mediaListId
+
+            if (!mediaListId) {
+              const mediaList = await this.mediaListsService.create(args.userId, {
+                title: list.title,
+                description: list.description,
+                accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
+              })
+              mediaListId = mediaList.id
+              summary.createdMediaLists += 1
+            }
 
             const bucketResult = await this.createMediaItemsFromBucket({
               userId: args.userId,
               bucket: list.items,
-              mediaListId: mediaList.id,
+              mediaListId,
               status: listConfig.status,
             })
             summary.createdMediaItems += bucketResult.created

@@ -55,6 +55,14 @@ export class MediaListsService {
     return mediaList.userId === currentUserId
   }
 
+  async validateIsListOwner(id: string, userId: string) {
+    const isListOwner = await this.isListOwner(id, userId)
+
+    if (!isListOwner) {
+      throw new MediaListUnauthorizedError({ userId, mediaListId: id })
+    }
+  }
+
   async validateIsMediaListsLimitReached(userId: string, additionalCount = 1) {
     const mediaListsCount = await this.mediaListRepository.getCountByUserId(userId)
 
