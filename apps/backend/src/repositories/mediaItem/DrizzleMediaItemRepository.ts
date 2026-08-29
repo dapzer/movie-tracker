@@ -248,6 +248,15 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }))
   }
 
+  async getMediaIdsByListId(args: Parameters<MediaItemRepositoryInterface["getMediaIdsByListId"]>[0]) {
+    const rows = await this.drizzle.client
+      .select({ mediaId: mediaItems.mediaId })
+      .from(mediaItems)
+      .where(eq(mediaItems.mediaListId, args.mediaListId))
+
+    return rows.map(row => row.mediaId)
+  }
+
   async getByListId(args: Parameters<MediaItemRepositoryInterface["getByListId"]>[0]) {
     const search = args.search?.trim()
     const sortBy = args.sortBy ?? "createdAt"

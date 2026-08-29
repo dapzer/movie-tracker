@@ -111,11 +111,9 @@ export class DataImportService {
       return { created: 0, skipped: [] }
     }
 
-    const existingMediaItems = await this.mediaItemRepository.getByListId({
+    const existingMediaIds = new Set(await this.mediaItemRepository.getMediaIdsByListId({
       mediaListId: args.mediaListId,
-      withoutLimit: true,
-    })
-    const existingMediaIds = new Set(existingMediaItems.items.map(item => item.mediaId))
+    }))
 
     const newMedia = args.bucket.success.filter(media => !existingMediaIds.has(media.ids.tmdbId))
     const skipped = args.bucket.success
