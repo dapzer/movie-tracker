@@ -20,6 +20,7 @@ export interface DataImportEpisodeProgressType {
   status: "watched" | "watching_now"
   seasonNumber: number
   episodeNumber: number
+  watchedAt?: Date
 }
 
 export interface DataImportMediaType {
