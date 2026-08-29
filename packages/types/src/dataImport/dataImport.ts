@@ -34,6 +34,7 @@ export interface DataImportMediaType {
 }
 
 export interface DataImportListType {
+  id: string
   title: string
   isPrivate: boolean
   items: DataImportBucketType<DataImportMediaType>

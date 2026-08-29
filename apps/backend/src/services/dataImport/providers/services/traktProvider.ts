@@ -353,6 +353,7 @@ export class TraktProvider extends BaseService {
         }
 
         bucket.success.push({
+          id: String(listMetadata.ids.trakt),
           title: listMetadata.name,
           description: listMetadata.description || undefined,
           isPrivate: listMetadata.privacy !== "public",
@@ -384,6 +385,7 @@ export class TraktProvider extends BaseService {
       items.failed.push(...favorites.failed)
 
       bucket.success.push({
+        id: "favorites",
         title: "Favorites",
         isPrivate: false,
         items,

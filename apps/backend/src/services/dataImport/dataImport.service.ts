@@ -152,13 +152,13 @@ export class DataImportService {
     const listsToCreateCount = [args.config.watched, args.config.watchList]
       .filter(config => config && !config.mediaListId)
       .length
-      + (args.config.lists ? dataImport.result.lists.success.length : 0)
+      + (args.config.lists?.length ?? 0)
 
     await this.mediaListsService.validateIsMediaListsLimitReached(args.userId, listsToCreateCount)
 
     await this.dataImportRepository.updateStatus({ id: args.id, status: DataImportStatusEnum.PROCESSING })
 
-    const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[] }
+    const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[], notFoundListIds: [] as string[] }
 
     try {
       await this.drizzleService.runInTransaction(async () => {
@@ -191,7 +191,14 @@ export class DataImportService {
         }
 
         if (args.config.lists) {
-          for (const list of dataImport.result.lists.success) {
+          for (const listConfig of args.config.lists) {
+            const list = dataImport.result.lists.success.find(list => list.id === listConfig.id)
+
+            if (!list) {
+              summary.notFoundListIds.push(listConfig.id)
+              continue
+            }
+
             const mediaList = await this.mediaListsService.create(args.userId, {
               title: list.title,
               description: list.description,
@@ -203,7 +210,7 @@ export class DataImportService {
               userId: args.userId,
               bucket: list.items,
               mediaListId: mediaList.id,
-              status: args.config.lists.status,
+              status: listConfig.status,
             })
             summary.createdMediaItems += bucketResult.created
             summary.skippedMediaItems.push(...bucketResult.skipped)

@@ -32,6 +32,7 @@ export const processDataImportResponseSchema = z.object({
   createdMediaLists: z.number().meta({ example: 2 }),
   createdMediaItems: z.number().meta({ example: 42 }),
   skippedMediaItems: z.array(z.number()).meta({ example: [1396, 27205] }),
+  notFoundListIds: z.array(z.string()).meta({ example: ["12345"] }),
 })
 
 export class ProcessDataImportResponseDto extends createZodDto(processDataImportResponseSchema) {}

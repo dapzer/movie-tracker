@@ -17,9 +17,10 @@ const processBucketSchema = z.object({
 const processDataImportSchema = z.object({
   watched: processBucketSchema.optional(),
   watchList: processBucketSchema.optional(),
-  lists: z.object({
+  lists: z.array(z.object({
+    id: z.string().min(1).meta({ description: "Imported list id from data import result" }),
     status: z.enum(MediaItemStatusNameEnum).meta({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.VIEWED }),
-  }).optional(),
+  })).optional(),
 })
 
 export class ProcessDataImportDto extends createZodDto(processDataImportSchema) {}

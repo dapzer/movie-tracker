@@ -226,6 +226,7 @@ export class LetterboxdProvider extends BaseService {
     items.failed.push(...parsed.failed)
 
     return {
+      id: "diary",
       title: "Diary",
       isPrivate: true,
       createdAt,
@@ -298,6 +299,7 @@ export class LetterboxdProvider extends BaseService {
     }
 
     return {
+      id: new URL(metadata.URL).pathname.replace(/^\/+|\/+$/g, ""),
       title: metadata.Name,
       description: metadata.Description || undefined,
       isPrivate: false,
