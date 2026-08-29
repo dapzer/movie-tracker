@@ -145,10 +145,6 @@ export class DataImportService {
   async process(args: { id: string, userId: string, config: ProcessDataImportDto }) {
     const dataImport = await this.getById({ id: args.id, userId: args.userId })
 
-    if (dataImport.status === DataImportStatusEnum.PROCESSING || dataImport.status === DataImportStatusEnum.COMPLETED) {
-      throw new DataImportInvalidStatusError({ dataImportId: args.id, status: dataImport.status })
-    }
-
     const existingMediaListIds = [
       args.config.watched?.mediaListId,
       args.config.watchList?.mediaListId,
@@ -164,7 +160,12 @@ export class DataImportService {
 
     await this.mediaListsService.validateIsMediaListsLimitReached(args.userId, listsToCreateCount)
 
-    await this.dataImportRepository.updateStatus({ id: args.id, status: DataImportStatusEnum.PROCESSING })
+    const acquired = await this.dataImportRepository.acquireProcessing({ id: args.id })
+
+    if (!acquired) {
+      const current = await this.dataImportRepository.getById({ id: args.id })
+      throw new DataImportInvalidStatusError({ dataImportId: args.id, status: current?.status ?? dataImport.status })
+    }
 
     const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[], notFoundListIds: [] as string[] }
 

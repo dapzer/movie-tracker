@@ -29,4 +29,8 @@ export interface DataImportRepositoryInterface {
     status: DataImportStatusEnum
     processedAt?: Date
   }) => Promise<DataImportType>
+
+  acquireProcessing: (args: {
+    id: string
+  }) => Promise<DataImportType | undefined>
 }

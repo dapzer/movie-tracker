@@ -1,5 +1,5 @@
 import { dataImports } from "@movie-tracker/database"
-import { desc, eq } from "@movie-tracker/database/drizzle"
+import { and, desc, eq, notInArray } from "@movie-tracker/database/drizzle"
 import {
   DataImportListItemType,
   DataImportSourceEnum,
@@ -98,5 +98,18 @@ export class DrizzleDataImportRepository implements DataImportRepositoryInterfac
       .returning()
 
     return this.convertToInterface(dataImport)
+  }
+
+  async acquireProcessing(args: Parameters<DataImportRepositoryInterface["acquireProcessing"]>[0]) {
+    const [dataImport] = await this.drizzle.client
+      .update(dataImports)
+      .set({ status: DataImportStatusEnum.PROCESSING })
+      .where(and(
+        eq(dataImports.id, args.id),
+        notInArray(dataImports.status, [DataImportStatusEnum.PROCESSING, DataImportStatusEnum.COMPLETED]),
+      ))
+      .returning()
+
+    return dataImport ? this.convertToInterface(dataImport) : undefined
   }
 }

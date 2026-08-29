@@ -1,7 +1,6 @@
 import {
   DataImportBucketType,
   DataImportEpisodeProgressType,
-  DataImportFailureType,
   DataImportListType,
   DataImportMediaType,
   DataImportRatingType,
@@ -164,24 +163,30 @@ export class TraktProvider extends BaseService {
     const bucket = this.createBucket<DataImportMediaType>()
     const showProgress = new Map<number, DataImportMediaType>()
 
-    for (const record of shows.success) {
-      try {
+    const showsResults = await this.processRecords({
+      records: shows.success,
+      process: async (record) => {
         const media = await this.toMedia({ media: record.show, type: "tv" })
         media.createdAt = record.last_watched_at
         media.episodesProgress = args.episodesHistoryByShow.get(record.show.ids.trakt)?.episodes ?? []
-        showProgress.set(record.show.ids.trakt, media)
+        return { traktId: record.show.ids.trakt, media }
+      },
+    })
+
+    for (const result of showsResults) {
+      if ("value" in result) {
+        showProgress.set(result.value.traktId, result.value.media)
       }
-      catch (error) {
-        bucket.failed.push(this.toFailure({ error, sourceRecord: record }))
+      else {
+        bucket.failed.push(result.failure)
       }
     }
 
-    for (const [traktId, entry] of args.episodesHistoryByShow) {
-      if (showProgress.has(traktId)) {
-        continue
-      }
+    const historyOnlyShows = [...args.episodesHistoryByShow.values()].filter(entry => !showProgress.has(entry.show.ids.trakt))
 
-      try {
+    const historyResults = await this.processRecords({
+      records: historyOnlyShows,
+      process: async (entry) => {
         const media = await this.toMedia({ media: entry.show, type: "tv" })
         media.createdAt = entry.episodes.reduce<DataImportEpisodeProgressType["watchedAt"]>((latest, episode) => {
           if (episode.watchedAt && (!latest || episode.watchedAt > latest)) {
@@ -191,21 +196,34 @@ export class TraktProvider extends BaseService {
           return latest
         }, undefined)
         media.episodesProgress = entry.episodes
-        showProgress.set(traktId, media)
+        return { traktId: entry.show.ids.trakt, media }
+      },
+    })
+
+    for (const result of historyResults) {
+      if ("value" in result) {
+        showProgress.set(result.value.traktId, result.value.media)
       }
-      catch (error) {
-        bucket.failed.push(this.toFailure({ error, sourceRecord: entry.show }))
+      else {
+        bucket.failed.push(result.failure)
       }
     }
 
-    for (const record of movies.success) {
-      try {
+    const moviesResults = await this.processRecords({
+      records: movies.success,
+      process: async (record) => {
         const media = await this.toMedia({ media: record.movie, type: "movie" })
         media.createdAt = record.last_watched_at
-        bucket.success.push(media)
+        return media
+      },
+    })
+
+    for (const result of moviesResults) {
+      if ("value" in result) {
+        bucket.success.push(result.value)
       }
-      catch (error) {
-        bucket.failed.push(this.toFailure({ error, sourceRecord: record }))
+      else {
+        bucket.failed.push(result.failure)
       }
     }
 
@@ -230,17 +248,10 @@ export class TraktProvider extends BaseService {
 
   private async importWatchlist(args: { files: Map<string, string>, episodesHistoryByShow: TraktEpisodesHistoryByShow }): Promise<DataImportBucketType<DataImportMediaType>> {
     const parsed = this.parseFile({ files: args.files, fileName: "lists-watchlist.json", schema: traktWatchlistItemSchema })
-    const bucket = this.createBucket<DataImportMediaType>()
-
-    for (const record of parsed.success) {
-      try {
-        const media = await this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow })
-        bucket.success.push(media)
-      }
-      catch (error) {
-        bucket.failed.push(this.toFailure({ error, sourceRecord: record }))
-      }
-    }
+    const bucket = await this.processToBucket({
+      records: parsed.success,
+      process: record => this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow }),
+    })
 
     bucket.failed.push(...parsed.failed)
 
@@ -252,34 +263,29 @@ export class TraktProvider extends BaseService {
     const shows = this.parseFile({ files: args.files, fileName: "ratings-shows.json", schema: traktRatingShowItemSchema })
     const bucket = this.createBucket<DataImportRatingType>()
 
-    const records: { ref: TraktMediaRef, type: "movie" | "tv", value: number, createdAt: Date, source: unknown }[] = [
-      ...movies.success.map(record => ({
-        ref: record.movie,
-        type: "movie" as const,
-        value: record.rating,
-        createdAt: record.rated_at,
-        source: record,
-      })),
-      ...shows.success.map(record => ({
-        ref: record.show,
-        type: "tv" as const,
-        value: record.rating,
-        createdAt: record.rated_at,
-        source: record,
-      })),
-    ]
+    const [moviesResults, showsResults] = await Promise.all([
+      this.processRecords({
+        records: movies.success,
+        process: async (record) => {
+          const media = await this.toMedia({ media: record.movie, type: "movie" })
+          return { media, value: record.rating, createdAt: record.rated_at }
+        },
+      }),
+      this.processRecords({
+        records: shows.success,
+        process: async (record) => {
+          const media = await this.toMedia({ media: record.show, type: "tv" })
+          return { media, value: record.rating, createdAt: record.rated_at }
+        },
+      }),
+    ])
 
-    for (const record of records) {
-      try {
-        const media = await this.toMedia({ media: record.ref, type: record.type })
-        bucket.success.push({
-          media,
-          value: record.value,
-          createdAt: record.createdAt,
-        })
+    for (const result of [...moviesResults, ...showsResults]) {
+      if ("value" in result) {
+        bucket.success.push(result.value)
       }
-      catch (error) {
-        bucket.failed.push(this.toFailure({ error, sourceRecord: record.source }))
+      else {
+        bucket.failed.push(result.failure)
       }
     }
 
@@ -291,28 +297,25 @@ export class TraktProvider extends BaseService {
   private async importReviews(args: { files: Map<string, string> }): Promise<DataImportBucketType<DataImportReviewType>> {
     const movies = this.parseFile({ files: args.files, fileName: "comments-movies.json", schema: traktCommentMovieItemSchema })
     const shows = this.parseFile({ files: args.files, fileName: "comments-shows.json", schema: traktCommentShowItemSchema })
-    const bucket = this.createBucket<DataImportReviewType>()
 
     const records = [
       ...movies.success.map(record => ({ ...record, ref: record.movie, mediaType: "movie" as const })),
       ...shows.success.map(record => ({ ...record, ref: record.show, mediaType: "tv" as const })),
     ]
 
-    for (const record of records) {
-      try {
+    const bucket = await this.processToBucket({
+      records,
+      process: async (record) => {
         const media = await this.toMedia({ media: record.ref, type: record.mediaType })
-        bucket.success.push({
+        return {
           media,
           content: record.comment.comment,
           createdAt: record.comment.created_at,
           updatedAt: record.comment.updated_at,
           rate: record.comment.user_rating ?? undefined,
-        })
-      }
-      catch (error) {
-        bucket.failed.push(this.toFailure({ error, sourceRecord: record }))
-      }
-    }
+        }
+      },
+    })
 
     bucket.failed.push(...movies.failed, ...shows.failed)
 
@@ -339,17 +342,13 @@ export class TraktProvider extends BaseService {
           const itemsJson = Array.isArray(parsedItemsJson) ? parsedItemsJson : [parsedItemsJson]
           const parsedItems = this.safeParseJson({ json: itemsJson, schema: traktCustomListItemSchema })
 
-          for (const record of parsedItems.success) {
-            try {
-              const media = await this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow })
-              items.success.push(media)
-            }
-            catch (error) {
-              items.failed.push(this.toFailure({ error, sourceRecord: record }))
-            }
-          }
+          const itemsBucket = await this.processToBucket({
+            records: parsedItems.success,
+            process: record => this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow }),
+          })
 
-          items.failed.push(...parsedItems.failed)
+          items.success.push(...itemsBucket.success)
+          items.failed.push(...itemsBucket.failed, ...parsedItems.failed)
         }
 
         bucket.success.push({
@@ -368,19 +367,11 @@ export class TraktProvider extends BaseService {
     }
 
     const favorites = this.parseFile({ files: args.files, fileName: "lists-favorites.json", schema: traktFavoritesItemSchema })
-
     if (favorites.success.length) {
-      const items: DataImportBucketType<DataImportMediaType> = this.createBucket<DataImportMediaType>()
-
-      for (const record of favorites.success) {
-        try {
-          const media = await this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow })
-          items.success.push(media)
-        }
-        catch (error) {
-          items.failed.push(this.toFailure({ error, sourceRecord: record }))
-        }
-      }
+      const items = await this.processToBucket({
+        records: favorites.success,
+        process: record => this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow }),
+      })
 
       items.failed.push(...favorites.failed)
 
@@ -393,12 +384,5 @@ export class TraktProvider extends BaseService {
     }
 
     return bucket
-  }
-
-  private toFailure(args: { error: unknown, sourceRecord: unknown }): DataImportFailureType {
-    return {
-      reason: args.error instanceof Error ? args.error.message : String(args.error),
-      sourceRecord: args.sourceRecord,
-    }
   }
 }

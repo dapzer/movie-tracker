@@ -1,6 +1,7 @@
 import { Buffer } from "node:buffer"
 import {
   DataImportBucketType,
+  DataImportFailureType,
   DataImportMediaType,
   DataImportRawResultType,
   DataImportSourceEnum,
@@ -11,6 +12,7 @@ import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdb
 import { SourceFileParseError, SourceFilesMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 import { extractArchiveData } from "@/shared/utils/extractArchiveData"
+import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 
 export interface ResolveMediaInput {
   tmdbId?: number
@@ -149,5 +151,49 @@ export abstract class BaseService {
     catch (error) {
       throw new SourceFileParseError({ fileName: args.fileName, cause: error })
     }
+  }
+
+  protected toFailure(args: { error: unknown, sourceRecord: unknown }): DataImportFailureType {
+    return {
+      reason: args.error instanceof Error ? args.error.message : String(args.error),
+      sourceRecord: args.sourceRecord,
+    }
+  }
+
+  protected async processRecords<I, O>(args: {
+    records: I[]
+    process: (record: I) => Promise<O>
+  }): Promise<Array<{ value: O } | { failure: DataImportFailureType }>> {
+    return mapTasksWithConcurrency({
+      items: args.records,
+      concurrency: 10,
+      fn: async (record) => {
+        try {
+          return { value: await args.process(record) }
+        }
+        catch (error) {
+          return { failure: this.toFailure({ error, sourceRecord: record }) }
+        }
+      },
+    })
+  }
+
+  protected async processToBucket<I, O>(args: {
+    records: I[]
+    process: (record: I) => Promise<O>
+  }): Promise<DataImportBucketType<O>> {
+    const results = await this.processRecords(args)
+    const bucket: DataImportBucketType<O> = { success: [], failed: [] }
+
+    for (const result of results) {
+      if ("value" in result) {
+        bucket.success.push(result.value)
+      }
+      else {
+        bucket.failed.push(result.failure)
+      }
+    }
+
+    return bucket
   }
 }
