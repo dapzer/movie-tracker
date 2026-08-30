@@ -18,6 +18,7 @@ import {
   MediaReviewsModerationLogsRepositoryInterface,
   MediaReviewsModerationLogsRepositorySymbol,
 } from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaReviewDto } from "@/services/mediaReviews/dto/createMediaReview.dto"
 import { CreateMediaReviewDislikeDto } from "@/services/mediaReviews/dto/createMediaReviewDislike.dto"
@@ -53,6 +54,7 @@ export class MediaReviewsService {
     private readonly mediaDetailsService: MediaDetailsService,
     private readonly userBansService: UserBansService,
     private readonly configService: ConfigService,
+    private readonly drizzleService: DrizzleService,
   ) {
   }
 
@@ -268,14 +270,17 @@ export class MediaReviewsService {
       userId: args.userId,
       mediaReviewId: args.body.mediaReviewId,
     })
-    if (dislike) {
-      await this.mediaReviewDislikeRepository.delete(dislike.id)
-    }
 
-    return this.mediaReviewLikeRepository.create({
-      userId: args.userId,
-      mediaDetailsId: mediaReview.mediaDetailsId,
-      ...args.body,
+    return this.drizzleService.runInTransaction(async () => {
+      if (dislike) {
+        await this.mediaReviewDislikeRepository.delete(dislike.id)
+      }
+
+      return this.mediaReviewLikeRepository.create({
+        userId: args.userId,
+        mediaDetailsId: mediaReview.mediaDetailsId,
+        ...args.body,
+      })
     })
   }
 
@@ -318,14 +323,16 @@ export class MediaReviewsService {
       mediaReviewId: args.body.mediaReviewId,
     })
 
-    if (like) {
-      await this.mediaReviewLikeRepository.delete(like.id)
-    }
+    return this.drizzleService.runInTransaction(async () => {
+      if (like) {
+        await this.mediaReviewLikeRepository.delete(like.id)
+      }
 
-    return this.mediaReviewDislikeRepository.create({
-      userId: args.userId,
-      mediaDetailsId: mediaReview.mediaDetailsId,
-      ...args.body,
+      return this.mediaReviewDislikeRepository.create({
+        userId: args.userId,
+        mediaDetailsId: mediaReview.mediaDetailsId,
+        ...args.body,
+      })
     })
   }
 

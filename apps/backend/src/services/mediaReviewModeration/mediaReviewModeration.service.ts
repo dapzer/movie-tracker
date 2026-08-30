@@ -8,6 +8,7 @@ import {
   MediaReviewsModerationLogsRepositoryInterface,
   MediaReviewsModerationLogsRepositorySymbol,
 } from "@/repositories/mediaReviewsModerationLogs/MediaReviewsModerationLogsRepositoryInterface"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { ModerateMediaReviewDto } from "@/services/mediaReviewModeration/dto/moderateMediaReview.dto"
 import { NotificationsService } from "@/services/notifications/notifications.service"
 import { MediaReviewNotFoundError } from "@/shared/errors/mediaReview"
@@ -22,6 +23,7 @@ export class MediaReviewModerationService {
     @Inject(MediaReviewsModerationLogsRepositorySymbol)
     private readonly moderationLogsRepository: MediaReviewsModerationLogsRepositoryInterface,
     private readonly notificationsService: NotificationsService,
+    private readonly drizzleService: DrizzleService,
   ) {}
 
   async getLogsByReviewId(args: { mediaReviewId: string }) {
@@ -49,11 +51,26 @@ export class MediaReviewModerationService {
       ? true
       : mediaReview.isSpoiler
 
-    const updatedMediaReview = await this.mediaReviewRepository.update({
-      id: args.body.mediaReviewId,
-      status: newStatus,
-      publishedAt: isApproved ? mediaReview.publishedAt ?? new Date() : undefined,
-      isSpoiler,
+    const [updatedMediaReview, moderationLog] = await this.drizzleService.runInTransaction(async () => {
+      const updatedMediaReview = await this.mediaReviewRepository.update({
+        id: args.body.mediaReviewId,
+        status: newStatus,
+        publishedAt: isApproved ? mediaReview.publishedAt ?? new Date() : undefined,
+        isSpoiler,
+      })
+
+      const moderationLog = await this.moderationLogsRepository.create({
+        mediaReviewId: args.body.mediaReviewId,
+        moderatorId: args.currentUserId,
+        action: args.body.action,
+        reason: args.body.reason ?? null,
+        comment: args.body.comment ?? null,
+        reviewTitleSnapshot: mediaReview.title ?? null,
+        reviewContentSnapshot: mediaReview.content,
+        reviewIsSpoilerSnapshot: mediaReview.isSpoiler,
+      })
+
+      return [updatedMediaReview, moderationLog]
     })
 
     if (updatedMediaReview) {
@@ -72,15 +89,6 @@ export class MediaReviewModerationService {
       })
     }
 
-    return this.moderationLogsRepository.create({
-      mediaReviewId: args.body.mediaReviewId,
-      moderatorId: args.currentUserId,
-      action: args.body.action,
-      reason: args.body.reason ?? null,
-      comment: args.body.comment ?? null,
-      reviewTitleSnapshot: mediaReview.title ?? null,
-      reviewContentSnapshot: mediaReview.content,
-      reviewIsSpoilerSnapshot: mediaReview.isSpoiler,
-    })
+    return moderationLog
   }
 }

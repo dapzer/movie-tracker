@@ -20,6 +20,7 @@ import { AllowedProvider } from "@/services/auth/dto/allowedProvider"
 import { SignInDto } from "@/services/auth/dto/signIn.dto"
 import { SignUpDto } from "@/services/auth/dto/signUp.dto"
 import { ProvidersService } from "@/services/auth/providers/providers.service"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { MailService } from "@/services/mail/mail.service"
 import {
   EmailAlreadyConfirmedError,
@@ -141,6 +142,7 @@ export class AuthService {
     private readonly accountRepository: AccountRepositoryInterface,
     @Inject(MediaListRepositorySymbol)
     private readonly mediaListRepository: MediaListRepositoryInterface,
+    private readonly drizzleService: DrizzleService,
   ) {
   }
 
@@ -179,39 +181,39 @@ export class AuthService {
       return user
     }
 
-    if (!user) {
-      const signUpMethod = SignUpMethodEnum[profile.provider.toUpperCase()]
-      const isEmailVerified = [SignUpMethodEnum.YANDEX, SignUpMethodEnum.GOOGLE].includes(signUpMethod)
+    if (!user || !account) {
+      await this.drizzleService.runInTransaction(async () => {
+        if (!user) {
+          const signUpMethod = SignUpMethodEnum[profile.provider.toUpperCase()]
+          const isEmailVerified = [SignUpMethodEnum.YANDEX, SignUpMethodEnum.GOOGLE].includes(signUpMethod)
 
-      user = await this.usersRepository.create({
-        body: {
-          email: profile.email,
-          name: profile.name,
-          image: profile.avatarUrl,
-          isEmailVerified,
-          signUpMethod,
-        },
-      })
+          user = await this.usersRepository.create({
+            body: {
+              email: profile.email,
+              name: profile.name,
+              image: profile.avatarUrl,
+              isEmailVerified,
+              signUpMethod,
+            },
+          })
 
-      await this.mediaListRepository.create({
-        userId: user.id,
-        isSystem: true,
-      })
+          await this.mediaListRepository.create({
+            userId: user.id,
+            isSystem: true,
+          })
+        }
 
-      // if (user.email && !isEmailVerified) {
-      //   await this.sendWelcomeEmail(user);
-      // }
-    }
-
-    if (!account) {
-      await this.accountRepository.create({
-        userId: user.id,
-        type: "oauth",
-        provider: profile.provider,
-        providerAccountId: profile.id,
-        refresh_token: profile.refresh_token,
-        access_token: profile.access_token,
-        expires_at: profile.expires_at,
+        if (!account) {
+          await this.accountRepository.create({
+            userId: user.id,
+            type: "oauth",
+            provider: profile.provider,
+            providerAccountId: profile.id,
+            refresh_token: profile.refresh_token,
+            access_token: profile.access_token,
+            expires_at: profile.expires_at,
+          })
+        }
       })
     }
 
@@ -227,19 +229,23 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(body.password, this.saltRounds)
 
-    const newUser = await this.usersRepository.create({
-      body: {
-        email: body.email,
-        name: body.name,
-        password: passwordHash,
-        isEmailVerified: false,
-        signUpMethod: SignUpMethodEnum.EMAIL,
-      },
-    })
+    const newUser = await this.drizzleService.runInTransaction(async () => {
+      const newUser = await this.usersRepository.create({
+        body: {
+          email: body.email,
+          name: body.name,
+          password: passwordHash,
+          isEmailVerified: false,
+          signUpMethod: SignUpMethodEnum.EMAIL,
+        },
+      })
 
-    await this.mediaListRepository.create({
-      userId: newUser.id,
-      isSystem: true,
+      await this.mediaListRepository.create({
+        userId: newUser.id,
+        isSystem: true,
+      })
+
+      return newUser
     })
 
     await this.sendWelcomeEmail(newUser)
