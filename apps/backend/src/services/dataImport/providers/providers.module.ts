@@ -9,7 +9,7 @@ export class DataImportProvidersModule {
       module: DataImportProvidersModule,
       providers: [
         {
-          useValue: opts.services,
+          useValue: opts,
           provide: DataImportProvidersOptsSymbol,
         },
         DataImportProvidersService,

@@ -44,6 +44,9 @@ import {
 } from "@/shared/errors/dataImport"
 import { MediaReviewAlreadyExistsError } from "@/shared/errors/mediaReview"
 import { extractArchiveData } from "@/shared/utils/extractArchiveData"
+import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
+
+const IMPORT_WRITE_CONCURRENCY = 10
 
 @Injectable()
 export class DataImportService {
@@ -195,8 +198,10 @@ export class DataImportService {
       .filter(rating => existingKeys.has(this.toMediaKey(rating.media)))
       .map(rating => rating.media.ids.tmdbId)
 
-    for (const rating of newRatings) {
-      await this.mediaRatingsService.create({
+    await mapTasksWithConcurrency({
+      items: newRatings,
+      concurrency: IMPORT_WRITE_CONCURRENCY,
+      fn: rating => this.mediaRatingsService.create({
         userId: args.userId,
         body: {
           mediaId: rating.media.ids.tmdbId,
@@ -204,8 +209,8 @@ export class DataImportService {
           rating: rating.value,
         },
         createdAt: rating.createdAt ? new Date(rating.createdAt) : undefined,
-      })
-    }
+      }),
+    })
 
     return { created: newRatings.length, skipped }
   }
@@ -218,9 +223,9 @@ export class DataImportService {
       return { created: 0, skipped: [] }
     }
 
-    let created = 0
     const skipped: number[] = []
     const processedKeys = new Set<string>()
+    const reviewsToCreate: DataImportReviewType[] = []
 
     for (const review of args.bucket.success) {
       const key = this.toMediaKey(review.media)
@@ -239,31 +244,41 @@ export class DataImportService {
         continue
       }
 
-      try {
-        await this.mediaReviewsService.create({
-          userId: args.userId,
-          body: {
-            mediaId: review.media.ids.tmdbId,
-            mediaType: this.toMediaType(review.media.type),
-            content: review.content,
-            isSpoiler: review.isSpoiler ?? false,
-            status: MediaReviewStatus.PUBLISHED,
-          },
-          createdAt: review.createdAt ? new Date(review.createdAt) : undefined,
-        })
-        created += 1
-      }
-      catch (error) {
-        if (error instanceof MediaReviewAlreadyExistsError) {
-          skipped.push(review.media.ids.tmdbId)
-          continue
-        }
-
-        throw error
-      }
+      reviewsToCreate.push(review)
     }
 
-    return { created, skipped }
+    const alreadyExistingIds: Array<number> = []
+
+    await mapTasksWithConcurrency({
+      items: reviewsToCreate,
+      concurrency: IMPORT_WRITE_CONCURRENCY,
+      fn: async (review): Promise<void> => {
+        try {
+          await this.mediaReviewsService.create({
+            userId: args.userId,
+            body: {
+              mediaId: review.media.ids.tmdbId,
+              mediaType: this.toMediaType(review.media.type),
+              content: review.content,
+              isSpoiler: review.isSpoiler ?? false,
+              status: MediaReviewStatus.PUBLISHED,
+            },
+            createdAt: review.createdAt ? new Date(review.createdAt) : undefined,
+          })
+        }
+        catch (error) {
+          if (error instanceof MediaReviewAlreadyExistsError) {
+            alreadyExistingIds.push(review.media.ids.tmdbId)
+          }
+
+          throw error
+        }
+      },
+    })
+
+    skipped.push(...alreadyExistingIds)
+
+    return { created: reviewsToCreate.length - alreadyExistingIds.length, skipped }
   }
 
   private async importStandardBuckets(args: {
