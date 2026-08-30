@@ -27,6 +27,7 @@ import { CreateMediaItemCloneDto } from "@/services/mediaItems/dto/createMediaIt
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 import { MediaItemNotFoundError, MediaItemUnauthorizedError } from "@/shared/errors/mediaItem"
 import { MediaListNotFoundError } from "@/shared/errors/mediaList"
+import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 
 @Injectable()
 export class MediaItemsService {
@@ -159,12 +160,16 @@ export class MediaItemsService {
       mediaType: item.mediaType,
     }])).values())]
 
-    const mediaDetailsList = await Promise.all(uniqueMediaItems.map(item => this.mediaDetailsService.createOrUpdate({
-      mediaId: item.mediaId,
-      mediaType: item.mediaType,
-      skipError: false,
-      currentDetails: null,
-    })))
+    const mediaDetailsList = await mapTasksWithConcurrency({
+      items: uniqueMediaItems,
+      concurrency: 10,
+      fn: item => this.mediaDetailsService.createOrUpdate({
+        mediaId: item.mediaId,
+        mediaType: item.mediaType,
+        skipError: false,
+        currentDetails: null,
+      }),
+    })
 
     const mediaDetailsByMediaId = new Map(mediaDetailsList.map(details => [`${details.mediaType}-${details.mediaId}`, details]))
 
