@@ -13,6 +13,7 @@ import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
@@ -37,6 +38,7 @@ export class MediaListsService {
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     private readonly notificationsService: NotificationsService,
+    private readonly drizzleService: DrizzleService,
   ) {
   }
 
@@ -151,31 +153,37 @@ export class MediaListsService {
     if (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE && mediaList.userId !== userId) {
       throw new MediaListUnauthorizedError({ userId, mediaListId: id })
     }
+    return this.drizzleService.runInTransaction(async () => {
+      const mediaItems = await this.mediaItemRepository.getByListId({
+        mediaListId: id,
+        withoutLimit: true,
+      })
+      const newMediaList = await this.mediaListRepository.create({
+        userId,
+        isSystem: false,
+        body: {
+          title: body.title,
+          accessLevel: MediaListAccessLevelEnum.PRIVATE,
+        },
+      })
 
-    const mediaItems = await this.mediaItemRepository.getByListId({
-      mediaListId: id,
-      withoutLimit: true,
+      if (mediaItems.items.length > 0) {
+        await this.mediaItemRepository.createMany(mediaItems.items.map(el => ({
+          mediaId: el.mediaId,
+          mediaType: el.mediaType,
+          mediaListId: newMediaList.id,
+          mediaDetailsId: el.mediaDetailsId,
+          currentStatus: body.isKeepStatus
+            ? el.trackingData.currentStatus
+            : undefined,
+        })))
+      }
+
+      return this.mediaListRepository.getById({
+        id: newMediaList.id,
+        currentUserId: userId,
+      })
     })
-    const newMediaList = await this.mediaListRepository.create({
-      userId,
-      isSystem: false,
-      body: {
-        title: body.title,
-        accessLevel: MediaListAccessLevelEnum.PRIVATE,
-      },
-    })
-
-    await this.mediaItemRepository.createMany(mediaItems.items.map(el => ({
-      mediaId: el.mediaId,
-      mediaType: el.mediaType,
-      mediaListId: newMediaList.id,
-      mediaDetailsId: el.mediaDetailsId,
-      currentStatus: body.isKeepStatus
-        ? el.trackingData.currentStatus
-        : undefined,
-    })))
-
-    return newMediaList
   }
 
   async createLike(mediaListId: string, userId: string): Promise<MediaListLikeDto> {
