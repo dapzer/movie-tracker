@@ -153,6 +153,7 @@ export class MediaListsService {
     if (mediaList.accessLevel === MediaListAccessLevelEnum.PRIVATE && mediaList.userId !== userId) {
       throw new MediaListUnauthorizedError({ userId, mediaListId: id })
     }
+
     return this.drizzleService.runInTransaction(async () => {
       const mediaItems = await this.mediaItemRepository.getByListId({
         mediaListId: id,
