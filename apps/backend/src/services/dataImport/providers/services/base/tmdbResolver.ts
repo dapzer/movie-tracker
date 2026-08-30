@@ -8,6 +8,8 @@ import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImpo
 
 export type TmdbExternalIdSource = "imdb_id" | "tvdb_id"
 
+const NOT_FOUND_CACHE_MARKER = "__not_found__"
+
 export interface TmdbFindResultItemType {
   id: number
   title?: string
@@ -28,8 +30,13 @@ export class TmdbResolver {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
   }
 
-  private async cached<T>(args: { key: string, ttl: number, resolve: () => Promise<T> }): Promise<T> {
-    const cached = await this.cacheManager.get<T>(args.key)
+  private async cached<T>(args: { key: string, ttl: number, notFoundTtl: number, resolve: () => Promise<T> }): Promise<T> {
+    const cached = await this.cacheManager.get<T | typeof NOT_FOUND_CACHE_MARKER>(args.key)
+
+    if (cached === NOT_FOUND_CACHE_MARKER) {
+      throw new TmdbNotFoundError()
+    }
+
     if (cached !== undefined && cached !== null) {
       return cached
     }
@@ -43,6 +50,12 @@ export class TmdbResolver {
       .then(async (result) => {
         await this.cacheManager.set(args.key, result, args.ttl)
         return result
+      })
+      .catch(async (error) => {
+        if (error instanceof TmdbNotFoundError) {
+          await this.cacheManager.set(args.key, NOT_FOUND_CACHE_MARKER, args.notFoundTtl)
+        }
+        throw error
       })
       .finally(() => {
         this.inFlight.delete(args.key)
@@ -73,6 +86,7 @@ export class TmdbResolver {
     return this.cached({
       key: `import:tmdb:find:${args.source}:${args.externalId}`,
       ttl: getMillisecondsFromDays(7),
+      notFoundTtl: getMillisecondsFromHours(1),
       resolve: async () => {
         let response: TmdbFindResponseType
 
@@ -116,6 +130,7 @@ export class TmdbResolver {
     return this.cached({
       key: `import:tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type ?? "any"}`,
       ttl: getMillisecondsFromHours(12),
+      notFoundTtl: getMillisecondsFromHours(1),
       resolve: async () => {
         const getMatch = async (mediaType: "movie" | "tv") => {
           let response: TmdbSearchResponseType
