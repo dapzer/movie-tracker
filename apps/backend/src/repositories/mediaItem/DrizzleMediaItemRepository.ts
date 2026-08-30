@@ -248,13 +248,16 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }))
   }
 
-  async getMediaIdsByListId(args: Parameters<MediaItemRepositoryInterface["getMediaIdsByListId"]>[0]) {
+  async getMediaIdentifiersByListId(args: Parameters<MediaItemRepositoryInterface["getMediaIdentifiersByListId"]>[0]) {
     const rows = await this.drizzle.client
-      .select({ mediaId: mediaItems.mediaId })
+      .select({ mediaId: mediaItems.mediaId, mediaType: mediaItems.mediaType })
       .from(mediaItems)
       .where(eq(mediaItems.mediaListId, args.mediaListId))
 
-    return rows.map(row => row.mediaId)
+    return rows.map(row => ({
+      mediaId: row.mediaId,
+      mediaType: MediaTypeEnum[row.mediaType.toUpperCase() as keyof typeof MediaTypeEnum],
+    }))
   }
 
   async getByListId(args: Parameters<MediaItemRepositoryInterface["getByListId"]>[0]) {

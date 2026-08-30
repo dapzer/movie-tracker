@@ -131,14 +131,26 @@ export class DataImportService {
       return { created: 0, skipped: [] }
     }
 
-    const existingMediaIds = new Set(await this.mediaItemRepository.getMediaIdsByListId({
+    const mediaItemsByListId = await this.mediaItemRepository.getMediaIdentifiersByListId({
       mediaListId: args.mediaListId,
-    }))
+    })
+    const existingMediaKeys = new Set(mediaItemsByListId.map(el => `${el.mediaType}-${el.mediaId}`))
 
-    const newMedia = args.bucket.success.filter(media => !existingMediaIds.has(media.ids.tmdbId))
-    const skipped = args.bucket.success
-      .filter(media => existingMediaIds.has(media.ids.tmdbId))
-      .map(media => media.ids.tmdbId)
+    const newMedia: DataImportMediaType[] = []
+    const processedKeys = new Set<string>()
+    const skipped: number[] = []
+
+    for (const media of args.bucket.success) {
+      const key = this.toMediaKey(media)
+
+      if (existingMediaKeys.has(key) || processedKeys.has(key)) {
+        skipped.push(media.ids.tmdbId)
+        continue
+      }
+
+      processedKeys.add(key)
+      newMedia.push(media)
+    }
 
     if (!newMedia.length) {
       return { created: 0, skipped }
