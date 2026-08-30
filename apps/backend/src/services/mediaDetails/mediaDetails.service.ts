@@ -6,6 +6,7 @@ import {
   NotificationMediaReleaseEpisodeType,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
+import { getMillisecondsFromMins } from "@movie-tracker/utils"
 import { Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
 import { Cron } from "@nestjs/schedule"
 import { getTmdbDetailApi, getTmdbDetailsWithSeasonsApi } from "@/api/tmdb/tmdbApi"
@@ -35,7 +36,6 @@ import {
 } from "@/shared/errors/mediaDetails"
 import { convertArrayToChunks } from "@/shared/utils/convertArrayToChunks"
 import { convertMediaDetailsToMediaDetailsInfo } from "@/shared/utils/convertMediaDetailsToMediaDetailsInfo"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 
 interface NotificationType {
   subscriptionId: string
@@ -94,30 +94,32 @@ export class MediaDetailsService implements OnModuleInit {
     mediaId: number,
     mediaType: MediaTypeEnum,
     language: string,
+    rateLimitRetriesCount: number = 3,
   ): Promise<TmdbDetailsWithSeasonsResponseType | null> {
+    const retries = { 429: rateLimitRetriesCount }
+
     if (mediaType === MediaTypeEnum.TV) {
       return getTmdbDetailsWithSeasonsApi({
         mediaId,
         mediaType,
         language,
-      })
+      }, retries)
     }
 
     const details = await getTmdbDetailApi({
       mediaId,
       mediaType,
       language,
-
-    })
+    }, retries)
 
     return { details }
   }
 
-  private async getAllMediaDetails(mediaId: number, mediaType: MediaTypeEnum) {
+  private async getAllMediaDetails(mediaId: number, mediaType: MediaTypeEnum, rateLimitRetriesCount?: number) {
     try {
       const [ru, en] = await Promise.all([
-        this.getDetailsFromApi(mediaId, mediaType, "ru"),
-        this.getDetailsFromApi(mediaId, mediaType, "en"),
+        this.getDetailsFromApi(mediaId, mediaType, "ru", rateLimitRetriesCount),
+        this.getDetailsFromApi(mediaId, mediaType, "en", rateLimitRetriesCount),
       ])
 
       return {
@@ -281,6 +283,7 @@ export class MediaDetailsService implements OnModuleInit {
       skipError?: boolean
       updateDetails?: boolean
       generateSubscriptionNotifications?: boolean
+      rateLimitRetriesCount?: number
     },
   ) {
     let mediaDetailsItem: MediaDetailsType | null = args.currentDetails
@@ -293,7 +296,7 @@ export class MediaDetailsService implements OnModuleInit {
     }
 
     if (!mediaDetailsItem || args.updateDetails) {
-      const { ru, en } = await this.getAllMediaDetails(args.mediaId, args.mediaType)
+      const { ru, en } = await this.getAllMediaDetails(args.mediaId, args.mediaType, args.rateLimitRetriesCount)
 
       if (!ru || !en) {
         this.updatingProgress.failedUpdatesByApi += 1

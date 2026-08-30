@@ -1,4 +1,5 @@
 import {
+  DataImportRawResultType,
   MediaDetailsGenres,
   MediaDetailsInfoType,
   MediaItemSiteToViewType,
@@ -21,6 +22,8 @@ import {
   uuid,
 } from "drizzle-orm/pg-core"
 
+export const dataImportSourceEnum = pgEnum("DataImportSourceEnum", ["letterboxd", "trakt"])
+export const dataImportStatusEnum = pgEnum("DataImportStatusEnum", ["PENDING", "PROCESSING", "COMPLETED", "FAILED"])
 export const mediaListAccessLevelEnum = pgEnum("MediaListAccessLevelEnum", ["PUBLIC", "URL", "PRIVATE"])
 export const mediaTypeEnum = pgEnum("MediaTypeEnum", ["movie", "tv"])
 export const notificationTypeEnum = pgEnum("NotificationTypeEnum", ["MEDIA_LIST_LIKE", "USER_FOLLOW", "MEDIA_RELEASE", "MEDIA_STATUS_UPDATE", "MEDIA_REVIEW_MODERATION_UPDATE", "USER_BAN_CREATED", "USER_BAN_REVOKED"])
@@ -147,12 +150,23 @@ export const trackingData = pgTable("tracking_data", {
   id: uuid().defaultRandom().primaryKey().notNull(),
   currentStatus: statusNameEnum("current_status").default("NOT_VIEWED").notNull(),
   note: text().default("").notNull(),
+  // TODO: Remove
   score: integer(),
   sitesToView: jsonb("sites_to_view").default([]).notNull().$type<MediaItemSiteToViewType[]>(),
   tvProgress: jsonb("tv_progress").notNull().$type<MediaItemTvProgressType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull().$onUpdate(() => new Date()),
   mediaItemId: uuid("media_item_id").notNull().unique().references(() => mediaItems.id, { onUpdate: "cascade", onDelete: "cascade" }),
+})
+
+export const dataImports = pgTable("data_imports", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  source: dataImportSourceEnum("source").notNull(),
+  status: dataImportStatusEnum("status").default("PENDING").notNull(),
+  result: jsonb("result").notNull().$type<DataImportRawResultType>(),
+  processedAt: timestamp("processed_at", { precision: 3, mode: "date", withTimezone: true }),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
 })
 
 export const mediaListLikes = pgTable("media_list_likes", {

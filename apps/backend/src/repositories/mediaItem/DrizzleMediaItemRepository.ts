@@ -248,6 +248,18 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }))
   }
 
+  async getMediaIdentifiersByListId(args: Parameters<MediaItemRepositoryInterface["getMediaIdentifiersByListId"]>[0]) {
+    const rows = await this.drizzle.client
+      .select({ mediaId: mediaItems.mediaId, mediaType: mediaItems.mediaType })
+      .from(mediaItems)
+      .where(eq(mediaItems.mediaListId, args.mediaListId))
+
+    return rows.map(row => ({
+      mediaId: row.mediaId,
+      mediaType: MediaTypeEnum[row.mediaType.toUpperCase() as keyof typeof MediaTypeEnum],
+    }))
+  }
+
   async getByListId(args: Parameters<MediaItemRepositoryInterface["getByListId"]>[0]) {
     const search = args.search?.trim()
     const sortBy = args.sortBy ?? "createdAt"
@@ -395,17 +407,22 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
 
       await tx
         .insert(trackingData)
-        .values(insertedMediaItems.map((mediaItem, index) => ({
-          mediaItemId: mediaItem.id,
-          score: null,
-          sitesToView: [],
-          tvProgress: {
-            currentSeason: 1,
-            currentEpisode: 1,
-          },
-          currentStatus: args[index]?.currentStatus,
-          createdAt: args[index]?.createdAt,
-        })))
+        .values(insertedMediaItems.map((mediaItem, index) => {
+          const item = args[index]
+
+          return {
+            mediaItemId: mediaItem.id,
+            score: null,
+            note: item?.note,
+            sitesToView: [],
+            tvProgress: item?.tvProgress ?? {
+              currentSeason: 1,
+              currentEpisode: 1,
+            },
+            currentStatus: item?.currentStatus,
+            createdAt: item?.createdAt,
+          }
+        }))
 
       return insertedMediaItems.map(item => item.id)
     })

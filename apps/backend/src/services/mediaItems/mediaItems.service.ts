@@ -180,6 +180,9 @@ export class MediaItemsService {
         mediaListId: item.mediaListId,
         mediaDetailsId: mediaDetailsByMediaId.get(`${item.mediaType}-${item.mediaId}`)?.id,
         currentStatus: item.currentStatus,
+        note: item.note,
+        tvProgress: item.tvProgress,
+        createdAt: item.createdAt,
       }
     })
 

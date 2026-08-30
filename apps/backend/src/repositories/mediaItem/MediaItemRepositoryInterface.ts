@@ -5,6 +5,7 @@ import {
   MediaItemsCountByStatusType,
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
+  MediaItemTvProgressType,
   MediaItemType,
   MediaTypeEnum,
 } from "@movie-tracker/types"
@@ -23,6 +24,10 @@ export interface MediaItemRepositoryInterface {
     mediaItemOwnerUserId?: string
     withoutLimit?: boolean
   } & Omit<GetMediaItemsByListIdQueries, "mediaListId">) => Promise<MediaItemsByListIdResponseType>
+
+  getMediaIdentifiersByListId: (args: {
+    mediaListId: string
+  }) => Promise<Array<{ mediaId: number, mediaType: MediaTypeEnum }>>
 
   getCountByListId: (args: {
     mediaListId: string
@@ -47,6 +52,8 @@ export interface MediaItemRepositoryInterface {
     mediaDetailsId: string
     createdAt?: Date
     currentStatus?: MediaItemStatusNameEnum
+    note?: string
+    tvProgress?: MediaItemTvProgressType
   }>) => Promise<MediaItemType[]>
 
   createWithExistedData: (args: {

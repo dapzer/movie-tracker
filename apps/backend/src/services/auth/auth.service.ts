@@ -3,6 +3,7 @@ import { ConfirmEmailChangingEmail, WelcomeEmail } from "@movie-tracker/email-te
 import ConfirmationEmail from "@movie-tracker/email-templates/dist/emails/confirmation-email"
 import PasswordRecoveryEmail from "@movie-tracker/email-templates/dist/emails/password-recovery-email"
 import { SignUpMethodEnum, UserType } from "@movie-tracker/types"
+import { getMillisecondsFromDays, getMillisecondsFromMins } from "@movie-tracker/utils"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { Inject, Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
@@ -30,8 +31,6 @@ import {
   UserAlreadyExistsError,
   UserNotFoundError,
 } from "@/shared/errors/auth"
-import { getMillisecondsFromDays } from "@/shared/utils/getMillisecondsFromDays"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 
 @Injectable()
 export class AuthService {

@@ -36,7 +36,12 @@ export function getMediaReviewsListApi(args: GetMediaReviewsListArgs, options?: 
 }
 
 export function getMediaReviewByCurrentUserAndMediaIdApi(args: GetMediaReviewByCurrentUserAndMediaIdArgs, options?: RequestOptions) {
-  return api.get<MediaReviewWithReason | undefined>(`media-reviews/by-current-user-and-media/${args.mediaId}`, options)
+  return api.get<MediaReviewWithReason | undefined>(`media-reviews/by-current-user-and-media/${args.mediaId}`, {
+    ...options,
+    params: {
+      mediaType: args.mediaType,
+    },
+  })
 }
 
 export function getMediaReviewByIdApi(args: GetMediaReviewByIdArgs, options?: RequestOptions) {

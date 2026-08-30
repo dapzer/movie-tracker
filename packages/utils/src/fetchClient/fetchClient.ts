@@ -1,4 +1,6 @@
-import type { RequestOptions, SearchParams } from "./fetchClientTypes"
+import type { RequestOptions, RetryRule, RetryRules, SearchParams } from "./fetchClientTypes"
+import { getMillisecondsFromSeconds } from "../getMillisecondsFromSeconds"
+import { HttpStatusValue } from "../HttpStatus"
 import { FetchError } from "./featchError"
 
 export class FetchClient {
@@ -49,6 +51,46 @@ export class FetchClient {
     return `?${searchParams.toString()}`
   }
 
+  private resolveRetryRule(error: FetchError, rules?: RetryRules): RetryRule | undefined {
+    const rule = rules?.[error.statusCode as HttpStatusValue]
+
+    if (rule === undefined) {
+      return undefined
+    }
+
+    return typeof rule === "number" ? { retries: rule } : rule
+  }
+
+  private getRetryDelay(rule: RetryRule, attempt: number, error: FetchError): number {
+    let delay: number
+
+    if (typeof rule.delay === "function") {
+      delay = rule.delay({ attempt, error })
+    }
+    else if (typeof rule.delay === "number") {
+      delay = rule.delay
+    }
+    else {
+      delay = getMillisecondsFromSeconds(2) ** (attempt || 1)
+    }
+
+    const retryAfter = Number(error.headers?.["retry-after"])
+
+    if (Number.isFinite(retryAfter) && retryAfter > 0) {
+      delay = Math.max(delay, retryAfter * 1000)
+    }
+
+    return delay
+  }
+
+  private async parseResponse<T>(response: Response): Promise<T> {
+    if (response.headers.get("Content-Type")?.includes("application/json")) {
+      return (await response.json()) as unknown as T
+    }
+
+    return (await response.text()) as unknown as T
+  }
+
   private async request<T>(
     endpoint: string,
     method: RequestInit["method"],
@@ -61,8 +103,10 @@ export class FetchClient {
       url += this.createSearchParams(options.params)
     }
 
+    const { params: _, retries, ...restOptions } = options
+
     const config: RequestInit = {
-      ...options,
+      ...restOptions,
       ...(!!this.options && { ...this.options }),
       method,
       headers: {
@@ -71,18 +115,25 @@ export class FetchClient {
       },
     }
 
-    const response: Response = await fetch(url, config)
+    let attempt = 0
 
-    if (!response.ok) {
-      const error = await response.json() as { message: string } | undefined
-      throw new FetchError(response.status, error?.message || response.statusText)
-    }
+    while (true) {
+      const response: Response = await fetch(url, config)
 
-    if (response.headers.get("Content-Type")?.includes("application/json")) {
-      return (await response.json()) as unknown as T
-    }
-    else {
-      return (await response.text()) as unknown as T
+      if (response.ok) {
+        return this.parseResponse<T>(response)
+      }
+
+      const errorBody = await response.json() as { message: string } | undefined
+      const error = new FetchError(response.status, errorBody?.message || response.statusText, Object.fromEntries(response.headers))
+      const retryRule = this.resolveRetryRule(error, retries)
+
+      if (!retryRule || attempt >= retryRule.retries) {
+        throw error
+      }
+
+      await new Promise(resolve => setTimeout(resolve, this.getRetryDelay(retryRule, attempt, error)))
+      attempt += 1
     }
   }
 

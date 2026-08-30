@@ -55,3 +55,5 @@ export const HttpStatus = {
   INSUFFICIENT_STORAGE: 507,
   LOOP_DETECTED: 508,
 } as const
+
+export type HttpStatusValue = typeof HttpStatus[ keyof typeof HttpStatus]

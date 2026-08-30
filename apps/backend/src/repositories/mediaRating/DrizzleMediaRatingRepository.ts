@@ -248,6 +248,7 @@ export class DrizzleMediaRatingRepository implements MediaRatingRepositoryInterf
         mediaId: args.mediaId,
         mediaType: args.mediaType,
         rating: args.rating,
+        createdAt: args.createdAt,
       })
       .returning()
 

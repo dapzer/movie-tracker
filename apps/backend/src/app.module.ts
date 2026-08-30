@@ -1,4 +1,5 @@
 import KeyvRedis from "@keyv/redis"
+import { getMillisecondsFromHours, getMillisecondsFromMins } from "@movie-tracker/utils"
 import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis"
 import { CacheModule } from "@nestjs/cache-manager"
 import { Module, RequestMethod } from "@nestjs/common"
@@ -14,8 +15,6 @@ import { MailModule } from "@/services/mail/mail.module"
 import { RedlockModule } from "@/services/redlock/redlock.module"
 import { config } from "@/shared/constants"
 import { envSchema } from "@/shared/schemas/envSchema"
-import { getMillisecondsFromHours } from "@/shared/utils/getMillisecondsFromHours"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 
 @Module({
   imports: [

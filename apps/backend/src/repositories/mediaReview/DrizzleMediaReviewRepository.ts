@@ -220,11 +220,13 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
       .leftJoin(mediaRatings, and(
         eq(mediaRatings.userId, mediaReviews.userId),
         eq(mediaRatings.mediaId, mediaReviews.mediaId),
+        eq(mediaRatings.mediaType, mediaReviews.mediaType),
       ))
       .where(
         and(
           eq(mediaReviews.userId, args.userId),
           eq(mediaReviews.mediaId, args.mediaId),
+          eq(mediaReviews.mediaType, args.mediaType),
           not(eq(mediaReviews.status, MediaReviewStatus.DELETED)),
         ),
       )
@@ -406,6 +408,7 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
         isSpoiler: args.isSpoiler,
         status: args.status,
         publishedAt: args.publishedAt,
+        createdAt: args.createdAt,
       })
       .returning()
 

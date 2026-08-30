@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm/relations"
 import {
   accounts,
+  dataImports,
   mediaDetails,
   mediaItems,
   mediaListLikes,
@@ -45,6 +46,14 @@ export const usersRelations = relations(users, ({ many }) => ({
   }),
   mediaRatings: many(mediaRatings),
   releaseSubscriptions: many(releaseSubscriptions),
+  dataImports: many(dataImports),
+}))
+
+export const dataImportsRelations = relations(dataImports, ({ one }) => ({
+  user: one(users, {
+    fields: [dataImports.userId],
+    references: [users.id],
+  }),
 }))
 
 export const userBansRelations = relations(userBans, ({ one }) => ({

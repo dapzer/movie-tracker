@@ -55,10 +55,18 @@ export class MediaListsService {
     return mediaList.userId === currentUserId
   }
 
-  private async isMediaListsLimitReached(userId: string) {
+  async validateIsListOwner(id: string, userId: string) {
+    const isListOwner = await this.isListOwner(id, userId)
+
+    if (!isListOwner) {
+      throw new MediaListUnauthorizedError({ userId, mediaListId: id })
+    }
+  }
+
+  async validateIsMediaListsLimitReached(userId: string, additionalCount = 1) {
     const mediaListsCount = await this.mediaListRepository.getCountByUserId(userId)
 
-    if (mediaListsCount >= MEDIA_LIST_COUNT_LIMIT) {
+    if (mediaListsCount + additionalCount > MEDIA_LIST_COUNT_LIMIT) {
       throw new MediaListLimitReachedError({ userId, limit: MEDIA_LIST_COUNT_LIMIT })
     }
 
@@ -94,7 +102,7 @@ export class MediaListsService {
   }
 
   async create(userId: string, body?: CreateMediaListDto) {
-    await this.isMediaListsLimitReached(userId)
+    await this.validateIsMediaListsLimitReached(userId)
     return this.mediaListRepository.create({
       userId,
       isSystem: false,
@@ -132,7 +140,7 @@ export class MediaListsService {
     userId: string,
     body: CreateMediaListCloneDto,
   ) {
-    await this.isMediaListsLimitReached(userId)
+    await this.validateIsMediaListsLimitReached(userId)
 
     const mediaList = await this.mediaListRepository.getById({ id })
 

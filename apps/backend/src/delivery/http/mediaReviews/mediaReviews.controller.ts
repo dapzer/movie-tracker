@@ -1,5 +1,7 @@
+import { getMillisecondsFromMins } from "@movie-tracker/utils"
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { Throttle } from "@nestjs/throttler"
+import { GetMediaReviewByCurrentUserAndMediaIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewByCurrentUserAndMediaIdQuery.dto"
 import { GetMediaReviewsByMediaIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByMediaIdQuery.dto"
 import { GetMediaReviewsByUserIdQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsByUserIdQuery.dto"
 import { GetMediaReviewsListQueryDto } from "@/delivery/http/mediaReviews/dto/getMediaReviewsListQuery.dto"
@@ -13,7 +15,6 @@ import { MediaReviewsService } from "@/services/mediaReviews/mediaReviews.servic
 import { OptionalUserDto, UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
 import { UuidDto } from "@/shared/dto/uuid.dto"
-import { getMillisecondsFromMins } from "@/shared/utils/getMillisecondsFromMins"
 import {
   CreateMediaReviewDislikeDocs,
   CreateMediaReviewDocs,
@@ -52,9 +53,14 @@ export class MediaReviewsController {
   @Get("by-current-user-and-media/:mediaId")
   @UseGuards(AuthGuard)
   @GetMediaReviewByCurrentUserAndMediaIdDocs()
-  async getMediaReviewByCurrentUserAndMediaId(@User() user: UserDto, @Param("mediaId") mediaId: string) {
+  async getMediaReviewByCurrentUserAndMediaId(
+    @User() user: UserDto,
+    @Param("mediaId") mediaId: string,
+    @Query() query: GetMediaReviewByCurrentUserAndMediaIdQueryDto,
+  ) {
     return this.mediaReviewsService.getByCurrentUserAndMediaId({
       mediaId: Number(mediaId),
+      mediaType: query.mediaType,
       currentUserId: user.id,
     })
   }

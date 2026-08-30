@@ -93,6 +93,7 @@ export class MediaRatingsService {
   async create(args: {
     userId: string
     body: CreateMediaRatingDto
+    createdAt?: Date
   }) {
     const mediaDetails = await this.mediaDetailsService.createOrUpdate(
       {
@@ -110,6 +111,7 @@ export class MediaRatingsService {
     return this.mediaRatingRepository.create({
       userId: args.userId,
       mediaDetailsId: mediaDetails.id,
+      createdAt: args.createdAt,
       ...args.body,
     })
   }

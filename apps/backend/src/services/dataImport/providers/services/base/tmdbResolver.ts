@@ -1,0 +1,221 @@
+import { TmdbSearchResponseResultItemType, TmdbSearchResponseType } from "@movie-tracker/types"
+import { FetchError, getMillisecondsFromDays, getMillisecondsFromHours } from "@movie-tracker/utils"
+import { CACHE_MANAGER } from "@nestjs/cache-manager"
+import { HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { Cache } from "cache-manager"
+import { tmdbApi } from "@/api/instance"
+import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImport"
+
+export type TmdbExternalIdSource = "imdb_id" | "tvdb_id"
+
+const NOT_FOUND_CACHE_MARKER = "__not_found__"
+
+export interface TmdbFindResultItemType {
+  id: number
+  title?: string
+  name?: string
+  release_date?: string
+  first_air_date?: string
+}
+
+export interface TmdbFindResponseType {
+  movie_results: TmdbFindResultItemType[]
+  tv_results: TmdbFindResultItemType[]
+}
+
+@Injectable()
+export class TmdbResolver {
+  private readonly inFlight = new Map<string, Promise<unknown>>()
+
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
+  }
+
+  private async cached<T>(args: { key: string, ttl: number, notFoundTtl: number, resolve: () => Promise<T> }): Promise<T> {
+    const cached = await this.cacheManager.get<T | typeof NOT_FOUND_CACHE_MARKER>(args.key)
+
+    if (cached === NOT_FOUND_CACHE_MARKER) {
+      throw new TmdbNotFoundError()
+    }
+
+    if (cached !== undefined && cached !== null) {
+      return cached
+    }
+
+    const pending = this.inFlight.get(args.key)
+    if (pending) {
+      return pending as Promise<T>
+    }
+
+    const promise = args.resolve()
+      .then(async (result) => {
+        await this.cacheManager.set(args.key, result, args.ttl)
+        return result
+      })
+      .catch(async (error) => {
+        if (error instanceof TmdbNotFoundError) {
+          await this.cacheManager.set(args.key, NOT_FOUND_CACHE_MARKER, args.notFoundTtl)
+        }
+        throw error
+      })
+      .finally(() => {
+        this.inFlight.delete(args.key)
+      })
+
+    this.inFlight.set(args.key, promise)
+
+    return promise
+  }
+
+  private async request<T>(args: {
+    endpoint: string
+    params: Record<string, string | number | boolean | undefined>
+  }): Promise<T> {
+    return tmdbApi.get<T>(args.endpoint, {
+      params: args.params,
+      retries: {
+        [HttpStatus.TOO_MANY_REQUESTS]: 10,
+      },
+    })
+  }
+
+  async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{
+    id: number
+    type: "movie" | "tv"
+    releaseDate?: string
+  }> {
+    return this.cached({
+      key: `import:tmdb:find:${args.source}:${args.externalId}`,
+      ttl: getMillisecondsFromDays(7),
+      notFoundTtl: getMillisecondsFromHours(1),
+      resolve: async () => {
+        let response: TmdbFindResponseType
+
+        try {
+          response = await this.request<TmdbFindResponseType>({
+            endpoint: `find/${args.externalId}`,
+            params: {
+              external_source: args.source,
+            },
+          })
+        }
+        catch (error) {
+          if (error instanceof FetchError) {
+            throw new TmdbResolutionError("find", error.statusCode)
+          }
+          throw error
+        }
+
+        const movie = response.movie_results?.[0]
+        if (movie) {
+          return { id: movie.id, type: "movie" as const, releaseDate: movie.release_date || undefined }
+        }
+
+        const tv = response.tv_results?.[0]
+        if (tv) {
+          return { id: tv.id, type: "tv" as const, releaseDate: tv.first_air_date || undefined }
+        }
+
+        throw new TmdbNotFoundError()
+      },
+    })
+  }
+
+  async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }): Promise<{
+    id: number
+    type: "movie" | "tv"
+    releaseDate?: string
+  }> {
+    const normalizedTitle = args.title.trim().toLowerCase()
+
+    return this.cached({
+      key: `import:tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type ?? "any"}`,
+      ttl: getMillisecondsFromHours(12),
+      notFoundTtl: getMillisecondsFromHours(1),
+      resolve: async () => {
+        const getMatch = async (mediaType: "movie" | "tv") => {
+          let response: TmdbSearchResponseType
+
+          try {
+            response = await this.request<TmdbSearchResponseType>({
+              endpoint: `search/${mediaType}`,
+              params: {
+                query: args.title,
+                year: mediaType === "movie" ? args.year : undefined,
+                first_air_date_year: mediaType === "tv" ? args.year : undefined,
+              },
+            })
+          }
+          catch (error) {
+            if (error instanceof FetchError) {
+              throw new TmdbResolutionError("search", error.statusCode)
+            }
+            throw error
+          }
+
+          return this.pickSearchResult({ results: response.results, title: args.title, year: args.year })
+        }
+
+        if (args.type) {
+          const result = await getMatch(args.type)
+          if (!result) {
+            throw new TmdbNotFoundError()
+          }
+          return { id: result.id, type: args.type, releaseDate: this.getResultReleaseDate(result) }
+        }
+
+        const [movieResult, tvResult] = await Promise.allSettled([getMatch("movie"), getMatch("tv")])
+
+        const movie = movieResult.status === "fulfilled" ? movieResult.value : null
+        const tv = tvResult.status === "fulfilled" ? tvResult.value : null
+        const result = movie ?? tv
+
+        if (!result) {
+          const rejection = [movieResult, tvResult].find((r): r is PromiseRejectedResult => r.status === "rejected")
+
+          if (rejection) {
+            throw rejection.reason
+          }
+
+          throw new TmdbNotFoundError()
+        }
+
+        return { id: result.id, type: movie ? "movie" : "tv", releaseDate: this.getResultReleaseDate(result) }
+      },
+    })
+  }
+
+  private getResultReleaseDate(result: TmdbSearchResponseResultItemType): string | undefined {
+    return (result.release_date ?? result.first_air_date) || undefined
+  }
+
+  private pickSearchResult(args: {
+    results: TmdbSearchResponseResultItemType[]
+    title: string
+    year?: number
+  }): TmdbSearchResponseResultItemType | null {
+    if (!args.results.length) {
+      return null
+    }
+
+    const normalizedTitle = args.title.trim().toLowerCase()
+
+    const exact = args.results.find((result) => {
+      const titles = [result.title, result.original_title, result.name, result.original_name]
+        .filter(Boolean)
+        .map(value => value!.trim().toLowerCase())
+
+      if (!titles.includes(normalizedTitle)) {
+        return false
+      }
+
+      if (args.year === undefined) {
+        return true
+      }
+
+      const releaseDate = result.release_date ?? result.first_air_date
+      return releaseDate?.startsWith(String(args.year)) ?? false
+    })
+
+    return exact ?? args.results[0]
+  }
+}

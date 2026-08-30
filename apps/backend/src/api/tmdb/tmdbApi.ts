@@ -1,4 +1,5 @@
 import type { TmdbMediaDetailsSeasonKey, TmdbMediaDetailsType, TmdbSeasonDetailsType } from "@movie-tracker/types"
+import type { RetryRules } from "@movie-tracker/utils"
 import { tmdbApi } from "@/api/instance"
 import {
   TmdbDefaultQueriesType,
@@ -6,15 +7,16 @@ import {
   TmdbSeasonsQueriesType,
 } from "@/api/tmdb/tmdbApiTypes"
 
-export async function getTmdbDetailApi<T = TmdbMediaDetailsType>(queries: TmdbDefaultQueriesType) {
+export async function getTmdbDetailApi<T = TmdbMediaDetailsType>(queries: TmdbDefaultQueriesType, retries?: RetryRules) {
   return tmdbApi.get<T>(`${queries.mediaType}/${queries.mediaId}`, {
     params: {
       language: queries.language,
     },
+    retries,
   })
 }
 
-export async function getTmdbDetailsWithSeasonsApi(queries: TmdbSeasonsQueriesType): Promise<TmdbDetailsWithSeasonsResponseType | null> {
+export async function getTmdbDetailsWithSeasonsApi(queries: TmdbSeasonsQueriesType, retries?: RetryRules): Promise<TmdbDetailsWithSeasonsResponseType | null> {
   let details = {} as TmdbMediaDetailsType
   const seasons: TmdbSeasonDetailsType[] = []
 
@@ -32,6 +34,7 @@ export async function getTmdbDetailsWithSeasonsApi(queries: TmdbSeasonsQueriesTy
         language: queries.language,
         append_to_response: seasonQuery.join(","),
       },
+      retries,
     })
 
     if (res) {
