@@ -163,10 +163,19 @@ export class TmdbResolver {
           return { id: result.id, type: args.type, releaseDate: this.getResultReleaseDate(result) }
         }
 
-        const [movie, tv] = await Promise.all([getMatch("movie"), getMatch("tv")])
+        const [movieResult, tvResult] = await Promise.allSettled([getMatch("movie"), getMatch("tv")])
+
+        const movie = movieResult.status === "fulfilled" ? movieResult.value : null
+        const tv = tvResult.status === "fulfilled" ? tvResult.value : null
         const result = movie ?? tv
 
         if (!result) {
+          const rejection = [movieResult, tvResult].find((r): r is PromiseRejectedResult => r.status === "rejected")
+
+          if (rejection) {
+            throw rejection.reason
+          }
+
           throw new TmdbNotFoundError()
         }
 
