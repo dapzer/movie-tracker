@@ -281,6 +281,7 @@ export class DataImportService {
         catch (error) {
           if (error instanceof MediaReviewAlreadyExistsError) {
             alreadyExistingIds.push(review.media.ids.tmdbId)
+            return
           }
 
           throw error
