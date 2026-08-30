@@ -368,6 +368,7 @@ export class TraktProvider extends BaseService {
     }
 
     const favorites = this.parseFile({ files: args.files, fileName: "lists-favorites.json", schema: traktFavoritesItemSchema })
+    bucket.failed.push(...favorites.failed)
     if (favorites.success.length) {
       const items = await this.processToBucket({
         records: favorites.success,
