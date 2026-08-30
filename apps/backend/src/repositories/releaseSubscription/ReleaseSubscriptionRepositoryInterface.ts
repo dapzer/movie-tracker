@@ -22,6 +22,7 @@ export interface ReleaseSubscriptionRepositoryInterface {
 
   getByMediaIdUserId: (args: {
     mediaId: number
+    mediaType: MediaTypeEnum
     userId: string
   }) => Promise<ReleaseSubscriptionType | undefined>
 

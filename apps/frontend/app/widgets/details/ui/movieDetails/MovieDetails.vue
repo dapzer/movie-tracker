@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GetCommunityListsWithMediaQueries } from "@movie-tracker/types"
+import type { GetCommunityListsWithMediaQueries, MediaTypeEnum } from "@movie-tracker/types"
 import type { FetchError } from "@movie-tracker/utils"
 import { useLocalePath } from "#i18n"
 import { computed, createError, useHead, useI18n } from "#imports"
@@ -69,6 +69,7 @@ const getMediaRatingApi = useGetMediaRatingByMediaIdApi({
 const getCommunityListsWithMediaApi = useGetCommunityListsWithMediaApi(getCommunityListsWithMediaQueries)
 const getReleaseSubscriptionApi = useGetReleaseSubscriptionByMediaIdApi({
   mediaId: props.mediaId,
+  mediaType: props.mediaType as unknown as MediaTypeEnum,
 })
 
 await Promise.all([

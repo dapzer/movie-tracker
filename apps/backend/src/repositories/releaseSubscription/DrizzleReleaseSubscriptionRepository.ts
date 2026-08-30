@@ -220,6 +220,7 @@ export class DrizzleReleaseSubscriptionRepository implements ReleaseSubscription
       .from(releaseSubscriptions)
       .where(and(
         eq(releaseSubscriptions.mediaId, args.mediaId),
+        eq(releaseSubscriptions.mediaType, args.mediaType),
         eq(releaseSubscriptions.userId, args.userId),
       ))
       .limit(1)

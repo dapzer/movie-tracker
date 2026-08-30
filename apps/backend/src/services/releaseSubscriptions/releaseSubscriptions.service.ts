@@ -1,7 +1,7 @@
 import type {
   GetReleaseSubscriptionsByUserIdQueryType,
 } from "@/services/releaseSubscriptions/dto/getReleaseSubscriptionsByUserIdQuery.dto"
-import { ReleaseSubscriptionsResponseType, ReleaseSubscriptionType } from "@movie-tracker/types"
+import { MediaTypeEnum, ReleaseSubscriptionsResponseType, ReleaseSubscriptionType } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import {
   ReleaseSubscriptionRepositoryInterface,
@@ -37,8 +37,8 @@ export class ReleaseSubscriptionsService {
     })
   }
 
-  async getByMediaIdAndUserId(args: { mediaId: number, userId: string }): Promise<ReleaseSubscriptionType> {
-    return this.releaseSubscriptionRepository.getByMediaIdUserId({ mediaId: args.mediaId, userId: args.userId })
+  async getByMediaIdAndUserId(args: { mediaId: number, mediaType: MediaTypeEnum, userId: string }): Promise<ReleaseSubscriptionType> {
+    return this.releaseSubscriptionRepository.getByMediaIdUserId({ mediaId: args.mediaId, mediaType: args.mediaType, userId: args.userId })
   }
 
   async getByUserId(args: { userId: string } & GetReleaseSubscriptionsByUserIdQueryType): Promise<ReleaseSubscriptionsResponseType> {

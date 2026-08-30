@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, createError, useI18n } from "#imports"
-import { TmdbMediaTypeEnum } from "@movie-tracker/types"
+import { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
 import { useGetTmdbMovieDetailsApi, useGetTmdbTvSeriesDetailsApi } from "~/api/tmdb/useTmdbApi"
 import { UiContainer } from "~/shared/ui/UiContainer"
@@ -25,6 +25,7 @@ const tmdbGetTvSeriesDetailsApi = useGetTmdbTvSeriesDetailsApi(queries)
 const tmdbGetMovieDetailsApi = useGetTmdbMovieDetailsApi(queries)
 const getReleaseSubscriptionApi = useGetReleaseSubscriptionByMediaIdApi({
   mediaId: props.mediaId,
+  mediaType: MediaTypeEnum.TV,
 })
 
 await Promise.all([

@@ -1,5 +1,5 @@
 import { mediaDetails } from "@movie-tracker/database"
-import { and, eq, inArray } from "@movie-tracker/database/drizzle"
+import { and, eq } from "@movie-tracker/database/drizzle"
 import { MediaDetailsInfoType, MediaDetailsType, MediaTypeEnum } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { count } from "drizzle-orm"
@@ -31,15 +31,6 @@ implements MediaDetailsRepositoryInterface {
     }
   }
 
-  async getByMediaIds(args: Parameters<MediaDetailsRepositoryInterface["getByMediaIds"]>[0]) {
-    const details = await this.drizzle.client
-      .select()
-      .from(mediaDetails)
-      .where(inArray(mediaDetails.mediaId, args.mediaIds))
-
-    return details.map(detail => this.convertToInterface(detail))
-  }
-
   async create(args: Parameters<MediaDetailsRepositoryInterface["create"]>[0]) {
     const [detail] = await this.drizzle.client
       .insert(mediaDetails)
@@ -69,7 +60,12 @@ implements MediaDetailsRepositoryInterface {
         ru: args.ru,
         en: args.en,
       })
-      .where(eq(mediaDetails.mediaId, args.mediaId))
+      .where(
+        and(
+          eq(mediaDetails.mediaId, args.mediaId),
+          eq(mediaDetails.mediaType, args.mediaType),
+        ),
+      )
       .returning()
 
     return this.convertToInterface(detail)
