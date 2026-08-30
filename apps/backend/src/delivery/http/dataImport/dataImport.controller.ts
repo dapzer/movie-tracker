@@ -1,4 +1,5 @@
 import { Buffer } from "node:buffer"
+import { getBytesFromMegabytes } from "@movie-tracker/utils"
 import { Body, Controller, Get, Param, Post, Query, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import {
@@ -18,6 +19,8 @@ import { PaginationDto } from "@/shared/dto/pagination.dto"
 import { UuidDto } from "@/shared/dto/uuid.dto"
 import { DataImportArchiveIsRequiredError } from "@/shared/errors/dataImport"
 
+const IMPORT_ARCHIVE_MAX_SIZE_BYTES = getBytesFromMegabytes(50)
+
 @Controller("data-import")
 @DataImportControllerDocs()
 export class DataImportController {
@@ -26,7 +29,7 @@ export class DataImportController {
   @Post()
   @ImportDataDocs()
   @UseGuards(AuthGuard)
-  @UseInterceptors(FileInterceptor("archive"))
+  @UseInterceptors(FileInterceptor("archive", { limits: { fileSize: IMPORT_ARCHIVE_MAX_SIZE_BYTES } }))
   async importData(
     @Query() query: ImportDataQueryDto,
     @User() user: UserDto,
