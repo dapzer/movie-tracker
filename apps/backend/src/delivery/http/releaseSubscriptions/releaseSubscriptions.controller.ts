@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateReleaseSubscriptionDto } from "@/services/releaseSubscriptions/dto/createReleaseSubscription.dto"
+import { GetReleaseSubscriptionByMediaIdQueryDto } from "@/services/releaseSubscriptions/dto/getReleaseSubscriptionByMediaIdQuery.dto"
 import {
   GetReleaseSubscriptionsByUserIdQueryDto,
 } from "@/services/releaseSubscriptions/dto/getReleaseSubscriptionsByUserIdQuery.dto"
@@ -47,8 +48,12 @@ export class ReleaseSubscriptionsController {
   @Get("by-media/:mediaId")
   @UseGuards(AuthGuard)
   @GetReleaseSubscriptionByMediaIdAndUserIdDocs()
-  async getReleaseSubscriptionByMediaIdAndUserId(@Param("mediaId") mediaId: number, @User() user: UserDto) {
-    return this.releaseSubscriptionsService.getByMediaIdAndUserId({ mediaId, userId: user.id })
+  async getReleaseSubscriptionByMediaIdAndUserId(
+    @Param("mediaId") mediaId: number,
+    @Query() query: GetReleaseSubscriptionByMediaIdQueryDto,
+    @User() user: UserDto,
+  ) {
+    return this.releaseSubscriptionsService.getByMediaIdAndUserId({ mediaId, mediaType: query.mediaType, userId: user.id })
   }
 
   @Delete(":id")

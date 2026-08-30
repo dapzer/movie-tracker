@@ -30,6 +30,7 @@ export interface MediaItemCreateCloneApiTypes {
 
 export interface GetMediaItemsByMediaIdApiArgs {
   mediaId: number
+  mediaType: MediaTypeEnum
 }
 
 export type GetMediaItemsByMediaListIdApiArgs = { mediaListId: string } & Omit<GetMediaItemsByListIdQueries, "mediaListId">

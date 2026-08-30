@@ -11,6 +11,9 @@ import { api } from "~/api/instance"
 export function getReleaseSubscriptionByMediaId(args: GetReleaseSubscriptionByMediaIdArgs, options?: Omit<RequestOptions, "params">) {
   return api.get<ReleaseSubscriptionType>(`release-subscriptions/by-media/${args.mediaId}`, {
     ...options,
+    params: {
+      mediaType: args.mediaType,
+    },
   })
 }
 

@@ -19,6 +19,7 @@ const { t } = useI18n()
 
 const getReleaseSubscriptionApi = useGetReleaseSubscriptionByMediaIdApi({
   mediaId: props.mediaId,
+  mediaType: props.mediaType as MediaTypeEnum,
 })
 
 const isReleased = computed(() => {

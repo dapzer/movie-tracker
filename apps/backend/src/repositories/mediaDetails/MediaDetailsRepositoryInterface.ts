@@ -8,14 +8,11 @@ import {
 export const MediaDetailsRepositorySymbol = Symbol("MediaDetailsRepository")
 
 export interface MediaDetailsRepositoryInterface {
-  getByMediaIds: (args: {
-    mediaIds: number[]
-  }) => Promise<MediaDetailsType[]>
-
   create: (args: MediaDetailsCreateBodyType) => Promise<MediaDetailsType>
 
   update: (args: {
     mediaId: number
+    mediaType: MediaTypeEnum
   } & MediaDetailsUpdateBodyType) => Promise<MediaDetailsType>
 
   getByMediaData: (args: {

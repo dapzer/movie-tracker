@@ -335,6 +335,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       .where(
         and(
           eq(mediaItems.mediaId, args.mediaId),
+          eq(mediaItems.mediaType, args.mediaType),
           eq(mediaLists.userId, args.userId),
         ),
       )
