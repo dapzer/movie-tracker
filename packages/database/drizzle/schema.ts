@@ -105,7 +105,7 @@ export const accounts = pgTable("accounts", {
 
 export const mediaDetails = pgTable("media_details", {
   id: uuid().defaultRandom().primaryKey().notNull(),
-  mediaId: integer("media_id").notNull().unique(),
+  mediaId: integer("media_id").notNull(),
   mediaType: mediaTypeEnum("media_type").notNull(),
   score: numeric({ precision: 65, scale: 30 }),
   status: text(),
@@ -115,7 +115,9 @@ export const mediaDetails = pgTable("media_details", {
   ru: jsonb().notNull().$type<MediaDetailsInfoType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull().$onUpdate(() => new Date()),
-})
+}, table => [
+  uniqueIndex("media_details_media_id_media_type_key").on(table.mediaId, table.mediaType),
+])
 
 export const mediaLists = pgTable("media_lists", {
   id: uuid().defaultRandom().primaryKey().notNull(),
@@ -138,8 +140,9 @@ export const mediaItems = pgTable("media_items", {
   mediaListId: uuid("media_list_id").notNull().references(() => mediaLists.id, { onUpdate: "cascade", onDelete: "cascade" }),
   mediaDetailsId: uuid("media_details_id").references(() => mediaDetails.id, { onUpdate: "cascade", onDelete: "set null" }),
 }, table => [
-  uniqueIndex("media_items_media_id_media_list_id_key").on(
+  uniqueIndex("media_items_media_id_media_type_media_list_id_key").on(
     table.mediaId,
+    table.mediaType,
     table.mediaListId,
   ),
 ])
@@ -230,8 +233,9 @@ export const releaseSubscriptions = pgTable("release_subscriptions", {
   mediaId: integer("media_id").notNull(),
   mediaType: mediaTypeEnum("media_type").notNull(),
 }, table => [
-  uniqueIndex("release_subscriptions_media_id_user_id_key").on(
+  uniqueIndex("release_subscriptions_media_id_media_type_user_id_key").on(
     table.mediaId,
+    table.mediaType,
     table.userId,
   ),
 ])

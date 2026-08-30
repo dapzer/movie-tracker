@@ -82,6 +82,7 @@ export interface MediaItemRepositoryInterface {
 
   getByMediaId: (args: {
     mediaId: number
+    mediaType: MediaTypeEnum
     userId: string
   }) => Promise<MediaItemType[]>
 

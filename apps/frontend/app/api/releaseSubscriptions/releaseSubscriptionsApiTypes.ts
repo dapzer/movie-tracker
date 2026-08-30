@@ -1,7 +1,8 @@
-import type { CreateReleaseSubscriptionType, GetReleaseSubscriptionsByUserIdQueries } from "@movie-tracker/types"
+import type { CreateReleaseSubscriptionType, GetReleaseSubscriptionsByUserIdQueries, MediaTypeEnum } from "@movie-tracker/types"
 
 export interface GetReleaseSubscriptionByMediaIdArgs {
   mediaId: number
+  mediaType: MediaTypeEnum
 }
 
 export type GetReleaseSubscriptionsByUserIdArgs = GetReleaseSubscriptionsByUserIdQueries

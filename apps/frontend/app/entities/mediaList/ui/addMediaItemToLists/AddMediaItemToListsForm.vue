@@ -55,6 +55,7 @@ const getMediaListsApi = useGetMediaListsApi({
 })
 const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
   mediaId: props.mediaId,
+  mediaType: props.mediaType as MediaTypeEnum,
 }, {
   refetchOnMount: true,
   staleTime: 0,

@@ -166,7 +166,7 @@ export class MediaItemsService {
       currentDetails: null,
     })))
 
-    const mediaDetailsByMediaId = new Map(mediaDetailsList.map(details => [details.mediaId, details]))
+    const mediaDetailsByMediaId = new Map(mediaDetailsList.map(details => [`${details.mediaType}-${details.mediaId}`, details]))
 
     const createMediaItemsArgs: Parameters<MediaItemRepositoryInterface["createMany"]>[0] = args.items.map((item) => {
       const mediaList = mediaListById.get(item.mediaListId)
@@ -178,7 +178,7 @@ export class MediaItemsService {
         mediaId: item.mediaId,
         mediaType: item.mediaType,
         mediaListId: item.mediaListId,
-        mediaDetailsId: mediaDetailsByMediaId.get(item.mediaId)?.id,
+        mediaDetailsId: mediaDetailsByMediaId.get(`${item.mediaType}-${item.mediaId}`)?.id,
         currentStatus: item.currentStatus,
         note: item.note,
         tvProgress: item.tvProgress,
@@ -307,9 +307,10 @@ export class MediaItemsService {
     }
   }
 
-  async getByMediaId(args: { mediaId: number, userId: string }) {
+  async getByMediaId(args: { mediaId: number, mediaType: MediaTypeEnum, userId: string }) {
     const mediaItems = await this.mediaItemRepository.getByMediaId({
       mediaId: args.mediaId,
+      mediaType: args.mediaType,
       userId: args.userId,
     })
 

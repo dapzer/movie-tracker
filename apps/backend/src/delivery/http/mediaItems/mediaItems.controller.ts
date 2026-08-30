@@ -8,6 +8,7 @@ import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dt
 import { CreateMediaItemCloneDto } from "@/services/mediaItems/dto/createMediaItemClone.dto"
 import { GetMediaItemsByListIdQueryDto } from "@/services/mediaItems/dto/getMediaItemsByListIdQuery.dto"
 import { GetMediaItemsByMediaIdParams } from "@/services/mediaItems/dto/getMediaItemsByMediaIdParams.dto"
+import { GetMediaItemsByMediaIdQueryDto } from "@/services/mediaItems/dto/getMediaItemsByMediaIdQuery.dto"
 import { GetMediaItemsCountByListIdQueryDto } from "@/services/mediaItems/dto/getMediaItemsCountByListIdQuery.dto"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
 import { MediaItemsService } from "@/services/mediaItems/mediaItems.service"
@@ -74,9 +75,14 @@ export class MediaItemsController {
   @Get("by-media-id/:mediaId")
   @GetMediaItemsByMediaIdDocs()
   @UseGuards(AuthGuard)
-  async getMediaItemsByMediaId(@User() user: UserDto, @Param() params: GetMediaItemsByMediaIdParams) {
+  async getMediaItemsByMediaId(
+    @User() user: UserDto,
+    @Param() params: GetMediaItemsByMediaIdParams,
+    @Query() query: GetMediaItemsByMediaIdQueryDto,
+  ) {
     return this.mediaItemsService.getByMediaId({
       mediaId: params.mediaId,
+      mediaType: query.mediaType,
       userId: user?.id,
     })
   }

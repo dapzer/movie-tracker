@@ -325,6 +325,7 @@ export class MediaDetailsService implements OnModuleInit {
         else if (args.updateDetails) {
           mediaDetailsItem = await this.mediaDetailsRepository.update({
             mediaId: args.mediaId,
+            mediaType: args.mediaType,
             score: en?.details?.vote_average || 0,
             genres,
             status: en.details.status,

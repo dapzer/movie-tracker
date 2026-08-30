@@ -35,7 +35,12 @@ export async function getMediaItemsApi(options?: RequestOptions) {
 }
 
 export async function getMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs, options?: RequestOptions) {
-  return api.get<MediaItemType[]>(`media-items/by-media-id/${args.mediaId}`, options)
+  return api.get<MediaItemType[]>(`media-items/by-media-id/${args.mediaId}`, {
+    ...options,
+    params: {
+      mediaType: args.mediaType,
+    },
+  })
 }
 
 function serializeItemsFilters(args: GetMediaItemsByListIdQueries | MediaItemsCountByStatusQueries) {
