@@ -92,13 +92,6 @@
       "when": 1787420055984,
       "tag": "0012_tv_progress_season_number",
       "breakpoints": true
-    },
-    {
-      "idx": 13,
-      "version": "7",
-      "when": 1787420279952,
-      "tag": "0013_data_imports_table",
-      "breakpoints": true
     }
   ]
 }
