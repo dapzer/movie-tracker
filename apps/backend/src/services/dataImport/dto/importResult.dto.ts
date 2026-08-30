@@ -36,4 +36,5 @@ export const reviewSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date().optional(),
   rate: z.number().min(0).max(10).optional(),
+  isSpoiler: z.boolean().optional(),
 })

@@ -16,7 +16,7 @@ export interface MediaRatingType {
   updatedAt: Date
 }
 
-export type MediaRatingCreateBodyType = Pick<MediaRatingType, "mediaId" | "mediaType" | "rating" | "mediaDetailsId">
+export type MediaRatingCreateBodyType = Pick<MediaRatingType, "mediaId" | "mediaType" | "rating" | "mediaDetailsId"> & Partial<Pick<MediaRatingType, "createdAt">>
 
 export type MediaRatingUpdateBodyType = Pick<MediaRatingType, "rating">
 

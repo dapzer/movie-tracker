@@ -1,5 +1,5 @@
 import type { MediaReviewSortField, MediaReviewWithReason } from "@movie-tracker/types"
-import { MediaReviewModerationLogAction, MediaReviewStatus, SortOrderEnum, UserRoleEnum } from "@movie-tracker/types"
+import { MediaReviewModerationLogAction, MediaReviewStatus, MediaTypeEnum, SortOrderEnum, UserRoleEnum } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import {
@@ -56,14 +56,21 @@ export class MediaReviewsService {
   ) {
   }
 
-  private getReviewPublicationFields(status: MediaReviewStatus | undefined) {
+  private getReviewPublicationFields(status: MediaReviewStatus | undefined, createdAt?: Date) {
     if (
       status === MediaReviewStatus.PENDING
       && !this.configService.get<boolean>("MEDIA_REVIEWS_MODERATION_REQUIRED")
     ) {
       return {
         status: MediaReviewStatus.PUBLISHED,
-        publishedAt: new Date(),
+        publishedAt: createdAt ?? new Date(),
+      }
+    }
+
+    if (status === MediaReviewStatus.PUBLISHED) {
+      return {
+        status,
+        publishedAt: createdAt ?? new Date(),
       }
     }
 
@@ -84,10 +91,11 @@ export class MediaReviewsService {
     return mediaReview
   }
 
-  async getByCurrentUserAndMediaId(args: { mediaId: number, currentUserId: string }): Promise<MediaReviewWithReason> {
+  async getByCurrentUserAndMediaId(args: { mediaId: number, mediaType: MediaTypeEnum, currentUserId: string }): Promise<MediaReviewWithReason> {
     const mediaReview = await this.mediaReviewRepository.getByUserIdAndMediaId({
       userId: args.currentUserId,
       mediaId: args.mediaId,
+      mediaType: args.mediaType,
       currentUserId: args.currentUserId,
     })
 
@@ -160,10 +168,11 @@ export class MediaReviewsService {
     })
   }
 
-  async create(args: { userId: string, body: CreateMediaReviewDto }) {
+  async create(args: { userId: string, body: Omit<CreateMediaReviewDto, "status"> & { status: MediaReviewStatus }, createdAt?: Date }) {
     const existing = await this.mediaReviewRepository.getByUserIdAndMediaId({
       userId: args.userId,
       mediaId: args.body.mediaId,
+      mediaType: args.body.mediaType,
     })
 
     if (existing) {
@@ -187,13 +196,14 @@ export class MediaReviewsService {
       throw new MediaDetailsCreationFailedError({ mediaId: args.body.mediaId, mediaType: args.body.mediaType })
     }
 
-    const reviewPublicationFields = this.getReviewPublicationFields(args.body.status)
+    const reviewPublicationFields = this.getReviewPublicationFields(args.body.status, args.createdAt)
 
     return this.mediaReviewRepository.create({
       userId: args.userId,
       mediaDetailsId: mediaDetails.id,
       ...args.body,
       ...reviewPublicationFields,
+      createdAt: args.createdAt,
     })
   }
 

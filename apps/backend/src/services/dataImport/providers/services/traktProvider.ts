@@ -313,6 +313,7 @@ export class TraktProvider extends BaseService {
           createdAt: record.comment.created_at,
           updatedAt: record.comment.updated_at,
           rate: record.comment.user_rating ?? undefined,
+          isSpoiler: record.comment.spoiler,
         }
       },
     })

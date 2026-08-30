@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaReviewSortField, SortOrderEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
+import type { MediaReviewSortField, MediaTypeEnum, SortOrderEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import type { UiOptionPickerOption } from "~/shared/ui/UiOptionPicker"
 import { computed, useI18n } from "#imports"
 import { MediaReviewStatus } from "@movie-tracker/types"
@@ -70,6 +70,7 @@ const getMediaReviewsByMediaIdApi = useGetMediaReviewsByMediaIdApi(getMediaRevie
 const getMediaReviewByCurrentUserAndMediaIdApiArgs = computed(() => {
   return {
     mediaId: props.mediaId,
+    mediaType: props.mediaType as unknown as MediaTypeEnum,
   }
 })
 

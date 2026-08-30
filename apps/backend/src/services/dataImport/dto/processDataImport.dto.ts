@@ -14,9 +14,13 @@ const processBucketSchema = z.object({
   message: "Either mediaListId or newListTitle must be provided",
 })
 
+const importFlagSchema = z.boolean().optional()
+
 const processDataImportSchema = z.object({
   watched: processBucketSchema.optional(),
   watchList: processBucketSchema.optional(),
+  ratings: importFlagSchema.meta({ description: "Import ratings from the source" }),
+  reviews: importFlagSchema.meta({ description: "Import reviews from the source (published immediately)" }),
   lists: z.array(z.object({
     id: z.string().min(1).meta({ description: "Imported list id from data import result" }),
     mediaListId: z.uuid().optional().meta({ format: "uuid", description: "Existing media list id" }),

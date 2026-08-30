@@ -3,12 +3,18 @@ import {
   DataImportBucketType,
   DataImportEpisodeProgressType,
   DataImportMediaType,
+  DataImportProcessSummaryType,
+  DataImportRatingType,
   DataImportRawResultType,
+  DataImportReviewType,
   DataImportSourceEnum,
   DataImportStatusEnum,
+  MEDIA_REVIEW_CONTENT_MAX_LENGTH,
+  MEDIA_REVIEW_CONTENT_MIN_LENGTH,
   MediaItemStatusNameEnum,
   MediaItemTvProgressType,
   MediaListAccessLevelEnum,
+  MediaReviewStatus,
   MediaTypeEnum,
 } from "@movie-tracker/types"
 import { Inject, Injectable } from "@nestjs/common"
@@ -20,16 +26,23 @@ import {
   MediaItemRepositoryInterface,
   MediaItemRepositorySymbol,
 } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
+import {
+  MediaRatingRepositoryInterface,
+  MediaRatingRepositorySymbol,
+} from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import { ProcessDataImportDto } from "@/services/dataImport/dto/processDataImport.dto"
 import { DataImportProvidersService } from "@/services/dataImport/providers/providers.service"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { MediaItemsService } from "@/services/mediaItems/mediaItems.service"
 import { MediaListsService } from "@/services/mediaLists/mediaLists.service"
+import { MediaRatingsService } from "@/services/mediaRatings/mediaRatings.service"
+import { MediaReviewsService } from "@/services/mediaReviews/mediaReviews.service"
 import {
   DataImportInvalidStatusError,
   DataImportNotFoundError,
   DataImportUnauthorizedError,
 } from "@/shared/errors/dataImport"
+import { MediaReviewAlreadyExistsError } from "@/shared/errors/mediaReview"
 import { extractArchiveData } from "@/shared/utils/extractArchiveData"
 
 @Injectable()
@@ -40,8 +53,12 @@ export class DataImportService {
     private readonly dataImportRepository: DataImportRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
+    @Inject(MediaRatingRepositorySymbol)
+    private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
     private readonly mediaItemsService: MediaItemsService,
     private readonly mediaListsService: MediaListsService,
+    private readonly mediaRatingsService: MediaRatingsService,
+    private readonly mediaReviewsService: MediaReviewsService,
     private readonly drizzleService: DrizzleService,
   ) {}
 
@@ -140,7 +157,213 @@ export class DataImportService {
     return { created: createdMediaItems.length, skipped }
   }
 
-  async process(args: { id: string, userId: string, config: ProcessDataImportDto }) {
+  private toMediaKey(media: DataImportMediaType): string {
+    return `${media.type}-${media.ids.tmdbId}`
+  }
+
+  private async createRatingsFromBucket(args: {
+    userId: string
+    ratings: DataImportRatingType[]
+  }) {
+    const ratingsByKey = new Map<string, DataImportRatingType>()
+
+    for (const rating of args.ratings) {
+      const key = this.toMediaKey(rating.media)
+
+      if (!ratingsByKey.has(key)) {
+        ratingsByKey.set(key, rating)
+      }
+    }
+
+    if (!ratingsByKey.size) {
+      return { created: 0, skipped: [] }
+    }
+
+    const ratings = [...ratingsByKey.values()]
+
+    const existingRatings = await this.mediaRatingRepository.getByUserIdAndMediaIds({
+      userId: args.userId,
+      mediaIds: ratings.map(rating => rating.media.ids.tmdbId),
+    })
+
+    const existingKeys = new Set(
+      (existingRatings ?? []).map(rating => `${rating.mediaType}-${rating.mediaId}`),
+    )
+
+    const newRatings = ratings.filter(rating => !existingKeys.has(this.toMediaKey(rating.media)))
+    const skipped = ratings
+      .filter(rating => existingKeys.has(this.toMediaKey(rating.media)))
+      .map(rating => rating.media.ids.tmdbId)
+
+    for (const rating of newRatings) {
+      await this.mediaRatingsService.create({
+        userId: args.userId,
+        body: {
+          mediaId: rating.media.ids.tmdbId,
+          mediaType: this.toMediaType(rating.media.type),
+          rating: rating.value,
+        },
+        createdAt: rating.createdAt ? new Date(rating.createdAt) : undefined,
+      })
+    }
+
+    return { created: newRatings.length, skipped }
+  }
+
+  private async createReviewsFromBucket(args: {
+    userId: string
+    bucket: DataImportBucketType<DataImportReviewType>
+  }) {
+    if (!args.bucket.success.length) {
+      return { created: 0, skipped: [] }
+    }
+
+    let created = 0
+    const skipped: number[] = []
+    const processedKeys = new Set<string>()
+
+    for (const review of args.bucket.success) {
+      const key = this.toMediaKey(review.media)
+
+      if (processedKeys.has(key)) {
+        skipped.push(review.media.ids.tmdbId)
+        continue
+      }
+      processedKeys.add(key)
+
+      if (
+        review.content.length < MEDIA_REVIEW_CONTENT_MIN_LENGTH
+        || review.content.length > MEDIA_REVIEW_CONTENT_MAX_LENGTH
+      ) {
+        skipped.push(review.media.ids.tmdbId)
+        continue
+      }
+
+      try {
+        await this.mediaReviewsService.create({
+          userId: args.userId,
+          body: {
+            mediaId: review.media.ids.tmdbId,
+            mediaType: this.toMediaType(review.media.type),
+            content: review.content,
+            isSpoiler: review.isSpoiler ?? false,
+            status: MediaReviewStatus.PUBLISHED,
+          },
+          createdAt: review.createdAt ? new Date(review.createdAt) : undefined,
+        })
+        created += 1
+      }
+      catch (error) {
+        if (error instanceof MediaReviewAlreadyExistsError) {
+          skipped.push(review.media.ids.tmdbId)
+          continue
+        }
+
+        throw error
+      }
+    }
+
+    return { created, skipped }
+  }
+
+  private async importStandardBuckets(args: {
+    userId: string
+    config: Pick<ProcessDataImportDto, "watched" | "watchList">
+    result: DataImportRawResultType
+  }) {
+    const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[] }
+
+    for (const bucketKey of ["watched", "watchList"] as const) {
+      const config = args.config[bucketKey]
+
+      if (!config) {
+        continue
+      }
+
+      let mediaListId = config.mediaListId
+
+      if (!mediaListId) {
+        const mediaList = await this.mediaListsService.create(args.userId, {
+          title: config.newListTitle!,
+          accessLevel: MediaListAccessLevelEnum.PRIVATE,
+        })
+        mediaListId = mediaList.id
+        summary.createdMediaLists += 1
+      }
+
+      const bucketResult = await this.createMediaItemsFromBucket({
+        userId: args.userId,
+        bucket: args.result[bucketKey],
+        mediaListId,
+        status: config.status,
+      })
+      summary.createdMediaItems += bucketResult.created
+      summary.skippedMediaItems.push(...bucketResult.skipped)
+    }
+
+    return summary
+  }
+
+  private async importListsBucket(args: {
+    userId: string
+    config: ProcessDataImportDto["lists"]
+    bucket: DataImportRawResultType["lists"]
+  }) {
+    const summary = {
+      createdMediaLists: 0,
+      createdMediaItems: 0,
+      skippedMediaItems: [] as number[],
+      notFoundListIds: [] as string[],
+    }
+
+    for (const listConfig of args.config ?? []) {
+      const list = args.bucket.success.find(list => list.id === listConfig.id)
+
+      if (!list) {
+        summary.notFoundListIds.push(listConfig.id)
+        continue
+      }
+
+      let mediaListId = listConfig.mediaListId
+
+      if (!mediaListId) {
+        const mediaList = await this.mediaListsService.create(args.userId, {
+          title: list.title,
+          description: list.description,
+          accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
+        })
+        mediaListId = mediaList.id
+        summary.createdMediaLists += 1
+      }
+
+      const bucketResult = await this.createMediaItemsFromBucket({
+        userId: args.userId,
+        bucket: list.items,
+        mediaListId,
+        status: listConfig.status,
+      })
+      summary.createdMediaItems += bucketResult.created
+      summary.skippedMediaItems.push(...bucketResult.skipped)
+    }
+
+    return summary
+  }
+
+  private async importRatingsBucket(args: {
+    userId: string
+    result: DataImportRawResultType
+  }) {
+    const reviewRates = args.result.reviews.success
+      .filter((review): review is DataImportReviewType & { rate: number } => review.rate != null)
+      .map(review => ({ media: review.media, value: review.rate, createdAt: review.createdAt }))
+
+    return this.createRatingsFromBucket({
+      userId: args.userId,
+      ratings: [...args.result.ratings.success, ...reviewRates],
+    })
+  }
+
+  async process(args: { id: string, userId: string, config: ProcessDataImportDto }): Promise<DataImportProcessSummaryType> {
     const dataImport = await this.getById({ id: args.id, userId: args.userId })
 
     const existingMediaListIds = [
@@ -165,68 +388,54 @@ export class DataImportService {
       throw new DataImportInvalidStatusError({ dataImportId: args.id, status: current?.status ?? dataImport.status })
     }
 
-    const summary = { createdMediaLists: 0, createdMediaItems: 0, skippedMediaItems: [] as number[], notFoundListIds: [] as string[] }
+    const summary: DataImportProcessSummaryType = {
+      createdMediaLists: 0,
+      createdMediaItems: 0,
+      skippedMediaItems: [],
+      notFoundListIds: [],
+      createdRatings: 0,
+      skippedRatings: [],
+      createdReviews: 0,
+      skippedReviews: [],
+    }
 
     try {
       await this.drizzleService.runInTransaction(async () => {
-        for (const bucketKey of ["watched", "watchList"] as const) {
-          const config = args.config[bucketKey]
+        const standardResult = await this.importStandardBuckets({
+          userId: args.userId,
+          config: args.config,
+          result: dataImport.result,
+        })
+        summary.createdMediaLists += standardResult.createdMediaLists
+        summary.createdMediaItems += standardResult.createdMediaItems
+        summary.skippedMediaItems.push(...standardResult.skippedMediaItems)
 
-          if (!config) {
-            continue
-          }
+        const listsResult = await this.importListsBucket({
+          userId: args.userId,
+          config: args.config.lists,
+          bucket: dataImport.result.lists,
+        })
+        summary.createdMediaLists += listsResult.createdMediaLists
+        summary.createdMediaItems += listsResult.createdMediaItems
+        summary.skippedMediaItems.push(...listsResult.skippedMediaItems)
+        summary.notFoundListIds.push(...listsResult.notFoundListIds)
 
-          let mediaListId = config.mediaListId
-
-          if (!mediaListId) {
-            const mediaList = await this.mediaListsService.create(args.userId, {
-              title: config.newListTitle!,
-              accessLevel: MediaListAccessLevelEnum.PRIVATE,
-            })
-            mediaListId = mediaList.id
-            summary.createdMediaLists += 1
-          }
-
-          const bucketResult = await this.createMediaItemsFromBucket({
+        if (args.config.ratings) {
+          const ratingsResult = await this.importRatingsBucket({
             userId: args.userId,
-            bucket: dataImport.result[bucketKey],
-            mediaListId,
-            status: config.status,
+            result: dataImport.result,
           })
-          summary.createdMediaItems += bucketResult.created
-          summary.skippedMediaItems.push(...bucketResult.skipped)
+          summary.createdRatings += ratingsResult.created
+          summary.skippedRatings.push(...ratingsResult.skipped)
         }
 
-        if (args.config.lists) {
-          for (const listConfig of args.config.lists) {
-            const list = dataImport.result.lists.success.find(list => list.id === listConfig.id)
-
-            if (!list) {
-              summary.notFoundListIds.push(listConfig.id)
-              continue
-            }
-
-            let mediaListId = listConfig.mediaListId
-
-            if (!mediaListId) {
-              const mediaList = await this.mediaListsService.create(args.userId, {
-                title: list.title,
-                description: list.description,
-                accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
-              })
-              mediaListId = mediaList.id
-              summary.createdMediaLists += 1
-            }
-
-            const bucketResult = await this.createMediaItemsFromBucket({
-              userId: args.userId,
-              bucket: list.items,
-              mediaListId,
-              status: listConfig.status,
-            })
-            summary.createdMediaItems += bucketResult.created
-            summary.skippedMediaItems.push(...bucketResult.skipped)
-          }
+        if (args.config.reviews) {
+          const reviewsResult = await this.createReviewsFromBucket({
+            userId: args.userId,
+            bucket: dataImport.result.reviews,
+          })
+          summary.createdReviews += reviewsResult.created
+          summary.skippedReviews.push(...reviewsResult.skipped)
         }
       })
 

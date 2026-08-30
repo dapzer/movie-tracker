@@ -2,15 +2,17 @@ import type {
   MediaReviewCreateBodyType,
   MediaReviewDislikeCreateBodyType,
   MediaReviewLikeCreateBodyType,
+  MediaReviewSortField,
   MediaReviewStatus,
   MediaReviewUpdateBodyType,
+  MediaTypeEnum,
   PaginationType,
-  MediaReviewSortField,
   SortOrderEnum,
 } from "@movie-tracker/types"
 
 export interface GetMediaReviewByCurrentUserAndMediaIdArgs {
   mediaId: number
+  mediaType: MediaTypeEnum
 }
 
 export interface GetMediaReviewByIdArgs {

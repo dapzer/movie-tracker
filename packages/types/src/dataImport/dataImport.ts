@@ -49,6 +49,7 @@ export interface DataImportReviewType {
   createdAt: Date
   updatedAt?: Date
   rate?: number
+  isSpoiler?: boolean
 }
 
 export interface DataImportRatingType {
@@ -92,4 +93,15 @@ export type DataImportListItemType = Omit<DataImportType, "result">
 export interface DataImportsPaginatedType {
   items: DataImportListItemType[]
   totalCount: number
+}
+
+export interface DataImportProcessSummaryType {
+  createdMediaLists: number
+  createdMediaItems: number
+  skippedMediaItems: number[]
+  notFoundListIds: string[]
+  createdRatings: number
+  skippedRatings: number[]
+  createdReviews: number
+  skippedReviews: number[]
 }

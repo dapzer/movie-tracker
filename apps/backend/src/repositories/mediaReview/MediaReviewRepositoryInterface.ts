@@ -5,6 +5,7 @@ import {
   MediaReviewSortField,
   MediaReviewStatus,
   MediaReviewUpdateBodyType,
+  MediaTypeEnum,
   PaginationType,
   SortOrderEnum,
 } from "@movie-tracker/types"
@@ -21,6 +22,7 @@ export interface MediaReviewRepositoryInterface {
   getByUserIdAndMediaId: (args: {
     userId: string
     mediaId: number
+    mediaType: MediaTypeEnum
     currentUserId?: string
   }) => Promise<MediaReview | undefined>
 
