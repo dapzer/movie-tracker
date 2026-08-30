@@ -1,4 +1,3 @@
-import { Buffer } from "node:buffer"
 import {
   DataImportBucketType,
   DataImportFailureType,
@@ -11,7 +10,6 @@ import { z } from "zod"
 import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { SourceFileParseError, SourceFilesMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
-import { extractArchiveData } from "@/shared/utils/extractArchiveData"
 import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 
 export interface ResolveMediaInput {
@@ -47,10 +45,6 @@ export abstract class BaseService {
     if (missingFiles.length > 0) {
       throw new SourceFilesMissingError({ fileNames: missingFiles })
     }
-  }
-
-  protected async unzip(args: { archive: Buffer | Uint8Array }): Promise<Map<string, string>> {
-    return extractArchiveData(args.archive)
   }
 
   protected async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }) {
