@@ -27,6 +27,7 @@ import {
   ReleaseSubscriptionRepositoryInterface,
   ReleaseSubscriptionRepositorySymbol,
 } from "@/repositories/releaseSubscription/ReleaseSubscriptionRepositoryInterface"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { NotificationsService } from "@/services/notifications/notifications.service"
 import { Redlock } from "@/services/redlock/redlock.decorator"
 import {
@@ -66,6 +67,7 @@ export class MediaDetailsService implements OnModuleInit {
     @Inject(ReleaseSubscriptionRepositorySymbol)
     private readonly releaseSubscriptionRepository: ReleaseSubscriptionRepositoryInterface,
     private readonly notificationsService: NotificationsService,
+    private readonly drizzleService: DrizzleService,
   ) {
     this.resetNotificationsToSend()
   }
@@ -248,20 +250,22 @@ export class MediaDetailsService implements OnModuleInit {
     if (allNotifications.length > 0) {
       this.logger.log(`Sending ${allNotifications.length} notifications.`)
       try {
-        await this.notificationsService.createBulk(allNotifications.map(el => el.body))
-        await Promise.all(
-          Object.entries(this.notificationsToSend).map(([mediaType, notifications]) => {
-            return this.releaseSubscriptionRepository.updateManyByIds(
-              {
-                ids: notifications.map(el => el.subscriptionId),
-                lastReleasedAt: new Date(),
-                completedAt: mediaType === MediaTypeEnum.MOVIE
-                  ? new Date()
-                  : undefined,
-              },
-            )
-          }),
-        )
+        await this.drizzleService.runInTransaction(async () => {
+          await this.notificationsService.createBulk(allNotifications.map(el => el.body))
+          await Promise.all(
+            Object.entries(this.notificationsToSend).map(([mediaType, notifications]) => {
+              return this.releaseSubscriptionRepository.updateManyByIds(
+                {
+                  ids: notifications.map(el => el.subscriptionId),
+                  lastReleasedAt: new Date(),
+                  completedAt: mediaType === MediaTypeEnum.MOVIE
+                    ? new Date()
+                    : undefined,
+                },
+              )
+            }),
+          )
+        })
         this.resetNotificationsToSend()
 
         this.logger.log("Notifications sent successfully.")
