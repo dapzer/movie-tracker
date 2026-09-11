@@ -21,6 +21,8 @@ services:
         target: /etc/grafana/provisioning/dashboards/swarm-services.json
       - source: grafana_provisioning_dashboards_docker_containers
         target: /etc/grafana/provisioning/dashboards/docker-containers.json
+      - source: grafana_provisioning_dashboards_swarm_nodes
+        target: /etc/grafana/provisioning/dashboards/swarm-nodes.json
       - source: grafana_provisioning_datasources_loki
         target: /etc/grafana/provisioning/datasources/loki.yml
     deploy:
@@ -144,6 +146,8 @@ configs:
     file: ./provisioning/dashboards/swarm-services.json
   grafana_provisioning_dashboards_docker_containers:
     file: ./provisioning/dashboards/docker-containers.json
+  grafana_provisioning_dashboards_swarm_nodes:
+    file: ./provisioning/dashboards/swarm-nodes.json
   grafana_provisioning_datasources_loki:
     file: ./provisioning/datasources/loki.yml
   prometheus_config:
