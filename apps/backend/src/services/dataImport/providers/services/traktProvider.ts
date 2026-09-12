@@ -380,7 +380,7 @@ export class TraktProvider extends BaseService {
       bucket.success.push({
         id: "favorites",
         title: "Favorites",
-        isPrivate: false,
+        isPrivate: true,
         items,
       })
     }

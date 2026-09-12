@@ -287,7 +287,7 @@ export class LetterboxdProvider extends BaseService {
       id: new URL(metadata.URL).pathname.replace(/^\/+|\/+$/g, ""),
       title: metadata.Name,
       description: metadata.Description || undefined,
-      isPrivate: false,
+      isPrivate: true,
       createdAt: metadata.Date,
       items,
     }
