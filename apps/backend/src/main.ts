@@ -1,3 +1,6 @@
+/* eslint-disable perfectionist/sort-imports */
+import "dotenv/config"
+import "@/services/opentelemetry"
 import { sessions } from "@movie-tracker/database"
 import { getMillisecondsFromDays, getMillisecondsFromMins } from "@movie-tracker/utils"
 import { ConfigService } from "@nestjs/config"
@@ -13,8 +16,6 @@ import { DrizzleClientErrorFilter } from "@/filters/drizzleClientError.filter"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { setupOpenApi } from "./openApi"
 import { DrizzleSessionStore } from "./services/drizzle/drizzleSessionStore"
-import "dotenv/config"
-import "@/services/opentelemetry"
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false, bufferLogs: true })
