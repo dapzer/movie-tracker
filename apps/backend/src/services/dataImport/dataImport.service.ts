@@ -466,18 +466,18 @@ export class DataImportService {
           summary.skippedReviews.push(...reviewsResult.skipped)
         }
       })
-
-      await this.dataImportRepository.updateStatus({
-        id: args.id,
-        status: DataImportStatusEnum.COMPLETED,
-        processedAt: new Date(),
-      })
-
-      return summary
     }
     catch (error) {
       await this.dataImportRepository.updateStatus({ id: args.id, status: DataImportStatusEnum.FAILED })
       throw error
     }
+
+    await this.dataImportRepository.updateStatus({
+      id: args.id,
+      status: DataImportStatusEnum.COMPLETED,
+      processedAt: new Date(),
+    })
+
+    return summary
   }
 }
