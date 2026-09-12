@@ -78,13 +78,13 @@ export class TmdbResolver {
     })
   }
 
-  async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource }): Promise<{
+  async findByExternalId(args: { externalId: string, source: TmdbExternalIdSource, type: "movie" | "tv" }): Promise<{
     id: number
     type: "movie" | "tv"
     releaseDate?: string
   }> {
     return this.cached({
-      key: `import:tmdb:find:${args.source}:${args.externalId}`,
+      key: `import:tmdb:find:${args.source}:${args.externalId}:${args.type}`,
       ttl: getMillisecondsFromDays(7),
       notFoundTtl: getMillisecondsFromHours(1),
       resolve: async () => {
@@ -105,14 +105,17 @@ export class TmdbResolver {
           throw error
         }
 
-        const movie = response.movie_results?.[0]
-        if (movie) {
-          return { id: movie.id, type: "movie" as const, releaseDate: movie.release_date || undefined }
+        if (args.type === "movie") {
+          const movie = response.movie_results?.[0]
+          if (movie) {
+            return { id: movie.id, type: "movie" as const, releaseDate: movie.release_date || undefined }
+          }
         }
-
-        const tv = response.tv_results?.[0]
-        if (tv) {
-          return { id: tv.id, type: "tv" as const, releaseDate: tv.first_air_date || undefined }
+        else {
+          const tv = response.tv_results?.[0]
+          if (tv) {
+            return { id: tv.id, type: "tv" as const, releaseDate: tv.first_air_date || undefined }
+          }
         }
 
         throw new TmdbNotFoundError()
@@ -120,7 +123,7 @@ export class TmdbResolver {
     })
   }
 
-  async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }): Promise<{
+  async findByTitleAndReleaseDate(args: { title: string, year?: number, type: "movie" | "tv" }): Promise<{
     id: number
     type: "movie" | "tv"
     releaseDate?: string
@@ -128,58 +131,36 @@ export class TmdbResolver {
     const normalizedTitle = args.title.trim().toLowerCase()
 
     return this.cached({
-      key: `import:tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type ?? "any"}`,
+      key: `import:tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type}`,
       ttl: getMillisecondsFromHours(12),
       notFoundTtl: getMillisecondsFromHours(1),
       resolve: async () => {
-        const getMatch = async (mediaType: "movie" | "tv") => {
-          let response: TmdbSearchResponseType
+        let response: TmdbSearchResponseType
 
-          try {
-            response = await this.request<TmdbSearchResponseType>({
-              endpoint: `search/${mediaType}`,
-              params: {
-                query: args.title,
-                year: mediaType === "movie" ? args.year : undefined,
-                first_air_date_year: mediaType === "tv" ? args.year : undefined,
-              },
-            })
+        try {
+          response = await this.request<TmdbSearchResponseType>({
+            endpoint: `search/${args.type}`,
+            params: {
+              query: args.title,
+              year: args.type === "movie" ? args.year : undefined,
+              first_air_date_year: args.type === "tv" ? args.year : undefined,
+            },
+          })
+        }
+        catch (error) {
+          if (error instanceof FetchError) {
+            throw new TmdbResolutionError("search", error.statusCode)
           }
-          catch (error) {
-            if (error instanceof FetchError) {
-              throw new TmdbResolutionError("search", error.statusCode)
-            }
-            throw error
-          }
-
-          return this.pickSearchResult({ results: response.results, title: args.title, year: args.year })
+          throw error
         }
 
-        if (args.type) {
-          const result = await getMatch(args.type)
-          if (!result) {
-            throw new TmdbNotFoundError()
-          }
-          return { id: result.id, type: args.type, releaseDate: this.getResultReleaseDate(result) }
-        }
+        const match = this.pickSearchResult({ results: response.results, title: args.title, year: args.year })
 
-        const [movieResult, tvResult] = await Promise.allSettled([getMatch("movie"), getMatch("tv")])
-
-        const movie = movieResult.status === "fulfilled" ? movieResult.value : null
-        const tv = tvResult.status === "fulfilled" ? tvResult.value : null
-        const result = movie ?? tv
-
-        if (!result) {
-          const rejection = [movieResult, tvResult].find((r): r is PromiseRejectedResult => r.status === "rejected")
-
-          if (rejection) {
-            throw rejection.reason
-          }
-
+        if (!match) {
           throw new TmdbNotFoundError()
         }
 
-        return { id: result.id, type: movie ? "movie" : "tv", releaseDate: this.getResultReleaseDate(result) }
+        return { id: match.id, type: args.type, releaseDate: this.getResultReleaseDate(match) }
       },
     })
   }
@@ -216,6 +197,14 @@ export class TmdbResolver {
       return releaseDate?.startsWith(String(args.year)) ?? false
     })
 
-    return exact ?? args.results[0]
+    if (exact) {
+      return exact
+    }
+
+    if (args.results.length === 1) {
+      return args.results[0]
+    }
+
+    return null
   }
 }

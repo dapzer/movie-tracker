@@ -18,7 +18,7 @@ export interface ResolveMediaInput {
   tvdbId?: number
   title: string
   year?: number
-  type?: "movie" | "tv"
+  type: "movie" | "tv"
 }
 
 @Injectable()
@@ -47,7 +47,7 @@ export abstract class BaseService {
     }
   }
 
-  protected async findByTitleAndReleaseDate(args: { title: string, year?: number, type?: "movie" | "tv" }) {
+  protected async findByTitleAndReleaseDate(args: { title: string, year?: number, type: "movie" | "tv" }) {
     return this.tmdbResolver.findByTitleAndReleaseDate(args)
   }
 
@@ -69,16 +69,16 @@ export abstract class BaseService {
           tmdbId: args.tmdbId,
           imdbId: args.imdbId,
         },
-        type: args.type ?? "movie",
+        type: args.type,
         releaseDate: this.toReleaseDate({ year: args.year }),
       }
     }
 
     if (args.imdbId) {
-      const result = await this.tmdbResolver.findByExternalId({ externalId: args.imdbId, source: "imdb_id" })
+      const result = await this.tmdbResolver.findByExternalId({ externalId: args.imdbId, source: "imdb_id", type: args.type })
       return {
         ids: { tmdbId: result.id, imdbId: args.imdbId },
-        type: args.type ?? result.type,
+        type: args.type,
         releaseDate: this.toReleaseDate({ releaseDate: result.releaseDate, year: args.year }),
       }
     }
@@ -87,10 +87,11 @@ export abstract class BaseService {
       const result = await this.tmdbResolver.findByExternalId({
         externalId: String(args.tvdbId),
         source: "tvdb_id",
+        type: args.type,
       })
       return {
         ids: { tmdbId: result.id },
-        type: args.type ?? result.type,
+        type: args.type,
         releaseDate: this.toReleaseDate({ releaseDate: result.releaseDate, year: args.year }),
       }
     }
@@ -102,7 +103,7 @@ export abstract class BaseService {
         tmdbId: result.id,
         imdbId: args.imdbId,
       },
-      type: result.type,
+      type: args.type,
       releaseDate: this.toReleaseDate({ releaseDate: result.releaseDate, year: args.year }),
     }
   }
