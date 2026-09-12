@@ -15,7 +15,7 @@
       }
     ]
   },
-  "description": "Log Dashboard For Loki",
+  "description": "Backend logs from Loki. Search-first layout: live stream + errors table with drill-down, error analytics below.",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -25,36 +25,33 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "affj6omlovpq8a"
+        "uid": "${DS_LOKI}"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "background"
+            "fixedColor": "red",
+            "mode": "fixed"
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": 0
-              },
-              {
                 "color": "red",
-                "value": 80
+                "value": null
               }
             ]
           },
-          "unit": "pps"
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
+        "h": 3,
+        "w": 6,
         "x": 0,
-        "y": 0
+        "y": 6
       },
       "id": 1,
       "options": {
@@ -71,7 +68,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "pluginVersion": "12.4.2",
@@ -79,16 +76,16 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "affj6omlovpq8a"
+            "uid": "${DS_LOKI}"
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "sum(rate({service_name=\"$service_name\"} |= \"$filter\" [$__range])) or vector(0)",
+          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"50|60\" [$__range])) or vector(0)",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Avg Throughput",
+      "title": "Errors",
       "type": "stat"
     },
     {
@@ -98,28 +95,38 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": 0
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 5
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 5,
-        "x": 4,
-        "y": 0
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 6
       },
       "id": 2,
       "options": {
@@ -136,7 +143,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "pluginVersion": "12.4.2",
@@ -148,81 +155,12 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" [$__range])) or vector(0)",
+          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"50|60\" [$__range])) / sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" [$__range])) * 100 or vector(0)",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Total Logs",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "blue",
-            "mode": "fixed"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 5,
-        "x": 9,
-        "y": 0
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.4.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
-          },
-          "direction": "backward",
-          "editorMode": "code",
-          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | level = \"$infoLevel\"  [$__range])) or vector(0)",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Info Count",
+      "title": "Error Rate",
       "type": "stat"
     },
     {
@@ -241,23 +179,86 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "orange",
+                "value": null
               }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 5,
-        "x": 14,
-        "y": 0
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 6
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level = 40 [$__range])) or vector(0)",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Warnings",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 6
       },
       "id": 4,
       "options": {
@@ -274,7 +275,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "pluginVersion": "12.4.2",
@@ -286,13 +287,328 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | level = \"$warnLevel\" [$__range])) or vector(0)",
+          "expr": "sum(rate({service_name=\"$service_name\"} |= \"$filter\" [$__interval])) or vector(0)",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Warning Count",
+      "title": "Throughput",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 15,
+        "x": 0,
+        "y": 9
+      },
+      "id": 5,
+      "options": {
+        "dedupStrategy": "none",
+        "enableInfiniteScrolling": false,
+        "enableLogDetails": true,
+        "showControls": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"$level\" | label_format level=\"{{ if eq .level \\\"10\\\" }}trace{{ else if eq .level \\\"20\\\" }}debug{{ else if eq .level \\\"30\\\" }}info{{ else if eq .level \\\"40\\\" }}warn{{ else if eq .level \\\"50\\\" }}error{{ else if eq .level \\\"60\\\" }}fatal{{ else }}{{ .level }}{{ end }}\" | line_format \"{{if .context}}[{{.context}}] {{.msg}}{{else}}{{.msg}}{{end}}\"",
+          "queryType": "range",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"JSONParserErr\" | level =~ \"$level\" | drop __error__, __error_details__",
+          "queryType": "range",
+          "refId": "B"
+        }
+      ],
+      "title": "Log Stream",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "path"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": false,
+                    "title": "Filter dashboard by this path",
+                    "url": "${__dashboard.url}?${__url_time_range}&var-service_name=${service_name}&var-filter=${__value.text:percentencode}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "context"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": false,
+                    "title": "Filter dashboard by this context",
+                    "url": "${__dashboard.url}?${__url_time_range}&var-service_name=${service_name}&var-filter=${__value.text:percentencode}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 9,
+        "x": 15,
+        "y": 9
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "{service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"50|60\"",
+          "maxLines": 200,
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Errors (click path/context to filter)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Line": true,
+              "__error__": true,
+              "err_message": true,
+              "err_stack": true,
+              "hostname": true,
+              "labels": true,
+              "level": true,
+              "pid": true,
+              "time": true,
+              "timestamp": true,
+              "tsNs": true,
+              "labelTypes": true,
+              "id": true,
+              "__error_details__": true
+            },
+            "indexByName": {},
+            "renameByName": {
+              "Time": "Time",
+              "context": "Context",
+              "err_type": "Error",
+              "method": "Method",
+              "msg": "Message",
+              "path": "Path"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Count"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "path"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": false,
+                    "title": "Filter dashboard by this path",
+                    "url": "${__dashboard.url}?${__url_time_range}&var-service_name=${service_name}&var-filter=${__value.text:percentencode}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 24
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Count"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "direction": "backward",
+          "editorMode": "code",
+          "expr": "topk(15, sum by (method, path) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"40|50|60\" | path != \"\" | label_format path=`{{ regexReplaceAll \"/[^/]*[0-9][^/]*\" (regexReplaceAll \"\\\\?.*\" .path \"\") \"/:id\" }}` [$__range])))",
+          "legendFormat": "{{method}} {{path}}",
+          "queryType": "instant",
+          "refId": "A"
+        }
+      ],
+      "title": "Top Error Endpoints (warn+error)",
+      "type": "table"
     },
     {
       "datasource": {
@@ -305,98 +621,34 @@
             "fixedColor": "red",
             "mode": "fixed"
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 5,
-        "x": 19,
-        "y": 0
-      },
-      "id": 5,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+          "links": [
+            {
+              "targetBlank": false,
+              "title": "Filter dashboard by this error type",
+              "url": "${__dashboard.url}?${__url_time_range}&var-service_name=${service_name}&var-filter=${__series.name:percentencode}"
+            }
           ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.4.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
-          },
-          "direction": "backward",
-          "editorMode": "code",
-          "expr": "sum(count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | level = \"$errorLevel\"  [$__range])) or vector(0)",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Error Count",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": 0
-              },
-              {
                 "color": "red",
-                "value": 80
+                "value": null
               }
             ]
-          }
+          },
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 4
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 24
       },
-      "id": 11,
+      "id": 8,
       "options": {
         "displayMode": "gradient",
         "legend": {
@@ -430,13 +682,13 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "sum by (err_name, method) (\n  count_over_time(\n    {service_name=\"$service_name\"} \n    | json\n    | __error__=\"\"\n    [$__range]\n  )\n)\n",
-          "legendFormat": "{{err_name}} - {{method}}",
-          "queryType": "range",
+          "expr": "topk(10, sum by (err_type) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"50|60\" | err_type != \"\" [$__range])))",
+          "legendFormat": "{{err_type}}",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "New panel",
+      "title": "Top Errors by Type (click to filter)",
       "type": "bargauge"
     },
     {
@@ -445,25 +697,62 @@
         "uid": "${DS_LOKI}"
       },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "links": [
+            {
+              "targetBlank": false,
+              "title": "Filter dashboard by this context",
+              "url": "${__dashboard.url}?${__url_time_range}&var-service_name=${service_name}&var-filter=${__series.name:percentencode}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 10
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 24
       },
-      "id": 8,
+      "id": 9,
       "options": {
-        "dedupStrategy": "none",
-        "enableInfiniteScrolling": false,
-        "enableLogDetails": true,
-        "showControls": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "unwrappedColumns": false,
-        "wrapLogMessage": false
+        "displayMode": "gradient",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "pluginVersion": "12.4.2",
       "targets": [
@@ -474,102 +763,14 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{service_name=\"$service_name\"} |= \"$filter\" | json | level = \"$errorLevel\"",
-          "maxLines": 5,
-          "queryType": "range",
+          "expr": "topk(10, sum by (context) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | context != \"\" [$__range])))",
+          "legendFormat": "{{context}}",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "Last 5 Errors",
-      "type": "logs"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 16
-      },
-      "id": 7,
-      "options": {
-        "dedupStrategy": "none",
-        "enableInfiniteScrolling": false,
-        "enableLogDetails": true,
-        "showControls": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "unwrappedColumns": false,
-        "wrapLogMessage": false
-      },
-      "pluginVersion": "12.4.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
-          },
-          "direction": "backward",
-          "editorMode": "code",
-          "expr": "{service_name=\"$service_name\"} |= \"$filter\" | json | level = \"$warnLevel\" ",
-          "maxLines": 5,
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Last 5 Warnings",
-      "type": "logs"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "${DS_LOKI}"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 22
-      },
-      "id": 6,
-      "options": {
-        "dedupStrategy": "none",
-        "enableInfiniteScrolling": false,
-        "enableLogDetails": true,
-        "showControls": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "unwrappedColumns": false,
-        "wrapLogMessage": false
-      },
-      "pluginVersion": "12.4.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
-          },
-          "direction": "backward",
-          "editorMode": "code",
-          "expr": "{service_name=\"$service_name\"} |= \"$filter\" | json | level = \"$infoLevel\"",
-          "maxLines": 5,
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Last 5 Info Logs",
-      "type": "logs"
+      "title": "Top Log Sources (click to filter)",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -588,9 +789,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.8,
             "drawStyle": "bars",
-            "fillOpacity": 25,
+            "fillOpacity": 80,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -604,48 +805,153 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
               "mode": "off"
             }
           },
-          "links": [
-            {
-              "targetBlank": false,
-              "title": "Filter Dashboard to ${__series.name}",
-              "url": "${__dashboard.url}?${__url_time_range}&var-filename=${__series.name}"
-            }
-          ],
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
-                "value": 0
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "10"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "trace"
               },
               {
-                "color": "red",
-                "value": 80
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-gray",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "20"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "debug"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-gray",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "30"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "info"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "40"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "warn"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "50"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "error"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "60"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "fatal"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
               }
             ]
           }
-        },
-        "overrides": []
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 24,
         "x": 0,
-        "y": 28
+        "y": 0
       },
-      "id": 9,
+      "id": 10,
       "options": {
         "legend": {
           "calcs": [],
@@ -654,85 +960,46 @@
           "showLegend": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
-      "pluginVersion": "12.4.1",
+      "pluginVersion": "12.4.2",
       "targets": [
         {
           "datasource": {
             "type": "loki",
             "uid": "${DS_LOKI}"
           },
-          "expr": "sum by (filename) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" [$__interval]))",
-          "legendFormat": "{{filename}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Activity Timeline (Click a bar to filter dashboard)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "affj6omlovpq8a"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 24,
-        "x": 0,
-        "y": 36
-      },
-      "id": 10,
-      "options": {
-        "dedupStrategy": "none",
-        "enableInfiniteScrolling": false,
-        "enableLogDetails": true,
-        "showControls": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "unwrappedColumns": false,
-        "wrapLogLines": true,
-        "wrapLogMessage": false
-      },
-      "pluginVersion": "12.4.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "affj6omlovpq8a"
-          },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "{service_name=\"$service_name\"} |= \"$filter\" ",
+          "expr": "sum by (level) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" [$__interval]))",
+          "legendFormat": "{{level}}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "RAW LIVE STREAM (FILTERED)",
-      "type": "logs"
+      "title": "Log Volume by Level",
+      "type": "timeseries"
     }
   ],
   "preload": false,
-  "refresh": "",
+  "refresh": "30s",
   "schemaVersion": 42,
   "tags": [
     "monitoring",
-    "loki"
+    "loki",
+    "backend"
   ],
   "templating": {
     "list": [
       {
         "current": {
-          "text": "loki",
-          "value": "affj6omlovpq8a"
+          "text": "Loki",
+          "value": "loki-main"
         },
+        "hide": 2,
         "label": "Loki Source",
         "name": "DS_LOKI",
         "options": [],
@@ -750,7 +1017,7 @@
           "uid": "${DS_LOKI}"
         },
         "definition": "",
-        "label": "service_name",
+        "label": "Service",
         "name": "service_name",
         "options": [],
         "query": {
@@ -763,6 +1030,48 @@
         "regex": "",
         "regexApplyTo": "value",
         "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "^10$|^20$|^30$|^40$|^50$|^60$|^$"
+        },
+        "label": "Level",
+        "name": "level",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "^10$|^20$|^30$|^40$|^50$|^60$|^$"
+          },
+          {
+            "selected": false,
+            "text": "Debug",
+            "value": "^20$"
+          },
+          {
+            "selected": false,
+            "text": "Info",
+            "value": "^30$"
+          },
+          {
+            "selected": false,
+            "text": "Warn",
+            "value": "^40$"
+          },
+          {
+            "selected": false,
+            "text": "Error",
+            "value": "^50$|^60$"
+          },
+          {
+            "selected": false,
+            "text": "Unknown",
+            "value": "^$"
+          }
+        ],
+        "query": "All : ^10$|^20$|^30$|^40$|^50$|^60$|^$,Debug : ^20$,Info : ^30$,Warn : ^40$,Error : ^50$|^60$,Unknown : ^$",
+        "type": "custom"
       },
       {
         "current": {
@@ -780,60 +1089,6 @@
         ],
         "query": "",
         "type": "textbox"
-      },
-      {
-        "current": {
-          "text": "50",
-          "value": "50"
-        },
-        "hide": 2,
-        "label": "Errorlevel",
-        "name": "errorLevel",
-        "options": [
-          {
-            "selected": true,
-            "text": "50",
-            "value": "50"
-          }
-        ],
-        "query": "50",
-        "type": "textbox"
-      },
-      {
-        "current": {
-          "text": "30",
-          "value": "30"
-        },
-        "hide": 2,
-        "label": "Info level",
-        "name": "infoLevel",
-        "options": [
-          {
-            "selected": true,
-            "text": "30",
-            "value": "30"
-          }
-        ],
-        "query": "30",
-        "type": "textbox"
-      },
-      {
-        "current": {
-          "text": "40",
-          "value": "40"
-        },
-        "hide": 2,
-        "label": "Warn level",
-        "name": "warnLevel",
-        "options": [
-          {
-            "selected": true,
-            "text": "40",
-            "value": "40"
-          }
-        ],
-        "query": "40",
-        "type": "textbox"
       }
     ]
   },
@@ -844,7 +1099,7 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Logs",
-  "uid": "log-dashboard-v2-filtered",
-  "version": 20,
+  "uid": "logs",
+  "version": 22,
   "weekStart": ""
 }
