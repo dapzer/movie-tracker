@@ -78,7 +78,7 @@ export class LetterboxdProvider extends BaseService {
   private parseFile<T extends z.ZodType>(args: { files: Map<string, string>, fileName: string, schema: T }) {
     const content = args.files.get(args.fileName)
 
-    if (!content) {
+    if (content === undefined) {
       throw new SourceFileMissingError({ fileName: args.fileName })
     }
 
