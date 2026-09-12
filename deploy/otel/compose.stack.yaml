@@ -2,6 +2,8 @@ services:
   otelcol:
     image: otel/opentelemetry-collector-contrib:0.123.0
     restart: on-failure
+    env_file:
+      - .env
     configs:
       - source: otel_collector_config
         target: /etc/otelcol-contrib/config.yaml

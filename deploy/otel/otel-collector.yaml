@@ -4,27 +4,28 @@ receivers:
       grpc:
       http:
   redis:
-    endpoint: redis:6379
+    endpoint: ${env:REDIS_ENDPOINT}
     collection_interval: 10s
   postgresql:
-    endpoint: postgres:5432
+    endpoint: ${env:POSTGRES_ENDPOINT}
     transport: tcp
-    username: spaceman
-    # TODO: set password
-    password:
+    username: ${env:POSTGRES_USER}
+    password: ${env:POSTGRES_PASSWORD}
     databases:
-      - movietracker
+      - ${env:POSTGRES_DB}
     collection_interval: 10s
     tls:
       insecure: true
 
 exporters:
   otlp:
-    endpoint: http://uptrace:14318
+    endpoint: ${env:UPTRACE_OTLP_ENDPOINT}
     tls:
       insecure: true
-    # TODO: Change <token> to your Uptrace project token.
-    headers: { 'uptrace-dsn': 'http://<token>@uptrace.movie-tracker.app?grpc=14318' }
+    headers:
+      uptrace-dsn: ${env:UPTRACE_DSN}
+      CF-Access-Client-Id: ${env:CF_ACCESS_CLIENT_ID}
+      CF-Access-Client-Secret: ${env:CF_ACCESS_CLIENT_SECRET}
 
 processors:
   resourcedetection:

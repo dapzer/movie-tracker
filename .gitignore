@@ -28,7 +28,6 @@ dist/
 *.pem
 apps/backend/sitemaps
 deploy/uptrace/otel-collector.yaml
-deploy/otel/otel-collector.yaml
 deploy/registry/auth/
 
 # debug
