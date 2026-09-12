@@ -154,6 +154,7 @@ export class DrizzleMediaRatingRepository implements MediaRatingRepositoryInterf
         and(
           eq(mediaRatings.userId, args.userId),
           eq(mediaRatings.mediaId, args.mediaId),
+          args.mediaType ? eq(mediaRatings.mediaType, args.mediaType) : undefined,
         ),
       )
       .limit(1)

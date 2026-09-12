@@ -9,6 +9,10 @@ import {
   DataImportReviewType,
   DataImportSourceEnum,
   DataImportStatusEnum,
+  MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH,
+  MEDIA_LIST_DESCRIPTION_MAX_LENGTH_LIMIT,
+  MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT,
+  MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT,
   MEDIA_REVIEW_CONTENT_MAX_LENGTH,
   MEDIA_REVIEW_CONTENT_MIN_LENGTH,
   MediaItemStatusNameEnum,
@@ -42,11 +46,13 @@ import {
   DataImportNotFoundError,
   DataImportUnauthorizedError,
 } from "@/shared/errors/dataImport"
+import { MediaRatingAlreadyExistsError } from "@/shared/errors/mediaRating"
 import { MediaReviewAlreadyExistsError } from "@/shared/errors/mediaReview"
 import { extractArchiveData } from "@/shared/utils/extractArchiveData"
 import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 
 const IMPORT_WRITE_CONCURRENCY = 10
+const IMPORTED_LIST_FALLBACK_TITLE = "Imported list"
 
 @Injectable()
 export class DataImportService {
@@ -101,6 +107,20 @@ export class DataImportService {
 
   private toMediaType(type: DataImportMediaType["type"]): MediaTypeEnum {
     return MediaTypeEnum[type.toUpperCase() as keyof typeof MediaTypeEnum]
+  }
+
+  private truncateText(value: string, maxLength: number): string {
+    return value.length > maxLength ? value.slice(0, maxLength) : value
+  }
+
+  private toMediaListTitle(title: string): string {
+    const trimmed = title.trim()
+
+    if (trimmed.length < MEDIA_LIST_TITLE_MIN_LENGTH_LIMIT) {
+      return IMPORTED_LIST_FALLBACK_TITLE
+    }
+
+    return this.truncateText(trimmed, MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT)
   }
 
   private getLastWatchedTvProgress(episodes?: DataImportEpisodeProgressType[]): MediaItemTvProgressType | undefined {
@@ -163,7 +183,7 @@ export class DataImportService {
         mediaType: this.toMediaType(media.type),
         mediaListId: args.mediaListId,
         currentStatus: args.status,
-        note: media.note,
+        note: media.note ? this.truncateText(media.note, MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH) : undefined,
         tvProgress: media.episodesProgress?.length ? this.getLastWatchedTvProgress(media.episodesProgress) : undefined,
         createdAt: media.createdAt ? new Date(media.createdAt) : undefined,
       })),
@@ -210,21 +230,37 @@ export class DataImportService {
       .filter(rating => existingKeys.has(this.toMediaKey(rating.media)))
       .map(rating => rating.media.ids.tmdbId)
 
+    const alreadyExistingIds: Array<number> = []
+
     await mapTasksWithConcurrency({
       items: newRatings,
       concurrency: IMPORT_WRITE_CONCURRENCY,
-      fn: rating => this.mediaRatingsService.create({
-        userId: args.userId,
-        body: {
-          mediaId: rating.media.ids.tmdbId,
-          mediaType: this.toMediaType(rating.media.type),
-          rating: rating.value,
-        },
-        createdAt: rating.createdAt ? new Date(rating.createdAt) : undefined,
-      }),
+      fn: async (rating): Promise<void> => {
+        try {
+          await this.mediaRatingsService.create({
+            userId: args.userId,
+            body: {
+              mediaId: rating.media.ids.tmdbId,
+              mediaType: this.toMediaType(rating.media.type),
+              rating: rating.value,
+            },
+            createdAt: rating.createdAt ? new Date(rating.createdAt) : undefined,
+          })
+        }
+        catch (error) {
+          if (error instanceof MediaRatingAlreadyExistsError) {
+            alreadyExistingIds.push(rating.media.ids.tmdbId)
+            return
+          }
+
+          throw error
+        }
+      },
     })
 
-    return { created: newRatings.length, skipped }
+    skipped.push(...alreadyExistingIds)
+
+    return { created: newRatings.length - alreadyExistingIds.length, skipped }
   }
 
   private async createReviewsFromBucket(args: {
@@ -356,8 +392,8 @@ export class DataImportService {
 
       if (!mediaListId) {
         const mediaList = await this.mediaListsService.create(args.userId, {
-          title: list.title,
-          description: list.description,
+          title: this.toMediaListTitle(list.title),
+          description: list.description ? this.truncateText(list.description, MEDIA_LIST_DESCRIPTION_MAX_LENGTH_LIMIT) : undefined,
           accessLevel: list.isPrivate ? MediaListAccessLevelEnum.PRIVATE : MediaListAccessLevelEnum.PUBLIC,
         })
         mediaListId = mediaList.id

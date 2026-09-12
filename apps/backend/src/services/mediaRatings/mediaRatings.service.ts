@@ -18,6 +18,7 @@ import { UpdateMediaRatingDto } from "@/services/mediaRatings/dto/updateMediaRat
 import { UserNotFoundError } from "@/shared/errors/auth"
 import {
   MediaDetailsCreationFailedError,
+  MediaRatingAlreadyExistsError,
   MediaRatingNotFoundError,
   MediaRatingPermissionDeniedError,
   MediaRatingUnauthorizedError,
@@ -95,6 +96,16 @@ export class MediaRatingsService {
     body: CreateMediaRatingDto
     createdAt?: Date
   }) {
+    const existing = await this.mediaRatingRepository.getByUserIdAndMediaId({
+      userId: args.userId,
+      mediaId: args.body.mediaId,
+      mediaType: args.body.mediaType,
+    })
+
+    if (existing) {
+      throw new MediaRatingAlreadyExistsError({ userId: args.userId, mediaId: args.body.mediaId })
+    }
+
     const mediaDetails = await this.mediaDetailsService.createOrUpdate(
       {
         mediaId: args.body.mediaId,

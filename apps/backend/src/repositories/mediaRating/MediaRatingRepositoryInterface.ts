@@ -4,6 +4,7 @@ import {
   MediaRatingPaginatedType,
   MediaRatingType,
   MediaRatingUpdateBodyType,
+  MediaTypeEnum,
 } from "@movie-tracker/types"
 
 export const MediaRatingRepositorySymbol = Symbol("MediaRatingRepository")
@@ -20,6 +21,7 @@ export interface MediaRatingRepositoryInterface {
   getByUserIdAndMediaId: (args: {
     userId: string
     mediaId: number
+    mediaType?: MediaTypeEnum
   }) => Promise<MediaRatingType | undefined>
 
   getByUserId: (args: {

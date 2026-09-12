@@ -1,4 +1,4 @@
-import { ForbiddenError, InternalError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
+import { ConflictError, ForbiddenError, InternalError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
 import { CustomErrorOptions } from "@/shared/errors/customError"
 
 export class MediaRatingNotFoundError extends NotFoundError {
@@ -29,6 +29,17 @@ export class MediaRatingPermissionDeniedError extends ForbiddenError {
   constructor(args: { userId: string } & CustomErrorOptions) {
     super(args.message ?? "Permission denied", { cause: args.cause, details: args.details })
     this.userId = args.userId
+  }
+}
+
+export class MediaRatingAlreadyExistsError extends ConflictError {
+  readonly userId: string
+  readonly mediaId: number
+
+  constructor(args: { userId: string, mediaId: number } & CustomErrorOptions) {
+    super(args.message ?? "Media rating already exists.", { cause: args.cause, details: args.details })
+    this.userId = args.userId
+    this.mediaId = args.mediaId
   }
 }
 
