@@ -46,7 +46,7 @@ if (config.OTELCOL_URL) {
       ],
     })
 
-    logger.log("OpenTelemetry initialized successfully with Uptrace")
+    logger.log("OpenTelemetry initialized successfully")
   }
   catch (error) {
     logger.error("Failed to initialize OpenTelemetry", error)
