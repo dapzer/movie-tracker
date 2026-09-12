@@ -21,6 +21,7 @@ export class DataImportProvidersModule {
   static registerAsync(opts: AsyncOpts): DynamicModule {
     return {
       module: DataImportProvidersModule,
+      imports: opts.imports ?? [],
       providers: [
         ...(opts.providers ?? []),
         {
