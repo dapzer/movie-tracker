@@ -30,6 +30,7 @@ export const envSchema = z.object({
   AUTH_REDIRECT_URL: z.string(),
   CLIENT_BASE_URL: z.string(),
   REDIS_URL: z.string(),
+  OTELCOL_URL: z.string().optional(),
 
   GENERATE_SITEMAP: z.string(),
   GITHUB_CLIENT_ID: z.string(),

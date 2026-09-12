@@ -1,4 +1,3 @@
-import * as process from "node:process"
 import { Logger } from "@nestjs/common"
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node"
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http"
@@ -11,19 +10,19 @@ import { resourceFromAttributes } from "@opentelemetry/resources"
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base"
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node"
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions"
+import { config } from "@/shared/constants"
 
 const logger = new Logger("OpenTelemetry")
 
-if (process.env.UPTRACE_DSN) {
+if (config.OTELCOL_URL) {
   try {
     const provider = new NodeTracerProvider({
       resource: resourceFromAttributes({
-        [ATTR_SERVICE_NAME]: process.env.NODE_ENV === "production" ? "api" : "api-dev",
+        [ATTR_SERVICE_NAME]: config.NODE_ENV === "production" ? "api" : "api-dev",
       }),
       spanProcessors: [
         new BatchSpanProcessor(new OTLPTraceExporter({
-          url: `${process.env.UPTRACE_HOST}/v1/traces`,
-          headers: { "uptrace-dsn": process.env.UPTRACE_DSN },
+          url: `${config.OTELCOL_URL}/v1/traces`,
           compression: CompressionAlgorithm.GZIP,
         })),
       ],
