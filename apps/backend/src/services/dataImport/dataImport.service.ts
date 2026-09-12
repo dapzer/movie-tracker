@@ -445,13 +445,6 @@ export class DataImportService {
 
     await this.mediaListsService.validateIsMediaListsLimitReached(args.userId, listsToCreateCount)
 
-    const acquired = await this.dataImportRepository.acquireProcessing({ id: args.id })
-
-    if (!acquired) {
-      const current = await this.dataImportRepository.getById({ id: args.id })
-      throw new DataImportInvalidStatusError({ dataImportId: args.id, status: current?.status ?? dataImport.status })
-    }
-
     const summary: DataImportProcessSummaryType = {
       createdMediaLists: 0,
       createdMediaItems: 0,
@@ -465,6 +458,13 @@ export class DataImportService {
 
     try {
       await this.drizzleService.runInTransaction(async () => {
+        const acquired = await this.dataImportRepository.acquireProcessing({ id: args.id })
+
+        if (!acquired) {
+          const current = await this.dataImportRepository.getById({ id: args.id })
+          throw new DataImportInvalidStatusError({ dataImportId: args.id, status: current?.status ?? dataImport.status })
+        }
+
         const standardResult = await this.importStandardBuckets({
           userId: args.userId,
           config: args.config,
@@ -501,18 +501,23 @@ export class DataImportService {
           summary.createdReviews += reviewsResult.created
           summary.skippedReviews.push(...reviewsResult.skipped)
         }
+
+        await this.dataImportRepository.updateStatus({
+          id: args.id,
+          status: DataImportStatusEnum.COMPLETED,
+          processedAt: new Date(),
+        })
       })
     }
     catch (error) {
-      await this.dataImportRepository.updateStatus({ id: args.id, status: DataImportStatusEnum.FAILED })
+      if (!(error instanceof DataImportInvalidStatusError)) {
+        await this.dataImportRepository
+          .updateStatus({ id: args.id, status: DataImportStatusEnum.FAILED })
+          .catch(() => {})
+      }
+
       throw error
     }
-
-    await this.dataImportRepository.updateStatus({
-      id: args.id,
-      status: DataImportStatusEnum.COMPLETED,
-      processedAt: new Date(),
-    })
 
     return summary
   }
