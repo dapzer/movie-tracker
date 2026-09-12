@@ -368,22 +368,19 @@ export class TraktProvider extends BaseService {
     }
 
     const favorites = this.parseFile({ files: args.files, fileName: "lists-favorites.json", schema: traktFavoritesItemSchema })
-    bucket.failed.push(...favorites.failed)
-    if (favorites.success.length) {
-      const items = await this.processToBucket({
-        records: favorites.success,
-        process: record => this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow }),
-      })
+    const favoritesItems = await this.processToBucket({
+      records: favorites.success,
+      process: record => this.processListItem({ record, episodesHistoryByShow: args.episodesHistoryByShow }),
+    })
 
-      items.failed.push(...favorites.failed)
+    favoritesItems.failed.push(...favorites.failed)
 
-      bucket.success.push({
-        id: "favorites",
-        title: "Favorites",
-        isPrivate: true,
-        items,
-      })
-    }
+    bucket.success.push({
+      id: "favorites",
+      title: "Favorites",
+      isPrivate: true,
+      items: favoritesItems,
+    })
 
     return bucket
   }
