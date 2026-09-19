@@ -23,7 +23,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
       id: data.id,
       mediaItemId: data.mediaItemId,
       note: data.note,
-      score: data.score,
       currentStatus: MediaItemStatusNameEnum[data.currentStatus.toUpperCase()],
       sitesToView: data.sitesToView as unknown as MediaItemSiteToViewType[],
       tvProgress: data.tvProgress as unknown as MediaItemTvProgressType,
@@ -49,7 +48,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
       .update(trackingData)
       .set({
         note: args.data.note,
-        score: args.data.score,
         currentStatus: args.data.currentStatus,
         sitesToView: args.data.sitesToView as unknown as Array<MediaItemSiteToViewType>,
         tvProgress: args.data.tvProgress as unknown as MediaItemTvProgressType,
@@ -74,7 +72,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
           .update(trackingData)
           .set({
             note: item.data.note,
-            score: item.data.score,
             currentStatus: item.data.currentStatus,
             sitesToView: item.data.sitesToView as unknown as Array<MediaItemSiteToViewType>,
             tvProgress: item.data.tvProgress as unknown as MediaItemTvProgressType,

@@ -1,0 +1,1 @@
+ALTER TABLE "tracking_data" DROP COLUMN "score";

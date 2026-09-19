@@ -32,7 +32,6 @@ export interface MediaItemTrackingDataType {
   mediaItemId: string
   currentStatus: MediaItemStatusNameEnum
   note: string
-  score: number | null
   tvProgress: MediaItemTvProgressType
   sitesToView: Array<MediaItemSiteToViewType>
   createdAt: Date
