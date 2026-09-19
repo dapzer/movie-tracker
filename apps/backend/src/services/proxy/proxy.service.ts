@@ -76,7 +76,7 @@ export class ProxyService {
 
     const contentType = response.headers.get("content-type")
 
-    if (!contentType.includes("image")) {
+    if (!contentType?.includes("image")) {
       throw new ProxyUnsupportedContentTypeError({ contentType })
     }
 
