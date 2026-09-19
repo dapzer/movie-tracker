@@ -34,7 +34,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       mediaItemId: data.mediaItemId,
       currentStatus: MediaItemStatusNameEnum[data.currentStatus],
       note: data.note,
-      score: data.score,
       sitesToView: data.sitesToView,
       tvProgress: data.tvProgress,
       createdAt: data.createdAt,
@@ -375,7 +374,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         .insert(trackingData)
         .values({
           mediaItemId: mediaItem.id,
-          score: null,
           currentStatus: args.currentStatus,
           createdAt: args.createdAt,
         })
@@ -411,7 +409,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
 
           return {
             mediaItemId: mediaItem.id,
-            score: null,
             note: item?.note,
             tvProgress: item?.tvProgress,
             currentStatus: item?.currentStatus,
@@ -444,7 +441,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         .insert(trackingData)
         .values({
           mediaItemId: mediaItem.id,
-          score: args.trackingData.score,
           note: args.trackingData.note,
           sitesToView: args.trackingData.sitesToView,
           tvProgress: args.trackingData.tvProgress,
@@ -481,7 +477,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         .insert(trackingData)
         .values(insertedMediaItems.map((mediaItem, index) => ({
           mediaItemId: mediaItem.id,
-          score: args[index]?.trackingData.score,
           note: args[index]?.trackingData.note,
           sitesToView: args[index]?.trackingData.sitesToView,
           tvProgress: args[index]?.trackingData.tvProgress,

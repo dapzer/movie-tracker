@@ -113,6 +113,13 @@
       "when": 1789830150074,
       "tag": "0015_tv_progress_default_value",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1789839603902,
+      "tag": "0016_tracking_data_remove_score",
+      "breakpoints": true
     }
   ]
 }

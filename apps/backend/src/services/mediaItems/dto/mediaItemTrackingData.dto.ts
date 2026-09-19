@@ -12,7 +12,6 @@ export const mediaItemTrackingDataSchema = z.object({
   mediaItemId: z.uuid(),
   currentStatus: z.enum(MediaItemStatusNameEnum),
   note: z.string(),
-  score: z.number().nullable().optional(),
   tvProgress: MediaItemTvProgressDto.schema,
   sitesToView: z.array(MediaItemSiteToViewDto.schema),
   createdAt: zDateTimeString,

@@ -150,8 +150,6 @@ export const trackingData = pgTable("tracking_data", {
   id: uuid().defaultRandom().primaryKey().notNull(),
   currentStatus: statusNameEnum("current_status").default("NOT_VIEWED").notNull(),
   note: text().default("").notNull(),
-  // TODO: Remove
-  score: integer(),
   sitesToView: jsonb("sites_to_view").default([]).notNull().$type<MediaItemSiteToViewType[]>(),
   tvProgress: jsonb("tv_progress").default(sql`'{"currentSeason": 1, "currentEpisode": 1}'`).notNull().$type<MediaItemTvProgressType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
