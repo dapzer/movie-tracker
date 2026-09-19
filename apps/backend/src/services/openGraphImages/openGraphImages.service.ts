@@ -36,8 +36,8 @@ export class OpenGraphImagesService {
       return maxFontSize
     }
 
-    const effectiveWidth = containerWidth - (padding * 2)
-    const effectiveHeight = containerHeight - (padding * 2)
+    const effectiveWidth = containerWidth - padding * 2
+    const effectiveHeight = containerHeight - padding * 2
     const words = text.split(" ")
 
     let low = minFontSize
@@ -123,10 +123,9 @@ export class OpenGraphImagesService {
     })
 
     const svg = await satori(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       {
         type: "div",
+        key: null,
         props: {
           style: {
             position: "relative",
@@ -138,6 +137,7 @@ export class OpenGraphImagesService {
           children: [
             {
               type: "img",
+              key: null,
               props: {
                 src: `data:image/svg+xml;base64,${buffer.Buffer.from(backgroundSvg).toString("base64")}`,
                 alt: "",
@@ -152,6 +152,7 @@ export class OpenGraphImagesService {
             },
             {
               type: "img",
+              key: null,
               props: {
                 src: `data:image/svg+xml;base64,${buffer.Buffer.from(circleBackgroundSvg).toString("base64")}`,
                 alt: "",
@@ -166,8 +167,11 @@ export class OpenGraphImagesService {
             },
             {
               type: "img",
+              key: null,
               props: {
-                src: imageUrl || `data:image/svg+xml;base64,${buffer.Buffer.from(isAvatarPlaceholder ? avatarPosterSvg : defaultMoviePosterSvg).toString("base64")}`,
+                src:
+                  imageUrl
+                  || `data:image/svg+xml;base64,${buffer.Buffer.from(isAvatarPlaceholder ? avatarPosterSvg : defaultMoviePosterSvg).toString("base64")}`,
                 alt: "",
                 style: {
                   width: "407px",
@@ -178,6 +182,7 @@ export class OpenGraphImagesService {
             },
             {
               type: "div",
+              key: null,
               props: {
                 style: {
                   width: "793px",
@@ -191,6 +196,7 @@ export class OpenGraphImagesService {
                 children: [
                   {
                     type: "h1",
+                    key: null,
                     props: {
                       style: {
                         fontSize: `${fontSize}px`,
@@ -209,6 +215,7 @@ export class OpenGraphImagesService {
                   },
                   {
                     type: "div",
+                    key: null,
                     props: {
                       style: {
                         display: "flex",
@@ -218,6 +225,7 @@ export class OpenGraphImagesService {
                       children: [
                         {
                           type: "p",
+                          key: null,
                           props: {
                             style: {
                               fontFamily: "Inter",
@@ -233,6 +241,7 @@ export class OpenGraphImagesService {
                         },
                         {
                           type: "img",
+                          key: null,
                           props: {
                             src: `data:image/svg+xml;base64,${buffer.Buffer.from(logoSvg).toString("base64")}`,
                             alt: "",
@@ -248,7 +257,6 @@ export class OpenGraphImagesService {
                 ],
               },
             },
-
           ],
         },
       },
