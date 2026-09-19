@@ -376,11 +376,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         .values({
           mediaItemId: mediaItem.id,
           score: null,
-          sitesToView: [],
-          tvProgress: {
-            currentSeason: 1,
-            currentEpisode: 1,
-          },
           currentStatus: args.currentStatus,
           createdAt: args.createdAt,
         })
@@ -418,11 +413,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
             mediaItemId: mediaItem.id,
             score: null,
             note: item?.note,
-            sitesToView: [],
-            tvProgress: item?.tvProgress ?? {
-              currentSeason: 1,
-              currentEpisode: 1,
-            },
+            tvProgress: item?.tvProgress,
             currentStatus: item?.currentStatus,
             createdAt: item?.createdAt,
           }

@@ -153,7 +153,7 @@ export const trackingData = pgTable("tracking_data", {
   // TODO: Remove
   score: integer(),
   sitesToView: jsonb("sites_to_view").default([]).notNull().$type<MediaItemSiteToViewType[]>(),
-  tvProgress: jsonb("tv_progress").notNull().$type<MediaItemTvProgressType>(),
+  tvProgress: jsonb("tv_progress").default(sql`'{"currentSeason": 1, "currentEpisode": 1}'`).notNull().$type<MediaItemTvProgressType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull().$onUpdate(() => new Date()),
   mediaItemId: uuid("media_item_id").notNull().unique().references(() => mediaItems.id, { onUpdate: "cascade", onDelete: "cascade" }),
