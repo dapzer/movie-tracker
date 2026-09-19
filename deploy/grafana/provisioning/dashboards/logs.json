@@ -1119,7 +1119,7 @@
           },
           "direction": "backward",
           "editorMode": "code",
-          "expr": "sum by (method, error_name) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"50|60\" | label_format error_name=`{{ if .err_name }}{{ .err_name }}{{ else }}{{ .err_type }}{{ end }}` | error_name != \"\" [$__range]))",
+          "expr": "sum by (method, error_name) (count_over_time({service_name=\"$service_name\"} |= \"$filter\" | json | __error__=\"\" | level =~ \"$level\" | label_format error_name=`{{ if .err_name }}{{ .err_name }}{{ else }}{{ .err_type }}{{ end }}` | error_name != \"\" [$__range]))",
           "legendFormat": "{{method}} {{error_name}}",
           "queryType": "instant",
           "refId": "A"
