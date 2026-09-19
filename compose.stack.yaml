@@ -27,17 +27,16 @@ services:
         constraints:
           - node.role == manager
   backup:
-    image: tiredofit/db-backup
+    image: nfrastack/db-backup:4.9.2
     env_file:
       - .env
     depends_on:
       - postgres
     environment:
-      DB_CHECKSUM: none
-      COMPRESSION: GZ
+      DEFAULT_CHECKSUM: NONE
       DEFAULT_ENCRYPT: "false"
       CONTAINER_ENABLE_MONITORING: "false"
-      DB_BACKUP_LOCATION: s3
+      DEFAULT_BACKUP_LOCATION: S3
       DEFAULT_BACKUP_INTERVAL: 480
       DEFAULT_COMPRESSION: GZ
       DEFAULT_EXTRA_OPTS: --inserts --data-only

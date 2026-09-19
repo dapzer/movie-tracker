@@ -21,15 +21,14 @@ services:
       - caddy-public
   backup:
     container_name: backup
-    image: tiredofit/db-backup
+    image: nfrastack/db-backup:4.9.2
     depends_on:
       - postgres
     environment:
-      DB_CHECKSUM: none
-      COMPRESSION: GZ
+      DEFAULT_CHECKSUM: NONE
       DEFAULT_ENCRYPT: "false"
       CONTAINER_ENABLE_MONITORING: "false"
-      DB_BACKUP_LOCATION: s3
+      DEFAULT_BACKUP_LOCATION: S3
       DEFAULT_BACKUP_INTERVAL: 480
       DEFAULT_COMPRESSION: GZ
       DEFAULT_EXTRA_OPTS: --inserts --data-only
