@@ -5,7 +5,7 @@ import * as path from "node:path"
 import * as process from "node:process"
 import { Injectable } from "@nestjs/common"
 import satori from "satori"
-import * as sharp from "sharp"
+import sharp from "sharp"
 
 @Injectable()
 export class OpenGraphImagesService {

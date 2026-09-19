@@ -1,7 +1,7 @@
 import { generateApiUrl, HttpStatus } from "@movie-tracker/utils"
 import { Injectable, StreamableFile } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
-import * as sharp from "sharp"
+import sharp from "sharp"
 import {
   ProxyFetchError,
   ProxyFetchNotFoundError,
@@ -106,8 +106,8 @@ export class ProxyService {
         contentType: "image/webp",
       }
     }
-    catch {
-      throw new ProxyProcessingError({ path })
+    catch (error) {
+      throw new ProxyProcessingError({ path, cause: error })
     }
   }
 }
