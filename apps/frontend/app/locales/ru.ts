@@ -1312,6 +1312,60 @@ export default {
       },
     },
   },
+  dataImport: {
+    pageTitle: "Импорт данных",
+    sourceLabel: "Импортировать данные",
+    sourcePlaceholder: "Выберите источник",
+    sources: {
+      letterboxd: "Letterboxd",
+      trakt: "Trakt",
+    },
+    guide: {
+      title: "Где взять файл экспорта?",
+      steps: {
+        letterboxd: [
+          "Войдите в свой аккаунт Letterboxd",
+          "Перейдите в Settings → Import & Export",
+          "Нажмите «Export Your Data» и дождитесь начала загрузки архива",
+          "Загрузите скачанный zip-архив здесь",
+        ],
+        trakt: [
+          "Войдите в свой аккаунт Trakt",
+          "Перейдите в Settings → Data Export",
+          "Запросите экспорт данных и дождитесь загрузки архива",
+          "Загрузите скачанный zip-архив здесь",
+        ],
+      },
+      openExportPage: "Открыть страницу экспорта",
+    },
+    dropzone: {
+      title: "Загрузить архив экспорта",
+      hint: "Перетащите zip-архив сюда или нажмите, чтобы выбрать файл",
+      description: "ZIP, до 50 МБ",
+      replace: "Заменить",
+      mb: "МБ",
+    },
+    submit: "Загрузить и импортировать",
+    history: {
+      title: "История импортов",
+      empty: {
+        title: "Пока нет импортов",
+        description: "Загрузите архив с другого сервиса, чтобы перенести ваши данные.",
+      },
+      table: {
+        source: "Источник",
+        date: "Дата",
+        status: "Статус",
+      },
+      process: "Обработать",
+    },
+    status: {
+      pending: "Ожидает",
+      processing: "Обрабатывается",
+      completed: "Завершён",
+      failed: "Ошибка",
+    },
+  },
   navigation: {
     home: "Поиск",
     lists: "Списки",
@@ -1743,6 +1797,12 @@ export default {
     linkSuccessfullyCopied: "Ссылка успешно скопирована",
     linkUnsuccessfullyCopied: "Произошла ошибка при копировании ссылки",
     rateLimitExceeded: "Превышен лимит на количество запросов. Пожалуйста, попробуйте позже.",
+    dataImport: {
+      successImported: "Архив успешно загружен. Импорт будет обработан в ближайшее время.",
+      unsuccessfullyImported: "Произошла ошибка при импорте архива",
+      invalidFileType: "Поддерживаются только zip-архивы",
+      fileTooLarge: "Размер архива не должен превышать 50 МБ",
+    },
     mediaItem: {
       successAddedToList: "{media} добавлен в список «{listName}»",
       successRemovedFromList: "{media} удален из списка «{listName}»",

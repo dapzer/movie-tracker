@@ -1310,6 +1310,60 @@ export default {
       },
     },
   },
+  dataImport: {
+    pageTitle: "Data import",
+    sourceLabel: "Import data",
+    sourcePlaceholder: "Select a source",
+    sources: {
+      letterboxd: "Letterboxd",
+      trakt: "Trakt",
+    },
+    guide: {
+      title: "Where to get the export file?",
+      steps: {
+        letterboxd: [
+          "Log in to your Letterboxd account",
+          "Go to Settings → Import & Export",
+          "Click «Export Your Data» and wait for the archive to download",
+          "Upload the downloaded zip archive here",
+        ],
+        trakt: [
+          "Log in to your Trakt account",
+          "Go to Settings → Data Export",
+          "Request the data export and wait for the archive to download",
+          "Upload the downloaded zip archive here",
+        ],
+      },
+      openExportPage: "Open export page",
+    },
+    dropzone: {
+      title: "Upload export archive",
+      hint: "Drag a zip archive here or click to select a file",
+      description: "ZIP, under 50 MB",
+      replace: "Replace",
+      mb: "MB",
+    },
+    submit: "Upload and import",
+    history: {
+      title: "Import history",
+      empty: {
+        title: "No imports yet",
+        description: "Upload an archive from another service to transfer your data.",
+      },
+      table: {
+        source: "Source",
+        date: "Date",
+        status: "Status",
+      },
+      process: "Process",
+    },
+    status: {
+      pending: "Pending",
+      processing: "Processing",
+      completed: "Completed",
+      failed: "Failed",
+    },
+  },
   navigation: {
     home: "Search",
     lists: "Lists",
@@ -1741,6 +1795,12 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     linkSuccessfullyCopied: "Link copied successfully",
     linkUnsuccessfullyCopied: "An error occurred while copying the link",
     rateLimitExceeded: "Rate limit exceeded. Please try again later.",
+    dataImport: {
+      successImported: "Archive uploaded successfully. Import will be processed shortly.",
+      unsuccessfullyImported: "An error occurred while importing the archive",
+      invalidFileType: "Only zip archives are supported",
+      fileTooLarge: "The archive must be smaller than 50 MB",
+    },
     mediaItem: {
       successAddedToList: "{media} added to the list «{listName}»",
       successRemovedFromList: "{media} removed from the list «{listName}»",
