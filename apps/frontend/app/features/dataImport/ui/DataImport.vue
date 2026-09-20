@@ -64,6 +64,7 @@ watch(() => getDataImportsApi.data.value?.items, (newValue) => {
 
         <UiAttention
           v-if="getDataImportsApi.data.value?.totalCount === 0"
+          :indent="24"
           :title="$t('dataImport.history.empty.title')"
           :description="$t('dataImport.history.empty.description')"
         />
