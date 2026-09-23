@@ -1325,7 +1325,7 @@ export default {
   footer: {
     copyright: "Copyright © {year} Movie Tracker. All rights reserved.",
     dataSource: "Data source for all movies",
-    description: `Stay up to date with all your favorite movies and TV shows, create personalized watchlists and discover new experiences.`,
+    description: `Stay up to date with all your favorite movies and TV shows, create personalized lists and discover new experiences.`,
   },
   search: {
     title: "Search results",
