@@ -1365,6 +1365,51 @@ export default {
       completed: "Завершён",
       failed: "Ошибка",
     },
+    processing: {
+      pageTitle: "Обработка импорта",
+      selectWhatToImport: "Выберите, что импортировать",
+      stats: {
+        watched: "Просмотрено",
+        watchList: "Буду смотреть",
+        lists: "Списки",
+        ratings: "Оценки",
+        reviews: "Рецензии",
+        unrecognized: "Не распознано",
+      },
+      found: "{count} найдено",
+      notFound: "{count} не найдено",
+      newList: "Новый список",
+      existingList: "Существующий список",
+      newListName: "Название нового списка",
+      newListNamePlaceholder: "Название списка",
+      list: "Список",
+      listPlaceholder: "Выберите список",
+      newListHint: "Будет создан новый список «{title}»",
+      errors: {
+        listTitleLength: "Название должно содержать от {min} до {max} символов",
+      },
+      status: "Статус",
+      listsSection: "Списки",
+      submit: "Обработать",
+      attention: {
+        processing: {
+          title: "Импорт обрабатывается",
+          description: "Данные уже обрабатываются. Изменение конфигурации недоступно.",
+        },
+        completed: {
+          title: "Импорт уже обработан",
+          description: "Этот импорт был обработан ранее. Повторная обработка недоступна.",
+        },
+        failed: {
+          title: "Обработка завершилась ошибкой",
+          description: "Во время обработки произошла ошибка. Вернитесь к истории импортов и попробуйте снова.",
+        },
+        notFound: {
+          title: "Импорт не найден",
+          description: "Импорт не существует или у вас нет к нему доступа.",
+        },
+      },
+    },
   },
   navigation: {
     home: "Поиск",
@@ -1800,6 +1845,8 @@ export default {
     dataImport: {
       successImported: "Архив успешно загружен. Импорт будет обработан в ближайшее время.",
       unsuccessfullyImported: "Произошла ошибка при импорте архива",
+      successProcessed: "Обработка импорта запущена",
+      unsuccessfullyProcessed: "Произошла ошибка при обработке импорта",
       invalidFileType: "Поддерживаются только zip-архивы",
       fileTooLarge: "Размер архива не должен превышать 50 МБ",
     },

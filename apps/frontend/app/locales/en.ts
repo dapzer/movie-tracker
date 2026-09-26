@@ -1363,6 +1363,51 @@ export default {
       completed: "Completed",
       failed: "Failed",
     },
+    processing: {
+      pageTitle: "Import processing",
+      selectWhatToImport: "Choose what to import",
+      stats: {
+        watched: "Watched",
+        watchList: "Watchlist",
+        lists: "Lists",
+        ratings: "Ratings",
+        reviews: "Reviews",
+        unrecognized: "Not recognized",
+      },
+      found: "{count} found",
+      notFound: "{count} not found",
+      newList: "New list",
+      existingList: "Existing list",
+      newListName: "New list name",
+      newListNamePlaceholder: "List name",
+      list: "List",
+      listPlaceholder: "Select a list",
+      newListHint: "A new list «{title}» will be created",
+      errors: {
+        listTitleLength: "Title must be between {min} and {max} characters",
+      },
+      status: "Status",
+      listsSection: "Lists",
+      submit: "Process",
+      attention: {
+        processing: {
+          title: "Import is being processed",
+          description: "The data is already being processed. Changing the configuration is unavailable.",
+        },
+        completed: {
+          title: "Import already processed",
+          description: "This import was processed earlier. Re-processing is unavailable.",
+        },
+        failed: {
+          title: "Processing failed",
+          description: "An error occurred during processing. Go back to the import history and try again.",
+        },
+        notFound: {
+          title: "Import not found",
+          description: "The import does not exist or you don't have access to it.",
+        },
+      },
+    },
   },
   navigation: {
     home: "Search",
@@ -1798,6 +1843,8 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
     dataImport: {
       successImported: "Archive uploaded successfully. Import will be processed shortly.",
       unsuccessfullyImported: "An error occurred while importing the archive",
+      successProcessed: "Import processing started",
+      unsuccessfullyProcessed: "An error occurred while processing the import",
       invalidFileType: "Only zip archives are supported",
       fileTooLarge: "The archive must be smaller than 50 MB",
     },
