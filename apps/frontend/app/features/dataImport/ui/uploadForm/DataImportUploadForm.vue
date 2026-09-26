@@ -39,7 +39,7 @@ async function onSubmit() {
       source: source.value,
       file: file.value,
     })
-    router.push(`/data-import/${data.importId}`)
+    router.push(`/settings/data-import/${data.importId}`)
     toast.success(t("toasts.dataImport.successImported"))
   }
   catch (error) {

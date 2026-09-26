@@ -91,7 +91,7 @@ function formatDate(value: Date | string) {
               :as="NuxtLink"
               size="small"
               scheme="gray"
-              :to="localePath(`/data-import/${item.id}`)"
+              :to="localePath(`/settings/data-import/${item.id}`)"
             >
               {{ $t("dataImport.history.process") }}
             </UiButton>
