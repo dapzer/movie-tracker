@@ -1309,6 +1309,11 @@ export default {
         public: "Everyone",
       },
     },
+    dataImport: {
+      title: "Import Data",
+      description: "Import everything you've already watched, rated and saved from another service.",
+      link: "Import",
+    },
   },
   dataImport: {
     pageTitle: "Data import",
