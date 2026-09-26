@@ -1311,6 +1311,110 @@ export default {
         public: "Все",
       },
     },
+    dataImport: {
+      title: "Импорт данных",
+      description: "Импортируйте все просмотренные, оцененные и сохраненные вами фильмы и сериалы из других сервисов.",
+      link: "Импортировать",
+    },
+  },
+  dataImport: {
+    pageTitle: "Импорт данных",
+    sourceLabel: "Импортировать данные",
+    sourcePlaceholder: "Выберите источник",
+    sources: {
+      letterboxd: "Letterboxd",
+      trakt: "Trakt",
+    },
+    guide: {
+      title: "Где взять файл экспорта?",
+      steps: {
+        letterboxd: [
+          "Войдите в свой аккаунт Letterboxd",
+          "Перейдите в Settings → Import & Export",
+          "Нажмите «Export Your Data» и дождитесь начала загрузки архива",
+          "Загрузите скачанный zip-архив здесь",
+        ],
+        trakt: [
+          "Войдите в свой аккаунт Trakt",
+          "Перейдите в Settings → Data Export",
+          "Запросите экспорт данных и дождитесь загрузки архива",
+          "Загрузите скачанный zip-архив здесь",
+        ],
+      },
+      openExportPage: "Открыть страницу экспорта",
+    },
+    dropzone: {
+      title: "Загрузить архив экспорта",
+      hint: "Перетащите zip-архив сюда или нажмите, чтобы выбрать файл",
+      description: "ZIP, до 50 МБ",
+      replace: "Заменить",
+      mb: "МБ",
+    },
+    submit: "Загрузить и импортировать",
+    history: {
+      title: "История импортов",
+      empty: {
+        title: "Пока нет импортов",
+        description: "Загрузите архив с другого сервиса, чтобы перенести ваши данные.",
+      },
+      table: {
+        source: "Источник",
+        date: "Дата",
+        status: "Статус",
+      },
+      process: "Обработать",
+    },
+    status: {
+      pending: "Ожидает",
+      processing: "Обрабатывается",
+      completed: "Завершён",
+      failed: "Ошибка",
+    },
+    processing: {
+      pageTitle: "Обработка импорта",
+      selectWhatToImport: "Выберите, что импортировать",
+      stats: {
+        watched: "Просмотрено",
+        watchList: "Буду смотреть",
+        lists: "Списки",
+        ratings: "Оценки",
+        reviews: "Рецензии",
+        unrecognized: "Не распознано",
+      },
+      found: "{count} найдено",
+      notFound: "{count} не найдено",
+      newList: "Новый список",
+      existingList: "Существующий список",
+      newListName: "Название нового списка",
+      newListNamePlaceholder: "Название списка",
+      list: "Список",
+      listPlaceholder: "Выберите список",
+      newListHint: "Будет создан новый список «{title}»",
+      errors: {
+        listTitleLength: "Название должно содержать от {min} до {max} символов",
+      },
+      status: "Статус",
+      listsSection: "Списки",
+      submit: "Обработать",
+      attention: {
+        processing: {
+          title: "Импорт обрабатывается",
+          description: "Данные уже обрабатываются. Изменение конфигурации недоступно.",
+        },
+        completed: {
+          title: "Импорт уже обработан",
+          description: "Этот импорт был обработан ранее. Повторная обработка недоступна.",
+        },
+        failed: {
+          title: "Обработка завершилась ошибкой",
+          description: "Во время обработки произошла ошибка. Вернитесь к истории импортов и попробуйте снова.",
+        },
+        notFound: {
+          title: "Импорт не найден",
+          description: "Импорт не существует или у вас нет к нему доступа.",
+        },
+      },
+    },
   },
   navigation: {
     home: "Поиск",
@@ -1743,6 +1847,14 @@ export default {
     linkSuccessfullyCopied: "Ссылка успешно скопирована",
     linkUnsuccessfullyCopied: "Произошла ошибка при копировании ссылки",
     rateLimitExceeded: "Превышен лимит на количество запросов. Пожалуйста, попробуйте позже.",
+    dataImport: {
+      successImported: "Архив успешно загружен. Импорт будет обработан в ближайшее время.",
+      unsuccessfullyImported: "Произошла ошибка при импорте архива",
+      successProcessed: "Обработка импорта запущена",
+      unsuccessfullyProcessed: "Произошла ошибка при обработке импорта",
+      invalidFileType: "Поддерживаются только zip-архивы",
+      fileTooLarge: "Размер архива не должен превышать 50 МБ",
+    },
     mediaItem: {
       successAddedToList: "{media} добавлен в список «{listName}»",
       successRemovedFromList: "{media} удален из списка «{listName}»",
