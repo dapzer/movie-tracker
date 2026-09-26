@@ -28,6 +28,11 @@ const localePath = useLocalePath()
 @use "~/shared/styles/mixins" as *;
 
 .action {
+  text-align: center;
+
+  @include mobileDevice() {
+    width: 100%;
+  }
 }
 
 .content {

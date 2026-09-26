@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import type { GetDataImportsArgs } from "~/api/dataImport/dataImportApiTypes.ts"
+import { useLocalePath } from "#i18n"
 import { useRouteQuery } from "@vueuse/router"
 import { computed, watch } from "vue"
 import { useGetDataImportsApi } from "~/api/dataImport/useDataImportApi"
 import DataImportHistoryTable from "~/features/dataImport/ui/DataImportHistoryTable.vue"
 import DataImportUploadForm from "~/features/dataImport/ui/uploadForm/DataImportUploadForm.vue"
 import { UiAttention } from "~/shared/ui/UiAttention"
+import { UiBackLink } from "~/shared/ui/UiBackLink"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { getPaginationParams } from "~/shared/utils/getPaginationParams.ts"
 
 const PAGE_SIZE = 10
+
+const localePath = useLocalePath()
 
 const page = useRouteQuery<number>("page", 1, {
   transform: Number,
@@ -39,6 +43,8 @@ watch(() => getDataImportsApi.data.value?.items, (newValue) => {
 <template>
   <UiContainer :class="$style.wrapper">
     <div :class="$style.header">
+      <UiBackLink :url="localePath('/settings/account')" />
+
       <UiTypography
         as="h1"
         variant="title2"
@@ -89,6 +95,10 @@ watch(() => getDataImportsApi.data.value?.items, (newValue) => {
 }
 
 .header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
   margin-bottom: 16px;
 
   h1 {
