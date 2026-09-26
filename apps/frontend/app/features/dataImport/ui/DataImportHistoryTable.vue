@@ -87,6 +87,7 @@ function formatDate(value: Date | string) {
           </UiTableCell>
           <UiTableCell>
             <UiButton
+              v-if="item.status !== StatusEnum.COMPLETED"
               :as="NuxtLink"
               size="small"
               scheme="gray"
