@@ -40,6 +40,13 @@ const accordionItems = computed(() => {
       value: "contactSupport",
       asNode: true,
     },
+    {
+      title: t("about.faq.questions.dataImport.title"),
+      as: UiMarkdown,
+      asProps: { value: t("about.faq.questions.dataImport.description") },
+      value: "dataImport",
+      asNode: true,
+    },
   ]
 })
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import AccountSettingsRow from "~/features/accountSettings/ui/AccountSettingsRow.vue"
 import { UiButton } from "~/shared/ui/UiButton"
-import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface AccountSettingsFormItemProps {
   title: string
@@ -12,23 +12,10 @@ const props = defineProps<AccountSettingsFormItemProps>()
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.header">
-      <UiTypography
-        variant="cardTitle"
-        :class="$style.title"
-      >
-        {{ props.title }}
-      </UiTypography>
-      <UiTypography
-        v-if="props.description"
-        variant="description"
-        :class="$style.description"
-      >
-        {{ props.description }}
-      </UiTypography>
-    </div>
-
+  <AccountSettingsRow
+    :title="props.title"
+    :description="props.description"
+  >
     <div :class="$style.content">
       <slot />
       <UiButton
@@ -39,7 +26,7 @@ const props = defineProps<AccountSettingsFormItemProps>()
         {{ $t("ui.change") }}
       </UiButton>
     </div>
-  </div>
+  </AccountSettingsRow>
 </template>
 
 <style module lang="scss">
@@ -72,17 +59,13 @@ const props = defineProps<AccountSettingsFormItemProps>()
 }
 
 .content {
-  max-width: 384px;
   gap: 8px;
-  flex: 1 1 auto;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
 
   @include mobileDevice() {
-    max-width: unset;
-    width: 100%;
     flex-direction: column;
   }
 }

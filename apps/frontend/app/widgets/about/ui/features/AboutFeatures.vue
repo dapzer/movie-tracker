@@ -29,6 +29,10 @@ const features = [{
   title: "about.features.community.title",
   description: "about.features.community.description",
   icon: h(UiIcon, { name: "icon:community-feature" }),
+}, {
+  title: "about.features.dataImport.title",
+  description: "about.features.dataImport.description",
+  icon: h(UiIcon, { name: "icon:data-import-feature" }),
 }]
 </script>
 

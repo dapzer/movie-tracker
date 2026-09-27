@@ -2,23 +2,30 @@
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 export type UiInputSize = "small" | "default"
+export type UiInputAs = "label" | "div"
 
 interface UiInputProps {
   error?: string | string[]
   size?: UiInputSize
+  as?: UiInputAs
 }
 
 defineOptions({
   inheritAttrs: false,
 })
-const props = defineProps<UiInputProps>()
+const props = withDefaults(defineProps<UiInputProps>(), {
+  as: "label",
+})
 const slots = defineSlots()
 
 const inputModel = defineModel<string | number | null>()
 </script>
 
 <template>
-  <label :class="[$style.wrapper]">
+  <component
+    :is="props.as"
+    :class="[$style.wrapper]"
+  >
     <div :class="$style.inputWrapper">
       <template v-if="slots.icon">
         <div
@@ -48,7 +55,7 @@ const inputModel = defineModel<string | number | null>()
     >
       {{ Array.isArray(props.error) ? props.error.join(". ") : props.error }}
     </UiTypography>
-  </label>
+  </component>
 </template>
 
 <style module lang="scss">

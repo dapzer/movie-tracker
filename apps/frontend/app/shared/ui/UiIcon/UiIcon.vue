@@ -79,6 +79,10 @@ export type UiIconName = "icon:close"
   | "icon:ellipsis-vertical"
   | "icon:copy"
   | "icon:ref"
+  | "icon:upload"
+  | "icon:zip-file"
+  | "icon:error"
+  | "icon:data-import-feature"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

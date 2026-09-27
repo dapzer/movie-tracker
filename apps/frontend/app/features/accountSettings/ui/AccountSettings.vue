@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AccountSettingsDataImportRow from "~/features/accountSettings/ui/AccountSettingsDataImportRow.vue"
 import AccountSettingsMediaRatingsAccessForm
   from "~/features/accountSettings/ui/AccountSettingsMediaRatingsAccessForm.vue"
 import AccountSettingsNameForm from "~/features/accountSettings/ui/AccountSettingsNameForm.vue"
@@ -20,6 +21,8 @@ import { UiTypography } from "~/shared/ui/UiTypography"
       <AccountSettingsNameForm />
       <UiDivider />
       <AccountSettingsMediaRatingsAccessForm />
+      <UiDivider />
+      <AccountSettingsDataImportRow />
     </div>
   </UiContainer>
 </template>
