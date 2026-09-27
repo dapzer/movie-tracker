@@ -1515,7 +1515,7 @@ export default {
         },
         dataImport: {
           title: "Can I import my data from another service?",
-          description: "Yes. Go to [Settings → Import Data](/en/settings/data-import), choose the service you want to import from, and upload the export archive from that platform. After the file is processed, you can review the detected data, choose what you want to import, and apply it to your account.",
+          description: "Yes. Go to [Account Settings → Import Data](/en/settings/data-import), choose the service you want to import from, and upload the export archive from that platform. After the file is processed, you can review the detected data, choose what you want to import, and apply it to your account.",
         },
       },
     },
