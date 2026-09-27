@@ -2,7 +2,6 @@
 import type { DataImportListType, MediaItemStatusNameEnum, MediaListType } from "@movie-tracker/types"
 import type { DataImportProcessingListMode } from "~/features/dataImport/model/useDataImportProcessingOptions"
 import { MediaItemStatusNameEnum as StatusEnum } from "@movie-tracker/types"
-import { toRef } from "vue"
 import { useDataImportProcessingOptions } from "~/features/dataImport/model/useDataImportProcessingOptions"
 import DataImportProcessingField from "~/features/dataImport/ui/processing/DataImportProcessingField.vue"
 import DataImportProcessingToggleCard from "~/features/dataImport/ui/processing/DataImportProcessingToggleCard.vue"
@@ -23,9 +22,7 @@ const listMode = defineModel<DataImportProcessingListMode>("listMode", { default
 const mediaListId = defineModel<string>("mediaListId", { default: "" })
 const status = defineModel<MediaItemStatusNameEnum>("status", { default: StatusEnum.VIEWED })
 
-const { listModeOptions, mediaListOptions, statusOptions } = useDataImportProcessingOptions(
-  toRef(props, "mediaLists"),
-)
+const { listModeOptions, mediaListOptions, statusOptions } = useDataImportProcessingOptions(props.mediaLists)
 </script>
 
 <template>

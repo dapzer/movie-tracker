@@ -274,58 +274,62 @@ async function onSubmit() {
       <UiDivider />
 
       <div :class="$style.form">
-        <UiTypography
-          as="h2"
-          variant="cardTitle"
+        <section :class="$style.section">
+          <UiTypography
+            as="h2"
+            variant="cardTitle"
+          >
+            {{ $t("dataImport.processing.selectWhatToImport") }}
+          </UiTypography>
+
+          <DataImportProcessingBucketCard
+            v-model:enabled="watchedBucket.enabled"
+            v-model:list-mode="watchedBucket.listMode"
+            v-model:new-list-title="watchedBucket.newListTitle"
+            v-model:new-list-title-error="watchedBucket.newListTitleError"
+            v-model:media-list-id="watchedBucket.mediaListId"
+            v-model:status="watchedBucket.status"
+            :title="$t('dataImport.processing.stats.watched')"
+            :found-count="dataImport.result.watched.success.length"
+            :failed-count="dataImport.result.watched.failed.length"
+            :media-lists="getMediaListsApi.data.value"
+            :disabled="!isEditable"
+          />
+
+          <DataImportProcessingBucketCard
+            v-model:enabled="watchListBucket.enabled"
+            v-model:list-mode="watchListBucket.listMode"
+            v-model:new-list-title="watchListBucket.newListTitle"
+            v-model:new-list-title-error="watchListBucket.newListTitleError"
+            v-model:media-list-id="watchListBucket.mediaListId"
+            v-model:status="watchListBucket.status"
+            :title="$t('dataImport.processing.stats.watchList')"
+            :found-count="dataImport.result.watchList.success.length"
+            :failed-count="dataImport.result.watchList.failed.length"
+            :media-lists="getMediaListsApi.data.value"
+            :disabled="!isEditable"
+          />
+
+          <DataImportProcessingFlagRow
+            v-model:enabled="ratingsEnabled"
+            :title="$t('dataImport.processing.stats.ratings')"
+            :found-count="dataImport.result.ratings.success.length"
+            :failed-count="dataImport.result.ratings.failed.length"
+            :disabled="!isEditable"
+          />
+
+          <DataImportProcessingFlagRow
+            v-model:enabled="reviewsEnabled"
+            :title="$t('dataImport.processing.stats.reviews')"
+            :found-count="dataImport.result.reviews.success.length"
+            :failed-count="dataImport.result.reviews.failed.length"
+            :disabled="!isEditable"
+          />
+        </section>
+        <section
+          v-if="dataImport.result.lists.success.length"
+          :class="$style.section"
         >
-          {{ $t("dataImport.processing.selectWhatToImport") }}
-        </UiTypography>
-
-        <DataImportProcessingBucketCard
-          v-model:enabled="watchedBucket.enabled"
-          v-model:list-mode="watchedBucket.listMode"
-          v-model:new-list-title="watchedBucket.newListTitle"
-          v-model:new-list-title-error="watchedBucket.newListTitleError"
-          v-model:media-list-id="watchedBucket.mediaListId"
-          v-model:status="watchedBucket.status"
-          :title="$t('dataImport.processing.stats.watched')"
-          :found-count="dataImport.result.watched.success.length"
-          :failed-count="dataImport.result.watched.failed.length"
-          :media-lists="getMediaListsApi.data.value"
-          :disabled="!isEditable"
-        />
-
-        <DataImportProcessingBucketCard
-          v-model:enabled="watchListBucket.enabled"
-          v-model:list-mode="watchListBucket.listMode"
-          v-model:new-list-title="watchListBucket.newListTitle"
-          v-model:new-list-title-error="watchListBucket.newListTitleError"
-          v-model:media-list-id="watchListBucket.mediaListId"
-          v-model:status="watchListBucket.status"
-          :title="$t('dataImport.processing.stats.watchList')"
-          :found-count="dataImport.result.watchList.success.length"
-          :failed-count="dataImport.result.watchList.failed.length"
-          :media-lists="getMediaListsApi.data.value"
-          :disabled="!isEditable"
-        />
-
-        <DataImportProcessingFlagRow
-          v-model:enabled="ratingsEnabled"
-          :title="$t('dataImport.processing.stats.ratings')"
-          :found-count="dataImport.result.ratings.success.length"
-          :failed-count="dataImport.result.ratings.failed.length"
-          :disabled="!isEditable"
-        />
-
-        <DataImportProcessingFlagRow
-          v-model:enabled="reviewsEnabled"
-          :title="$t('dataImport.processing.stats.reviews')"
-          :found-count="dataImport.result.reviews.success.length"
-          :failed-count="dataImport.result.reviews.failed.length"
-          :disabled="!isEditable"
-        />
-
-        <template v-if="dataImport.result.lists.success.length">
           <UiTypography
             as="h3"
             variant="cardTitle"
@@ -344,7 +348,7 @@ async function onSubmit() {
             :media-lists="getMediaListsApi.data.value"
             :disabled="!isEditable"
           />
-        </template>
+        </section>
 
         <UiButton
           v-if="isEditable"
@@ -382,7 +386,13 @@ async function onSubmit() {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .statusAttention {
@@ -396,6 +406,5 @@ async function onSubmit() {
 
 .submitButton {
   width: 100%;
-  margin-top: 8px;
 }
 </style>

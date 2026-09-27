@@ -5,7 +5,7 @@ interface DataImportSectionProps {
   label: string
 }
 
-defineProps<DataImportSectionProps>()
+const props = defineProps<DataImportSectionProps>()
 </script>
 
 <template>
@@ -14,7 +14,7 @@ defineProps<DataImportSectionProps>()
       as="span"
       variant="label"
     >
-      {{ label }}
+      {{ props.label }}
     </UiTypography>
 
     <slot />
