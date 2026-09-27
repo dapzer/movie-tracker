@@ -1480,6 +1480,10 @@ export default {
         title: "Community Lists",
         description: "Discover new content, follow your favorite lists, and see the top-rated recommendations from other users.",
       },
+      dataImport: {
+        title: "Import Data",
+        description: "Bring in your watch history, ratings, reviews and lists from Trakt, Letterboxd and other services in a few clicks.",
+      },
     },
     team: {
       title: "Meet our team",
@@ -1508,6 +1512,10 @@ export default {
         contactSupport: {
           title: "How can I contact customer support?",
           description: `If you have any questions or need help, please contact using email [movietracker.apps{'@'}gmail.com](mailo:movietracker.apps{'@'}gmail.com) or via [Discord server](https://discord.gg/yeAXyC4TEr).`,
+        },
+        dataImport: {
+          title: "Can I import my data from another service?",
+          description: "Yes. Go to [Settings → Import Data](/en/settings/data-import), choose the service you want to import from, and upload the export archive from that platform. After the file is processed, you can review the detected data, choose what you want to import, and apply it to your account.",
         },
       },
     },
