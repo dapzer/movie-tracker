@@ -51,7 +51,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
+        "w": 3,
         "x": 0,
         "y": 1
       },
@@ -108,8 +108,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 4,
+        "w": 3,
+        "x": 3,
         "y": 1
       },
       "id": 2,
@@ -165,8 +165,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 8,
+        "w": 3,
+        "x": 6,
         "y": 1
       },
       "id": 3,
@@ -222,8 +222,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 12,
+        "w": 3,
+        "x": 9,
         "y": 1
       },
       "id": 4,
@@ -279,8 +279,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 16,
+        "w": 3,
+        "x": 12,
         "y": 1
       },
       "id": 5,
@@ -336,8 +336,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 20,
+        "w": 3,
+        "x": 15,
         "y": 1
       },
       "id": 6,
@@ -373,6 +373,63 @@
         }
       ],
       "title": "Media details",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "eem9822ful3pca"
+      },
+      "description": "Total data imports, sparkline shows cumulative growth",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "cyan",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 18,
+        "y": 1
+      },
+      "id": 19,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "13.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "eem9822ful3pca"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT created_at AS \"time\", COUNT(*) OVER (ORDER BY created_at) AS \"Data imports\" FROM data_imports ORDER BY created_at",
+          "refId": "A"
+        }
+      ],
+      "title": "Data imports",
       "type": "stat"
     },
     {
@@ -493,11 +550,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) AS value FROM users WHERE is_email_verified",
+          "rawSql": "SELECT COUNT(*) AS value FROM data_imports WHERE processed_at IS NOT NULL",
           "refId": "A"
         }
       ],
-      "title": "Verified users",
+      "title": "Processed data imports",
       "type": "stat"
     },
     {
@@ -820,7 +877,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT $__timeGroup(created_at, '1d') AS \"time\", 'Users' AS metric, COUNT(*) AS \"value\" FROM users WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media items', COUNT(*) FROM media_items WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Ratings', COUNT(*) FROM media_ratings WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Reviews', COUNT(*) FROM media_reviews WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'List likes', COUNT(*) FROM media_list_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Review likes', COUNT(*) FROM media_review_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Notifications', COUNT(*) FROM notifications WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Subscriptions', COUNT(*) FROM release_subscriptions WHERE $__timeFilter(created_at) GROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT $__timeGroup(created_at, '1d') AS \"time\", 'Users' AS metric, COUNT(*) AS \"value\" FROM users WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media items', COUNT(*) FROM media_items WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Ratings', COUNT(*) FROM media_ratings WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Reviews', COUNT(*) FROM media_reviews WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'List likes', COUNT(*) FROM media_list_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Review likes', COUNT(*) FROM media_review_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Notifications', COUNT(*) FROM notifications WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Subscriptions', COUNT(*) FROM release_subscriptions WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Data imports', COUNT(*) FROM data_imports WHERE $__timeFilter(created_at) GROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -884,7 +941,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT 'Users' AS entity, COUNT(*) AS value FROM users\nUNION ALL SELECT 'Media lists', COUNT(*) FROM media_lists\nUNION ALL SELECT 'Media items', COUNT(*) FROM media_items\nUNION ALL SELECT 'Ratings', COUNT(*) FROM media_ratings\nUNION ALL SELECT 'Reviews', COUNT(*) FROM media_reviews\nUNION ALL SELECT 'List likes', COUNT(*) FROM media_list_likes\nUNION ALL SELECT 'Review likes', COUNT(*) FROM media_review_likes\nUNION ALL SELECT 'Notifications', COUNT(*) FROM notifications\nUNION ALL SELECT 'Subscriptions', COUNT(*) FROM release_subscriptions\nUNION ALL SELECT 'Media details', COUNT(*) FROM media_details",
+          "rawSql": "SELECT 'Users' AS entity, COUNT(*) AS value FROM users\nUNION ALL SELECT 'Media lists', COUNT(*) FROM media_lists\nUNION ALL SELECT 'Media items', COUNT(*) FROM media_items\nUNION ALL SELECT 'Ratings', COUNT(*) FROM media_ratings\nUNION ALL SELECT 'Reviews', COUNT(*) FROM media_reviews\nUNION ALL SELECT 'List likes', COUNT(*) FROM media_list_likes\nUNION ALL SELECT 'Review likes', COUNT(*) FROM media_review_likes\nUNION ALL SELECT 'Notifications', COUNT(*) FROM notifications\nUNION ALL SELECT 'Subscriptions', COUNT(*) FROM release_subscriptions\nUNION ALL SELECT 'Media details', COUNT(*) FROM media_details\nUNION ALL SELECT 'Data imports', COUNT(*) FROM data_imports",
           "refId": "A"
         }
       ],
@@ -1352,7 +1409,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30d",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
