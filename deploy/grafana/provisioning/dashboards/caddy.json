@@ -69,7 +69,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(caddy_http_requests_total{handler=\"reverse_proxy\", server=~\"${server}\"}[1m]))",
+          "expr": "sum(rate(caddy_http_requests_total{handler=~\"${handler}\", server=~\"${server}\"}[1m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -169,7 +169,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(caddy_http_request_duration_seconds_count{handler=\"reverse_proxy\", server=~\"${server}\"}[1m])) by (code)",
+          "expr": "sum(irate(caddy_http_request_duration_seconds_count{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (code)",
           "interval": "",
           "legendFormat": "{{code}}",
           "refId": "A"
@@ -267,7 +267,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(caddy_http_requests_in_flight{handler=\"reverse_proxy\", server=~\"${server}\"})",
+          "expr": "avg(caddy_http_requests_in_flight{handler=~\"${handler}\", server=~\"${server}\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -368,7 +368,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(caddy_http_request_duration_seconds_count{handler=\"reverse_proxy\", server=~\"${server}\"}[1m])) by (code)",
+          "expr": "sum(irate(caddy_http_request_duration_seconds_count{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (code)",
           "interval": "",
           "legendFormat": "{{code}}",
           "refId": "A"
@@ -466,31 +466,31 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(0.99, sum(rate(caddy_http_request_duration_seconds_bucket{handler=\"reverse_proxy\", server=~\"${server}\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.99, sum(rate(caddy_http_request_duration_seconds_bucket{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (le))",
           "interval": "",
           "legendFormat": "p99",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum(rate(caddy_http_request_duration_seconds_bucket{handler=\"reverse_proxy\", server=~\"${server}\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.95, sum(rate(caddy_http_request_duration_seconds_bucket{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (le))",
           "interval": "",
           "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.90, sum(rate(caddy_http_request_duration_seconds_bucket[1m])) by (le))",
+          "expr": "histogram_quantile(0.90, sum(rate(caddy_http_request_duration_seconds_bucket{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (le))",
           "interval": "",
           "legendFormat": "p90",
           "refId": "C"
         },
         {
-          "expr": "histogram_quantile(0.75, sum(rate(caddy_http_request_duration_seconds_bucket{handler=\"reverse_proxy\", server=~\"${server}\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.75, sum(rate(caddy_http_request_duration_seconds_bucket{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (le))",
           "interval": "",
           "legendFormat": "p75",
           "refId": "D"
         },
         {
-          "expr": "histogram_quantile(0.5, sum(rate(caddy_http_request_duration_seconds_bucket{handler=\"reverse_proxy\", server=~\"${server}\"}[1m])) by (le))",
+          "expr": "histogram_quantile(0.5, sum(rate(caddy_http_request_duration_seconds_bucket{handler=~\"${handler}\", server=~\"${server}\"}[1m])) by (le))",
           "interval": "",
           "legendFormat": "p50",
           "refId": "E"
@@ -581,7 +581,7 @@
       "reverseYBuckets": false,
       "targets": [
         {
-          "expr": "sum(increase(caddy_http_request_duration_seconds_bucket{handler=\"reverse_proxy\", server=~\"${server}\"}[5m])) by (le)",
+          "expr": "sum(increase(caddy_http_request_duration_seconds_bucket{handler=~\"${handler}\", server=~\"${server}\"}[5m])) by (le)",
           "format": "heatmap",
           "interval": "",
           "legendFormat": "{{le}}",
@@ -638,7 +638,28 @@
         "refresh": 1,
         "includeAll": true,
         "multi": true,
-        "allValue": ".+",
+        "allValue": ".*",
+        "sort": 1,
+        "hide": 0,
+        "current": {},
+        "options": [],
+        "regex": "",
+        "skipUrlSync": false
+      },
+      {
+        "name": "handler",
+        "label": "Handler",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(caddy_http_requests_total, handler)",
+        "query": "label_values(caddy_http_requests_total, handler)",
+        "refresh": 1,
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
         "sort": 1,
         "hide": 0,
         "current": {},
