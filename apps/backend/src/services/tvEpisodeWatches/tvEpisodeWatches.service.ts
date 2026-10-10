@@ -104,6 +104,7 @@ export class TvEpisodeWatchesService {
 
     const cycle = await this.getCycle(watch.watchCycleId)
     this.checkOwnership(cycle, args.userId)
+    this.checkCycleIsActive(cycle)
 
     return this.tvEpisodeWatchRepository.delete(args.id)
   }

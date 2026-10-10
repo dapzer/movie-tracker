@@ -54,5 +54,6 @@ export function DeleteTvEpisodeWatchDocs() {
     ApiOkResponse({ description: "Deleted TV episode watch", type: TvEpisodeWatchDto }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "TV episode watch not found", type: ErrorResponseDto }),
+    ApiConflictResponse({ description: "The watch cycle is finished", type: ErrorResponseDto }),
   )
 }

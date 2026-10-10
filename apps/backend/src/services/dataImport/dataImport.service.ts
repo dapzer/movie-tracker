@@ -166,6 +166,7 @@ export class DataImportService {
           mediaDetailsId: item.mediaDetailsId,
           seasonNumber: episode.seasonNumber,
           episodeNumber: episode.episodeNumber,
+          watchedAt: episode.watchedAt ? new Date(episode.watchedAt) : undefined,
         })))
       },
     })

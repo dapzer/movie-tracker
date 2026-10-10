@@ -1,12 +1,14 @@
 import { applyDecorators } from "@nestjs/common"
 import {
   ApiBadRequestResponse,
+  ApiExtraModels,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiSecurity,
   ApiTags,
   ApiUnauthorizedResponse,
+  getSchemaPath,
 } from "@nestjs/swagger"
 import { TvWatchCycleDto, TvWatchCycleWithEpisodesDto } from "@/services/tvWatchCycles/dto/tvWatchCycle.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
@@ -29,7 +31,16 @@ export function GetActiveTvWatchCycleByMediaItemIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get active TV watch cycle with episode watches by media item id (owner only)" }),
     ApiSecurity("cookie"),
-    ApiOkResponse({ description: "Active TV watch cycle with episode watches (null when there is no active cycle)", type: TvWatchCycleWithEpisodesDto }),
+    ApiExtraModels(TvWatchCycleWithEpisodesDto),
+    ApiOkResponse({
+      description: "Active TV watch cycle with episode watches (null when there is no active cycle)",
+      schema: {
+        anyOf: [
+          { $ref: getSchemaPath(TvWatchCycleWithEpisodesDto) },
+          { type: "null" },
+        ],
+      },
+    }),
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "Media item not found", type: ErrorResponseDto }),
   )
