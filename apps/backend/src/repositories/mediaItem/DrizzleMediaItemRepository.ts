@@ -35,7 +35,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       currentStatus: MediaItemStatusNameEnum[data.currentStatus],
       note: data.note,
       sitesToView: data.sitesToView,
-      tvProgress: data.tvProgress,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }
@@ -410,7 +409,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
           return {
             mediaItemId: mediaItem.id,
             note: item?.note,
-            tvProgress: item?.tvProgress,
             currentStatus: item?.currentStatus,
             createdAt: item?.createdAt,
           }
@@ -443,7 +441,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
           mediaItemId: mediaItem.id,
           note: args.trackingData.note,
           sitesToView: args.trackingData.sitesToView,
-          tvProgress: args.trackingData.tvProgress,
           createdAt: args.createdAt,
         })
 
@@ -479,7 +476,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
           mediaItemId: mediaItem.id,
           note: args[index]?.trackingData.note,
           sitesToView: args[index]?.trackingData.sitesToView,
-          tvProgress: args[index]?.trackingData.tvProgress,
           currentStatus: args[index]?.trackingData.currentStatus,
           createdAt: args[index]?.createdAt,
         })))

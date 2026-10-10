@@ -32,18 +32,12 @@ export interface MediaItemTrackingDataType {
   mediaItemId: string
   currentStatus: MediaItemStatusNameEnum
   note: string
-  tvProgress: MediaItemTvProgressType
   sitesToView: Array<MediaItemSiteToViewType>
   createdAt: Date
   updatedAt: Date
 }
 
 export const MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH = 2500
-
-export interface MediaItemTvProgressType {
-  currentSeason: number
-  currentEpisode: number
-}
 
 export interface MediaItemSiteToViewType {
   url: string

@@ -5,11 +5,6 @@ import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
 import { MediaRatingDto } from "@/services/mediaRatings/dto/mediaRating.dto"
 import { zDateTimeString } from "@/shared/dto/zod.utils"
 
-const mediaItemTvProgressSchema = z.object({
-  currentSeason: z.number().meta({ example: 1 }),
-  currentEpisode: z.number().meta({ example: 3 }),
-})
-
 const mediaItemSiteToViewSchema = z.object({
   url: z.string().meta({ example: "https://netflix.com/watch/123" }),
 })
@@ -19,7 +14,6 @@ const mediaItemTrackingDataSchema = z.object({
   mediaItemId: z.uuid().meta({ format: "uuid" }),
   currentStatus: z.enum(MediaItemStatusNameEnum).meta({ enum: MediaItemStatusNameEnum }),
   note: z.string().meta({ maxLength: 2500 }),
-  tvProgress: mediaItemTvProgressSchema,
   sitesToView: z.array(mediaItemSiteToViewSchema),
   createdAt: zDateTimeString.meta({ format: "date-time" }),
   updatedAt: zDateTimeString.meta({ format: "date-time" }),
@@ -51,8 +45,6 @@ const mediaItemsCountByStatusSchema = z.object({
   total: z.number().meta({ example: 40 }),
 })
 
-export class MediaItemTvProgressDto extends createZodDto(mediaItemTvProgressSchema) {}
-
 export class MediaItemSiteToViewDto extends createZodDto(mediaItemSiteToViewSchema) {}
 
 export class MediaItemTrackingDataDto extends createZodDto(mediaItemTrackingDataSchema) {}
@@ -63,7 +55,6 @@ export class MediaItemPaginatedDto extends createZodDto(mediaItemPaginatedSchema
 
 export class MediaItemsCountByStatusDto extends createZodDto(mediaItemsCountByStatusSchema) {}
 
-MediaItemTrackingDataDto.schema.shape.tvProgress = mediaItemTvProgressSchema
 MediaItemTrackingDataDto.schema.shape.sitesToView = z.array(mediaItemSiteToViewSchema)
 MediaItemDto.schema.shape.trackingData = mediaItemTrackingDataSchema
 MediaItemPaginatedDto.schema.shape.items = z.array(mediaItemSchema)

@@ -16,7 +16,6 @@ import {
   MEDIA_REVIEW_CONTENT_MAX_LENGTH,
   MEDIA_REVIEW_CONTENT_MIN_LENGTH,
   MediaItemStatusNameEnum,
-  MediaItemTvProgressType,
   MediaListAccessLevelEnum,
   MediaReviewStatus,
   MediaTypeEnum,
@@ -34,6 +33,14 @@ import {
   MediaRatingRepositoryInterface,
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import {
+  TvEpisodeWatchRepositoryInterface,
+  TvEpisodeWatchRepositorySymbol,
+} from "@/repositories/tvEpisodeWatch/TvEpisodeWatchRepositoryInterface"
+import {
+  TvWatchCycleRepositoryInterface,
+  TvWatchCycleRepositorySymbol,
+} from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
 import { ProcessDataImportDto } from "@/services/dataImport/dto/processDataImport.dto"
 import { DataImportProvidersService } from "@/services/dataImport/providers/providers.service"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
@@ -64,6 +71,10 @@ export class DataImportService {
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     @Inject(MediaRatingRepositorySymbol)
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
+    @Inject(TvWatchCycleRepositorySymbol)
+    private readonly tvWatchCycleRepository: TvWatchCycleRepositoryInterface,
+    @Inject(TvEpisodeWatchRepositorySymbol)
+    private readonly tvEpisodeWatchRepository: TvEpisodeWatchRepositoryInterface,
     private readonly mediaItemsService: MediaItemsService,
     private readonly mediaListsService: MediaListsService,
     private readonly mediaRatingsService: MediaRatingsService,
@@ -123,22 +134,41 @@ export class DataImportService {
     return this.truncateText(trimmed, MEDIA_LIST_TITLE_MAX_LENGTH_LIMIT)
   }
 
-  private getLastWatchedTvProgress(episodes?: DataImportEpisodeProgressType[]): MediaItemTvProgressType | undefined {
-    const watched = episodes?.filter(episode => episode.status === "watched")
+  private getWatchedEpisodes(episodes?: DataImportEpisodeProgressType[]) {
+    return episodes?.filter(episode => episode.status === "watched") ?? []
+  }
 
-    if (!watched?.length) {
-      return undefined
-    }
+  private async createEpisodeWatchesForMediaItems(args: {
+    userId: string
+    mediaItems: Array<{ id: string, mediaId: number, mediaType: MediaTypeEnum, mediaDetailsId: string }>
+    watchedEpisodesByKey: Map<string, DataImportEpisodeProgressType[]>
+  }) {
+    const itemsToFill = args.mediaItems.filter(item =>
+      item.mediaType === MediaTypeEnum.TV && args.watchedEpisodesByKey.has(`${item.mediaType}-${item.mediaId}`),
+    )
 
-    const last = watched.reduce((a, b) => {
-      const isSeasonHigher = b.seasonNumber > a.seasonNumber
-      const isSameSeason = b.seasonNumber === a.seasonNumber
-      const isEpisodeHigher = b.episodeNumber > a.episodeNumber
+    await mapTasksWithConcurrency({
+      items: itemsToFill,
+      concurrency: IMPORT_WRITE_CONCURRENCY,
+      fn: async (item) => {
+        const cycle = await this.tvWatchCycleRepository.getActiveByMediaItemId(item.id)
 
-      return (isSeasonHigher || (isSameSeason && isEpisodeHigher)) ? b : a
+        if (!cycle) {
+          return
+        }
+
+        const episodes = args.watchedEpisodesByKey.get(`${item.mediaType}-${item.mediaId}`)!
+
+        await this.tvEpisodeWatchRepository.createMany(episodes.map(episode => ({
+          watchCycleId: cycle.id,
+          userId: args.userId,
+          mediaId: item.mediaId,
+          mediaDetailsId: item.mediaDetailsId,
+          seasonNumber: episode.seasonNumber,
+          episodeNumber: episode.episodeNumber,
+        })))
+      },
     })
-
-    return { currentSeason: last.seasonNumber, currentEpisode: last.episodeNumber }
   }
 
   private async createMediaItemsFromBucket(args: {
@@ -184,9 +214,24 @@ export class DataImportService {
         mediaListId: args.mediaListId,
         currentStatus: args.status,
         note: media.note ? this.truncateText(media.note, MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH) : undefined,
-        tvProgress: media.episodesProgress?.length ? this.getLastWatchedTvProgress(media.episodesProgress) : undefined,
         createdAt: media.createdAt ? new Date(media.createdAt) : undefined,
       })),
+    })
+
+    const watchedEpisodesByKey = new Map<string, DataImportEpisodeProgressType[]>()
+
+    for (const media of newMedia) {
+      const watchedEpisodes = this.getWatchedEpisodes(media.episodesProgress)
+
+      if (watchedEpisodes.length) {
+        watchedEpisodesByKey.set(this.toMediaKey(media), watchedEpisodes)
+      }
+    }
+
+    await this.createEpisodeWatchesForMediaItems({
+      userId: args.userId,
+      mediaItems: createdMediaItems,
+      watchedEpisodesByKey,
     })
 
     return { created: createdMediaItems.length, skipped }

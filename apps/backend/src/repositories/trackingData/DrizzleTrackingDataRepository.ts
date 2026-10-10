@@ -4,7 +4,6 @@ import {
   MediaItemSiteToViewType,
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
-  MediaItemTvProgressType,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { TrackingDataRepositoryInterface } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
@@ -25,7 +24,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
       note: data.note,
       currentStatus: MediaItemStatusNameEnum[data.currentStatus.toUpperCase()],
       sitesToView: data.sitesToView as unknown as MediaItemSiteToViewType[],
-      tvProgress: data.tvProgress as unknown as MediaItemTvProgressType,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }
@@ -50,7 +48,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
         note: args.data.note,
         currentStatus: args.data.currentStatus,
         sitesToView: args.data.sitesToView as unknown as Array<MediaItemSiteToViewType>,
-        tvProgress: args.data.tvProgress as unknown as MediaItemTvProgressType,
       })
       .where(eq(trackingData.id, args.id))
       .returning()
@@ -74,7 +71,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
             note: item.data.note,
             currentStatus: item.data.currentStatus,
             sitesToView: item.data.sitesToView as unknown as Array<MediaItemSiteToViewType>,
-            tvProgress: item.data.tvProgress as unknown as MediaItemTvProgressType,
           })
           .where(eq(trackingData.id, item.id))
           .returning()

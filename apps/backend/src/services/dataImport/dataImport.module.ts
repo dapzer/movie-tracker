@@ -5,6 +5,10 @@ import { DrizzleMediaItemRepository } from "@/repositories/mediaItem/DrizzleMedi
 import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
 import { DrizzleMediaRatingRepository } from "@/repositories/mediaRating/DrizzleMediaRatingRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { DrizzleTvEpisodeWatchRepository } from "@/repositories/tvEpisodeWatch/DrizzleTvEpisodeWatchRepository"
+import { TvEpisodeWatchRepositorySymbol } from "@/repositories/tvEpisodeWatch/TvEpisodeWatchRepositoryInterface"
+import { DrizzleTvWatchCycleRepository } from "@/repositories/tvWatchCycle/DrizzleTvWatchCycleRepository"
+import { TvWatchCycleRepositorySymbol } from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
 import { DataImportService } from "@/services/dataImport/dataImport.service"
 import { DataImportProvidersModule } from "@/services/dataImport/providers/providers.module"
 import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
@@ -34,6 +38,8 @@ import { MediaReviewsServiceModule } from "@/services/mediaReviews/mediaReviews.
     { provide: DataImportRepositorySymbol, useClass: DrizzleDataImportRepository },
     { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
     { provide: MediaRatingRepositorySymbol, useClass: DrizzleMediaRatingRepository },
+    { provide: TvWatchCycleRepositorySymbol, useClass: DrizzleTvWatchCycleRepository },
+    { provide: TvEpisodeWatchRepositorySymbol, useClass: DrizzleTvEpisodeWatchRepository },
   ],
   exports: [DataImportService],
 })

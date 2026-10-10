@@ -120,6 +120,20 @@
       "when": 1789839603902,
       "tag": "0016_tracking_data_remove_score",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1791634739316,
+      "tag": "0017_tv_progress_rework",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1791636651106,
+      "tag": "0018_tv_watch_user_id",
+      "breakpoints": true
     }
   ]
 }

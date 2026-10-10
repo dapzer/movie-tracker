@@ -12,10 +12,6 @@ const createMediaItemSchema = z.object({
     .meta({ enum: MediaItemStatusNameEnum, example: MediaItemStatusNameEnum.WATCHING_NOW }),
   // TODO: Think about  to allow this field only for iternal use
   note: z.string().max(MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH).optional(),
-  tvProgress: z.object({
-    currentSeason: z.number().int().min(1),
-    currentEpisode: z.number().int().min(1),
-  }).optional(),
   createdAt: zDateTimeString.optional(),
 })
 

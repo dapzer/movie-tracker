@@ -24,6 +24,10 @@ export interface MediaListRepositoryInterface {
     currentUserId?: string
   }) => Promise<MediaListType>
 
+  getByMediaItemId: (args: {
+    mediaItemId: string
+  }) => Promise<MediaListType>
+
   getByHumanFriendlyId: (args: {
     id: string
     currentUserId?: string

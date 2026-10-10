@@ -21,10 +21,16 @@ import {
   MediaRatingRepositoryInterface,
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import {
+  TvWatchCycleRepositoryInterface,
+  TvWatchCycleRepositorySymbol,
+} from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
+import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { MediaDetailsService } from "@/services/mediaDetails/mediaDetails.service"
 import { CreateMediaItemDto } from "@/services/mediaItems/dto/createMediaItem.dto"
 import { CreateMediaItemCloneDto } from "@/services/mediaItems/dto/createMediaItemClone.dto"
 import { UpdateMediaItemDto } from "@/services/mediaItems/dto/updateMediaItem.dto"
+import { TvWatchCyclesService } from "@/services/tvWatchCycles/tvWatchCycles.service"
 import { MediaItemNotFoundError, MediaItemUnauthorizedError } from "@/shared/errors/mediaItem"
 import { MediaListNotFoundError } from "@/shared/errors/mediaList"
 import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
@@ -38,7 +44,11 @@ export class MediaItemsService {
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     @Inject(MediaRatingRepositorySymbol)
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
+    @Inject(TvWatchCycleRepositorySymbol)
+    private readonly tvWatchCycleRepository: TvWatchCycleRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
+    private readonly tvWatchCyclesService: TvWatchCyclesService,
+    private readonly drizzleService: DrizzleService,
   ) {}
 
   private normalizeMediaItemsFilters(args: {
@@ -117,13 +127,27 @@ export class MediaItemsService {
         },
       )
 
-    const createdMediaItem = await this.mediaItemRepository.create({
-      mediaId: args.mediaId,
-      mediaType: args.mediaType,
-      mediaListId: args.mediaListId,
-      mediaDetailsId: mediaDetails.id,
-      currentStatus: args.currentStatus,
+    const createdMediaItem = await this.drizzleService.runInTransaction(async () => {
+      const mediaItem = await this.mediaItemRepository.create({
+        mediaId: args.mediaId,
+        mediaType: args.mediaType,
+        mediaListId: args.mediaListId,
+        mediaDetailsId: mediaDetails.id,
+        currentStatus: args.currentStatus,
+      })
+
+      if (args.mediaType === MediaTypeEnum.TV) {
+        await this.tvWatchCycleRepository.create({
+          mediaItemId: mediaItem.id,
+          userId: args.userId,
+          mediaId: args.mediaId,
+          cycleNumber: 1,
+        })
+      }
+
+      return mediaItem
     })
+
     const mediaRating = await this.mediaRatingRepository.getByUserIdAndMediaId({
       mediaId: args.mediaId,
       userId: args.userId,
@@ -186,12 +210,26 @@ export class MediaItemsService {
         mediaDetailsId: mediaDetailsByMediaId.get(`${item.mediaType}-${item.mediaId}`)?.id,
         currentStatus: item.currentStatus,
         note: item.note,
-        tvProgress: item.tvProgress,
         createdAt: item.createdAt,
       }
     })
 
-    const createdMediaItems = await this.mediaItemRepository.createMany(createMediaItemsArgs)
+    const createdMediaItems = await this.drizzleService.runInTransaction(async () => {
+      const mediaItems = await this.mediaItemRepository.createMany(createMediaItemsArgs)
+
+      const tvMediaItems = mediaItems.filter(item => item.mediaType === MediaTypeEnum.TV)
+
+      if (tvMediaItems.length) {
+        await this.tvWatchCycleRepository.createMany(tvMediaItems.map(item => ({
+          mediaItemId: item.id,
+          userId: args.userId,
+          mediaId: item.mediaId,
+          cycleNumber: 1,
+        })))
+      }
+
+      return mediaItems
+    })
 
     const mediaRatings = await this.mediaRatingRepository.getByUserIdAndMediaIds({
       userId: args.userId,
@@ -473,7 +511,41 @@ export class MediaItemsService {
       }
     })
 
-    const createdMediaItems = await this.mediaItemRepository.createWithExistedDataBulk(createBulkArgs)
+    const createdMediaItems = await this.drizzleService.runInTransaction(async () => {
+      const mediaItems = await this.mediaItemRepository.createWithExistedDataBulk(createBulkArgs)
+
+      const createdMediaItemByKey = new Map(mediaItems.map(item => [`${item.mediaListId}-${item.mediaType}-${item.mediaId}`, item]))
+
+      await mapTasksWithConcurrency({
+        items: args.items,
+        concurrency: 10,
+        fn: async (item) => {
+          const sourceMediaItem = sourceMediaItemById.get(item.mediaItemId)
+          const targetMediaItem = createdMediaItemByKey.get(`${item.mediaListId}-${sourceMediaItem.mediaType}-${sourceMediaItem.mediaId}`)
+
+          if (!sourceMediaItem || !targetMediaItem) {
+            return
+          }
+
+          const clonedCycles = await this.tvWatchCyclesService.cloneByMediaItemId({
+            sourceMediaItemId: sourceMediaItem.id,
+            targetMediaItemId: targetMediaItem.id,
+            targetUserId: args.userId,
+          })
+
+          if (!clonedCycles.length && targetMediaItem.mediaType === MediaTypeEnum.TV) {
+            await this.tvWatchCycleRepository.create({
+              mediaItemId: targetMediaItem.id,
+              userId: args.userId,
+              mediaId: targetMediaItem.mediaId,
+              cycleNumber: 1,
+            })
+          }
+        },
+      })
+
+      return mediaItems
+    })
 
     const mediaRatings = await this.mediaRatingRepository.getByUserIdAndMediaIds({
       userId: args.userId,

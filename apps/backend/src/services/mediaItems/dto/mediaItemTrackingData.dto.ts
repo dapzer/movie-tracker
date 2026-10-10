@@ -4,7 +4,6 @@ import {
 import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 import { MediaItemSiteToViewDto } from "@/services/mediaItems/dto/mediaItemSiteToView.dto"
-import { MediaItemTvProgressDto } from "@/services/mediaItems/dto/mediaItemTvProgress.dto"
 import { zDateTimeString } from "@/shared/dto/zod.utils"
 
 export const mediaItemTrackingDataSchema = z.object({
@@ -12,7 +11,6 @@ export const mediaItemTrackingDataSchema = z.object({
   mediaItemId: z.uuid(),
   currentStatus: z.enum(MediaItemStatusNameEnum),
   note: z.string(),
-  tvProgress: MediaItemTvProgressDto.schema,
   sitesToView: z.array(MediaItemSiteToViewDto.schema),
   createdAt: zDateTimeString,
   updatedAt: zDateTimeString,
