@@ -50,6 +50,7 @@ const options = computed(() => {
 <template>
   <UiSelect
     v-model="currentStatus"
+    :disabled="updateMediaItemTrackingDataApi.isPending.value"
     :options="options"
     @update:model-value="handleChangeStatus"
   />

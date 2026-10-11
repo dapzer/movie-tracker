@@ -57,7 +57,7 @@ const { t } = useI18n()
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
   width: 100%;
 }
 </style>
