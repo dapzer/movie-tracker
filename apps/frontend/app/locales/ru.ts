@@ -1204,6 +1204,17 @@ export default {
         note: "Заметка",
       },
     },
+    managementMenu: {
+      currentStatus: "Текущий статус",
+      overview: "Обзор",
+      sitesToView: "Сайты для просмотра",
+      note: "Заметка",
+      actions: "Действия",
+      tabs: {
+        management: "Управление",
+        progress: "Прогресс",
+      },
+    },
     status: {
       VIEWED: "Просмотрено",
       WATCHING_NOW: "Смотрю сейчас",

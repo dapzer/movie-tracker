@@ -1203,6 +1203,17 @@ export default {
         note: "Note",
       },
     },
+    managementMenu: {
+      currentStatus: "Current status",
+      overview: "Overview",
+      sitesToView: "Sites to view",
+      note: "Note",
+      actions: "Actions",
+      tabs: {
+        management: "Management",
+        progress: "Progress",
+      },
+    },
     status: {
       VIEWED: "Viewed",
       WATCHING_NOW: "Watching now",

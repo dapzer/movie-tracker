@@ -5,17 +5,17 @@ import { useI18n } from "#imports"
 import { isOnlySpaces } from "@movie-tracker/utils"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi"
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi.ts"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-interface TrackingMenuSitesToViewProps {
+interface MediaCardManagementMenuSitesToViewProps {
   mediaItem: MediaItemType
 }
 
-const props = defineProps<TrackingMenuSitesToViewProps>()
+const props = defineProps<MediaCardManagementMenuSitesToViewProps>()
 const { t } = useI18n()
 
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
@@ -44,6 +44,7 @@ async function handleDeleteItem(index: number) {
   await updateMediaItemTrackingDataApi.mutateAsync({
     trackingDataId: props.mediaItem.trackingData.id,
     body: {
+      // TODO: remove this spread
       ...props.mediaItem.trackingData,
       sitesToView: finalArray,
     },

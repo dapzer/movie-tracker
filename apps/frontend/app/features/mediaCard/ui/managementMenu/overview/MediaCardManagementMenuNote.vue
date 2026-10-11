@@ -4,17 +4,17 @@ import { useI18n } from "#imports"
 import { MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi"
+import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi.ts"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTextarea } from "~/shared/ui/UiTextarea"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-interface MediaItemTrackingMenuProps {
+interface MediaCardManagementMenuNoteProps {
   mediaItem: MediaItemType
 }
 
-const props = defineProps<MediaItemTrackingMenuProps>()
+const props = defineProps<MediaCardManagementMenuNoteProps>()
 const { t } = useI18n()
 const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
 const value = ref(props.mediaItem.trackingData.note || "")
@@ -36,8 +36,7 @@ async function handleSave() {
     },
   }).then(() => {
     toast.success(t("toasts.mediaItem.successNoteChanged"))
-  }).catch((e) => {
-    console.log(e)
+  }).catch(() => {
     toast.error(t("toasts.mediaItem.unsuccessfullyNoteChanged"))
   })
 }

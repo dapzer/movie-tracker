@@ -5,7 +5,7 @@ import { computed, ref } from "vue"
 import MediaItemChangeMediaListModal
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListModal.vue"
 import MediaItemCreateCloneModal from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneModal.vue"
-import MediaCardTrackingMenu from "~/features/mediaCard/ui/managementMenu/MediaItemManagementMenu.vue"
+import MediaItemManagementMenu from "~/features/mediaCard/ui/managementMenu/MediaItemManagementMenu.vue"
 import { useIsMobile } from "~/shared/composables/useIsMobile"
 import { useSwitchModals } from "~/shared/composables/useSwitchModals"
 import { UiBottomDrawer } from "~/shared/ui/UiBottomDrawer"
@@ -37,10 +37,10 @@ const currentMediaDetails = computed(() => {
       v-if="!isMobile"
       v-model="model"
       :title="`${$t('mediaItem.management')} ‘${currentMediaDetails?.title || currentMediaDetails?.originalTitle}’`"
-      :max-width="495"
+      :max-width="580"
     >
       <template #content>
-        <MediaCardTrackingMenu
+        <MediaItemManagementMenu
           :media-item="props.mediaItem"
           @clone="handleOpenCloneModal"
           @change-media-list="handleOpenChangeMediaListModal"
@@ -53,7 +53,7 @@ const currentMediaDetails = computed(() => {
       :title="`${$t('mediaItem.management')} ‘${currentMediaDetails?.title || currentMediaDetails?.originalTitle}’`"
     >
       <template #content>
-        <MediaCardTrackingMenu
+        <MediaItemManagementMenu
           :media-item="props.mediaItem"
           @clone="handleOpenCloneModal"
           @change-media-list="handleOpenChangeMediaListModal"
