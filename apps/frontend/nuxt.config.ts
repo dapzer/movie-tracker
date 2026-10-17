@@ -54,6 +54,11 @@ export default defineNuxtConfig({
     name: "Movie Tracker",
   },
 
+  // Images are already optimized on the backend — no runtime processing needed.
+  image: {
+    provider: "none",
+  },
+
   runtimeConfig: {
     public: {
       sentry: {
