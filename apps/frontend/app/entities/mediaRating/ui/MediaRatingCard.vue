@@ -14,6 +14,7 @@ export interface MediaRatingCardProps {
   user: UserPublicType
   width?: number
   fullHeight?: boolean
+  priority?: boolean
 }
 
 const props = defineProps<MediaRatingCardProps>()
@@ -39,6 +40,7 @@ const details = computed(() => {
     :link-url="localePath(`/details/${props.mediaRating.mediaType}/${props.mediaRating.mediaId}`)"
     :width="props.width"
     :full-height="props.fullHeight"
+    :priority="props.priority"
     fallback-image-src="/defaultMoviePoster.svg"
   >
     <template #content>

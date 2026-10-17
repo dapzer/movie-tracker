@@ -65,12 +65,13 @@ const totalPages = computed(() => {
     </template>
     <template v-else-if="items?.length">
       <MediaRatingCardWithHoverMenu
-        v-for="item in items"
+        v-for="(item, index) in items"
         :key="item.id"
         :media-rating="item"
         :user="item.user!"
         full-height
         :width="195"
+        :priority="index < 6"
       />
     </template>
     <template

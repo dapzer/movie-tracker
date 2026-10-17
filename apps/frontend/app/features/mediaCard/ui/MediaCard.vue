@@ -18,6 +18,7 @@ interface MediaCardProps {
   fullHeight?: boolean
   hideTrackingMenu?: boolean
   canEditRating?: boolean
+  priority?: boolean
 }
 
 const props = defineProps<MediaCardProps>()
@@ -43,6 +44,7 @@ const createdDate = computed(() => {
     :link-url="localePath(`/details/${props.mediaItem.mediaType}/${props.mediaItem.mediaId}`)"
     :width="props.width"
     :full-height="props.fullHeight"
+    :priority="props.priority"
     fallback-image-src="/defaultMoviePoster.svg"
   >
     <template #description>

@@ -12,6 +12,7 @@ interface PersonCardProps {
   width?: number
   birthday?: string
   fullHeight?: boolean
+  priority?: boolean
 }
 
 const props = defineProps<PersonCardProps>()
@@ -39,6 +40,7 @@ const birthday = computed(() => {
     :link-url="localePath(`/details/${TmdbMediaTypeEnum.PERSON}/${props.person.id}`)"
     :width="props.width"
     :full-height="props.fullHeight"
+    :priority="props.priority"
     fallback-image-src="/avatar.svg"
   >
     <template #content>

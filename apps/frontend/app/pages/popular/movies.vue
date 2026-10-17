@@ -60,11 +60,12 @@ const isFetching = computed(() => getTmdbMoviePopularListApi.isFetching.value)
     </template>
     <template v-else-if="results?.length">
       <MovieCardWithHoverMenu
-        v-for="item in results"
+        v-for="(item, index) in results"
         :key="item.id"
         full-height
         :width="195"
         :movie="{ ...item, media_type: MediaTypeEnum.MOVIE }"
+        :priority="index < 6"
       />
     </template>
     <template
