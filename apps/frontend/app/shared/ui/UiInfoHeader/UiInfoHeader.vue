@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { NuxtLink } from "#components"
+import { useHead } from "#imports"
 import { computed } from "vue"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiImage } from "~/shared/ui/UiImage"
@@ -28,6 +29,16 @@ const backgroundImage = computed(() => {
   }
 
   return src.replace(/([?&]size=)\d+/, "$132")
+})
+
+useHead(() => {
+  const href = props.image || props.fallbackImage
+
+  return {
+    link: href
+      ? [{ rel: "preload", as: "image", href, fetchpriority: "high" }]
+      : [],
+  }
 })
 </script>
 
@@ -80,7 +91,6 @@ const backgroundImage = computed(() => {
               :src="props.image"
               :fallback-src="props.fallbackImage"
               loading="eager"
-              preload
               fetchpriority="high"
               :width="256"
               :alt="props.title"

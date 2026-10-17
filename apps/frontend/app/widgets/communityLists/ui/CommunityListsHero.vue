@@ -1,7 +1,19 @@
 <script setup lang="ts">
+import { useHead } from "#imports"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiTypography } from "~/shared/ui/UiTypography"
+
+useHead({
+  link: [
+    {
+      rel: "preload",
+      as: "image",
+      href: "/communityListsHeroBackground.webp",
+      fetchpriority: "high",
+    },
+  ],
+})
 </script>
 
 <template>
@@ -10,7 +22,6 @@ import { UiTypography } from "~/shared/ui/UiTypography"
       :class="$style.background"
       src="/communityListsHeroBackground.webp"
       loading="eager"
-      preload
       fetchpriority="high"
     />
 

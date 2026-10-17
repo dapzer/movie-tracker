@@ -4,6 +4,8 @@ import process from "node:process"
 // Sentry is enabled only when a DSN is provided.
 const isSentryEnabled = Boolean(process.env.NUXT_PUBLIC_SENTRY_DSN)
 
+const apiOrigin = new URL(process.env.VITE_API_URL || "http://localhost:1337/api").origin
+
 // Unhashed files from public/ — cached moderately, so replaced files propagate quickly.
 const publicAssetFiles = [
   "authBackground.webp",
@@ -42,6 +44,10 @@ export default defineNuxtConfig({
       title: "Movie Tracker",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
+      link: [
+        { rel: "preconnect", href: apiOrigin, crossorigin: "" },
+        { rel: "dns-prefetch", href: apiOrigin },
+      ],
     },
   },
 
