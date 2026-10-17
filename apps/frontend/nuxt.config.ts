@@ -4,6 +4,36 @@ import process from "node:process"
 // Sentry is enabled only when a DSN is provided.
 const isSentryEnabled = Boolean(process.env.NUXT_PUBLIC_SENTRY_DSN)
 
+// Unhashed files from public/ — cached moderately, so replaced files propagate quickly.
+const publicAssetFiles = [
+  "authBackground.webp",
+  "avatarPoster.svg",
+  "avatar.svg",
+  "communityListsHeroBackground.webp",
+  "danilaVoronkov.webp",
+  "defaultMoviePoster.svg",
+  "favicon.ico",
+  "heroBackground.png",
+  "heroBackground.webp",
+  "landingFaqMovies.webp",
+  "landingListsPagePc.webp",
+  "landingListsPage.webp",
+  "landingMainPage.webp",
+  "logo.jpg",
+  "logo.png",
+  "logo.svg",
+  "melkam.jpeg",
+  "ogImageEn.webp",
+  "ogImageRu.webp",
+]
+
+const publicAssetRouteRules = Object.fromEntries(
+  publicAssetFiles.map(file => [
+    `/${file}`,
+    { headers: { "cache-control": "public, max-age=86400, stale-while-revalidate=604800" } },
+  ]),
+)
+
 export default defineNuxtConfig({
   telemetry: false,
 
@@ -57,6 +87,18 @@ export default defineNuxtConfig({
   // Images are already optimized on the backend — no runtime processing needed.
   image: {
     provider: "none",
+  },
+
+  routeRules: {
+    // Build assets are content-hashed by Vite — safe to cache forever.
+    "/_nuxt/**": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    // Font files change rarely and are versioned by file name.
+    "/fonts/**": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    ...publicAssetRouteRules,
   },
 
   runtimeConfig: {
