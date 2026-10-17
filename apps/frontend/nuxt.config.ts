@@ -1,7 +1,9 @@
 import crypto from "node:crypto"
 import process from "node:process"
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// Sentry is enabled only when a DSN is provided.
+const isSentryEnabled = Boolean(process.env.NUXT_PUBLIC_SENTRY_DSN)
+
 export default defineNuxtConfig({
   telemetry: false,
 
@@ -43,7 +45,7 @@ export default defineNuxtConfig({
     "nuxt-umami",
     "@nuxtjs/mdc",
     "@nuxtjs/fontaine",
-    "@sentry/nuxt/module",
+    ...(isSentryEnabled ? ["@sentry/nuxt/module"] : []),
     "nuxt-vitalizer",
   ],
 
@@ -190,13 +192,17 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2025-01-19",
 
-  sentry: {
-    sourceMapsUploadOptions: {
-      org: "movietracker",
-      project: "frontend",
-      telemetry: false,
-    },
-  },
+  ...(isSentryEnabled
+    ? {
+        sentry: {
+          sourceMapsUploadOptions: {
+            org: "movietracker",
+            project: "frontend",
+            telemetry: false,
+          },
+        },
+      }
+    : {}),
 
   sourcemap: {
     client: "hidden",
