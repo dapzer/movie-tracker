@@ -31,6 +31,13 @@ function handleImageLoadingError() {
   <NuxtImg
     :class="$style.body"
     :src="imageSrc"
+    :width="props.width"
+    :height="props.height"
+    :sizes="props.sizes"
+    :format="props.format"
+    :quality="props.quality"
+    :placeholder="props.placeholder"
+    :modifiers="props.modifiers"
     :loading="props.loading"
     :fetchpriority="props.fetchpriority"
     decoding="async"
