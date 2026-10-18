@@ -5,6 +5,8 @@ import { MediaTypeEnum } from "@movie-tracker/types"
 import { ref } from "vue"
 import MediaCardManagementMenuOverview
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverview.vue"
+import MediaCardManagementMenuTvProgress
+  from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgress.vue"
 import { UiTabs } from "~/shared/ui/UiTabs"
 
 interface MediaItemManagementMenuDrawerProps {
@@ -46,6 +48,12 @@ const activeTab = ref<"management" | "progress">("management")
         :media-item="props.mediaItem"
         @clone="emits('clone')"
         @change-media-list="emits('changeMediaList')"
+      />
+    </template>
+    <template #progress>
+      <MediaCardManagementMenuTvProgress
+        :media-details="props.mediaItem.mediaDetails!"
+        :media-item-id="props.mediaItem.id"
       />
     </template>
   </UiTabs>

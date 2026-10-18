@@ -1214,6 +1214,12 @@ export default {
         management: "Управление",
         progress: "Прогресс",
       },
+      tvProgress: {
+        episodes: "эпизодов",
+        fullWatches: "Полных просмотров",
+        continueFrom: "Продолжить с",
+        startNewCycle: "Начать просмотр с начала",
+      },
     },
     status: {
       VIEWED: "Просмотрено",
@@ -1891,6 +1897,8 @@ export default {
       unsuccessfullyCloneCreated: "Произошла ошибка при клонировании",
       successListChanged: "Список успешно изменен",
       unsuccessfullyListChanged: "Произошла ошибка при изменении списка.",
+      successNewCycleStarted: "Новый цикл просмотра успешно начат",
+      unsuccessfullyNewCycleStarted: "Произошла ошибка при запуске нового цикла просмотра",
     },
     mediaList: {
       successCreated: "Список успешно создан",

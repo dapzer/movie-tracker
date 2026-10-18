@@ -1213,6 +1213,12 @@ export default {
         management: "Management",
         progress: "Progress",
       },
+      tvProgress: {
+        episodes: "episodes",
+        fullWatches: "Full watches",
+        continueFrom: "Continue from",
+        startNewCycle: "Rewatch from the beginning",
+      },
     },
     status: {
       VIEWED: "Viewed",
@@ -1889,6 +1895,8 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       unsuccessfullyCloneCreated: "An error occurred while cloning",
       successListChanged: "List changed successfully",
       unsuccessfullyListChanged: "An error occurred while changing the list",
+      successNewCycleStarted: "New watch cycle started successfully",
+      unsuccessfullyNewCycleStarted: "An error occurred while starting a new watch cycle",
     },
     mediaList: {
       successCreated: "List created successfully",
