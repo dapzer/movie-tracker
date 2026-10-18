@@ -8,7 +8,7 @@ import { UiImage } from "~/shared/ui/UiImage"
 interface UiAvatarProps {
   src?: string
   placeholderId?: string
-  alt: string
+  alt?: string
   size?: number
 }
 
@@ -74,7 +74,7 @@ function handleImageLoadingError() {
       :src="avatarSrc"
       :width="props.size"
       :height="props.size"
-      :alt="props.alt"
+      :alt="props.alt || `Avatar ${props.placeholderId}`"
       @error="handleImageLoadingError"
     />
 
