@@ -70,7 +70,6 @@ export default defineNuxtConfig({
 
   modules: [
     "@nuxtjs/i18n",
-    "@nuxt/image",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
@@ -88,11 +87,6 @@ export default defineNuxtConfig({
   site: {
     url: process.env.VITE_BASE_URL || "http://localhost:3000",
     name: "Movie Tracker",
-  },
-
-  // Images are already optimized on the backend — no runtime processing needed.
-  image: {
-    provider: "none",
   },
 
   routeRules: {
