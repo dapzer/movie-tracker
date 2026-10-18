@@ -8,7 +8,7 @@ import { UiImage } from "~/shared/ui/UiImage"
 interface UiAvatarProps {
   src?: string
   placeholderId?: string
-  alt?: string
+  alt: string
   size?: number
 }
 
