@@ -23,6 +23,7 @@ useHead({
       src="/communityListsHeroBackground.webp"
       loading="eager"
       fetchpriority="high"
+      alt="Community lists hero background"
     />
 
     <UiContainer :class="$style.content">

@@ -8,6 +8,7 @@ interface UiImageProps {
   height?: string | number
   loading?: "lazy" | "eager"
   fetchpriority?: "high" | "low" | "auto"
+  alt: string
 }
 
 const props = withDefaults(defineProps<UiImageProps>(), {
@@ -29,6 +30,7 @@ function handleImageLoadingError() {
     :loading="props.loading"
     :fetchpriority="props.fetchpriority"
     decoding="async"
+    :alt="props.alt"
     @error="handleImageLoadingError"
   >
 </template>

@@ -58,6 +58,7 @@ const files = computed<Array<{
       </UiTypography>
       <UiImage
         :src="file.fileName"
+        :alt="`${file.title} logo`"
       />
       <div
         :class="$style.links"

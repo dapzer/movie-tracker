@@ -15,6 +15,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
         :class="$style.landingListsPagePcImage"
         width="540"
         height="334"
+        alt="Lists page preview"
       />
 
       <div :class="$style.info">
