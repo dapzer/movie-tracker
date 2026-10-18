@@ -7,6 +7,7 @@ interface MovieCardWithHoverMenuProps {
   fullHeight?: boolean
   movie: TmdbSearchResponseResultItemType
   width?: number
+  priority?: boolean
 }
 
 const props = defineProps<MovieCardWithHoverMenuProps>()
@@ -17,6 +18,7 @@ const props = defineProps<MovieCardWithHoverMenuProps>()
     :full-height="props.fullHeight"
     v-bind="$attrs"
     :movie="props.movie"
+    :priority="props.priority"
   >
     <template #control>
       <MovieHoverMenu

@@ -26,18 +26,20 @@ const props = defineProps<SearchResultForMediaItemsProps>()
     <template v-else>
       <template v-if="activeTab !== 'persons'">
         <MovieCardWithHoverMenu
-          v-for="item in props.items"
+          v-for="(item, index) in props.items"
           :key="item.id"
           full-height
           :movie="{ ...item, media_type: activeTab === 'movies' ? MediaTypeEnum.MOVIE : MediaTypeEnum.TV }"
+          :priority="index < 6"
         />
       </template>
       <template v-else>
         <PersonCard
-          v-for="item in props.items"
+          v-for="(item, index) in props.items"
           :key="item.id"
           full-height
           :person="item"
+          :priority="index < 6"
         />
       </template>
     </template>

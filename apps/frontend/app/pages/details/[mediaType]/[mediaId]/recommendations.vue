@@ -68,11 +68,12 @@ const results = computed(() => tmdbGetRecommendationsApi.data?.value?.results)
   >
     <template v-if="!tmdbGetRecommendationsApi.isFetching.value">
       <MovieCardWithHoverMenu
-        v-for="item in results"
+        v-for="(item, index) in results"
         :key="item.id"
         full-height
         :width="195"
         :movie="item"
+        :priority="index < 6"
       />
     </template>
     <template v-else>

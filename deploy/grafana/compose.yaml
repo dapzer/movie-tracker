@@ -47,6 +47,7 @@ services:
       - 9090
     networks:
       - grafana
+      - movie-tracker-metrics
 
 volumes:
   grafana-storage:

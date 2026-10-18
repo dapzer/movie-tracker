@@ -62,4 +62,5 @@ COPY --from=builder /app/apps/frontend/.output .
 
 ENV NODE_ENV=production
 
-CMD ["node", "--import", "./server/sentry.server.config.mjs", "./server/index.mjs"]
+# Load the Sentry server config only when it was generated (i.e. NUXT_PUBLIC_SENTRY_DSN was set at build time).
+CMD ["sh", "-c", "if [ -f ./server/sentry.server.config.mjs ]; then exec node --import ./server/sentry.server.config.mjs ./server/index.mjs; else exec node ./server/index.mjs; fi"]

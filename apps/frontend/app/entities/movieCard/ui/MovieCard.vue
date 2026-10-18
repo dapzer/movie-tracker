@@ -10,6 +10,7 @@ interface MovieCardProps {
   movie: TmdbSearchResponseResultItemType
   width?: number
   fullHeight?: boolean
+  priority?: boolean
 }
 
 const props = defineProps<MovieCardProps>()
@@ -30,6 +31,7 @@ const releaseDate = computed(() => {
     :link-url="localePath(`/details/${movie.media_type}/${movie.id}`)"
     :width="props.width"
     :full-height="props.fullHeight"
+    :priority="props.priority"
     fallback-image-src="/defaultMoviePoster.svg"
   >
     <template #description>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useHead } from "#imports"
 import { useAuth } from "~/shared/composables/useAuth"
 import { useNavigateToSignInPage } from "~/shared/composables/useNavigateToSignInPage"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -8,6 +9,17 @@ import { UiTypography } from "~/shared/ui/UiTypography"
 
 const { navigateToSignInPage } = useNavigateToSignInPage()
 const { isAuthorized } = useAuth()
+
+useHead({
+  link: [
+    {
+      rel: "preload",
+      as: "image",
+      href: "/heroBackground.webp",
+      fetchpriority: "high",
+    },
+  ],
+})
 </script>
 
 <template>
@@ -16,7 +28,6 @@ const { isAuthorized } = useAuth()
       :class="$style.background"
       src="/heroBackground.webp"
       loading="eager"
-      preload
       fetchpriority="high"
       alt="Hero background"
     />

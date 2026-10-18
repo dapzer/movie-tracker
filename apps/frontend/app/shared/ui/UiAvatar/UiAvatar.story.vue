@@ -10,14 +10,20 @@ import { getPlaceholderImageUrl } from "~/shared/utils/getPlaceholderImageUrl"
   >
     <template #default>
       <Variant title="Randomised">
-        <UiAvatar />
+        <UiAvatar alt="Avatar placeholder" />
       </Variant>
       <Variant title="RandomisedAndStored">
-        <UiAvatar placeholder-id="id" />
+        <UiAvatar
+          placeholder-id="id"
+          alt="Avatar placeholder"
+        />
       </Variant>
 
       <Variant title="WithImage">
-        <UiAvatar :src="getPlaceholderImageUrl(32, 32)" />
+        <UiAvatar
+          :src="getPlaceholderImageUrl(32, 32)"
+          alt="User avatar"
+        />
       </Variant>
     </template>
   </Story>

@@ -20,6 +20,13 @@ scrape_configs:
         type: 'A'
         port: 9100
 
+  - job_name: 'caddy'
+    dns_sd_configs:
+      - names:
+          - 'tasks.movie-tracker_caddy'
+        type: 'A'
+        port: 2019
+
 #remote_write:
 #  - url: 'http://prometheus:9090/api/v1/write'
 #    basic_auth:

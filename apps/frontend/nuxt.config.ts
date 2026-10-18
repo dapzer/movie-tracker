@@ -1,7 +1,41 @@
 import crypto from "node:crypto"
 import process from "node:process"
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// Sentry is enabled only when a DSN is provided.
+const isSentryEnabled = Boolean(process.env.NUXT_PUBLIC_SENTRY_DSN)
+
+const apiOrigin = new URL(process.env.VITE_API_URL || "http://localhost:1337/api").origin
+
+// Unhashed files from public/ — cached moderately, so replaced files propagate quickly.
+const publicAssetFiles = [
+  "authBackground.webp",
+  "avatarPoster.svg",
+  "avatar.svg",
+  "communityListsHeroBackground.webp",
+  "danilaVoronkov.webp",
+  "defaultMoviePoster.svg",
+  "favicon.ico",
+  "heroBackground.png",
+  "heroBackground.webp",
+  "landingFaqMovies.webp",
+  "landingListsPagePc.webp",
+  "landingListsPage.webp",
+  "landingMainPage.webp",
+  "logo.jpg",
+  "logo.png",
+  "logo.svg",
+  "melkam.jpeg",
+  "ogImageEn.webp",
+  "ogImageRu.webp",
+]
+
+const publicAssetRouteRules = Object.fromEntries(
+  publicAssetFiles.map(file => [
+    `/${file}`,
+    { headers: { "cache-control": "public, max-age=86400, stale-while-revalidate=604800" } },
+  ]),
+)
+
 export default defineNuxtConfig({
   telemetry: false,
 
@@ -10,6 +44,10 @@ export default defineNuxtConfig({
       title: "Movie Tracker",
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
+      link: [
+        { rel: "preconnect", href: apiOrigin, crossorigin: "" },
+        { rel: "dns-prefetch", href: apiOrigin },
+      ],
     },
   },
 
@@ -32,7 +70,6 @@ export default defineNuxtConfig({
 
   modules: [
     "@nuxtjs/i18n",
-    "@nuxt/image",
     "@vueuse/nuxt",
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
@@ -43,13 +80,25 @@ export default defineNuxtConfig({
     "nuxt-umami",
     "@nuxtjs/mdc",
     "@nuxtjs/fontaine",
-    "@sentry/nuxt/module",
+    ...(isSentryEnabled ? ["@sentry/nuxt/module"] : []),
     "nuxt-vitalizer",
   ],
 
   site: {
     url: process.env.VITE_BASE_URL || "http://localhost:3000",
     name: "Movie Tracker",
+  },
+
+  routeRules: {
+    // Build assets are content-hashed by Vite — safe to cache forever.
+    "/_nuxt/**": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    // Font files change rarely and are versioned by file name.
+    "/fonts/**": {
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+    },
+    ...publicAssetRouteRules,
   },
 
   runtimeConfig: {
@@ -190,13 +239,17 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2025-01-19",
 
-  sentry: {
-    sourceMapsUploadOptions: {
-      org: "movietracker",
-      project: "frontend",
-      telemetry: false,
-    },
-  },
+  ...(isSentryEnabled
+    ? {
+        sentry: {
+          sourceMapsUploadOptions: {
+            org: "movietracker",
+            project: "frontend",
+            telemetry: false,
+          },
+        },
+      }
+    : {}),
 
   sourcemap: {
     client: "hidden",

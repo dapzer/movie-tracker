@@ -1,5 +1,4 @@
 <script generic="T" setup lang="ts">
-import { UiCardsGrid } from "~/shared/ui/UiCardsGrid"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
 import FeedSlider from "~/widgets/feed/ui/FeedSlider.vue"
 
@@ -13,20 +12,17 @@ interface FeedItemProps<T> {
 }
 
 const props = defineProps<FeedItemProps<T>>()
-const loadingArray = Array.from({ length: 20 }, (_, i) => i)
 </script>
 
 <template>
   <UiSectionWithSeeMore
     title-as="h2"
     :title="props.title"
-    :class="$style.wrapper"
     see-more-align="end"
     :see-more-url="props.seeMoreUrl"
   >
     <FeedSlider
       :buttons-top-offset="142"
-      :class="$style.slider"
       :data="props.data"
       :slide-width="props.slideWidth"
       :with-shadow="props.sliderWithShadow"
@@ -47,43 +43,8 @@ const loadingArray = Array.from({ length: 20 }, (_, i) => i)
         <slot name="skeleton" />
       </template>
     </FeedSlider>
-
-    <UiCardsGrid :class="$style.grid">
-      <template v-if="!isLoading">
-        <slot
-          v-for="item in props.data as T[]"
-          name="slide"
-          :item="item"
-        />
-      </template>
-      <template v-else>
-        <slot
-          v-for="(_, index) in loadingArray"
-          :key="index"
-          name="skeleton"
-        />
-      </template>
-    </UiCardsGrid>
   </UiSectionWithSeeMore>
 </template>
 
 <style module lang="scss">
-@use "~/shared/styles/mixins" as *;
-@use "~/shared/styles/breakpoints" as *;
-
-.wrapper {
-  .grid {
-    display: none;
-  }
-
-  @include mobileDevice {
-    .slider {
-      display: none;
-    }
-
-    .grid {
-      display: grid;
-    }
-  }
-}
 </style>

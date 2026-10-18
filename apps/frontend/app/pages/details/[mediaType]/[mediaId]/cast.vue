@@ -71,11 +71,12 @@ const totalPages = computed(() => {
   >
     <template v-if="!tmdbGetMovieCreditsApi.isFetching.value">
       <PersonCard
-        v-for="item in castList"
+        v-for="(item, index) in castList"
         :key="item.id"
         full-height
         :width="195"
         :person="item"
+        :priority="index < 6"
       >
         <template #content>
           <UiTypography

@@ -61,6 +61,7 @@ const accordionItems = computed(() => {
         src="landingFaqMovies.webp"
         :width="577"
         :height="621"
+        alt="Movies illustration"
       />
     </div>
     <div :class="$style.content">

@@ -288,12 +288,13 @@ watchEffect(() => {
           </template>
           <template v-else-if="currentTabContent.length">
             <MediaCard
-              v-for="movie in currentTabContent"
+              v-for="(movie, index) in currentTabContent"
               :key="movie.id"
               :media-item="movie"
               full-height
               :hide-tracking-menu="!isUserListOwner"
               :can-edit-rating="isUserListOwner"
+              :priority="index < 6"
             />
           </template>
         </UiCardsGrid>

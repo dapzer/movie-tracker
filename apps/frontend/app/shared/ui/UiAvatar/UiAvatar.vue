@@ -74,7 +74,7 @@ function handleImageLoadingError() {
       :src="avatarSrc"
       :width="props.size"
       :height="props.size"
-      :alt="props.alt"
+      :alt="props.alt || `Avatar ${props.placeholderId}`"
       @error="handleImageLoadingError"
     />
 

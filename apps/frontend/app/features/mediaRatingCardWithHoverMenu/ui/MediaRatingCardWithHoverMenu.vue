@@ -14,6 +14,7 @@ const props = defineProps<MovieCardWithHoverMenuProps>()
     :media-rating="props.mediaRating"
     :user="props.user"
     :width="props.width"
+    :priority="props.priority"
   >
     <template #control>
       <MovieHoverMenu

@@ -62,6 +62,7 @@ services:
       - "443:443/udp"
     networks:
       - caddy-public
+      - movie-tracker-metrics
     cap_add:
       - NET_ADMIN
     volumes:

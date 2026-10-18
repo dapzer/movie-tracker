@@ -91,7 +91,7 @@ export class ProxyService {
       }
 
       if (!size) {
-        const stream = sharp(buffer).webp()
+        const stream = sharp(buffer).webp({ quality: 75 })
 
         return {
           stream,
@@ -99,7 +99,7 @@ export class ProxyService {
         }
       }
 
-      const stream = sharp(buffer).resize(size).webp()
+      const stream = sharp(buffer).resize(size).webp({ quality: 75 })
 
       return {
         stream,

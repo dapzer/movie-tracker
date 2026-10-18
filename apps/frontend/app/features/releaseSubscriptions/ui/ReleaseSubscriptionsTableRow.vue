@@ -103,6 +103,7 @@ const lastRelease = computed(() => {
             :src="getProxiedImageUrl(lastRelease.poster, 100)"
             height="44"
             width="80"
+            :alt="`${lastRelease.name} episode poster`"
           />
         </NuxtLink>
         <div>

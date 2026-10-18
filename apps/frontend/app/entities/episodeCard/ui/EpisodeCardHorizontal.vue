@@ -36,6 +36,7 @@ const episodeTitle = computed(() =>
         fallback-src="/defaultMoviePoster.svg"
         height="183"
         width="300"
+        :alt="`${episodeTitle} poster`"
       />
     </template>
 

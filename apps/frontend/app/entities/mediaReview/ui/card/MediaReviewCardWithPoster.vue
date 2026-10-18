@@ -49,6 +49,7 @@ const mediaDetailsUrl = computed(() => {
           :class="$style.poster"
           :src="getProxiedImageUrl(details?.poster, 179)"
           fallback-src="/defaultMoviePoster.svg"
+          :alt="`${mediaTitle} poster`"
         />
       </NuxtLink>
       <div :class="$style.posterOverlay">

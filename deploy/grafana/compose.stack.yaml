@@ -23,8 +23,12 @@ services:
         target: /etc/grafana/provisioning/dashboards/docker-containers.json
       - source: grafana_provisioning_dashboards_swarm_nodes
         target: /etc/grafana/provisioning/dashboards/swarm-nodes.json
+      - source: grafana_provisioning_dashboards_caddy
+        target: /etc/grafana/provisioning/dashboards/caddy.json
       - source: grafana_provisioning_datasources_loki
         target: /etc/grafana/provisioning/datasources/loki.yml
+      - source: grafana_provisioning_datasources_prometheus
+        target: /etc/grafana/provisioning/datasources/prometheus.yml
     deploy:
       placement:
         constraints:
@@ -71,6 +75,7 @@ services:
       - '--web.enable-lifecycle'
     networks:
       - grafana
+      - movie-tracker-metrics
     deploy:
       placement:
         constraints:
@@ -148,8 +153,12 @@ configs:
     file: ./provisioning/dashboards/docker-containers.json
   grafana_provisioning_dashboards_swarm_nodes:
     file: ./provisioning/dashboards/swarm-nodes.json
+  grafana_provisioning_dashboards_caddy:
+    file: ./provisioning/dashboards/caddy.json
   grafana_provisioning_datasources_loki:
     file: ./provisioning/datasources/loki.yml
+  grafana_provisioning_datasources_prometheus:
+    file: ./provisioning/datasources/prometheus.yml
   prometheus_config:
     file: ./configs/prometheus.yml
   alloy_config:

@@ -12,6 +12,7 @@ interface UiMediaCardProps {
   linkUrl: string
   fallbackImageSrc?: string
   fullHeight?: boolean
+  priority?: boolean
 }
 
 const props = withDefaults(defineProps<UiMediaCardProps>(), {
@@ -33,6 +34,8 @@ const props = withDefaults(defineProps<UiMediaCardProps>(), {
         :fallback-src="props.fallbackImageSrc"
         height="277"
         width="179"
+        :loading="props.priority ? 'eager' : 'lazy'"
+        :fetchpriority="props.priority ? 'high' : undefined"
         :alt="`${props.title} poster`"
       />
     </template>

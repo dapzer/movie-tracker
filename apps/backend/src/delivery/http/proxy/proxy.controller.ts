@@ -24,6 +24,7 @@ export class ProxyController {
       stream.destroy()
     })
     res.header("Content-Type", contentType)
+    res.header("Cache-Control", "public, max-age=2592000, immutable")
 
     stream.pipe(res)
   }

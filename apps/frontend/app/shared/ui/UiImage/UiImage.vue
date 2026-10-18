@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { NuxtImg } from "#components"
 import { ref } from "vue"
 
 interface UiImageProps {
@@ -7,15 +6,14 @@ interface UiImageProps {
   src?: string
   width?: string | number
   height?: string | number
-  sizes?: string
-  format?: string
-  quality?: number | string
-  provider?: string
-  placeholder?: boolean | string | number
-  modifiers?: Record<string, any>
+  loading?: "lazy" | "eager"
+  fetchpriority?: "high" | "low" | "auto"
+  alt: string
 }
 
-const props = defineProps<UiImageProps>()
+const props = withDefaults(defineProps<UiImageProps>(), {
+  loading: "lazy",
+})
 const imageSrc = ref(props.src ?? props.fallbackSrc ?? "/defaultMoviePoster.svg")
 
 function handleImageLoadingError() {
@@ -24,13 +22,17 @@ function handleImageLoadingError() {
 </script>
 
 <template>
-  <NuxtImg
+  <img
     :class="$style.body"
     :src="imageSrc"
-    loading="lazy"
+    :width="props.width"
+    :height="props.height"
+    :loading="props.loading"
+    :fetchpriority="props.fetchpriority"
     decoding="async"
+    :alt="props.alt"
     @error="handleImageLoadingError"
-  />
+  >
 </template>
 
 <style module lang="css">

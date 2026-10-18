@@ -55,6 +55,7 @@ const localePath = useLocalePath()
           src="landingMainPage.webp"
           :width="796"
           :height="453"
+          alt="Main page preview"
         />
         <UiIcon
           name="svg:landing-add-to-list"
@@ -67,6 +68,7 @@ const localePath = useLocalePath()
           src="landingListsPage.webp"
           :width="183"
           :height="406"
+          alt="Lists page preview"
         />
         <div :class="$style.exampleBottomBall" />
       </div>

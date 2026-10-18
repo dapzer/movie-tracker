@@ -5,6 +5,7 @@ import { useLocalePath } from "#i18n"
 import { computed, createError, useHead, useI18n } from "#imports"
 import { TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { arrayToString, HttpStatus } from "@movie-tracker/utils"
+import { defineAsyncComponent, hydrateOnVisible } from "vue"
 import { useGetCommunityListsWithMediaApi } from "~/api/communityLists/useCommunityListsApi"
 import { useGetMediaRatingByMediaIdApi } from "~/api/mediaRatings/useMediaRatingsApi"
 import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi"
@@ -21,11 +22,9 @@ import { MovieCardWithHoverMenu } from "~/features/movieCardWithHoverMenu"
 import { LanguagesEnum } from "~/shared/types/languagesEnum"
 import { UiContainer } from "~/shared/ui/UiContainer"
 import { UiSectionWithSeeMore } from "~/shared/ui/UiSectionWithSeeMore"
-import { UiSlider } from "~/shared/ui/UiSlider"
 import { formatDate } from "~/shared/utils/formatDate"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl"
 import { useMovieDetailsSeo } from "~/widgets/details/model/useMovieDetailsSeo"
-import MovieDetailsReviews from "~/widgets/details/ui/movieDetails/MovieDetailsReviews.vue"
 import { PersonWithDescription } from "~/widgets/personWithDescription"
 import { VideoCardWithPlayer } from "~/widgets/videoCardWithPlayer"
 import MovieDetailsHeader from "./MovieDetailsHeader.vue"
@@ -38,6 +37,16 @@ interface MovieDetailsProps {
 const props = defineProps<MovieDetailsProps>()
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
+
+const LazyUiSlider = defineAsyncComponent({
+  loader: () => import("~/shared/ui/UiSlider/UiSlider.vue"),
+  hydrate: hydrateOnVisible(),
+})
+
+const LazyMovieDetailsReviews = defineAsyncComponent({
+  loader: () => import("~/widgets/details/ui/movieDetails/MovieDetailsReviews.vue"),
+  hydrate: hydrateOnVisible(),
+})
 
 const queries = computed(() => ({
   mediaType: props.mediaType,
@@ -194,7 +203,7 @@ const releasedEpisodes = computed(() => {
       :see-more-url="localePath(`/details/${TmdbMediaTypeEnum.TV}/${props.mediaId}/seasons`)"
       :see-more-text="$t(`details.episodesList`)"
     >
-      <UiSlider
+      <LazyUiSlider
         :data="releasedEpisodes"
         :max-width="295"
         :buttons-top-offset="78"
@@ -209,7 +218,7 @@ const releasedEpisodes = computed(() => {
             :description="formatDate(item.air_date, locale)"
           />
         </template>
-      </UiSlider>
+      </LazyUiSlider>
     </UiSectionWithSeeMore>
 
     <UiSectionWithSeeMore
@@ -217,7 +226,7 @@ const releasedEpisodes = computed(() => {
       :title="$t(`details.videosTitle`)"
       hide-see-more
     >
-      <UiSlider
+      <LazyUiSlider
         :data="videosList"
         :max-width="295"
         :buttons-top-offset="84"
@@ -227,12 +236,12 @@ const releasedEpisodes = computed(() => {
             full-height
             :title="item.name"
             :description="formatDate(item.published_at, locale)"
-            :preview-src="`https://i.ytimg.com/vi/${item.key}/hq720.jpg`"
+            :preview-src="`https://i.ytimg.com/vi_webp/${item.key}/hqdefault.webp`"
             :video-url="`https://www.youtube.com/embed/${item.key}?autoplay=1`"
             :source-url="`https://www.youtube.com/watch?v=${item.key}`"
           />
         </template>
-      </UiSlider>
+      </LazyUiSlider>
     </UiSectionWithSeeMore>
 
     <UiSectionWithSeeMore
@@ -258,7 +267,7 @@ const releasedEpisodes = computed(() => {
       :title="$t(`details.listsWithMediaTitle`)"
       :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/community-lists`)"
     >
-      <UiSlider
+      <LazyUiSlider
         :data="getCommunityListsWithMediaApi.data.value?.items"
         :max-width="396"
         :buttons-top-offset="142"
@@ -269,7 +278,7 @@ const releasedEpisodes = computed(() => {
             :list="item"
           />
         </template>
-      </UiSlider>
+      </LazyUiSlider>
     </UiSectionWithSeeMore>
 
     <UiSectionWithSeeMore
@@ -277,7 +286,7 @@ const releasedEpisodes = computed(() => {
       :title="$t(`details.recommendationsTitle`)"
       :see-more-url="localePath(`/details/${props.mediaType}/${props.mediaId}/recommendations`)"
     >
-      <UiSlider
+      <LazyUiSlider
         :data="tmdbGetRecommendationsApi.data.value?.results"
         :max-width="195"
         :buttons-top-offset="142"
@@ -288,10 +297,10 @@ const releasedEpisodes = computed(() => {
             :movie="item"
           />
         </template>
-      </UiSlider>
+      </LazyUiSlider>
     </UiSectionWithSeeMore>
 
-    <MovieDetailsReviews
+    <LazyMovieDetailsReviews
       :media-id="props.mediaId"
       :media-type="props.mediaType"
     />
