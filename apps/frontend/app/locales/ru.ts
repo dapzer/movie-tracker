@@ -1899,6 +1899,8 @@ export default {
       unsuccessfullyListChanged: "Произошла ошибка при изменении списка.",
       successNewCycleStarted: "Новый цикл просмотра успешно начат",
       unsuccessfullyNewCycleStarted: "Произошла ошибка при запуске нового цикла просмотра",
+      successTvEpisodeWatchChanged: "Статус просмотра эпизода успешно обновлен",
+      unsuccessfullyTvEpisodeWatchChanged: "Произошла ошибка при обновлении статуса просмотра эпизода",
     },
     mediaList: {
       successCreated: "Список успешно создан",

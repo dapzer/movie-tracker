@@ -3,6 +3,8 @@ import type { MediaDetailsType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed } from "vue"
 import { useGetActiveTvWatchCycleByMediaItemIdApi } from "~/api/tvWatchCycles/useTvWatchCyclesApi.ts"
+import MediaCardManagementMenuTvProgressEpisode
+  from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressEpisode.vue"
 import MediaCardManagementMenuTvProgressSeason
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressSeason.vue"
 import MediaCardManagementMenuTvProgressState
@@ -43,7 +45,14 @@ const currentMediaDetails = computed(() => {
       :key="season.seasonNumber"
       :season="season"
       :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
-    />
+    >
+      <MediaCardManagementMenuTvProgressEpisode
+        v-for="episode in season.episodes"
+        :key="`${episode.seasonNumber}-${episode.episodeNumber}`"
+        :episode="episode"
+        :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
+      />
+    </MediaCardManagementMenuTvProgressSeason>
   </div>
 </template>
 

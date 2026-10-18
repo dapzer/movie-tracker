@@ -12,6 +12,7 @@ import {
   getTvEpisodeWatchesByWatchCycleId,
 } from "~/api/tvEpisodeWatches/tvEpisodeWatchesApi"
 import { TvEpisodeWatchesApiQueryKeys } from "~/api/tvEpisodeWatches/tvEpisodeWatchesApiQueryKeys"
+import { TvWatchCyclesApiQueryKeys } from "~/api/tvWatchCycles/tvWatchCyclesApiQueryKeys"
 
 export function useGetTvEpisodeWatchesByWatchCycleIdApi(args: GetTvEpisodeWatchesByWatchCycleIdArgs) {
   return useQuery({
@@ -36,9 +37,14 @@ export function useCreateTvEpisodeWatchApi() {
     mutationKey: [TvEpisodeWatchesApiQueryKeys.CREATE],
     mutationFn: createTvEpisodeWatch,
     onSuccess: async (data: TvEpisodeWatchType) => {
-      await queryClient.refetchQueries({
-        queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, data.watchCycleId],
-      })
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, data.watchCycleId],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [TvWatchCyclesApiQueryKeys.GET_ACTIVE_BY_MEDIA_ITEM_ID],
+        }),
+      ])
     },
   })
 }
@@ -49,9 +55,14 @@ export function useBulkCreateTvEpisodeWatchApi() {
     mutationKey: [TvEpisodeWatchesApiQueryKeys.BULK_CREATE],
     mutationFn: bulkCreateTvEpisodeWatch,
     onSuccess: async (_data: TvEpisodeWatchType[], variables: BulkCreateTvEpisodeWatchBody) => {
-      await queryClient.refetchQueries({
-        queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, variables.watchCycleId],
-      })
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, variables.watchCycleId],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [TvWatchCyclesApiQueryKeys.GET_ACTIVE_BY_MEDIA_ITEM_ID],
+        }),
+      ])
     },
   })
 }
@@ -62,9 +73,14 @@ export function useDeleteTvEpisodeWatchApi() {
     mutationKey: [TvEpisodeWatchesApiQueryKeys.DELETE],
     mutationFn: deleteTvEpisodeWatch,
     onSuccess: async (data: TvEpisodeWatchType) => {
-      await queryClient.refetchQueries({
-        queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, data.watchCycleId],
-      })
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, data.watchCycleId],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [TvWatchCyclesApiQueryKeys.GET_ACTIVE_BY_MEDIA_ITEM_ID],
+        }),
+      ])
     },
   })
 }

@@ -40,6 +40,7 @@ export interface MediaDetailsInfoSeasonEpisodeType {
   seasonNumber: number
   poster?: string
   name: string
+  score?: number
 }
 
 export interface MediaDetailsUpdateProgressType {

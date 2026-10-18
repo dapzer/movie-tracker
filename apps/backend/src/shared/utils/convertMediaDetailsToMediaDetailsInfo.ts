@@ -26,6 +26,7 @@ function getSeasons(data: TmdbDetailsWithSeasonsResponseType): MediaDetailsInfoS
             seasonNumber: ep.season_number,
             name: ep.name,
             poster: ep.still_path,
+            score: ep.vote_average,
           }
         }) || [],
       seasonNumber: el.season_number,

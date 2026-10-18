@@ -1897,6 +1897,8 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       unsuccessfullyListChanged: "An error occurred while changing the list",
       successNewCycleStarted: "New watch cycle started successfully",
       unsuccessfullyNewCycleStarted: "An error occurred while starting a new watch cycle",
+      successTvEpisodeWatchChanged: "Episode watch status updated successfully",
+      unsuccessfullyTvEpisodeWatchChanged: "An error occurred while updating the episode watch status",
     },
     mediaList: {
       successCreated: "List created successfully",
