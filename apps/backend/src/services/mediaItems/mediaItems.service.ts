@@ -22,6 +22,10 @@ import {
   MediaRatingRepositorySymbol,
 } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
 import {
+  TrackingDataRepositoryInterface,
+  TrackingDataRepositorySymbol,
+} from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import {
   TvWatchCycleRepositoryInterface,
   TvWatchCycleRepositorySymbol,
 } from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
@@ -44,6 +48,8 @@ export class MediaItemsService {
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     @Inject(MediaRatingRepositorySymbol)
     private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
+    @Inject(TrackingDataRepositorySymbol)
+    private readonly trackingDataRepository: TrackingDataRepositoryInterface,
     @Inject(TvWatchCycleRepositorySymbol)
     private readonly tvWatchCycleRepository: TvWatchCycleRepositoryInterface,
     private readonly mediaDetailsService: MediaDetailsService,
@@ -471,6 +477,9 @@ export class MediaItemsService {
 
     const sourceMediaItemById = new Map(sourceMediaItems.map(item => [item.id, item]))
 
+    const sourceTrackingData = await this.trackingDataRepository.getByMediaItemIds(sourceMediaItemIds)
+    const sourceTrackingDataByMediaItemId = new Map(sourceTrackingData.map(item => [item.mediaItemId, item]))
+
     const sourceMediaListIds = sourceMediaItems.map(item => item.mediaListId)
     const targetMediaListIds = args.items.map(item => item.mediaListId)
     const allMediaListIds = Array.from(new Set([...sourceMediaListIds, ...targetMediaListIds]))
@@ -504,7 +513,7 @@ export class MediaItemsService {
         mediaListId: item.mediaListId,
         mediaDetailsId: sourceMediaItem.mediaDetailsId,
         trackingData: {
-          ...sourceMediaItem.trackingData,
+          ...sourceTrackingDataByMediaItemId.get(item.mediaItemId) ?? null,
           currentStatus: item.currentStatus,
         },
         createdAt: item.isSaveCreationDate ? sourceMediaItem.createdAt : undefined,

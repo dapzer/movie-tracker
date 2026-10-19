@@ -2,11 +2,13 @@
 import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
-import { ref } from "vue"
+import { computed, ref } from "vue"
+import { useGetTrackingDataByMediaItemIdApi } from "~/api/trackingData/useTrackingDataApi"
 import MediaCardManagementMenuOverview
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverview.vue"
 import MediaCardManagementMenuTvProgress
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgress.vue"
+import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 import { UiTabs } from "~/shared/ui/UiTabs"
 
 interface MediaItemManagementMenuDrawerProps {
@@ -20,45 +22,70 @@ const emits = defineEmits<{
 }>()
 const { t } = useI18n()
 const activeTab = ref<"management" | "progress">("management")
+
+const getTrackingDataByMediaItemIdApi = useGetTrackingDataByMediaItemIdApi({
+  mediaItemId: props.mediaItem.id,
+})
+
+const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
 </script>
 
 <template>
-  <MediaCardManagementMenuOverview
-    v-if="props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
-    :media-item="props.mediaItem"
-    @clone="emits('clone')"
-    @change-media-list="emits('changeMediaList')"
-  />
-  <UiTabs
-    v-else
-    v-model="activeTab"
-    :tabs="[
-      {
-        key: 'management',
-        label: t('mediaItem.managementMenu.tabs.management'),
-      },
-      {
-        key: 'progress',
-        label: t('mediaItem.managementMenu.tabs.progress'),
-      },
-    ]"
+  <div
+    v-if="!trackingData"
+    :class="$style.skeletons"
   >
-    <template #management>
-      <MediaCardManagementMenuOverview
-        :media-item="props.mediaItem"
-        @clone="emits('clone')"
-        @change-media-list="emits('changeMediaList')"
-      />
-    </template>
-    <template #progress>
-      <MediaCardManagementMenuTvProgress
-        :media-details="props.mediaItem.mediaDetails!"
-        :media-item-id="props.mediaItem.id"
-      />
-    </template>
-  </UiTabs>
+    <UiSkeleton
+      v-for="i in 4"
+      :key="i"
+      :height="36"
+    />
+  </div>
+  <template v-else>
+    <MediaCardManagementMenuOverview
+      v-if="props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
+      :media-item="props.mediaItem"
+      :tracking-data="trackingData"
+      @clone="emits('clone')"
+      @change-media-list="emits('changeMediaList')"
+    />
+    <UiTabs
+      v-else
+      v-model="activeTab"
+      :tabs="[
+        {
+          key: 'management',
+          label: t('mediaItem.managementMenu.tabs.management'),
+        },
+        {
+          key: 'progress',
+          label: t('mediaItem.managementMenu.tabs.progress'),
+        },
+      ]"
+    >
+      <template #management>
+        <MediaCardManagementMenuOverview
+          :media-item="props.mediaItem"
+          :tracking-data="trackingData"
+          @clone="emits('clone')"
+          @change-media-list="emits('changeMediaList')"
+        />
+      </template>
+      <template #progress>
+        <MediaCardManagementMenuTvProgress
+          :media-details="props.mediaItem.mediaDetails!"
+          :media-item-id="props.mediaItem.id"
+        />
+      </template>
+    </UiTabs>
+  </template>
 </template>
 
 <style module lang="scss">
-
+.skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
 </style>

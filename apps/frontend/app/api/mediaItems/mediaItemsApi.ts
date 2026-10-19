@@ -3,8 +3,8 @@ import type {
   MediaItemsByListIdResponseType,
   MediaItemsCountByStatusQueries,
   MediaItemsCountByStatusType,
-  MediaItemTrackingDataType,
   MediaItemType,
+  MediaItemWithTrackingDataType,
 } from "@movie-tracker/types"
 import type { RequestOptions } from "@movie-tracker/utils"
 import type {
@@ -14,10 +14,8 @@ import type {
   MediaItemBulkCreateApiTypes,
   MediaItemBulkCreateCloneApiTypes,
   MediaItemBulkDeleteApiTypes,
-  MediaItemBulkUpdateTrackingDataApiTypes,
   MediaItemCreateApiTypes,
   MediaItemCreateCloneApiTypes,
-  MediaItemTrackingDataUpdateApiArgs,
   MediaItemUpdateApiArgs,
 } from "~/api/mediaItems/mediaItemsApiTypes"
 import { api } from "~/api/instance"
@@ -35,7 +33,7 @@ export async function getMediaItemsApi(options?: RequestOptions) {
 }
 
 export async function getMediaItemsByMediaIdApi(args: GetMediaItemsByMediaIdApiArgs, options?: RequestOptions) {
-  return api.get<MediaItemType[]>(`media-items/by-media-id/${args.mediaId}`, {
+  return api.get<MediaItemWithTrackingDataType[]>(`media-items/by-media-id/${args.mediaId}`, {
     ...options,
     params: {
       mediaType: args.mediaType,
@@ -98,10 +96,6 @@ export async function deleteMediaItemApi(mediaItemId: string) {
   return api.delete<MediaItemType>(`media-items/${mediaItemId}`)
 }
 
-export async function updateMediaItemTrackingDataApi(args: MediaItemTrackingDataUpdateApiArgs) {
-  return api.patch<MediaItemTrackingDataType>(`tracking-data/${args.trackingDataId}`, args.body)
-}
-
 export async function createMediaItemCloneApi(args: MediaItemCreateCloneApiTypes) {
   return api.post<MediaItemType>(`media-items/${args.mediaItemId}/clone`, {
     mediaListId: args.mediaListId,
@@ -124,8 +118,4 @@ export async function bulkCreateMediaItemsApi(body: MediaItemBulkCreateApiTypes)
 
 export async function bulkDeleteMediaItemsApi(body: MediaItemBulkDeleteApiTypes) {
   return api.post<MediaItemType[]>("media-items/bulk/delete", body)
-}
-
-export async function bulkUpdateMediaItemTrackingDataApi(body: MediaItemBulkUpdateTrackingDataApiTypes) {
-  return api.post<MediaItemTrackingDataType[]>("tracking-data/bulk/update", body)
 }

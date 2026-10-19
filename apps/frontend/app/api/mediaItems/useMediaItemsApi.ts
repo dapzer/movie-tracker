@@ -12,7 +12,6 @@ import {
   bulkCreateMediaItemCloneApi,
   bulkCreateMediaItemsApi,
   bulkDeleteMediaItemsApi,
-  bulkUpdateMediaItemTrackingDataApi,
   createMediaItemApi,
   createMediaItemCloneApi,
   deleteMediaItemApi,
@@ -21,7 +20,6 @@ import {
   getMediaItemsByMediaListIdApi,
   getMediaItemsCountByMediaListIdApi,
   updateMediaItemApi,
-  updateMediaItemTrackingDataApi,
 } from "~/api/mediaItems/mediaItemsApi"
 import { MediaItemsQueryKeys } from "~/api/mediaItems/mediaItemsApiQueryKeys"
 import { MediaListsQueryKeys } from "~/api/mediaLists/mediaListsApiQueryKeys"
@@ -113,25 +111,6 @@ export function useDeleteMediaItemApi() {
   return useMutation({
     mutationKey: [MediaItemsQueryKeys.DELETE],
     mutationFn: deleteMediaItemApi,
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.refetchQueries({
-          queryKey: [MediaItemsQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
-        }),
-        queryClient.refetchQueries({
-          queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
-        }),
-      ])
-    },
-  })
-}
-
-export function useUpdateMediaItemTrackingDataApi() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationKey: [MediaItemsQueryKeys.UPDATE_TRACKING_DATA],
-    mutationFn: updateMediaItemTrackingDataApi,
     onSuccess: async () => {
       await Promise.all([
         queryClient.refetchQueries({
@@ -267,25 +246,6 @@ export function useBulkDeleteMediaItemsApi() {
             }
           }
           return oldData
-        }),
-      ])
-    },
-  })
-}
-
-export function useBulkUpdateMediaItemTrackingDataApi() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationKey: [MediaItemsQueryKeys.BULK_UPDATE_TRACKING_DATA],
-    mutationFn: bulkUpdateMediaItemTrackingDataApi,
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.refetchQueries({
-          queryKey: [MediaItemsQueryKeys.GET_COUNT_BY_MEDIA_LIST_ID],
-        }),
-        queryClient.refetchQueries({
-          queryKey: [MediaItemsQueryKeys.GET_BY_MEDIA_LIST_ID],
         }),
       ])
     },

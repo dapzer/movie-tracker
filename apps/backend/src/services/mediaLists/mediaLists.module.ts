@@ -3,6 +3,8 @@ import { DrizzleMediaItemRepository } from "@/repositories/mediaItem/DrizzleMedi
 import { MediaItemRepositorySymbol } from "@/repositories/mediaItem/MediaItemRepositoryInterface"
 import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMediaListRepository"
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import { DrizzleTrackingDataRepository } from "@/repositories/trackingData/DrizzleTrackingDataRepository"
+import { TrackingDataRepositorySymbol } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
 import { MediaListsService } from "@/services/mediaLists/mediaLists.service"
 import { NotificationsServiceModule } from "@/services/notifications/notifications.module"
 
@@ -12,6 +14,7 @@ import { NotificationsServiceModule } from "@/services/notifications/notificatio
     MediaListsService,
     { provide: MediaListRepositorySymbol, useClass: DrizzleMediaListRepository },
     { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
+    { provide: TrackingDataRepositorySymbol, useClass: DrizzleTrackingDataRepository },
   ],
   exports: [MediaListsService],
 })

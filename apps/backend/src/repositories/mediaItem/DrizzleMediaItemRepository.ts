@@ -5,6 +5,7 @@ import {
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
   MediaItemType,
+  MediaItemWithTrackingDataType,
   MediaTypeEnum,
   SortOrderEnum,
 } from "@movie-tracker/types"
@@ -43,7 +44,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
   private convertToInterface(args: {
     mediaItem: MediaItemRow
     mediaDetails?: MediaDetailsRow | null
-    trackingData?: TrackingDataRow | null
   }): MediaItemType {
     return {
       id: args.mediaItem.id,
@@ -51,7 +51,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       mediaId: args.mediaItem.mediaId,
       mediaType: MediaTypeEnum[args.mediaItem.mediaType.toUpperCase()],
       mediaListId: args.mediaItem.mediaListId,
-      trackingData: this.convertTrackingDataToInterface(args.trackingData),
       mediaDetails: args.mediaDetails
         ? {
             id: args.mediaDetails.id,
@@ -69,6 +68,16 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         : undefined,
       createdAt: args.mediaItem.createdAt,
       updatedAt: args.mediaItem.updatedAt,
+    }
+  }
+
+  private convertWithTrackingDataToInterface(args: {
+    mediaItem: MediaItemRow
+    trackingData?: TrackingDataRow | null
+  }): MediaItemWithTrackingDataType {
+    return {
+      ...this.convertToInterface({ mediaItem: args.mediaItem }),
+      trackingData: this.convertTrackingDataToInterface(args.trackingData),
     }
   }
 
@@ -181,39 +190,34 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }
 
     const rows = await this.drizzle.client
-      .select({ mediaItem: mediaItems, mediaDetails, trackingData })
+      .select({ mediaItem: mediaItems, mediaDetails })
       .from(mediaItems)
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
-      .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
       .where(inArray(mediaItems.id, ids))
 
     return rows.map(row => this.convertToInterface({
       mediaItem: row.mediaItem,
       mediaDetails: row.mediaDetails,
-      trackingData: row.trackingData,
     }))
   }
 
   async getAll() {
     const rows = await this.drizzle.client
-      .select({ mediaItem: mediaItems, mediaDetails, trackingData })
+      .select({ mediaItem: mediaItems, mediaDetails })
       .from(mediaItems)
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
-      .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
 
     return rows.map(row => this.convertToInterface({
       mediaItem: row.mediaItem,
       mediaDetails: row.mediaDetails,
-      trackingData: row.trackingData,
     }))
   }
 
   async getById(id: string) {
     const [row] = await this.drizzle.client
-      .select({ mediaItem: mediaItems, mediaDetails, trackingData })
+      .select({ mediaItem: mediaItems, mediaDetails })
       .from(mediaItems)
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
-      .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
       .where(eq(mediaItems.id, id))
       .limit(1)
 
@@ -221,7 +225,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       ? this.convertToInterface({
           mediaItem: row.mediaItem,
           mediaDetails: row.mediaDetails,
-          trackingData: row.trackingData,
         })
       : null
   }
@@ -232,17 +235,15 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
 
   async getByUserId(userId: string) {
     const rows = await this.drizzle.client
-      .select({ mediaItem: mediaItems, mediaDetails, trackingData })
+      .select({ mediaItem: mediaItems, mediaDetails })
       .from(mediaItems)
       .innerJoin(mediaLists, eq(mediaLists.id, mediaItems.mediaListId))
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
-      .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
       .where(eq(mediaLists.userId, userId))
 
     return rows.map(row => this.convertToInterface({
       mediaItem: row.mediaItem,
       mediaDetails: row.mediaDetails,
-      trackingData: row.trackingData,
     }))
   }
 
@@ -299,7 +300,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
     }
 
     const itemsQuery = this.drizzle.client
-      .select({ mediaItem: mediaItems, mediaDetails, trackingData })
+      .select({ mediaItem: mediaItems, mediaDetails })
       .from(mediaItems)
       .leftJoin(mediaDetails, eq(mediaDetails.id, mediaItems.mediaDetailsId))
       .leftJoin(trackingData, eq(trackingData.mediaItemId, mediaItems.id))
@@ -330,7 +331,6 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
       items: items.map(item => this.convertToInterface({
         mediaItem: item.mediaItem,
         mediaDetails: item.mediaDetails,
-        trackingData: item.trackingData,
       })),
       totalCount: totalCountResult.count ?? 0,
     }
@@ -350,7 +350,7 @@ export class DrizzleMediaItemRepository implements MediaItemRepositoryInterface 
         ),
       )
 
-    return rows.map(row => this.convertToInterface({
+    return rows.map(row => this.convertWithTrackingDataToInterface({
       mediaItem: row.mediaItem,
       trackingData: row.trackingData,
     }))

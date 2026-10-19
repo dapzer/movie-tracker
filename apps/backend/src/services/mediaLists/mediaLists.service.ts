@@ -13,6 +13,10 @@ import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import {
+  TrackingDataRepositoryInterface,
+  TrackingDataRepositorySymbol,
+} from "@/repositories/trackingData/TrackingDataRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
@@ -37,6 +41,8 @@ export class MediaListsService {
     private readonly mediaListRepository: MediaListRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
+    @Inject(TrackingDataRepositorySymbol)
+    private readonly trackingDataRepository: TrackingDataRepositoryInterface,
     private readonly notificationsService: NotificationsService,
     private readonly drizzleService: DrizzleService,
   ) {
@@ -169,13 +175,18 @@ export class MediaListsService {
       })
 
       if (mediaItems.items.length > 0) {
+        const trackingDataByMediaItemId = new Map(
+          (await this.trackingDataRepository.getByMediaItemIds(mediaItems.items.map(el => el.id)))
+            .map(el => [el.mediaItemId, el]),
+        )
+
         await this.mediaItemRepository.createMany(mediaItems.items.map(el => ({
           mediaId: el.mediaId,
           mediaType: el.mediaType,
           mediaListId: newMediaList.id,
           mediaDetailsId: el.mediaDetailsId,
           currentStatus: body.isKeepStatus
-            ? el.trackingData.currentStatus
+            ? trackingDataByMediaItemId.get(el.id)?.currentStatus
             : undefined,
         })))
       }

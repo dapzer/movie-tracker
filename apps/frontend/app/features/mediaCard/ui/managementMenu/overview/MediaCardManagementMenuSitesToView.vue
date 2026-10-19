@@ -1,35 +1,35 @@
 <script lang="ts" setup>
-import type { MediaItemType } from "@movie-tracker/types"
+import type { MediaItemTrackingDataType } from "@movie-tracker/types"
 import { NuxtLink } from "#components"
 import { useI18n } from "#imports"
 import { isOnlySpaces } from "@movie-tracker/utils"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi.ts"
+import { useUpdateTrackingDataApi } from "~/api/trackingData/useTrackingDataApi"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiInput } from "~/shared/ui/UiInput"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaCardManagementMenuSitesToViewProps {
-  mediaItem: MediaItemType
+  trackingData: MediaItemTrackingDataType
 }
 
 const props = defineProps<MediaCardManagementMenuSitesToViewProps>()
 const { t } = useI18n()
 
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
+const updateTrackingDataApi = useUpdateTrackingDataApi()
 
 const currentEditItemIndex = ref<number | null>(null)
 const currentEditItemUrl = ref<string>("")
 
 const sitesToView = computed(() => {
-  return props.mediaItem.trackingData?.sitesToView || []
+  return props.trackingData?.sitesToView || []
 })
 
 const isDisableActiveSaveButton = computed(() => {
   return isOnlySpaces(currentEditItemUrl.value || "") && currentEditItemIndex.value
-    === props.mediaItem.trackingData?.sitesToView.length
+    === props.trackingData?.sitesToView.length
 })
 
 function handleEditItem(index: number | null, url: string) {
@@ -41,11 +41,11 @@ async function handleDeleteItem(index: number) {
   const finalArray = sitesToView.value.slice()
   finalArray.splice(index, 1)
 
-  await updateMediaItemTrackingDataApi.mutateAsync({
-    trackingDataId: props.mediaItem.trackingData.id,
+  await updateTrackingDataApi.mutateAsync({
+    trackingDataId: props.trackingData.id,
     body: {
       // TODO: remove this spread
-      ...props.mediaItem.trackingData,
+      ...props.trackingData,
       sitesToView: finalArray,
     },
   }).then(() => {
@@ -74,10 +74,10 @@ async function handleSave() {
     }
   }
 
-  await updateMediaItemTrackingDataApi.mutateAsync({
-    trackingDataId: props.mediaItem.trackingData.id,
+  await updateTrackingDataApi.mutateAsync({
+    trackingDataId: props.trackingData.id,
     body: {
-      ...props.mediaItem.trackingData,
+      ...props.trackingData,
       sitesToView: finalArray,
     },
   }).then(() => {
@@ -110,7 +110,7 @@ async function handleSave() {
           </UiTypography>
           <div :class="$style.actions">
             <UiButton
-              :disabled="updateMediaItemTrackingDataApi.isPending.value"
+              :disabled="updateTrackingDataApi.isPending.value"
               variant="text"
               @click="handleEditItem(index, site.url || '')"
             >
@@ -118,7 +118,7 @@ async function handleSave() {
             </UiButton>
 
             <UiButton
-              :disabled="updateMediaItemTrackingDataApi.isPending.value"
+              :disabled="updateTrackingDataApi.isPending.value"
               variant="text"
               scheme="tertiary"
               @click="handleDeleteItem(index)"
@@ -154,11 +154,11 @@ async function handleSave() {
           v-model="currentEditItemUrl"
           size="small"
           :placeholder="$t(`mediaItem.trackingMenu.newSitePlaceholder`)"
-          :disabled="updateMediaItemTrackingDataApi.isPending.value"
+          :disabled="updateTrackingDataApi.isPending.value"
         />
 
         <UiButton
-          :disabled="updateMediaItemTrackingDataApi.isPending.value || isDisableActiveSaveButton"
+          :disabled="updateTrackingDataApi.isPending.value || isDisableActiveSaveButton"
           scheme="secondary"
           @click="handleSave"
         >
@@ -169,7 +169,7 @@ async function handleSave() {
         </UiButton>
 
         <UiButton
-          :disabled="updateMediaItemTrackingDataApi.isPending.value"
+          :disabled="updateTrackingDataApi.isPending.value"
           scheme="tertiary"
           @click="handleEditItem(null, '')"
         >

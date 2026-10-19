@@ -6,6 +6,7 @@ import {
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
   MediaItemType,
+  MediaItemWithTrackingDataType,
   MediaTypeEnum,
 } from "@movie-tracker/types"
 
@@ -82,7 +83,7 @@ export interface MediaItemRepositoryInterface {
     mediaId: number
     mediaType: MediaTypeEnum
     userId: string
-  }) => Promise<MediaItemType[]>
+  }) => Promise<MediaItemWithTrackingDataType[]>
 
   delete: (id: string) => Promise<MediaItemType>
 

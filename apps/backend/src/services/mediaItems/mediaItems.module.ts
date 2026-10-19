@@ -5,6 +5,8 @@ import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMedi
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
 import { DrizzleMediaRatingRepository } from "@/repositories/mediaRating/DrizzleMediaRatingRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { DrizzleTrackingDataRepository } from "@/repositories/trackingData/DrizzleTrackingDataRepository"
+import { TrackingDataRepositorySymbol } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
 import { DrizzleTvWatchCycleRepository } from "@/repositories/tvWatchCycle/DrizzleTvWatchCycleRepository"
 import { TvWatchCycleRepositorySymbol } from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
 import { MediaDetailsServiceModule } from "@/services/mediaDetails/mediaDetails.module"
@@ -19,6 +21,7 @@ import { TvWatchCyclesServiceModule } from "@/services/tvWatchCycles/tvWatchCycl
     { provide: MediaListRepositorySymbol, useClass: DrizzleMediaListRepository },
     { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
     { provide: MediaRatingRepositorySymbol, useClass: DrizzleMediaRatingRepository },
+    { provide: TrackingDataRepositorySymbol, useClass: DrizzleTrackingDataRepository },
     { provide: TvWatchCycleRepositorySymbol, useClass: DrizzleTvWatchCycleRepository },
   ],
   exports: [MediaItemsService],

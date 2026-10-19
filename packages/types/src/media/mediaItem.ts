@@ -22,9 +22,12 @@ export interface MediaItemType {
   mediaType: MediaTypeEnum
   mediaDetails?: MediaDetailsType
   mediaRating?: MediaRatingType
-  trackingData: MediaItemTrackingDataType
   createdAt: Date
   updatedAt: Date
+}
+
+export interface MediaItemWithTrackingDataType extends MediaItemType {
+  trackingData: MediaItemTrackingDataType
 }
 
 export interface MediaItemTrackingDataType {

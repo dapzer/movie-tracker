@@ -3,21 +3,8 @@ import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 import { MediaDetailsDto } from "@/services/mediaDetails/dto/mediaDetails.dto"
 import { MediaRatingDto } from "@/services/mediaRatings/dto/mediaRating.dto"
+import { TrackingDataDto } from "@/services/trackingData/dto/trackingData.dto"
 import { zDateTimeString } from "@/shared/dto/zod.utils"
-
-const mediaItemSiteToViewSchema = z.object({
-  url: z.string().meta({ example: "https://netflix.com/watch/123" }),
-})
-
-const mediaItemTrackingDataSchema = z.object({
-  id: z.uuid().meta({ format: "uuid" }),
-  mediaItemId: z.uuid().meta({ format: "uuid" }),
-  currentStatus: z.enum(MediaItemStatusNameEnum).meta({ enum: MediaItemStatusNameEnum }),
-  note: z.string().meta({ maxLength: 2500 }),
-  sitesToView: z.array(mediaItemSiteToViewSchema),
-  createdAt: zDateTimeString.meta({ format: "date-time" }),
-  updatedAt: zDateTimeString.meta({ format: "date-time" }),
-})
 
 const mediaItemSchema = z.object({
   id: z.uuid().meta({ format: "uuid" }),
@@ -27,9 +14,12 @@ const mediaItemSchema = z.object({
   mediaType: z.enum(MediaTypeEnum).meta({ enum: MediaTypeEnum }),
   mediaDetails: MediaDetailsDto.schema.optional(),
   mediaRating: MediaRatingDto.schema.optional(),
-  trackingData: mediaItemTrackingDataSchema,
   createdAt: zDateTimeString.meta({ format: "date-time" }),
   updatedAt: zDateTimeString.meta({ format: "date-time" }),
+})
+
+const mediaItemWithTrackingDataSchema = mediaItemSchema.extend({
+  trackingData: TrackingDataDto.schema,
 })
 
 const mediaItemPaginatedSchema = z.object({
@@ -45,16 +35,12 @@ const mediaItemsCountByStatusSchema = z.object({
   total: z.number().meta({ example: 40 }),
 })
 
-export class MediaItemSiteToViewDto extends createZodDto(mediaItemSiteToViewSchema) {}
-
-export class MediaItemTrackingDataDto extends createZodDto(mediaItemTrackingDataSchema) {}
-
 export class MediaItemDto extends createZodDto(mediaItemSchema) {}
+
+export class MediaItemWithTrackingDataDto extends createZodDto(mediaItemWithTrackingDataSchema) {}
 
 export class MediaItemPaginatedDto extends createZodDto(mediaItemPaginatedSchema) {}
 
 export class MediaItemsCountByStatusDto extends createZodDto(mediaItemsCountByStatusSchema) {}
 
-MediaItemTrackingDataDto.schema.shape.sitesToView = z.array(mediaItemSiteToViewSchema)
-MediaItemDto.schema.shape.trackingData = mediaItemTrackingDataSchema
 MediaItemPaginatedDto.schema.shape.items = z.array(mediaItemSchema)

@@ -1,5 +1,5 @@
 import { trackingData } from "@movie-tracker/database"
-import { eq } from "@movie-tracker/database/drizzle"
+import { eq, inArray } from "@movie-tracker/database/drizzle"
 import {
   MediaItemSiteToViewType,
   MediaItemStatusNameEnum,
@@ -37,6 +37,29 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
       .limit(1)
 
     return this.convertToInterface(data)
+  }
+
+  async getByMediaItemId(mediaItemId: string) {
+    const [data] = await this.drizzle.client
+      .select()
+      .from(trackingData)
+      .where(eq(trackingData.mediaItemId, mediaItemId))
+      .limit(1)
+
+    return data ? this.convertToInterface(data) : null
+  }
+
+  async getByMediaItemIds(mediaItemIds: string[]) {
+    if (!mediaItemIds.length) {
+      return []
+    }
+
+    const rows = await this.drizzle.client
+      .select()
+      .from(trackingData)
+      .where(inArray(trackingData.mediaItemId, mediaItemIds))
+
+    return rows.map(row => this.convertToInterface(row))
   }
 
   async update(

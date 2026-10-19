@@ -2,7 +2,6 @@ import type {
   GetMediaItemsByListIdQueries,
   MediaItemsCountByStatusQueries,
   MediaItemStatusNameEnum,
-  MediaItemTrackingDataType,
   MediaItemType,
   MediaTypeEnum,
 } from "@movie-tracker/types"
@@ -37,21 +36,12 @@ export type GetMediaItemsByMediaListIdApiArgs = { mediaListId: string } & Omit<G
 
 export type GetMediaItemsCountByMediaListIdApiArgs = MediaItemsCountByStatusQueries & { mediaListId: string }
 
-export interface MediaItemTrackingDataUpdateApiArgs {
-  trackingDataId: string
-  body: MediaItemTrackingDataType
-}
-
 export interface MediaItemBulkCreateApiTypes {
   items: MediaItemCreateApiTypes[]
 }
 
 export interface MediaItemBulkDeleteApiTypes {
   ids: string[]
-}
-
-export interface MediaItemBulkUpdateTrackingDataApiTypes {
-  items: MediaItemTrackingDataUpdateApiArgs[]
 }
 
 export interface MediaItemBulkCreateCloneApiTypes {

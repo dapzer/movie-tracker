@@ -4,7 +4,7 @@ import { useI18n } from "#imports"
 import { MediaItemStatusNameEnum } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi.ts"
+import { useUpdateTrackingDataApi } from "~/api/trackingData/useTrackingDataApi"
 import { UiSelect } from "~/shared/ui/UiSelect"
 
 interface MediaCardManagementMenuStatusProps {
@@ -16,10 +16,10 @@ const props = defineProps<MediaCardManagementMenuStatusProps>()
 const { t } = useI18n()
 
 const currentStatus = ref(props.currentStatus)
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
+const updateTrackingDataApi = useUpdateTrackingDataApi()
 
 async function handleChangeStatus() {
-  await updateMediaItemTrackingDataApi.mutateAsync({
+  await updateTrackingDataApi.mutateAsync({
     trackingDataId: props.trackingData.id,
     body: {
       // TODO: remove this spread
@@ -50,7 +50,7 @@ const options = computed(() => {
 <template>
   <UiSelect
     v-model="currentStatus"
-    :disabled="updateMediaItemTrackingDataApi.isPending.value"
+    :disabled="updateTrackingDataApi.isPending.value"
     :options="options"
     @update:model-value="handleChangeStatus"
   />

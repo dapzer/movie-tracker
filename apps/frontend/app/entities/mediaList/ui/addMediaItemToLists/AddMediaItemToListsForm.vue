@@ -9,10 +9,10 @@ import { toast } from "vue3-toastify"
 import {
   useBulkCreateMediaItemsApi,
   useBulkDeleteMediaItemsApi,
-  useBulkUpdateMediaItemTrackingDataApi,
   useGetMediaItemsByMediaIdApi,
 } from "~/api/mediaItems/useMediaItemsApi"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
+import { useBulkUpdateTrackingDataApi } from "~/api/trackingData/useTrackingDataApi"
 import AddMediaItemToListsFormItem from "~/entities/mediaList/ui/addMediaItemToLists/AddMediaItemToListsFormItem.vue"
 import { LocalStorageEnum } from "~/shared/types/localStorageEnum"
 import { UiButton } from "~/shared/ui/UiButton"
@@ -62,7 +62,7 @@ const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
 })
 const bulkCreateMediaItemsApi = useBulkCreateMediaItemsApi()
 const bulkDeleteMediaItemsApi = useBulkDeleteMediaItemsApi()
-const bulkUpdateMediaItemTrackingDataApi = useBulkUpdateMediaItemTrackingDataApi()
+const bulkUpdateTrackingDataApi = useBulkUpdateTrackingDataApi()
 
 const searchTerm = ref("")
 const changes = ref<Record<string, MediaListChangeType>>({})
@@ -143,7 +143,7 @@ watch([() => getMediaItemsByMediaId.data.value, () => getMediaListsApi.data.valu
   setRememberedListStates()
 }, { immediate: true })
 
-const isLoading = computed(() => bulkCreateMediaItemsApi.isPending.value || bulkDeleteMediaItemsApi.isPending.value || bulkUpdateMediaItemTrackingDataApi.isPending.value)
+const isLoading = computed(() => bulkCreateMediaItemsApi.isPending.value || bulkDeleteMediaItemsApi.isPending.value || bulkUpdateTrackingDataApi.isPending.value)
 
 function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
   const currentState = changes.value[mediaListId]
@@ -233,7 +233,7 @@ function handleSaveChanges() {
     requests.push(bulkDeleteMediaItemsApi.mutateAsync({ ids: deleteIds }))
   }
   if (updateItems.length) {
-    requests.push(bulkUpdateMediaItemTrackingDataApi.mutateAsync({ items: updateItems }))
+    requests.push(bulkUpdateTrackingDataApi.mutateAsync({ items: updateItems }))
   }
 
   Promise.all(requests).then(() => {

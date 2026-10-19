@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MediaItemType } from "@movie-tracker/types"
+import type { MediaItemTrackingDataType, MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import MediaCardManagementMenuActions
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuActions.vue"
@@ -15,6 +15,7 @@ import { UiDivider } from "~/shared/ui/UiDivider"
 
 interface MediaItemManagementMenuDrawerProps {
   mediaItem: MediaItemType
+  trackingData: MediaItemTrackingDataType
 }
 
 const props = defineProps<MediaItemManagementMenuDrawerProps>()
@@ -29,8 +30,8 @@ const { t } = useI18n()
   <div :class="$style.wrapper">
     <MediaCardManagementMenuItem :title="t('mediaItem.managementMenu.currentStatus')">
       <MediaCardManagementMenuStatus
-        :tracking-data="props.mediaItem.trackingData"
-        :current-status="props.mediaItem.trackingData.currentStatus"
+        :tracking-data="props.trackingData"
+        :current-status="props.trackingData.currentStatus"
       />
     </MediaCardManagementMenuItem>
     <UiDivider />
@@ -44,11 +45,11 @@ const { t } = useI18n()
     </MediaCardManagementMenuItem>
     <UiDivider />
     <MediaCardManagementMenuItem :title="t('mediaItem.managementMenu.sitesToView')">
-      <MediaCardManagementMenuSitesToView :media-item="props.mediaItem" />
+      <MediaCardManagementMenuSitesToView :tracking-data="props.trackingData" />
     </MediaCardManagementMenuItem>
     <UiDivider />
     <MediaCardManagementMenuItem :title="t('mediaItem.managementMenu.note')">
-      <MediaCardManagementMenuNote :media-item="props.mediaItem" />
+      <MediaCardManagementMenuNote :tracking-data="props.trackingData" />
     </MediaCardManagementMenuItem>
   </div>
 </template>

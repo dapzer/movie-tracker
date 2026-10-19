@@ -18,6 +18,16 @@ export function TrackingDataControllerDocs() {
   return applyDecorators(ApiTags("Tracking Data"))
 }
 
+export function GetTrackingDataByMediaItemIdDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Get tracking data by media item id" }),
+    ApiSecurity("cookie"),
+    ApiOkResponse({ description: "Tracking data", type: TrackingDataResponseDto }),
+    ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiInternalServerErrorResponse({ description: "Failed to get tracking data", type: ErrorResponseDto }),
+  )
+}
+
 export function UpdateTrackingDataDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Update tracking data" }),
