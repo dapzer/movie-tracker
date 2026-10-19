@@ -41,31 +41,33 @@ const currentMediaDetails = computed(() => {
       :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
     />
     <UiDivider />
-    <UiAttention
-      v-if="!currentMediaDetails?.seasons?.length"
-      :indent="0"
-      title-variant="text"
-      :title="t('mediaItem.managementMenu.tvProgress.noSeasons')"
-    />
-    <MediaCardManagementMenuTvProgressSeason
-      v-for="season in currentMediaDetails?.seasons"
-      :key="season.seasonNumber"
-      :season="season"
-      :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
-    >
-      <MediaCardManagementMenuTvProgressEpisode
-        v-for="episode in season.episodes"
-        :key="`${episode.seasonNumber}-${episode.episodeNumber}`"
-        :episode="episode"
-        :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
-      />
+    <div :class="$style.seasons">
       <UiAttention
-        v-if="!season.episodes?.length"
+        v-if="!currentMediaDetails?.seasons?.length"
         :indent="0"
         title-variant="text"
-        :title="t('mediaItem.managementMenu.tvProgress.noEpisodes')"
+        :title="t('mediaItem.managementMenu.tvProgress.noSeasons')"
       />
-    </MediaCardManagementMenuTvProgressSeason>
+      <MediaCardManagementMenuTvProgressSeason
+        v-for="season in currentMediaDetails?.seasons"
+        :key="season.seasonNumber"
+        :season="season"
+        :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
+      >
+        <MediaCardManagementMenuTvProgressEpisode
+          v-for="episode in season.episodes"
+          :key="`${episode.seasonNumber}-${episode.episodeNumber}`"
+          :episode="episode"
+          :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
+        />
+        <UiAttention
+          v-if="!season.episodes?.length"
+          :indent="0"
+          title-variant="text"
+          :title="t('mediaItem.managementMenu.tvProgress.noEpisodes')"
+        />
+      </MediaCardManagementMenuTvProgressSeason>
+    </div>
   </div>
 </template>
 
@@ -74,5 +76,13 @@ const currentMediaDetails = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.seasons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 472px;
+  overflow-y: auto;
 }
 </style>
