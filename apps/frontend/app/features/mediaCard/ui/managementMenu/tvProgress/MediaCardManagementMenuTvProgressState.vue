@@ -5,6 +5,7 @@ import { computed } from "vue"
 import { toast } from "vue3-toastify"
 import { useStartTvWatchCycleApi } from "~/api/tvWatchCycles/useTvWatchCyclesApi.ts"
 import { UiButton } from "~/shared/ui/UiButton"
+import { UiConfirmationModal } from "~/shared/ui/UiConfirmationModal"
 import { UiDelimiter } from "~/shared/ui/UiDelimiter"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -158,14 +159,22 @@ async function handleStartNewCycle() {
           {{ $t("mediaItem.managementMenu.tvProgress.continueFrom") }} S{{ continuedEpisode.seasonNumber }} E{{ continuedEpisode.episodeNumber }}
         </template>
       </UiTypography>
-      <UiButton
-        variant="text"
-        scheme="link"
-        :disabled="props.watchCycle.episodeWatches.length === 0 || startTvWatchCycleApi.isPending.value"
-        @click="handleStartNewCycle"
+      <UiConfirmationModal
+        :title="$t('mediaItem.managementMenu.tvProgress.startNewCycleModal.title')"
+        :description="$t('mediaItem.managementMenu.tvProgress.startNewCycleModal.description')"
+        @confirm="handleStartNewCycle"
       >
-        {{ $t("mediaItem.managementMenu.tvProgress.startNewCycle") }}
-      </UiButton>
+        <template #trigger="{ openModal }">
+          <UiButton
+            variant="text"
+            scheme="link"
+            :disabled="props.watchCycle.episodeWatches.length === 0 || startTvWatchCycleApi.isPending.value"
+            @click="openModal"
+          >
+            {{ $t("mediaItem.managementMenu.tvProgress.startNewCycle") }}
+          </UiButton>
+        </template>
+      </UiConfirmationModal>
     </div>
   </div>
 </template>

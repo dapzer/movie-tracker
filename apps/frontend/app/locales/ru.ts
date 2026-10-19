@@ -1224,6 +1224,10 @@ export default {
         markPreviousWatchedTitle: "Отметить предыдущие эпизоды ({count}) этого сезона тоже просмотренными?",
         markAllWatched: "Да, отметить все",
         markOnlyCurrentWatched: "Только этот",
+        startNewCycleModal: {
+          title: "Начать новый цикл просмотра?",
+          description: "Текущий прогресс будет сохранен в истории просмотров, а подсчет эпизодов начнется заново.",
+        },
       },
     },
     status: {

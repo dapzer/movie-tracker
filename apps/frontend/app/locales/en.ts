@@ -1223,6 +1223,10 @@ export default {
         markPreviousWatchedTitle: "Mark the previous {count} episodes of this season as watched too?",
         markAllWatched: "Yes, mark all",
         markOnlyCurrentWatched: "Just this one",
+        startNewCycleModal: {
+          title: "Start a new watch cycle?",
+          description: "Your current progress will be saved to the watch history, and the episode count will start over.",
+        },
       },
     },
     status: {
