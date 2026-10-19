@@ -9,6 +9,7 @@ import MediaCardManagementMenuTvProgressSeason
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressSeason.vue"
 import MediaCardManagementMenuTvProgressState
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressState.vue"
+import { UiAttention } from "~/shared/ui/UiAttention"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { getCurrentMediaDetails } from "~/shared/utils/getCurrentMediaDetails.ts"
 
@@ -18,7 +19,7 @@ interface MediaCardManagementMenuTvProgressProps {
 }
 
 const props = defineProps<MediaCardManagementMenuTvProgressProps>()
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 const getActiveTvWatchCycleByMediaItemIdApi = useGetActiveTvWatchCycleByMediaItemIdApi({
   mediaItemId: props.mediaItemId,
@@ -40,6 +41,12 @@ const currentMediaDetails = computed(() => {
       :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
     />
     <UiDivider />
+    <UiAttention
+      v-if="!currentMediaDetails?.seasons?.length"
+      :indent="0"
+      title-variant="text"
+      :title="t('mediaItem.managementMenu.tvProgress.noSeasons')"
+    />
     <MediaCardManagementMenuTvProgressSeason
       v-for="season in currentMediaDetails?.seasons"
       :key="season.seasonNumber"
@@ -51,6 +58,12 @@ const currentMediaDetails = computed(() => {
         :key="`${episode.seasonNumber}-${episode.episodeNumber}`"
         :episode="episode"
         :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
+      />
+      <UiAttention
+        v-if="!season.episodes?.length"
+        :indent="0"
+        title-variant="text"
+        :title="t('mediaItem.managementMenu.tvProgress.noEpisodes')"
       />
     </MediaCardManagementMenuTvProgressSeason>
   </div>

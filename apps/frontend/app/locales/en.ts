@@ -1218,6 +1218,8 @@ export default {
         fullWatches: "Full watches",
         continueFrom: "Continue from",
         startNewCycle: "Rewatch from the beginning",
+        noEpisodes: "There are no episodes in this season yet",
+        noSeasons: "This series doesn't have any seasons yet",
       },
     },
     status: {

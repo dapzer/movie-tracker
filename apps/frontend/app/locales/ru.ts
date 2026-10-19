@@ -1219,6 +1219,8 @@ export default {
         fullWatches: "Полных просмотров",
         continueFrom: "Продолжить с",
         startNewCycle: "Начать просмотр с начала",
+        noEpisodes: "В этом сезоне пока нет эпизодов",
+        noSeasons: "У этого сериала пока нет сезонов",
       },
     },
     status: {

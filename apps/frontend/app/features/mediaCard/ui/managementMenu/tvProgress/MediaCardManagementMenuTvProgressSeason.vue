@@ -26,7 +26,7 @@ const watchedEpisodes = computed(() => {
 })
 
 const isSeasonWatched = computed(() => {
-  return watchedEpisodes.value.length === props.season.episodeCount
+  return watchedEpisodes.value.length === props.season.episodeCount && props.season.episodeCount > 0
 })
 
 const watchProgress = computed(() => {
@@ -63,7 +63,10 @@ const watchProgress = computed(() => {
         </UiTypography>
       </div>
       <div>
-        <UiTypography variant="description">
+        <UiTypography
+          v-if="props.season.episodeCount > 0"
+          variant="description"
+        >
           {{ watchedEpisodes.length }}/{{ props.season.episodeCount }}
         </UiTypography>
         <UiIcon

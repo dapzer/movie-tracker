@@ -26,9 +26,9 @@ const seasons = computed(() => {
 
 const totalEpisodes = computed(() => {
   if (!seasons.value?.length) {
-    return null
+    return 0
   }
-  return seasons.value.reduce((acc, season) => acc + season.episodeCount, 0)
+  return seasons.value.reduce((acc, season) => acc + (season.episodeCount || 0), 0)
 })
 
 const continuedEpisode = computed<{ seasonNumber: number, episodeNumber: number } | null>(() => {
