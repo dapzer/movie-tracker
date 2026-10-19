@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends readonly UiTab[]">
 import type { VNode } from "vue"
 import type { UiTab } from "~/shared/ui/UiTabs/model/types"
-import { UiTabTrigger } from "~/shared/ui/UiTabs"
+import { UiTabsPaneWrapper, UiTabsWrapper, UiTabTrigger } from "~/shared/ui/UiTabs"
 
 const props = defineProps<{
   tabs: T
@@ -19,8 +19,8 @@ if (!activeTab.value) {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.tabs">
+  <UiTabsWrapper>
+    <UiTabsPaneWrapper schema="secondary">
       <UiTabTrigger
         v-for="item in props.tabs"
         :key="item.key"
@@ -31,27 +31,8 @@ if (!activeTab.value) {
       >
         {{ item.label }}
       </UiTabTrigger>
-    </div>
+    </UiTabsPaneWrapper>
 
     <slot :name="activeTab as unknown as keyof typeof slots" />
-  </div>
+  </UiTabsWrapper>
 </template>
-
-<style module lang="scss">
-.wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.tabs {
-  display: flex;
-  width: 100%;
-
-  > * {
-    flex: 1;
-    min-width: 0;
-  }
-}
-</style>
