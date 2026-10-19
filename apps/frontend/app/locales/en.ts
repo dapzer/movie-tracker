@@ -1192,14 +1192,10 @@ export default {
       change: "Change",
     },
     trackingMenu: {
-      title: "Tracking menu",
       siteToView: "Site to view",
       addSiteToView: "Add site to view",
       newSitePlaceholder: "Website URL",
-      currentEpisode: "Current episode",
-      currentSeason: "Current season",
       tabs: {
-        information: "Information",
         note: "Note",
       },
     },
@@ -1898,8 +1894,6 @@ By accessing and using **movie-tracker.app** or its associated apps (the “Serv
       successNoteChanged: "Note updated successfully",
       unsuccessfullyNoteChanged: "An error occurred while updating the note",
       successStatusChanged: "Status changed successfully",
-      successTvProgressChanged: "Current episode and season updated successfully",
-      unsuccessfullyTvProgressChanged: "An error occurred while updating the current episode and season",
       successCloneCreated: "Cloning completed successfully",
       unsuccessfullyCloneCreated: "An error occurred while cloning",
       successListChanged: "List changed successfully",

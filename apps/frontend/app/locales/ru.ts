@@ -1193,14 +1193,10 @@ export default {
       change: "Переместить",
     },
     trackingMenu: {
-      title: "Меню отслеживания",
       siteToView: "Cайт для просмотра",
       addSiteToView: "Добавить сайт для просмотра",
       newSitePlaceholder: "URL-адрес сайта",
-      currentEpisode: "Текущий эпизод",
-      currentSeason: "Текущий сезон",
       tabs: {
-        information: "Информация",
         note: "Заметка",
       },
     },
@@ -1900,8 +1896,6 @@ export default {
       successNoteChanged: "Заметка успешно обновлена",
       unsuccessfullyNoteChanged: "Произошла ошибка при обновлении заметки",
       successStatusChanged: "Статус успешно изменен",
-      successTvProgressChanged: "Текущий эпизод и сезон успешно обновлены",
-      unsuccessfullyTvProgressChanged: "Произошла ошибка при обновлении текущего эпизода и сезона",
       successCloneCreated: "Клонирование успешно завершено",
       unsuccessfullyCloneCreated: "Произошла ошибка при клонировании",
       successListChanged: "Список успешно изменен",
