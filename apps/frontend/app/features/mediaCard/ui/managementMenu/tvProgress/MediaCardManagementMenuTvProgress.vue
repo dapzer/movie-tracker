@@ -7,6 +7,8 @@ import MediaCardManagementMenuTvProgressEpisode
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressEpisode.vue"
 import MediaCardManagementMenuTvProgressSeason
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressSeason.vue"
+import MediaCardManagementMenuTvProgressSkeleton
+  from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressSkeleton.vue"
 import MediaCardManagementMenuTvProgressState
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressState.vue"
 import { UiAttention } from "~/shared/ui/UiAttention"
@@ -31,8 +33,12 @@ const currentMediaDetails = computed(() => {
 </script>
 
 <template>
+  <MediaCardManagementMenuTvProgressSkeleton
+    v-if="getActiveTvWatchCycleByMediaItemIdApi.isLoading.value"
+    :season-count="currentMediaDetails?.seasons?.length"
+  />
   <div
-    v-if="getActiveTvWatchCycleByMediaItemIdApi.data.value"
+    v-else-if="getActiveTvWatchCycleByMediaItemIdApi.data.value"
     :class="$style.wrapper"
   >
     <MediaCardManagementMenuTvProgressState

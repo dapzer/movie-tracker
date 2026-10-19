@@ -6,9 +6,10 @@ import { computed, ref } from "vue"
 import { useGetTrackingDataByMediaItemIdApi } from "~/api/trackingData/useTrackingDataApi"
 import MediaCardManagementMenuOverview
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverview.vue"
+import MediaCardManagementMenuOverviewSkeleton
+  from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverviewSkeleton.vue"
 import MediaCardManagementMenuTvProgress
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgress.vue"
-import { UiSkeleton } from "~/shared/ui/UiSkeleton"
 import { UiTabs } from "~/shared/ui/UiTabs"
 
 interface MediaItemManagementMenuDrawerProps {
@@ -31,61 +32,45 @@ const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
 </script>
 
 <template>
-  <div
-    v-if="!trackingData"
-    :class="$style.skeletons"
+  <MediaCardManagementMenuOverviewSkeleton
+    v-if="getTrackingDataByMediaItemIdApi.isLoading.value && props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
+  />
+  <MediaCardManagementMenuOverview
+    v-else-if="trackingData && props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
+    :media-item="props.mediaItem"
+    :tracking-data="trackingData"
+    @clone="emits('clone')"
+    @change-media-list="emits('changeMediaList')"
+  />
+  <UiTabs
+    v-else
+    v-model="activeTab"
+    :tabs="[
+      {
+        key: 'management',
+        label: t('mediaItem.managementMenu.tabs.management'),
+      },
+      {
+        key: 'progress',
+        label: t('mediaItem.managementMenu.tabs.progress'),
+      },
+    ]"
   >
-    <UiSkeleton
-      v-for="i in 4"
-      :key="i"
-      :height="36"
-    />
-  </div>
-  <template v-else>
-    <MediaCardManagementMenuOverview
-      v-if="props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
-      :media-item="props.mediaItem"
-      :tracking-data="trackingData"
-      @clone="emits('clone')"
-      @change-media-list="emits('changeMediaList')"
-    />
-    <UiTabs
-      v-else
-      v-model="activeTab"
-      :tabs="[
-        {
-          key: 'management',
-          label: t('mediaItem.managementMenu.tabs.management'),
-        },
-        {
-          key: 'progress',
-          label: t('mediaItem.managementMenu.tabs.progress'),
-        },
-      ]"
-    >
-      <template #management>
-        <MediaCardManagementMenuOverview
-          :media-item="props.mediaItem"
-          :tracking-data="trackingData"
-          @clone="emits('clone')"
-          @change-media-list="emits('changeMediaList')"
-        />
-      </template>
-      <template #progress>
-        <MediaCardManagementMenuTvProgress
-          :media-details="props.mediaItem.mediaDetails!"
-          :media-item-id="props.mediaItem.id"
-        />
-      </template>
-    </UiTabs>
-  </template>
+    <template #management>
+      <MediaCardManagementMenuOverviewSkeleton v-if="getTrackingDataByMediaItemIdApi.isLoading.value" />
+      <MediaCardManagementMenuOverview
+        v-else-if="trackingData"
+        :media-item="props.mediaItem"
+        :tracking-data="trackingData"
+        @clone="emits('clone')"
+        @change-media-list="emits('changeMediaList')"
+      />
+    </template>
+    <template #progress>
+      <MediaCardManagementMenuTvProgress
+        :media-details="props.mediaItem.mediaDetails!"
+        :media-item-id="props.mediaItem.id"
+      />
+    </template>
+  </UiTabs>
 </template>
-
-<style module lang="scss">
-.skeletons {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-</style>
