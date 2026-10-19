@@ -1,11 +1,15 @@
 <script setup lang="ts" generic="T extends readonly UiTab[]">
 import type { VNode } from "vue"
 import type { UiTab } from "~/shared/ui/UiTabs/model/types"
+import type { UiTabsPaneScheme } from "~/shared/ui/UiTabs/UiTabsPane.vue"
 import UiTabsPane from "~/shared/ui/UiTabs/UiTabsPane.vue"
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   tabs: T
-}>()
+  scheme?: UiTabsPaneScheme
+}>(), {
+  scheme: "default",
+})
 
 const slots = defineSlots<{
   [K in T[number]["key"]]: () => VNode
@@ -24,6 +28,7 @@ if (!activeTab.value) {
   <UiTabsPane
     v-model="activeTab"
     :tabs="props.tabs"
+    :scheme="props.scheme"
   >
     <template
       v-if="slots.afterTabs"

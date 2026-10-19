@@ -4,13 +4,14 @@ import { useI18n } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { useGetTrackingDataByMediaItemIdApi } from "~/api/trackingData/useTrackingDataApi"
+import MediaItemManagementMenuTabs
+  from "~/features/mediaCard/ui/managementMenu/MediaItemManagementMenuTabs.vue"
 import MediaCardManagementMenuOverview
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverview.vue"
 import MediaCardManagementMenuOverviewSkeleton
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverviewSkeleton.vue"
 import MediaCardManagementMenuTvProgress
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgress.vue"
-import { UiTabs } from "~/shared/ui/UiTabs"
 
 interface MediaItemManagementMenuDrawerProps {
   mediaItem: MediaItemType
@@ -42,7 +43,7 @@ const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
     @clone="emits('clone')"
     @change-media-list="emits('changeMediaList')"
   />
-  <UiTabs
+  <MediaItemManagementMenuTabs
     v-else
     v-model="activeTab"
     :tabs="[
@@ -72,5 +73,5 @@ const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
         :media-item-id="props.mediaItem.id"
       />
     </template>
-  </UiTabs>
+  </MediaItemManagementMenuTabs>
 </template>
