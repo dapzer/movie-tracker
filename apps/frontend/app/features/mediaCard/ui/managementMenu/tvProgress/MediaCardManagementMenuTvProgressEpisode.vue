@@ -2,9 +2,8 @@
 import type { MediaDetailsInfoSeasonEpisodeType, TvWatchCycleWithEpisodesType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { computed } from "vue"
-import { toast } from "vue3-toastify"
-import { useCreateTvEpisodeWatchApi, useDeleteTvEpisodeWatchApi } from "~/api/tvEpisodeWatches/useTvEpisodeWatchesApi.ts"
-import { UiCheckbox } from "~/shared/ui/UiCheckbox"
+import MediaCardManagementMenuTvProgressEpisodeCheckbox
+  from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressEpisodeCheckbox.vue"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiRating } from "~/shared/ui/UiRating"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -13,14 +12,12 @@ import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl.ts"
 
 interface MediaCardManagementMenuTvProgressEpisodeProps {
   episode: MediaDetailsInfoSeasonEpisodeType
+  seasonEpisodes: MediaDetailsInfoSeasonEpisodeType[]
   watchCycle: TvWatchCycleWithEpisodesType
 }
 
 const props = defineProps<MediaCardManagementMenuTvProgressEpisodeProps>()
-const { t, locale } = useI18n()
-
-const createTvEpisodeWatchApi = useCreateTvEpisodeWatchApi()
-const deleteTvEpisodeWatchApi = useDeleteTvEpisodeWatchApi()
+const { locale } = useI18n()
 
 const episodeWatch = computed(() => {
   return props.watchCycle.episodeWatches.find(
@@ -30,36 +27,9 @@ const episodeWatch = computed(() => {
 
 const isWatched = computed(() => Boolean(episodeWatch.value))
 
-const isPending = computed(() => {
-  return createTvEpisodeWatchApi.isPending.value || deleteTvEpisodeWatchApi.isPending.value
-})
-
 const episodeTitle = computed(() => {
   return `S${props.episode.seasonNumber}.E${props.episode.episodeNumber} ∙ ${props.episode.name}`
 })
-
-async function handleToggleWatched() {
-  if (episodeWatch.value) {
-    await deleteTvEpisodeWatchApi.mutateAsync({
-      id: episodeWatch.value.id,
-    }).then(() => {
-      toast.success(t("toasts.mediaItem.successTvEpisodeWatchChanged"))
-    }).catch(() => {
-      toast.error(t("toasts.mediaItem.unsuccessfullyTvEpisodeWatchChanged"))
-    })
-  }
-  else {
-    await createTvEpisodeWatchApi.mutateAsync({
-      watchCycleId: props.watchCycle.id,
-      seasonNumber: props.episode.seasonNumber,
-      episodeNumber: props.episode.episodeNumber,
-    }).then(() => {
-      toast.success(t("toasts.mediaItem.successTvEpisodeWatchChanged"))
-    }).catch(() => {
-      toast.error(t("toasts.mediaItem.unsuccessfullyTvEpisodeWatchChanged"))
-    })
-  }
-}
 </script>
 
 <template>
@@ -91,11 +61,10 @@ async function handleToggleWatched() {
         v-if="props.episode.score && isWatched"
         :value="props.episode.score"
       />
-      <UiCheckbox
-        :model-value="isWatched"
-        :disabled="isPending"
-        :aria-label="episodeTitle"
-        @update:model-value="handleToggleWatched"
+      <MediaCardManagementMenuTvProgressEpisodeCheckbox
+        :episode="props.episode"
+        :season-episodes="props.seasonEpisodes"
+        :watch-cycle="props.watchCycle"
       />
     </div>
   </div>

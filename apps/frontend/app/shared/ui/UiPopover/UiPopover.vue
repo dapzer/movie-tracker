@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from "reka-ui"
+import { PopoverArrow, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from "reka-ui"
+import { UiIcon } from "~/shared/ui/UiIcon"
 
 export type UiPopoverAlign = "start" | "center" | "end"
 export type UiPopoverSide = "top" | "right" | "bottom" | "left"
 
 interface UiPopoverProps {
   triggerClass?: string
+  contentClass?: string
   width?: number
   indent?: number
   contentSpacing?: number
   align?: UiPopoverAlign
   side?: UiPopoverSide
   asChild?: boolean
+  withArrow?: boolean
 }
 
 defineOptions({
@@ -39,7 +42,7 @@ const model = defineModel<boolean>()
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent
-        :class="$style.contentWrapper"
+        :class="[$style.contentWrapper, props.contentClass]"
         :style="{
           '--width': props.width ? `${props.width}px` : 'max-content',
         }"
@@ -58,6 +61,18 @@ const model = defineModel<boolean>()
         >
           <slot name="content" />
         </div>
+
+        <PopoverArrow
+          v-if="props.withArrow"
+          as="div"
+          :class="$style.arrow"
+        >
+          <UiIcon
+            name="icon:card-arrow-top"
+            :width="14"
+            :height="8"
+          />
+        </PopoverArrow>
       </PopoverContent>
     </PopoverPortal>
   </PopoverRoot>
@@ -71,18 +86,28 @@ const model = defineModel<boolean>()
 }
 
 .contentWrapper {
+  --ui-popover-background: var(--c-card-background-hovered);
+
   z-index: var(--i-popover);
   width: var(--width);
   cursor: auto;
   max-width: min(var(--reka-popover-content-available-width), var(--s-container));
   max-height: var(--reka-popover-content-available-height);
+
+  .arrow {
+    will-change: transform, opacity;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: var(--ui-popover-background);
+  }
 }
 
 .content {
   overflow-y: auto;
   width: 100%;
   padding: var(--spacing);
-  background: var(--c-card-background-hovered);
+  background: var(--ui-popover-background);
   border: 1px solid var(--c-charcoal);
   border-radius: var(--s-border-radius-medium);
 }

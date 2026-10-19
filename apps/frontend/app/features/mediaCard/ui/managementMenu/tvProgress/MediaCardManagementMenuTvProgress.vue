@@ -58,6 +58,7 @@ const currentMediaDetails = computed(() => {
           v-for="episode in season.episodes"
           :key="`${episode.seasonNumber}-${episode.episodeNumber}`"
           :episode="episode"
+          :season-episodes="season.episodes"
           :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
         />
         <UiAttention

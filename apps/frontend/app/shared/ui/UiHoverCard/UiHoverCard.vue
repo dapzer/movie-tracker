@@ -79,6 +79,7 @@ const props = withDefaults(defineProps<UiHoverCardProps>(), {
     display: flex !important;
     align-items: center;
     justify-content: center;
+    color: var(--c-card-background-hovered);
   }
 
   &[data-side="right"][data-align="start"],

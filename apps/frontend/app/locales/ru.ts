@@ -1221,6 +1221,9 @@ export default {
         startNewCycle: "Начать просмотр с начала",
         noEpisodes: "В этом сезоне пока нет эпизодов",
         noSeasons: "У этого сериала пока нет сезонов",
+        markPreviousWatchedTitle: "Отметить предыдущие эпизоды ({count}) этого сезона тоже просмотренными?",
+        markAllWatched: "Да, отметить все",
+        markOnlyCurrentWatched: "Только этот",
       },
     },
     status: {
