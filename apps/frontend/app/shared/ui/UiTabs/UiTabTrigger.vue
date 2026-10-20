@@ -3,10 +3,13 @@ import { NuxtLink } from "#components"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
+export type UiTabsTriggerScheme = "default" | "secondary"
+
 interface UiTabTriggerProps {
   active?: boolean
   href?: string
   description?: string | number
+  scheme?: UiTabsTriggerScheme
 }
 
 const props = defineProps<UiTabTriggerProps>()
@@ -20,6 +23,8 @@ const props = defineProps<UiTabTriggerProps>()
     :to="props.href ? props.href : undefined"
     :class="[$style.body, {
       [$style.active]: props.active,
+      [$style.default]: props.scheme === 'default',
+      [$style.secondary]: props.scheme === 'secondary',
     }]"
   >
     <slot />
@@ -54,6 +59,24 @@ const props = defineProps<UiTabTriggerProps>()
   border-bottom: 1px solid transparent;
   display: inline-flex;
   gap: 6px;
+}
+
+.default {
+  &:focus:not(.active),
+  &:active:not(.active),
+  &:hover:not(.active) {
+    color: var(--c-blue-85);
+  }
+
+  &.active {
+    color: var(--c-blue);
+    border-bottom: 2px solid var(--c-blue);
+  }
+}
+
+.secondary {
+  width: 100%;
+  justify-content: center;
 
   &:focus:not(.active),
   &:active:not(.active),
@@ -63,6 +86,7 @@ const props = defineProps<UiTabTriggerProps>()
 
   &.active {
     color: var(--c-blue);
+    background-color: var(--c-button-background-secondary);
     border-bottom: 2px solid var(--c-blue);
   }
 }

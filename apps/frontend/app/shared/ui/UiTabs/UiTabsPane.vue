@@ -6,9 +6,14 @@ import UiTabsPaneWrapper from "~/shared/ui/UiTabs/UiTabsPaneWrapper.vue"
 import UiTabsWrapper from "~/shared/ui/UiTabs/UiTabsWrapper.vue"
 import UiTabTrigger from "~/shared/ui/UiTabs/UiTabTrigger.vue"
 
-const props = defineProps<{
+export type UiTabsPaneScheme = "default" | "secondary"
+
+const props = withDefaults(defineProps<{
   tabs: T
-}>()
+  scheme?: UiTabsPaneScheme
+}>(), {
+  scheme: "default",
+})
 
 defineSlots<{
   [K in T[number]["key"]]: () => VNode
@@ -32,7 +37,7 @@ function handleTabClick(tabItem: T[number]) {
 
 <template>
   <UiTabsWrapper>
-    <UiTabsPaneWrapper>
+    <UiTabsPaneWrapper :schema="props.scheme">
       <UiSlider
         :data="props.tabs as unknown as Array<UiTab>"
         max-width="max-content"
@@ -45,6 +50,7 @@ function handleTabClick(tabItem: T[number]) {
             :active="activeTab === item.key"
             :href="item.href"
             :description="item.description"
+            :scheme="props.scheme"
             @click="handleTabClick(item)"
           >
             {{ item.label }}

@@ -12,6 +12,7 @@ import {
   MediaItemDto,
   MediaItemPaginatedDto,
   MediaItemsCountByStatusDto,
+  MediaItemWithTrackingDataDto,
 } from "@/services/mediaItems/dto/mediaItem.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
@@ -55,7 +56,7 @@ export function GetMediaItemsByMediaIdDocs() {
   return applyDecorators(
     ApiOperation({ summary: "Get media items by mediaId" }),
     ApiSecurity("cookie"),
-    ApiOkResponse({ description: "Media items", type: [MediaItemDto] }),
+    ApiOkResponse({ description: "Media items", type: [MediaItemWithTrackingDataDto] }),
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
   )
 }

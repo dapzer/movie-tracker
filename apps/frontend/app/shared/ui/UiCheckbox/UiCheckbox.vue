@@ -28,9 +28,9 @@ const inputModel = defineModel()
     }]"
   >
     <input
+      v-bind="$attrs"
       v-model="inputModel"
       :type="props.radio ? 'radio' : 'checkbox'"
-      v-bind="$attrs"
     >
     <span :class="$style.transition">
       <UiIcon

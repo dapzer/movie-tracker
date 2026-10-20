@@ -83,6 +83,7 @@ export type UiIconName = "icon:close"
   | "icon:zip-file"
   | "icon:error"
   | "icon:data-import-feature"
+  | "icon:cycle"
   | "svg:landing-add-to-list"
 
 interface UiIconProps {

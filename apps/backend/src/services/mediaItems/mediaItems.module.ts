@@ -5,17 +5,24 @@ import { DrizzleMediaListRepository } from "@/repositories/mediaList/DrizzleMedi
 import { MediaListRepositorySymbol } from "@/repositories/mediaList/MediaListRepositoryInterface"
 import { DrizzleMediaRatingRepository } from "@/repositories/mediaRating/DrizzleMediaRatingRepository"
 import { MediaRatingRepositorySymbol } from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import { DrizzleTrackingDataRepository } from "@/repositories/trackingData/DrizzleTrackingDataRepository"
+import { TrackingDataRepositorySymbol } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import { DrizzleTvWatchCycleRepository } from "@/repositories/tvWatchCycle/DrizzleTvWatchCycleRepository"
+import { TvWatchCycleRepositorySymbol } from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
 import { MediaDetailsServiceModule } from "@/services/mediaDetails/mediaDetails.module"
 import { MediaItemsService } from "@/services/mediaItems/mediaItems.service"
 import { MediaListsServiceModule } from "@/services/mediaLists/mediaLists.module"
+import { TvWatchCyclesServiceModule } from "@/services/tvWatchCycles/tvWatchCycles.module"
 
 @Module({
-  imports: [MediaListsServiceModule, MediaDetailsServiceModule],
+  imports: [MediaListsServiceModule, MediaDetailsServiceModule, TvWatchCyclesServiceModule],
   providers: [
     MediaItemsService,
     { provide: MediaListRepositorySymbol, useClass: DrizzleMediaListRepository },
     { provide: MediaItemRepositorySymbol, useClass: DrizzleMediaItemRepository },
     { provide: MediaRatingRepositorySymbol, useClass: DrizzleMediaRatingRepository },
+    { provide: TrackingDataRepositorySymbol, useClass: DrizzleTrackingDataRepository },
+    { provide: TvWatchCycleRepositorySymbol, useClass: DrizzleTvWatchCycleRepository },
   ],
   exports: [MediaItemsService],
 })

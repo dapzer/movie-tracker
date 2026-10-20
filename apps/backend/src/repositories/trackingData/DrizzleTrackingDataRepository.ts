@@ -1,10 +1,9 @@
 import { trackingData } from "@movie-tracker/database"
-import { eq } from "@movie-tracker/database/drizzle"
+import { eq, inArray } from "@movie-tracker/database/drizzle"
 import {
   MediaItemSiteToViewType,
   MediaItemStatusNameEnum,
   MediaItemTrackingDataType,
-  MediaItemTvProgressType,
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { TrackingDataRepositoryInterface } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
@@ -25,7 +24,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
       note: data.note,
       currentStatus: MediaItemStatusNameEnum[data.currentStatus.toUpperCase()],
       sitesToView: data.sitesToView as unknown as MediaItemSiteToViewType[],
-      tvProgress: data.tvProgress as unknown as MediaItemTvProgressType,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     }
@@ -41,6 +39,29 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
     return this.convertToInterface(data)
   }
 
+  async getByMediaItemId(mediaItemId: string) {
+    const [data] = await this.drizzle.client
+      .select()
+      .from(trackingData)
+      .where(eq(trackingData.mediaItemId, mediaItemId))
+      .limit(1)
+
+    return data ? this.convertToInterface(data) : null
+  }
+
+  async getByMediaItemIds(mediaItemIds: string[]) {
+    if (!mediaItemIds.length) {
+      return []
+    }
+
+    const rows = await this.drizzle.client
+      .select()
+      .from(trackingData)
+      .where(inArray(trackingData.mediaItemId, mediaItemIds))
+
+    return rows.map(row => this.convertToInterface(row))
+  }
+
   async update(
     args: Parameters<TrackingDataRepositoryInterface["update"]>[0],
   ) {
@@ -50,7 +71,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
         note: args.data.note,
         currentStatus: args.data.currentStatus,
         sitesToView: args.data.sitesToView as unknown as Array<MediaItemSiteToViewType>,
-        tvProgress: args.data.tvProgress as unknown as MediaItemTvProgressType,
       })
       .where(eq(trackingData.id, args.id))
       .returning()
@@ -74,7 +94,6 @@ export class DrizzleTrackingDataRepository implements TrackingDataRepositoryInte
             note: item.data.note,
             currentStatus: item.data.currentStatus,
             sitesToView: item.data.sitesToView as unknown as Array<MediaItemSiteToViewType>,
-            tvProgress: item.data.tvProgress as unknown as MediaItemTvProgressType,
           })
           .where(eq(trackingData.id, item.id))
           .returning()

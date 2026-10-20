@@ -183,7 +183,20 @@ export class DrizzleMediaListRepository implements MediaListRepositoryInterface 
       )
       .limit(1)
 
-    return this.convertToInterface(row.mediaList)
+    return row ? this.convertToInterface(row.mediaList) : null
+  }
+
+  async getByMediaItemId(
+    args: Parameters<MediaListRepositoryInterface["getByMediaItemId"]>[0],
+  ) {
+    const [row] = await this.drizzle.client
+      .select({ mediaList: mediaLists })
+      .from(mediaLists)
+      .innerJoin(mediaItems, eq(mediaItems.mediaListId, mediaLists.id))
+      .where(eq(mediaItems.id, args.mediaItemId))
+      .limit(1)
+
+    return row ? this.convertToInterface(row.mediaList) : null
   }
 
   async getByHumanFriendlyId(

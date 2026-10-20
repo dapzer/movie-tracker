@@ -5,6 +5,10 @@ export const TrackingDataRepositorySymbol = Symbol("TrackingDataRepository")
 export interface TrackingDataRepositoryInterface {
   getById: (id: string) => Promise<MediaItemTrackingDataType>
 
+  getByMediaItemId: (mediaItemId: string) => Promise<MediaItemTrackingDataType | null>
+
+  getByMediaItemIds: (mediaItemIds: string[]) => Promise<MediaItemTrackingDataType[]>
+
   update: (args: {
     id: string
     data: Partial<

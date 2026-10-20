@@ -1,43 +1,42 @@
 <script setup lang="ts">
-import type { MediaItemType } from "@movie-tracker/types"
+import type { MediaItemTrackingDataType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH } from "@movie-tracker/types"
 import { computed, ref } from "vue"
 import { toast } from "vue3-toastify"
-import { useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi"
+import { useUpdateTrackingDataApi } from "~/api/trackingData/useTrackingDataApi"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTextarea } from "~/shared/ui/UiTextarea"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
-interface MediaItemTrackingMenuProps {
-  mediaItem: MediaItemType
+interface MediaCardManagementMenuNoteProps {
+  trackingData: MediaItemTrackingDataType
 }
 
-const props = defineProps<MediaItemTrackingMenuProps>()
+const props = defineProps<MediaCardManagementMenuNoteProps>()
 const { t } = useI18n()
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
-const value = ref(props.mediaItem.trackingData.note || "")
+const updateTrackingDataApi = useUpdateTrackingDataApi()
+const value = ref(props.trackingData.note || "")
 
 const currentNote = computed(() => {
-  return props.mediaItem.trackingData.note
+  return props.trackingData.note
 })
 
 const isActiveControls = computed(() => {
-  return !updateMediaItemTrackingDataApi.isPending.value && currentNote.value !== value.value
+  return !updateTrackingDataApi.isPending.value && currentNote.value !== value.value
 })
 
 async function handleSave() {
-  await updateMediaItemTrackingDataApi.mutateAsync({
-    trackingDataId: props.mediaItem.trackingData.id,
+  await updateTrackingDataApi.mutateAsync({
+    trackingDataId: props.trackingData.id,
     body: {
-      ...props.mediaItem.trackingData,
+      ...props.trackingData,
       note: value.value,
     },
   }).then(() => {
     toast.success(t("toasts.mediaItem.successNoteChanged"))
-  }).catch((e) => {
-    console.log(e)
+  }).catch(() => {
     toast.error(t("toasts.mediaItem.unsuccessfullyNoteChanged"))
   })
 }
@@ -51,7 +50,7 @@ function handleCancel() {
   <div :class="$style.wrapper">
     <UiTextarea
       v-model="value"
-      :disabled="updateMediaItemTrackingDataApi.isPending.value"
+      :disabled="updateTrackingDataApi.isPending.value"
       :maxlength="MEDIA_ITEM_TRACKING_NOTE_MAX_LENGTH"
       :placeholder="$t('mediaItem.trackingMenu.tabs.note')"
     />

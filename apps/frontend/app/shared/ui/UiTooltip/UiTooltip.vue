@@ -109,6 +109,7 @@ function handleTriggerClick() {
     display: flex !important;
     align-items: center;
     justify-content: center;
+    color: var(--c-tooltip-background);
   }
 }
 </style>

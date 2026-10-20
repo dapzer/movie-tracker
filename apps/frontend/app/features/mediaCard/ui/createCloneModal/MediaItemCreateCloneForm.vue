@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { MediaItemStatusNameEnum, MediaItemType } from "@movie-tracker/types"
+import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import { SortOrderEnum } from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, SortOrderEnum } from "@movie-tracker/types"
 import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
 import { useBulkCreateMediaItemCloneApi, useGetMediaItemsByMediaIdApi } from "~/api/mediaItems/useMediaItemsApi"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
+import { useGetTrackingDataByMediaItemIdApi } from "~/api/trackingData/useTrackingDataApi"
 import MediaItemCreateCloneFormItem from "~/features/mediaCard/ui/createCloneModal/MediaItemCreateCloneFormItem.vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiFormListItemSkeleton } from "~/shared/ui/UiFormListItem"
@@ -37,6 +38,13 @@ const searchTerm = ref("")
 const selectedAddings = ref<Record<string, MediaItemStatusNameEnum>>({})
 const isSaveCreationDate = ref(false)
 const bulkCreateMediaItemCloneApi = useBulkCreateMediaItemCloneApi()
+const getTrackingDataByMediaItemIdApi = useGetTrackingDataByMediaItemIdApi({
+  mediaItemId: props.mediaItem.id,
+})
+
+const currentStatus = computed(() => {
+  return getTrackingDataByMediaItemIdApi.data.value?.currentStatus || MediaItemStatusNameEnum.NOT_VIEWED
+})
 
 const allAvailableMediaLists = computed(() => {
   if (!getMediaListsApi.data.value) {
@@ -92,7 +100,7 @@ const sortedMediaLists = computed(() => {
 
 function handleCheckboxChange(mediaListId: string, isChecked: boolean) {
   if (isChecked) {
-    selectedAddings.value[mediaListId] = props.mediaItem.trackingData.currentStatus
+    selectedAddings.value[mediaListId] = currentStatus.value
     return
   }
 
@@ -127,7 +135,7 @@ const isHasSelectedMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div :class="$style.list">
-      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value">
+      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value || getTrackingDataByMediaItemIdApi.isFetching.value">
         <UiFormListItemSkeleton
           v-for="i in 5"
           :key="i"
@@ -138,7 +146,7 @@ const isHasSelectedMediaLists = computed(() => {
           v-for="mediaList in sortedMediaLists"
           :key="mediaList.id"
           :model-value="Boolean(selectedAddings[mediaList.id])"
-          :current-status="selectedAddings[mediaList.id] || props.mediaItem.trackingData.currentStatus"
+          :current-status="selectedAddings[mediaList.id] || currentStatus"
           :disabled="bulkCreateMediaItemCloneApi.isPending.value"
           :value="mediaList.id"
           :media-list="mediaList"

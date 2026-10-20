@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { MediaItemType, MediaListType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
-import { SortOrderEnum } from "@movie-tracker/types"
+import { MediaItemStatusNameEnum, SortOrderEnum } from "@movie-tracker/types"
 import { useQueryClient } from "@tanstack/vue-query"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import { toast } from "vue3-toastify"
-import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi, useUpdateMediaItemTrackingDataApi } from "~/api/mediaItems/useMediaItemsApi"
+import { useGetMediaItemsByMediaIdApi, useUpdateMediaItemApi } from "~/api/mediaItems/useMediaItemsApi"
 import { MediaListsQueryKeys } from "~/api/mediaLists/mediaListsApiQueryKeys"
 import { useGetMediaListsApi } from "~/api/mediaLists/useMediaListsApi"
+import { useGetTrackingDataByMediaItemIdApi, useUpdateTrackingDataApi } from "~/api/trackingData/useTrackingDataApi"
 import MediaItemChangeMediaListFormItem
   from "~/features/mediaCard/ui/changeMediaListModal/MediaItemChangeMediaListFormItem.vue"
 import { useForm } from "~/shared/composables/useForm"
@@ -38,15 +39,24 @@ const getMediaItemsByMediaId = useGetMediaItemsByMediaIdApi({
 const { t } = useI18n()
 const searchTerm = ref("")
 const updateMediaItemApi = useUpdateMediaItemApi()
-const updateMediaItemTrackingDataApi = useUpdateMediaItemTrackingDataApi()
+const updateTrackingDataApi = useUpdateTrackingDataApi()
+const getTrackingDataByMediaItemIdApi = useGetTrackingDataByMediaItemIdApi({
+  mediaItemId: props.mediaItem.id,
+})
 const queryClient = useQueryClient()
 
 const { formValue, onFormSubmit } = useForm({
   initialValue: {
     selectedMediaListId: "",
-    selectedStatus: props.mediaItem.trackingData.currentStatus,
+    selectedStatus: MediaItemStatusNameEnum.NOT_VIEWED,
   },
   onSubmit: (formValue) => {
+    const trackingData = getTrackingDataByMediaItemIdApi.data.value
+
+    if (!trackingData) {
+      return
+    }
+
     Promise.all([
       updateMediaItemApi.mutateAsync({
         mediaItemId: props.mediaItem.id,
@@ -54,10 +64,10 @@ const { formValue, onFormSubmit } = useForm({
           mediaListId: formValue.selectedMediaListId,
         },
       }),
-      updateMediaItemTrackingDataApi.mutateAsync({
-        trackingDataId: props.mediaItem.trackingData.id,
+      updateTrackingDataApi.mutateAsync({
+        trackingDataId: trackingData.id,
         body: {
-          ...props.mediaItem.trackingData,
+          ...trackingData,
           currentStatus: formValue.selectedStatus,
         },
       }),
@@ -81,6 +91,12 @@ const { formValue, onFormSubmit } = useForm({
     })
   },
 })
+
+watch(() => getTrackingDataByMediaItemIdApi.data.value, (trackingData) => {
+  if (trackingData) {
+    formValue.value.selectedStatus = trackingData.currentStatus
+  }
+}, { immediate: true })
 
 const availableMediaLists = computed(() => {
   if (!getMediaListsApi.data.value)
@@ -119,7 +135,7 @@ const sortedMediaLists = computed(() => {
       <slot name="action" />
     </div>
     <div :class="$style.list">
-      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value">
+      <template v-if="getMediaItemsByMediaId.isFetching.value || getMediaListsApi.isFetching.value || getTrackingDataByMediaItemIdApi.isFetching.value">
         <UiFormListItemSkeleton
           v-for="i in 5"
           :key="i"
@@ -132,7 +148,7 @@ const sortedMediaLists = computed(() => {
           v-model="formValue.selectedMediaListId"
           v-model:current-status="formValue.selectedStatus"
           radio
-          :disabled="updateMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value"
+          :disabled="updateMediaItemApi.isPending.value || updateTrackingDataApi.isPending.value"
           :value="mediaList.id"
           :media-list="mediaList"
         />
@@ -149,7 +165,7 @@ const sortedMediaLists = computed(() => {
     <div :class="$style.actions">
       <UiButton
         size="small"
-        :disabled="updateMediaItemApi.isPending.value || updateMediaItemTrackingDataApi.isPending.value || !formValue.selectedMediaListId"
+        :disabled="updateMediaItemApi.isPending.value || updateTrackingDataApi.isPending.value || !getTrackingDataByMediaItemIdApi.data.value || !formValue.selectedMediaListId"
         @click="onFormSubmit"
       >
         {{ $t('mediaItem.changeMediaList.button') }}

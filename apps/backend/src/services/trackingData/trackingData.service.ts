@@ -33,6 +33,20 @@ export class TrackingDataService {
     }
   }
 
+  async getByMediaItemId(mediaItemId: string, userId: string) {
+    const mediaList
+      = await this.mediaListRepository.getByMediaItemAndUserId({
+        mediaItemId,
+        userId,
+      })
+
+    if (!mediaList) {
+      throw new TrackingDataUnauthorizedError({ userId, trackingDataId: mediaItemId })
+    }
+
+    return this.trackingDataRepository.getByMediaItemId(mediaItemId)
+  }
+
   async update(
     id: string,
     userId: string,

@@ -11,6 +11,8 @@ import {
   notifications,
   releaseSubscriptions,
   trackingData,
+  tvEpisodeWatches,
+  tvWatchCycles,
   userBans,
   userFollows,
   users,
@@ -46,6 +48,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   }),
   mediaRatings: many(mediaRatings),
   releaseSubscriptions: many(releaseSubscriptions),
+  tvWatchCycles: many(tvWatchCycles),
+  tvEpisodeWatches: many(tvEpisodeWatches),
   dataImports: many(dataImports),
 }))
 
@@ -84,6 +88,7 @@ export const mediaItemsRelations = relations(mediaItems, ({ one, many }) => ({
     references: [mediaDetails.id],
   }),
   trackingData: many(trackingData),
+  tvWatchCycles: many(tvWatchCycles),
 }))
 
 export const mediaListsRelations = relations(mediaLists, ({ one, many }) => ({
@@ -100,6 +105,34 @@ export const mediaDetailsRelations = relations(mediaDetails, ({ many }) => ({
   mediaItems: many(mediaItems),
   mediaRatings: many(mediaRatings),
   releaseSubscriptions: many(releaseSubscriptions),
+  tvEpisodeWatches: many(tvEpisodeWatches),
+}))
+
+export const tvWatchCyclesRelations = relations(tvWatchCycles, ({ one, many }) => ({
+  mediaItem: one(mediaItems, {
+    fields: [tvWatchCycles.mediaItemId],
+    references: [mediaItems.id],
+  }),
+  user: one(users, {
+    fields: [tvWatchCycles.userId],
+    references: [users.id],
+  }),
+  episodeWatches: many(tvEpisodeWatches),
+}))
+
+export const tvEpisodeWatchesRelations = relations(tvEpisodeWatches, ({ one }) => ({
+  watchCycle: one(tvWatchCycles, {
+    fields: [tvEpisodeWatches.watchCycleId],
+    references: [tvWatchCycles.id],
+  }),
+  user: one(users, {
+    fields: [tvEpisodeWatches.userId],
+    references: [users.id],
+  }),
+  mediaDetail: one(mediaDetails, {
+    fields: [tvEpisodeWatches.mediaDetailsId],
+    references: [mediaDetails.id],
+  }),
 }))
 
 export const trackingDataRelations = relations(trackingData, ({ one }) => ({

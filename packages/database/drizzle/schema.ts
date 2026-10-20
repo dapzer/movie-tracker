@@ -3,7 +3,6 @@ import {
   MediaDetailsGenres,
   MediaDetailsInfoType,
   MediaItemSiteToViewType,
-  MediaItemTvProgressType,
   NotificationMetaType,
 } from "@movie-tracker/types"
 import { sql } from "drizzle-orm"
@@ -151,11 +150,40 @@ export const trackingData = pgTable("tracking_data", {
   currentStatus: statusNameEnum("current_status").default("NOT_VIEWED").notNull(),
   note: text().default("").notNull(),
   sitesToView: jsonb("sites_to_view").default([]).notNull().$type<MediaItemSiteToViewType[]>(),
-  tvProgress: jsonb("tv_progress").default(sql`'{"currentSeason": 1, "currentEpisode": 1}'`).notNull().$type<MediaItemTvProgressType>(),
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull().$onUpdate(() => new Date()),
   mediaItemId: uuid("media_item_id").notNull().unique().references(() => mediaItems.id, { onUpdate: "cascade", onDelete: "cascade" }),
 })
+
+export const tvWatchCycles = pgTable("tv_watch_cycles", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  mediaItemId: uuid("media_item_id").notNull().references(() => mediaItems.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaId: integer("media_id").notNull(),
+  cycleNumber: integer("cycle_number").notNull(),
+  finishedAt: timestamp("finished_at", { precision: 3, mode: "date", withTimezone: true }),
+  startedAt: timestamp("started_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("tv_watch_cycles_media_item_id_cycle_number_key").on(table.mediaItemId, table.cycleNumber),
+  uniqueIndex("tv_watch_cycles_one_active_per_media_item")
+    .on(table.mediaItemId)
+    .where(sql`${table.finishedAt} is null`),
+  index("tv_watch_cycles_user_id_media_id_idx").on(table.userId, table.mediaId),
+])
+
+export const tvEpisodeWatches = pgTable("tv_episode_watches", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  watchCycleId: uuid("watch_cycle_id").notNull().references(() => tvWatchCycles.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaId: integer("media_id").notNull(),
+  mediaDetailsId: uuid("media_details_id").references(() => mediaDetails.id, { onUpdate: "cascade", onDelete: "set null" }),
+  seasonNumber: integer("season_number").notNull(),
+  episodeNumber: integer("episode_number").notNull(),
+  watchedAt: timestamp("watched_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("tv_episode_watches_cycle_season_episode_key").on(table.watchCycleId, table.seasonNumber, table.episodeNumber),
+  index("tv_episode_watches_user_id_media_id_idx").on(table.userId, table.mediaId),
+])
 
 export const dataImports = pgTable("data_imports", {
   id: uuid().defaultRandom().primaryKey().notNull(),
