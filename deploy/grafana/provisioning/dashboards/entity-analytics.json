@@ -482,11 +482,11 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT watched_at AS \"time\", COUNT(*) OVER (ORDER BY watched_at) AS \"TV watches\" FROM tv_episode_watches ORDER BY watched_at",
+          "rawSql": "SELECT watched_at AS \"time\", COUNT(*) OVER (ORDER BY watched_at) AS \"TV episode watches\" FROM tv_episode_watches ORDER BY watched_at",
           "refId": "A"
         }
       ],
-      "title": "TV watches",
+      "title": "TV episode watches",
       "type": "stat"
     },
     {
@@ -539,11 +539,11 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT started_at AS \"time\", COUNT(*) OVER (ORDER BY started_at) AS \"TV cycles\" FROM tv_watch_cycles ORDER BY started_at",
+          "rawSql": "SELECT started_at AS \"time\", COUNT(*) OVER (ORDER BY started_at) AS \"TV watch cycles\" FROM tv_watch_cycles ORDER BY started_at",
           "refId": "A"
         }
       ],
-      "title": "TV cycles",
+      "title": "TV watch cycles",
       "type": "stat"
     },
     {
@@ -991,7 +991,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT $__timeGroup(created_at, '1d') AS \"time\", 'Users' AS metric, COUNT(*) AS \"value\" FROM users WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media items', COUNT(*) FROM media_items WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media lists', COUNT(*) FROM media_lists WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Ratings', COUNT(*) FROM media_ratings WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Reviews', COUNT(*) FROM media_reviews WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'List likes', COUNT(*) FROM media_list_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Review likes', COUNT(*) FROM media_review_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Notifications', COUNT(*) FROM notifications WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Subscriptions', COUNT(*) FROM release_subscriptions WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Data imports', COUNT(*) FROM data_imports WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(watched_at, '1d'), 'TV watches', COUNT(*) FROM tv_episode_watches WHERE $__timeFilter(watched_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(started_at, '1d'), 'TV cycles', COUNT(*) FROM tv_watch_cycles WHERE $__timeFilter(started_at) GROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT $__timeGroup(created_at, '1d') AS \"time\", 'Users' AS metric, COUNT(*) AS \"value\" FROM users WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media items', COUNT(*) FROM media_items WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media lists', COUNT(*) FROM media_lists WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Ratings', COUNT(*) FROM media_ratings WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Reviews', COUNT(*) FROM media_reviews WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'List likes', COUNT(*) FROM media_list_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Review likes', COUNT(*) FROM media_review_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Notifications', COUNT(*) FROM notifications WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Subscriptions', COUNT(*) FROM release_subscriptions WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Data imports', COUNT(*) FROM data_imports WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(watched_at, '1d'), 'TV episode watches', COUNT(*) FROM tv_episode_watches WHERE $__timeFilter(watched_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(started_at, '1d'), 'TV watch cycles', COUNT(*) FROM tv_watch_cycles WHERE $__timeFilter(started_at) GROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -1055,7 +1055,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT 'Users' AS entity, COUNT(*) AS value FROM users\nUNION ALL SELECT 'Media lists', COUNT(*) FROM media_lists\nUNION ALL SELECT 'Media items', COUNT(*) FROM media_items\nUNION ALL SELECT 'Ratings', COUNT(*) FROM media_ratings\nUNION ALL SELECT 'Reviews', COUNT(*) FROM media_reviews\nUNION ALL SELECT 'List likes', COUNT(*) FROM media_list_likes\nUNION ALL SELECT 'Review likes', COUNT(*) FROM media_review_likes\nUNION ALL SELECT 'Notifications', COUNT(*) FROM notifications\nUNION ALL SELECT 'Subscriptions', COUNT(*) FROM release_subscriptions\nUNION ALL SELECT 'Media details', COUNT(*) FROM media_details\nUNION ALL SELECT 'Data imports', COUNT(*) FROM data_imports\nUNION ALL SELECT 'TV watches', COUNT(*) FROM tv_episode_watches\nUNION ALL SELECT 'TV cycles', COUNT(*) FROM tv_watch_cycles",
+          "rawSql": "SELECT 'Users' AS entity, COUNT(*) AS value FROM users\nUNION ALL SELECT 'Media lists', COUNT(*) FROM media_lists\nUNION ALL SELECT 'Media items', COUNT(*) FROM media_items\nUNION ALL SELECT 'Ratings', COUNT(*) FROM media_ratings\nUNION ALL SELECT 'Reviews', COUNT(*) FROM media_reviews\nUNION ALL SELECT 'List likes', COUNT(*) FROM media_list_likes\nUNION ALL SELECT 'Review likes', COUNT(*) FROM media_review_likes\nUNION ALL SELECT 'Notifications', COUNT(*) FROM notifications\nUNION ALL SELECT 'Subscriptions', COUNT(*) FROM release_subscriptions\nUNION ALL SELECT 'Media details', COUNT(*) FROM media_details\nUNION ALL SELECT 'Data imports', COUNT(*) FROM data_imports\nUNION ALL SELECT 'TV episode watches', COUNT(*) FROM tv_episode_watches\nUNION ALL SELECT 'TV watch cycles', COUNT(*) FROM tv_watch_cycles",
           "refId": "A"
         }
       ],
@@ -1516,7 +1516,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "WITH daily AS (SELECT date_trunc('day', watched_at) AS d, COUNT(*) AS c FROM tv_episode_watches WHERE $__timeFilter(watched_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM tv_episode_watches WHERE watched_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"TV watches\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"TV watches (total)\" FROM daily ORDER BY 1",
+          "rawSql": "WITH daily AS (SELECT date_trunc('day', watched_at) AS d, COUNT(*) AS c FROM tv_episode_watches WHERE $__timeFilter(watched_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM tv_episode_watches WHERE watched_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"TV episode watches\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"TV episode watches (total)\" FROM daily ORDER BY 1",
           "refId": "Q"
         },
         {
@@ -1527,7 +1527,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "WITH daily AS (SELECT date_trunc('day', started_at) AS d, COUNT(*) AS c FROM tv_watch_cycles WHERE $__timeFilter(started_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM tv_watch_cycles WHERE started_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"TV cycles\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"TV cycles (total)\" FROM daily ORDER BY 1",
+          "rawSql": "WITH daily AS (SELECT date_trunc('day', started_at) AS d, COUNT(*) AS c FROM tv_watch_cycles WHERE $__timeFilter(started_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM tv_watch_cycles WHERE started_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"TV watch cycles\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"TV watch cycles (total)\" FROM daily ORDER BY 1",
           "refId": "R"
         }
       ],
