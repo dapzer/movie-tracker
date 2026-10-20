@@ -55,6 +55,7 @@ function onOpenButtonClicked() {
   </UiHoverCard>
 
   <MediaListSelectorModal
+    v-if="isOpenModal"
     v-model="isOpenModal"
     hide-trigger
     :media-type="props.mediaType as TmdbMediaTypeEnum"

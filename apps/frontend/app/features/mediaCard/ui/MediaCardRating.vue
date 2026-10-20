@@ -105,6 +105,7 @@ function handleRatingClick() {
     </UiButton>
   </div>
   <MediaRatingSelectModal
+    v-if="isOpenModal"
     v-model="isOpenModal"
     :current-rating="mediaRating"
     :title="details?.title || details?.originalTitle || ''"
