@@ -433,12 +433,126 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "eem9822ful3pca"
+      },
+      "description": "Total TV episode watches, sparkline shows cumulative growth",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "pink",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 20,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "13.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "eem9822ful3pca"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT watched_at AS \"time\", COUNT(*) OVER (ORDER BY watched_at) AS \"TV watches\" FROM tv_episode_watches ORDER BY watched_at",
+          "refId": "A"
+        }
+      ],
+      "title": "TV watches",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "eem9822ful3pca"
+      },
+      "description": "Total TV watch cycles, sparkline shows cumulative growth",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-blue",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 0,
+        "y": 6
+      },
+      "id": 21,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "13.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "eem9822ful3pca"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT started_at AS \"time\", COUNT(*) OVER (ORDER BY started_at) AS \"TV cycles\" FROM tv_watch_cycles ORDER BY started_at",
+          "refId": "A"
+        }
+      ],
+      "title": "TV cycles",
+      "type": "stat"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 11
       },
       "id": 102,
       "panels": [],
@@ -464,7 +578,7 @@
         "h": 5,
         "w": 4,
         "x": 0,
-        "y": 7
+        "y": 12
       },
       "id": 12,
       "options": {
@@ -520,7 +634,7 @@
         "h": 5,
         "w": 4,
         "x": 4,
-        "y": 7
+        "y": 12
       },
       "id": 13,
       "options": {
@@ -576,7 +690,7 @@
         "h": 5,
         "w": 4,
         "x": 8,
-        "y": 7
+        "y": 12
       },
       "id": 14,
       "options": {
@@ -632,7 +746,7 @@
         "h": 5,
         "w": 4,
         "x": 12,
-        "y": 7
+        "y": 12
       },
       "id": 15,
       "options": {
@@ -688,7 +802,7 @@
         "h": 5,
         "w": 4,
         "x": 16,
-        "y": 7
+        "y": 12
       },
       "id": 16,
       "options": {
@@ -744,7 +858,7 @@
         "h": 5,
         "w": 4,
         "x": 20,
-        "y": 7
+        "y": 12
       },
       "id": 17,
       "options": {
@@ -787,7 +901,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 17
       },
       "id": 101,
       "panels": [],
@@ -848,7 +962,7 @@
         "h": 9,
         "w": 16,
         "x": 0,
-        "y": 13
+        "y": 18
       },
       "id": 7,
       "options": {
@@ -877,7 +991,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT $__timeGroup(created_at, '1d') AS \"time\", 'Users' AS metric, COUNT(*) AS \"value\" FROM users WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media items', COUNT(*) FROM media_items WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Ratings', COUNT(*) FROM media_ratings WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Reviews', COUNT(*) FROM media_reviews WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'List likes', COUNT(*) FROM media_list_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Review likes', COUNT(*) FROM media_review_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Notifications', COUNT(*) FROM notifications WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Subscriptions', COUNT(*) FROM release_subscriptions WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Data imports', COUNT(*) FROM data_imports WHERE $__timeFilter(created_at) GROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT $__timeGroup(created_at, '1d') AS \"time\", 'Users' AS metric, COUNT(*) AS \"value\" FROM users WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media items', COUNT(*) FROM media_items WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Media lists', COUNT(*) FROM media_lists WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Ratings', COUNT(*) FROM media_ratings WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Reviews', COUNT(*) FROM media_reviews WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'List likes', COUNT(*) FROM media_list_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Review likes', COUNT(*) FROM media_review_likes WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Notifications', COUNT(*) FROM notifications WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Subscriptions', COUNT(*) FROM release_subscriptions WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(created_at, '1d'), 'Data imports', COUNT(*) FROM data_imports WHERE $__timeFilter(created_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(watched_at, '1d'), 'TV watches', COUNT(*) FROM tv_episode_watches WHERE $__timeFilter(watched_at) GROUP BY 1\nUNION ALL\nSELECT $__timeGroup(started_at, '1d'), 'TV cycles', COUNT(*) FROM tv_watch_cycles WHERE $__timeFilter(started_at) GROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -903,7 +1017,7 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 13
+        "y": 18
       },
       "id": 8,
       "options": {
@@ -941,7 +1055,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT 'Users' AS entity, COUNT(*) AS value FROM users\nUNION ALL SELECT 'Media lists', COUNT(*) FROM media_lists\nUNION ALL SELECT 'Media items', COUNT(*) FROM media_items\nUNION ALL SELECT 'Ratings', COUNT(*) FROM media_ratings\nUNION ALL SELECT 'Reviews', COUNT(*) FROM media_reviews\nUNION ALL SELECT 'List likes', COUNT(*) FROM media_list_likes\nUNION ALL SELECT 'Review likes', COUNT(*) FROM media_review_likes\nUNION ALL SELECT 'Notifications', COUNT(*) FROM notifications\nUNION ALL SELECT 'Subscriptions', COUNT(*) FROM release_subscriptions\nUNION ALL SELECT 'Media details', COUNT(*) FROM media_details\nUNION ALL SELECT 'Data imports', COUNT(*) FROM data_imports",
+          "rawSql": "SELECT 'Users' AS entity, COUNT(*) AS value FROM users\nUNION ALL SELECT 'Media lists', COUNT(*) FROM media_lists\nUNION ALL SELECT 'Media items', COUNT(*) FROM media_items\nUNION ALL SELECT 'Ratings', COUNT(*) FROM media_ratings\nUNION ALL SELECT 'Reviews', COUNT(*) FROM media_reviews\nUNION ALL SELECT 'List likes', COUNT(*) FROM media_list_likes\nUNION ALL SELECT 'Review likes', COUNT(*) FROM media_review_likes\nUNION ALL SELECT 'Notifications', COUNT(*) FROM notifications\nUNION ALL SELECT 'Subscriptions', COUNT(*) FROM release_subscriptions\nUNION ALL SELECT 'Media details', COUNT(*) FROM media_details\nUNION ALL SELECT 'Data imports', COUNT(*) FROM data_imports\nUNION ALL SELECT 'TV watches', COUNT(*) FROM tv_episode_watches\nUNION ALL SELECT 'TV cycles', COUNT(*) FROM tv_watch_cycles",
           "refId": "A"
         }
       ],
@@ -982,7 +1096,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 27
       },
       "id": 9,
       "options": {
@@ -1080,7 +1194,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 22
+        "y": 27
       },
       "id": 11,
       "options": {
@@ -1119,7 +1233,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 35
       },
       "id": 103,
       "panels": [],
@@ -1196,7 +1310,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 36
       },
       "id": 18,
       "options": {
@@ -1393,6 +1507,28 @@
           "rawQuery": true,
           "rawSql": "WITH daily AS (SELECT date_trunc('day', created_at) AS d, COUNT(*) AS c FROM data_imports WHERE $__timeFilter(created_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM data_imports WHERE created_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"Data imports\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"Data imports (total)\" FROM daily ORDER BY 1",
           "refId": "P"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "eem9822ful3pca"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "WITH daily AS (SELECT date_trunc('day', watched_at) AS d, COUNT(*) AS c FROM tv_episode_watches WHERE $__timeFilter(watched_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM tv_episode_watches WHERE watched_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"TV watches\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"TV watches (total)\" FROM daily ORDER BY 1",
+          "refId": "Q"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "eem9822ful3pca"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "WITH daily AS (SELECT date_trunc('day', started_at) AS d, COUNT(*) AS c FROM tv_watch_cycles WHERE $__timeFilter(started_at) GROUP BY 1), base AS (SELECT COUNT(*) AS b FROM tv_watch_cycles WHERE started_at < $__timeFrom()) SELECT d AS \"time\", SUM(c) OVER (ORDER BY d) AS \"TV cycles\", SUM(c) OVER (ORDER BY d) + (SELECT b FROM base) AS \"TV cycles (total)\" FROM daily ORDER BY 1",
+          "refId": "R"
         }
       ],
       "title": "Entities per table",
@@ -1416,6 +1552,6 @@
   "timezone": "browser",
   "title": "Entity analytics",
   "uid": "40bc5a93-3340-4e81-9301-dc0c9c93dbe9",
-  "version": 20,
+  "version": 21,
   "weekStart": ""
 }
