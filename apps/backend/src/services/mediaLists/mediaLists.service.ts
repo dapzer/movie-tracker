@@ -2,6 +2,7 @@ import {
   MEDIA_LIST_COUNT_LIMIT,
   MediaListAccessLevelEnum,
   MediaListType,
+  MediaTypeEnum,
   NotificationTypeEnum,
 } from "@movie-tracker/types"
 import { Inject, Injectable, Logger } from "@nestjs/common"
@@ -17,11 +18,16 @@ import {
   TrackingDataRepositoryInterface,
   TrackingDataRepositorySymbol,
 } from "@/repositories/trackingData/TrackingDataRepositoryInterface"
+import {
+  TvWatchCycleRepositoryInterface,
+  TvWatchCycleRepositorySymbol,
+} from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
 import { DrizzleService } from "@/services/drizzle/drizzle.service"
 import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
 import { NotificationsService } from "@/services/notifications/notifications.service"
+import { TvWatchCyclesService } from "@/services/tvWatchCycles/tvWatchCycles.service"
 import {
   MediaListLimitReachedError,
   MediaListNotFoundError,
@@ -30,6 +36,7 @@ import {
   MediaListUnauthorizedError,
   SystemMediaListDeletionError,
 } from "@/shared/errors/mediaList"
+import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 import { MediaListLikeDto } from "./dto/mediaListLike.dto"
 
 @Injectable()
@@ -43,6 +50,9 @@ export class MediaListsService {
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
     @Inject(TrackingDataRepositorySymbol)
     private readonly trackingDataRepository: TrackingDataRepositoryInterface,
+    @Inject(TvWatchCycleRepositorySymbol)
+    private readonly tvWatchCycleRepository: TvWatchCycleRepositoryInterface,
+    private readonly tvWatchCyclesService: TvWatchCyclesService,
     private readonly notificationsService: NotificationsService,
     private readonly drizzleService: DrizzleService,
   ) {
@@ -160,6 +170,8 @@ export class MediaListsService {
       throw new MediaListUnauthorizedError({ userId, mediaListId: id })
     }
 
+    const isOwner = mediaList.userId === userId
+
     return this.drizzleService.runInTransaction(async () => {
       const mediaItems = await this.mediaItemRepository.getByListId({
         mediaListId: id,
@@ -180,7 +192,7 @@ export class MediaListsService {
             .map(el => [el.mediaItemId, el]),
         )
 
-        await this.mediaItemRepository.createMany(mediaItems.items.map(el => ({
+        const createdMediaItems = await this.mediaItemRepository.createMany(mediaItems.items.map(el => ({
           mediaId: el.mediaId,
           mediaType: el.mediaType,
           mediaListId: newMediaList.id,
@@ -188,7 +200,45 @@ export class MediaListsService {
           currentStatus: body.isKeepStatus
             ? trackingDataByMediaItemId.get(el.id)?.currentStatus
             : undefined,
+          note: isOwner
+            ? trackingDataByMediaItemId.get(el.id)?.note
+            : undefined,
         })))
+
+        const createdMediaItemByKey = new Map(
+          createdMediaItems.map(el => [`${el.mediaType}-${el.mediaId}`, el]),
+        )
+
+        await mapTasksWithConcurrency({
+          items: mediaItems.items.filter(el => el.mediaType === MediaTypeEnum.TV),
+          concurrency: 10,
+          fn: async (sourceMediaItem) => {
+            const targetMediaItem = createdMediaItemByKey.get(`${sourceMediaItem.mediaType}-${sourceMediaItem.mediaId}`)
+
+            if (!targetMediaItem) {
+              return
+            }
+
+            if (isOwner) {
+              const clonedCycles = await this.tvWatchCyclesService.cloneByMediaItemId({
+                sourceMediaItemId: sourceMediaItem.id,
+                targetMediaItemId: targetMediaItem.id,
+                targetUserId: userId,
+              })
+
+              if (clonedCycles.length) {
+                return
+              }
+            }
+
+            await this.tvWatchCycleRepository.create({
+              mediaItemId: targetMediaItem.id,
+              userId,
+              mediaId: targetMediaItem.mediaId,
+              cycleNumber: 1,
+            })
+          },
+        })
       }
 
       return this.mediaListRepository.getById({
