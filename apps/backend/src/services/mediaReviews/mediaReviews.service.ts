@@ -27,6 +27,7 @@ import { UpdateMediaReviewDto } from "@/services/mediaReviews/dto/updateMediaRev
 import { UserBansService } from "@/services/userBans/userBans.service"
 import { UserType } from "@/services/users/dto/user.dto"
 import { PaginationDto } from "@/shared/dto/pagination.dto"
+import { BadArgumentsError } from "@/shared/errors/core"
 import { MediaDetailsCreationFailedError } from "@/shared/errors/mediaRating"
 import {
   MediaReviewAlreadyExistsError,
@@ -218,6 +219,17 @@ export class MediaReviewsService {
 
     if (mediaReview.userId !== args.currentUser.id) {
       throw new MediaReviewUnauthorizedError({ userId: args.currentUser.id, mediaReviewId: args.id })
+    }
+
+    if (mediaReview.status === MediaReviewStatus.DELETED) {
+      throw new BadArgumentsError("Deleted media review cannot be updated.")
+    }
+
+    if (
+      args.body.status === MediaReviewStatus.PENDING
+      && ![MediaReviewStatus.DRAFT, MediaReviewStatus.PENDING].includes(mediaReview.status)
+    ) {
+      throw new BadArgumentsError("Only a draft media review can be submitted for moderation.")
     }
 
     return this.mediaReviewRepository.update({
