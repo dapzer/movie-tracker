@@ -410,6 +410,17 @@ export class MediaItemsService {
       throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.id })
     }
 
+    if (args.data.mediaListId) {
+      const isTargetListOwner = await this.isMediaListOwner({
+        mediaListId: args.data.mediaListId,
+        userId: args.userId,
+      })
+
+      if (!isTargetListOwner) {
+        throw new MediaItemUnauthorizedError({ userId: args.userId, mediaItemId: args.data.mediaListId })
+      }
+    }
+
     return this.mediaItemRepository.update({ id: args.id, data: args.data })
   }
 
@@ -432,6 +443,22 @@ export class MediaItemsService {
     })))
 
     if (ownerChecks.some(isOwner => !isOwner)) {
+      throw new MediaItemUnauthorizedError({ userId: args.userId })
+    }
+
+    const targetMediaListIds = Array.from(new Set(
+      args.items
+        .map(item => item.data.mediaListId)
+        .filter((id): id is string => Boolean(id)),
+    ))
+
+    const targetOwnerChecks = await Promise.all(targetMediaListIds.map(mediaListId => this.isMediaListOwner({
+      mediaListId,
+      userId: args.userId,
+      mediaListBase: undefined,
+    })))
+
+    if (targetOwnerChecks.some(isOwner => !isOwner)) {
       throw new MediaItemUnauthorizedError({ userId: args.userId })
     }
 
