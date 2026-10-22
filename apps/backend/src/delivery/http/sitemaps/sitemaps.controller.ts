@@ -4,6 +4,7 @@ import { Request } from "express"
 import { RolesWithDocs } from "@/decorators/rolesWithDocs.decorator"
 import { RolesGuard } from "@/guards/roles.guard"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
+import { GetSitemapFileParamsDto } from "@/services/sitemaps/dto/getSitemapFileParams.dto"
 import { SitemapsService } from "@/services/sitemaps/sitemaps.service"
 
 @Controller("sitemaps")
@@ -13,13 +14,10 @@ export class SitemapsController {
   @Get(":domain/:folder/:language/:fileName")
   @Header("Content-Type", "application/xml")
   async getSitemapFile(
-    @Param("domain") domain: string,
-    @Param("folder") folder: string,
-    @Param("language") language: string,
-    @Param("fileName") fileName: string,
+    @Param() params: GetSitemapFileParamsDto,
     @Req() req: Request,
   ) {
-    const fileLocation = `${domain}/${folder}/${language}/${fileName}`
+    const fileLocation = `${params.domain}/${params.folder}/${params.language}/${params.fileName}`
     const stream = await this.sitemapsService.readFile(fileLocation)
 
     req.on("close", () => {

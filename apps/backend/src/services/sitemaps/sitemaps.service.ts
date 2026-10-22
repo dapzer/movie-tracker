@@ -1,12 +1,12 @@
 import { createReadStream, statSync } from "node:fs"
-import { join, resolve } from "node:path"
+import { resolve, sep } from "node:path"
 import * as process from "node:process"
 import { Worker } from "node:worker_threads"
 import { getMillisecondsFromDays } from "@movie-tracker/utils"
 import { Injectable } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { Interval } from "@nestjs/schedule"
-import { SitemapFileNotFoundError } from "@/shared/errors/sitemap"
+import { SitemapFileNotFoundError, SitemapPathAccessDeniedError } from "@/shared/errors/sitemap"
 
 @Injectable()
 export class SitemapsService {
@@ -26,9 +26,14 @@ export class SitemapsService {
   }
 
   async readFile(fileLocation: string) {
-    try {
-      const filePath = join(process.cwd(), "sitemaps", fileLocation)
+    const baseDir = resolve(process.cwd(), "sitemaps")
+    const filePath = resolve(baseDir, fileLocation)
 
+    if (!filePath.startsWith(baseDir + sep)) {
+      throw new SitemapPathAccessDeniedError({ fileLocation })
+    }
+
+    try {
       statSync(filePath)
 
       return createReadStream(filePath)
