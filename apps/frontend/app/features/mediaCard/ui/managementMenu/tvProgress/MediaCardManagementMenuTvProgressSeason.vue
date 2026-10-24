@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import type { MediaDetailsInfoSeasonType, TvWatchCycleWithEpisodesType } from "@movie-tracker/types"
-import { computed, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { UiButton } from "~/shared/ui/UiButton"
 import { UiDivider } from "~/shared/ui/UiDivider"
 import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaCardManagementMenuTvProgressSeasonProps {
+  continuedEpisode: { seasonNumber: number, episodeNumber: number } | null
   season: MediaDetailsInfoSeasonType
   watchCycle: TvWatchCycleWithEpisodesType
 }
 
 const props = defineProps<MediaCardManagementMenuTvProgressSeasonProps>()
 
-const open = ref(false)
+const open = ref(props.continuedEpisode?.seasonNumber === props.season.seasonNumber)
+const seasonRef = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  if (open.value) {
+    seasonRef.value?.scrollIntoView({ block: "start" })
+  }
+})
 
 function handleToggleOpen() {
   open.value = !open.value
@@ -39,7 +47,10 @@ const watchProgress = computed(() => {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
+  <div
+    ref="seasonRef"
+    :class="$style.wrapper"
+  >
     <div :class="{ [$style.headerOpen]: open }">
       <UiButton
         variant="text"

@@ -11,6 +11,7 @@ import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiTypography } from "~/shared/ui/UiTypography"
 
 interface MediaCardManagementMenuTvProgressStateProps {
+  continuedEpisode: { seasonNumber: number, episodeNumber: number } | null
   mediaItemId: string
   mediaDetails: MediaDetailsType
   watchCycle: TvWatchCycleWithEpisodesType
@@ -30,69 +31,6 @@ const totalEpisodes = computed(() => {
     return 0
   }
   return seasons.value.reduce((acc, season) => acc + (season.episodeCount || 0), 0)
-})
-
-const continuedEpisode = computed<{ seasonNumber: number, episodeNumber: number } | null>(() => {
-  if (!seasons.value?.length) {
-    return null
-  }
-
-  const watches = props.watchCycle?.episodeWatches
-
-  if (!watches?.length) {
-    const firstSeason = seasons.value[0]
-    const firstEpisode = firstSeason?.episodeCount ? 1 : null
-
-    if (!firstSeason || !firstEpisode) {
-      return null
-    }
-
-    return {
-      seasonNumber: firstSeason.seasonNumber,
-      episodeNumber: 1,
-    }
-  }
-
-  const maxWatchedEpisode = watches.reduce((max, episodeWatch) => {
-    const isSameSeason = episodeWatch.seasonNumber === max.seasonNumber
-    const isHigherEpisode = episodeWatch.episodeNumber > max.episodeNumber
-    const isHigherSeason = episodeWatch.seasonNumber > max.seasonNumber
-
-    if (isHigherSeason || (isSameSeason && isHigherEpisode)) {
-      return episodeWatch
-    }
-
-    return max
-  })
-
-  const seasonIndex = seasons.value.findIndex(
-    season => season.seasonNumber === maxWatchedEpisode.seasonNumber,
-  )
-  if (seasonIndex === -1) {
-    return null
-  }
-
-  const season = seasons.value[seasonIndex]
-  if (!season) {
-    return null
-  }
-
-  if (maxWatchedEpisode.episodeNumber < season.episodeCount) {
-    return {
-      seasonNumber: season.seasonNumber,
-      episodeNumber: maxWatchedEpisode.episodeNumber + 1,
-    }
-  }
-
-  const nextSeason = seasons.value[seasonIndex + 1]
-  if (nextSeason?.episodeCount) {
-    return {
-      seasonNumber: nextSeason.seasonNumber,
-      episodeNumber: 1,
-    }
-  }
-
-  return null
 })
 
 const progressPercentage = computed(() => {
@@ -155,8 +93,8 @@ async function handleStartNewCycle() {
     />
     <div :class="$style.row">
       <UiTypography>
-        <template v-if="continuedEpisode">
-          {{ $t("mediaItem.managementMenu.tvProgress.continueFrom") }} S{{ continuedEpisode.seasonNumber }} E{{ continuedEpisode.episodeNumber }}
+        <template v-if="props.continuedEpisode">
+          {{ $t("mediaItem.managementMenu.tvProgress.continueFrom") }} S{{ props.continuedEpisode.seasonNumber }} E{{ props.continuedEpisode.episodeNumber }}
         </template>
       </UiTypography>
       <UiConfirmationModal

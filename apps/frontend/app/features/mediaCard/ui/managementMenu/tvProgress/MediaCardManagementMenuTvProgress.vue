@@ -30,6 +30,80 @@ const getActiveTvWatchCycleByMediaItemIdApi = useGetActiveTvWatchCycleByMediaIte
 const currentMediaDetails = computed(() => {
   return getCurrentMediaDetails(props.mediaDetails, locale.value)
 })
+
+const seasons = computed(() => {
+  const seasons = props.mediaDetails.en.seasons
+
+  if (seasons?.some(season => season.seasonNumber !== 0)) {
+    return seasons.filter(season => season.seasonNumber !== 0)
+  }
+
+  return seasons
+})
+
+const continuedEpisode = computed<{ seasonNumber: number, episodeNumber: number } | null>(() => {
+  const watches = getActiveTvWatchCycleByMediaItemIdApi.data.value?.episodeWatches.filter(
+    episodeWatch => seasons.value?.some(season => season.seasonNumber === episodeWatch.seasonNumber),
+  )
+
+  if (!seasons.value?.length || !watches) {
+    return null
+  }
+
+  if (!watches.length) {
+    const firstSeason = seasons.value[0]
+
+    if (!firstSeason?.episodeCount) {
+      return null
+    }
+
+    return {
+      seasonNumber: firstSeason.seasonNumber,
+      episodeNumber: 1,
+    }
+  }
+
+  const maxWatchedEpisode = watches.reduce((max, episodeWatch) => {
+    const isSameSeason = episodeWatch.seasonNumber === max.seasonNumber
+    const isHigherEpisode = episodeWatch.episodeNumber > max.episodeNumber
+    const isHigherSeason = episodeWatch.seasonNumber > max.seasonNumber
+
+    if (isHigherSeason || (isSameSeason && isHigherEpisode)) {
+      return episodeWatch
+    }
+
+    return max
+  })
+
+  const seasonIndex = seasons.value.findIndex(
+    season => season.seasonNumber === maxWatchedEpisode.seasonNumber,
+  )
+  if (seasonIndex === -1) {
+    return null
+  }
+
+  const season = seasons.value[seasonIndex]
+  if (!season) {
+    return null
+  }
+
+  if (maxWatchedEpisode.episodeNumber < season.episodeCount) {
+    return {
+      seasonNumber: season.seasonNumber,
+      episodeNumber: maxWatchedEpisode.episodeNumber + 1,
+    }
+  }
+
+  const nextSeason = seasons.value[seasonIndex + 1]
+  if (nextSeason?.episodeCount) {
+    return {
+      seasonNumber: nextSeason.seasonNumber,
+      episodeNumber: 1,
+    }
+  }
+
+  return null
+})
 </script>
 
 <template>
@@ -42,6 +116,7 @@ const currentMediaDetails = computed(() => {
     :class="$style.wrapper"
   >
     <MediaCardManagementMenuTvProgressState
+      :continued-episode="continuedEpisode"
       :media-item-id="props.mediaItemId"
       :media-details="props.mediaDetails"
       :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
@@ -57,6 +132,7 @@ const currentMediaDetails = computed(() => {
       <MediaCardManagementMenuTvProgressSeason
         v-for="season in currentMediaDetails?.seasons"
         :key="season.seasonNumber"
+        :continued-episode="continuedEpisode"
         :season="season"
         :watch-cycle="getActiveTvWatchCycleByMediaItemIdApi.data.value"
       >
