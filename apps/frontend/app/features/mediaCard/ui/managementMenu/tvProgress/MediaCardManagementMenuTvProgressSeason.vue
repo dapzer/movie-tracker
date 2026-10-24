@@ -40,49 +40,57 @@ const watchProgress = computed(() => {
 
 <template>
   <div :class="$style.wrapper">
-    <UiButton
-      variant="text"
-      :class="$style.trigger"
-      @click="handleToggleOpen"
-    >
-      <div>
-        <div
-          :class="[$style.circle, {
-            [$style.circleWatched]: isSeasonWatched,
-          }]"
-          :style="{ '--progress': `${watchProgress}%` }"
-        >
+    <div :class="{ [$style.headerOpen]: open }">
+      <UiButton
+        variant="text"
+        :class="$style.trigger"
+        :aria-expanded="open"
+        @click="handleToggleOpen"
+      >
+        <div>
+          <div
+            :class="[$style.circle, {
+              [$style.circleWatched]: isSeasonWatched,
+            }]"
+            :style="{ '--progress': `${watchProgress}%` }"
+          >
+            <UiIcon
+              v-if="isSeasonWatched"
+              name="icon:check"
+              :size="14"
+            />
+          </div>
+          <UiTypography variant="label">
+            {{ props.season.name }}
+          </UiTypography>
+        </div>
+        <div>
+          <UiTypography
+            v-if="props.season.episodeCount > 0"
+            variant="description"
+          >
+            {{ watchedEpisodes.length }}/{{ props.season.episodeCount }}
+          </UiTypography>
           <UiIcon
-            v-if="isSeasonWatched"
-            name="icon:check"
-            :size="14"
+            name="icon:arrow"
+            :class="[$style.icon, {
+              [$style.iconOpen]: open,
+            }]"
           />
         </div>
-        <UiTypography variant="label">
-          {{ props.season.name }}
-        </UiTypography>
+      </UiButton>
+      <div
+        v-if="open"
+        :class="$style.divider"
+      >
+        <UiDivider />
       </div>
-      <div>
-        <UiTypography
-          v-if="props.season.episodeCount > 0"
-          variant="description"
-        >
-          {{ watchedEpisodes.length }}/{{ props.season.episodeCount }}
-        </UiTypography>
-        <UiIcon
-          name="icon:arrow"
-          :class="[$style.icon, {
-            [$style.iconOpen]: open,
-          }]"
-        />
-      </div>
-    </UiButton>
+    </div>
 
     <div
       v-if="open"
       :class="$style.content"
     >
-      <UiDivider />
       <slot />
     </div>
   </div>
@@ -94,6 +102,29 @@ const watchProgress = computed(() => {
   flex-direction: column;
   border-radius: var(--s-border-radius);
   border: 1px solid var(--c-stroke);
+}
+
+.headerOpen {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: -1px -1px 0;
+  padding: 1px 1px 0;
+  background: var(--c-card-background-hovered);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--c-stroke);
+    border-bottom: 0;
+    border-radius: var(--s-border-radius) var(--s-border-radius) 0 0;
+    pointer-events: none;
+  }
+}
+
+.divider {
+  padding: 0 12px 12px 12px;
 }
 
 .trigger {
@@ -159,6 +190,6 @@ const watchProgress = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 0px 12px 12px 12px;
+  padding: 0 12px 12px;
 }
 </style>
