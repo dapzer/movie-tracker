@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "label": "current-pc-docker",
+  "createdAt": "2026-10-30T14:36:51.034Z",
+  "status": "success",
+  "options": {
+    "runs": 3,
+    "targets": [
+      "backend",
+      "frontend"
+    ],
+    "warmup": true
+  },
+  "machine": {
+    "runtime": "docker",
+    "hostname": "c477b14bac1e",
+    "os": "Linux linux",
+    "osRelease": "6.18.59-1-lts",
+    "arch": "x64",
+    "cpuModel": "AMD Ryzen 9 9950X3D 16-Core Processor",
+    "logicalCores": 32,
+    "memoryGiB": 91.873,
+    "node": "v24.13.0",
+    "pnpm": "10.29.1",
+    "gitCommit": null
+  },
+  "targets": {
+    "backend": {
+      "runs": [
+        {
+          "iteration": 1,
+          "durationMs": 11069.046,
+          "status": "success",
+          "log": "logs/backend-01.log"
+        },
+        {
+          "iteration": 2,
+          "durationMs": 11086.012,
+          "status": "success",
+          "log": "logs/backend-02.log"
+        },
+        {
+          "iteration": 3,
+          "durationMs": 11032.675,
+          "status": "success",
+          "log": "logs/backend-03.log"
+        }
+      ],
+      "summary": {
+        "minMs": 11032.675,
+        "maxMs": 11086.012,
+        "meanMs": 11062.578,
+        "medianMs": 11069.046
+      }
+    },
+    "frontend": {
+      "runs": [
+        {
+          "iteration": 1,
+          "durationMs": 26977.303,
+          "status": "success",
+          "log": "logs/frontend-01.log"
+        },
+        {
+          "iteration": 2,
+          "durationMs": 27054.428,
+          "status": "success",
+          "log": "logs/frontend-02.log"
+        },
+        {
+          "iteration": 3,
+          "durationMs": 26862.702,
+          "status": "success",
+          "log": "logs/frontend-03.log"
+        }
+      ],
+      "summary": {
+        "minMs": 26862.702,
+        "maxMs": 27054.428,
+        "meanMs": 26964.811,
+        "medianMs": 26977.303
+      }
+    }
+  }
+}
