@@ -16,7 +16,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postbuild": "dotenv -- turbo run postbuild",
-    "db:push": "dotenv -- turbo db:push"
+    "db:push": "dotenv -- turbo db:push",
+    "benchmark:build": "node scripts/benchmark-builds.mjs",
+    "benchmark:build:docker": "bash scripts/benchmark-builds-docker.sh",
+    "benchmark:compare": "node scripts/compare-build-benchmarks.mjs"
   },
   "dependencies": {
     "dotenv-cli": "7.4.4",

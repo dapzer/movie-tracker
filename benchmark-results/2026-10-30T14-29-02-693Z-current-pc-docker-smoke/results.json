@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "label": "current-pc-docker-smoke",
+  "createdAt": "2026-10-30T14:29:02.694Z",
+  "status": "success",
+  "options": {
+    "runs": 1,
+    "targets": [
+      "backend",
+      "frontend"
+    ],
+    "warmup": false
+  },
+  "machine": {
+    "runtime": "docker",
+    "hostname": "b1814a5ded33",
+    "os": "Linux linux",
+    "osRelease": "6.18.59-1-lts",
+    "arch": "x64",
+    "cpuModel": "AMD Ryzen 9 9950X3D 16-Core Processor",
+    "logicalCores": 32,
+    "memoryGiB": 91.873,
+    "node": "v24.13.0",
+    "pnpm": "10.29.1",
+    "gitCommit": null
+  },
+  "targets": {
+    "backend": {
+      "runs": [
+        {
+          "iteration": 1,
+          "durationMs": 11192.675,
+          "status": "success",
+          "log": "logs/backend-01.log"
+        }
+      ],
+      "summary": {
+        "minMs": 11192.675,
+        "maxMs": 11192.675,
+        "meanMs": 11192.675,
+        "medianMs": 11192.675
+      }
+    },
+    "frontend": {
+      "runs": [
+        {
+          "iteration": 1,
+          "durationMs": 28863.679,
+          "status": "success",
+          "log": "logs/frontend-01.log"
+        }
+      ],
+      "summary": {
+        "minMs": 28863.679,
+        "maxMs": 28863.679,
+        "meanMs": 28863.679,
+        "medianMs": 28863.679
+      }
+    }
+  }
+}

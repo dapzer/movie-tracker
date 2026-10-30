@@ -9,4 +9,5 @@ README.md
 .turbo
 .output
 dist
+benchmark-results
 apps/backend/sitemaps
