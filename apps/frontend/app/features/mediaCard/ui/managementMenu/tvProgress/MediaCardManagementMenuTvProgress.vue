@@ -155,6 +155,9 @@ const continuedEpisode = computed<{ seasonNumber: number, episodeNumber: number 
 </template>
 
 <style module lang="scss">
+@use "~/shared/styles/breakpoints" as *;
+@use "~/shared/styles/mixins" as *;
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -167,5 +170,10 @@ const continuedEpisode = computed<{ seasonNumber: number, episodeNumber: number 
   gap: 16px;
   max-height: 472px;
   overflow-y: auto;
+
+  @include mobileDevice() {
+    max-height: unset;
+    overflow-y: unset;
+  }
 }
 </style>
