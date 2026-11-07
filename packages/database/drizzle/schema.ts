@@ -179,6 +179,7 @@ export const tvEpisodeWatches = pgTable("tv_episode_watches", {
   mediaDetailsId: uuid("media_details_id").references(() => mediaDetails.id, { onUpdate: "cascade", onDelete: "set null" }),
   seasonNumber: integer("season_number").notNull(),
   episodeNumber: integer("episode_number").notNull(),
+  rating: integer(),
   watchedAt: timestamp("watched_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
 }, table => [
   uniqueIndex("tv_episode_watches_cycle_season_episode_key").on(table.watchCycleId, table.seasonNumber, table.episodeNumber),

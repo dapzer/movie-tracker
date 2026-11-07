@@ -1,0 +1,1 @@
+ALTER TABLE "tv_episode_watches" ADD COLUMN "rating" integer;

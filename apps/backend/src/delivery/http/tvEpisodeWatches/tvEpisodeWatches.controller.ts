@@ -1,16 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common"
 import {
   BulkCreateTvEpisodeWatchDocs,
   CreateTvEpisodeWatchDocs,
   DeleteTvEpisodeWatchDocs,
   GetTvEpisodeWatchesByCycleIdDocs,
   TvEpisodeWatchesControllerDocs,
+  UpdateTvEpisodeWatchRatingDocs,
 } from "@/delivery/http/tvEpisodeWatches/tvEpisodeWatches.controller.docs"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import {
   BulkCreateTvEpisodeWatchDto,
   CreateTvEpisodeWatchDto,
 } from "@/services/tvEpisodeWatches/dto/createTvEpisodeWatch.dto"
+import { UpdateTvEpisodeWatchRatingDto } from "@/services/tvEpisodeWatches/dto/updateTvEpisodeWatchRating.dto"
 import { TvEpisodeWatchesService } from "@/services/tvEpisodeWatches/tvEpisodeWatches.service"
 import { UserDto } from "@/services/users/dto/user.dto"
 import { User } from "@/services/users/user.decorator"
@@ -46,6 +48,21 @@ export class TvEpisodeWatchesController {
   @UseGuards(AuthGuard)
   async bulkCreateTvEpisodeWatch(@Body() body: BulkCreateTvEpisodeWatchDto, @User() user: UserDto) {
     return this.tvEpisodeWatchesService.createBulk({
+      userId: user.id,
+      body,
+    })
+  }
+
+  @Patch(":id/rating")
+  @UpdateTvEpisodeWatchRatingDocs()
+  @UseGuards(AuthGuard)
+  async updateTvEpisodeWatchRating(
+    @Param() params: UuidDto,
+    @Body() body: UpdateTvEpisodeWatchRatingDto,
+    @User() user: UserDto,
+  ) {
+    return this.tvEpisodeWatchesService.updateRating({
+      id: params.id,
       userId: user.id,
       body,
     })

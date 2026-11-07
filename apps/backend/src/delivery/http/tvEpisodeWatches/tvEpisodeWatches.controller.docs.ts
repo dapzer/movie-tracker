@@ -1,5 +1,6 @@
 import { applyDecorators } from "@nestjs/common"
 import {
+  ApiBadRequestResponse,
   ApiConflictResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -44,6 +45,18 @@ export function BulkCreateTvEpisodeWatchDocs() {
     ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
     ApiNotFoundResponse({ description: "TV watch cycle not found", type: ErrorResponseDto }),
     ApiConflictResponse({ description: "One of the episodes is already marked as watched in this cycle or the cycle is finished", type: ErrorResponseDto }),
+  )
+}
+
+export function UpdateTvEpisodeWatchRatingDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Rate a watched TV episode or clear its rating" }),
+    ApiSecurity("cookie"),
+    ApiOkResponse({ description: "TV episode watch with updated rating", type: TvEpisodeWatchDto }),
+    ApiBadRequestResponse({ description: "Rating must be an integer from 0 to 10 or null", type: ErrorResponseDto }),
+    ApiUnauthorizedResponse({ description: "Unauthorized.", type: ErrorResponseDto }),
+    ApiNotFoundResponse({ description: "TV episode watch or watch cycle not found", type: ErrorResponseDto }),
+    ApiConflictResponse({ description: "The watch cycle is finished", type: ErrorResponseDto }),
   )
 }
 

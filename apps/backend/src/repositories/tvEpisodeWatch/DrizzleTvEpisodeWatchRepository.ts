@@ -20,6 +20,7 @@ export class DrizzleTvEpisodeWatchRepository implements TvEpisodeWatchRepository
       mediaDetailsId: data.mediaDetailsId,
       seasonNumber: data.seasonNumber,
       episodeNumber: data.episodeNumber,
+      rating: data.rating,
       watchedAt: data.watchedAt,
     }
   }
@@ -86,11 +87,22 @@ export class DrizzleTvEpisodeWatchRepository implements TvEpisodeWatchRepository
         mediaDetailsId: item.mediaDetailsId,
         seasonNumber: item.seasonNumber,
         episodeNumber: item.episodeNumber,
+        rating: item.rating,
         watchedAt: item.watchedAt,
       })))
       .returning()
 
     return rows.map(this.convertToInterface)
+  }
+
+  async updateRating(args: Parameters<TvEpisodeWatchRepositoryInterface["updateRating"]>[0]) {
+    const [row] = await this.drizzle.client
+      .update(tvEpisodeWatches)
+      .set({ rating: args.rating })
+      .where(eq(tvEpisodeWatches.id, args.id))
+      .returning()
+
+    return this.convertToInterface(row)
   }
 
   async delete(id: string) {
