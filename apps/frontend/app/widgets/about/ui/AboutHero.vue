@@ -52,7 +52,7 @@ const localePath = useLocalePath()
       <div :class="$style.examples">
         <UiImage
           :class="$style.mainPageImage"
-          src="landingMainPage.webp"
+          src="/landingMainPage.webp"
           :width="796"
           :height="453"
           alt="Main page preview"
@@ -65,7 +65,7 @@ const localePath = useLocalePath()
         />
         <UiImage
           :class="$style.listPageImage"
-          src="landingListsPage.webp"
+          src="/landingListsPage.webp"
           :width="183"
           :height="406"
           alt="Lists page preview"

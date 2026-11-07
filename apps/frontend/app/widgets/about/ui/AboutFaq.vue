@@ -58,7 +58,7 @@ const accordionItems = computed(() => {
   >
     <div :class="$style.movies">
       <UiImage
-        src="landingFaqMovies.webp"
+        src="/landingFaqMovies.webp"
         :width="577"
         :height="621"
         alt="Movies illustration"
