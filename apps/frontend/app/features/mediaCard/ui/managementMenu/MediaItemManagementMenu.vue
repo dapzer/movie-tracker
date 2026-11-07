@@ -3,9 +3,9 @@ import type { MediaItemType } from "@movie-tracker/types"
 import { useI18n } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { computed, ref } from "vue"
+import { useGetReleaseSubscriptionByMediaIdApi } from "~/api/releaseSubscriptions/useReleaseSubscriptionsApi.ts"
 import { useGetTrackingDataByMediaItemIdApi } from "~/api/trackingData/useTrackingDataApi"
-import MediaItemManagementMenuTabs
-  from "~/features/mediaCard/ui/managementMenu/MediaItemManagementMenuTabs.vue"
+import MediaItemManagementMenuTabs from "~/features/mediaCard/ui/managementMenu/MediaItemManagementMenuTabs.vue"
 import MediaCardManagementMenuOverview
   from "~/features/mediaCard/ui/managementMenu/overview/MediaCardManagementMenuOverview.vue"
 import MediaCardManagementMenuOverviewSkeleton
@@ -27,6 +27,14 @@ const activeTab = ref<"management" | "progress">("management")
 
 const getTrackingDataByMediaItemIdApi = useGetTrackingDataByMediaItemIdApi({
   mediaItemId: props.mediaItem.id,
+})
+const getReleaseSubscriptionApi = useGetReleaseSubscriptionByMediaIdApi({
+  mediaId: props.mediaItem.mediaId,
+  mediaType: props.mediaItem.mediaType as MediaTypeEnum,
+})
+
+const isLoading = computed(() => {
+  return getTrackingDataByMediaItemIdApi.isLoading.value || getReleaseSubscriptionApi.isLoading.value
 })
 
 const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
@@ -58,7 +66,7 @@ const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
     ]"
   >
     <template #management>
-      <MediaCardManagementMenuOverviewSkeleton v-if="getTrackingDataByMediaItemIdApi.isLoading.value" />
+      <MediaCardManagementMenuOverviewSkeleton v-if="!isLoading" />
       <MediaCardManagementMenuOverview
         v-else-if="trackingData"
         :media-item="props.mediaItem"

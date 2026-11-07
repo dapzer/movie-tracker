@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { MediaTypeEnum, TmdbMediaTypeEnum } from "@movie-tracker/types"
 import { MediaListSelectorModal } from "~/entities/mediaList"
-import { MediaDetailsReleaseSubscription } from "~/widgets/details"
+import { MediaDetailsReleaseSubscription } from "~/entities/releaseSubscription"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
 import MediaDetailsRatingSelector from "~/widgets/details/ui/MediaDetailsRatingSelector.vue"
 
 interface MovieDetailsActionsProps {
@@ -32,7 +34,30 @@ const props = defineProps<MovieDetailsActionsProps>()
       :release-date="props.releaseDate"
       :media-id="props.mediaId"
       :media-type="props.mediaType"
-    />
+    >
+      <template #default="{ subscription, isPending, isDisabled, handleSubscribeClick }">
+        <UiButton
+          :scheme="subscription ? 'light-gray' : 'primary'"
+          :variant="subscription ? 'boxed' : 'outlined'"
+          size="medium"
+          with-icon
+          :disabled="isDisabled || isPending"
+          @click="handleSubscribeClick"
+        >
+          <UiIcon
+            v-if="!subscription"
+            name="icon:bell-outlined"
+            :size="20"
+          />
+          <UiIcon
+            v-else
+            name="icon:bell"
+            :size="16"
+          />
+          {{ subscription ? $t("releaseSubscription.unsubscribe") : $t("releaseSubscription.subscribe") }}
+        </UiButton>
+      </template>
+    </MediaDetailsReleaseSubscription>
   </div>
 </template>
 

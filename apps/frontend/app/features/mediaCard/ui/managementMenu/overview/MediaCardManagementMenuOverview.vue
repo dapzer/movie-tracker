@@ -37,8 +37,7 @@ const { t } = useI18n()
     <UiDivider />
     <MediaCardManagementMenuItem :title="t('mediaItem.managementMenu.actions')">
       <MediaCardManagementMenuActions
-        :media-item-id="props.mediaItem.id"
-        :media-type="props.mediaItem.mediaType"
+        :media-item="props.mediaItem"
         @clone="emits('clone')"
         @change-media-list="emits('changeMediaList')"
       />

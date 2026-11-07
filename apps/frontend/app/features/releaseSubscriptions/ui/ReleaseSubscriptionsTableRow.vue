@@ -5,7 +5,9 @@ import { useLocalePath } from "#i18n"
 import { useI18n } from "#imports"
 import { MediaTypeEnum } from "@movie-tracker/types"
 import { computed } from "vue"
-import { ReleaseSubscriptionButton } from "~/features/releaseSubscriptions"
+import { MediaDetailsReleaseSubscription } from "~/entities/releaseSubscription"
+import { UiButton } from "~/shared/ui/UiButton"
+import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiImage } from "~/shared/ui/UiImage"
 import { UiTableCell, UiTableRow } from "~/shared/ui/UiTable"
 import { UiTypography } from "~/shared/ui/UiTypography"
@@ -132,11 +134,34 @@ const lastRelease = computed(() => {
       </UiTypography>
     </UiTableCell>
     <UiTableCell align="right">
-      <ReleaseSubscriptionButton
+      <MediaDetailsReleaseSubscription
         :media-id="props.subscription.mediaId"
         :media-type="props.subscription.mediaType"
         :subscription="props.subscription"
-      />
+      >
+        <template #default="{ subscription: currentSubscription, isPending, handleSubscribeClick }">
+          <UiButton
+            :scheme="currentSubscription ? 'light-gray' : 'primary'"
+            :variant="currentSubscription ? 'boxed' : 'outlined'"
+            size="medium"
+            with-icon
+            :disabled="isPending"
+            @click="handleSubscribeClick"
+          >
+            <UiIcon
+              v-if="!currentSubscription"
+              name="icon:bell-outlined"
+              :size="20"
+            />
+            <UiIcon
+              v-else
+              name="icon:bell"
+              :size="16"
+            />
+            {{ currentSubscription ? $t("releaseSubscription.unsubscribe") : $t("releaseSubscription.subscribe") }}
+          </UiButton>
+        </template>
+      </MediaDetailsReleaseSubscription>
     </UiTableCell>
   </UiTableRow>
 </template>

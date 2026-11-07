@@ -21,7 +21,7 @@ import { UiSkeleton } from "~/shared/ui/UiSkeleton"
         is-inline
       />
       <UiSkeleton
-        v-for="i in 3"
+        v-for="i in 4"
         :key="i"
         :height="36"
       />
