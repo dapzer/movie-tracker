@@ -11,7 +11,7 @@ interface TeamMemberType {
 
 export const teamMembers: TeamMemberType[] = [
   {
-    avatar: "danilaVoronkov.webp",
+    avatar: "/danilaVoronkov.webp",
     name: "Danila Voronkov",
     userId: "8d261648-996f-446a-a8ff-bbfbf6e239a5",
     position: "Founder & Developer",
@@ -22,7 +22,7 @@ export const teamMembers: TeamMemberType[] = [
     },
   },
   {
-    avatar: "melkam.jpeg",
+    avatar: "/melkam.jpeg",
     name: "MelKam",
     userId: "4dd95203-a10c-419f-9023-d0e35d6c8ab3",
     position: "UI-UX Designer",

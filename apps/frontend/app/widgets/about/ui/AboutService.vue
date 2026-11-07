@@ -11,7 +11,7 @@ import { UiTypography } from "~/shared/ui/UiTypography"
   >
     <div :class="$style.body">
       <UiImage
-        src="landingListsPagePc.webp"
+        src="/landingListsPagePc.webp"
         :class="$style.landingListsPagePcImage"
         width="540"
         height="334"
