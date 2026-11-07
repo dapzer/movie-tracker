@@ -42,7 +42,7 @@ const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
 
 <template>
   <MediaCardManagementMenuOverviewSkeleton
-    v-if="getTrackingDataByMediaItemIdApi.isLoading.value && props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
+    v-if="isLoading && props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
   />
   <MediaCardManagementMenuOverview
     v-else-if="trackingData && props.mediaItem.mediaType === MediaTypeEnum.MOVIE"
@@ -66,7 +66,7 @@ const trackingData = computed(() => getTrackingDataByMediaItemIdApi.data.value)
     ]"
   >
     <template #management>
-      <MediaCardManagementMenuOverviewSkeleton v-if="!isLoading" />
+      <MediaCardManagementMenuOverviewSkeleton v-if="isLoading" />
       <MediaCardManagementMenuOverview
         v-else-if="trackingData"
         :media-item="props.mediaItem"
