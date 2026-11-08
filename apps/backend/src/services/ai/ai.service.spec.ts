@@ -16,7 +16,7 @@ const generationArgs: AiStructuredGenerationArgs = {
   schema: { type: "object" },
 }
 
-function createConfig(provider = "openrouter") {
+function createConfig(provider = "opencode-go") {
   return { get: (key: string) => key === "AI_PROVIDER" ? provider : undefined } as ConfigService
 }
 
@@ -24,7 +24,7 @@ describe("AiService", () => {
   it("delegates structured generation to the configured provider", async () => {
     let receivedArgs: AiStructuredGenerationArgs | undefined
     const provider: AiProviderInterface = {
-      name: "openrouter",
+      name: "opencode-go",
       generateStructured: async (args) => {
         receivedArgs = args
         return { result: "ok" }
@@ -38,9 +38,21 @@ describe("AiService", () => {
     assert.equal(receivedArgs, generationArgs)
   })
 
+  it("uses OpenCode Go when no provider is configured", async () => {
+    const provider: AiProviderInterface = {
+      name: "opencode-go",
+      generateStructured: async () => ({ result: "ok" }),
+    }
+    const service = new AiService([provider], createConfig(undefined))
+
+    const result = await service.generateStructured(generationArgs)
+
+    assert.deepEqual(result, { result: "ok" })
+  })
+
   it("rejects a provider that is not registered", async () => {
     const provider: AiProviderInterface = {
-      name: "openrouter",
+      name: "opencode-go",
       generateStructured: async () => ({}),
     }
     const service = new AiService([provider], createConfig("another-provider"))

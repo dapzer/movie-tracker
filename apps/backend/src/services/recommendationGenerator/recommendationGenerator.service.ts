@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto"
 import {
   MediaTypeEnum,
   RecommendationInputItemType,
@@ -83,6 +84,7 @@ export class RecommendationGeneratorService {
     items: RecommendationInputItemType[]
     chunkIndex: number
     chunksCount: number
+    sessionId: string
   }): Promise<string> {
     let lastValidationError: unknown
 
@@ -93,8 +95,9 @@ export class RecommendationGeneratorService {
           userPrompt: buildRecommendationChunkPrompt(args),
           schemaName: "media_taste_summary",
           schema: z.toJSONSchema(recommendationTasteSummarySchema),
+          sessionId: args.sessionId,
           temperature: 0.2,
-          maxTokens: 1200,
+          maxTokens: 4000,
           disableReasoning: true,
           retryCount: 1,
         })
@@ -111,7 +114,7 @@ export class RecommendationGeneratorService {
     throw new AiProviderInvalidResponseError({ cause: lastValidationError })
   }
 
-  private async summarizeItems(items: RecommendationInputItemType[]): Promise<string[]> {
+  private async summarizeItems(items: RecommendationInputItemType[], sessionId: string): Promise<string[]> {
     const chunks = convertArrayToChunks(items, TASTE_CHUNK_SIZE)
     const chunksCount = chunks.length
 
@@ -122,6 +125,7 @@ export class RecommendationGeneratorService {
         items: chunk,
         chunkIndex,
         chunksCount,
+        sessionId,
       }),
     })
   }
@@ -132,7 +136,8 @@ export class RecommendationGeneratorService {
     previousRecommendations?: RecommendationItemType[]
   }): Promise<RecommendationItemType[]> {
     const previousRecommendations = args.previousRecommendations ?? []
-    const tasteSummaries = await this.summarizeItems(args.items)
+    const sessionId = `ses_${randomUUID()}`
+    const tasteSummaries = await this.summarizeItems(args.items, sessionId)
     let validationFeedback: string | undefined
     let lastValidationError: unknown
 
@@ -151,8 +156,9 @@ export class RecommendationGeneratorService {
           }),
           schemaName: "media_recommendations",
           schema: z.toJSONSchema(responseSchema),
+          sessionId,
           temperature: 0.9,
-          maxTokens: 500 + candidateCount * 180,
+          maxTokens: 2000 + candidateCount * 180,
           disableReasoning: true,
           retryCount: 1,
         })

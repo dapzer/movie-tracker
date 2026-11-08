@@ -5,6 +5,7 @@ export interface AiStructuredGenerationArgs {
   userPrompt: string
   schemaName: string
   schema: Record<string, unknown>
+  sessionId?: string
   temperature?: number
   maxTokens?: number
   disableReasoning?: boolean

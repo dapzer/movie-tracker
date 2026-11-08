@@ -27,6 +27,7 @@ import { TmdbResolverModule } from "@/services/tmdbResolver/tmdbResolver.module"
     MediaReviewsServiceModule,
     TmdbResolverModule,
     DataImportProvidersModule.registerAsync({
+      imports: [TmdbResolverModule],
       providers: [LetterboxdProvider, TraktProvider],
       useFactory: (letterboxdProvider: LetterboxdProvider, traktProvider: TraktProvider) => ({
         services: [letterboxdProvider, traktProvider],

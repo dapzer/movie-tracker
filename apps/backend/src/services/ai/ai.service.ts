@@ -17,7 +17,7 @@ export class AiService implements AiStructuredClientInterface {
   ) {}
 
   async generateStructured(args: AiStructuredGenerationArgs): Promise<unknown> {
-    const providerName = this.configService.get<string>("AI_PROVIDER") ?? "openrouter"
+    const providerName = this.configService.get<string>("AI_PROVIDER") ?? "opencode-go"
     const provider = this.providers.find(candidate => candidate.name === providerName)
 
     if (!provider) {
