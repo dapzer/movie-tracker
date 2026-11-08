@@ -5,7 +5,7 @@ import { MediaTypeEnum, RecommendationInputItemType, RecommendationItemType } fr
 import { AiService } from "@/services/ai/ai.service"
 import { AiStructuredClientInterface } from "@/services/ai/aiProvider.interface"
 import { RecommendationGeneratorService } from "@/services/recommendationGenerator/recommendationGenerator.service"
-import { AiProviderInvalidResponseError } from "@/shared/errors/ai"
+import { AiProviderInvalidResponseError, AiProviderTokenLimitError } from "@/shared/errors/ai"
 
 const sourceItems = [{
   title: "Fight Club",
@@ -179,11 +179,32 @@ describe("RecommendationGeneratorService", () => {
     assert.deepEqual(result, valid)
   })
 
+  it("retries token exhaustion with the same candidate count and a larger budget", async () => {
+    const calls: Array<Record<string, unknown>> = []
+    const valid = [recommendation()]
+    const provider = createProvider([
+      new AiProviderTokenLimitError(),
+      { recommendations: valid },
+    ], calls)
+    const service = new RecommendationGeneratorService(provider)
+
+    const result = await service.generate({ items: sourceItems, count: 1 })
+
+    assert.deepEqual(result, valid)
+    const generationCalls = calls.filter(call => call.schemaName === "media_recommendations")
+    assert.equal(generationCalls.length, 2)
+    assert.equal(generationCalls[0].maxTokens, 2360)
+    assert.equal(generationCalls[1].maxTokens, 4720)
+    assert.match(String(generationCalls[0].userPrompt), /Generate exactly 2 new recommendations/)
+    assert.match(String(generationCalls[1].userPrompt), /Generate exactly 2 new recommendations/)
+  })
+
   it("retries a malformed chunk summary before generating recommendations", async () => {
+    const calls: Array<Record<string, unknown>> = []
     const expected = [recommendation()]
     const provider = createProvider(
       [{ recommendations: expected }],
-      [],
+      calls,
       [{ invalid: true }, { summary: "Recovered taste profile." }],
     )
     const service = new RecommendationGeneratorService(provider)
@@ -191,6 +212,8 @@ describe("RecommendationGeneratorService", () => {
     const result = await service.generate({ items: sourceItems, count: 1 })
 
     assert.deepEqual(result, expected)
+    const summaryCalls = calls.filter(call => call.schemaName === "media_taste_summary")
+    assert.deepEqual(summaryCalls.map(call => call.maxTokens), [4000, 8000])
   })
 
   it("includes every item once across detailed chunk prompts", async () => {

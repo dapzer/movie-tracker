@@ -158,6 +158,32 @@ describe("OpenCodeGoProvider", () => {
     assert.equal(requestsCount, 2)
   })
 
+  it("falls back to JSON object output when JSON Schema is temporarily unavailable", async () => {
+    const requestBodies: Array<Record<string, any>> = []
+    globalThis.fetch = async (_input, init) => {
+      const body = JSON.parse(String(init?.body))
+      requestBodies.push(body)
+      if (requestBodies.length === 1) {
+        return jsonResponse({
+          error: { message: "Upstream request failed: [invalid_request_error] This response_format type is unavailable now" },
+        }, 400)
+      }
+      return jsonResponse({
+        choices: [{ message: { content: JSON.stringify({ value: "ok" }) } }],
+      })
+    }
+    const provider = new OpenCodeGoProvider(createConfig())
+
+    const result = await provider.generateStructured(generationArgs)
+
+    assert.deepEqual(result, { value: "ok" })
+    assert.equal(requestBodies.length, 2)
+    assert.equal(requestBodies[0].response_format.type, "json_schema")
+    assert.equal(requestBodies[1].response_format.type, "json_object")
+    assert.match(requestBodies[1].messages[0].content, /JSON Schema/)
+    assert.match(requestBodies[1].messages[0].content, /"type":"object"/)
+  })
+
   it("maps upstream HTTP failures and preserves the nested OpenCode Go message", async () => {
     globalThis.fetch = async () => jsonResponse({
       error: { message: "The model is unavailable" },

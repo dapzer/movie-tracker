@@ -17,14 +17,14 @@ import {
   RECOMMENDATION_CHUNK_SYSTEM_PROMPT,
   RECOMMENDATION_SYSTEM_PROMPT,
 } from "@/services/recommendationGenerator/recommendationPrompt"
-import { AiProviderInvalidResponseError } from "@/shared/errors/ai"
+import { AiProviderInvalidResponseError, AiProviderTokenLimitError } from "@/shared/errors/ai"
 import { convertArrayToChunks } from "@/shared/utils/convertArrayToChunks"
 import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 import { normalizeRecommendationTitle } from "@/shared/utils/normalizeRecommendationTitle"
 
 const GENERATION_ATTEMPTS = 2
 const TASTE_CHUNK_SIZE = 100
-const TASTE_CHUNK_CONCURRENCY = 3
+const TASTE_CHUNK_CONCURRENCY = 10
 
 @Injectable()
 export class RecommendationGeneratorService {
@@ -97,7 +97,7 @@ export class RecommendationGeneratorService {
           schema: z.toJSONSchema(recommendationTasteSummarySchema),
           sessionId: args.sessionId,
           temperature: 0.2,
-          maxTokens: 4000,
+          maxTokens: 4000 * (attempt + 1),
           disableReasoning: true,
           retryCount: 1,
         })
@@ -140,9 +140,10 @@ export class RecommendationGeneratorService {
     const tasteSummaries = await this.summarizeItems(args.items, sessionId)
     let validationFeedback: string | undefined
     let lastValidationError: unknown
+    let tokenLimitRetry = false
 
     for (let attempt = 0; attempt < GENERATION_ATTEMPTS; attempt++) {
-      const candidateCount = args.count * 2 * (attempt + 1)
+      const candidateCount = args.count * 2 * (tokenLimitRetry ? 1 : attempt + 1)
       const responseSchema = createRecommendationBatchSchema(args.count, candidateCount)
       let response: unknown
       try {
@@ -158,14 +159,17 @@ export class RecommendationGeneratorService {
           schema: z.toJSONSchema(responseSchema),
           sessionId,
           temperature: 0.9,
-          maxTokens: 2000 + candidateCount * 180,
+          maxTokens: (2000 + candidateCount * 180) * (tokenLimitRetry ? 2 : 1),
           disableReasoning: true,
           retryCount: 1,
         })
       }
       catch (error) {
         if (error instanceof AiProviderInvalidResponseError && attempt < GENERATION_ATTEMPTS - 1) {
-          validationFeedback = "Return a valid JSON object matching the supplied schema."
+          tokenLimitRetry = error instanceof AiProviderTokenLimitError
+          validationFeedback = tokenLimitRetry
+            ? "The previous response exceeded the token budget. Keep reasons concise and return complete valid JSON."
+            : "Return a valid JSON object matching the supplied schema."
           lastValidationError = error
           continue
         }
@@ -183,6 +187,7 @@ export class RecommendationGeneratorService {
       }
       catch (error) {
         lastValidationError = error
+        tokenLimitRetry = false
         validationFeedback = error instanceof Error ? error.message : "The response did not match the required schema."
       }
     }

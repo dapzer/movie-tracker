@@ -69,35 +69,61 @@ export class OpenCodeGoProvider implements AiProviderInterface {
     }
 
     let response: unknown
+    const requestBody = {
+      model: this.model,
+      messages: [
+        { role: "system", content: args.systemPrompt },
+        { role: "user", content: args.userPrompt },
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: args.schemaName,
+          strict: true,
+          schema: args.schema,
+        },
+      },
+      temperature: args.temperature ?? 0.9,
+      reasoning_effort: args.disableReasoning ? "low" : undefined,
+      max_tokens: args.maxTokens,
+      stream: false,
+    }
+    const requestOptions = {
+      headers: {
+        "x-opencode-session": args.sessionId ?? this.fallbackSessionId,
+      },
+      signal: AbortSignal.timeout(this.timeoutMs),
+      retries: {
+        [HttpStatus.TOO_MANY_REQUESTS]: args.retryCount ?? 1,
+        [HttpStatus.SERVICE_UNAVAILABLE]: args.retryCount ?? 1,
+      },
+    }
+
     try {
-      response = await this.client.post<unknown>("chat/completions", {
-        model: this.model,
-        messages: [
-          { role: "system", content: args.systemPrompt },
-          { role: "user", content: args.userPrompt },
-        ],
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: args.schemaName,
-            strict: true,
-            schema: args.schema,
-          },
-        },
-        temperature: args.temperature ?? 0.9,
-        reasoning_effort: args.disableReasoning ? "low" : undefined,
-        max_tokens: args.maxTokens,
-        stream: false,
-      }, {
-        headers: {
-          "x-opencode-session": args.sessionId ?? this.fallbackSessionId,
-        },
-        signal: AbortSignal.timeout(this.timeoutMs),
-        retries: {
-          [HttpStatus.TOO_MANY_REQUESTS]: args.retryCount ?? 1,
-          [HttpStatus.SERVICE_UNAVAILABLE]: args.retryCount ?? 1,
-        },
-      })
+      try {
+        response = await this.client.post<unknown>("chat/completions", requestBody, requestOptions)
+      }
+      catch (error) {
+        if (
+          !(error instanceof FetchError)
+          || error.statusCode !== HttpStatus.BAD_REQUEST
+          || !/response_format.*unavailable/i.test(error.message)
+        ) {
+          throw error
+        }
+
+        response = await this.client.post<unknown>("chat/completions", {
+          ...requestBody,
+          messages: [
+            {
+              role: "system",
+              content: `${args.systemPrompt}\nReturn a JSON object matching this JSON Schema: ${JSON.stringify(args.schema)}`,
+            },
+            { role: "user", content: args.userPrompt },
+          ],
+          response_format: { type: "json_object" },
+        }, requestOptions)
+      }
     }
     catch (error) {
       throw new AiProviderRequestError({
