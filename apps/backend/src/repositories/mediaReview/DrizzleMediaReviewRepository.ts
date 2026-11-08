@@ -7,7 +7,7 @@ import {
   mediaReviews,
   users,
 } from "@movie-tracker/database"
-import { and, eq } from "@movie-tracker/database/drizzle"
+import { and, eq, inArray } from "@movie-tracker/database/drizzle"
 import {
   MediaDetailsInfoType,
   MediaDetailsType,
@@ -243,6 +243,25 @@ export class DrizzleMediaReviewRepository implements MediaReviewRepositoryInterf
           dislikeId: row.dislikeId,
         })
       : undefined
+  }
+
+  async getByUserIdAndMediaIds(
+    args: Parameters<MediaReviewRepositoryInterface["getByUserIdAndMediaIds"]>[0],
+  ): Promise<MediaReview[]> {
+    if (!args.mediaIds.length) {
+      return []
+    }
+
+    const rows = await this.drizzle.client
+      .select({ mediaReview: mediaReviews })
+      .from(mediaReviews)
+      .where(and(
+        eq(mediaReviews.userId, args.userId),
+        inArray(mediaReviews.mediaId, args.mediaIds),
+        not(eq(mediaReviews.status, MediaReviewStatus.DELETED)),
+      ))
+
+    return rows.map(row => this.convertToInterface({ mediaReview: row.mediaReview }))
   }
 
   async getByMediaId(

@@ -7,7 +7,7 @@ import {
 } from "@movie-tracker/types"
 import { Injectable } from "@nestjs/common"
 import { z } from "zod"
-import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
+import { TmdbResolverService } from "@/services/tmdbResolver/tmdbResolver.service"
 import { SourceFileParseError, SourceFilesMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
@@ -25,7 +25,7 @@ export interface ResolveMediaInput {
 export abstract class BaseService {
   protected constructor(
     readonly name: DataImportSourceEnum,
-    protected readonly tmdbResolver: TmdbResolver,
+    protected readonly tmdbResolver: TmdbResolverService,
   ) {
   }
 

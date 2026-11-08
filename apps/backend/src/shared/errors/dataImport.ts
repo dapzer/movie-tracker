@@ -1,5 +1,5 @@
 import type { CustomErrorOptions } from "@/shared/errors/customError"
-import { BadArgumentsError, ExternalServiceError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
+import { BadArgumentsError, NotFoundError, UnauthorizedError } from "@/shared/errors/core"
 
 export class DataImportNotFoundError extends NotFoundError {
   dataImportId: string
@@ -92,33 +92,6 @@ export class SourceFilesMissingError extends BadArgumentsError {
 export class InvalidSourceRecordError extends BadArgumentsError {
   constructor(args: CustomErrorOptions = {}) {
     super(args.message ?? "Source record is invalid.", { cause: args.cause, details: args.details })
-  }
-}
-
-export type TmdbLookupSource = "find" | "search"
-
-export class TmdbResolutionError extends ExternalServiceError {
-  source: TmdbLookupSource
-  status?: number
-
-  constructor(source: TmdbLookupSource, status?: number) {
-    super("TMDB media resolution failed.", {
-      details: status === undefined ? { source } : { source, status },
-    })
-    this.source = source
-    this.status = status
-  }
-}
-
-export class TmdbNotFoundError extends ExternalServiceError {
-  constructor() {
-    super("TMDB media was not found.")
-  }
-}
-
-export class TmdbAmbiguousMatchError extends ExternalServiceError {
-  constructor() {
-    super("TMDB media resolution was ambiguous.")
   }
 }
 

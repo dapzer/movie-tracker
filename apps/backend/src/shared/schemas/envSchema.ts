@@ -53,5 +53,11 @@ export const envSchema = z.object({
   TMDB_IMAGE_API_URL: z.string(),
   TMDB_API_KEY: z.string(),
 
+  AI_PROVIDER: z.enum(["openrouter"]).default("openrouter"),
+  OPENROUTER_API_KEY: z.string().optional(),
+  OPENROUTER_API_URL: z.string().url().default("https://openrouter.ai/api/v1"),
+  OPENROUTER_MODEL: z.string().default("openai/gpt-4o-mini"),
+  OPENROUTER_TIMEOUT_MS: zNumber.default(60000),
+
   MEDIA_REVIEWS_MODERATION_REQUIRED: zBoolean.default(false),
 })

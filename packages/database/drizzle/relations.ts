@@ -8,7 +8,9 @@ import {
   mediaLists,
   mediaListViews,
   mediaRatings,
+  mediaRecommendations,
   notifications,
+  recommendationSessions,
   releaseSubscriptions,
   trackingData,
   tvEpisodeWatches,
@@ -51,6 +53,26 @@ export const usersRelations = relations(users, ({ many }) => ({
   tvWatchCycles: many(tvWatchCycles),
   tvEpisodeWatches: many(tvEpisodeWatches),
   dataImports: many(dataImports),
+  recommendationSessions: many(recommendationSessions),
+}))
+
+export const recommendationSessionsRelations = relations(recommendationSessions, ({ one, many }) => ({
+  user: one(users, {
+    fields: [recommendationSessions.userId],
+    references: [users.id],
+  }),
+  recommendations: many(mediaRecommendations),
+}))
+
+export const mediaRecommendationsRelations = relations(mediaRecommendations, ({ one }) => ({
+  session: one(recommendationSessions, {
+    fields: [mediaRecommendations.sessionId],
+    references: [recommendationSessions.id],
+  }),
+  mediaDetail: one(mediaDetails, {
+    fields: [mediaRecommendations.mediaDetailsId],
+    references: [mediaDetails.id],
+  }),
 }))
 
 export const dataImportsRelations = relations(dataImports, ({ one }) => ({
@@ -105,6 +127,7 @@ export const mediaDetailsRelations = relations(mediaDetails, ({ many }) => ({
   mediaItems: many(mediaItems),
   mediaRatings: many(mediaRatings),
   releaseSubscriptions: many(releaseSubscriptions),
+  mediaRecommendations: many(mediaRecommendations),
   tvEpisodeWatches: many(tvEpisodeWatches),
 }))
 

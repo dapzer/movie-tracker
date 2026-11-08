@@ -11,13 +11,13 @@ import { DrizzleTvWatchCycleRepository } from "@/repositories/tvWatchCycle/Drizz
 import { TvWatchCycleRepositorySymbol } from "@/repositories/tvWatchCycle/TvWatchCycleRepositoryInterface"
 import { DataImportService } from "@/services/dataImport/dataImport.service"
 import { DataImportProvidersModule } from "@/services/dataImport/providers/providers.module"
-import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
 import { LetterboxdProvider } from "@/services/dataImport/providers/services/letterboxdProvider"
 import { TraktProvider } from "@/services/dataImport/providers/services/traktProvider"
 import { MediaItemsServiceModule } from "@/services/mediaItems/mediaItems.module"
 import { MediaListsServiceModule } from "@/services/mediaLists/mediaLists.module"
 import { MediaRatingsServiceModule } from "@/services/mediaRatings/mediaRatings.module"
 import { MediaReviewsServiceModule } from "@/services/mediaReviews/mediaReviews.module"
+import { TmdbResolverModule } from "@/services/tmdbResolver/tmdbResolver.module"
 
 @Module({
   imports: [
@@ -25,8 +25,9 @@ import { MediaReviewsServiceModule } from "@/services/mediaReviews/mediaReviews.
     MediaListsServiceModule,
     MediaRatingsServiceModule,
     MediaReviewsServiceModule,
+    TmdbResolverModule,
     DataImportProvidersModule.registerAsync({
-      providers: [TmdbResolver, LetterboxdProvider, TraktProvider],
+      providers: [LetterboxdProvider, TraktProvider],
       useFactory: (letterboxdProvider: LetterboxdProvider, traktProvider: TraktProvider) => ({
         services: [letterboxdProvider, traktProvider],
       }),

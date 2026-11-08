@@ -24,7 +24,7 @@ import {
   traktWatchlistItemSchema,
 } from "@/services/dataImport/dto/traktRaw.dto"
 import { BaseService } from "@/services/dataImport/providers/services/base/base"
-import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
+import { TmdbResolverService } from "@/services/tmdbResolver/tmdbResolver.service"
 import { SourceFileMissingError } from "@/shared/errors/dataImport"
 
 const CUSTOM_LIST_FILE_NAME_PATTERN = /^lists-list-\d+-.+\.json$/
@@ -52,7 +52,7 @@ type TraktEpisodesHistoryByShow = Map<number, TraktShowHistory>
 @Injectable()
 export class TraktProvider extends BaseService {
   constructor(
-    tmdbResolver: TmdbResolver,
+    tmdbResolver: TmdbResolverService,
   ) {
     super(DataImportSourceEnum.TRAKT, tmdbResolver)
   }

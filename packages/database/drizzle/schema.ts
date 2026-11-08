@@ -195,6 +195,29 @@ export const dataImports = pgTable("data_imports", {
   createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
 })
 
+export const recommendationSessions = pgTable("recommendation_sessions", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull().$onUpdate(() => new Date()),
+})
+
+export const mediaRecommendations = pgTable("media_recommendations", {
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  sessionId: uuid("session_id").notNull().references(() => recommendationSessions.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaId: integer("media_id").notNull(),
+  mediaDetailsId: uuid("media_details_id").notNull().references(() => mediaDetails.id, { onUpdate: "cascade", onDelete: "cascade" }),
+  mediaType: mediaTypeEnum("media_type").notNull(),
+  reason: text().notNull(),
+  createdAt: timestamp("created_at", { precision: 3, mode: "date", withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("media_recommendations_session_media_identity_key").on(
+    table.sessionId,
+    table.mediaType,
+    table.mediaId,
+  ),
+])
+
 export const mediaListLikes = pgTable("media_list_likes", {
   id: uuid().defaultRandom().primaryKey().notNull(),
   mediaListId: uuid("media_list_id").notNull().references(() => mediaLists.id, { onUpdate: "cascade", onDelete: "cascade" }),

@@ -13,6 +13,7 @@ import { MediaReviewsModule } from "@/delivery/http/mediaReviews/mediaReviews.mo
 import { NotificationsModule } from "@/delivery/http/notifications/notifications.module"
 import { OpenGraphImagesModule } from "@/delivery/http/openGraphImages/openGraphImages.module"
 import { ProxyModule } from "@/delivery/http/proxy/proxy.module"
+import { RecommendationsModule } from "@/delivery/http/recommendations/recommendations.module"
 import { ReleaseSubscriptionsModule } from "@/delivery/http/releaseSubscriptions/releaseSubscriptions.module"
 import { SitemapsModule } from "@/delivery/http/sitemaps/sitemaps.module"
 import { TrackingDataModule } from "@/delivery/http/trackingData/trackingData.module"
@@ -38,6 +39,7 @@ import { UsersModule } from "@/delivery/http/users/users.module"
     NotificationsModule,
     OpenGraphImagesModule,
     ProxyModule,
+    RecommendationsModule,
     ReleaseSubscriptionsModule,
     SitemapsModule,
     TrackingDataModule,

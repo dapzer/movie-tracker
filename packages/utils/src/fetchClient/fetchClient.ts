@@ -124,8 +124,12 @@ export class FetchClient {
         return this.parseResponse<T>(response)
       }
 
-      const errorBody = await response.json() as { message: string } | undefined
-      const error = new FetchError(response.status, errorBody?.message || response.statusText, Object.fromEntries(response.headers))
+      const errorBody = await response.json() as {
+        message?: string
+        error?: { message?: string }
+      } | undefined
+      const errorMessage = errorBody?.message || errorBody?.error?.message || response.statusText
+      const error = new FetchError(response.status, errorMessage, Object.fromEntries(response.headers))
       const retryRule = this.resolveRetryRule(error, retries)
 
       if (!retryRule || attempt >= retryRule.retries) {

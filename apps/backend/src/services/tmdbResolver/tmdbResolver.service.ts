@@ -1,10 +1,10 @@
 import { TmdbSearchResponseResultItemType, TmdbSearchResponseType } from "@movie-tracker/types"
-import { FetchError, getMillisecondsFromDays, getMillisecondsFromHours } from "@movie-tracker/utils"
+import { FetchClient, FetchError, getMillisecondsFromDays, getMillisecondsFromHours } from "@movie-tracker/utils"
 import { CACHE_MANAGER } from "@nestjs/cache-manager"
 import { HttpStatus, Inject, Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
 import { Cache } from "cache-manager"
-import { tmdbApi } from "@/api/instance"
-import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/dataImport"
+import { TmdbNotFoundError, TmdbResolutionError } from "@/shared/errors/tmdb"
 
 export type TmdbExternalIdSource = "imdb_id" | "tvdb_id"
 
@@ -24,10 +24,20 @@ export interface TmdbFindResponseType {
 }
 
 @Injectable()
-export class TmdbResolver {
+export class TmdbResolverService {
   private readonly inFlight = new Map<string, Promise<unknown>>()
+  private readonly client: FetchClient
 
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {
+  constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    configService: ConfigService,
+  ) {
+    this.client = new FetchClient({
+      baseUrl: configService.getOrThrow<string>("TMDB_API_URL"),
+      params: {
+        api_key: configService.getOrThrow<string>("TMDB_API_KEY"),
+      },
+    })
   }
 
   private async cached<T>(args: { key: string, ttl: number, notFoundTtl: number, resolve: () => Promise<T> }): Promise<T> {
@@ -70,7 +80,7 @@ export class TmdbResolver {
     endpoint: string
     params: Record<string, string | number | boolean | undefined>
   }): Promise<T> {
-    return tmdbApi.get<T>(args.endpoint, {
+    return this.client.get<T>(args.endpoint, {
       params: args.params,
       retries: {
         [HttpStatus.TOO_MANY_REQUESTS]: 10,
@@ -84,7 +94,7 @@ export class TmdbResolver {
     releaseDate?: string
   }> {
     return this.cached({
-      key: `import:tmdb:find:${args.source}:${args.externalId}:${args.type}`,
+      key: `tmdb:find:${args.source}:${args.externalId}:${args.type}`,
       ttl: getMillisecondsFromDays(7),
       notFoundTtl: getMillisecondsFromHours(1),
       resolve: async () => {
@@ -131,7 +141,7 @@ export class TmdbResolver {
     const normalizedTitle = args.title.trim().toLowerCase()
 
     return this.cached({
-      key: `import:tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type}`,
+      key: `tmdb:search:${normalizedTitle}:${args.year ?? "any"}:${args.type}`,
       ttl: getMillisecondsFromHours(12),
       notFoundTtl: getMillisecondsFromHours(1),
       resolve: async () => {

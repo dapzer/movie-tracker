@@ -1,8 +1,12 @@
+import { getMillisecondsFromMins } from "@movie-tracker/utils"
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { Throttle } from "@nestjs/throttler"
 import { isCuid } from "@paralleldrive/cuid2"
+import { ThrottlerBehindProxyGuard } from "@/guards/throttlerBehindProxy.guard"
 import { AuthGuard } from "@/services/auth/guards/auth.guard"
 import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dto"
 import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
+import { GenerateMediaListRecommendationsDto } from "@/services/mediaLists/dto/generateMediaListRecommendations.dto"
 import { GetAllMediaListsDto } from "@/services/mediaLists/dto/getAllMediaLists.dto"
 import { GetMedialListByIdDto } from "@/services/mediaLists/dto/getMedialListById.dto"
 import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
@@ -17,6 +21,7 @@ import {
   CreateMeidaListCloneDocs,
   DeleteMediaLikeDocs,
   DeleteMediaListDocs,
+  GenerateMediaListRecommendationsDocs,
   GetMediaListByIdDocs,
   GetMediaListsDocs,
   MediaListsControllerDocs,
@@ -70,6 +75,28 @@ export class MediaListsController {
     @Body() body: CreateMediaListDto,
   ) {
     return this.mediaListsService.create(user?.id, body)
+  }
+
+  @Post(":id/recommendations")
+  @GenerateMediaListRecommendationsDocs()
+  @Throttle({
+    default: {
+      limit: 5,
+      ttl: getMillisecondsFromMins(15),
+    },
+  })
+  @UseGuards(AuthGuard, ThrottlerBehindProxyGuard)
+  async generateMediaListRecommendations(
+    @Param() params: UuidDto,
+    @User() user: UserDto,
+    @Body() body: GenerateMediaListRecommendationsDto,
+  ) {
+    return this.mediaListsService.generateRecommendations({
+      mediaListId: params.id,
+      userId: user.id,
+      count: body.count,
+      sessionId: body.sessionId,
+    })
   }
 
   @Post(":id/clone")

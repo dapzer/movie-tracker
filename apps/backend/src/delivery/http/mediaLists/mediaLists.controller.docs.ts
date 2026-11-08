@@ -1,16 +1,21 @@
 import { applyDecorators } from "@nestjs/common"
 import {
+  ApiBadGatewayResponse,
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
   ApiSecurity,
   ApiTags,
+  ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger"
 
 import { MediaListDto } from "@/services/mediaLists/dto/mediaList.dto"
 import { MediaListLikeDto } from "@/services/mediaLists/dto/mediaListLike.dto"
+import { RecommendationResponseDto } from "@/services/recommendations/dto/recommendation.dto"
 import { ErrorResponseDto } from "@/shared/dto/errorResponse.dto"
 
 export function MediaListsControllerDocs() {
@@ -46,6 +51,19 @@ export function CreateMediaListDocs() {
     ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
     ApiForbiddenResponse({ description: "Media list limit reached", type: ErrorResponseDto }),
     ApiInternalServerErrorResponse({ description: "Failed to create media list", type: ErrorResponseDto }),
+  )
+}
+
+export function GenerateMediaListRecommendationsDocs() {
+  return applyDecorators(
+    ApiOperation({ summary: "Generate movie and TV show recommendations from media list items" }),
+    ApiSecurity("cookie"),
+    ApiCreatedResponse({ description: "Recommendations generated from list items, ratings, reviews, and notes", type: RecommendationResponseDto }),
+    ApiBadRequestResponse({ description: "Invalid input or empty media list", type: ErrorResponseDto }),
+    ApiUnauthorizedResponse({ description: "Unauthorized", type: ErrorResponseDto }),
+    ApiForbiddenResponse({ description: "Not owner of media list", type: ErrorResponseDto }),
+    ApiTooManyRequestsResponse({ description: "Recommendation rate limit exceeded", type: ErrorResponseDto }),
+    ApiBadGatewayResponse({ description: "AI provider failed or returned invalid output", type: ErrorResponseDto }),
   )
 }
 

@@ -4,6 +4,7 @@ import {
   MediaListType,
   MediaTypeEnum,
   NotificationTypeEnum,
+  RecommendationInputItemType,
 } from "@movie-tracker/types"
 import { Inject, Injectable, Logger } from "@nestjs/common"
 import {
@@ -14,6 +15,14 @@ import {
   MediaListRepositoryInterface,
   MediaListRepositorySymbol,
 } from "@/repositories/mediaList/MediaListRepositoryInterface"
+import {
+  MediaRatingRepositoryInterface,
+  MediaRatingRepositorySymbol,
+} from "@/repositories/mediaRating/MediaRatingRepositoryInterface"
+import {
+  MediaReviewRepositoryInterface,
+  MediaReviewRepositorySymbol,
+} from "@/repositories/mediaReview/MediaReviewRepositoryInterface"
 import {
   TrackingDataRepositoryInterface,
   TrackingDataRepositorySymbol,
@@ -27,7 +36,9 @@ import { CreateMediaListDto } from "@/services/mediaLists/dto/createMediaList.dt
 import { CreateMediaListCloneDto } from "@/services/mediaLists/dto/createMediaListClone.dto"
 import { UpdateMediaListDto } from "@/services/mediaLists/dto/updateMediaList.dto"
 import { NotificationsService } from "@/services/notifications/notifications.service"
+import { RecommendationsService } from "@/services/recommendations/recommendations.service"
 import { TvWatchCyclesService } from "@/services/tvWatchCycles/tvWatchCycles.service"
+import { BadArgumentsError } from "@/shared/errors/core"
 import {
   MediaListLimitReachedError,
   MediaListNotFoundError,
@@ -48,6 +59,10 @@ export class MediaListsService {
     private readonly mediaListRepository: MediaListRepositoryInterface,
     @Inject(MediaItemRepositorySymbol)
     private readonly mediaItemRepository: MediaItemRepositoryInterface,
+    @Inject(MediaRatingRepositorySymbol)
+    private readonly mediaRatingRepository: MediaRatingRepositoryInterface,
+    @Inject(MediaReviewRepositorySymbol)
+    private readonly mediaReviewRepository: MediaReviewRepositoryInterface,
     @Inject(TrackingDataRepositorySymbol)
     private readonly trackingDataRepository: TrackingDataRepositoryInterface,
     @Inject(TvWatchCycleRepositorySymbol)
@@ -55,6 +70,7 @@ export class MediaListsService {
     private readonly tvWatchCyclesService: TvWatchCyclesService,
     private readonly notificationsService: NotificationsService,
     private readonly drizzleService: DrizzleService,
+    private readonly recommendationsService: RecommendationsService,
   ) {
   }
 
@@ -117,6 +133,81 @@ export class MediaListsService {
       currentUserId,
       isPublicOnly,
     })
+  }
+
+  async generateRecommendations(args: {
+    mediaListId: string
+    userId: string
+    count: number
+    sessionId?: string
+  }) {
+    const mediaList = await this.mediaListRepository.getById({ id: args.mediaListId })
+    if (!mediaList) {
+      throw new MediaListNotFoundError({ mediaListId: args.mediaListId })
+    }
+    if (mediaList.userId !== args.userId) {
+      throw new MediaListUnauthorizedError({ userId: args.userId, mediaListId: args.mediaListId })
+    }
+
+    const mediaItems = await this.mediaItemRepository.getByListId({
+      mediaListId: args.mediaListId,
+      withoutLimit: true,
+    })
+    if (!mediaItems.items.length) {
+      throw new BadArgumentsError("Cannot generate recommendations for an empty media list.")
+    }
+
+    const mediaIds = Array.from(new Set(mediaItems.items.map(item => item.mediaId)))
+    const [mediaRatings, mediaReviews, trackingData] = await Promise.all([
+      this.mediaRatingRepository.getByUserIdAndMediaIds({ userId: args.userId, mediaIds }),
+      this.mediaReviewRepository.getByUserIdAndMediaIds({ userId: args.userId, mediaIds }),
+      this.trackingDataRepository.getByMediaItemIds(mediaItems.items.map(item => item.id)),
+    ])
+    const getMediaKey = (args: { mediaType: MediaTypeEnum, mediaId: number }) => `${args.mediaType}:${args.mediaId}`
+    const ratingByMedia = new Map((mediaRatings ?? []).map(rating => [
+      getMediaKey(rating),
+      rating.rating,
+    ]))
+    const reviewByMedia = new Map(mediaReviews.map(review => [
+      getMediaKey(review),
+      review.content,
+    ]))
+    const noteByMediaItemId = new Map(trackingData.map(tracking => [tracking.mediaItemId, tracking.note]))
+
+    const items = mediaItems.items.map((item): RecommendationInputItemType | null => {
+      const details = item.mediaDetails
+      const title = details?.en.title || details?.ru.title
+      if (!details || !title) {
+        return null
+      }
+
+      const releaseYear = details.releaseDate ? Number(details.releaseDate.slice(0, 4)) : undefined
+      const mediaKey = getMediaKey(item)
+      return {
+        title,
+        originalTitle: details.en.originalTitle || details.ru.originalTitle || undefined,
+        releaseYear: releaseYear && Number.isFinite(releaseYear) ? releaseYear : undefined,
+        mediaType: item.mediaType,
+        rating: ratingByMedia.get(mediaKey),
+        review: reviewByMedia.get(mediaKey),
+        note: noteByMediaItemId.get(item.id) || undefined,
+      }
+    }).filter((item): item is RecommendationInputItemType => item !== null)
+
+    if (!items.length) {
+      throw new BadArgumentsError("Cannot generate recommendations without media details.")
+    }
+
+    const body = { items, count: args.count }
+    if (args.sessionId) {
+      return this.recommendationsService.refresh({
+        sessionId: args.sessionId,
+        userId: args.userId,
+        body,
+      })
+    }
+
+    return this.recommendationsService.create({ userId: args.userId, body })
   }
 
   async create(userId: string, body?: CreateMediaListDto) {

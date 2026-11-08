@@ -26,6 +26,11 @@ export interface MediaReviewRepositoryInterface {
     currentUserId?: string
   }) => Promise<MediaReview | undefined>
 
+  getByUserIdAndMediaIds: (args: {
+    userId: string
+    mediaIds: number[]
+  }) => Promise<MediaReview[]>
+
   getByMediaId: (args: {
     mediaId: number
     currentUserId?: string

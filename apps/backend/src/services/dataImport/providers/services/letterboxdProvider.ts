@@ -19,7 +19,7 @@ import {
   letterboxdWatchlistSchema,
 } from "@/services/dataImport/dto/letterboxdRaw.dto"
 import { BaseService } from "@/services/dataImport/providers/services/base/base"
-import { TmdbResolver } from "@/services/dataImport/providers/services/base/tmdbResolver"
+import { TmdbResolverService } from "@/services/tmdbResolver/tmdbResolver.service"
 import { LetterboxdInvalidListContentError, SourceFileMissingError } from "@/shared/errors/dataImport"
 import { convertCsvToJson } from "@/shared/utils/convertCsvToJson"
 
@@ -33,7 +33,7 @@ type LetterboxdDiaryRecord = z.infer<typeof letterboxdDiarySchema>
 @Injectable()
 export class LetterboxdProvider extends BaseService {
   constructor(
-    tmdbResolver: TmdbResolver,
+    tmdbResolver: TmdbResolverService,
   ) {
     super(DataImportSourceEnum.LETTERBOXD, tmdbResolver)
   }
