@@ -11,6 +11,7 @@ import { RecommendationGeneratorService } from "@/services/recommendationGenerat
 import { RedlockService } from "@/services/redlock/redlock.service"
 import { TmdbResolverService } from "@/services/tmdbResolver/tmdbResolver.service"
 import { RecommendationSessionNotFoundError } from "@/shared/errors/recommendation"
+import { TmdbNotFoundError } from "@/shared/errors/tmdb"
 import { mapTasksWithConcurrency } from "@/shared/utils/mapTasksWithConcurrency"
 
 @Injectable()
@@ -25,16 +26,32 @@ export class RecommendationsService {
     private readonly redlockService: RedlockService,
   ) {}
 
+  private async resolveRecommendation(recommendation: RecommendationItemType) {
+    try {
+      return await this.tmdbResolverService.findByTitleAndReleaseDate({
+        title: recommendation.title,
+        year: recommendation.releaseYear,
+        type: recommendation.mediaType,
+      })
+    }
+    catch (error) {
+      if (!(error instanceof TmdbNotFoundError)) {
+        throw error
+      }
+
+      return this.tmdbResolverService.findByTitleAndReleaseDate({
+        title: recommendation.title,
+        type: recommendation.mediaType,
+      })
+    }
+  }
+
   private async enrichRecommendations(recommendations: RecommendationItemType[]): Promise<RecommendationItemType[]> {
     return mapTasksWithConcurrency({
       items: recommendations,
-      concurrency: 5,
+      concurrency: 10,
       fn: async (recommendation) => {
-        const resolved = await this.tmdbResolverService.findByTitleAndReleaseDate({
-          title: recommendation.title,
-          year: recommendation.releaseYear,
-          type: recommendation.mediaType,
-        })
+        const resolved = await this.resolveRecommendation(recommendation)
         const mediaDetails = await this.mediaDetailsService.createOrUpdate({
           mediaId: resolved.id,
           mediaType: recommendation.mediaType,

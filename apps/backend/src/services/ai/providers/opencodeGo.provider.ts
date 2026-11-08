@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto"
 import { FetchClient, FetchError, HttpStatus } from "@movie-tracker/utils"
-import { Injectable } from "@nestjs/common"
+import { Injectable, Logger } from "@nestjs/common"
 import { ConfigService } from "@nestjs/config"
 import { z } from "zod"
 import {
@@ -31,6 +31,7 @@ const opencodeGoResponseSchema = z.object({
 @Injectable()
 export class OpenCodeGoProvider implements AiProviderInterface {
   readonly name = "opencode-go"
+  private logger = new Logger("OpenCodeGoProvider")
   private readonly client: FetchClient
   private readonly apiKey?: string
   private readonly model?: string
@@ -38,12 +39,17 @@ export class OpenCodeGoProvider implements AiProviderInterface {
   private readonly fallbackSessionId = `ses_${randomUUID()}`
 
   constructor(configService: ConfigService) {
-    const baseUrl = configService.get<string>("OPENCODE_GO_API_URL")
-    const configuredTimeout = Number(configService.get<number>("OPENCODE_GO_TIMEOUT_MS") ?? 60000)
+    const configuredApiUrl = configService.get<string>("OPENCODE_GO_API_URL")
+      ?? "https://opencode.ai/inference/go/openai/v1"
+    const normalizedApiUrl = configuredApiUrl.replace(/\/+$/, "")
+    const baseUrl = normalizedApiUrl.endsWith("/chat/completions")
+      ? normalizedApiUrl.slice(0, -"/chat/completions".length)
+      : normalizedApiUrl
+    const configuredTimeout = Number(configService.get<number>("OPENCODE_GO_TIMEOUT_MS") ?? 300000)
 
     this.apiKey = configService.get<string>("OPENCODE_GO_API_KEY")
     this.model = configService.get<string>("OPENCODE_GO_MODEL")
-    this.timeoutMs = Number.isFinite(configuredTimeout) && configuredTimeout > 0 ? configuredTimeout : 60000
+    this.timeoutMs = Number.isFinite(configuredTimeout) && configuredTimeout > 0 ? configuredTimeout : 300000
     this.client = new FetchClient({
       baseUrl,
       headers: {

@@ -98,6 +98,20 @@ describe("RecommendationGeneratorService", () => {
     assert.deepEqual(schema.properties.recommendations.items.properties.mediaType.enum, ["movie", "tv"])
   })
 
+  it("supports requesting 24 recommendations", async () => {
+    const calls: Array<Record<string, unknown>> = []
+    const expected = Array.from({ length: 24 }, (_, index) => recommendation({
+      title: `Recommendation ${index + 1}`,
+      releaseYear: 2000 + index,
+    }))
+    const service = new RecommendationGeneratorService(createProvider([{ recommendations: expected }], calls))
+
+    const result = await service.generate({ items: sourceItems, count: 24 })
+
+    assert.equal(result.length, 24)
+    assert.deepEqual(result, expected)
+  })
+
   it("allows the same title and year for different media types", async () => {
     const expected = [
       recommendation({ title: "The Office", releaseYear: 2005, mediaType: MediaTypeEnum.MOVIE }),

@@ -7,7 +7,7 @@ import { createZodDto } from "nestjs-zod"
 import { z } from "zod"
 
 export const RECOMMENDATION_COUNT_DEFAULT = 10
-export const RECOMMENDATION_COUNT_MAX = 20
+export const RECOMMENDATION_COUNT_MAX = 24
 export const RECOMMENDATION_INPUT_ITEMS_MAX = 100
 
 const recommendationInputItemSchema = z.object({

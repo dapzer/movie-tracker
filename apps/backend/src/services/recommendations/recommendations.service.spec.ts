@@ -7,6 +7,7 @@ import { RecommendationGeneratorService } from "@/services/recommendationGenerat
 import { GenerateRecommendationsDto } from "@/services/recommendations/dto/generateRecommendations.dto"
 import { RecommendationsService } from "@/services/recommendations/recommendations.service"
 import { RecommendationSessionNotFoundError } from "@/shared/errors/recommendation"
+import { TmdbNotFoundError } from "@/shared/errors/tmdb"
 
 const userId = "7e390f1e-b40d-4d0c-938f-cde5137ea995"
 const sessionId = "f706fb7d-53ea-4b6a-a541-92d19ab5de30"
@@ -21,7 +22,7 @@ const generatedRecommendation: RecommendationItemType = {
   reason: "Complex mystery and unconventional storytelling.",
 }
 
-function createHarness(overrides: Partial<RecommendationRepositoryInterface> = {}) {
+function createHarness(overrides: Partial<RecommendationRepositoryInterface> = {}, failDatedResolution = false) {
   const repositoryCalls = {
     createSession: 0,
     addRecommendations: 0,
@@ -55,6 +56,9 @@ function createHarness(overrides: Partial<RecommendationRepositoryInterface> = {
   const tmdbResolver = {
     findByTitleAndReleaseDate: async (args) => {
       resolutionCalls.push(args)
+      if (failDatedResolution && args.year !== undefined) {
+        throw new TmdbNotFoundError()
+      }
       return { id: 123, type: MediaTypeEnum.TV, releaseDate: "2017-12-01" }
     },
   }
@@ -94,6 +98,18 @@ describe("RecommendationsService", () => {
     }])
     assert.equal(repositoryCalls.createSession, 1)
     assert.equal(repositoryCalls.addRecommendations, 1)
+  })
+
+  it("retries TMDB resolution without an inaccurate AI-provided year", async () => {
+    const { service, mediaDetails, resolutionCalls } = createHarness({}, true)
+
+    const result = await service.create({ userId, body })
+
+    assert.deepEqual(result.recommendations, [{ ...generatedRecommendation, mediaDetails }])
+    assert.deepEqual(resolutionCalls, [
+      { title: "Dark", year: 2017, type: MediaTypeEnum.TV },
+      { title: "Dark", type: MediaTypeEnum.TV },
+    ])
   })
 
   it("passes stored history to generation and appends a refreshed batch", async () => {

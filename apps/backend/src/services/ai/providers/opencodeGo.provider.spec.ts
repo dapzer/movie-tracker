@@ -26,7 +26,7 @@ function createConfig(apiKey = "secret", apiUrl = "https://opencode.ai/inference
     OPENCODE_GO_API_KEY: apiKey,
     OPENCODE_GO_API_URL: apiUrl,
     OPENCODE_GO_MODEL: "deepseek-v4.1-flash",
-    OPENCODE_GO_TIMEOUT_MS: "60000",
+    OPENCODE_GO_TIMEOUT_MS: "300000",
   }
   return { get: (key: string) => values[key] } as ConfigService
 }

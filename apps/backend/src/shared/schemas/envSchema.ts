@@ -55,11 +55,12 @@ export const envSchema = z.object({
 
   AI_PROVIDER: z.enum(["opencode-go", "openrouter"]).default("opencode-go"),
   OPENCODE_GO_API_KEY: z.string().optional(),
-  OPENCODE_GO_API_URL: z.string().url().default("https://opencode.ai/inference/go/openai/v1"),
+  OPENCODE_GO_API_URL: z.url().default("https://opencode.ai/inference/go/openai/v1"),
   OPENCODE_GO_MODEL: z.string().default("deepseek-v4.1-flash"),
-  OPENCODE_GO_TIMEOUT_MS: zNumber.default(60000),
+  OPENCODE_GO_TIMEOUT_MS: zNumber.default(300000),
+
   OPENROUTER_API_KEY: z.string().optional(),
-  OPENROUTER_API_URL: z.string().url().default("https://openrouter.ai/api/v1"),
+  OPENROUTER_API_URL: z.url().default("https://openrouter.ai/api/v1"),
   OPENROUTER_MODEL: z.string().default("openai/gpt-4o-mini"),
   OPENROUTER_TIMEOUT_MS: zNumber.default(60000),
 
