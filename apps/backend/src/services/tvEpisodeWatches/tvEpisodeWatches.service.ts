@@ -16,6 +16,7 @@ import {
   BulkCreateTvEpisodeWatchDto,
   CreateTvEpisodeWatchDto,
 } from "@/services/tvEpisodeWatches/dto/createTvEpisodeWatch.dto"
+import { UpdateTvEpisodeWatchRatingDto } from "@/services/tvEpisodeWatches/dto/updateTvEpisodeWatchRating.dto"
 import { TvEpisodeWatchNotFoundError, TvEpisodeWatchUnauthorizedError } from "@/shared/errors/tvEpisodeWatch"
 import { TvWatchCycleNotActiveError, TvWatchCycleNotFoundError } from "@/shared/errors/tvWatchCycle"
 
@@ -93,6 +94,23 @@ export class TvEpisodeWatchesService {
     })))
 
     return this.tvEpisodeWatchRepository.getByCycleId(cycle.id)
+  }
+
+  async updateRating(args: { id: string, userId: string, body: UpdateTvEpisodeWatchRatingDto }) {
+    const watch = await this.tvEpisodeWatchRepository.getById(args.id)
+
+    if (!watch) {
+      throw new TvEpisodeWatchNotFoundError({ tvEpisodeWatchId: args.id })
+    }
+
+    const cycle = await this.getCycle(watch.watchCycleId)
+    this.checkOwnership(cycle, args.userId)
+    this.checkCycleIsActive(cycle)
+
+    return this.tvEpisodeWatchRepository.updateRating({
+      id: args.id,
+      rating: args.body.rating,
+    })
   }
 
   async delete(args: { id: string, userId: string }) {

@@ -4,10 +4,14 @@ import { useI18n } from "#imports"
 import { computed } from "vue"
 import MediaCardManagementMenuTvProgressEpisodeCheckbox
   from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressEpisodeCheckbox.vue"
+import MediaCardManagementMenuTvProgressEpisodeRating
+  from "~/features/mediaCard/ui/managementMenu/tvProgress/MediaCardManagementMenuTvProgressEpisodeRating.vue"
+import { UiDelimiter } from "~/shared/ui/UiDelimiter"
+import { UiIcon } from "~/shared/ui/UiIcon"
 import { UiImage } from "~/shared/ui/UiImage"
-import { UiRating } from "~/shared/ui/UiRating"
 import { UiTypography } from "~/shared/ui/UiTypography"
 import { formatDate } from "~/shared/utils/formatDate.ts"
+import { getColorByRating } from "~/shared/utils/getColorByRating"
 import { getProxiedImageUrl } from "~/shared/utils/getProxiedImageUrl.ts"
 
 interface MediaCardManagementMenuTvProgressEpisodeProps {
@@ -26,6 +30,8 @@ const episodeWatch = computed(() => {
 })
 
 const isWatched = computed(() => Boolean(episodeWatch.value))
+const episodeScore = computed(() => props.episode.score ?? 0)
+const scoreColor = computed(() => getColorByRating(episodeScore.value))
 
 const episodeTitle = computed(() => {
   return `S${props.episode.seasonNumber}.E${props.episode.episodeNumber} ∙ ${props.episode.name}`
@@ -52,14 +58,33 @@ const episodeTitle = computed(() => {
       >
         {{ episodeTitle }}
       </UiTypography>
-      <UiTypography variant="description">
-        {{ formatDate(props.episode.airDate, locale) }}
-      </UiTypography>
+      <div :class="$style.details">
+        <UiTypography variant="description">
+          {{ formatDate(props.episode.airDate, locale) }}
+        </UiTypography>
+        <template v-if="episodeScore && isWatched">
+          <UiDelimiter />
+          <div
+            :class="[$style.score, {
+              [$style.gray]: scoreColor === 'gray',
+              [$style.red]: scoreColor === 'red',
+              [$style.orange]: scoreColor === 'orange',
+              [$style.green]: scoreColor === 'green',
+            }]"
+          >
+            <UiIcon name="icon:star" />
+            <UiTypography variant="labelSmall">
+              {{ Number(episodeScore.toFixed(1)) }}
+            </UiTypography>
+          </div>
+        </template>
+      </div>
     </div>
     <div :class="$style.actions">
-      <UiRating
-        v-if="props.episode.score && isWatched"
-        :value="props.episode.score"
+      <MediaCardManagementMenuTvProgressEpisodeRating
+        v-if="episodeWatch"
+        :episode-watch="episodeWatch"
+        :title="episodeTitle"
       />
       <MediaCardManagementMenuTvProgressEpisodeCheckbox
         :episode="props.episode"
@@ -86,6 +111,39 @@ const episodeTitle = computed(() => {
   border-radius: var(--s-border-radius-small);
   background: var(--c-white-05);
   overflow: hidden;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  height: fit-content;
+
+  &.green {
+    color: var(--c-green-2);
+  }
+
+  &.orange {
+    color: var(--c-orange-2);
+  }
+
+  &.red {
+    color: var(--c-red);
+  }
+
+  &.gray {
+    color: var(--c-description);
+  }
+
+  p {
+    color: inherit;
+  }
 }
 
 .image {

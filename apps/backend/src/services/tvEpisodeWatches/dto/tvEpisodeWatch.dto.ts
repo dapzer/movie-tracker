@@ -10,6 +10,7 @@ const tvEpisodeWatchSchema = z.object({
   mediaDetailsId: z.uuid().nullable().meta({ format: "uuid" }),
   seasonNumber: z.number().int().meta({ example: 1 }),
   episodeNumber: z.number().int().meta({ example: 3 }),
+  rating: z.number().int().min(0).max(10).nullable().meta({ minimum: 0, maximum: 10, example: 8 }),
   watchedAt: zDateTimeString.meta({ format: "date-time" }),
 })
 

@@ -134,6 +134,7 @@ export class TvWatchCyclesService {
           mediaDetailsId: watch.mediaDetailsId,
           seasonNumber: watch.seasonNumber,
           episodeNumber: watch.episodeNumber,
+          rating: watch.rating,
           watchedAt: watch.watchedAt,
         })))
       }

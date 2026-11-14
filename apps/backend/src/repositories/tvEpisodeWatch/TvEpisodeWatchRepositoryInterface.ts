@@ -25,8 +25,14 @@ export interface TvEpisodeWatchRepositoryInterface {
     mediaDetailsId?: string | null
     seasonNumber: number
     episodeNumber: number
+    rating?: number | null
     watchedAt?: Date
   }>) => Promise<TvEpisodeWatchType[]>
+
+  updateRating: (args: {
+    id: string
+    rating: number | null
+  }) => Promise<TvEpisodeWatchType>
 
   delete: (id: string) => Promise<TvEpisodeWatchType | undefined>
 }
