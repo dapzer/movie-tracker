@@ -2,6 +2,7 @@ import type { TvEpisodeWatchType } from "@movie-tracker/types"
 import type {
   BulkCreateTvEpisodeWatchBody,
   GetTvEpisodeWatchesByWatchCycleIdArgs,
+  UpdateTvEpisodeWatchRatingArgs,
 } from "~/api/tvEpisodeWatches/tvEpisodeWatchesApiTypes"
 import { useRequestHeaders } from "#app"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query"
@@ -10,6 +11,7 @@ import {
   createTvEpisodeWatch,
   deleteTvEpisodeWatch,
   getTvEpisodeWatchesByWatchCycleId,
+  updateTvEpisodeWatchRating,
 } from "~/api/tvEpisodeWatches/tvEpisodeWatchesApi"
 import { TvEpisodeWatchesApiQueryKeys } from "~/api/tvEpisodeWatches/tvEpisodeWatchesApiQueryKeys"
 import { TvWatchCyclesApiQueryKeys } from "~/api/tvWatchCycles/tvWatchCyclesApiQueryKeys"
@@ -58,6 +60,24 @@ export function useBulkCreateTvEpisodeWatchApi() {
       await Promise.all([
         queryClient.refetchQueries({
           queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, variables.watchCycleId],
+        }),
+        queryClient.refetchQueries({
+          queryKey: [TvWatchCyclesApiQueryKeys.GET_ACTIVE_BY_MEDIA_ITEM_ID],
+        }),
+      ])
+    },
+  })
+}
+
+export function useUpdateTvEpisodeWatchRatingApi() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationKey: [TvEpisodeWatchesApiQueryKeys.UPDATE_RATING],
+    mutationFn: (args: UpdateTvEpisodeWatchRatingArgs) => updateTvEpisodeWatchRating(args),
+    onSuccess: async (data: TvEpisodeWatchType) => {
+      await Promise.all([
+        queryClient.refetchQueries({
+          queryKey: [TvEpisodeWatchesApiQueryKeys.GET_BY_WATCH_CYCLE_ID, data.watchCycleId],
         }),
         queryClient.refetchQueries({
           queryKey: [TvWatchCyclesApiQueryKeys.GET_ACTIVE_BY_MEDIA_ITEM_ID],

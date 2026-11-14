@@ -19,3 +19,10 @@ export interface BulkCreateTvEpisodeWatchBody {
 export interface DeleteTvEpisodeWatchArgs {
   id: string
 }
+
+export interface UpdateTvEpisodeWatchRatingArgs {
+  id: string
+  body: {
+    rating: number | null
+  }
+}

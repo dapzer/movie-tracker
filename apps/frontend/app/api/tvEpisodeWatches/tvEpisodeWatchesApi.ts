@@ -5,6 +5,7 @@ import type {
   CreateTvEpisodeWatchBody,
   DeleteTvEpisodeWatchArgs,
   GetTvEpisodeWatchesByWatchCycleIdArgs,
+  UpdateTvEpisodeWatchRatingArgs,
 } from "~/api/tvEpisodeWatches/tvEpisodeWatchesApiTypes"
 import { api } from "~/api/instance"
 
@@ -18,6 +19,10 @@ export function createTvEpisodeWatch(body: CreateTvEpisodeWatchBody) {
 
 export function bulkCreateTvEpisodeWatch(body: BulkCreateTvEpisodeWatchBody) {
   return api.post<TvEpisodeWatchType[]>("tv-episode-watches/bulk", body)
+}
+
+export function updateTvEpisodeWatchRating(args: UpdateTvEpisodeWatchRatingArgs) {
+  return api.patch<TvEpisodeWatchType>(`tv-episode-watches/${args.id}/rating`, args.body)
 }
 
 export function deleteTvEpisodeWatch(args: DeleteTvEpisodeWatchArgs) {
