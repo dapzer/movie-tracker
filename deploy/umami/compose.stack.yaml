@@ -6,6 +6,8 @@ services:
     networks:
       - caddy-public
       - umami
+    env_file:
+      - .env
     environment:
       DATABASE_URL: postgresql://umami:umami@db:5432/umami
       DATABASE_TYPE: postgresql
